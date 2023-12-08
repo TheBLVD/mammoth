@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SetupProfileController" customModule="Mammoth" customModuleProvider="target">
+            <connections>
+                <outlet property="cameraImageView" destination="3qv-1t-nWo" id="iYd-ja-kln"/>
+                <outlet property="displayNameLabel" destination="COv-0h-44m" id="CmA-IJ-dqJ"/>
+                <outlet property="displayNameTextField" destination="d8T-wc-Ss7" id="Xqm-cE-0bT"/>
+                <outlet property="doneButton" destination="idJ-cm-z0Y" id="Ohu-gO-1im"/>
+                <outlet property="pictureButton" destination="O19-oE-faw" id="e03-nC-Y6v"/>
+                <outlet property="view" destination="iN0-l3-epB" id="Lt4-OZ-jFz"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O19-oE-faw">
+                    <rect key="frame" x="136.66666666666666" y="139" width="119.99999999999997" height="120"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="120" id="K1Q-4E-IbH"/>
+                        <constraint firstAttribute="height" constant="120" id="ciC-i6-wp6"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Button" image="missing"/>
+                    <connections>
+                        <action selector="photoButtonAction:" destination="-1" eventType="touchUpInside" id="MLH-mr-twT"/>
+                    </connections>
+                </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3qv-1t-nWo">
+                    <rect key="frame" x="216.66666666666666" y="219" width="39.999999999999972" height="40"/>
+                    <color key="tintColor" name="AppCol"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="OHn-Bl-T6X"/>
+                        <constraint firstAttribute="width" constant="40" id="OU0-nh-5Fg"/>
+                    </constraints>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="idJ-cm-z0Y">
+                    <rect key="frame" x="20" y="754" width="353" height="54"/>
+                    <color key="backgroundColor" name="OVRLY Med Contrast"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="54" id="hu6-e5-l6a"/>
+                    </constraints>
+                    <state key="normal" title="Done">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <buttonConfiguration key="configuration" style="gray" title="Done">
+                        <color key="baseForegroundColor" name="High Contrast"/>
+                    </buttonConfiguration>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                            <integer key="value" value="5"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="doneButtonAction:" destination="-1" eventType="touchUpInside" id="4LH-io-j23"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="%1@ %2@" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="COv-0h-44m">
+                    <rect key="frame" x="153" y="283" width="87.333333333333314" height="21.666666666666686"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                    <color key="textColor" name="Soft Contrast"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="display name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d8T-wc-Ss7">
+                    <rect key="frame" x="17" y="328.66666666666669" width="359" height="54"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="54" id="tNg-R4-ilH"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocorrectionType="no" returnKeyType="done" textContentType="username"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="o9T-4M-HyV"/>
+                    </connections>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You can pick something fun or use your real name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2zk-Me-fek">
+                    <rect key="frame" x="17" y="395.66666666666669" width="302" height="16"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" name="Soft Contrast"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="3qv-1t-nWo" firstAttribute="trailing" secondItem="O19-oE-faw" secondAttribute="trailing" id="1ec-M7-ylS"/>
+                <constraint firstItem="idJ-cm-z0Y" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="EPU-8W-z9Y"/>
+                <constraint firstItem="d8T-wc-Ss7" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="17" id="Emh-rB-8Iw"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="COv-0h-44m" secondAttribute="trailing" constant="17" id="KrB-6a-7RE"/>
+                <constraint firstItem="COv-0h-44m" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ZGj-UH-aaP"/>
+                <constraint firstItem="2zk-Me-fek" firstAttribute="leading" secondItem="d8T-wc-Ss7" secondAttribute="leading" id="dH1-zQ-Jsj"/>
+                <constraint firstItem="3qv-1t-nWo" firstAttribute="bottom" secondItem="O19-oE-faw" secondAttribute="bottom" id="dhZ-Ec-hAc"/>
+                <constraint firstItem="O19-oE-faw" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="80" id="gwo-AB-pV9"/>
+                <constraint firstItem="2zk-Me-fek" firstAttribute="top" secondItem="d8T-wc-Ss7" secondAttribute="bottom" constant="13" id="i4R-9u-Cbs"/>
+                <constraint firstItem="COv-0h-44m" firstAttribute="top" secondItem="O19-oE-faw" secondAttribute="bottom" constant="24" id="jde-mI-Wjj"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="d8T-wc-Ss7" secondAttribute="trailing" constant="17" id="mQ8-HQ-RMT"/>
+                <constraint firstItem="d8T-wc-Ss7" firstAttribute="top" secondItem="COv-0h-44m" secondAttribute="bottom" constant="24" id="rE4-lX-y2T"/>
+                <constraint firstItem="O19-oE-faw" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="tM8-EH-GTL"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="idJ-cm-z0Y" secondAttribute="trailing" constant="20" id="u3m-YM-J2D"/>
+                <constraint firstItem="COv-0h-44m" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="17" id="wn6-dc-1VP"/>
+                <constraint firstItem="idJ-cm-z0Y" firstAttribute="bottom" secondItem="vUN-kp-3ea" secondAttribute="bottom" constant="-10" id="z6l-3H-eM0"/>
+            </constraints>
+            <point key="canvasLocation" x="139.69465648854961" y="19.718309859154932"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="missing" width="400" height="400"/>
+        <namedColor name="AppCol">
+            <color red="0.0" green="0.56862745098039214" blue="0.99215686274509807" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="High Contrast">
+            <color red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="OVRLY Med Contrast">
+            <color red="0.8784313725490196" green="0.8784313725490196" blue="0.8784313725490196" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="Soft Contrast">
+            <color red="0.54117647058823526" green="0.54117647058823526" blue="0.54117647058823526" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

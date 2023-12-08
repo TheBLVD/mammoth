@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="IntroViewController" customModule="Mammoth" customModuleProvider="target">
+            <connections>
+                <outlet property="closeButton" destination="NQ2-VB-8CC" id="8qK-Fd-G6N"/>
+                <outlet property="descriptionText" destination="T46-Id-HW3" id="Uxm-aZ-1uW"/>
+                <outlet property="icon" destination="dkb-Uf-S6L" id="wSj-uT-UaI"/>
+                <outlet property="miniIcon" destination="sbM-US-JJm" id="5sf-AL-vWl"/>
+                <outlet property="orangeBox" destination="dnL-TP-X86" id="h8d-jS-Fmg"/>
+                <outlet property="signInButton" destination="chB-SK-Zhc" id="BXN-hL-haQ"/>
+                <outlet property="signUpButton" destination="B5m-ag-pqO" id="Z8r-i0-S0g"/>
+                <outlet property="tealBox" destination="po7-Ba-oFF" id="KfU-DK-kyj"/>
+                <outlet property="titleText" destination="J8K-uU-0TW" id="prX-cQ-WdX"/>
+                <outlet property="view" destination="iN0-l3-epB" id="7k3-Fo-lMu"/>
+                <outlet property="yellowBox" destination="pbn-FV-7aK" id="nqN-JV-iCP"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="chB-SK-Zhc">
+                    <rect key="frame" x="17" y="762" width="359" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="EKM-cf-oBe"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="gray" title="Use existing Mastodon account">
+                        <color key="baseBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </buttonConfiguration>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B5m-ag-pqO">
+                    <rect key="frame" x="17" y="700" width="359" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="Y8j-MM-3S5"/>
+                    </constraints>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="gray" title="Create moth.social account"/>
+                </button>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="po7-Ba-oFF">
+                    <rect key="frame" x="0.0" y="59" width="393" height="588"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dnL-TP-X86">
+                            <rect key="frame" x="0.0" y="217" width="393" height="154"/>
+                            <subviews>
+                                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pbn-FV-7aK">
+                                    <rect key="frame" x="138" y="0.0" width="134" height="143.66666666666666"/>
+                                    <subviews>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mammoth" translatesAutoresizingMaskIntoConstraints="NO" id="dkb-Uf-S6L">
+                                            <rect key="frame" x="0.0" y="0.0" width="156" height="143"/>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" systemColor="systemYellowColor"/>
+                                    <constraints>
+                                        <constraint firstItem="dkb-Uf-S6L" firstAttribute="leading" secondItem="pbn-FV-7aK" secondAttribute="leading" id="CIJ-OJ-7aU"/>
+                                        <constraint firstItem="dkb-Uf-S6L" firstAttribute="top" secondItem="pbn-FV-7aK" secondAttribute="top" id="WuW-q6-hiO"/>
+                                        <constraint firstAttribute="width" constant="117" id="hyr-py-Kf5"/>
+                                        <constraint firstAttribute="height" constant="119" id="ozr-4A-txL"/>
+                                    </constraints>
+                                </view>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="J8K-uU-0TW">
+                                    <rect key="frame" x="110.00000000000001" y="179" width="173.33333333333337" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="LPG-se-7kU"/>
+                                    </constraints>
+                                    <attributedString key="attributedText">
+                                        <fragment content="Mammoth">
+                                            <attributes>
+                                                <font key="NSFont" size="48" name="InstrumentSerif-Regular"/>
+                                                <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" systemColor="systemOrangeColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="154" id="LoP-yZ-wLr"/>
+                                <constraint firstItem="pbn-FV-7aK" firstAttribute="centerX" secondItem="dnL-TP-X86" secondAttribute="centerX" id="fu3-hr-I8l"/>
+                                <constraint firstItem="pbn-FV-7aK" firstAttribute="top" secondItem="dnL-TP-X86" secondAttribute="top" id="nHm-fZ-CwK"/>
+                                <constraint firstAttribute="bottom" secondItem="J8K-uU-0TW" secondAttribute="bottom" constant="-75" id="xpG-xJ-7k7"/>
+                                <constraint firstItem="J8K-uU-0TW" firstAttribute="centerX" secondItem="dnL-TP-X86" secondAttribute="centerX" id="zBH-ii-gv5"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQ2-VB-8CC">
+                            <rect key="frame" x="8" y="8" width="67" height="35"/>
+                            <color key="tintColor" systemColor="labelColor"/>
+                            <state key="normal" title="Button"/>
+                            <buttonConfiguration key="configuration" style="plain" title="Close"/>
+                            <connections>
+                                <action selector="closeTapped:" destination="-1" eventType="touchUpInside" id="YoQ-rr-sJk"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemMintColor"/>
+                    <constraints>
+                        <constraint firstItem="NQ2-VB-8CC" firstAttribute="leading" secondItem="po7-Ba-oFF" secondAttribute="leading" constant="8" id="Axn-jD-i2p"/>
+                        <constraint firstItem="NQ2-VB-8CC" firstAttribute="top" secondItem="po7-Ba-oFF" secondAttribute="top" constant="8" id="aN6-6M-WAI"/>
+                        <constraint firstItem="dnL-TP-X86" firstAttribute="centerY" secondItem="po7-Ba-oFF" secondAttribute="centerY" id="baX-VB-3WM"/>
+                        <constraint firstItem="dnL-TP-X86" firstAttribute="leading" secondItem="po7-Ba-oFF" secondAttribute="leading" id="daY-Yf-EIi"/>
+                        <constraint firstAttribute="trailing" secondItem="dnL-TP-X86" secondAttribute="trailing" id="qno-5Q-eFJ"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T46-Id-HW3">
+                    <rect key="frame" x="103.00000000000001" y="647" width="187.33333333333337" height="36"/>
+                    <string key="text">You can sign into additional
+accounts in settings.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mastodon" translatesAutoresizingMaskIntoConstraints="NO" id="cKu-nc-ig1">
+                    <rect key="frame" x="33" y="777.66666666666663" width="24" height="19"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="KXQ-Ub-hXR"/>
+                        <constraint firstAttribute="height" constant="19" id="mmM-4F-A49"/>
+                    </constraints>
+                </imageView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Mammoth" translatesAutoresizingMaskIntoConstraints="NO" id="sbM-US-JJm">
+                    <rect key="frame" x="33" y="714.66666666666663" width="24" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="24" id="kkH-5e-Cm2"/>
+                        <constraint firstAttribute="height" constant="21" id="u8G-MM-JdF"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="chB-SK-Zhc" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" constant="-40" id="1ng-Eh-8JM"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="chB-SK-Zhc" secondAttribute="trailing" constant="17" id="2ob-a1-9nQ"/>
+                <constraint firstItem="B5m-ag-pqO" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="17" id="5hs-nx-3Av"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="B5m-ag-pqO" secondAttribute="trailing" constant="17" id="74F-7i-YvD"/>
+                <constraint firstItem="cKu-nc-ig1" firstAttribute="leading" secondItem="chB-SK-Zhc" secondAttribute="leading" constant="16" id="Ir3-tr-q8a"/>
+                <constraint firstItem="T46-Id-HW3" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="JAI-SN-Fd1"/>
+                <constraint firstItem="chB-SK-Zhc" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="17" id="JdP-6b-Nhv"/>
+                <constraint firstItem="po7-Ba-oFF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Oea-sU-BZl"/>
+                <constraint firstItem="cKu-nc-ig1" firstAttribute="centerY" secondItem="chB-SK-Zhc" secondAttribute="centerY" id="Tcg-qz-bXU"/>
+                <constraint firstItem="T46-Id-HW3" firstAttribute="top" secondItem="po7-Ba-oFF" secondAttribute="bottom" id="Tmk-XE-EZR"/>
+                <constraint firstItem="B5m-ag-pqO" firstAttribute="top" secondItem="T46-Id-HW3" secondAttribute="bottom" constant="17" id="Tue-pj-Hq0"/>
+                <constraint firstItem="chB-SK-Zhc" firstAttribute="top" secondItem="B5m-ag-pqO" secondAttribute="bottom" constant="12" id="cXx-Bq-6Kt"/>
+                <constraint firstItem="sbM-US-JJm" firstAttribute="leading" secondItem="B5m-ag-pqO" secondAttribute="leading" constant="16" id="e8Z-B4-9cu"/>
+                <constraint firstItem="sbM-US-JJm" firstAttribute="centerY" secondItem="B5m-ag-pqO" secondAttribute="centerY" id="eZv-cy-edW"/>
+                <constraint firstAttribute="trailing" secondItem="po7-Ba-oFF" secondAttribute="trailing" id="kxv-lR-uQB"/>
+                <constraint firstItem="po7-Ba-oFF" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="mlU-od-wZQ"/>
+            </constraints>
+            <point key="canvasLocation" x="139.69465648854961" y="19.718309859154932"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Mammoth" width="155.33332824707031" height="143"/>
+        <image name="mastodon" width="16" height="17"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemMintColor">
+            <color red="0.0" green="0.78039215689999997" blue="0.74509803919999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemYellowColor">
+            <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
