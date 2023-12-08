@@ -1,12 +1,8 @@
-# Mammoth 🦣
-
 ## Welcome
 
 This repository contains the source code for the [Mammoth app](https://getmammoth.app) for iOS, iPadOS and MacOS, released under the [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.html).
 
-Welcome everyone to the Mammoth.app repository!
-
-Feel free to take a look around. We are not yet taking patches as we still have a little bit of tidying up to do. When we do, there will be a contributor license agreement (CLA) & copyright assignment. Also, over the next week or two we'll start having some simple "infrastructure" (think: discord channel, etc.). Stay tuned... Bear with us; it's launch week and weekend!
+Feel free to take a look around. We are not yet taking patches as we still have a little bit of tidying up to do. When we do, there will be a contributor license agreement. Also, over the next week or two we'll start having some simple "infrastructure" (think: discord channel, etc.). Stay tuned... Bear with us; it's launch week and weekend!
 
 The Mammoth Team
 
