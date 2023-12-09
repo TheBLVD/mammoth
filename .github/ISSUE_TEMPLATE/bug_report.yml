@@ -12,9 +12,8 @@ body:
   - type: textarea
     attributes:
       label: To Reproduce 
-      description: A clear and concise description of what the bug is.
+      description: Steps to reproduce the behavior.
       placeholder: |
-        Steps to reproduce the behavior:
         1. Go to '...'
         2. Tap on '....'
         3. Scroll down to '....'
