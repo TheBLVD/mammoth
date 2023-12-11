@@ -210,16 +210,27 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
         task.resume()
     }
     
-    func loadAccount(_ instance: String) {
-        let topMost = getTopMostViewController()
-        
-        let alert = UIAlertController(title: nil, message: "Signing in...", preferredStyle: .alert)
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+    func signingInAlertController() -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: "Signing in…", preferredStyle: .alert)
+        let loadingIndicator = UIActivityIndicatorView(frame: .zero)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.style = UIActivityIndicatorView.Style.medium
         loadingIndicator.startAnimating()
         alert.view.addSubview(loadingIndicator)
-        self.present(alert, animated: true, completion: nil)
+        NSLayoutConstraint.activate([
+            loadingIndicator.widthAnchor.constraint(equalToConstant: 50),
+            loadingIndicator.heightAnchor.constraint(equalToConstant: 50),
+            loadingIndicator.leadingAnchor.constraint(equalTo: alert.view.leadingAnchor, constant: 10),
+            loadingIndicator.centerYAnchor.constraint(equalTo: alert.view.centerYAnchor),
+            ])
+        return alert
+    }
+    
+    func loadAccount(_ instance: String) {
+        let topMost = getTopMostViewController()
+        
+        self.present(signingInAlertController(), animated: true, completion: nil)
         
         GlobalStruct.newInstance = InstanceData()
         GlobalStruct.newClient = Client(baseURL: "https://\(instance)")
@@ -595,12 +606,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
     @objc func newInstanceLogged() {
         self.safariVC?.dismiss(animated: true, completion: nil)
         
-        let alert = UIAlertController(title: nil, message: "Signing in...", preferredStyle: .alert)
-        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.style = UIActivityIndicatorView.Style.medium
-        loadingIndicator.startAnimating()
-        alert.view.addSubview(loadingIndicator)
+        let alert = signingInAlertController()
         self.present(alert, animated: true) {
             // Only call this after the alert has been presented; otherwise, this
             // view controller may disappear during the animation, causing problems.
