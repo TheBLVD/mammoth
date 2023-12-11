@@ -480,6 +480,22 @@ extension NewsFeedViewController {
         } else if let cell = cell as? ActivityCardCell {
             cell.display()
         }
+        
+        if self.viewModel.getUnreadEnabled(forFeed: self.viewModel.type) {
+            let currentRow = indexPath.row
+            let unreadState = self.viewModel.getUnreadState(forFeed: self.viewModel.type)
+            let count = min(currentRow, unreadState.count)
+            self.viewModel.setUnreadState(count: count, enabled: true, forFeed: self.viewModel.type)
+            
+            switch self.viewModel.type {
+            case .mentionsIn, .mentionsOut, .activity:
+                self.unreadIndicator.isEnabled = true
+                self.unreadIndicator.configure(unreadCount: count)
+            default:
+                self.latestPill.isEnabled = true
+                self.latestPill.configure(unreadCount: count, picUrls: unreadState.unreadPics)
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -581,22 +597,6 @@ extension NewsFeedViewController {
             Task { [weak self] in
                 guard let self else { return }
                 try await viewModel.loadListData(type: nil, fetchType: .nextPage)
-            }
-        }
-        
-        if self.viewModel.getUnreadEnabled(forFeed: self.viewModel.type) {
-            let currentRow = self.getCurrentCellIndexPath(tableView: self.tableView)?.row ?? 0
-            let unreadState = self.viewModel.getUnreadState(forFeed: self.viewModel.type)
-            let count = min(currentRow, unreadState.count)
-            self.viewModel.setUnreadState(count: count, enabled: true, forFeed: self.viewModel.type)
-            
-            switch self.viewModel.type {
-            case .mentionsIn, .mentionsOut, .activity:
-                self.unreadIndicator.isEnabled = true
-                self.unreadIndicator.configure(unreadCount: count)
-            default:
-                self.latestPill.isEnabled = true
-                self.latestPill.configure(unreadCount: count, picUrls: unreadState.unreadPics)
             }
         }
         
