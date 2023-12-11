@@ -52,7 +52,6 @@
 		14C45D8E2B1A1F8C000171A9 /* OG Pride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D222B1A1F89000171A9 /* OG Pride@2x.png */; };
 		14C45D902B1A1F8C000171A9 /* OG Pumpkin@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D242B1A1F89000171A9 /* OG Pumpkin@3x.png */; };
 		14C45D912B1A1F8C000171A9 /* OG@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D252B1A1F89000171A9 /* OG@3x.png */; };
-		14C45D922B1A1F8C000171A9 /* Pride.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D262B1A1F89000171A9 /* Pride.png */; };
 		14C45D932B1A1F8C000171A9 /* Six Colors Slant.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D272B1A1F89000171A9 /* Six Colors Slant.png */; };
 		14C45D942B1A1F8C000171A9 /* Blueprints@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D282B1A1F89000171A9 /* Blueprints@3x.png */; };
 		14C45D952B1A1F8C000171A9 /* OG Six Colors@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D292B1A1F89000171A9 /* OG Six Colors@3x.png */; };
@@ -78,7 +77,6 @@
 		14C45DA92B1A1F8C000171A9 /* OG White.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D3D2B1A1F89000171A9 /* OG White.png */; };
 		14C45DAA2B1A1F8C000171A9 /* Layout@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D3E2B1A1F8A000171A9 /* Layout@3x.png */; };
 		14C45DAB2B1A1F8C000171A9 /* OG White@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D3F2B1A1F8A000171A9 /* OG White@2x.png */; };
-		14C45DAC2B1A1F8C000171A9 /* Pride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D402B1A1F8A000171A9 /* Pride@2x.png */; };
 		14C45DAD2B1A1F8C000171A9 /* Burton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D412B1A1F8A000171A9 /* Burton@2x.png */; };
 		14C45DAE2B1A1F8C000171A9 /* OG.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D422B1A1F8A000171A9 /* OG.png */; };
 		14C45DAF2B1A1F8C000171A9 /* Blueprints@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D432B1A1F8A000171A9 /* Blueprints@2x.png */; };
@@ -103,7 +101,6 @@
 		14C45DC32B1A1F8C000171A9 /* Six Colors@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D572B1A1F8A000171A9 /* Six Colors@2x.png */; };
 		14C45DC42B1A1F8C000171A9 /* Paper Light.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D582B1A1F8A000171A9 /* Paper Light.png */; };
 		14C45DC52B1A1F8C000171A9 /* Stealth@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D592B1A1F8A000171A9 /* Stealth@3x.png */; };
-		14C45DC62B1A1F8C000171A9 /* Pride@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D5A2B1A1F8A000171A9 /* Pride@3x.png */; };
 		14C45DC72B1A1F8C000171A9 /* Dark Mode.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D5B2B1A1F8B000171A9 /* Dark Mode.png */; };
 		14C45DC82B1A1F8C000171A9 /* Foil Dark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D5C2B1A1F8B000171A9 /* Foil Dark@2x.png */; };
 		14C45DC92B1A1F8C000171A9 /* Layout.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45D5D2B1A1F8B000171A9 /* Layout.png */; };
@@ -851,7 +848,6 @@
 		14C45D222B1A1F89000171A9 /* OG Pride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OG Pride@2x.png"; sourceTree = "<group>"; };
 		14C45D242B1A1F89000171A9 /* OG Pumpkin@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OG Pumpkin@3x.png"; sourceTree = "<group>"; };
 		14C45D252B1A1F89000171A9 /* OG@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OG@3x.png"; sourceTree = "<group>"; };
-		14C45D262B1A1F89000171A9 /* Pride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pride.png; sourceTree = "<group>"; };
 		14C45D272B1A1F89000171A9 /* Six Colors Slant.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Six Colors Slant.png"; sourceTree = "<group>"; };
 		14C45D282B1A1F89000171A9 /* Blueprints@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blueprints@3x.png"; sourceTree = "<group>"; };
 		14C45D292B1A1F89000171A9 /* OG Six Colors@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OG Six Colors@3x.png"; sourceTree = "<group>"; };
@@ -877,7 +873,6 @@
 		14C45D3D2B1A1F89000171A9 /* OG White.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OG White.png"; sourceTree = "<group>"; };
 		14C45D3E2B1A1F8A000171A9 /* Layout@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Layout@3x.png"; sourceTree = "<group>"; };
 		14C45D3F2B1A1F8A000171A9 /* OG White@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "OG White@2x.png"; sourceTree = "<group>"; };
-		14C45D402B1A1F8A000171A9 /* Pride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@2x.png"; sourceTree = "<group>"; };
 		14C45D412B1A1F8A000171A9 /* Burton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Burton@2x.png"; sourceTree = "<group>"; };
 		14C45D422B1A1F8A000171A9 /* OG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OG.png; sourceTree = "<group>"; };
 		14C45D432B1A1F8A000171A9 /* Blueprints@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blueprints@2x.png"; sourceTree = "<group>"; };
@@ -902,7 +897,6 @@
 		14C45D572B1A1F8A000171A9 /* Six Colors@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Six Colors@2x.png"; sourceTree = "<group>"; };
 		14C45D582B1A1F8A000171A9 /* Paper Light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Paper Light.png"; sourceTree = "<group>"; };
 		14C45D592B1A1F8A000171A9 /* Stealth@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Stealth@3x.png"; sourceTree = "<group>"; };
-		14C45D5A2B1A1F8A000171A9 /* Pride@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@3x.png"; sourceTree = "<group>"; };
 		14C45D5B2B1A1F8B000171A9 /* Dark Mode.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Dark Mode.png"; sourceTree = "<group>"; };
 		14C45D5C2B1A1F8B000171A9 /* Foil Dark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Foil Dark@2x.png"; sourceTree = "<group>"; };
 		14C45D5D2B1A1F8B000171A9 /* Layout.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Layout.png; sourceTree = "<group>"; };
@@ -2332,9 +2326,6 @@
 				14C45D352B1A1F89000171A9 /* Pride Slant.png */,
 				14C45D3A2B1A1F89000171A9 /* Pride Slant@2x.png */,
 				14C45D3C2B1A1F89000171A9 /* Pride Slant@3x.png */,
-				14C45D262B1A1F89000171A9 /* Pride.png */,
-				14C45D402B1A1F8A000171A9 /* Pride@2x.png */,
-				14C45D5A2B1A1F8A000171A9 /* Pride@3x.png */,
 				14C45D492B1A1F8A000171A9 /* Schultz.png */,
 				14C45D622B1A1F8B000171A9 /* Schultz@2x.png */,
 				14C45D672B1A1F8B000171A9 /* Schultz@3x.png */,
@@ -3298,7 +3289,6 @@
 				14C45DD82B1A1F8C000171A9 /* Paper Dark.png in Resources */,
 				14C45DE52B1A1F8C000171A9 /* Blueprints.png in Resources */,
 				14C45D962B1A1F8C000171A9 /* OG Six Colors@2x.png in Resources */,
-				14C45D922B1A1F8C000171A9 /* Pride.png in Resources */,
 				BF4D709729EE55E90059C250 /* fa-regular-400.ttf in Resources */,
 				5383F20C29796808005F1B20 /* IconC4.png in Resources */,
 				5383F22129796808005F1B20 /* IconC2@3x.png in Resources */,
@@ -3311,7 +3301,6 @@
 				14C45D9D2B1A1F8C000171A9 /* Dark Mode@3x.png in Resources */,
 				14C45D7D2B1A1F8C000171A9 /* OG Light@2x.png in Resources */,
 				5383F1F829796808005F1B20 /* IconC1@2x.png in Resources */,
-				14C45DC62B1A1F8C000171A9 /* Pride@3x.png in Resources */,
 				5383F20E29796808005F1B20 /* IconC4@3x.png in Resources */,
 				5383F1EA29796808005F1B20 /* IconC5@3x.png in Resources */,
 				14C45D7F2B1A1F8C000171A9 /* Sticker@2x.png in Resources */,
@@ -3362,7 +3351,6 @@
 				14C45DC42B1A1F8C000171A9 /* Paper Light.png in Resources */,
 				533B06D3298951F9003A01B8 /* soundPublished.wav in Resources */,
 				14C45DCA2B1A1F8C000171A9 /* Foil@3x.png in Resources */,
-				14C45DAC2B1A1F8C000171A9 /* Pride@2x.png in Resources */,
 				5383F1E729796808005F1B20 /* IconB5@3x.png in Resources */,
 				5383F1FF29796808005F1B20 /* IconB6.png in Resources */,
 				14C45D7B2B1A1F8C000171A9 /* Gold-Icon.png in Resources */,

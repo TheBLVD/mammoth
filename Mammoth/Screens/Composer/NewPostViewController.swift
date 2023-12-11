@@ -1395,7 +1395,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         itemCW.accessibilityLabel = "Content Warning"
         
-        var itemDrafts = UIBarButtonItem(image: UIImage(systemName: "doc.text", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.draftsTapped))
+        let itemDrafts = UIBarButtonItem(image: UIImage(systemName: "doc.text", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.draftsTapped))
         itemDrafts.accessibilityLabel = "Drafts"
         
         itemLast = UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: nil)
@@ -2212,16 +2212,6 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                     }
                 }
             }
-        } catch let error {
-            log.error("error attaching video - \(error.localizedDescription)")
-            DispatchQueue.main.async {
-                self.setToolBarMediaItemStates(disabled: false)
-                self.imageButton[0].alpha = 0
-                self.imageButton[0].setImage(UIImage(), for: .normal)
-                self.visibleImages = 0
-                self.updatePostButton()
-                self.mediaFailure(error.localizedDescription)
-            }
         }
     }
     
@@ -2438,7 +2428,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     @objc func restoreFromDrafts() {
         updatePostButton()
         createToolbar()
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? ComposeCell {
+        if self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) is ComposeCell {
             cellPostText = GlobalStruct.currentDraft?.contents.content.stripHTML() ?? ""
             self.tableView.reloadRows(at: [IndexPath(row: 1, section: 1)], with: .none)
             if cellPostText.isEmpty {
@@ -2513,7 +2503,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         parseText()
         self.updateCharacterCounts()
                 
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? ComposeCell {
+        if self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) is ComposeCell {
             if cellPostText.isEmpty || cellPostText.count > self.postCharacterCount2 {
                 self.updatePostButton()
                 // show default toolbar
@@ -2536,8 +2526,8 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     @objc func restoreFromTemplate() {
         // first launch composer preview template
         updatePostButton()
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? ComposeCell {
-            if let cell2 = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? AltTextCell2 {
+        if self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) is ComposeCell {
+            if self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) is AltTextCell2 {
                 cellPostText = "I just started trying out #Mammoth for Mastodon and I'm loving it!"
                 self.tableView.reloadRows(at: [IndexPath(row: 1, section: 1)], with: .none)
                 self.updateCharacterCounts()
@@ -3006,7 +2996,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         }
         
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? ComposeCell {
+        if self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) is ComposeCell {
             if cellPostText.isEmpty {
                 self.btn1.showsMenuAsPrimaryAction = false
             } else {
@@ -3037,7 +3027,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func parseText() {
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? ComposeCell {
+        if self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) is ComposeCell {
             // get cursor position
             var cursorPosition: Int = 0
             if let selectedRange = cellPostTextView?.selectedTextRange {
@@ -3086,7 +3076,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func saveDraft() {
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? ComposeCell {
+        if self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) is ComposeCell {
             let postText: String = cellPostText
             var reply: String? = nil
             if self.allStatuses.isEmpty && self.quoteString.isEmpty {} else {
@@ -3336,7 +3326,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             }
             // show default toolbar
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? ComposeCell {
+            if self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) is ComposeCell {
                 cellPostTextView.inputAccessoryView = self.formatToolbar
                 cellPostTextView.reloadInputViews()
             }
@@ -3436,7 +3426,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             }
             // show default toolbar
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? ComposeCell {
+            if self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) is ComposeCell {
                 cellPostTextView.inputAccessoryView = self.formatToolbar
                 cellPostTextView.reloadInputViews()
             }
@@ -3480,7 +3470,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             
             // Is the text valid?
             var hasValidText = false
-            if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? ComposeCell {
+            if self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) is ComposeCell {
                 let textCount = self.cellPostText.count
                 hasValidText = (textCount > 0) &&
                     ((textCount <= self.postCharacterCount2) || self.threadingAllowed())
@@ -3819,7 +3809,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func sendEditData() {
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? ComposeCell {
+        if self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) is ComposeCell {
             let postText: String = cellPostText
             var spoilerText: String? = nil
             if self.spoilerText != "" {

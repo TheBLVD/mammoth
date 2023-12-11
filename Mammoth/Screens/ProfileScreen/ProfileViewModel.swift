@@ -50,8 +50,6 @@ final class ProfileViewModel {
                 return self.posts
             case .postsAndReplies:
                 return self.postsAndReplies
-            default:
-                return nil
             }
         }
     }

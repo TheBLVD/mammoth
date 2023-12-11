@@ -114,7 +114,7 @@ class PostTweetIntentHandler: NSObject, PostTweetIntentHandling {
             }
         } else {
             var mediaIdStrings: [String] = []
-            var currentClient = AccountsManager.shared.currentAccountClient
+            let currentClient = AccountsManager.shared.currentAccountClient
             _ = images.map({ image in
                 let request = Media.upload(media: .jpeg(image))
                 currentClient.run(request) { (statuses) in

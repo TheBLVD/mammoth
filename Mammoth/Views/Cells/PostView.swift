@@ -1484,7 +1484,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                             constraintsOther.append(contentsOf: constraints)
                             self.addConstraints(constraints)
                             repostView.isHidden = true
-                            var dif = "-\(inlineDiff)-|"
+                            let dif = "-\(inlineDiff)-|"
                             constraints1 = NSLayoutConstraint.constraints(withVisualFormat: "V:|-14-[userName(usernameHeight)]-4-[postText]\(dif)", options: [], metrics: metricsDict, views: viewsDict)
                             constraints2 = NSLayoutConstraint.constraints(withVisualFormat: "V:[postText]-19-[countButtonBG]", options: [], metrics: metricsDict, views: viewsDict)
                             let _ = self.constraints1.map ({ x in
