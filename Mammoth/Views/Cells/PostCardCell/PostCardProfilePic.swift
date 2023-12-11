@@ -65,11 +65,19 @@ final class PostCardProfilePic: UIButton {
         view.clipsToBounds = true
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = false
+        view.isHidden = true
         return view
     }()
     
-    private var badgeContraints: [NSLayoutConstraint] = []
-    
+    private lazy var badgeIconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.tag = 11
+        imageView.tintColor = .custom.linkText
+        return imageView
+    }()
+        
     private var user: UserCardModel?
     private var size: ProfilePicSize = ProfilePicSize.regular
     public var onPress: PostCardButtonCallback?
@@ -90,14 +98,6 @@ final class PostCardProfilePic: UIButton {
         self.onPress = nil
         self.profileImageView.sd_cancelCurrentImageLoad()
         self.profileImageView.image = nil
-        
-        if !self.badgeContraints.isEmpty {
-            self.badge.subviews.first(where: {$0.tag == 11 })?.removeFromSuperview()
-            self.badge.removeFromSuperview()
-        }
-        
-        NSLayoutConstraint.deactivate(self.badgeContraints)
-        self.badgeContraints = []
     }
 }
 
@@ -129,6 +129,20 @@ private extension PostCardProfilePic {
         
         let interaction = UIContextMenuInteraction(delegate: self)
         self.profileImageView.addInteraction(interaction)
+        
+        self.profileImageView.addSubview(self.badge)
+        self.badge.addSubview(self.badgeIconView)
+        NSLayoutConstraint.activate([
+            self.badge.widthAnchor.constraint(equalToConstant: 22),
+            self.badge.heightAnchor.constraint(equalToConstant: 22),
+            self.badge.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
+            self.badge.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+            
+            self.badgeIconView.widthAnchor.constraint(equalToConstant: 10),
+            self.badgeIconView.heightAnchor.constraint(equalToConstant: 10),
+            self.badgeIconView.centerXAnchor.constraint(equalTo: self.badge.centerXAnchor),
+            self.badgeIconView.centerYAnchor.constraint(equalTo: self.badge.centerYAnchor)
+        ])
     }
 }
 
@@ -152,28 +166,10 @@ extension PostCardProfilePic {
         }
         
         if let badgeIcon {
-            self.addSubview(self.badge)
-            
-            let iconView = UIImageView(image: badgeIcon)
-            iconView.translatesAutoresizingMaskIntoConstraints = false
-            iconView.contentMode = .scaleAspectFit
-            iconView.tag = 11
-            iconView.tintColor = .custom.linkText
-            self.badge.addSubview(iconView)
-            
-            badgeContraints = [
-                self.badge.widthAnchor.constraint(equalToConstant: 22),
-                self.badge.heightAnchor.constraint(equalToConstant: 22),
-                self.badge.leftAnchor.constraint(equalTo: self.leftAnchor, constant: -6),
-                self.badge.topAnchor.constraint(equalTo: self.topAnchor, constant: -6),
-                
-                iconView.widthAnchor.constraint(equalToConstant: 10),
-                iconView.heightAnchor.constraint(equalToConstant: 10),
-                iconView.centerXAnchor.constraint(equalTo: self.badge.centerXAnchor),
-                iconView.centerYAnchor.constraint(equalTo: self.badge.centerYAnchor)
-            ]
-            
-            NSLayoutConstraint.activate(badgeContraints)
+            self.badgeIconView.image = badgeIcon
+            self.badge.isHidden = false
+        } else {
+            self.badge.isHidden = true
         }
     }
     
