@@ -40,7 +40,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
         return tableView
     }()
     
-    private let photoPicker = PhotoPicker()
+    private lazy var photoPicker = PhotoPicker()
     private var settingsButton: ProfileViewSettingsButton?
     
     private lazy var refreshControl: UIRefreshControl = {
@@ -94,8 +94,6 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        
-        self.photoPicker.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -320,6 +318,7 @@ private extension ProfileViewController {
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
+                    self.photoPicker.delegate = self
                     self.photoPicker.photoType = .Header
                     self.photoPicker.presentPicker(hostViewController: self, animated: true)
                 }
@@ -329,6 +328,7 @@ private extension ProfileViewController {
             if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
+                    self.photoPicker.delegate = self
                     self.photoPicker.photoType = .Avatar
                     self.photoPicker.presentPicker(hostViewController: self, animated: true)
                 }
