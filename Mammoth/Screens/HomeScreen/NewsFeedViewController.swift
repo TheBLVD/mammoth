@@ -1316,31 +1316,14 @@ extension NewsFeedViewController {
             self.navigationController?.present(vc, animated: true)
         }
         btn.setImage(UIImage(systemName: "ellipsis.circle", withConfiguration: symbolConfig)?.withTintColor(.custom.highContrast, renderingMode: .alwaysTemplate), for: .normal)
-        btn.accessibilityLabel = "Customize for you"
-        
+        btn.accessibilityLabel = "…"
+
         btn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: -1, right: 0)
         let moreButton = UIBarButtonItem(customView: btn)
         return [moreButton]
     }
     
-    private func forYouNavBarContextOptions() -> [UIAction] {
-        var contextMenuOptions: [UIAction] = []
-    
-        let option = UIAction(title: "Customize For You", image: UIImage(systemName: "ellipsis.circle")?.withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
-            guard let self else { return }
-            
-            triggerHapticImpact(style: .light)
-            let vc = ForYouCustomizationViewController()
-            vc.isModalInPresentation = true
-            self.navigationController?.present(vc, animated: true)
-        }
-        option.accessibilityLabel = "Customize For You"
-        contextMenuOptions.append(option)
-        
-        return contextMenuOptions
-    }
-
 }
 
 // MARK: - Edit list delegate

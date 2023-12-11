@@ -122,15 +122,6 @@ class AccountSwitcherButton: UIButton {
             accountAction.state = (AccountsManager.shared.currentAccount?.uniqueID == acctData.uniqueID) ? .on : .off
             allActions.append(accountAction)
         }
-        // Add Settings
-        let settingsAction = UIAction(title: "Settings", image: FontAwesome.image(fromChar: "\u{f013}").withRenderingMode(.alwaysTemplate), identifier: nil) { action in
-            // switch account
-            DispatchQueue.main.async {
-                    let vc = SettingsViewController()
-                    UIApplication.topViewController()?.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
-            }
-        }
-        allActions.append(settingsAction)
         return UIMenu(title: "", options: [], children: allActions)
     }
     
