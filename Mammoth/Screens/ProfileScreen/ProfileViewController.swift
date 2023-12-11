@@ -171,13 +171,17 @@ private extension ProfileViewController {
     func setupUI() {
         
         self.view.backgroundColor = .custom.background
+
+        let isPastOnboarding: Bool = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.wentThroughOnboarding ?? true
+
+        if isPastOnboarding {
+            self.settingsButton = ProfileViewSettingsButton({ [weak self] type, data in
+                guard let self else { return }
+                self.onUserActionPress(type: type, data: data)
+            })
+            navigationItem.setRightBarButton(UIBarButtonItem(customView: self.settingsButton!), animated: false)
+        }
         
-        self.settingsButton = ProfileViewSettingsButton({ [weak self] type, data in
-            guard let self else { return }
-            self.onUserActionPress(type: type, data: data)
-        })
-        
-        navigationItem.setRightBarButton(UIBarButtonItem(customView: self.settingsButton!), animated: false)
 
         tableView.refreshControl = self.refreshControl
         coverImage.translatesAutoresizingMaskIntoConstraints = false
