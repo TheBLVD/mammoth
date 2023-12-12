@@ -695,7 +695,7 @@ extension PostCardCell {
     }
     
     /// the cell will be displayed in the tableview
-    public func display() {
+    public func willDisplay() {
         if let postCard = self.postCard, postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
             if GlobalStruct.autoPlayVideos {
                 self.video?.play()
@@ -710,7 +710,7 @@ extension PostCardCell {
     }
     
     // the cell will end being displayed in the tableview
-    public func endDisplay() {
+    public func didEndDisplay() {
         if let postCard = self.postCard, postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
             self.video?.pause()
         }

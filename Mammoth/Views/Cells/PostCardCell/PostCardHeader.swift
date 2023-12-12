@@ -128,7 +128,6 @@ class PostCardHeader: UIView {
     private var type: PostCardHeaderTypes = .regular
     public var onPress: PostCardButtonCallback?
     
-    private let runLoop = RunLoop.main
     private var subscription: Cancellable?
 
     override init(frame: CGRect) {
@@ -347,7 +346,7 @@ extension PostCardHeader {
                 delay = 60*15
             }
             
-            self.subscription = self.runLoop.schedule(
+            self.subscription = RunLoop.main.schedule(
                 after: .init(Date(timeIntervalSinceNow: delay)),
                 interval: .seconds(interval),
                 tolerance: .seconds(1)
