@@ -242,6 +242,15 @@ final class PostCardCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.setupUIFromSettings),
+                                               name: NSNotification.Name(rawValue: "reloadAll"),
+                                               object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     required init?(coder: NSCoder) {
@@ -323,8 +332,6 @@ final class PostCardCell: UITableViewCell {
             headerExtension.removeFromSuperview()
             headerExtension.prepareForReuse()
         }
-        
-        setupUIFromSettings()
     }
 }
 
@@ -402,7 +409,7 @@ private extension PostCardCell {
         setupUIFromSettings()
     }
     
-    func setupUIFromSettings() {
+    @objc func setupUIFromSettings() {
         deletedWarningButton.titleLabel?.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
         postTextLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
         postTextLabel.minimumLineHeight = DeviceHelpers.isiOSAppOnMac() ? UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 5 : 0
@@ -412,6 +419,14 @@ private extension PostCardCell {
         } else {
             contentView.layoutMargins = .init(top: 16, left: 13, bottom: 0, right: 13)
         }
+        
+        self.header.setupUIFromSettings()
+        self.linkPreview?.setupUIFromSettings()
+        self.quotePost?.setupUIFromSettings()
+        self.headerExtension?.setupUIFromSettings()
+        self.metadata?.setupUIFromSettings()
+        
+        self.onThemeChange()
     }
 }
 
@@ -463,26 +478,29 @@ extension PostCardCell {
             }
         }
         
-        if case .mastodon(let status) = postCard.data,
-            let postText = postCard.richPostText {
+        self.postTextLabel.customize { [weak self] label in
+            guard let self else { return }
+            if case .mastodon(let status) = postCard.data,
+               let postText = postCard.richPostText {
+                
+                label.attributedText = formatRichText(string: postText, label: label, emojis: status.reblog?.emojis ?? status.emojis)
+            } else {
+                label.text = postCard.postText
+            }
+            label.numberOfLines = type.numberOfLines
             
-            self.postTextLabel.attributedText = formatRichText(string: postText, label: self.postTextLabel, emojis: status.reblog?.emojis ?? status.emojis)
-        } else {
-            self.postTextLabel.text = postCard.postText
-        }
-        self.postTextLabel.numberOfLines = type.numberOfLines
-        
-        // Post text link handlers
-        self.postTextLabel.handleURLTap { url in
-            onButtonPress(.link, true, .url(url))
-        }
-        self.postTextLabel.handleHashtagTap { hashtag in
-            onButtonPress(.link, true, .hashtag(hashtag))
-        }
-        
-        if case .mastodon(let status) = postCard.data {
-            self.postTextLabel.handleMentionTap { mention in
-                onButtonPress(.link, true, .mention((mention, status)))
+            // Post text link handlers
+            label.handleURLTap { url in
+                onButtonPress(.link, true, .url(url))
+            }
+            label.handleHashtagTap { hashtag in
+                onButtonPress(.link, true, .hashtag(hashtag))
+            }
+            
+            if case .mastodon(let status) = postCard.data {
+                label.handleMentionTap { mention in
+                    onButtonPress(.link, true, .mention((mention, status)))
+                }
             }
         }
         
@@ -684,9 +702,6 @@ extension PostCardCell {
         // Make sure all views are underneath the contentWarningButton and the deletedWarningButton
         self.contentStackView.bringSubviewToFront(self.contentWarningButton)
         self.contentStackView.bringSubviewToFront(self.deletedWarningButton)
-
-        // TODO: only call this when theme changes
-        self.onThemeChange()
         
         if CommandLine.arguments.contains("-M_DEBUG_TIMELINES") {
             // Configure for debugging
@@ -797,11 +812,14 @@ extension PostCardCell {
             self.contentView.backgroundColor = .custom.background
         }
         
-        self.postTextLabel.mentionColor = .custom.highContrast
-        self.postTextLabel.hashtagColor = .custom.highContrast
-        self.postTextLabel.URLColor = .custom.highContrast
-        self.postTextLabel.emailColor = .custom.highContrast
-        self.postTextLabel.backgroundColor = self.contentView.backgroundColor
+        self.postTextLabel.customize { [weak self] label in
+            guard let self else { return }
+            label.mentionColor = .custom.highContrast
+            label.hashtagColor = .custom.highContrast
+            label.URLColor = .custom.highContrast
+            label.emailColor = .custom.highContrast
+            label.backgroundColor = self.contentView.backgroundColor
+        }
         
         self.profilePic.onThemeChange()
         self.header.onThemeChange()

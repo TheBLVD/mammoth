@@ -112,7 +112,11 @@ class PostCardLinkPreview: UIView {
         self.imageView.removeFromSuperview()
         self.imageHeightConstraint?.isActive = false
         self.onPress = nil
-        setupUIFromSettings()
+    }
+    
+    func setupUIFromSettings() {
+        urlLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
     }
 }
 
@@ -151,11 +155,6 @@ private extension PostCardLinkPreview {
         ])
         
         setupUIFromSettings()
-    }
-    
-    func setupUIFromSettings() {
-        urlLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
-        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
     }
 }
 

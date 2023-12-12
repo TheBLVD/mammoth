@@ -333,20 +333,21 @@ extension ProfileHeader {
         
         self.userTagLabel.attributedText = self.formatUserTag(user: user)
         
-        if let description = user.richDescription {
-            self.descriptionLabel.attributedText = formatRichText(string: description, label: self.descriptionLabel, emojis: user.emojis)
-        } else {
-            self.descriptionLabel.text = user.description
-        }
-
-        if let description = user.description, !description.isEmpty {
-            if !contentStackView.arrangedSubviews.contains(descriptionLabel) {
-                contentStackView.insertArrangedSubview(descriptionLabel, at: 0)
-                descriptionLabel.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 420, constant: -(contentStackView.layoutMargins.left + contentStackView.layoutMargins.right))
+        self.descriptionLabel.customize { [weak self] label in
+            guard let self else { return }
+            
+            if let description = user.richDescription {
+                label.attributedText = formatRichText(string: description, label: label, emojis: user.emojis)
+            } else {
+                label.text = user.description
             }
             
-            self.descriptionLabel.customize { [weak self] label in
-                guard let self else { return }
+            if let description = user.description, !description.isEmpty {
+                if !contentStackView.arrangedSubviews.contains(descriptionLabel) {
+                    contentStackView.insertArrangedSubview(descriptionLabel, at: 0)
+                    descriptionLabel.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 420, constant: -(contentStackView.layoutMargins.left + contentStackView.layoutMargins.right))
+                }
+                
                 label.mentionColor = .custom.highContrast
                 label.hashtagColor = .custom.highContrast
                 label.URLColor = .custom.highContrast
@@ -354,16 +355,13 @@ extension ProfileHeader {
                 label.textColor = .custom.highContrast
                 
                 // Post text link handlers
-                label.handleURLTap { [weak self] url in
-                    guard let self else { return }
+                label.handleURLTap { url in
                     self.onButtonPress?(.link, .url(url))
                 }
-                label.handleHashtagTap { [weak self] hashtag in
-                    guard let self else { return }
+                label.handleHashtagTap { hashtag in
                     self.onButtonPress?(.link, .hashtag(hashtag))
                 }
-                label.handleMentionTap { [weak self] mention in
-                    guard let self else { return }
+                label.handleMentionTap { mention in
                     if let (range, _, _) = self.descriptionLabel.selectedElement {
                         if let url = self.user?.richDescription?.attribute(.link, at: range.location, effectiveRange: nil) as? URL {
                             self.onButtonPress?(.link, .mention("@\(mention)@\(url.host ?? "")"))
@@ -373,18 +371,17 @@ extension ProfileHeader {
                     
                     self.onButtonPress?(.link, .mention(mention))
                 }
-                label.handleEmailTap { [weak self] email in
-                    guard let self else { return }
+                label.handleEmailTap { email in
                     self.onButtonPress?(.link, .email(email))
                 }
                 
-            }
-            
-        } else {
-            if contentStackView.arrangedSubviews.contains(descriptionLabel) {
-                contentStackView.removeArrangedSubview(descriptionLabel)
-                descriptionLabel.removeFromSuperview()
-                descriptionLabel.constraints.forEach({ $0.isActive = false })
+                
+            } else {
+                if contentStackView.arrangedSubviews.contains(descriptionLabel) {
+                    contentStackView.removeArrangedSubview(descriptionLabel)
+                    descriptionLabel.removeFromSuperview()
+                    descriptionLabel.constraints.forEach({ $0.isActive = false })
+                }
             }
         }
         

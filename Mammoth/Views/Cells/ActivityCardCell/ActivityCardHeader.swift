@@ -101,8 +101,14 @@ class ActivityCardHeader: UIView {
             self.rightAttributesStack.removeArrangedSubview(self.pinIcon)
             self.pinIcon.removeFromSuperview()
         }
-        setupUIFromSettings()
+
         self.stopTimeUpdates()
+    }
+    
+    func setupUIFromSettings() {
+        actionLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
+        dateLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
     }
 }
 
@@ -137,12 +143,6 @@ private extension ActivityCardHeader {
         headerTitleStackView.addArrangedSubview(actionLabel)
         
         setupUIFromSettings()
-    }
-    
-    func setupUIFromSettings() {
-        actionLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
-        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
-        dateLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
     }
 
 }

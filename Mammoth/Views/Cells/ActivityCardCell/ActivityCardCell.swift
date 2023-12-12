@@ -102,6 +102,14 @@ final class ActivityCardCell: UITableViewCell {
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.setupUIFromSettings),
+                                               name: NSNotification.Name(rawValue: "reloadAll"),
+                                               object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
     required init?(coder: NSCoder) {
@@ -163,8 +171,6 @@ final class ActivityCardCell: UITableViewCell {
             quotePost.removeFromSuperview()
             quotePost.prepareForReuse()
         }
-        
-        setupUIFromSettings()
     }
     
     /// the cell will be displayed in the tableview
@@ -234,8 +240,14 @@ private extension ActivityCardCell {
         setupUIFromSettings()
     }
     
-    func setupUIFromSettings() {
+    @objc func setupUIFromSettings() {
         postTextLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        
+        self.header.setupUIFromSettings()
+        self.linkPreview?.setupUIFromSettings()
+        self.quotePost?.setupUIFromSettings()
+        
+        self.onThemeChange()
     }
 }
 
@@ -250,33 +262,36 @@ extension ActivityCardCell {
         self.header.configure(activity: activity)
         self.header.onPress = onButtonPress
         
-        switch activity.type {
-        case .follow, .follow_request:
-            self.postTextLabel.attributedText = nil
-            self.postTextLabel.text = activity.user.userTag
-            self.postTextLabel.linkWeight = .regular
-            self.postTextLabel.isUserInteractionEnabled = false
-        default:
-            if let postCard = activity.postCard {
-                if let postText = postCard.richPostText {
-                    self.postTextLabel.attributedText = formatRichText(string: postText, label: self.postTextLabel, emojis: postCard.emojis)
-                } else {
-                    self.postTextLabel.text = postCard.postText
+        self.postTextLabel.customize { [weak self] label in
+            guard let self else { return }
+            switch activity.type {
+            case .follow, .follow_request:
+                label.attributedText = nil
+                label.text = activity.user.userTag
+                label.linkWeight = .regular
+                label.isUserInteractionEnabled = false
+            default:
+                if let postCard = activity.postCard {
+                    if let postText = postCard.richPostText {
+                        label.attributedText = formatRichText(string: postText, label: label, emojis: postCard.emojis)
+                    } else {
+                        label.text = postCard.postText
+                    }
                 }
             }
-        }
-        
-        // Post text link handlers
-        self.postTextLabel.handleURLTap { url in
-            onButtonPress(.link, true, .url(url))
-        }
-        self.postTextLabel.handleHashtagTap { hashtag in
-            onButtonPress(.link, true, .hashtag(hashtag))
-        }
-        
-        if case .mastodon(let status) = activity.postCard?.data {
-            self.postTextLabel.handleMentionTap { mention in
-                onButtonPress(.link, true, .mention((mention, status)))
+            
+            // Post text link handlers
+            label.handleURLTap { url in
+                onButtonPress(.link, true, .url(url))
+            }
+            label.handleHashtagTap { hashtag in
+                onButtonPress(.link, true, .hashtag(hashtag))
+            }
+            
+            if case .mastodon(let status) = activity.postCard?.data {
+                label.handleMentionTap { mention in
+                    onButtonPress(.link, true, .mention((mention, status)))
+                }
             }
         }
         
@@ -368,10 +383,6 @@ extension ActivityCardCell {
                 mediaContainer.insertArrangedSubview(linkPreview, at: mediaContainer.arrangedSubviews.count - 1)
             }
         }
-        
-        
-        // TODO: only call this when theme changes
-        self.onThemeChange()
         
         if CommandLine.arguments.contains("-M_DEBUG_TIMELINES") {
             // Configure for debugging
