@@ -167,6 +167,8 @@ class PostCardHeader: UIView {
             headerMainTitleStackView.removeArrangedSubview(followButton)
             followButton.removeFromSuperview()
         }
+        
+        self.stopTimeUpdates()
     }
     
     func setupUIFromSettings() {
