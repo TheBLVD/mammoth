@@ -184,8 +184,10 @@ class PostCardQuotePost: UIView {
             postLoader.removeFromSuperview()
             self.postLoaderTrailingConstraint?.isActive = false
         }
-
-        setupUIFromSettings()
+    }
+    
+    func setupUIFromSettings() {
+        postTextLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
     }
 }
 
@@ -215,10 +217,6 @@ private extension PostCardQuotePost {
         ])
         
         setupUIFromSettings()
-    }
-
-    func setupUIFromSettings() {
-        postTextLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
     }
 }
 

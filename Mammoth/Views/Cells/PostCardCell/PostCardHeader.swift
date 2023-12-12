@@ -134,7 +134,6 @@ class PostCardHeader: UIView {
         super.init(frame: frame)
         self.setupUI()
         NotificationCenter.default.addObserver(self, selector: #selector(self.stopTimeUpdates), name: UIApplication.didEnterBackgroundNotification, object: nil)
-
     }
     
     required init?(coder: NSCoder) {
@@ -171,7 +170,6 @@ class PostCardHeader: UIView {
         }
         
         setupUIFromSettings()
-        self.stopTimeUpdates()
     }
 }
 
@@ -212,12 +210,6 @@ private extension PostCardHeader {
         
         setupUIFromSettings()
     }
-    
-    func setupUIFromSettings() {
-        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
-        userTagLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
-        dateLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
-    }    
 }
 
 // MARK: - Configuration
