@@ -48,7 +48,10 @@ class PostCardHeaderExtension: UIView {
         self.postCard = nil
         self.onPress = nil
         self.titleLabel.text = nil
-        setupUIFromSettings()
+    }
+    
+    func setupUIFromSettings() {
+        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
     }
 }
 
@@ -67,10 +70,6 @@ private extension PostCardHeaderExtension {
         
         mainStackView.addArrangedSubview(titleLabel)
         setupUIFromSettings()
-    }
-    
-    func setupUIFromSettings() {
-        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
     }
 }
 

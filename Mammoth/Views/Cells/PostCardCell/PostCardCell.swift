@@ -423,6 +423,8 @@ private extension PostCardCell {
         self.header.setupUIFromSettings()
         self.linkPreview?.setupUIFromSettings()
         self.quotePost?.setupUIFromSettings()
+        self.headerExtension?.setupUIFromSettings()
+        self.metadata?.setupUIFromSettings()
         
         self.onThemeChange()
     }

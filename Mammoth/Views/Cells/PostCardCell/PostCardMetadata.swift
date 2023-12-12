@@ -76,8 +76,6 @@ final class PostCardMetadata: UIView {
             metricsStackView.removeArrangedSubview(viewDetailsLabel)
             viewDetailsLabel.removeFromSuperview()
         }
-        
-        setupUIFromSettings()
     }
     
     func setupUIFromSettings() {
@@ -108,6 +106,8 @@ final class PostCardMetadata: UIView {
         likesLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onMetricPress)))
         repostsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onMetricPress)))
         repliesLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onMetricPress)))
+        
+        self.setupUIFromSettings()
     }
     
     func configure(postCard: PostCardModel, type: PostCardCell.PostCardCellType = .regular, onButtonPress: @escaping PostCardButtonCallback) {
