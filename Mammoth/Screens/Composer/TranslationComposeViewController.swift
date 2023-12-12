@@ -182,7 +182,7 @@ class TranslationComposeViewController: UIViewController, UITableViewDataSource,
             } else {
                 self.tableView.scrollToRow(at: IndexPath(row: ind ?? 0, section: 1), at: .top, animated: false)
             }
-        case let .symbol(name, isCustom):
+        case .symbol(_ /*name*/, _ /*isCustom*/):
             self.tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
     }

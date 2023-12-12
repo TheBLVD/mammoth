@@ -184,7 +184,7 @@ extension DiscoverSuggestionsViewModel {
         })
         if let cardIndex {
             // Force the new status upon the card
-            var card = self.listData.accounts![cardIndex]
+            let card = self.listData.accounts![cardIndex]
             card.setFollowStatus(followStatus)
             self.listData.accounts![cardIndex] = card
             // Return the index to be updated

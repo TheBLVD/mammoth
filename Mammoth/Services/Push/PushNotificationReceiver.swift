@@ -208,7 +208,7 @@ extension PushNotificationReceiver {
             // Store the dictionary
             userDefaults.set(stateDict, forKey: PushNotificationStatesKey)
             userDefaults.synchronize()
-            log.debug("\(processID()) " + "Set notification state dict to \(stateDict)")
+            log.debug("\(processID()) " + "Set notification state dict to \(stateDict!)")
         }
     }
     

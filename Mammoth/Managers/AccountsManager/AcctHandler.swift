@@ -367,11 +367,11 @@ class BlueskyAcctHandler: AcctHandler {
     }
 
     static func notifyAboutAccountUpdates(oldAcctData: any AcctDataType, newAcctData: any AcctDataType) {
-        guard let oldAcctData = oldAcctData as? BlueskyAcctData else {
+        guard oldAcctData is BlueskyAcctData else {
             log.error("wrong acct type: old")
             return
         }
-        guard let newAcctData = newAcctData as? BlueskyAcctData else {
+        guard newAcctData is BlueskyAcctData else {
             log.error("wrong acct type: new")
             return
         }

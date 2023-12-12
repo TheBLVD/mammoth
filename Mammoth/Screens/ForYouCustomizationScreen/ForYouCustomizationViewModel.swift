@@ -282,10 +282,6 @@ extension ForYouCustomizationViewModel {
         
     func updateStatusFromForYouData(forYouInfo: ForYouType) {
         // Convert the For You data to a ForYouRowInfo array
-        let friendsValue = forYouInfo.yourFollows != 0
-        let foafValue = forYouInfo.friendsOfFriends != 0
-        let channelValue = forYouInfo.fromYourChannels != 0
-        let curatedValue = forYouInfo.curatedByMammoth != 0
         log.debug("For You - yourFollows:\(forYouInfo.yourFollows) friendsOfFriends:\(forYouInfo.friendsOfFriends) fromYourChannels:\(forYouInfo.fromYourChannels) curatedByMammoth:\(forYouInfo.curatedByMammoth)")
 
         // Update the UI

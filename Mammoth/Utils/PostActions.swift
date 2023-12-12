@@ -753,8 +753,7 @@ extension PostActions {
     static func onPostPress(target: UIViewController, postCard: PostCardModel) {
         triggerHapticImpact(style: .light)
         
-        guard case .mastodon(let status) = postCard.data
-        else { return }
+        guard case .mastodon(_) = postCard.data else { return }
         
         let vc = DetailViewController(post: postCard)
         if vc.isBeingPresented {} else {
