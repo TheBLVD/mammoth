@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import Combine
 
 class PostCardHeader: UIView {
     
@@ -123,20 +124,32 @@ class PostCardHeader: UIView {
     private var followButton: FollowButton?
     
     private var status: Status?
+    private var postCard: PostCardModel?
     private var type: PostCardHeaderTypes = .regular
     public var onPress: PostCardButtonCallback?
     
+    private let runLoop = RunLoop.main
+    private var subscription: Cancellable?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupUI()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.stopTimeUpdates), name: UIApplication.didEnterBackgroundNotification, object: nil)
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        self.stopTimeUpdates()
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     func prepareForReuse() {
         self.status = nil
+        self.postCard = nil
         self.onPress = nil
         self.profilePic?.prepareForReuse()
         self.titleLabel.text = nil
@@ -159,6 +172,7 @@ class PostCardHeader: UIView {
         }
         
         setupUIFromSettings()
+        self.stopTimeUpdates()
     }
 }
 
@@ -210,6 +224,8 @@ private extension PostCardHeader {
 // MARK: - Configuration
 extension PostCardHeader {
     func configure(postCard: PostCardModel, headerType: PostCardHeaderTypes = .regular) {
+        self.postCard = postCard
+
         if case .mastodon(let status) = postCard.data {
             self.status = status
         }
@@ -307,6 +323,47 @@ extension PostCardHeader {
     
     func onThemeChange() {
         self.profilePic?.onThemeChange()
+    }
+    
+    
+    func startTimeUpdates() {
+        if let createdAt = self.postCard?.createdAt {
+            var interval: Double = 60*60
+            var delay: Double = 60*15
+            let now = Date()
+            
+            let secondsRange = now.addingTimeInterval(-60)...now
+            let minutesRange = now.addingTimeInterval(-60*60)...now
+            let hoursRange = now.addingTimeInterval(-60*60*24)...now
+            
+            if secondsRange ~= createdAt {
+                interval = 5
+                delay = 8
+            } else if minutesRange ~= createdAt {
+                interval = 30
+                delay = 15
+            } else if hoursRange ~= createdAt {
+                interval = 60*60
+                delay = 60*15
+            }
+            
+            self.subscription = self.runLoop.schedule(
+                after: .init(Date(timeIntervalSinceNow: delay)),
+                interval: .seconds(interval),
+                tolerance: .seconds(1)
+            ) { [weak self] in
+                guard let self else { return }
+                if let status = self.status {
+                    let newTime = PostCardModel.formattedTime(status: status, formatter: GlobalStruct.dateFormatter)
+                    self.postCard?.time = newTime
+                    self.dateLabel.text = newTime
+                }
+            }
+        }
+    }
+    
+    @objc func stopTimeUpdates() {
+        self.subscription?.cancel()
     }
 }
 

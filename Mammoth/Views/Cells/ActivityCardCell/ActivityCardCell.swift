@@ -174,6 +174,8 @@ final class ActivityCardCell: UITableViewCell {
                 self.video?.play()
             }
         }
+        
+        self.header.startTimeUpdates()
     }
     
     // the cell will end being displayed in the tableview
@@ -181,6 +183,8 @@ final class ActivityCardCell: UITableViewCell {
         if let postCard = self.activityCard?.postCard, postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
             self.video?.pause()
         }
+        
+        self.header.stopTimeUpdates()
     }
 }
 

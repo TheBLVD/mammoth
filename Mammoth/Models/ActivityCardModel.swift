@@ -16,10 +16,8 @@ struct ActivityCardModel {
     let notification: Notificationt
     var postCard: PostCardModel?
     let user: UserCardModel
-    
-    var time: String {
-        return Self.formattedTime(notification: notification, formatter: GlobalStruct.dateFormatter)
-    }
+    var createdAt: Date
+    var time: String
     
     // Debug properties
     var batchId: String?
@@ -31,6 +29,8 @@ struct ActivityCardModel {
         self.cursorId = self.id
         self.type = notification.type
         self.notification = notification
+        self.createdAt = notification.createdAt.toDate()
+        self.time = Self.formattedTime(notification: notification, formatter: GlobalStruct.dateFormatter)
         
         if let status = notification.status {
             self.postCard = PostCardModel(status: status)
