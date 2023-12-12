@@ -448,8 +448,8 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 let symbolConfig0 = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)
                 if cell1.pollItem.text != "" && cell2.pollItem.text != "" {
                     self.canAdd = true
-                    self.btn2.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig0)?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
-                    btn2.backgroundColor = .custom.baseTint
+                    self.btn2.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig0)?.withTintColor(UIColor.custom.activeInverted, renderingMode: .alwaysOriginal), for: .normal)
+                    btn2.backgroundColor = .custom.active
                 } else {
                     self.canAdd = false
                     self.btn2.setImage(UIImage(systemName: "checkmark", withConfiguration: symbolConfig0)?.withTintColor(UIColor.secondaryLabel, renderingMode: .alwaysOriginal), for: .normal)
