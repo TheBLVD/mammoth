@@ -284,8 +284,18 @@ extension HomeViewController {
             self.navigationController?.present(vc, animated: true)
         }
         forYou.accessibilityLabel = "Customize For You"
-        
-        return UIMenu(title: "", options: [.displayInline], children: [addList, organize, forYou])
+
+        let settings = UIAction(title: "Settings", image: FontAwesome.image(fromChar: "\u{f013}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
+            guard self != nil else { return }
+            triggerHapticImpact(style: .light)
+            DispatchQueue.main.async {
+                let vc = SettingsViewController()
+                UIApplication.topViewController()?.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+            }
+        }
+        forYou.accessibilityLabel = "Settings"
+
+        return UIMenu(title: "", options: [.displayInline], children: [addList, organize, forYou, settings])
     }
     
     private func jumpToContextMenu() -> UIMenu {
