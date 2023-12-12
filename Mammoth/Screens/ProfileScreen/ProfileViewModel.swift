@@ -95,6 +95,7 @@ final class ProfileViewModel {
             if let account = await AccountService.lookup(fullAcct, serverName: serverName) {
                 let user = UserCardModel(account: account, instanceName: account.server, requestFollowStatusUpdate: .force)
                 await MainActor.run {
+                    user.loadHTMLDescription()
                     self.user = user
                 }
                 
@@ -111,6 +112,7 @@ final class ProfileViewModel {
     init(_ type: ViewTypes = .posts, user: UserCardModel?, screenType: ProfileScreenType = .own) {
         self.type = type
         self.user = user
+        self.user?.loadHTMLDescription()
         self.screenType = (user?.isSelf ?? false) ? .own : screenType
         self.state = .success
         

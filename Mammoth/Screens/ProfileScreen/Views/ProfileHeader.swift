@@ -345,31 +345,39 @@ extension ProfileHeader {
                 descriptionLabel.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 420, constant: -(contentStackView.layoutMargins.left + contentStackView.layoutMargins.right))
             }
             
-            self.descriptionLabel.mentionColor = .custom.highContrast
-            self.descriptionLabel.hashtagColor = .custom.highContrast
-            self.descriptionLabel.URLColor = .custom.highContrast
-            self.descriptionLabel.emailColor = .custom.highContrast
-            self.descriptionLabel.textColor = .custom.highContrast
-            
-            // Post text link handlers
-            self.descriptionLabel.handleURLTap { url in
-                self.onButtonPress?(.link, .url(url))
-            }
-            self.descriptionLabel.handleHashtagTap { hashtag in
-                self.onButtonPress?(.link, .hashtag(hashtag))
-            }
-            self.descriptionLabel.handleMentionTap { mention in
-                if let (range, _, _) = self.descriptionLabel.selectedElement {
-                    if let url = self.user?.richDescription?.attribute(.link, at: range.location, effectiveRange: nil) as? URL {
-                        self.onButtonPress?(.link, .mention("@\(mention)@\(url.host ?? "")"))
-                        return
+            self.descriptionLabel.customize { [weak self] label in
+                guard let self else { return }
+                label.mentionColor = .custom.highContrast
+                label.hashtagColor = .custom.highContrast
+                label.URLColor = .custom.highContrast
+                label.emailColor = .custom.highContrast
+                label.textColor = .custom.highContrast
+                
+                // Post text link handlers
+                label.handleURLTap { [weak self] url in
+                    guard let self else { return }
+                    self.onButtonPress?(.link, .url(url))
+                }
+                label.handleHashtagTap { [weak self] hashtag in
+                    guard let self else { return }
+                    self.onButtonPress?(.link, .hashtag(hashtag))
+                }
+                label.handleMentionTap { [weak self] mention in
+                    guard let self else { return }
+                    if let (range, _, _) = self.descriptionLabel.selectedElement {
+                        if let url = self.user?.richDescription?.attribute(.link, at: range.location, effectiveRange: nil) as? URL {
+                            self.onButtonPress?(.link, .mention("@\(mention)@\(url.host ?? "")"))
+                            return
+                        }
                     }
+                    
+                    self.onButtonPress?(.link, .mention(mention))
+                }
+                label.handleEmailTap { [weak self] email in
+                    guard let self else { return }
+                    self.onButtonPress?(.link, .email(email))
                 }
                 
-                self.onButtonPress?(.link, .mention(mention))
-            }
-            self.descriptionLabel.handleEmailTap { email in
-                self.onButtonPress?(.link, .email(email))
             }
             
         } else {

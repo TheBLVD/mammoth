@@ -67,7 +67,7 @@ class UserCardModel {
         self.account = account
         
         self.richName = NSAttributedString(string: self.name)
-        self.richDescription = NSAttributedString()
+        self.richDescription = nil
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil
         
         self.instanceName = nil
@@ -85,11 +85,6 @@ class UserCardModel {
         
         self.fields = account?.fields
         self.joinedOn = account?.createdAt?.toDate()
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.richDescription = self.description != nil ? parseRichText(text: description) : nil
-        }
     }
     
     init(account: Account, instanceName: String? = nil, requestFollowStatusUpdate: FollowManager.NetworkUpdateType = .none) {
@@ -105,7 +100,7 @@ class UserCardModel {
         self.account = account
         
         self.richName = NSAttributedString(string: self.name)
-        self.richDescription = NSAttributedString()
+        self.richDescription = nil
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil
         
         self.instanceName = instanceName
@@ -123,11 +118,6 @@ class UserCardModel {
         
         self.fields = account.fields
         self.joinedOn = account.createdAt?.toDate()
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            self.richDescription = self.description != nil ? parseRichText(text: account.note) : nil
-        }
     }
     
     // Return an instance without description
@@ -153,6 +143,12 @@ class UserCardModel {
     
     static func isOwn(account: Account) -> Bool {
         return AccountsManager.shared.currentUser()?.fullAcct != nil && AccountsManager.shared.currentUser()?.fullAcct == account.fullAcct
+    }
+    
+    @discardableResult
+    public func loadHTMLDescription() -> NSAttributedString? {
+        self.richDescription = self.description != nil ? parseRichText(text: description) : nil
+        return self.richDescription
     }
     
 }
