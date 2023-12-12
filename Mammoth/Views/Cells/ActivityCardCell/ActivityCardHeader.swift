@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 class ActivityCardHeader: UIView {
     
@@ -72,13 +73,21 @@ class ActivityCardHeader: UIView {
     private var activity: ActivityCardModel?
     public var onPress: PostCardButtonCallback?
     
+    private var subscription: Cancellable?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupUI()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.stopTimeUpdates), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        self.stopTimeUpdates()
+        NotificationCenter.default.removeObserver(self)
     }
     
     func prepareForReuse() {
@@ -93,6 +102,7 @@ class ActivityCardHeader: UIView {
             self.pinIcon.removeFromSuperview()
         }
         setupUIFromSettings()
+        self.stopTimeUpdates()
     }
 }
 
@@ -179,6 +189,46 @@ extension ActivityCardHeader {
     }
     
     func onThemeChange() {}
+    
+    func startTimeUpdates() {
+        if let createdAt = self.activity?.postCard?.createdAt {
+            var interval: Double = 60*60
+            var delay: Double = 60*15
+            let now = Date()
+            
+            let secondsRange = now.addingTimeInterval(-60)...now
+            let minutesRange = now.addingTimeInterval(-60*60)...now
+            let hoursRange = now.addingTimeInterval(-60*60*24)...now
+            
+            if secondsRange ~= createdAt {
+                interval = 5
+                delay = 8
+            } else if minutesRange ~= createdAt {
+                interval = 30
+                delay = 15
+            } else if hoursRange ~= createdAt {
+                interval = 60*60
+                delay = 60*15
+            }
+            
+            self.subscription = RunLoop.main.schedule(
+                after: .init(Date(timeIntervalSinceNow: delay)),
+                interval: .seconds(interval),
+                tolerance: .seconds(1)
+            ) { [weak self] in
+                guard let self else { return }
+                if let notification = self.activity?.notification {
+                    let newTime = ActivityCardModel.formattedTime(notification: notification, formatter: GlobalStruct.dateFormatter)
+                    self.activity?.time = newTime
+                    self.dateLabel.text = newTime
+                }
+            }
+        }
+    }
+    
+    @objc func stopTimeUpdates() {
+        self.subscription?.cancel()
+    }
 }
 
 // MARK: - Handlers

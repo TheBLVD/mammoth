@@ -168,19 +168,23 @@ final class ActivityCardCell: UITableViewCell {
     }
     
     /// the cell will be displayed in the tableview
-    public func display() {
+    public func willDisplay() {
         if let postCard = self.activityCard?.postCard, postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
             if GlobalStruct.autoPlayVideos {
                 self.video?.play()
             }
         }
+        
+        self.header.startTimeUpdates()
     }
     
     // the cell will end being displayed in the tableview
-    public func endDisplay() {
+    public func didEndDisplay() {
         if let postCard = self.activityCard?.postCard, postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
             self.video?.pause()
         }
+        
+        self.header.stopTimeUpdates()
     }
 }
 

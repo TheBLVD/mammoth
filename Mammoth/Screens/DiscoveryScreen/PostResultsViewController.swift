@@ -164,13 +164,13 @@ private extension PostResultsViewController {
 extension PostResultsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? PostCardCell {
-            cell.display()
+            cell.willDisplay()
         }
     }
     
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let cell = cell as? PostCardCell {
-            cell.endDisplay()
+            cell.didEndDisplay()
         }
     }
     

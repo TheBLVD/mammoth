@@ -695,7 +695,7 @@ extension PostCardCell {
     }
     
     /// the cell will be displayed in the tableview
-    public func display() {
+    public func willDisplay() {
         if let postCard = self.postCard, postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
             if GlobalStruct.autoPlayVideos {
                 self.video?.play()
@@ -705,13 +705,17 @@ extension PostCardCell {
         if let postCard = self.postCard, postCard.hasQuotePost {
             postCard.preloadQuotePost()
         }
+        
+        self.header.startTimeUpdates()
     }
     
     // the cell will end being displayed in the tableview
-    public func endDisplay() {
+    public func didEndDisplay() {
         if let postCard = self.postCard, postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
             self.video?.pause()
         }
+        
+        self.header.stopTimeUpdates()
     }
     
     @objc private func onTextLongPress(recognizer: UIGestureRecognizer) {

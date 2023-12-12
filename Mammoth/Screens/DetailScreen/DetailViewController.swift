@@ -180,6 +180,18 @@ class DetailViewController: UIViewController {
 
 // MARK: UITableViewDataSource & UITableViewDelegate
 extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? PostCardCell {
+            cell.willDisplay()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? PostCardCell {
+            cell.didEndDisplay()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfItems(forSection: section)
     }
@@ -232,6 +244,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                         }
                     }
                 }
+                
                 return cell
             }
             
@@ -263,6 +276,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                         self.viewModel.post.videoPlayer?.pause()
                     }
                 }
+                
                 return cell
             }
         default:

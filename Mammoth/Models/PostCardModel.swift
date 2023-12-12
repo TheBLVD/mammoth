@@ -225,17 +225,9 @@ final class PostCardModel {
             return false
         }
     }
-    
-    var time: String {
-        switch data {
-        case .mastodon(let status):
-            return PostCardModel.formattedTime(status: status, formatter: GlobalStruct.dateFormatter)
-            
-        case .bluesky(let postVM):
-            return postVM.post.record.createdAt.toStringWithRelativeTime()
-        }
-    }
-    
+
+    var time: String
+        
     var source: String {
         var sourceDescription = ""
         if let statusSource, statusSource.count > 0 {
@@ -278,6 +270,8 @@ final class PostCardModel {
         self.url = status.reblog?.url ?? status.url
         self.uri = status.reblog?.uri ?? status.uri
         self.createdAt = (status.reblog?.createdAt ?? status.createdAt).toDate()
+        self.time = PostCardModel.formattedTime(status: status, formatter: GlobalStruct.dateFormatter)
+            
         self.emojis = status.reblog?.emojis ?? status.emojis
         
         // Username formatting
@@ -455,6 +449,8 @@ final class PostCardModel {
         self.url = nil
         self.uri = nil
         self.createdAt = Date()
+        self.time = postVM.post.record.createdAt.toStringWithRelativeTime()
+        
         self.emojis = nil
         
         // Username formatting

@@ -476,9 +476,9 @@ extension NewsFeedViewController {
         }
         
         if let cell = cell as? PostCardCell {
-            cell.display()
+            cell.willDisplay()
         } else if let cell = cell as? ActivityCardCell {
-            cell.display()
+            cell.willDisplay()
         }
         
         if self.viewModel.getUnreadEnabled(forFeed: self.viewModel.type) {
@@ -502,9 +502,9 @@ extension NewsFeedViewController {
         self.viewModel.cancelItemSync(forIndexPath: indexPath)
         
         if let cell = cell as? PostCardCell {
-            cell.endDisplay()
+            cell.didEndDisplay()
         } else if let cell = cell as? ActivityCardCell {
-            cell.endDisplay()
+            cell.didEndDisplay()
         }
     }
     
