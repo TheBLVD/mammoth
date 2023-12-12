@@ -133,7 +133,6 @@ class PostCardHeader: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setupUI()
-        NotificationCenter.default.addObserver(self, selector: #selector(self.stopTimeUpdates), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -168,8 +167,14 @@ class PostCardHeader: UIView {
             headerMainTitleStackView.removeArrangedSubview(followButton)
             followButton.removeFromSuperview()
         }
+    }
+    
+    func setupUIFromSettings() {
+        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
+        userTagLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        dateLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
         
-        setupUIFromSettings()
+        self.onThemeChange()
     }
 }
 

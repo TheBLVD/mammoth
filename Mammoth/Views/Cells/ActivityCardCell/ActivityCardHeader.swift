@@ -101,7 +101,6 @@ class ActivityCardHeader: UIView {
             self.rightAttributesStack.removeArrangedSubview(self.pinIcon)
             self.pinIcon.removeFromSuperview()
         }
-        self.stopTimeUpdates()
     }
     
     func setupUIFromSettings() {
