@@ -96,6 +96,8 @@ class PostCardHeader: UIView {
         let label = UILabel()
         label.textColor = .custom.displayNames
         label.numberOfLines = 1
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
         return label
     }()
     
@@ -106,18 +108,24 @@ class PostCardHeader: UIView {
         imageView.contentMode = .right
         imageView.image = icon
         imageView.tintColor = .custom.feintContrast
+        imageView.isOpaque = true
+        imageView.backgroundColor = .custom.background
         return imageView
     }()
 
     private let userTagLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.custom.feintContrast
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
         return label
     }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.custom.feintContrast
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
         return label
     }()
     
@@ -185,6 +193,7 @@ class PostCardHeader: UIView {
 private extension PostCardHeader {
     func setupUI() {
         self.isOpaque = true
+        self.backgroundColor = UIColor.custom.background
         self.addSubview(mainStackView)
                 
         NSLayoutConstraint.activate([

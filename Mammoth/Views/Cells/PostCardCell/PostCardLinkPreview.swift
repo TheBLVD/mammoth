@@ -27,7 +27,6 @@ class PostCardLinkPreview: UIView {
         stackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
         stackView.layer.masksToBounds = true
         stackView.layer.cornerRadius = 6
-        stackView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         return stackView
     }()
@@ -38,7 +37,6 @@ class PostCardLinkPreview: UIView {
         stackView.alignment = .top
         stackView.distribution = .fill
         stackView.spacing = 0.0
-        stackView.clipsToBounds = true
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -57,10 +55,10 @@ class PostCardLinkPreview: UIView {
     
     private var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .custom.quoteTint
         imageView.contentMode = .scaleAspectFill
         imageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         imageView.backgroundColor = .custom.background
+        imageView.isOpaque = true
         return imageView
     }()
     private var imageHeightConstraint: NSLayoutConstraint? = nil

@@ -46,6 +46,8 @@ class ActivityCardHeader: UIView {
         let label = UILabel()
         label.textColor = UIColor.label
         label.numberOfLines = 1
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
         return label
     }()
     
@@ -55,18 +57,24 @@ class ActivityCardHeader: UIView {
         let icon = UIImage(systemName: "pin.fill", withConfiguration: config)?.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
         imageView.contentMode = .right
         imageView.image = icon
+        imageView.isOpaque = true
+        imageView.backgroundColor = .custom.background
         return imageView
     }()
 
     private let actionLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.custom.feintContrast
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
         return label
     }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.custom.feintContrast
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
         return label
     }()
     

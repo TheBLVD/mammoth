@@ -237,6 +237,9 @@ fileprivate class PostCardPollOption: UIStackView {
         label.textAlignment = .right
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
+        
         return label
     }()
     

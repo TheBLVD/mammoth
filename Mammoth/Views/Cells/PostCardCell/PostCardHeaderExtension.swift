@@ -26,6 +26,8 @@ class PostCardHeaderExtension: UIView {
         let label = UILabel()
         label.textColor = .custom.feintContrast
         label.numberOfLines = 1
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
         return label
     }()
     

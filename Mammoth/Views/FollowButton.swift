@@ -66,13 +66,17 @@ final class FollowButton: UIButton {
     
     func setupUI(type: ButtonType) {
         self.layer.cornerRadius = type.cornerRadius
-        self.clipsToBounds = true
         self.layer.cornerCurve = .continuous
+        self.layer.isOpaque = true
+        self.layer.backgroundColor = UIColor.custom.followButtonBG.cgColor
+        self.isOpaque = true
         self.backgroundColor = .custom.followButtonBG
         self.setTitleColor(.custom.active, for: .normal)
         self.contentEdgeInsets = UIEdgeInsets(top: 4.5, left: 11, bottom: 3.5, right: 11)
         self.titleLabel?.font = UIFont.systemFont(ofSize: type.fontSize, weight: .semibold)
         self.setTitle(self.user.followStatus?.title, for: .normal)
+        self.titleLabel?.isOpaque = true
+        self.titleLabel?.backgroundColor = .custom.followButtonBG
         
         self.setContentCompressionResistancePriority(.required, for: .horizontal)
         self.setContentHuggingPriority(.defaultHigh, for: .horizontal)
