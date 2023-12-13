@@ -69,6 +69,7 @@ class SetupProfileController: UIViewController {
         // Give these a chance to preload
         SetupChannelsViewModel.preload()
         SetupAccountsViewModel.preload()
+        SetupMammothViewModel.preload()
     }
 
     

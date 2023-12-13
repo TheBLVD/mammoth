@@ -82,6 +82,7 @@ class AppCoordinator {
         // Give these a chance to preload
         SetupChannelsViewModel.preload()
         SetupAccountsViewModel.preload()
+        SetupMammothViewModel.preload()
         // Show the first onboarding screen
         let setupChannelsNavVC = UINavigationController(rootViewController: SetupChannelsViewController())
         if isOverlay {

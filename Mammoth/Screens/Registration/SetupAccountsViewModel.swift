@@ -138,6 +138,15 @@ extension SetupAccountsViewModel {
                         return nil
                     }
                 }
+                
+                // We used to include mammoth@moth.social in the list, but not anymore.
+                // If it's in this category, and it's the only one, go ahead
+                // and just skip this category altogether.
+                if accounts.count == 1, accounts[0] == mammothAccount {
+                    log.debug("skipping category with just the mammoth@moth.social account")
+                    continue
+                }
+                
                 let userCards = accounts.map({ account in
                     UserCardModel.fromAccount(account: account, instanceName: GlobalHostServer())
                 })
@@ -158,14 +167,7 @@ extension SetupAccountsViewModel {
                 newListHeaders.append(categoryFromServer.name)
                 newListData.append(userCards)
             }
-            
-            if let mammothAccount {
-                await MainActor.run {
-                    // Subscribe to @Mammoth if present
-                    FollowManager.shared.followAccount(mammothAccount)
-                }
-            }
-            
+                        
             let newHeaders = newListHeaders
             let newData = newListData
             await MainActor.run {
