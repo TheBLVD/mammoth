@@ -345,7 +345,7 @@ class NewsFeedViewModel {
     internal var scrollPositions = NewsFeedScrollPositions()
     internal var unreadCounts = NewsFeedUnreadStates()
 
-    internal var savingQueue = DispatchQueue(label: "NewsFeedViewModel Saving", qos: .utility)
+    internal let savingQueue = DispatchQueue(label: "NewsFeedViewModel Saving", qos: .utility)
 
     public weak var delegate: NewsFeedViewModelDelegate?
     public var type: NewsFeedTypes

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
 final class PostCardProfilePic: UIButton {
     
@@ -29,8 +30,8 @@ final class PostCardProfilePic: UIButton {
             return width() // height == width
         }
         
-        func cornerRadius() -> CGFloat {
-            if GlobalStruct.circleProfiles {
+        func cornerRadius(isCircle: Bool = GlobalStruct.circleProfiles) -> CGFloat {
+            if isCircle {
                 return width() / 2
             } else {
                 switch self {
@@ -47,25 +48,25 @@ final class PostCardProfilePic: UIButton {
     
     // MARK: - Properties
     
-    private(set) var profileImageView: UIImageView = {
-        let imageView = UIImageView()
+    private(set) var profileImageView: SDAnimatedImageView = {
+        let imageView = SDAnimatedImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
         imageView.image = UIImage()
-        imageView.backgroundColor = .custom.OVRLYSoftContrast
-        imageView.layer.masksToBounds = true
+        imageView.isOpaque = true
+        imageView.backgroundColor = .custom.background
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
+        imageView.layer.isOpaque = true
+        imageView.layer.backgroundColor = UIColor.custom.background.cgColor
         return imageView
     }()
     
     private lazy var badge: BlurredBackground = {
         let view = BlurredBackground()
         view.layer.cornerRadius = 11
-        view.clipsToBounds = true
+        view.layer.cornerCurve = .continuous
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = false
-        view.isHidden = true
         return view
     }()
     
@@ -104,14 +105,14 @@ final class PostCardProfilePic: UIButton {
 // MARK: - Setup UI
 private extension PostCardProfilePic {
     func setupUI() {
+        self.isOpaque = true
+        self.backgroundColor = .custom.background
         self.addSubview(profileImageView)
         self.translatesAutoresizingMaskIntoConstraints = false
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.profileTapped))
         self.profileImageView.addGestureRecognizer(tapGesture)
-        
-        self.profileImageView.layer.cornerRadius = self.size.cornerRadius()
-        
+                
         let widthImageC = profileImageView.widthAnchor.constraint(equalToConstant: self.size.width())
         widthImageC.priority = .required
         
@@ -152,18 +153,30 @@ extension PostCardProfilePic {
         self.user = user
         
         if let profileStr = user.imageURL, let profileURL = URL(string: profileStr) {
-            let scale = UIScreen.main.scale
-            let thumbnailSize = CGSize(width: self.size.width() * scale, height: self.size.width() * scale)
-            // If the image is already in the sd cache, it will be set immediately
-            // by calling sd_setImage. If there, use it as the placeholder.
-            // (prevents flashing if the image is unchanged, and reloaded in place,
-            // as is done in the Settings > Appearance view)
-            let placeholderView =  UIImageView()
-            placeholderView.sd_setImage(with: profileURL)
-            let placeholderImage = placeholderView.image ?? self.profileImageView.image
-            
-            self.profileImageView.sd_setImage(with: profileURL, placeholderImage: placeholderImage, context: [.imageThumbnailPixelSize: thumbnailSize])
+            if let cachedImage = SDImageCache.shared.imageFromCache(forKey: "\(profileURL.absoluteString)&width=\(self.size.width())") {
+                self.profileImageView.image = cachedImage
+            } else {
+                let scale = UIScreen.main.scale
+                let thumbnailSize = CGSize(width: self.size.width() * scale, height: self.size.width() * scale)
+                
+                self.profileImageView.sd_setImage(with: profileURL, placeholderImage: nil, context: [.imageThumbnailPixelSize: thumbnailSize], progress: nil) { [weak self] image, _, _, _ in
+                    guard let self else { return }
+                    if let image {
+                        if GlobalStruct.circleProfiles {
+                            let roundedImage = image.roundedCornerImage(with: image.size.width / 2.0)
+                            self.profileImageView.image = roundedImage
+                            SDImageCache.shared.store(roundedImage, forKey: "\(profileURL.absoluteString)&width=\(self.size.width())")
+                        } else {
+                            let roundedImage = image.roundedCornerImage(with: self.size.cornerRadius(isCircle: false) * scale)
+                            self.profileImageView.image = roundedImage
+                            SDImageCache.shared.store(roundedImage, forKey: "\(profileURL.absoluteString)&width=\(self.size.width())")
+                        }
+                    }
+                }
+            }
         }
+        
+        self.profileImageView.autoPlayAnimatedImage = !UIAccessibility.isReduceMotionEnabled
         
         if let badgeIcon {
             self.badgeIconView.image = badgeIcon
@@ -174,12 +187,13 @@ extension PostCardProfilePic {
     }
     
     func optimisticUpdate(image: UIImage) {
-        self.profileImageView.image = image
+        self.profileImageView.image = image.roundedCornerImage(with: self.size.cornerRadius() * 2)
     }
     
     func onThemeChange() {
-        self.profileImageView.backgroundColor = .custom.OVRLYSoftContrast
-        self.profileImageView.layer.cornerRadius = self.size.cornerRadius()
+        if let user = self.user {
+            self.configure(user: user)
+        }
     }
     
     @objc func profileTapped() {

@@ -12,6 +12,8 @@ import AVFoundation
 
 final class PostCardModel {
     
+    public static let imageDecodeQueue = DispatchQueue(label: "Decode images queue", qos: .default)
+    
     enum Data {
        case mastodon(Status)
        case bluesky(BlueskyPostViewModel)
@@ -668,15 +670,40 @@ extension PostCardModel {
     }
     
     func preloadImages() {
-        let urls = self.preloadedImageURLs
-            .filter({ !SDImageCache.shared.diskImageDataExists(withKey: $0) })
-            .compactMap({URL(string: $0)})
-        
-        if !urls.isEmpty {
-            DispatchQueue.global(qos: .default).async {
-                SDWebImagePrefetcher.shared.prefetchURLs(urls, progress: nil, completed: nil)
+        Self.imageDecodeQueue.async {
+            let scale = UIScreen.main.scale
+            
+            // Download, decode and resize profile pic
+            if let profilePicURLString = self.user?.imageURL,
+                !SDImageCache.shared.diskImageDataExists(withKey: profilePicURLString),
+                let profilePicURL = URL(string: profilePicURLString) {
+                let thumbnailSize = CGSize(width: PostCardProfilePic.ProfilePicSize.regular.width() * scale, height: PostCardProfilePic.ProfilePicSize.regular.width() * scale)
+                
+                SDWebImagePrefetcher.shared.prefetchURLs([profilePicURL], context: [
+                    .imageThumbnailPixelSize: thumbnailSize,
+                ], progress: nil) {_,_ in 
+                    if let cachedImage = SDImageCache.shared.imageFromCache(forKey: profilePicURLString) {
+                        if GlobalStruct.circleProfiles {
+                            let roundedImage = cachedImage.roundedCornerImage(with: cachedImage.size.width / 2.0)
+                            SDImageCache.shared.store(roundedImage, forKey: "\(profilePicURLString)&width=\(PostCardProfilePic.ProfilePicSize.regular.width())")
+                        } else {
+                            let roundedImage = cachedImage.roundedCornerImage(with: PostCardProfilePic.ProfilePicSize.regular.cornerRadius(isCircle: false) * scale)
+                            SDImageCache.shared.store(roundedImage, forKey: "\(profilePicURLString)&width=\(PostCardProfilePic.ProfilePicSize.regular.width())")
+                        }
+                    }
+                }
             }
         }
+        
+//        let urls = self.preloadedImageURLs
+//            .filter({ !SDImageCache.shared.diskImageDataExists(withKey: $0) })
+//            .compactMap({URL(string: $0)})
+//        
+//        if !urls.isEmpty {
+//            DispatchQueue.global(qos: .default).async {
+//                SDWebImagePrefetcher.shared.prefetchURLs(urls, progress: nil, completed: nil)
+//            }
+//        }
     }
     
     func preloadVideo() {

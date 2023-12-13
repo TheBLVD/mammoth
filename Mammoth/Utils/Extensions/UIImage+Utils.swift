@@ -53,3 +53,30 @@ extension UIImage {
         return imageWithOffset
     }
 }
+
+// Rounded corners
+extension UIImage {
+    func roundedCornerImage(with radius: CGFloat) -> UIImage {
+        let format = UIGraphicsImageRendererFormat()
+        format.scale = scale
+        let renderer = UIGraphicsImageRenderer(size: size, format: format)
+        return renderer.image { rendererContext in
+            let rect = CGRect(origin: .zero, size: size)
+            let path = UIBezierPath(roundedRect: rect,
+                                    byRoundingCorners: .allCorners,
+                                    cornerRadii: CGSize(width: radius, height: radius))
+            path.close()
+            
+
+            let cgContext = rendererContext.cgContext
+            cgContext.saveGState()
+            path.addClip()
+            
+            cgContext.setFillColor(UIColor.custom.background.cgColor)
+            cgContext.fill(rect)
+            
+            draw(in: rect)
+            cgContext.restoreGState()
+        }
+    }
+}
