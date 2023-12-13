@@ -40,6 +40,8 @@ final class PostCardMetadata: UIView {
         label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
         label.textColor = UIColor.custom.feintContrast
         label.isUserInteractionEnabled = true
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
         return label
     }
     
@@ -89,6 +91,7 @@ final class PostCardMetadata: UIView {
     private func setupUI() {
         self.addSubview(mainStackView)
         self.layoutMargins = .zero
+        
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),

@@ -32,6 +32,8 @@ class LoadMoreCell: UITableViewCell {
         titleLabel.numberOfLines = 1
         titleLabel.textAlignment = .center
         titleLabel.textColor = .custom.mediumContrast
+        titleLabel.isOpaque = true
+        titleLabel.backgroundColor = .custom.background
         bgView.addSubview(titleLabel)
         
         self.configure()

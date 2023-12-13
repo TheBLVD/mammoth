@@ -170,6 +170,7 @@ final class PostCardCell: UITableViewCell {
         label.emailColor = .custom.highContrast
         label.linkWeight = .semibold
         label.isOpaque = true
+        label.backgroundColor = .custom.background
         label.urlMaximumLength = 30
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -478,8 +479,7 @@ extension PostCardCell {
             }
         }
         
-        self.postTextLabel.customize { [weak self] label in
-            guard let self else { return }
+        self.postTextLabel.customize { label in
             if case .mastodon(let status) = postCard.data,
                let postText = postCard.richPostText {
                 
