@@ -36,18 +36,12 @@ struct InstanceCardModel {
 // MARK: - Preload
 extension InstanceCardModel {
     func preloadImages() {
-        
-        let arrayOfURLS = [
-            // Prefetch the profile picture
-            self.imageURL,
-        ]
-        .filter({ !SDImageCache.shared.diskImageDataExists(withKey: $0) })
-        .compactMap({URL(string: $0 ?? "")})
-        
-        if !arrayOfURLS.isEmpty {
-            DispatchQueue.global(qos: .default).async {
-                SDWebImagePrefetcher.shared.prefetchURLs(arrayOfURLS, progress: nil, completed: nil)
-            }
+        if let imageURLString = self.imageURL,
+           !SDImageCache.shared.diskImageDataExists(withKey: imageURLString),
+           let imageURL = URL(string: imageURLString) {
+            
+            let prefetcher = SDWebImagePrefetcher.shared
+            prefetcher.prefetchURLs([imageURL], context: [.imageTransformer: PostCardProfilePic.transformer], progress: nil)
         }
     }
 }

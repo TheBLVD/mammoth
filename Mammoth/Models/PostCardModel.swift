@@ -97,6 +97,8 @@ final class PostCardModel {
     let formattedCardUrlStr: String?
     var statusSource: [StatusSource]?
     
+    var decodedImages: [String: UIImage?] = [:]
+    
     enum FilterType {
         case warn(String)
         case hide(String)
@@ -668,42 +670,31 @@ extension PostCardModel {
             !self.hideLinkImage ? self.linkCard?.image?.absoluteString : nil
         ].compactMap({$0})
     }
+
+    // Download, transform and cache post images
+    func preloadPostImages() {
+        let firstImageAttached = self.mediaAttachments.compactMap({ attachment in
+            if [.image, .gifv, .video].contains(where: {$0 == attachment.type}),
+                let url = attachment.previewURL {
+                return url
+            }
+            return nil
+        }).first
+        
+        if let firstImage = firstImageAttached,
+           !SDImageCache.shared.diskImageDataExists(withKey: firstImage),
+           let imageURL = URL(string: firstImage) {
+
+            let prefetcher = SDWebImagePrefetcher.shared
+            prefetcher.prefetchURLs([imageURL, !self.hideLinkImage ? self.linkCard?.image : nil].compactMap({$0}),
+                                    options: .scaleDownLargeImages,
+                                    context: [.imageTransformer: PostCardImage.transformer], progress: nil)
+        }
+    }
     
     func preloadImages() {
-        Self.imageDecodeQueue.async {
-            let scale = UIScreen.main.scale
-            
-            // Download, decode and resize profile pic
-            if let profilePicURLString = self.user?.imageURL,
-                !SDImageCache.shared.diskImageDataExists(withKey: profilePicURLString),
-                let profilePicURL = URL(string: profilePicURLString) {
-                let thumbnailSize = CGSize(width: PostCardProfilePic.ProfilePicSize.regular.width() * scale, height: PostCardProfilePic.ProfilePicSize.regular.width() * scale)
-                
-                SDWebImagePrefetcher.shared.prefetchURLs([profilePicURL], context: [
-                    .imageThumbnailPixelSize: thumbnailSize,
-                ], progress: nil) {_,_ in 
-                    if let cachedImage = SDImageCache.shared.imageFromCache(forKey: profilePicURLString) {
-                        if GlobalStruct.circleProfiles {
-                            let roundedImage = cachedImage.roundedCornerImage(with: cachedImage.size.width / 2.0)
-                            SDImageCache.shared.store(roundedImage, forKey: "\(profilePicURLString)&width=\(PostCardProfilePic.ProfilePicSize.regular.width())")
-                        } else {
-                            let roundedImage = cachedImage.roundedCornerImage(with: PostCardProfilePic.ProfilePicSize.regular.cornerRadius(isCircle: false) * scale)
-                            SDImageCache.shared.store(roundedImage, forKey: "\(profilePicURLString)&width=\(PostCardProfilePic.ProfilePicSize.regular.width())")
-                        }
-                    }
-                }
-            }
-        }
-        
-//        let urls = self.preloadedImageURLs
-//            .filter({ !SDImageCache.shared.diskImageDataExists(withKey: $0) })
-//            .compactMap({URL(string: $0)})
-//        
-//        if !urls.isEmpty {
-//            DispatchQueue.global(qos: .default).async {
-//                SDWebImagePrefetcher.shared.prefetchURLs(urls, progress: nil, completed: nil)
-//            }
-//        }
+        self.user?.preloadImages()
+        self.preloadPostImages()
     }
     
     func preloadVideo() {
@@ -761,6 +752,9 @@ extension PostCardModel {
         self.preloadedImageURLs.forEach({
             SDImageCache.shared.removeImageFromMemory(forKey: $0)
         })
+        
+        self.decodedImages = [:]
+        self.user?.clearCache()
     }
 }
 

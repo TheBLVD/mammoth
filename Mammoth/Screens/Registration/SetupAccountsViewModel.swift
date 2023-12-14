@@ -141,9 +141,12 @@ extension SetupAccountsViewModel {
                 let userCards = accounts.map({ account in
                     UserCardModel.fromAccount(account: account, instanceName: GlobalHostServer())
                 })
-                userCards.forEach({
-                    $0.preloadImages()
-                })
+                
+                PostCardModel.imageDecodeQueue.async {
+                    userCards.forEach({
+                        $0.preloadImages()
+                    })
+                }
                 
                 // Prefetch follow status for the first 20 items
                 if userCards.count > 0 {

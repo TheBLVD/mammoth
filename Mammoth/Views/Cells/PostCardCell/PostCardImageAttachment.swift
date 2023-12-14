@@ -179,7 +179,7 @@ extension PostCardImageAttachment {
                                       attachment.type == .audio
                 // For every image, assure some alt text, even if a placeholder
                 let desc = attachment.description ?? ""
-                let model = PostCardImageCollectionCellModel(altText: desc, mediaAttachment: attachment, isSensitive: isSensitive, usesMediaPlayer: usesMediaPlayer)
+                let model = PostCardImageCollectionCellModel(altText: desc, mediaAttachment: attachment, isSensitive: isSensitive, usesMediaPlayer: usesMediaPlayer, postCard: postCard)
                 collectionCellModels.append(model)
             }
         }

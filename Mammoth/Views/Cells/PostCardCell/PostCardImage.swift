@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class PostCardImage: UIView {
+    
+    static var transformer: SDImageTransformer {
+        return ScaleDownTransformer()
+    }
     
     private var imageView: UIImageView = {
         let imageView = UIImageView()
@@ -147,7 +152,20 @@ final class PostCardImage: UIView {
         if let media = postCard.mediaAttachments.first {
             self.media = media
             if let previewURL = media.previewURL, let imageURL = URL(string: previewURL) {
-                self.imageView.sd_setImage(with: imageURL, placeholderImage: nil)
+                if let cachedImage = postCard.decodedImages[previewURL] {
+                    self.imageView.image = cachedImage
+                } else {
+                    self.imageView.sd_setImage(
+                        with: imageURL,
+                        placeholderImage: nil,
+                        context: [.imageTransformer: PostCardImage.transformer],
+                        progress: nil
+                    ) { image, error, _, _ in
+                            if let image {
+                                postCard.decodedImages[previewURL] = image
+                            }
+                    }
+                }
             }
             
             // the aspect value might be nil

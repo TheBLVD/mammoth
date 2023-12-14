@@ -480,7 +480,10 @@ extension ProfileViewModel {
                         // Preload quote posts
                         postsToPreload.forEach({
                             $0.preloadQuotePost()
-                            $0.preloadImages()
+                            let image = $0
+                            PostCardModel.imageDecodeQueue.async {
+                                image.preloadImages()
+                            }
                         })
                     }
                 } else {
@@ -541,11 +544,17 @@ extension ProfileViewModel {
                     // Preload quote posts
                     pinnedPostCards.forEach({
                         $0.preloadQuotePost()
-                        $0.preloadImages()
+                        let image = $0
+                        PostCardModel.imageDecodeQueue.async {
+                            image.preloadImages()
+                        }
                     })
                     mainPostCards.forEach({
                         $0.preloadQuotePost()
-                        $0.preloadImages()
+                        let image = $0
+                        PostCardModel.imageDecodeQueue.async {
+                            image.preloadImages()
+                        }
                     })
                 }
             }
@@ -569,7 +578,9 @@ extension ProfileViewModel {
                         card.preloadQuotePost()
                     }
                     
-                    card.preloadImages()
+                    PostCardModel.imageDecodeQueue.async {
+                        card.preloadImages()
+                    }
                     
                     if card.mediaDisplayType == .singleVideo {
                         card.preloadVideo()
@@ -583,7 +594,9 @@ extension ProfileViewModel {
                         card.preloadQuotePost()
                     }
                     
-                    card.preloadImages()
+                    PostCardModel.imageDecodeQueue.async {
+                        card.preloadImages()
+                    }
                     
                     if card.mediaDisplayType == .singleVideo {
                         card.preloadVideo()

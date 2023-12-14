@@ -46,10 +46,22 @@ final class PostCardProfilePic: UIButton {
         }
     }
     
+    static var transformer: SDImagePipelineTransformer {
+        let scale = UIScreen.main.scale
+        let thumbnailSize = CGSize(width: PostCardProfilePic.ProfilePicSize.regular.width() * scale, height: PostCardProfilePic.ProfilePicSize.regular.width() * scale)
+        let resizeTransformer = SDImageResizingTransformer(size: thumbnailSize, scaleMode: .aspectFit)
+        let roundTransformer = SDImageRoundCornerTransformer(
+            radius: GlobalStruct.circleProfiles ? .greatestFiniteMagnitude : PostCardProfilePic.ProfilePicSize.regular.cornerRadius(isCircle: false),
+            corners: .allCorners,
+            borderWidth: 0,
+            borderColor: nil)
+        return SDImagePipelineTransformer(transformers: [resizeTransformer, roundTransformer])
+    }
+    
     // MARK: - Properties
     
-    private(set) var profileImageView: SDAnimatedImageView = {
-        let imageView = SDAnimatedImageView()
+    private(set) var profileImageView: UIImageView = {
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage()
         imageView.isOpaque = true
@@ -64,6 +76,7 @@ final class PostCardProfilePic: UIButton {
     private lazy var badge: BlurredBackground = {
         let view = BlurredBackground()
         view.layer.cornerRadius = 11
+        view.clipsToBounds = true
         view.layer.cornerCurve = .continuous
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = false
@@ -136,8 +149,8 @@ private extension PostCardProfilePic {
         NSLayoutConstraint.activate([
             self.badge.widthAnchor.constraint(equalToConstant: 22),
             self.badge.heightAnchor.constraint(equalToConstant: 22),
-            self.badge.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0),
-            self.badge.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+            self.badge.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: -6),
+            self.badge.topAnchor.constraint(equalTo: self.topAnchor, constant: -6),
             
             self.badgeIconView.widthAnchor.constraint(equalToConstant: 10),
             self.badgeIconView.heightAnchor.constraint(equalToConstant: 10),
@@ -153,31 +166,23 @@ extension PostCardProfilePic {
         self.user = user
         
         if let profileStr = user.imageURL, let profileURL = URL(string: profileStr) {
-            if let cachedImage = SDImageCache.shared.imageFromCache(forKey: "\(profileURL.absoluteString)&width=\(self.size.width())") {
+            if let cachedImage = self.user?.decodedProfilePic {
                 self.profileImageView.image = cachedImage
             } else {
-                let scale = UIScreen.main.scale
-                let thumbnailSize = CGSize(width: self.size.width() * scale, height: self.size.width() * scale)
-                
-                self.profileImageView.sd_setImage(with: profileURL, placeholderImage: nil, context: [.imageThumbnailPixelSize: thumbnailSize], progress: nil) { [weak self] image, _, _, _ in
-                    guard let self else { return }
-                    if let image {
-                        if GlobalStruct.circleProfiles {
-                            let roundedImage = image.roundedCornerImage(with: image.size.width / 2.0)
-                            self.profileImageView.image = roundedImage
-                            SDImageCache.shared.store(roundedImage, forKey: "\(profileURL.absoluteString)&width=\(self.size.width())")
-                        } else {
-                            let roundedImage = image.roundedCornerImage(with: self.size.cornerRadius(isCircle: false) * scale)
-                            self.profileImageView.image = roundedImage
-                            SDImageCache.shared.store(roundedImage, forKey: "\(profileURL.absoluteString)&width=\(self.size.width())")
+                self.profileImageView.sd_setImage(
+                    with: profileURL,
+                    placeholderImage: nil,
+                    context: [.imageTransformer: PostCardProfilePic.transformer],
+                    progress: nil
+                ) { [weak self] image, error, _, finished in
+                        guard let self else { return }
+                        if let image {
+                            self.user?.decodedProfilePic = image
                         }
-                    }
                 }
             }
         }
-        
-        self.profileImageView.autoPlayAnimatedImage = !UIAccessibility.isReduceMotionEnabled
-        
+                
         if let badgeIcon {
             self.badgeIconView.image = badgeIcon
             self.badge.isHidden = false

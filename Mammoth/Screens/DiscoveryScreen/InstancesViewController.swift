@@ -8,7 +8,7 @@
 
 import UIKit
 
-class InstancesViewController: UIViewController {
+class InstancesViewController: UIViewController, UITableViewDataSourcePrefetching {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -16,6 +16,7 @@ class InstancesViewController: UIViewController {
         tableView.register(NoResultsCell.self, forCellReuseIdentifier: NoResultsCell.reuseIdentifier)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.prefetchDataSource = self
         tableView.backgroundColor = .custom.background
         tableView.separatorInset = .zero
         tableView.layoutMargins = .zero
@@ -115,6 +116,10 @@ extension InstancesViewController: UITableViewDataSource & UITableViewDelegate {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        viewModel.preloadCards(atIndexPaths: indexPaths)
     }
     
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		144173572B21E0480058AFCC /* TutorialOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144173562B21E0480058AFCC /* TutorialOverlay.swift */; };
 		1441735A2B21E4490058AFCC /* TextBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144173592B21E4490058AFCC /* TextBubbleView.swift */; };
+		1441736D2B2B1FDA0058AFCC /* SDImageTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */; };
 		144DC6C32B14AA7300F4EE98 /* UpgradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C22B14AA7300F4EE98 /* UpgradeCell.swift */; };
 		144DC6C52B14E1D200F4EE98 /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C42B14E1D200F4EE98 /* GradientLabel.swift */; };
 		144DC6C72B14E20200F4EE98 /* GradientBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C62B14E20200F4EE98 /* GradientBorderView.swift */; };
@@ -805,6 +806,7 @@
 /* Begin PBXFileReference section */
 		144173562B21E0480058AFCC /* TutorialOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialOverlay.swift; sourceTree = "<group>"; };
 		144173592B21E4490058AFCC /* TextBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBubbleView.swift; sourceTree = "<group>"; };
+		1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDImageTransformers.swift; sourceTree = "<group>"; };
 		144DC6C22B14AA7300F4EE98 /* UpgradeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeCell.swift; sourceTree = "<group>"; };
 		144DC6C42B14E1D200F4EE98 /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
 		144DC6C62B14E20200F4EE98 /* GradientBorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBorderView.swift; sourceTree = "<group>"; };
@@ -2768,6 +2770,7 @@
 				C3C22E792A39FE0000C7CB0A /* UserActions.swift */,
 				BF3841F22AD6F39A005C3995 /* EmailHandler.swift */,
 				14E08C692B20BF9C00EF5A55 /* DeviceHelpers.swift */,
+				1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -3593,6 +3596,7 @@
 				53399A77291526B900560F83 /* Request.swift in Sources */,
 				53450E7A2936127C00D720EA /* DateFormatterTransform.swift in Sources */,
 				538E230229CC5815002675EB /* AccountsManager.swift in Sources */,
+				1441736D2B2B1FDA0058AFCC /* SDImageTransformers.swift in Sources */,
 				53B1585E293F66D20026E90B /* DecryptNotification.swift in Sources */,
 				5383F236298015B5005F1B20 /* SAConfettiView.swift in Sources */,
 				53399A75291526B900560F83 /* Pagination.swift in Sources */,
