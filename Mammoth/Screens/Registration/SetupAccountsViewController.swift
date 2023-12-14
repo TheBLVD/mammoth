@@ -99,6 +99,9 @@ class SetupAccountsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        let doneButtonTitle = SetupMammothViewModel.shared.shouldShow() ? "Next" : "Done"
+        doneButton.setTitle(doneButtonTitle, for: .normal)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
