@@ -37,6 +37,7 @@ class PostCardLinkPreview: UIView {
         stackView.alignment = .top
         stackView.distribution = .fill
         stackView.spacing = 0.0
+        stackView.clipsToBounds = true
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
