@@ -1,14 +1,14 @@
 //
-//  SetupAccountsViewController.swift
+//  SetupMammothViewController.swift
 //  Mammoth
 //
-//  Created by Riley Howard on 10/9/23.
+//  Created by Riley Howard on 10/13/23.
 //  Copyright © 2023 The BLVD. All rights reserved.
 //
 
 import UIKit
 
-class SetupAccountsViewController: UIViewController {
+class SetupMammothViewController: UIViewController {
 
     private lazy var navHeader: UIView = {
         let navHeader = UIView()
@@ -44,10 +44,19 @@ class SetupAccountsViewController: UIViewController {
         return loader;
     }()
 
+    private lazy var noThanksButton: UIButton = {
+        let noThanksButton = UIButton()
+        noThanksButton.translatesAutoresizingMaskIntoConstraints = false
+        noThanksButton.setTitle("No thanks", for: .normal)
+        noThanksButton.backgroundColor = .clear
+        noThanksButton.setTitleColor(.custom.mediumContrast, for: .normal)
+        return noThanksButton
+    }()
+
     private lazy var doneButton: UIButton = {
         let doneButton = UIButton()
         doneButton.translatesAutoresizingMaskIntoConstraints = false
-        doneButton.setTitle("Next", for: .normal)
+        doneButton.setTitle("Follow Mammoth", for: .normal)
         doneButton.backgroundColor = .custom.OVRLYMedContrast
         doneButton.setTitleColor(.custom.highContrast, for: .normal)
         doneButton.layer.cornerRadius = 8
@@ -61,8 +70,8 @@ class SetupAccountsViewController: UIViewController {
         return doneButtonBackground
     }()
 
-    private var viewModel = SetupAccountsViewModel.shared
-
+    private var viewModel = SetupMammothViewModel.shared
+    
     required init() {
         super.init(nibName: nil, bundle: nil)
         self.isModalInPresentation = true
@@ -74,7 +83,6 @@ class SetupAccountsViewController: UIViewController {
     }
     
     deinit {
-        self.viewModel.cancelAllItemSyncs()
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -99,15 +107,11 @@ class SetupAccountsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
-        
-        let doneButtonTitle = SetupMammothViewModel.shared.shouldShow() ? "Next" : "Done"
-        doneButton.setTitle(doneButtonTitle, for: .normal)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
-        self.viewModel.cancelAllItemSyncs()
     }
 
     @objc private func onThemeChange() {
@@ -116,7 +120,7 @@ class SetupAccountsViewController: UIViewController {
 }
 
 // MARK: UI Setup
-private extension SetupAccountsViewController {
+private extension SetupMammothViewController {
     func setupUI() {
         if UIDevice.current.userInterfaceIdiom == .phone {
             self.view.layoutMargins = .init(top: 0, left: 0, bottom: 0, right: 0)
@@ -131,8 +135,12 @@ private extension SetupAccountsViewController {
             navHeader.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         ])
 
-        doneButton.addTarget(self, action: #selector(self.doneTapped), for: .touchUpInside)
+        doneButton.addTarget(self, action: #selector(self.followMammothTapped), for: .touchUpInside)
         doneButtonBackground.addSubview(doneButton)
+        
+        noThanksButton.addTarget(self, action: #selector(self.noThanksTapped), for: .touchUpInside)
+        doneButtonBackground.addSubview(noThanksButton)
+
         view.addSubview(doneButtonBackground)
         NSLayoutConstraint.activate([
             doneButtonBackground.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
@@ -141,11 +149,17 @@ private extension SetupAccountsViewController {
 
             doneButton.leadingAnchor.constraint(equalTo: doneButtonBackground.leadingAnchor, constant: 13),
             doneButton.trailingAnchor.constraint(equalTo: doneButtonBackground.trailingAnchor, constant: -13),
-            doneButton.topAnchor.constraint(equalTo: doneButtonBackground.topAnchor, constant: 13),
             doneButton.bottomAnchor.constraint(equalTo: self.view.layoutMarginsGuide.bottomAnchor),
             doneButton.heightAnchor.constraint(equalToConstant: 50),
+
+            noThanksButton.leadingAnchor.constraint(equalTo: doneButtonBackground.leadingAnchor, constant: 13),
+            noThanksButton.trailingAnchor.constraint(equalTo: doneButtonBackground.trailingAnchor, constant: -13),
+            noThanksButton.bottomAnchor.constraint(equalTo: doneButton.topAnchor, constant: -1),
+            noThanksButton.heightAnchor.constraint(equalToConstant: 50),
+
+            noThanksButton.topAnchor.constraint(equalTo: doneButtonBackground.topAnchor, constant: 13),
         ])
-        
+                
         view.addSubview(tableView)
         view.addSubview(loader)
         
@@ -165,15 +179,7 @@ private extension SetupAccountsViewController {
 }
 
 // MARK: UITableViewDataSource & UITableViewDelegate
-extension SetupAccountsViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        self.viewModel.requestItemSync(forIndexPath: indexPath, afterSeconds: 1)
-    }
-    
-    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        self.viewModel.cancelItemSync(forIndexPath: indexPath)
-    }
-    
+extension SetupMammothViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfItems(forSection: section)
     }
@@ -193,13 +199,13 @@ extension SetupAccountsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = self.tableView.dequeueReusableCell(withIdentifier: SetupInstructionsCell.reuseIdentifier) as! SetupInstructionsCell
-            cell.configure(title: "Follow suggestions for you", instructions: "The more people you follow the better our recommendations will get. You can see more recommendations later in the Discover tab.")
+            cell.configure(title: "Find out what's coming next", instructions: "Have a feature you want to see? Want to know what we’re working on next? Or just have a question? Follow us!")
             return cell
         } else {
             if let userCard = viewModel.getInfo(forIndexPath: indexPath) {
                 userCard.forceFollowButtonDisplay = true
                 let cell = self.tableView.dequeueReusableCell(withIdentifier: UserCardCell.reuseIdentifier, for: indexPath) as! UserCardCell
-                cell.configure(info: userCard, actionButtonType: .follow) { [weak self] (type, isActive, data) in
+                cell.configure(info: userCard, actionButtonType: .none) { [weak self] (type, isActive, data) in
                     guard let self else { return }
                     if type == .profile {
                         displayUserProfile(user: userCard)
@@ -242,7 +248,7 @@ extension SetupAccountsViewController: UITableViewDataSource, UITableViewDelegat
 }
 
 // MARK: RequestDelegate
-extension SetupAccountsViewController: RequestDelegate {
+extension SetupMammothViewController: RequestDelegate {
     func didUpdate(with state: ViewState) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
@@ -263,7 +269,7 @@ extension SetupAccountsViewController: RequestDelegate {
             case .error(let error):
                 self.loader.stopAnimating()
                 self.loader.isHidden = true
-                log.error("Error on SetupAccountsViewController didUpdate: \(state) - \(error)")
+                log.error("Error on SetupMammothViewController didUpdate: \(state) - \(error)")
                 break
             }
         }
@@ -278,18 +284,21 @@ extension SetupAccountsViewController: RequestDelegate {
     }
 }
 
-extension SetupAccountsViewController {
-    @objc func doneTapped() {
-        if SetupMammothViewModel.shared.shouldShow() {
-            // Go to the next screen
-            let vc = SetupMammothViewController()
-            self.navigationController?.pushViewController(vc, animated: true)
-        } else {
-            // All done
-            // Clear out the onboarding flag
-            AccountsManager.shared.didShowOnboardingForCurrentAccount()
-            // Exit the signup flow
-            NotificationCenter.default.post(name: shouldChangeRootViewController, object: nil)
-        }
+extension SetupMammothViewController {
+    
+    @objc func noThanksTapped() {
+        goToNextPane()
+    }
+    
+    @objc func followMammothTapped() {
+        self.viewModel.followMammothAccount()
+        goToNextPane()
+    }
+    
+    private func goToNextPane() {
+        // Clear out the onboarding flag
+        AccountsManager.shared.didShowOnboardingForCurrentAccount()
+        // Exit the signup flow
+        NotificationCenter.default.post(name: shouldChangeRootViewController, object: nil)
     }
 }

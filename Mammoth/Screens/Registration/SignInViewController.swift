@@ -629,6 +629,12 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
                             alert.dismiss(animated: false)
                             // User is successfullly signed in. Present them with the
                             // option to subscribe to a smart list.
+
+                            // Give these a chance to preload
+                            SetupChannelsViewModel.preload()
+                            SetupAccountsViewModel.preload()
+                            SetupMammothViewModel.preload()
+
                             let vc = SetupChannelsViewController()
                             self.navigationController?.pushViewController(vc, animated: true)
                         } else {
