@@ -763,8 +763,7 @@ extension PostCardModel {
     }
     
     func clearCache() {
-        self.videoPlayer?.pause()
-        self.videoPlayer = nil
+        self.cancelAllPreloadTasks()
         self.preloadedImageURLs.forEach({
             SDImageCache.shared.removeImageFromMemory(forKey: $0)
         })
