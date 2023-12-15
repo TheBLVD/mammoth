@@ -161,21 +161,6 @@ class PostCardHeader: UIView {
         self.userTagLabel.text = nil
         self.dateLabel.text = nil
         
-        if self.rightAttributesStack.contains(self.pinIcon) {
-            self.rightAttributesStack.removeArrangedSubview(self.pinIcon)
-            self.pinIcon.removeFromSuperview()
-        }
-        
-        if let profilePic = self.profilePic {
-            headerTitleStackView.removeArrangedSubview(profilePic)
-            profilePic.removeFromSuperview()
-        }
-        
-        if let followButton = self.followButton, headerMainTitleStackView.arrangedSubviews.contains(followButton) {
-            headerMainTitleStackView.removeArrangedSubview(followButton)
-            followButton.removeFromSuperview()
-        }
-        
         self.stopTimeUpdates()
     }
     
@@ -206,6 +191,7 @@ private extension PostCardHeader {
         mainStackView.addArrangedSubview(headerTitleStackView)
         mainStackView.addArrangedSubview(rightAttributesStack)
         
+        rightAttributesStack.insertArrangedSubview(pinIcon, at: 0)
         rightAttributesStack.addArrangedSubview(dateLabel)
         
         titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
@@ -216,7 +202,14 @@ private extension PostCardHeader {
         rightAttributesStack.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         headerMainTitleStackView.addArrangedSubview(titleLabel)
-
+        
+        self.followButton = FollowButton()
+        headerMainTitleStackView.addArrangedSubview(followButton!)
+        
+        self.profilePic = PostCardProfilePic(withSize: .small)
+        self.profilePic!.addTarget(self, action: #selector(profileTapped), for: .touchUpInside)
+        headerTitleStackView.insertArrangedSubview(self.profilePic!, at: 0)
+        
         headerTitleStackView.addArrangedSubview(headerMainTitleStackView)
         headerTitleStackView.addArrangedSubview(userTagLabel)
         
@@ -262,38 +255,20 @@ extension PostCardHeader {
         
         if headerType.hasFollowButton(postCard: postCard) {
             if let user = postCard.user {
-                if self.followButton == nil {
-                    self.followButton = FollowButton(user: user)
-                } else {
-                    self.followButton?.user = user
-                }
-            }
-            
-            if let followButton = self.followButton {
-                if !headerMainTitleStackView.arrangedSubviews.contains(followButton) {
-                    headerMainTitleStackView.addArrangedSubview(followButton)
-                }
+                self.followButton?.user = user
+                self.followButton?.isHidden = false
+            } else {
+                self.followButton?.isHidden = true
             }
         } else {
-            if let followButton = self.followButton {
-                if headerMainTitleStackView.arrangedSubviews.contains(followButton) {
-                    headerMainTitleStackView.removeArrangedSubview(followButton)
-                    followButton.removeFromSuperview()
-                }
-            }
+            self.followButton?.isHidden = true
         }
 
         if headerType == .quotePost, let user = postCard.user {
-            if self.profilePic == nil {
-                self.profilePic = PostCardProfilePic(withSize: .small)
-                self.profilePic!.addTarget(self, action: #selector(profileTapped), for: .touchUpInside)
-            }
-
             self.profilePic!.configure(user: user)
-            headerTitleStackView.insertArrangedSubview(self.profilePic!, at: 0)
+            self.profilePic!.isHidden = false
         } else if let profilePic = self.profilePic, headerTitleStackView.arrangedSubviews.contains(profilePic) {
-            headerTitleStackView.removeArrangedSubview(profilePic)
-            profilePic.removeFromSuperview()
+            self.profilePic!.isHidden = true
         }
         
         if GlobalStruct.displayName == .usertagOnly {
@@ -324,7 +299,9 @@ extension PostCardHeader {
         }
         
         if postCard.isPinned {
-            self.rightAttributesStack.insertArrangedSubview(self.pinIcon, at: 0)
+            self.pinIcon.isHidden = false
+        } else {
+            self.pinIcon.isHidden = true
         }
     }
     

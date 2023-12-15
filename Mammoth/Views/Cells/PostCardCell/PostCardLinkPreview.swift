@@ -106,10 +106,7 @@ class PostCardLinkPreview: UIView {
     
     func prepareForReuse() {
         self.status = nil
-        self.imageStack.removeArrangedSubview(self.imageView)
         self.imageView.image = nil
-        self.imageView.removeFromSuperview()
-        self.imageHeightConstraint?.isActive = false
         self.onPress = nil
     }
     
@@ -130,6 +127,11 @@ private extension PostCardLinkPreview {
         mainStackView.addArrangedSubview(textStack)
         textStack.addArrangedSubview(self.urlLabel)
         textStack.addArrangedSubview(self.titleLabel)
+        
+        imageStack.addArrangedSubview(self.imageView)
+        imageHeightConstraint = imageHeightConstraint ?? self.imageView.heightAnchor.constraint(equalToConstant: PostCardLinkPreview.largeImageHeight)
+        imageHeightConstraint?.priority = .defaultHigh
+        imageHeightConstraint?.isActive = true
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
@@ -175,17 +177,15 @@ extension PostCardLinkPreview {
         
         // Display the link image if needed
         if !postCard.hideLinkImage, let imageURL = postCard.linkCard?.image {
-            
             self.imageView.ma_setImage(with: imageURL,
                                               cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
                                               imageTransformer: PostCardImage.transformer) { image in
                 postCard.decodedImages[imageURL.absoluteString] = image
             }
-  
-            imageStack.addArrangedSubview(self.imageView)
-            imageHeightConstraint = imageHeightConstraint ?? self.imageView.heightAnchor.constraint(equalToConstant: PostCardLinkPreview.largeImageHeight)
-            imageHeightConstraint?.priority = .defaultHigh
-            imageHeightConstraint?.isActive = true
+            
+            self.imageView.isHidden = false
+        } else {
+            self.imageView.isHidden = true
         }
     }
     

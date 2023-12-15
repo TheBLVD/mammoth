@@ -9,7 +9,31 @@
 import UIKit
 
 final class PostCardCell: UITableViewCell {
-    static let reuseIdentifier = "PostCardCell"
+    static func reuseIdentifier(for variant: PostCardVariant) -> String {
+        switch variant {
+        case .textOnly: return "PostCardCellTextOnly"
+        case .textAndMedia: return "PostCardCellTextAndMedia"
+        case .mediaOnly: return "PostCardCellMediaOnly"
+        }
+    }
+    
+    static func reuseIdentifier(for postCard: PostCardModel) -> String {
+        if let variant = Self.PostCardVariant.cellVariant(for: postCard) {
+            return self.reuseIdentifier(for: variant)
+        }
+        
+        // Fallback to text-only
+        return self.reuseIdentifier(for: .textOnly)
+    }
+    
+    static func variant(for reusableIdentifier: String) -> PostCardVariant {
+        switch reusableIdentifier {
+        case "PostCardCellTextOnly": return .textOnly
+        case "PostCardCellTextAndMedia": return .textAndMedia
+        case "PostCardCellMediaOnly": return .mediaOnly
+        default: return .textOnly
+        }
+    }
     
     enum PostCardCellType {
         case regular    // regular post cell
@@ -80,6 +104,22 @@ final class PostCardCell: UITableViewCell {
         }
     }
     
+    enum PostCardVariant {
+        case textOnly
+        case textAndMedia
+        case mediaOnly
+
+        static func cellVariant(for postCard: PostCardModel) -> Self? {
+            let hasText = !postCard.postText.isEmpty
+            
+            if postCard.containsPoll || postCard.hasQuotePost || postCard.hasLink || postCard.hasMediaAttachment {
+                return hasText ? .textAndMedia : .mediaOnly
+            }
+            
+            return .textOnly
+        }
+    }
+    
     // MARK: - Properties
     
     // Includes the header extension and the rest of the cell
@@ -114,6 +154,7 @@ final class PostCardCell: UITableViewCell {
         stackView.distribution = .fill
         stackView.spacing = 2
         stackView.isOpaque = true
+        stackView.layoutMargins = .zero
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.preservesSuperviewLayoutMargins = false
         return stackView
@@ -186,6 +227,7 @@ final class PostCardCell: UITableViewCell {
         stackView.distribution = .fill
         stackView.spacing = 0.0
         stackView.layoutMargins = .zero
+        stackView.preservesSuperviewLayoutMargins = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -214,6 +256,14 @@ final class PostCardCell: UITableViewCell {
     private var onButtonPress: PostCardButtonCallback?
     private var headerExtension: PostCardHeaderExtension?
     private var metadata: PostCardMetadata?
+    
+    private var cellVariant: PostCardVariant {
+        if let reuseIdentifier = self.reuseIdentifier {
+            return Self.variant(for: reuseIdentifier)
+        }
+        
+        return .textOnly
+    }
     
     private let parentThread: UIView = {
         let view = UIView()
@@ -263,7 +313,7 @@ final class PostCardCell: UITableViewCell {
         self.postCard = nil
         self.profilePic.prepareForReuse()
         self.footer.onButtonPress = nil
-        self.separatorInset = .zero
+//        self.separatorInset = .zero
         
         self.contentWarningButton.isHidden = true
         self.contentWarningButton.isUserInteractionEnabled = false
@@ -277,62 +327,13 @@ final class PostCardCell: UITableViewCell {
         self.parentThread.isHidden = true
         self.childThread.isHidden = true
         
-        if let gesture = self.textLongPressGesture {
-            self.postTextLabel.removeGestureRecognizer(gesture)
-        }
-        
         self.metadata?.prepareForReuse()
         
-        if let image = self.image, self.mediaContainer.arrangedSubviews.contains(image) {
-            self.image?.prepareForReuse()
-            self.imageTrailingConstraint?.isActive = false
-            self.imageTrailingConstraint = nil
-            self.mediaContainer.removeArrangedSubview(image)
-            image.removeFromSuperview()
-            self.image = nil
-        }
-        
-        if let video = self.video, self.mediaContainer.arrangedSubviews.contains(video) {
-            self.video?.prepareForReuse()
-            self.videoTrailingConstraint?.isActive = false
-            self.videoTrailingConstraint = nil
-            self.mediaContainer.removeArrangedSubview(video)
-            video.removeFromSuperview()
-            self.video = nil
-        }
-        
-        if let imageAttachment = self.imageAttachment, self.mediaContainer.arrangedSubviews.contains(imageAttachment) {
-            self.imageAttachmentTrailingConstraint?.isActive = false
-            self.mediaContainer.removeArrangedSubview(imageAttachment)
-            imageAttachment.removeFromSuperview()
-        }
-        
-        if let linkPreview = self.linkPreview, self.mediaContainer.arrangedSubviews.contains(linkPreview) {
-            self.linkPreviewTrailingConstraint?.isActive = false
-            self.mediaContainer.removeArrangedSubview(linkPreview)
-            linkPreview.removeFromSuperview()
-            linkPreview.prepareForReuse()
-        }
-        
-        if let poll = self.poll, self.mediaContainer.arrangedSubviews.contains(poll) {
-            self.pollTrailingConstraint?.isActive = false
-            self.mediaContainer.removeArrangedSubview(poll)
-            poll.removeFromSuperview()
-            poll.prepareForReuse()
-        }
-        
-        if let quotePost = self.quotePost, self.mediaContainer.arrangedSubviews.contains(quotePost) {
-            self.quotePostTrailingConstraint?.isActive = false
-            self.mediaContainer.removeArrangedSubview(quotePost)
-            quotePost.removeFromSuperview()
-            quotePost.prepareForReuse()
-        }
-        
-        if let headerExtension = self.headerExtension, self.wrapperStackView.arrangedSubviews.contains(headerExtension) {
-            self.wrapperStackView.removeArrangedSubview(headerExtension)
-            headerExtension.removeFromSuperview()
-            headerExtension.prepareForReuse()
-        }
+//        if let headerExtension = self.headerExtension, self.wrapperStackView.arrangedSubviews.contains(headerExtension) {
+//            self.wrapperStackView.removeArrangedSubview(headerExtension)
+//            headerExtension.removeFromSuperview()
+//            headerExtension.prepareForReuse()
+//        }
     }
 }
 
@@ -347,8 +348,15 @@ private extension PostCardCell {
         self.contentView.isOpaque = true
                 
         contentView.addSubview(wrapperStackView)
+        
+        headerExtension = PostCardHeaderExtension()
+        wrapperStackView.addArrangedSubview(headerExtension!)
         wrapperStackView.addArrangedSubview(mainStackView)
         
+        if self.headerExtension == nil {
+            self.headerExtension = PostCardHeaderExtension()
+        }
+                
         NSLayoutConstraint.activate([
             wrapperStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             wrapperStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
@@ -356,7 +364,7 @@ private extension PostCardCell {
             wrapperStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
             
             // Force main stack view to fill the parent width
-            mainStackView.trailingAnchor.constraint(equalTo: wrapperStackView.trailingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: wrapperStackView.layoutMarginsGuide.trailingAnchor),
         ])
 
         mainStackView.addArrangedSubview(profilePic)
@@ -378,6 +386,61 @@ private extension PostCardCell {
         ])
         
         contentStackView.addArrangedSubview(header)
+        
+        // insert a text label if there's a post text
+        if [.textOnly, .textAndMedia].contains(self.cellVariant) {
+            contentStackView.addArrangedSubview(postTextLabel)
+            
+            // Force post text to fill the parent width
+            self.postTextTrailingConstraint = postTextLabel.trailingAnchor.constraint(equalTo: contentStackView.layoutMarginsGuide.trailingAnchor)
+            postTextTrailingConstraint!.priority = .defaultHigh
+            postTextTrailingConstraint!.isActive = true
+        }
+        
+        if [.textAndMedia, .mediaOnly].contains(self.cellVariant) {
+            // insert a media stack if needed right above the footer
+            contentStackView.addArrangedSubview(mediaContainer)
+            // Force media container to fill the parent width - with max width for big displays
+            self.mediaContainerConstraints = mediaContainer.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 320)
+            
+            // Setup Image
+            self.image = PostCardImage()
+            self.image!.translatesAutoresizingMaskIntoConstraints = false
+            mediaContainer.addArrangedSubview(self.image!)
+            imageTrailingConstraint = imageTrailingConstraint ?? self.image!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+            
+            // Setup Video
+            self.video = PostCardVideo()
+            self.video!.translatesAutoresizingMaskIntoConstraints = false
+            mediaContainer.addArrangedSubview(self.video!)
+            videoTrailingConstraint = videoTrailingConstraint ?? self.video!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+            
+            // Setup Image Carousel
+            self.imageAttachment = PostCardImageAttachment()
+            self.imageAttachment?.translatesAutoresizingMaskIntoConstraints = false
+            mediaContainer.addArrangedSubview(self.imageAttachment!)
+            imageAttachmentTrailingConstraint = imageAttachmentTrailingConstraint ?? self.imageAttachment!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+            
+            // Setup Link Preview
+            self.linkPreview = PostCardLinkPreview()
+            self.linkPreview?.translatesAutoresizingMaskIntoConstraints = false
+            mediaContainer.addArrangedSubview(self.linkPreview!)
+            linkPreviewTrailingConstraint = linkPreviewTrailingConstraint ?? self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+            
+            // Setup Poll
+            self.poll = PostCardPoll()
+            self.poll?.translatesAutoresizingMaskIntoConstraints = false
+            mediaContainer.addArrangedSubview(self.poll!)
+            pollTrailingConstraint = pollTrailingConstraint ?? self.poll!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+            pollTrailingConstraint?.isActive = true
+            
+            // Setup Quote Post
+            self.quotePost = PostCardQuotePost()
+            self.quotePost?.translatesAutoresizingMaskIntoConstraints = false
+            mediaContainer.addArrangedSubview(self.quotePost!)
+            quotePostTrailingConstraint = quotePostTrailingConstraint ?? self.quotePost!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+        }
+        
         contentStackView.addArrangedSubview(footer)
         
         // Make sure the contentWarning covers the post text, image, link (just not the header, footer)
@@ -440,13 +503,11 @@ extension PostCardCell {
         
         // Display header extension (reblogged or hashtagged indicator)
         if ((postCard.isReblogged && type != .detail) || postCard.isHashtagged || postCard.isPrivateMention) && type != .forYou {
-            if self.headerExtension == nil {
-                self.headerExtension = PostCardHeaderExtension()
-            }
-            
             self.headerExtension?.onPress = onButtonPress
             self.headerExtension!.configure(postCard: postCard)
-            self.wrapperStackView.insertArrangedSubview(self.headerExtension!, at: 0)
+            self.headerExtension?.isHidden = false
+        } else {
+            self.headerExtension?.isHidden = true
         }
         
         if let user = postCard.user, !postCard.isDeleted, !postCard.isMuted, !postCard.isBlocked {
@@ -459,152 +520,114 @@ extension PostCardCell {
         self.header.configure(postCard: postCard, headerType: type.headerType)
         self.header.onPress = onButtonPress
         
-        // insert a text label if there's a post text
-        if !postCard.postText.isEmpty {
-            if !contentStackView.arrangedSubviews.contains(postTextLabel) {
-                contentStackView.insertArrangedSubview(postTextLabel, at: 1)
-                
-                // Force post text to fill the parent width
-                self.postTextTrailingConstraint = postTextLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor)
-                postTextTrailingConstraint!.priority = .defaultHigh
-                postTextTrailingConstraint!.isActive = true
-            }
-        } else {
-            if contentStackView.arrangedSubviews.contains(postTextLabel) {
-                contentStackView.removeArrangedSubview(postTextLabel)
-                postTextLabel.removeFromSuperview()
-                if let constraint = self.postTextTrailingConstraint {
-                    postTextLabel.removeConstraint(constraint)
-                }
-            }
-        }
         
-        self.postTextLabel.customize { label in
-            if case .mastodon(let status) = postCard.data,
-               let postText = postCard.richPostText {
+        if [.textOnly, .textAndMedia].contains(self.cellVariant) {
+            self.postTextLabel.customize { [weak self] label in
                 
-                label.attributedText = formatRichText(string: postText, label: label, emojis: status.reblog?.emojis ?? status.emojis)
-            } else {
-                label.text = postCard.postText
-            }
-            label.numberOfLines = type.numberOfLines
-            
-            // Post text link handlers
-            label.handleURLTap { url in
-                onButtonPress(.link, true, .url(url))
-            }
-            label.handleHashtagTap { hashtag in
-                onButtonPress(.link, true, .hashtag(hashtag))
-            }
-            
-            if case .mastodon(let status) = postCard.data {
-                label.handleMentionTap { mention in
-                    onButtonPress(.link, true, .mention((mention, status)))
+                if label.numberOfLines != type.numberOfLines {
+                    label.numberOfLines = type.numberOfLines
                 }
-            }
-        }
-        
-        // insert a media stack if needed right above the footer
-        if postCard.containsPoll || postCard.hasQuotePost || postCard.hasLink || postCard.hasMediaAttachment {
-            if !contentStackView.arrangedSubviews.contains(mediaContainer) {
-                if let footerIndex = contentStackView.arrangedSubviews.firstIndex(of: self.footer) {
-                    contentStackView.insertArrangedSubview(mediaContainer, at: footerIndex)
-                    // Force media container to fill the parent width - with max width for big displays
-                    self.mediaContainerConstraints = mediaContainer.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 320)
+                
+                if case .mastodon(let status) = postCard.data,
+                   let postText = postCard.richPostText {
+                    label.attributedText = formatRichText(string: postText, label: label, emojis: status.reblog?.emojis ?? status.emojis)
+                } else {
+                    label.text = postCard.postText
                 }
-            }
-        } else {
-            if contentStackView.arrangedSubviews.contains(mediaContainer) {
-                contentStackView.removeArrangedSubview(mediaContainer)
-                if let mediaConstraints = self.mediaContainerConstraints {
-                    mediaContainer.removeConstraints(mediaConstraints)
+
+                // Post text link handlers
+                label.handleURLTap { [weak self] url in
+                    self?.onButtonPress?(.link, true, .url(url))
                 }
-                mediaContainer.removeFromSuperview()
+                label.handleHashtagTap { [weak self] hashtag in
+                    self?.onButtonPress?(.link, true, .hashtag(hashtag))
+                }
+                
+                if case .mastodon(let status) = postCard.data {
+                    label.handleMentionTap { [weak self] mention in
+                        self?.onButtonPress?(.link, true, .mention((mention, status)))
+                    }
+                }
             }
         }
         
         // Display poll if needed
         if postCard.containsPoll {
-            if self.poll == nil {
-                self.poll = PostCardPoll()
-            } else {
-                self.poll!.prepareForReuse()
+            self.poll?.prepareForReuse()
+            self.poll?.configure(postCard: postCard)
+            self.poll?.isHidden = false
+            NSLayoutConstraint.activate([self.pollTrailingConstraint!])
+        } else {
+            self.poll?.isHidden = true
+            if let constraint = self.pollTrailingConstraint, constraint.isActive {
+                NSLayoutConstraint.deactivate([constraint])
             }
-
-            self.poll!.configure(postCard: postCard)
-            mediaContainer.addArrangedSubview(self.poll!)
-            pollTrailingConstraint = pollTrailingConstraint ?? self.poll!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
-            pollTrailingConstraint?.isActive = true
         }
 
         // Display the quote post preview if needed
         if postCard.hasQuotePost {
-            if self.quotePost == nil {
-                self.quotePost = PostCardQuotePost()
+            self.quotePost?.configure(postCard: postCard)
+            self.quotePost?.onPress = onButtonPress
+            self.quotePost?.isHidden = false
+            NSLayoutConstraint.activate([self.quotePostTrailingConstraint!])
+        } else {
+            self.quotePost?.isHidden = true
+            if let constraint = self.quotePostTrailingConstraint, constraint.isActive {
+                NSLayoutConstraint.deactivate([constraint])
             }
-
-            self.quotePost!.configure(postCard: postCard)
-            self.quotePost!.onPress = onButtonPress
-
-            mediaContainer.addArrangedSubview(self.quotePost!)
-            quotePostTrailingConstraint = quotePostTrailingConstraint ?? self.quotePost!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
-            quotePostTrailingConstraint?.isActive = true
         }
 
         // Display the link preview if needed
         if postCard.hasLink && !postCard.hasQuotePost {
-            if self.linkPreview == nil {
-                self.linkPreview = PostCardLinkPreview()
+            self.linkPreview?.configure(postCard: postCard)
+            self.linkPreview?.onPress = onButtonPress
+            self.linkPreview?.isHidden = false
+            NSLayoutConstraint.activate([self.linkPreviewTrailingConstraint!])
+        } else {
+            self.linkPreview?.isHidden = true
+            if let constraint = self.linkPreviewTrailingConstraint, constraint.isActive {
+                NSLayoutConstraint.deactivate([constraint])
             }
-
-            self.linkPreview!.configure(postCard: postCard)
-            mediaContainer.addArrangedSubview(self.linkPreview!)
-            linkPreviewTrailingConstraint = linkPreviewTrailingConstraint ?? self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
-            linkPreviewTrailingConstraint?.isActive = true
-
-            self.linkPreview!.onPress = onButtonPress
         }
         
         // Display single image if needed
         if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage {
-            if self.image == nil {
-                self.image = PostCardImage()
-                self.image!.translatesAutoresizingMaskIntoConstraints = false
+            self.image?.configure(postCard: postCard)
+            self.image?.isHidden = false
+            NSLayoutConstraint.activate([self.imageTrailingConstraint!])
+        } else {
+            self.image?.isHidden = true
+            if let constraint = self.imageTrailingConstraint, constraint.isActive {
+                NSLayoutConstraint.deactivate([constraint])
             }
-            
-            self.image!.configure(postCard: postCard)
-            mediaContainer.addArrangedSubview(self.image!)
-            imageTrailingConstraint = imageTrailingConstraint ?? self.image!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
-            imageTrailingConstraint?.isActive = true
         }
         
         // Display single video/gif if needed
         if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo && mediaHasChanged {
-            if self.video == nil {
-                self.video = PostCardVideo()
-                self.video!.translatesAutoresizingMaskIntoConstraints = false
-            }
-            
-            self.video!.configure(postCard: postCard)
+            self.video?.configure(postCard: postCard)
             if type == .detail {
-                self.video!.play()
+                self.video?.play()
             }
             
-            mediaContainer.addArrangedSubview(self.video!)
-            videoTrailingConstraint = videoTrailingConstraint ?? self.video!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
-            videoTrailingConstraint?.isActive = true
+            self.video?.isHidden = false
+            NSLayoutConstraint.activate([self.videoTrailingConstraint!])
+        } else {
+            self.video?.isHidden = true
+            if let constraint = self.videoTrailingConstraint, constraint.isActive {
+                NSLayoutConstraint.deactivate([constraint])
+            }
         }
 
         // Display the image carousel if needed
         if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel {
-            if self.imageAttachment == nil {
-                self.imageAttachment = PostCardImageAttachment()
+            self.imageAttachment?.configure(postCard: postCard)
+            self.imageAttachment?.isHidden = false
+            NSLayoutConstraint.activate([self.imageAttachmentTrailingConstraint!])
+        } else {
+            self.imageAttachment?.isHidden = true
+            if let constraints = self.imageAttachmentTrailingConstraint {
+                NSLayoutConstraint.deactivate([constraints])
             }
-
-            self.imageAttachment!.configure(postCard: postCard)
-            mediaContainer.addArrangedSubview(self.imageAttachment!)
-            imageAttachmentTrailingConstraint = imageAttachmentTrailingConstraint ?? self.imageAttachment!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
-            imageAttachmentTrailingConstraint?.isActive = true
         }
 
         // If we are hiding the link image, move the link view
@@ -697,6 +720,8 @@ extension PostCardCell {
             // make sure the thread lines are behind all the other elements
             mainStackView.sendSubviewToBack(parentThread)
             mainStackView.sendSubviewToBack(childThread)
+        } else if let gesture = self.textLongPressGesture, (self.postTextLabel.gestureRecognizers?.contains(gesture) as? Bool) == true {
+            self.postTextLabel.removeGestureRecognizer(gesture)
         }
         
         // Make sure all views are underneath the contentWarningButton and the deletedWarningButton

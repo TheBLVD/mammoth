@@ -20,7 +20,9 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier)
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textOnly))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly))
         tableView.register(ActivityCardCell.self, forCellReuseIdentifier: ActivityCardCell.reuseIdentifier)
         tableView.register(LoadMoreCell.self, forCellReuseIdentifier: LoadMoreCell.reuseIdentifier)
         tableView.register(ServerUpdatingCell.self, forCellReuseIdentifier: ServerUpdatingCell.reuseIdentifier)
@@ -378,7 +380,8 @@ extension NewsFeedViewController {
             
             switch listItemType {
             case .postCard(let model):
-                if let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier, for: indexPath) as? PostCardCell {
+                
+                if let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: model), for: indexPath) as? PostCardCell {
                     
                     cell.configure(postCard: model, type: viewModel.type.postCardCellType()) { [weak self] (type, isActive, data) in
                         guard let self else { return }
@@ -671,34 +674,38 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .bottom)
 
-            if updateDisplay {
+            if updateDisplay && updateType != .update {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
             
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
                 guard let self else {
-                    if updateDisplay {
+                    if updateDisplay && updateType != .update {
                         CATransaction.commit()
                     }
                     return
                 }
                 
-                if let scrollPosition {
-                    // Forcing a second scrollToPosition call on completion
-                    // makes sure the scroll action happens correcty.
-                    // Keep both of them to make the feed less jumpy on feed updates.
-                    self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
+                if updateType != .update {
+                    if let scrollPosition {
+                        // Forcing a second scrollToPosition call on completion
+                        // makes sure the scroll action happens correcty.
+                        // Keep both of them to make the feed less jumpy on feed updates.
+                        self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
+                    }
                 }
                 
-                if updateDisplay {
+                if updateDisplay && updateType != .update {
                     CATransaction.commit()
                 }
                 onCompleted?()
                 
-                DispatchQueue.main.async {
-                    if let scrollPosition {
-                        self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
+                if updateType != .update {
+                    DispatchQueue.main.async {
+                        if let scrollPosition {
+                            self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
+                        }
                     }
                 }
             }
@@ -1057,7 +1064,7 @@ extension NewsFeedViewController: UIContextMenuInteractionDelegate {
         guard case .postCard(let postCard) = viewModel.getItemForIndexPath(indexPath)
         else { return nil }
         
-        if let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier, for: indexPath) as? PostCardCell {
+        if let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard), for: indexPath) as? PostCardCell {
 
             return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { nil }, actionProvider: { suggestedActions in
                 return cell.createContextMenu(postCard: postCard) { [weak self] type, isActive, data in
