@@ -184,7 +184,7 @@ extension SetupChannelsViewController: UITableViewDataSource & UITableViewDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = self.tableView.dequeueReusableCell(withIdentifier: SetupInstructionsCell.reuseIdentifier) as! SetupInstructionsCell
-            cell.configure(title: "Subscribe to smart lists", instructions: "Follow your favorite topics and see trending posts from accounts hand picked by the community.")
+            cell.configure(title: "Subscribe to\nsmart lists", instructions: "Follow your favorite topics and see trending posts from accounts hand picked by the community.")
             return cell
         } else {
             if let (channel, isSubscribed) = viewModel.getInfo(forIndexPath: indexPath), let channel {

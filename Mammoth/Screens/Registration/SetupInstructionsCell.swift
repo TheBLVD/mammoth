@@ -11,7 +11,7 @@ import UIKit
 class SetupInstructionsCell: UITableViewCell {
     static let reuseIdentifier = "SetupInstructionsCell"
 
-    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var instructionsLabel: UILabel!
 
     override func awakeFromNib() {
@@ -19,16 +19,26 @@ class SetupInstructionsCell: UITableViewCell {
     }
     
     public func configure(title: String, instructions: String) {
-        titleLabel.text = title
-        
+        // For iPad, convert \n -> spaces
+        let cellTitle: String
+        if UIApplication.shared.preferredApplicationWindow?.traitCollection.horizontalSizeClass != .compact {
+            cellTitle = title.components(separatedBy: "\n").joined(separator: " ")
+        } else {
+            cellTitle = title
+        }
+
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 0.75
-        paragraphStyle.lineSpacing = 0
-        paragraphStyle.minimumLineHeight = 60
-        let attributes: [NSAttributedString.Key: Any] = [NSAttributedString.Key.paragraphStyle: paragraphStyle, NSAttributedString.Key.foregroundColor: UIColor.custom.highContrast]
-        let attributedString = NSAttributedString(string: title, attributes: attributes)
-        titleLabel.attributedText = attributedString
+        paragraphStyle.lineHeightMultiple = 0.7
+        let attributes: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.paragraphStyle: paragraphStyle,
+            NSAttributedString.Key.foregroundColor: UIColor.custom.highContrast,
+            NSAttributedString.Key.kern: 0.48,
+        ]
+        let attributedString = NSAttributedString(string: cellTitle, attributes: attributes)
+        titleTextView.attributedText = attributedString
+        titleTextView.font = UIFont(name: "InstrumentSerif-Regular", size: 48)
         
+        titleTextView.backgroundColor = .clear
         instructionsLabel.text = instructions
     }
 }

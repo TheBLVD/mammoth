@@ -1128,7 +1128,7 @@
 		<string>fa-solid-900.ttf</string>
 		<string>custom-icons.ttf</string>
 		<string>fa-regular-400.ttf</string>
-		<string>instrumentserif-regular.ttf</string>
+		<string>InstrumentSerif-Regular.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
