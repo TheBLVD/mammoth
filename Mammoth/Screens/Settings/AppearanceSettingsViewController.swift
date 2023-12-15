@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SDWebImage
 
 class AppearanceSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIColorPickerViewControllerDelegate {
 
@@ -152,7 +153,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         self.tableView.register(TextSizeCell.self, forCellReuseIdentifier: "TextSizeCell")
-        self.tableView.register(PostCardCell.self, forCellReuseIdentifier: "PostCardCell")
+        self.tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier)
         self.tableView.register(SelectionCell.self, forCellReuseIdentifier: "SelectionCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -190,7 +191,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0: // sample post cell
-            let cell = tableView.dequeueReusableCell(withIdentifier: "PostCardCell", for: indexPath) as! PostCardCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier, for: indexPath) as! PostCardCell
             let postCard = PostCardModel(status: sampleStatus)
             cell.configure(postCard: postCard) {type,isActive,data in
                 // Do nothing
@@ -605,14 +606,16 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         if sender.isOn {
             GlobalStruct.circleProfiles = true
             UserDefaults.standard.set(true, forKey: "circleProfiles")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadAll"), object: nil)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "tabBarProfileIcon"), object: nil)
         } else {
             GlobalStruct.circleProfiles = false
             UserDefaults.standard.set(false, forKey: "circleProfiles")
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadAll"), object: nil)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "tabBarProfileIcon"), object: nil)
         }
+        
+        SDImageCache.shared.clearMemory()
+        SDImageCache.shared.clearDisk()
+        
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadAll"), object: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "tabBarProfileIcon"), object: nil)
     }
     
     @objc func switchAutoPlayingVideos(_ sender: UISwitch!) {

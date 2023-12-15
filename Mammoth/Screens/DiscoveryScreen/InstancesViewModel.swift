@@ -38,6 +38,11 @@ class InstancesViewModel {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
+    
+    func preloadCards(atIndexPaths indexPaths: [IndexPath]) {
+        let cards = indexPaths.compactMap({ self.getInfo(forIndexPath: $0) })
+        InstanceCardModel.preload(instanceCards: cards)
+    }
 }
 
 // MARK: - DataSource

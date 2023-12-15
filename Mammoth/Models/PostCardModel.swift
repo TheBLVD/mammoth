@@ -12,6 +12,8 @@ import AVFoundation
 
 final class PostCardModel {
     
+    public static let imageDecodeQueue = DispatchQueue(label: "Decode images queue", qos: .default)
+    
     enum Data {
        case mastodon(Status)
        case bluesky(BlueskyPostViewModel)
@@ -94,6 +96,9 @@ final class PostCardModel {
     let hideLinkImage: Bool
     let formattedCardUrlStr: String?
     var statusSource: [StatusSource]?
+    
+    var imagePrefetchToken: SDWebImagePrefetchToken?
+    var decodedImages: [String: UIImage?] = [:]
     
     enum FilterType {
         case warn(String)
@@ -648,6 +653,19 @@ final class PostCardModel {
 
 // MARK: - Preload
 extension PostCardModel {
+    
+    static func preload(postCards: [PostCardModel]) {
+        postCards.forEach({
+            $0.preloadQuotePost()
+        })
+        
+        PostCardModel.imageDecodeQueue.async {
+            postCards.forEach({
+                $0.preloadImages()
+            })
+        }
+    }
+    
     var preloadedImageURLs: [String] {
         let firstImageAttached = self.mediaAttachments.compactMap({ attachment in
             if [.image, .gifv, .video].contains(where: {$0 == attachment.type}),
@@ -666,17 +684,31 @@ extension PostCardModel {
             !self.hideLinkImage ? self.linkCard?.image?.absoluteString : nil
         ].compactMap({$0})
     }
+
+    // Download, transform and cache post images
+    func preloadPostImages() {
+        let firstImageAttached = self.mediaAttachments.compactMap({ attachment in
+            if [.image, .gifv, .video].contains(where: {$0 == attachment.type}),
+                let url = attachment.previewURL {
+                return url
+            }
+            return nil
+        }).first
+        
+        if let firstImage = firstImageAttached,
+           !SDImageCache.shared.diskImageDataExists(withKey: firstImage),
+           let imageURL = URL(string: firstImage) {
+
+            let prefetcher = SDWebImagePrefetcher.shared
+            self.imagePrefetchToken = prefetcher.prefetchURLs([imageURL, !self.hideLinkImage ? self.linkCard?.image : nil].compactMap({$0}),
+                                    options: .scaleDownLargeImages,
+                                    context: [.imageTransformer: PostCardImage.transformer], progress: nil)
+        }
+    }
     
     func preloadImages() {
-        let urls = self.preloadedImageURLs
-            .filter({ !SDImageCache.shared.diskImageDataExists(withKey: $0) })
-            .compactMap({URL(string: $0)})
-        
-        if !urls.isEmpty {
-            DispatchQueue.global(qos: .default).async {
-                SDWebImagePrefetcher.shared.prefetchURLs(urls, progress: nil, completed: nil)
-            }
-        }
+        self.user?.preloadImages()
+        self.preloadPostImages()
     }
     
     func preloadVideo() {
@@ -723,17 +755,21 @@ extension PostCardModel {
     func cancelAllPreloadTasks() {
         self.videoPlayer?.pause()
         self.videoPlayer = nil
+        self.imagePrefetchToken?.cancel()
+        self.user?.cancelAllPreloadTasks()
         if let task = self.quotePreloadTask, !task.isCancelled {
             task.cancel()
         }
     }
     
     func clearCache() {
-        self.videoPlayer?.pause()
-        self.videoPlayer = nil
+        self.cancelAllPreloadTasks()
         self.preloadedImageURLs.forEach({
             SDImageCache.shared.removeImageFromMemory(forKey: $0)
         })
+        
+        self.decodedImages = [:]
+        self.user?.clearCache()
     }
 }
 

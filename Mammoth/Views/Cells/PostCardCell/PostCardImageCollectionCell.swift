@@ -15,6 +15,7 @@ struct PostCardImageCollectionCellModel {
     var mediaAttachment: Attachment
     var isSensitive: Bool
     var usesMediaPlayer: Bool
+    var postCard: PostCardModel
 }
 
 
@@ -164,7 +165,13 @@ class PostCardImageCollectionCell: UICollectionViewCell {
         self.model = model
         self.imageView.accessibilityLabel = model.altText
         if model.mediaAttachment.previewURL != nil {
-            self.imageView.sd_setImage(with: URL(string: model.mediaAttachment.previewURL!))
+            
+            self.imageView.ma_setImage(with: URL(string: model.mediaAttachment.previewURL!)!,
+                                              cachedImage: model.postCard.decodedImages[model.mediaAttachment.previewURL!] as? UIImage,
+                                              imageTransformer: PostCardImage.transformer) { image in
+                model.postCard.decodedImages[model.mediaAttachment.previewURL!] = image
+            }
+            
         } else {
             self.imageView.image = UIImage(systemName: "waveform.path")
             self.imageView.contentMode = .scaleAspectFit

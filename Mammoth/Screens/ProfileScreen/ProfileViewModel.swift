@@ -477,11 +477,8 @@ extension ProfileViewModel {
 
                         self.state = .success
                         
-                        // Preload quote posts
-                        postsToPreload.forEach({
-                            $0.preloadQuotePost()
-                            $0.preloadImages()
-                        })
+                        // Preload quote posts and images
+                        PostCardModel.preload(postCards: postsToPreload)
                     }
                 } else {
                     await MainActor.run {
@@ -538,15 +535,8 @@ extension ProfileViewModel {
                     
                     self.state = .success
                     
-                    // Preload quote posts
-                    pinnedPostCards.forEach({
-                        $0.preloadQuotePost()
-                        $0.preloadImages()
-                    })
-                    mainPostCards.forEach({
-                        $0.preloadQuotePost()
-                        $0.preloadImages()
-                    })
+                    // Preload quote posts and images
+                    PostCardModel.preload(postCards: pinnedPostCards + mainPostCards)
                 }
             }
             
@@ -569,7 +559,9 @@ extension ProfileViewModel {
                         card.preloadQuotePost()
                     }
                     
-                    card.preloadImages()
+                    PostCardModel.imageDecodeQueue.async {
+                        card.preloadImages()
+                    }
                     
                     if card.mediaDisplayType == .singleVideo {
                         card.preloadVideo()
@@ -583,7 +575,9 @@ extension ProfileViewModel {
                         card.preloadQuotePost()
                     }
                     
-                    card.preloadImages()
+                    PostCardModel.imageDecodeQueue.async {
+                        card.preloadImages()
+                    }
                     
                     if card.mediaDisplayType == .singleVideo {
                         card.preloadVideo()

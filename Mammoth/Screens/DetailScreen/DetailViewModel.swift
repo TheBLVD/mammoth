@@ -250,15 +250,7 @@ extension DetailViewModel {
                     self.listData = ListData(parents: parents, post: self.listData.post, replies: replies)
                     self.isScrollIndicatorDismissed = false
                     
-                    parents?.forEach({
-                        $0.preloadQuotePost()
-                        $0.preloadImages()
-                    })
-    
-                    replies?.forEach({
-                        $0.preloadQuotePost()
-                        $0.preloadImages()
-                    })
+                    PostCardModel.preload(postCards: (parents ?? []) + (replies ?? []))
                 }
                 
                 // Handle results for `fetchSource`

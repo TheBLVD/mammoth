@@ -7,8 +7,17 @@
 //
 
 import UIKit
+import SDWebImage
 
 final class LatestPill: UIButton {
+    
+    static var transformer: SDImageTransformer {
+        let scale = UIScreen.main.scale
+        let thumbnailSize = CGSize(width: Self.picSize * scale, height: Self.picSize * scale)
+        let resizeTransformer = SDImageResizingTransformer(size: thumbnailSize, scaleMode: .aspectFit)
+        return resizeTransformer
+    }
+    
     // MARK: - Properties
     
     private var unreadCount: Int = 0
@@ -63,7 +72,6 @@ final class LatestPill: UIButton {
     private var pic1: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
         imageView.image = UIImage()
         imageView.layer.backgroundColor = UIColor.custom.backgroundTint.cgColor
         imageView.layer.cornerRadius = picSize / 2.0
@@ -76,7 +84,6 @@ final class LatestPill: UIButton {
     private var pic2: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
         imageView.image = UIImage()
         imageView.layer.backgroundColor = UIColor.custom.quoteTint.cgColor
         imageView.layer.cornerRadius = picSize / 2.0
@@ -89,7 +96,6 @@ final class LatestPill: UIButton {
     private var pic3: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
         imageView.image = UIImage()
         imageView.layer.backgroundColor = UIColor.custom.quoteTint.cgColor
         imageView.layer.cornerRadius = picSize / 2.0
@@ -102,7 +108,6 @@ final class LatestPill: UIButton {
     private var pic4: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
         imageView.image = UIImage()
         imageView.backgroundColor = .custom.quoteTint
         imageView.layer.backgroundColor = UIColor.custom.quoteTint.cgColor
@@ -129,7 +134,7 @@ final class LatestPill: UIButton {
     
     private var picBorder1: CALayer = {
         let border = CALayer()
-        border.frame = CGRectMake(-picBorderWidth, -picBorderWidth, picSize+(2*picBorderWidth), picSize + (2*picBorderWidth))
+        border.frame = CGRectMake(0, 0, picSize+(2*picBorderWidth), picSize + (2*picBorderWidth))
         border.backgroundColor = UIColor.custom.quoteTint.cgColor
         border.borderColor = UIColor.custom.quoteTint.cgColor
         border.borderWidth = picBorderWidth
@@ -141,7 +146,7 @@ final class LatestPill: UIButton {
     
     private var picBorder2: CALayer = {
         let border = CALayer()
-        border.frame = CGRectMake(-picBorderWidth, -picBorderWidth, picSize+(2*picBorderWidth), picSize + (2*picBorderWidth))
+        border.frame = CGRectMake(0, 0, picSize+(2*picBorderWidth), picSize + (2*picBorderWidth))
         border.backgroundColor = UIColor.custom.quoteTint.cgColor
         border.borderColor = UIColor.custom.quoteTint.cgColor
         border.borderWidth = picBorderWidth
@@ -153,7 +158,7 @@ final class LatestPill: UIButton {
     
     private var picBorder3: CALayer = {
         let border = CALayer()
-        border.frame = CGRectMake(-picBorderWidth, -picBorderWidth, picSize+(2*picBorderWidth), picSize + (2*picBorderWidth))
+        border.frame = CGRectMake(0, 0, picSize+(2*picBorderWidth), picSize + (2*picBorderWidth))
         border.backgroundColor = UIColor.custom.quoteTint.cgColor
         border.borderColor = UIColor.custom.quoteTint.cgColor
         border.borderWidth = picBorderWidth
@@ -165,7 +170,7 @@ final class LatestPill: UIButton {
     
     private var picBorder4: CALayer = {
         let border = CALayer()
-        border.frame = CGRectMake(-picBorderWidth, -picBorderWidth, picSize+(2*picBorderWidth), picSize + (2*picBorderWidth))
+        border.frame = CGRectMake(0, 0, picSize+(2*picBorderWidth), picSize + (2*picBorderWidth))
         border.backgroundColor = UIColor.custom.quoteTint.cgColor
         border.borderColor = UIColor.custom.quoteTint.cgColor
         border.borderWidth = picBorderWidth
@@ -177,7 +182,7 @@ final class LatestPill: UIButton {
     
     private var arrowBorder: CALayer = {
         let border = CALayer()
-        border.frame = CGRectMake(-picBorderWidth, -picBorderWidth, picSize+(2*picBorderWidth), picSize + (2*picBorderWidth))
+        border.frame = CGRectMake(0, 0, picSize+(2*picBorderWidth), picSize + (2*picBorderWidth))
         border.backgroundColor = UIColor.custom.quoteTint.cgColor
         border.borderColor = UIColor.custom.quoteTint.cgColor
         border.borderWidth = picBorderWidth
@@ -306,8 +311,8 @@ private extension LatestPill {
         ])
 
         NSLayoutConstraint.activate([
-            self.blurEffectView.centerXAnchor.constraint(equalTo: self.mainStackView.centerXAnchor, constant: -Self.picBorderWidth),
-            self.blurEffectView.centerYAnchor.constraint(equalTo: self.mainStackView.centerYAnchor, constant: -Self.picBorderWidth),
+            self.blurEffectView.centerXAnchor.constraint(equalTo: self.mainStackView.centerXAnchor),
+            self.blurEffectView.centerYAnchor.constraint(equalTo: self.mainStackView.centerYAnchor),
             self.blurEffectView.widthAnchor.constraint(equalTo: self.mainStackView.widthAnchor, constant: 8),
             self.blurEffectView.heightAnchor.constraint(equalTo: self.mainStackView.heightAnchor, constant: 8)
         ])
@@ -354,22 +359,38 @@ extension LatestPill {
         self.pic4.sd_cancelCurrentImageLoad()
         
         if picUrls.count > 0 {
-            self.pic1.sd_setImage(with: picUrls[0], placeholderImage: UIImage(named: "missing"))
+            self.pic1.sd_setImage(
+                with: picUrls[0],
+                placeholderImage: UIImage(named: "missing"),
+                context: [.imageTransformer: LatestPill.transformer]
+            )
         } else {
            self.pic1.image = UIImage(named: "missing")
         }
         if picUrls.count > 1 {
-            self.pic2.sd_setImage(with: picUrls[1], placeholderImage: UIImage(named: "missing"))
+            self.pic2.sd_setImage(
+                with: picUrls[1],
+                placeholderImage: UIImage(named: "missing"),
+                context: [.imageTransformer: LatestPill.transformer]
+            )
         } else {
            self.pic2.image = UIImage(named: "missing")
         }
         if picUrls.count > 2 {
-            self.pic3.sd_setImage(with: picUrls[2], placeholderImage: UIImage(named: "missing"))
+            self.pic3.sd_setImage(
+                with: picUrls[2],
+                placeholderImage: UIImage(named: "missing"),
+                context: [.imageTransformer: LatestPill.transformer]
+            )
         } else {
             self.pic3.image = UIImage(named: "missing")
         }
         if picUrls.count > 3 {
-            self.pic4.sd_setImage(with: picUrls[3], placeholderImage: UIImage(named: "missing"))
+            self.pic4.sd_setImage(
+                with: picUrls[3],
+                placeholderImage: UIImage(named: "missing"),
+                context: [.imageTransformer: LatestPill.transformer]
+            )
         } else {
             self.pic4.image = UIImage(named: "missing")
         }

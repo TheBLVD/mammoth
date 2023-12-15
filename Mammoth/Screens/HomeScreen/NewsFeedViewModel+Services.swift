@@ -394,7 +394,7 @@ extension NewsFeedViewModel {
                         
                         if !picUrls.isEmpty {
                             self.setUnreadPics(urls: Array(picUrls[0...min(3, picUrls.count-1)]), forFeed: feedType)
-                            SDWebImagePrefetcher.shared.prefetchURLs(picUrls, progress: nil, completed: nil)
+                            SDWebImagePrefetcher.shared.prefetchURLs(picUrls, context: [.imageTransformer: LatestPill.transformer], progress: nil)
                         }
                         
                         if newUniqueItems.count >= self.newestSectionLength {
@@ -516,7 +516,23 @@ extension NewsFeedViewModel {
                     postCard.preloadVideo()
                 }
                 
-                postCard.preloadImages()
+                PostCardModel.imageDecodeQueue.async {
+                    postCard.preloadImages()
+                }
+            }
+            
+            if case .activity(let activity) = self.dataSource?.itemIdentifier(for: $0) {
+                if activity.postCard?.quotePostStatus == .loading {
+                    activity.postCard?.preloadQuotePost()
+                }
+                
+                if activity.postCard?.mediaDisplayType == .singleVideo {
+                    activity.postCard?.preloadVideo()
+                }
+                
+                PostCardModel.imageDecodeQueue.async {
+                    activity.postCard?.preloadImages()
+                }
             }
         })
     }

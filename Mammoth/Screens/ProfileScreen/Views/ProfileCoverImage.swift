@@ -83,7 +83,7 @@ extension ProfileCoverImage {
         if let headerImageStr = user.account?.headerStatic, let headerImageURL = URL(string: headerImageStr) {
             self.coverImage.contentMode = .scaleAspectFill
             self.coverImage.sd_imageTransition = .fade
-            self.coverImage.sd_setImage(with: headerImageURL, placeholderImage: self.coverImage.image)
+            self.coverImage.sd_setImage(with: headerImageURL, placeholderImage: self.coverImage.image, context: [.storeCacheType : SDImageCacheType.memory.rawValue])
         }
     }
     

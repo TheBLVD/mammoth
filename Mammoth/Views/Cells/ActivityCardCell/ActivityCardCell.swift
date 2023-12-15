@@ -262,8 +262,7 @@ extension ActivityCardCell {
         self.header.configure(activity: activity)
         self.header.onPress = onButtonPress
         
-        self.postTextLabel.customize { [weak self] label in
-            guard let self else { return }
+        self.postTextLabel.customize { label in
             switch activity.type {
             case .follow, .follow_request:
                 label.attributedText = nil

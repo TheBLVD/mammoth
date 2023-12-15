@@ -37,6 +37,7 @@ class PostCardLinkPreview: UIView {
         stackView.alignment = .top
         stackView.distribution = .fill
         stackView.spacing = 0.0
+        stackView.clipsToBounds = true
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -174,10 +175,13 @@ extension PostCardLinkPreview {
         
         // Display the link image if needed
         if !postCard.hideLinkImage, let imageURL = postCard.linkCard?.image {
-            let scale = UIScreen.main.scale
-            let transformer = SDImageResizingTransformer(size: CGSize(width: self.frame.width * scale, height: self.frame.width / 1.697 * scale), scaleMode: .aspectFill)
-            self.imageView.sd_setImage(with: imageURL, placeholderImage: nil, context: [.imageTransformer: transformer])
             
+            self.imageView.ma_setImage(with: imageURL,
+                                              cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
+                                              imageTransformer: PostCardImage.transformer) { image in
+                postCard.decodedImages[imageURL.absoluteString] = image
+            }
+  
             imageStack.addArrangedSubview(self.imageView)
             imageHeightConstraint = imageHeightConstraint ?? self.imageView.heightAnchor.constraint(equalToConstant: PostCardLinkPreview.largeImageHeight)
             imageHeightConstraint?.priority = .defaultHigh

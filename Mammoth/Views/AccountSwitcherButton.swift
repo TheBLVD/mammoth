@@ -70,7 +70,13 @@ class AccountSwitcherButton: UIButton {
         } else {
             if let avatar = currentAccount?.avatar,
                let avatarURL = URL(string: avatar) {
-                self.sd_setImage(with: avatarURL, for: .normal)
+                self.sd_setImage(
+                    with: avatarURL,
+                    for: .normal,
+                    placeholderImage: nil,
+                    context: [.imageTransformer: PostCardProfilePic.transformer],
+                    progress: nil
+                )
             } else {
                 self.sd_cancelCurrentImageLoad()
             }
