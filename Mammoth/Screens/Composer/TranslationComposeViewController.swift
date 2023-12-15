@@ -11,6 +11,13 @@ import UIKit
 import NaturalLanguage
 import OrderedCollections
 
+protocol TranslationComposeViewControllerDelegate: AnyObject {
+    func didSelectLanguage(language: String)
+    func removeLanguage(language: String)
+}
+
+
+
 class TranslationComposeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TableOfContentsSelectionDelegate {
     
     let btn0 = UIButton(type: .custom)
@@ -23,6 +30,7 @@ class TranslationComposeViewController: UIViewController, UITableViewDataSource,
     var prefLang: [String] = []
     var fromSetLanguage: Bool = false
     var fromEditProfile: Bool = false
+    weak var delegate: TranslationComposeViewControllerDelegate?
     
     let tableOfContentsSelector1 = TableOfContentsSelector()
     
@@ -67,7 +75,8 @@ class TranslationComposeViewController: UIViewController, UITableViewDataSource,
     }
     
     @objc func removeTap() {
-        GlobalStruct.currentPostLang = nil
+        let currentLanguage = PostLanguages.shared.postLanguage
+        self.delegate?.removeLanguage(language: currentLanguage)
         self.dismissTap()
     }
     
@@ -263,7 +272,7 @@ class TranslationComposeViewController: UIViewController, UITableViewDataSource,
             cell.textLabel?.text = Array(self.firstSection.keys)[indexPath.row]
             cell.backgroundColor = .custom.quoteTint
             if self.fromSetLanguage {
-                if GlobalStruct.currentPostLang == Array(self.firstSection.values)[indexPath.row] {
+                if PostLanguages.shared.postLanguage == Array(self.firstSection.values)[indexPath.row] {
                     cell.accessoryType = .checkmark
                 } else {
                     cell.accessoryType = .none
@@ -317,7 +326,7 @@ class TranslationComposeViewController: UIViewController, UITableViewDataSource,
         } else {
             if self.fromSetLanguage {
                 self.langStr = Array(self.firstSection.values)[indexPath.row]
-                GlobalStruct.currentPostLang = self.langStr
+                delegate?.didSelectLanguage(language: self.langStr)
                 self.dismiss(animated: true, completion: nil)
             } else {
                 if indexPath.section == 0 {
