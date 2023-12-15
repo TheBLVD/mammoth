@@ -660,7 +660,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                            onCompleted: (() -> Void)?) {
         guard !self.switchingAccounts else { return }
         
-        let updateDisplay = self.isInWindowHierarchy()
+        let updateDisplay = self.isInWindowHierarchy() && (updateType != .update)
         
         switch updateType {
         case .insert, .update, .remove, .replaceAll:
@@ -674,29 +674,27 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .bottom)
 
-            if updateDisplay && updateType != .update {
+            if updateDisplay {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
             
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
                 guard let self else {
-                    if updateDisplay && updateType != .update {
+                    if updateDisplay {
                         CATransaction.commit()
                     }
                     return
                 }
                 
-                if updateType != .update {
-                    if let scrollPosition {
-                        // Forcing a second scrollToPosition call on completion
-                        // makes sure the scroll action happens correcty.
-                        // Keep both of them to make the feed less jumpy on feed updates.
-                        self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
-                    }
+                if let scrollPosition {
+                    // Forcing a second scrollToPosition call on completion
+                    // makes sure the scroll action happens correcty.
+                    // Keep both of them to make the feed less jumpy on feed updates.
+                    self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                 }
                 
-                if updateDisplay && updateType != .update {
+                if updateDisplay {
                     CATransaction.commit()
                 }
                 onCompleted?()

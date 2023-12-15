@@ -23,6 +23,7 @@ final class PostCardCell: UITableViewCell {
         }
         
         // Fallback to text-only
+        log.error("PostCardCell fallback to .textOnly")
         return self.reuseIdentifier(for: .textOnly)
     }
     
@@ -31,7 +32,9 @@ final class PostCardCell: UITableViewCell {
         case "PostCardCellTextOnly": return .textOnly
         case "PostCardCellTextAndMedia": return .textAndMedia
         case "PostCardCellMediaOnly": return .mediaOnly
-        default: return .textOnly
+        default:
+            log.error("PostCardCell fallback to .textOnly")
+            return .textOnly
         }
     }
     
@@ -313,7 +316,7 @@ final class PostCardCell: UITableViewCell {
         self.postCard = nil
         self.profilePic.prepareForReuse()
         self.footer.onButtonPress = nil
-//        self.separatorInset = .zero
+        self.separatorInset = .zero
         
         self.contentWarningButton.isHidden = true
         self.contentWarningButton.isUserInteractionEnabled = false
@@ -328,12 +331,6 @@ final class PostCardCell: UITableViewCell {
         self.childThread.isHidden = true
         
         self.metadata?.prepareForReuse()
-        
-//        if let headerExtension = self.headerExtension, self.wrapperStackView.arrangedSubviews.contains(headerExtension) {
-//            self.wrapperStackView.removeArrangedSubview(headerExtension)
-//            headerExtension.removeFromSuperview()
-//            headerExtension.prepareForReuse()
-//        }
     }
 }
 
