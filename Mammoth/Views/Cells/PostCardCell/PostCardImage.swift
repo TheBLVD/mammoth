@@ -152,19 +152,11 @@ final class PostCardImage: UIView {
         if let media = postCard.mediaAttachments.first {
             self.media = media
             if let previewURL = media.previewURL, let imageURL = URL(string: previewURL) {
-                if let cachedImage = postCard.decodedImages[previewURL] {
-                    self.imageView.image = cachedImage
-                } else {
-                    self.imageView.sd_setImage(
-                        with: imageURL,
-                        placeholderImage: nil,
-                        context: [.imageTransformer: PostCardImage.transformer],
-                        progress: nil
-                    ) { image, error, _, _ in
-                            if let image {
-                                postCard.decodedImages[previewURL] = image
-                            }
-                    }
+                
+                self.imageView.ma_setImage(with: imageURL,
+                                                  cachedImage: postCard.decodedImages[previewURL] as? UIImage,
+                                                  imageTransformer: PostCardImage.transformer) { image in
+                    postCard.decodedImages[previewURL] = image
                 }
             }
             

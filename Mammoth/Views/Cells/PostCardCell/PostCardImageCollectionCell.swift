@@ -165,21 +165,12 @@ class PostCardImageCollectionCell: UICollectionViewCell {
         self.model = model
         self.imageView.accessibilityLabel = model.altText
         if model.mediaAttachment.previewURL != nil {
-            if let cachedImage = model.postCard.decodedImages[model.mediaAttachment.previewURL!] {
-                self.imageView.image = cachedImage
-            } else {
-                self.imageView.sd_setImage(
-                    with: URL(string: model.mediaAttachment.previewURL!),
-                    placeholderImage: nil,
-                    context: [.imageTransformer: PostCardImage.transformer],
-                    progress: nil
-                ) { image, _, _, _ in
-                        if let image {
-                            model.postCard.decodedImages[model.mediaAttachment.previewURL!] = image
-                        }
-                }
-            }
             
+            self.imageView.ma_setImage(with: URL(string: model.mediaAttachment.previewURL!)!,
+                                              cachedImage: model.postCard.decodedImages[model.mediaAttachment.previewURL!] as? UIImage,
+                                              imageTransformer: PostCardImage.transformer) { image in
+                model.postCard.decodedImages[model.mediaAttachment.previewURL!] = image
+            }
             
         } else {
             self.imageView.image = UIImage(systemName: "waveform.path")

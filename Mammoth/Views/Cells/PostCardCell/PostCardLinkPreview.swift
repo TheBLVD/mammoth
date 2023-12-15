@@ -175,19 +175,11 @@ extension PostCardLinkPreview {
         
         // Display the link image if needed
         if !postCard.hideLinkImage, let imageURL = postCard.linkCard?.image {
-            if let cachedImage = postCard.decodedImages[imageURL.absoluteString] {
-                self.imageView.image = cachedImage
-            } else {
-                self.imageView.sd_setImage(
-                    with: imageURL,
-                    placeholderImage: nil,
-                    context: [.imageTransformer: PostCardImage.transformer],
-                    progress: nil
-                ) { image, _, _, _ in
-                        if let image {
-                            postCard.decodedImages[imageURL.absoluteString] = image
-                        }
-                }
+            
+            self.imageView.ma_setImage(with: imageURL,
+                                              cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
+                                              imageTransformer: PostCardImage.transformer) { image in
+                postCard.decodedImages[imageURL.absoluteString] = image
             }
   
             imageStack.addArrangedSubview(self.imageView)

@@ -10,6 +10,7 @@
 		144173572B21E0480058AFCC /* TutorialOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144173562B21E0480058AFCC /* TutorialOverlay.swift */; };
 		1441735A2B21E4490058AFCC /* TextBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144173592B21E4490058AFCC /* TextBubbleView.swift */; };
 		1441736D2B2B1FDA0058AFCC /* SDImageTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */; };
+		1441736F2B2C6C600058AFCC /* UIImageView+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */; };
 		144DC6C32B14AA7300F4EE98 /* UpgradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C22B14AA7300F4EE98 /* UpgradeCell.swift */; };
 		144DC6C52B14E1D200F4EE98 /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C42B14E1D200F4EE98 /* GradientLabel.swift */; };
 		144DC6C72B14E20200F4EE98 /* GradientBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C62B14E20200F4EE98 /* GradientBorderView.swift */; };
@@ -807,6 +808,7 @@
 		144173562B21E0480058AFCC /* TutorialOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialOverlay.swift; sourceTree = "<group>"; };
 		144173592B21E4490058AFCC /* TextBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBubbleView.swift; sourceTree = "<group>"; };
 		1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDImageTransformers.swift; sourceTree = "<group>"; };
+		1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Caching.swift"; sourceTree = "<group>"; };
 		144DC6C22B14AA7300F4EE98 /* UpgradeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeCell.swift; sourceTree = "<group>"; };
 		144DC6C42B14E1D200F4EE98 /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
 		144DC6C62B14E20200F4EE98 /* GradientBorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBorderView.swift; sourceTree = "<group>"; };
@@ -3037,6 +3039,7 @@
 				14BE1A4F2AEFDAB700C13189 /* String+Image.swift */,
 				BF8598A32AF5634900E2BA8D /* ProcessID.swift */,
 				144DC6C82B14E26200F4EE98 /* UIColor+Gradient.swift */,
+				1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4001,6 +4004,7 @@
 				533996D72914227A00560F83 /* TOCropViewControllerTransitioning.m in Sources */,
 				14BE1A562AF1208200C13189 /* KeyChainHelper.swift in Sources */,
 				C3E470A82ABDC04D006D0DD6 /* FollowButton.swift in Sources */,
+				1441736F2B2C6C600058AFCC /* UIImageView+Caching.swift in Sources */,
 				532F2928294C765F003C9FAD /* EditFieldsViewController.swift in Sources */,
 				5339967B2914227A00560F83 /* SKDetectingImageView.swift in Sources */,
 				662B60D62A4A1E8600CB331F /* Repo.swift in Sources */,
