@@ -48,9 +48,11 @@ final class FollowButton: UIButton {
         }
     }
 
-    public var user: UserCardModel {
+    public var user: UserCardModel? {
         didSet {
-            self.updateButton(user: user)
+            if let user {
+                self.updateButton(user: user)
+            }
         }
     }
     
@@ -58,6 +60,12 @@ final class FollowButton: UIButton {
         self.user = user
         super.init(frame: .zero)
         self.setupUI(type: type)
+    }
+    
+    init() {
+        self.user = nil
+        super.init(frame: .zero)
+        self.setupUI(type: .small)
     }
     
     required init?(coder: NSCoder) {
@@ -74,7 +82,7 @@ final class FollowButton: UIButton {
         self.setTitleColor(.custom.active, for: .normal)
         self.contentEdgeInsets = UIEdgeInsets(top: 4.5, left: 11, bottom: 3.5, right: 11)
         self.titleLabel?.font = UIFont.systemFont(ofSize: type.fontSize, weight: .semibold)
-        self.setTitle(self.user.followStatus?.title, for: .normal)
+        self.setTitle(self.user?.followStatus?.title, for: .normal)
         self.titleLabel?.isOpaque = true
         self.titleLabel?.backgroundColor = .custom.followButtonBG
         
@@ -99,9 +107,9 @@ final class FollowButton: UIButton {
 // MARK: Actions
 internal extension FollowButton {
     @objc func onTapped() {
-        switch user.followStatus {
+        switch user?.followStatus {
         case .notFollowing, .unknown, .unfollowRequested, .inProgress:
-            self.user.forceFollowButtonDisplay = true
+            self.user?.forceFollowButtonDisplay = true
             self.followTapped()
         case .following, .followRequested, .followAwaitingApproval:
             self.unfollowTapped()
@@ -114,18 +122,18 @@ internal extension FollowButton {
     private func followTapped() {
         triggerHapticImpact(style: .light)
         
-        if  let account = self.user.account {
+        if let user = self.user, let account = self.user?.account {
             self.setTitle(FollowManager.FollowStatus.followRequested.title, for: .normal)
             Task {
                 do {
                     let _ = try await FollowManager.shared.followAccountAsync(account)
                     
                     await MainActor.run {
-                        self.user.syncFollowStatus()
-                        self.updateButton(user: self.user)
+                        user.syncFollowStatus()
+                        self.updateButton(user: user)
                     }
                     
-                    if self.user.followStatus != .followRequested {
+                    if user.followStatus != .followRequested {
                         await MainActor.run {
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadTableSuggestions"), object: nil)
                         }
@@ -139,15 +147,15 @@ internal extension FollowButton {
     }
     
     private func unfollowTapped() {
-        if let account = self.user.account {
+        if let user = self.user, let account = self.user?.account {
             self.setTitle(FollowManager.FollowStatus.unfollowRequested.title, for: .normal)
             Task {
                 do {
                     let _ = try await FollowManager.shared.unfollowAccountAsync(account)
                     
                     await MainActor.run {
-                        self.user.syncFollowStatus()
-                        self.updateButton(user: self.user)
+                        user.syncFollowStatus()
+                        self.updateButton(user: user)
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadTableSuggestions"), object: nil)
                     }
                 } catch let error {

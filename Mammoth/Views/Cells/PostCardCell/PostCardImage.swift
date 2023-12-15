@@ -103,10 +103,6 @@ final class PostCardImage: UIView {
         self.dismissedSensitiveOverlay = false
         
         self.resetVariableConstraints()
-        
-        if let _ = self.imageView.subviews.firstIndex(of: self.sensitiveContentOverlay) {
-            self.sensitiveContentOverlay.removeFromSuperview()
-        }
     }
     
     private func resetVariableConstraints() {
@@ -128,6 +124,7 @@ final class PostCardImage: UIView {
         imageView.layer.cornerCurve = .continuous
         self.addSubview(imageView)
         self.addSubview(altButton)
+        self.imageView.addSubview(sensitiveContentOverlay)
         
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
@@ -144,6 +141,9 @@ final class PostCardImage: UIView {
                 
         let altPress = UITapGestureRecognizer(target: self, action: #selector(self.altPress))
         self.altButton.addGestureRecognizer(altPress)
+        
+        self.sensitiveContentOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.sensitiveContentOverlay.alpha = 1
     }
     
     public func configure(postCard: PostCardModel) {
@@ -224,22 +224,22 @@ final class PostCardImage: UIView {
                         maxHeightConstraint!.priority = .required
                         maxHeightConstraint!.isActive = true
                         
-                        self.translatesAutoresizingMaskIntoConstraints = true
+                        self.translatesAutoresizingMaskIntoConstraints = false
                     }
                 }
             }
             
             if GlobalStruct.blurSensitiveContent && postCard.isSensitive && !self.dismissedSensitiveOverlay {
                 self.sensitiveContentOverlay.frame = self.imageView.bounds
-                self.sensitiveContentOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-                self.sensitiveContentOverlay.alpha = 1
                 
                 if self.hideSensitiveOverlayGesture == nil {
                     self.hideSensitiveOverlayGesture = UITapGestureRecognizer(target: self, action: #selector(self.hideSensitiveOverlay))
                     self.sensitiveContentOverlay.addGestureRecognizer(self.hideSensitiveOverlayGesture!)
                 }
                 
-                self.imageView.addSubview(self.sensitiveContentOverlay)
+                self.sensitiveContentOverlay.isHidden = false
+            } else {
+                self.sensitiveContentOverlay.isHidden = true
             }
             
             if let description = media.description, !description.isEmpty {

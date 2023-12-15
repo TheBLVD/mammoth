@@ -11,7 +11,9 @@ import UIKit
 class PostResultsViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier)
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textOnly))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly))
         tableView.delegate = self
         tableView.dataSource = self
         tableView.backgroundColor = .custom.background
@@ -192,7 +194,7 @@ extension PostResultsViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let postCard = viewModel.getInfo(forIndexPath: indexPath)
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier, for: indexPath) as! PostCardCell
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard), for: indexPath) as! PostCardCell
         cell.configure(postCard: postCard) { [weak self] (type, isActive, data) in
             guard let self else { return }
             PostActions.onActionPress(target: self, type: type, isActive: isActive, postCard: postCard, data: data)

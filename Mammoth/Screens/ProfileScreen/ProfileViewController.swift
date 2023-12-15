@@ -18,7 +18,9 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier)
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textOnly))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly))
         tableView.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
         tableView.register(EmptyFeedCell.self, forCellReuseIdentifier: EmptyFeedCell.reuseIdentifier)
         tableView.register(ProfileSectionHeader.self, forHeaderFooterViewReuseIdentifier: ProfileSectionHeader.reuseIdentifier)
@@ -467,7 +469,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDataSourcePre
         }
         
         if let postCard = viewModel.getInfo(forIndexPath: indexPath),
-           let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier, for: indexPath) as? PostCardCell{
+           let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard), for: indexPath) as? PostCardCell{
             cell.configure(postCard: postCard) { [weak self] (type, isActive, data) in
                 guard let self else { return }
                 PostActions.onActionPress(target: self, type: type, isActive: isActive, postCard: postCard, data: data)
@@ -475,7 +477,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDataSourcePre
             return cell
         }
         
-        let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier, for: indexPath) as! PostCardCell
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: .textOnly), for: indexPath) as! PostCardCell
         return cell
     }
     
@@ -563,7 +565,7 @@ extension ProfileViewController: UIContextMenuInteractionDelegate {
     
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
         if let postCard = viewModel.getInfo(forIndexPath: indexPath),
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier, for: indexPath) as? PostCardCell {
+           let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard), for: indexPath) as? PostCardCell {
 
             return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { nil }, actionProvider: { suggestedActions in
                 return cell.createContextMenu(postCard: postCard) { [weak self] type, isActive, data in

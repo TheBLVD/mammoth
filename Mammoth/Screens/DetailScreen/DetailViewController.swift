@@ -13,7 +13,9 @@ class DetailViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier)
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textOnly))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly))
         tableView.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
         tableView.register(ErrorCell.self, forCellReuseIdentifier: ErrorCell.reuseIdentifier)
         tableView.delegate = self
@@ -210,9 +212,8 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
             
         case .parents:
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier, for: indexPath) as! PostCardCell
-            
             if let postCard = model {
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard), for: indexPath) as! PostCardCell
                 cell.configure(postCard: postCard, type: .parent, hasParent: hasParent, hasChild: hasChild) { [weak self] (type, isActive, data) in
                     guard let self else { return }
                     PostActions.onActionPress(target: self, type: type, isActive: isActive, postCard: postCard, data: data)
@@ -221,9 +222,8 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             }
             
         case .post:
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier, for: indexPath) as! PostCardCell
-            
             if let postCard = model {
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard), for: indexPath) as! PostCardCell
                 cell.configure(postCard: postCard, type: .detail, hasParent: hasParent || postCard.isAReply, hasChild: hasChild || postCard.hasReplies) { [weak self] (type, isActive, data) in
                     guard let self else { return }
                     
@@ -265,9 +265,8 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             }
             
-            let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier, for: indexPath) as! PostCardCell
-            
             if let postCard = model {
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard), for: indexPath) as! PostCardCell
                 cell.configure(postCard: postCard, type: .reply, hasParent: hasParent, hasChild: hasChild) { [weak self] (type, isActive, data) in
                     guard let self else { return }
                     PostActions.onActionPress(target: self, type: type, isActive: isActive, postCard: postCard, data: data)
@@ -399,7 +398,7 @@ extension DetailViewController: UIContextMenuInteractionDelegate {
         if let section = DetailViewModel.Section(rawValue: indexPath.section), section == .post { return nil }
 
         if let postCard = viewModel.getInfo(forIndexPath: indexPath) {
-            if let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier, for: indexPath) as? PostCardCell {
+            if let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard), for: indexPath) as? PostCardCell {
 
                 return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: { nil }, actionProvider: { suggestedActions in
                     return cell.createContextMenu(postCard: postCard) { [weak self] type, isActive, data in
