@@ -477,14 +477,8 @@ extension ProfileViewModel {
 
                         self.state = .success
                         
-                        // Preload quote posts
-                        postsToPreload.forEach({
-                            $0.preloadQuotePost()
-                            let image = $0
-                            PostCardModel.imageDecodeQueue.async {
-                                image.preloadImages()
-                            }
-                        })
+                        // Preload quote posts and images
+                        PostCardModel.preload(postCards: postsToPreload)
                     }
                 } else {
                     await MainActor.run {
@@ -541,21 +535,8 @@ extension ProfileViewModel {
                     
                     self.state = .success
                     
-                    // Preload quote posts
-                    pinnedPostCards.forEach({
-                        $0.preloadQuotePost()
-                        let image = $0
-                        PostCardModel.imageDecodeQueue.async {
-                            image.preloadImages()
-                        }
-                    })
-                    mainPostCards.forEach({
-                        $0.preloadQuotePost()
-                        let image = $0
-                        PostCardModel.imageDecodeQueue.async {
-                            image.preloadImages()
-                        }
-                    })
+                    // Preload quote posts and images
+                    PostCardModel.preload(postCards: pinnedPostCards + mainPostCards)
                 }
             }
             

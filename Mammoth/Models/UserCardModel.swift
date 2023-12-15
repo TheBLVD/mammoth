@@ -37,6 +37,7 @@ class UserCardModel {
     
     // when the profile pic is decoded we store it here
     var decodedProfilePic: UIImage?
+    var imagePrefetchToken: SDWebImagePrefetchToken?
     
     // when a user has been followed we keep the unfollow button
     // until a hard refresh happens
@@ -186,6 +187,15 @@ extension UserCardModel: Hashable {
 
 // MARK: - Preload
 extension UserCardModel {
+    
+    static func preload(userCards: [UserCardModel]) {
+        PostCardModel.imageDecodeQueue.async {
+            userCards.forEach({
+                $0.preloadImages()
+            })
+        }
+    }
+    
     // Download, transform and cache profile pic
     func preloadImages() {
         if let profilePicURLString = self.imageURL,
@@ -193,8 +203,12 @@ extension UserCardModel {
            let profilePicURL = URL(string: profilePicURLString) {
             
             let prefetcher = SDWebImagePrefetcher.shared
-            prefetcher.prefetchURLs([profilePicURL], context: [.imageTransformer: PostCardProfilePic.transformer], progress: nil)
+            self.imagePrefetchToken = prefetcher.prefetchURLs([profilePicURL], context: [.imageTransformer: PostCardProfilePic.transformer], progress: nil)
         }
+    }
+    
+    func cancelAllPreloadTasks() {
+        self.imagePrefetchToken?.cancel()
     }
     
     func clearCache() {

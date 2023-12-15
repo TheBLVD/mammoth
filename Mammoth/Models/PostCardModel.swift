@@ -97,6 +97,7 @@ final class PostCardModel {
     let formattedCardUrlStr: String?
     var statusSource: [StatusSource]?
     
+    var imagePrefetchToken: SDWebImagePrefetchToken?
     var decodedImages: [String: UIImage?] = [:]
     
     enum FilterType {
@@ -652,6 +653,19 @@ final class PostCardModel {
 
 // MARK: - Preload
 extension PostCardModel {
+    
+    static func preload(postCards: [PostCardModel]) {
+        postCards.forEach({
+            $0.preloadQuotePost()
+        })
+        
+        PostCardModel.imageDecodeQueue.async {
+            postCards.forEach({
+                $0.preloadImages()
+            })
+        }
+    }
+    
     var preloadedImageURLs: [String] {
         let firstImageAttached = self.mediaAttachments.compactMap({ attachment in
             if [.image, .gifv, .video].contains(where: {$0 == attachment.type}),
@@ -686,7 +700,7 @@ extension PostCardModel {
            let imageURL = URL(string: firstImage) {
 
             let prefetcher = SDWebImagePrefetcher.shared
-            prefetcher.prefetchURLs([imageURL, !self.hideLinkImage ? self.linkCard?.image : nil].compactMap({$0}),
+            self.imagePrefetchToken = prefetcher.prefetchURLs([imageURL, !self.hideLinkImage ? self.linkCard?.image : nil].compactMap({$0}),
                                     options: .scaleDownLargeImages,
                                     context: [.imageTransformer: PostCardImage.transformer], progress: nil)
         }
@@ -741,6 +755,8 @@ extension PostCardModel {
     func cancelAllPreloadTasks() {
         self.videoPlayer?.pause()
         self.videoPlayer = nil
+        self.imagePrefetchToken?.cancel()
+        self.user?.cancelAllPreloadTasks()
         if let task = self.quotePreloadTask, !task.isCancelled {
             task.cancel()
         }

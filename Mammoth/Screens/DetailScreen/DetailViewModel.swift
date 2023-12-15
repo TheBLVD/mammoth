@@ -249,26 +249,8 @@ extension DetailViewModel {
                 if let (parents, replies) = result[1] as? (parents: [PostCardModel]?, replies: [PostCardModel]?) {
                     self.listData = ListData(parents: parents, post: self.listData.post, replies: replies)
                     self.isScrollIndicatorDismissed = false
-
-                    parents?.forEach({
-                        $0.preloadQuotePost()
-                    })
                     
-                    PostCardModel.imageDecodeQueue.async {
-                        parents?.forEach({
-                            $0.preloadImages()
-                        })
-                    }
-    
-                    replies?.forEach({
-                        $0.preloadQuotePost()
-                    })
-                    
-                    PostCardModel.imageDecodeQueue.async {
-                        replies?.forEach({
-                            $0.preloadImages()
-                        })
-                    }
+                    PostCardModel.preload(postCards: (parents ?? []) + (replies ?? []))
                 }
                 
                 // Handle results for `fetchSource`

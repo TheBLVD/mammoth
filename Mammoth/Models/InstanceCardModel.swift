@@ -35,6 +35,14 @@ struct InstanceCardModel {
 
 // MARK: - Preload
 extension InstanceCardModel {
+    static func preload(instanceCards: [InstanceCardModel]) {
+        PostCardModel.imageDecodeQueue.async {
+            instanceCards.forEach({
+                $0.preloadImages()
+            })
+        }
+    }
+    
     func preloadImages() {
         if let imageURLString = self.imageURL,
            !SDImageCache.shared.diskImageDataExists(withKey: imageURLString),

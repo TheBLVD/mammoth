@@ -184,11 +184,7 @@ extension DiscoveryViewModel {
                     UserCardModel.fromAccount(account: account, instanceName: GlobalHostServer())
                 })
                 
-                PostCardModel.imageDecodeQueue.async {
-                    userCards.forEach({
-                        $0.preloadImages()
-                    })
-                }
+                UserCardModel.preload(userCards: userCards)
                 
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }

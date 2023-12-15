@@ -40,13 +40,8 @@ class InstancesViewModel {
     }
     
     func preloadCards(atIndexPaths indexPaths: [IndexPath]) {
-        PostCardModel.imageDecodeQueue.async {
-            indexPaths.forEach({
-                if let model = self.getInfo(forIndexPath: $0) {
-                    model.preloadImages()
-                }
-            })
-        }
+        let cards = indexPaths.compactMap({ self.getInfo(forIndexPath: $0) })
+        InstanceCardModel.preload(instanceCards: cards)
     }
 }
 
