@@ -3898,7 +3898,6 @@ extension NewPostViewController: TranslationComposeViewControllerDelegate {
             let pickLanguageAction = UIAction(title:languageName, image: nil, identifier: nil) { [weak self] _ in
                 self?.menuSelectLanguage(language)
             }
-            pickLanguageAction.state = (language == PostLanguages.shared.postLanguage) ? .on : .off
             menuItems.append(pickLanguageAction)
         }
         let buttonMenu = UIMenu(title: "", image: nil, identifier: nil, options: [], children: menuItems)
