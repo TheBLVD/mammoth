@@ -1360,16 +1360,20 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         let flexibleSpacer = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
         
         // items
-        let photoButton = UIBarButtonItem(image: UIImage(systemName: "photo.on.rectangle.angled", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.galleryTapped))
+        let photoButtonImage = FontAwesome.image(fromChar: "\u{f03e}", weight: .bold).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
+        let photoButton = UIBarButtonItem(image: photoButtonImage, style: .plain, target: self, action: #selector(self.galleryTapped))
         photoButton.accessibilityLabel = "Media from Gallery"
         let cameraButton = UIBarButtonItem(image: UIImage(systemName: "camera", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraTapped))
         cameraButton.accessibilityLabel = "Camera"
-        let gifButton = UIBarButtonItem(image: UIImage(named: "gif.rectangle", in: nil, with: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.gifTapped))
+        let gifButtonImage = FontAwesome.image(fromChar: "\u{e190}", weight: .bold).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
+        let gifButton = UIBarButtonItem(image: gifButtonImage, style: .plain, target: self, action: #selector(self.gifTapped))
         gifButton.accessibilityLabel = "GIF"
-        var pollButton = UIBarButtonItem(image: UIImage(systemName: "chart.pie", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.pollTapped))
+        let pollButtonImage = FontAwesome.image(fromChar: "\u{f828}", weight: .regular).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
+        var pollButton = UIBarButtonItem(image: pollButtonImage, style: .plain, target: self, action: #selector(self.pollTapped))
         if GlobalStruct.newPollPost != nil {
             // contains a poll, tap to edit or delete
-            pollButton = UIBarButtonItem(image: UIImage(systemName: "chart.pie.fill", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: nil)
+            let pollButtonImage = FontAwesome.image(fromChar: "\u{f828}", weight: .bold).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
+            pollButton = UIBarButtonItem(image: pollButtonImage, style: .plain, target: self, action: nil)
             
             let view31 = UIAction(title: "Edit Poll", image: UIImage(systemName: "pencil"), identifier: nil) { action in
                 self.pollTapped(true)
@@ -1388,10 +1392,9 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         pollButton.accessibilityLabel = "Poll"
         
-        var itemCW = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cwTapped))
-        if self.cwHeight != 0 {
-            itemCW = UIBarButtonItem(image: UIImage(systemName: "exclamationmark.shield.fill", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cwTapped))
-        }
+        let imageWeight: UIFont.Weight = self.cwHeight != 0 ? .bold : .regular
+        let itemCWImage = FontAwesome.image(fromChar: "\u{f321}", weight: imageWeight).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
+        let itemCW = UIBarButtonItem(image: itemCWImage, style: .plain, target: self, action: #selector(self.cwTapped))
         itemCW.accessibilityLabel = "Content Warning"
         
         let languageButton = toolbarLanguageButton()
@@ -3911,27 +3914,31 @@ extension NewPostViewController: TranslationComposeViewControllerDelegate {
     }
     
     private func buttonImage() -> UIImage {
-        // Make a badge with the current language
+        // Get the width of the current language
         let languageAbbreviation = PostLanguages.shared.postLanguage.uppercased()
-        let badgeSize = CGSize(width: 23, height: 20)
+        let attributedText = NSMutableAttributedString(string: languageAbbreviation, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 10, weight: .medium)])
+        let textSize = attributedText.size()
+        
+        // FontAwesome characters are 21 pixels high;
+        // width is 21 or more to accomodate the text width
+        var badgeSize = CGSize(width: 25, height: 21)
+        let textwidthWithMargins = textSize.width + 7.0
+        badgeSize.width = max(badgeSize.width, textwidthWithMargins)
+
         let badge = UIGraphicsImageRenderer(size: badgeSize).image { _ in
             // Draw the surrounding rect
-            let borderWidth = 2.0
-            let lineRect = CGRect(origin: .zero, size: badgeSize).insetBy(dx: borderWidth / 2.0, dy: borderWidth / 2.0)
+            let borderWidth = 1.6
+            let lineRect = CGRect(x: 2, y: 2, width: badgeSize.width - 4.0, height: 15)
             let context = UIGraphicsGetCurrentContext()!
-            let clipPath: CGPath = UIBezierPath(roundedRect: lineRect, cornerRadius: 3.0).cgPath
+            let clipPath: CGPath = UIBezierPath(roundedRect: lineRect, cornerRadius: 2.0).cgPath
             context.addPath(clipPath)
             context.setFillColor(UIColor.red.cgColor)
             context.closePath()
             context.setLineWidth(borderWidth)
             context.strokePath()
-            
             // Draw the language abbreviation string
-            let paragraph = NSMutableParagraphStyle()
-            paragraph.alignment = .center
-            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 10, weight: .medium), .paragraphStyle: paragraph]
-            languageAbbreviation.draw(in: CGRect(origin: CGPointMake(0, 4), size: badgeSize),
-                                    withAttributes: attributes)
+            let leftMargin = (badgeSize.width - textSize.width) / 2.0
+            attributedText.draw(at: CGPointMake(leftMargin, 3.5))
         }
         return badge.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
     }
