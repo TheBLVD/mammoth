@@ -561,7 +561,7 @@
 		BF0F3BB62A855A310055BB81 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = BF0F3BA12A855A310055BB81 /* LICENSE */; };
 		BF0F3BBD2A855A310055BB81 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = BF0F3BAF2A855A310055BB81 /* README.md */; };
 		BF0F3BC02A859C2D0055BB81 /* EmailVerificationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF0F3BBF2A859C2D0055BB81 /* EmailVerificationView.xib */; };
-		BF14812C2B180D9C008DFA9D /* instrumentserif-regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF14812B2B180D9C008DFA9D /* instrumentserif-regular.ttf */; };
+		BF14812C2B180D9C008DFA9D /* InstrumentSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF14812B2B180D9C008DFA9D /* InstrumentSerif-Regular.ttf */; };
 		BF193DBE2AC2305B00D0F6F7 /* DiscoverSuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF193DBD2AC2305B00D0F6F7 /* DiscoverSuggestionsViewController.swift */; };
 		BF193DC02AC245BE00D0F6F7 /* DiscoverSuggestionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF193DBF2AC245BE00D0F6F7 /* DiscoverSuggestionsViewModel.swift */; };
 		BF193DC22AC4A03A00D0F6F7 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF193DC12AC4A03A00D0F6F7 /* ChannelCell.swift */; };
@@ -1394,7 +1394,7 @@
 		BF0F3BA12A855A310055BB81 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		BF0F3BAF2A855A310055BB81 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		BF0F3BBF2A859C2D0055BB81 /* EmailVerificationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EmailVerificationView.xib; sourceTree = "<group>"; };
-		BF14812B2B180D9C008DFA9D /* instrumentserif-regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "instrumentserif-regular.ttf"; sourceTree = "<group>"; };
+		BF14812B2B180D9C008DFA9D /* InstrumentSerif-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InstrumentSerif-Regular.ttf"; sourceTree = "<group>"; };
 		BF193DBD2AC2305B00D0F6F7 /* DiscoverSuggestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverSuggestionsViewController.swift; sourceTree = "<group>"; };
 		BF193DBF2AC245BE00D0F6F7 /* DiscoverSuggestionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverSuggestionsViewModel.swift; sourceTree = "<group>"; };
 		BF193DC12AC4A03A00D0F6F7 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
@@ -2662,7 +2662,7 @@
 				BF4D709429EE55E90059C250 /* fa-regular-400.ttf */,
 				BF4D709229EE55E90059C250 /* fa-solid-900.ttf */,
 				BF4D709329EE55E90059C250 /* custom-icons.ttf */,
-				BF14812B2B180D9C008DFA9D /* instrumentserif-regular.ttf */,
+				BF14812B2B180D9C008DFA9D /* InstrumentSerif-Regular.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -3321,7 +3321,7 @@
 				5383F21329796808005F1B20 /* Icon5.png in Resources */,
 				14C45DDA2B1A1F8C000171A9 /* OG Light@3x.png in Resources */,
 				BF0F3BB62A855A310055BB81 /* LICENSE in Resources */,
-				BF14812C2B180D9C008DFA9D /* instrumentserif-regular.ttf in Resources */,
+				BF14812C2B180D9C008DFA9D /* InstrumentSerif-Regular.ttf in Resources */,
 				14C45DC52B1A1F8C000171A9 /* Stealth@3x.png in Resources */,
 				14C45D852B1A1F8C000171A9 /* Stealth@2x.png in Resources */,
 				BF0F3BC02A859C2D0055BB81 /* EmailVerificationView.xib in Resources */,

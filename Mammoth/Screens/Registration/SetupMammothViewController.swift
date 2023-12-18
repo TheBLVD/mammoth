@@ -199,7 +199,7 @@ extension SetupMammothViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = self.tableView.dequeueReusableCell(withIdentifier: SetupInstructionsCell.reuseIdentifier) as! SetupInstructionsCell
-            cell.configure(title: "Find out what's coming next", instructions: "Have a feature you want to see? Want to know what we’re working on next? Or just have a question? Follow us!")
+            cell.configure(title: "Find out what’s\ncoming next", instructions: "Have a feature you want to see? Want to know what we’re working on next? Or just have a question? Follow us!")
             return cell
         } else {
             if let userCard = viewModel.getInfo(forIndexPath: indexPath) {

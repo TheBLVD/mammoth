@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,101 +18,40 @@
                 <rect key="frame" x="0.0" y="0.0" width="393" height="272"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H5d-Er-czt">
-                        <rect key="frame" x="13" y="24" width="367" height="125"/>
-                        <attributedString key="attributedText">
-                            <fragment content="Subscribe">
-                                <attributes>
-                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <font key="NSFont" size="48" name="InstrumentSerif-Regular"/>
-                                    <font key="NSOriginalFont" size="48" name="NotoSerifMyanmar-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content=" ">
-                                <attributes>
-                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <font key="NSFont" size="48" name="InstrumentSerif-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content="to">
-                                <attributes>
-                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <font key="NSFont" size="48" name="InstrumentSerif-Regular"/>
-                                    <font key="NSOriginalFont" size="48" name="NotoSerifMyanmar-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content=" ">
-                                <attributes>
-                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <font key="NSFont" size="48" name="InstrumentSerif-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content="some">
-                                <attributes>
-                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <font key="NSFont" size="48" name="InstrumentSerif-Regular"/>
-                                    <font key="NSOriginalFont" size="48" name="NotoSerifMyanmar-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content=" ">
-                                <attributes>
-                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <font key="NSFont" size="48" name="InstrumentSerif-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content="cool">
-                                <attributes>
-                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <font key="NSFont" size="48" name="InstrumentSerif-Regular"/>
-                                    <font key="NSOriginalFont" size="48" name="NotoSerifMyanmar-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content=" ">
-                                <attributes>
-                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <font key="NSFont" size="48" name="InstrumentSerif-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                            <fragment content="things.">
-                                <attributes>
-                                    <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                    <font key="NSFont" size="48" name="InstrumentSerif-Regular"/>
-                                    <font key="NSOriginalFont" size="48" name="NotoSerifMyanmar-Regular"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some instructions to help the user find cool accounts, and meet cool people." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sek-yR-qsQ">
-                        <rect key="frame" x="13" y="158" width="367" height="90"/>
+                        <rect key="frame" x="13" y="156" width="377" height="92"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" name="Medium Contrast"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalHuggingPriority="700" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" usesAttributedText="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hAh-9V-pQ5">
+                        <rect key="frame" x="8" y="24" width="377" height="141"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <attributedString key="attributedText">
+                            <fragment content="Subscribe to some cool things.">
+                                <attributes>
+                                    <color key="NSColor" systemColor="labelColor"/>
+                                    <font key="NSFont" size="48" name="InstrumentSerif-Regular"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
                 </subviews>
                 <color key="backgroundColor" name="Background"/>
                 <constraints>
-                    <constraint firstItem="H5d-Er-czt" firstAttribute="top" secondItem="n4g-OG-TOR" secondAttribute="top" constant="24" id="2jx-x0-bFd"/>
-                    <constraint firstAttribute="trailing" secondItem="H5d-Er-czt" secondAttribute="trailing" constant="13" id="MRc-g7-qtb"/>
-                    <constraint firstItem="H5d-Er-czt" firstAttribute="leading" secondItem="n4g-OG-TOR" secondAttribute="leading" constant="13" id="NIp-sM-3Kz"/>
-                    <constraint firstItem="sek-yR-qsQ" firstAttribute="leading" secondItem="H5d-Er-czt" secondAttribute="leading" id="OBx-P4-1E8"/>
+                    <constraint firstItem="hAh-9V-pQ5" firstAttribute="top" secondItem="n4g-OG-TOR" secondAttribute="top" constant="24" id="3lR-oz-YwC"/>
+                    <constraint firstItem="sek-yR-qsQ" firstAttribute="trailing" secondItem="hAh-9V-pQ5" secondAttribute="trailing" constant="5" id="Fzf-Ju-Njx"/>
+                    <constraint firstItem="sek-yR-qsQ" firstAttribute="leading" secondItem="hAh-9V-pQ5" secondAttribute="leading" constant="5" id="UpS-5o-4lL"/>
                     <constraint firstAttribute="bottom" secondItem="sek-yR-qsQ" secondAttribute="bottom" constant="24" id="W8b-vH-MpP"/>
-                    <constraint firstItem="sek-yR-qsQ" firstAttribute="trailing" secondItem="H5d-Er-czt" secondAttribute="trailing" id="fRx-sX-ZCJ"/>
-                    <constraint firstItem="sek-yR-qsQ" firstAttribute="top" secondItem="H5d-Er-czt" secondAttribute="baseline" constant="24" id="q0h-rY-fD2"/>
+                    <constraint firstItem="hAh-9V-pQ5" firstAttribute="leading" secondItem="n4g-OG-TOR" secondAttribute="leading" constant="8" id="d0L-z1-GHx"/>
+                    <constraint firstAttribute="trailing" secondItem="hAh-9V-pQ5" secondAttribute="trailing" constant="8" id="eeQ-eB-a1k"/>
+                    <constraint firstItem="sek-yR-qsQ" firstAttribute="top" secondItem="hAh-9V-pQ5" secondAttribute="bottom" constant="-9" id="fTu-Hm-5q9"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="instructionsLabel" destination="sek-yR-qsQ" id="3uW-kW-D3h"/>
-                <outlet property="titleLabel" destination="H5d-Er-czt" id="Wie-8O-SXc"/>
+                <outlet property="titleTextView" destination="hAh-9V-pQ5" id="dLi-uu-ayn"/>
             </connections>
             <point key="canvasLocation" x="193.12977099236642" y="-113.38028169014085"/>
         </tableViewCell>
@@ -123,5 +63,11 @@
         <namedColor name="Medium Contrast">
             <color red="0.33725490196078434" green="0.33725490196078434" blue="0.33725490196078434" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
