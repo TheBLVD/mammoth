@@ -48,8 +48,7 @@ public struct GlobalStruct {
     static var switchingAccount4: Bool = false
     static var circleProfiles: Bool = true
     static var chatView: Bool = true
-    static var currentPostLang: String? = nil
-    static var currentPostLang2: String? = nil
+    static var currentPostLang2: String? = nil // used to set the user's profile language
     static var tabTapRestore: Bool = true
     static var hasSetupNewsDots: Bool = false
     static var fullScreen: Bool = true

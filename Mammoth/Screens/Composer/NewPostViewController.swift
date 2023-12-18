@@ -73,7 +73,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     var mediaAttached: Bool = false // Looks like this is never cleared (?)
     var hasEditedText = false
     var hasEditedMedia = false
-    var hasEditedMedtadata = false // CW, Sensitive, Post Language
+    var hasEditedMetadata = false // CW, Sensitive, Post Language
     var hasEditedPoll = false
     let numImages = 4
     var imageButton = [UIButton(), UIButton(), UIButton(), UIButton()]
@@ -710,7 +710,6 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         GlobalStruct.excludeUsers = []
         GlobalStruct.showingNewPostComposer = true
         GlobalStruct.placeID = ""
-        GlobalStruct.currentPostLang = nil
         GlobalStruct.mediaEditID = ""
         GlobalStruct.mediaEditDescription = ""
         
@@ -1140,7 +1139,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             }
             vie1.accessibilityLabel = "View Image"
             let alt1 = UIAction(title: "Add Image Description", image: UIImage(systemName: "character.cursor.ibeam"), identifier: nil) { action in
-                self.hasEditedMedtadata = true
+                self.hasEditedMetadata = true
                 let vc = AltTextViewController()
                 vc.currentImage = self.imageButton[0].currentImage ?? UIImage()
                 if let x = GlobalStruct.altAdded[0] {
@@ -1238,7 +1237,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
                 vie2.accessibilityLabel = "View Image"
                 let alt2 = UIAction(title: "Add Image Description", image: UIImage(systemName: "character.cursor.ibeam"), identifier: nil) { action in
-                    self.hasEditedMedtadata = true
+                    self.hasEditedMetadata = true
                     let vc = AltTextViewController()
                     vc.currentImage = self.imageButton[index].currentImage ?? UIImage()
                     if let x = GlobalStruct.altAdded[index] {
@@ -1395,6 +1394,8 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         itemCW.accessibilityLabel = "Content Warning"
         
+        let languageButton = toolbarLanguageButton()
+        
         let itemDrafts = UIBarButtonItem(image: UIImage(systemName: "doc.text", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.draftsTapped))
         itemDrafts.accessibilityLabel = "Drafts"
         
@@ -1429,6 +1430,8 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             pollButton,
             fixedSpacer,
             itemCW,
+            fixedSpacer,
+            languageButton,
             flexibleSpacer,
             itemLast
         ]
@@ -1532,7 +1535,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func cwTapped() {
-        self.hasEditedMedtadata = true
+        self.hasEditedMetadata = true
         if self.cwHeight == 0 {
             self.cwHeight = UITableView.automaticDimension
             self.tableView.reloadRows(at: [IndexPath(row: 0, section: 1)], with: .bottom)
@@ -1586,7 +1589,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             sensitiveImage = "exclamationmark.triangle.fill"
         }
         let viewSensitive = UIAction(title: sensitiveText, image: UIImage(systemName: sensitiveImage), identifier: nil) { action in
-            self.hasEditedMedtadata = true
+            self.hasEditedMetadata = true
             self.isSensitive = !self.isSensitive
             self.itemLastMenu()
             self.updatePostButton()
@@ -1602,24 +1605,16 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         customEmoji.accessibilityLabel = "Custom Emoji"
         
-        let setLanguage = UIAction(title: "Set Post Language", image: UIImage(systemName: "globe"), identifier: nil) { action in
-            self.hasEditedMedtadata = true
-            self.updatePostButton()
-            let vc = TranslationComposeViewController()
-            vc.fromSetLanguage = true
-            self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
-        }
-        setLanguage.accessibilityLabel = "Set Post Language"
         let translatePost = UIAction(title: "Translate Post", image: UIImage(systemName: "arrow.triangle.2.circlepath"), identifier: nil) { action in
             self.translatePostTapped()
         }
         translatePost.accessibilityLabel = "Translate Post"
                 
         if self.imageButton[0].alpha == 1 {
-            let itemMenu = UIMenu(title: "", options: [], children: [viewSensitive, translatePost, setLanguage, customEmoji])
+            let itemMenu = UIMenu(title: "", options: [], children: [viewSensitive, translatePost, customEmoji])
             itemLast.menu = itemMenu
         } else {
-            let itemMenu = UIMenu(title: "", options: [], children: [translatePost, setLanguage, customEmoji])
+            let itemMenu = UIMenu(title: "", options: [], children: [translatePost, customEmoji])
             itemLast.menu = itemMenu
         }
     }
@@ -2858,7 +2853,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
-        self.hasEditedMedtadata = true
+        self.hasEditedMetadata = true
         self.updateCharacterCounts()
         if let cell2 = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? AltTextCell2 {
             self.spoilerText = cell2.altText.text ?? ""
@@ -3485,7 +3480,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             // Enable if (1) there is any valid content, AND
             //           (2) any editing has happened
             let canSend = hasAnyValidContent &&
-                            (self.hasEditedText || self.hasEditedMedia || self.hasEditedMedtadata || self.hasEditedPoll)
+                            (self.hasEditedText || self.hasEditedMedia || self.hasEditedMetadata || self.hasEditedPoll)
             if canSend {
                 let symbolConfig0 = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)
                 self.canPost = true
@@ -3694,7 +3689,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             spoilerText = self.spoilerText
         }
         log.debug("posting thread piece reply to: \(repId ?? "<no id>"), visiblity: \(whoCanRep)")
-        let request = Statuses.create(status: thisPostPiece, replyToID: repId, mediaIDs: self.mediaIdStrings, sensitive: self.isSensitive, spoilerText: spoilerText, scheduledAt: self.scheduledTime, language: GlobalStruct.currentPostLang, poll: GlobalStruct.newPollPost, visibility: whoCanRep)
+        let request = Statuses.create(status: thisPostPiece, replyToID: repId, mediaIDs: self.mediaIdStrings, sensitive: self.isSensitive, spoilerText: spoilerText, scheduledAt: self.scheduledTime, language: PostLanguages.shared.postLanguage, poll: GlobalStruct.newPollPost, visibility: whoCanRep)
         (self.currentAcct as? MastodonAcctData)?.client.run(request) { (statuses) in
             if let error = statuses.error {
                 log.error("Unable to post thread piece; error: \(error)")
@@ -3778,7 +3773,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             if self.spoilerText != "" {
                 spoilerText = self.spoilerText
             }
-            let request = Statuses.create(status: postText, replyToID: repId, mediaIDs: self.mediaIdStrings, sensitive: self.isSensitive, spoilerText: spoilerText, scheduledAt: self.scheduledTime, language: GlobalStruct.currentPostLang, poll: GlobalStruct.newPollPost, visibility: self.whoCanReply ?? .public)
+            let request = Statuses.create(status: postText, replyToID: repId, mediaIDs: self.mediaIdStrings, sensitive: self.isSensitive, spoilerText: spoilerText, scheduledAt: self.scheduledTime, language: PostLanguages.shared.postLanguage, poll: GlobalStruct.newPollPost, visibility: self.whoCanReply ?? .public)
             (self.currentAcct as? MastodonAcctData)?.client.run(request) { (statuses) in
                 print("new post - \(statuses)")
                 if let error = statuses.error {
@@ -3885,4 +3880,85 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         return GlobalStruct.threaderMode && (self.whoCanReply != .direct)
     }
     
+}
+
+
+// Toolbar language extension
+extension NewPostViewController: TranslationComposeViewControllerDelegate {
+    
+    private func toolbarLanguageButton() -> UIBarButtonItem {
+        // Create the button menu
+        var menuItems: [UIAction] = []
+        let showLanguagePickerAction = UIAction(title:"Choose language", image: nil, identifier: nil) { [weak self] _ in
+            self?.menuShowLanguagePicker()
+        }
+        menuItems.append(showLanguagePickerAction)
+        for language in PostLanguages.shared.postLanguages {
+            let languageName = Locale.current.localizedString(forLanguageCode: language) ?? language
+            let pickLanguageAction = UIAction(title:languageName, image: nil, identifier: nil) { [weak self] _ in
+                self?.menuSelectLanguage(language)
+            }
+            menuItems.append(pickLanguageAction)
+        }
+        let buttonMenu = UIMenu(title: "", image: nil, identifier: nil, options: [], children: menuItems)
+
+        // Create the button
+        let buttonImage = buttonImage()
+        let toolbarLanguageButton = UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: nil)
+        toolbarLanguageButton.accessibilityLabel = "toolbar language"
+        toolbarLanguageButton.menu = buttonMenu
+        return toolbarLanguageButton
+    }
+    
+    private func buttonImage() -> UIImage {
+        // Make a badge with the current language
+        let languageAbbreviation = PostLanguages.shared.postLanguage.uppercased()
+        let badgeSize = CGSize(width: 23, height: 20)
+        let badge = UIGraphicsImageRenderer(size: badgeSize).image { _ in
+            // Draw the surrounding rect
+            let borderWidth = 2.0
+            let lineRect = CGRect(origin: .zero, size: badgeSize).insetBy(dx: borderWidth / 2.0, dy: borderWidth / 2.0)
+            let context = UIGraphicsGetCurrentContext()!
+            let clipPath: CGPath = UIBezierPath(roundedRect: lineRect, cornerRadius: 3.0).cgPath
+            context.addPath(clipPath)
+            context.setFillColor(UIColor.red.cgColor)
+            context.closePath()
+            context.setLineWidth(borderWidth)
+            context.strokePath()
+            
+            // Draw the language abbreviation string
+            let paragraph = NSMutableParagraphStyle()
+            paragraph.alignment = .center
+            let attributes: [NSAttributedString.Key: Any] = [.font: UIFont.systemFont(ofSize: 10, weight: .medium), .paragraphStyle: paragraph]
+            languageAbbreviation.draw(in: CGRect(origin: CGPointMake(0, 4), size: badgeSize),
+                                    withAttributes: attributes)
+        }
+        return badge.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
+    }
+        
+    @objc func menuShowLanguagePicker() {
+        self.hasEditedMetadata = true
+        self.updatePostButton()
+        let vc = TranslationComposeViewController()
+        vc.fromSetLanguage = true
+        vc.delegate = self
+        self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+    }
+    
+    @objc func menuSelectLanguage(_ language: String) {
+        PostLanguages.shared.selectPostLanguage(language)
+        self.createToolbar()
+    }
+    
+    // TranslationComposeViewControllerDelegate
+    func didSelectLanguage(language: String) {
+        PostLanguages.shared.selectPostLanguage(language)
+        self.createToolbar()
+    }
+    
+    func removeLanguage(language: String) {
+        PostLanguages.shared.removePostLanguage(language)
+        self.createToolbar()
+    }
+
 }

@@ -583,6 +583,7 @@
 		BF33A0F42AA946AF0008D9DF /* ThinSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF33A0F32AA946AF0008D9DF /* ThinSlider.swift */; };
 		BF34B1A62A0E9774002F3FED /* HashtagManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF34B1A52A0E9774002F3FED /* HashtagManager.swift */; };
 		BF3841F32AD6F39A005C3995 /* EmailHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF3841F22AD6F39A005C3995 /* EmailHandler.swift */; };
+		BF44B2D62B2D29F400442F61 /* PostLanguages.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF44B2D52B2D29F400442F61 /* PostLanguages.swift */; };
 		BF48B9322A8FE54F00DE6BFC /* ToastNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF48B9312A8FE54F00DE6BFC /* ToastNotification.swift */; };
 		BF492DAE29F1E04C004100B8 /* QuotePostMutedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF492DAD29F1E04C004100B8 /* QuotePostMutedView.swift */; };
 		BF492DB029F21811004100B8 /* QuotePostMutedView.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF492DAF29F21811004100B8 /* QuotePostMutedView.xib */; };
@@ -1416,6 +1417,7 @@
 		BF33A0F32AA946AF0008D9DF /* ThinSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThinSlider.swift; sourceTree = "<group>"; };
 		BF34B1A52A0E9774002F3FED /* HashtagManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagManager.swift; sourceTree = "<group>"; };
 		BF3841F22AD6F39A005C3995 /* EmailHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailHandler.swift; sourceTree = "<group>"; };
+		BF44B2D52B2D29F400442F61 /* PostLanguages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLanguages.swift; sourceTree = "<group>"; };
 		BF48B9312A8FE54F00DE6BFC /* ToastNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastNotification.swift; sourceTree = "<group>"; };
 		BF492DAD29F1E04C004100B8 /* QuotePostMutedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuotePostMutedView.swift; sourceTree = "<group>"; };
 		BF492DAF29F21811004100B8 /* QuotePostMutedView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = QuotePostMutedView.xib; sourceTree = "<group>"; };
@@ -2682,6 +2684,7 @@
 				C354D6032A0D1AF300F8AC04 /* ViewState.swift */,
 				C376357B2A55974F0008DD21 /* NewsFeedListItem.swift */,
 				BFA71B542AB23A70001D1EC1 /* InstanceCardModel.swift */,
+				BF44B2D52B2D29F400442F61 /* PostLanguages.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3648,6 +3651,7 @@
 				5339947F2914214A00560F83 /* IconSettingsViewController.swift in Sources */,
 				533994C72914214A00560F83 /* ProfileNoteViewController.swift in Sources */,
 				BF0C9DEE299946C50046D072 /* Log.swift in Sources */,
+				BF44B2D62B2D29F400442F61 /* PostLanguages.swift in Sources */,
 				C3C22E762A39C1F100C7CB0A /* ProfileCoverImage.swift in Sources */,
 				53450E422936121600D720EA /* GiphySimpleItem.swift in Sources */,
 				532F286F29449DBF003C9FAD /* ChatMessageViewController.swift in Sources */,
