@@ -101,8 +101,10 @@ public class tagInstanceInfo: Codable {
 
 public class serverConstants: Codable {
     public let defaultVisibility: String?
-    
+    public let defaultPostingLanguage: String?
+
     private enum CodingKeys: String, CodingKey {
         case defaultVisibility = "posting:default:visibility"
+        case defaultPostingLanguage = "posting:default:language"
     }
 }
