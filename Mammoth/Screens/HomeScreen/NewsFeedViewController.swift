@@ -660,7 +660,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                            onCompleted: (() -> Void)?) {
         guard !self.switchingAccounts else { return }
         
-        let updateDisplay = self.isInWindowHierarchy() && (updateType != .update)
+        let updateDisplay = self.isInWindowHierarchy()
         
         switch updateType {
         case .insert, .update, .remove, .replaceAll:
@@ -699,11 +699,9 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                 }
                 onCompleted?()
                 
-                if updateType != .update {
-                    DispatchQueue.main.async {
-                        if let scrollPosition {
-                            self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
-                        }
+                DispatchQueue.main.async {
+                    if let scrollPosition {
+                        self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                     }
                 }
             }
