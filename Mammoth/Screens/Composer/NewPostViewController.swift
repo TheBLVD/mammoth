@@ -73,7 +73,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     var mediaAttached: Bool = false // Looks like this is never cleared (?)
     var hasEditedText = false
     var hasEditedMedia = false
-    var hasEditedMedtadata = false // CW, Sensitive, Post Language
+    var hasEditedMetadata = false // CW, Sensitive, Post Language
     var hasEditedPoll = false
     let numImages = 4
     var imageButton = [UIButton(), UIButton(), UIButton(), UIButton()]
@@ -1139,7 +1139,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             }
             vie1.accessibilityLabel = "View Image"
             let alt1 = UIAction(title: "Add Image Description", image: UIImage(systemName: "character.cursor.ibeam"), identifier: nil) { action in
-                self.hasEditedMedtadata = true
+                self.hasEditedMetadata = true
                 let vc = AltTextViewController()
                 vc.currentImage = self.imageButton[0].currentImage ?? UIImage()
                 if let x = GlobalStruct.altAdded[0] {
@@ -1237,7 +1237,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
                 vie2.accessibilityLabel = "View Image"
                 let alt2 = UIAction(title: "Add Image Description", image: UIImage(systemName: "character.cursor.ibeam"), identifier: nil) { action in
-                    self.hasEditedMedtadata = true
+                    self.hasEditedMetadata = true
                     let vc = AltTextViewController()
                     vc.currentImage = self.imageButton[index].currentImage ?? UIImage()
                     if let x = GlobalStruct.altAdded[index] {
@@ -1535,7 +1535,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func cwTapped() {
-        self.hasEditedMedtadata = true
+        self.hasEditedMetadata = true
         if self.cwHeight == 0 {
             self.cwHeight = UITableView.automaticDimension
             self.tableView.reloadRows(at: [IndexPath(row: 0, section: 1)], with: .bottom)
@@ -1589,7 +1589,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             sensitiveImage = "exclamationmark.triangle.fill"
         }
         let viewSensitive = UIAction(title: sensitiveText, image: UIImage(systemName: sensitiveImage), identifier: nil) { action in
-            self.hasEditedMedtadata = true
+            self.hasEditedMetadata = true
             self.isSensitive = !self.isSensitive
             self.itemLastMenu()
             self.updatePostButton()
@@ -2853,7 +2853,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
-        self.hasEditedMedtadata = true
+        self.hasEditedMetadata = true
         self.updateCharacterCounts()
         if let cell2 = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? AltTextCell2 {
             self.spoilerText = cell2.altText.text ?? ""
@@ -3480,7 +3480,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             // Enable if (1) there is any valid content, AND
             //           (2) any editing has happened
             let canSend = hasAnyValidContent &&
-                            (self.hasEditedText || self.hasEditedMedia || self.hasEditedMedtadata || self.hasEditedPoll)
+                            (self.hasEditedText || self.hasEditedMedia || self.hasEditedMetadata || self.hasEditedPoll)
             if canSend {
                 let symbolConfig0 = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)
                 self.canPost = true
@@ -3937,7 +3937,7 @@ extension NewPostViewController: TranslationComposeViewControllerDelegate {
     }
         
     @objc func menuShowLanguagePicker() {
-        self.hasEditedMedtadata = true
+        self.hasEditedMetadata = true
         self.updatePostButton()
         let vc = TranslationComposeViewController()
         vc.fromSetLanguage = true
