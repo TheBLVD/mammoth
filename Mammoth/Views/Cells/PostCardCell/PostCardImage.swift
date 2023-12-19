@@ -152,7 +152,6 @@ final class PostCardImage: UIView {
         if let media = postCard.mediaAttachments.first {
             self.media = media
             if let previewURL = media.previewURL, let imageURL = URL(string: previewURL) {
-                
                 self.imageView.ma_setImage(with: imageURL,
                                                   cachedImage: postCard.decodedImages[previewURL] as? UIImage,
                                                   imageTransformer: PostCardImage.transformer) { image in

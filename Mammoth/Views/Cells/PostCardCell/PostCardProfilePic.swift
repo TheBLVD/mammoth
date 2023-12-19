@@ -167,10 +167,10 @@ extension PostCardProfilePic {
         self.user = user
         
         if let profileStr = user.imageURL, let profileURL = URL(string: profileStr) {
-            self.profileImageView.ma_setImage(with: profileURL, 
+            self.profileImageView.ma_setImage(with: profileURL,
                                               cachedImage: self.user?.decodedProfilePic,
-                                              imageTransformer: PostCardProfilePic.transformer) { [weak self] image in
-                self?.user?.decodedProfilePic = image
+                                              imageTransformer: PostCardProfilePic.transformer) { image in
+                user.decodedProfilePic = image
             }
         }
         
