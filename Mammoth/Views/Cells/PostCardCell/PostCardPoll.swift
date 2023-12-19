@@ -314,6 +314,11 @@ fileprivate class PostCardPollOption: UIStackView {
         self.barWidthConstraint = self.optionBar.widthAnchor.constraint(equalTo: self.optionButton.widthAnchor, multiplier: CGFloat(self.option?.percentage ?? 0), constant: 0)
         self.barWidthConstraint?.isActive = true
         
+        NSLayoutConstraint.activate([
+            self.optionBar.centerYAnchor.constraint(equalTo: self.optionButton.centerYAnchor),
+            self.optionBar.leadingAnchor.constraint(equalTo: self.optionButton.leadingAnchor)
+        ])
+        
         self.addArrangedSubview(optionButton)
         self.addArrangedSubview(optionResult)
     }

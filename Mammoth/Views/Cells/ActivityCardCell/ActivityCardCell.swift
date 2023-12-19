@@ -208,13 +208,13 @@ private extension ActivityCardCell {
         wrapperStackView.addArrangedSubview(mainStackView)
         
         NSLayoutConstraint.activate([
-            wrapperStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            wrapperStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
-            wrapperStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 13),
-            wrapperStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -13),
+            wrapperStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 16),
+            wrapperStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: -16),
+            wrapperStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 13),
+            wrapperStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -13),
             
             // Force main stack view to fill the parent width
-            mainStackView.trailingAnchor.constraint(equalTo: wrapperStackView.trailingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: wrapperStackView.layoutMarginsGuide.trailingAnchor),
         ])
 
         mainStackView.addArrangedSubview(profilePic)

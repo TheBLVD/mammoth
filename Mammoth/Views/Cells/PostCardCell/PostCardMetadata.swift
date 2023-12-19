@@ -68,16 +68,6 @@ final class PostCardMetadata: UIView {
     
     func prepareForReuse() {
         self.onButtonPress = nil
-        
-        if self.mainStackView.arrangedSubviews.contains(applicationLabel) {
-            self.mainStackView.removeArrangedSubview(applicationLabel)
-            applicationLabel.removeFromSuperview()
-        }
-        
-        if metricsStackView.arrangedSubviews.contains(viewDetailsLabel) {
-            metricsStackView.removeArrangedSubview(viewDetailsLabel)
-            viewDetailsLabel.removeFromSuperview()
-        }
     }
     
     func setupUIFromSettings() {
@@ -110,6 +100,13 @@ final class PostCardMetadata: UIView {
         repostsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onMetricPress)))
         repliesLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.onMetricPress)))
         
+        metricsStackView.addArrangedSubview(likesLabel)
+        metricsStackView.addArrangedSubview(repostsLabel)
+        metricsStackView.addArrangedSubview(repliesLabel)
+        
+        viewDetailsLabel.text = "View details"
+        metricsStackView.addArrangedSubview(viewDetailsLabel)
+        
         self.setupUIFromSettings()
     }
     
@@ -138,60 +135,45 @@ final class PostCardMetadata: UIView {
         repostsLabel.text = Int(postCard.repostCount) == 1 ? "1 Repost" : "\(postCard.repostCount) Reposts"
         
         if postCard.likeCount == "0" {
-            if metricsStackView.arrangedSubviews.contains(likesLabel) {
-                metricsStackView.removeArrangedSubview(likesLabel)
-                likesLabel.removeFromSuperview()
-            }
-        } else if !metricsStackView.arrangedSubviews.contains(likesLabel) {
-            metricsStackView.insertArrangedSubview(likesLabel, at: 0)
+            likesLabel.isHidden = true
+        } else {
+            likesLabel.isHidden = false
         }
         
         if postCard.replyCount == "0" {
-            if metricsStackView.arrangedSubviews.contains(repliesLabel) {
-                metricsStackView.removeArrangedSubview(repliesLabel)
-                repliesLabel.removeFromSuperview()
-            }
-        } else if !metricsStackView.arrangedSubviews.contains(repliesLabel) {
-            let index = (metricsStackView.arrangedSubviews.firstIndex(of: likesLabel) ?? -1) + 1
-            metricsStackView.insertArrangedSubview(repliesLabel, at: index)
+            repliesLabel.isHidden = true
+        } else {
+            repliesLabel.isHidden = false
         }
         
         if postCard.repostCount == "0" {
-            if metricsStackView.arrangedSubviews.contains(repostsLabel) {
-                metricsStackView.removeArrangedSubview(repostsLabel)
-                repostsLabel.removeFromSuperview()
-            }
-        } else if !metricsStackView.arrangedSubviews.contains(repostsLabel) {
-            metricsStackView.addArrangedSubview(repostsLabel)
+            repostsLabel.isHidden = true
+        } else {
+            repostsLabel.isHidden = false
         }
         
         // show "view details" label if needed
         if type.shouldShowDetailedMetrics && type != .detail {
             if postCard.likeCount == "0" && postCard.replyCount == "0" && postCard.repostCount == "0" {
-                if !metricsStackView.arrangedSubviews.contains(viewDetailsLabel) {
-                    viewDetailsLabel.text = "View details"
-                    metricsStackView.addArrangedSubview(viewDetailsLabel)
-                }
-            } else if metricsStackView.arrangedSubviews.contains(viewDetailsLabel) {
-                metricsStackView.removeArrangedSubview(viewDetailsLabel)
-                viewDetailsLabel.removeFromSuperview()
+                viewDetailsLabel.isHidden = false
+            } else {
+                viewDetailsLabel.isHidden = true
             }
+        } else {
+            viewDetailsLabel.isHidden = true
         }
     }
     
     @objc private func onMetricPress(recognizer: UIGestureRecognizer) {
         if recognizer.view?.tag == MetricButtons.likes.rawValue {
-            // Implementation done in separate ticket
             self.onButtonPress?(.likes, false, nil)
         }
         
         if recognizer.view?.tag == MetricButtons.reposts.rawValue {
-            // Implementation done in separate ticket
             self.onButtonPress?(.reposts, false, nil)
         }
         
         if recognizer.view?.tag == MetricButtons.replies.rawValue {
-            // Implementation done in separate ticket
             self.onButtonPress?(.replies, false, nil)
         }
     }
