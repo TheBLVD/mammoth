@@ -24,7 +24,10 @@ class PostLanguages {
     }
     
     init() {
-        postLanguage = UserDefaults.standard.value(forKey: "postLanguage") as? String ?? Locale.current.languageCode ?? "EN"
+        postLanguage = UserDefaults.standard.value(forKey: "postLanguage") as? String ??
+                       (AccountsManager.shared.currentAccount as? MastodonAcctData)?.defaultPostingLanguage ??
+                       Locale.current.languageCode ??
+                       "en"
         postLanguages = UserDefaults.standard.value(forKey: "postLanguages") as? [String] ?? []
         if postLanguages.count == 0 {
             postLanguages = [postLanguage]

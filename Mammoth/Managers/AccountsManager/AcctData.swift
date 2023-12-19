@@ -108,6 +108,7 @@ struct MastodonAcctData: AcctDataType {
     let account: Account
     let instanceData: InstanceData
     let defaultPostVisibility: Visibility
+    let defaultPostingLanguage: String?
     let emoticons: [Emoji]
     var forYou: ForYouAccount
     var wentThroughOnboarding: Bool // false for accounts coming from 1.x
@@ -120,18 +121,20 @@ struct MastodonAcctData: AcctDataType {
         case account
         case instanceData
         case defaultPostVisibility
+        case defaultPostLanguage
         case emoticons
         case forYou
         case wentThroughOnboarding
     }
     
-    init(account: Account, instanceData: InstanceData, client: Client, defaultPostVisibility: Visibility, emoticons: [Emoji], forYou: ForYouAccount, uniqueID: String? = nil, wentThroughOnboarding: Bool = false) {
+    init(account: Account, instanceData: InstanceData, client: Client, defaultPostVisibility: Visibility, defaultPostingLanguage: String?, emoticons: [Emoji], forYou: ForYouAccount, uniqueID: String? = nil, wentThroughOnboarding: Bool = false) {
         self.uniqueID = uniqueID ?? UUID().uuidString
         self.account = account
         self.instanceData = instanceData
         self.client = Client(baseURL: "https://\(instanceData.returnedText)", accessToken: instanceData.accessToken)
         self.mothClient = Client(baseURL: "https://\(GlobalHostServer())", accessToken: MothSocialJWT(acct: account.remoteFullOriginalAcct), isMothClient: true)
         self.defaultPostVisibility = defaultPostVisibility
+        self.defaultPostingLanguage = defaultPostingLanguage
         self.emoticons = emoticons
         self.forYou = forYou
         self.wentThroughOnboarding = wentThroughOnboarding
@@ -165,6 +168,12 @@ struct MastodonAcctData: AcctDataType {
         } catch {
             wentThroughOnboarding = false // for 1.x accounts
         }
+        // Below are new for 2.1
+        do {
+            defaultPostingLanguage = try container.decode(type(of: defaultPostingLanguage).self, forKey: .defaultPostVisibility)
+        } catch {
+            defaultPostingLanguage = nil
+        }
         
         _ = try container.superDecoder ( )
     }
@@ -175,6 +184,7 @@ struct MastodonAcctData: AcctDataType {
         try container.encode(account, forKey: .account)
         try container.encode(instanceData, forKey: .instanceData)
         try container.encode(defaultPostVisibility, forKey: .defaultPostVisibility)
+        try container.encode(defaultPostingLanguage, forKey: .defaultPostLanguage)
         try container.encode(emoticons, forKey: .emoticons)
         try container.encode(forYou, forKey: .forYou)
         try container.encode(wentThroughOnboarding, forKey: .wentThroughOnboarding)

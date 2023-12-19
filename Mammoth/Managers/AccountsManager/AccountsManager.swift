@@ -357,7 +357,7 @@ class AccountsManager {
             log.debug("migrating account: \(account.remoteFullOriginalAcct)")
             // Select this account?
             let client = Client(baseURL: "https://\(instance.returnedText)", accessToken: instance.accessToken)
-            let acctData = MastodonAcctData(account: account, instanceData: instance, client: client, defaultPostVisibility: .public, emoticons: [], forYou: ForYouAccount(forYou: ForYouType(), subscribedChannels: []), wentThroughOnboarding: false)
+            let acctData = MastodonAcctData(account: account, instanceData: instance, client: client, defaultPostVisibility: .public, defaultPostingLanguage: nil, emoticons: [], forYou: ForYouAccount(forYou: ForYouType(), subscribedChannels: []), wentThroughOnboarding: false)
             if instance == InstanceData.getCurrentInstance() {
                 selectedAcctData = acctData
             }
