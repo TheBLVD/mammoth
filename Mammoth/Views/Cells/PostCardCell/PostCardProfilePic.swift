@@ -69,7 +69,6 @@ final class PostCardProfilePic: UIButton {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
         imageView.layer.isOpaque = true
-        imageView.layer.masksToBounds = true
         imageView.layer.backgroundColor = UIColor.custom.background.cgColor
         return imageView
     }()
