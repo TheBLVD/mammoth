@@ -381,8 +381,10 @@ extension ProfileViewModel {
                     return await MainActor.run { [weak self] in
                         guard let self else { return nil }
                         let followStatus = self.user?.followStatus
+                        let cachedProfilePic = self.user?.decodedProfilePic
                         self.user = UserCardModel(account: account, instanceName: instanceName)
                         self.user?.followStatus = followStatus
+                        self.user?.decodedProfilePic = cachedProfilePic
                         self.state = .success
                         return self.user
                     }
@@ -390,14 +392,18 @@ extension ProfileViewModel {
                     // If the instance returns an error, search for the user on the user's instance
                     if  let accountId = user.account?.fullAcct {
                         if let account = await AccountService.lookup(accountId, serverName: AccountsManager.shared.currentAccountClient.baseHost) ?? user.account {
+                            
                             user = UserCardModel(account: account, instanceName: AccountsManager.shared.currentAccountClient.baseHost)
                             
                             let user = user
                             return await MainActor.run { [weak self] in
                                 guard let self else { return nil }
                                 let followStatus = self.user?.followStatus
+                                let cachedProfilePic = self.user?.decodedProfilePic
+                                
                                 self.user = user
                                 self.user?.followStatus = followStatus
+                                user.decodedProfilePic = cachedProfilePic
                                 self.state = .success
                                 return self.user
                             }
