@@ -205,6 +205,8 @@ struct PostActions {
             
         case .profile:
             switch data {
+            case .user(let userCardModel):
+                PostActions.onProfilePress(target: target, user: userCardModel)
             case .account(let account):
                 PostActions.onProfilePress(target: target, account: account)
             default:
