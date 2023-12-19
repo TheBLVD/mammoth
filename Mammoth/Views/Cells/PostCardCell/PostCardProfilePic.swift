@@ -69,6 +69,7 @@ final class PostCardProfilePic: UIButton {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
         imageView.layer.isOpaque = true
+        imageView.layer.masksToBounds = true
         imageView.layer.backgroundColor = UIColor.custom.background.cgColor
         return imageView
     }()
@@ -125,6 +126,8 @@ private extension PostCardProfilePic {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.profileTapped))
         self.profileImageView.addGestureRecognizer(tapGesture)
+        
+        self.profileImageView.layer.cornerRadius = self.size.cornerRadius()
                 
         let widthImageC = profileImageView.widthAnchor.constraint(equalToConstant: self.size.width())
         widthImageC.priority = .required
