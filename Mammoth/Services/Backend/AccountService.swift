@@ -64,7 +64,7 @@ struct AccountService {
         }
     }
     
-    static func lookup(_ fullAcct: String, serverName: String) async -> Account? {
+    static func lookup(_ fullAcct: String, serverName: String = AccountsManager.shared.currentAccountClient.baseHost) async -> Account? {
         let request = Accounts.lookup(acct: fullAcct)
         let client = Client(baseURL: "https://\(serverName)")
         return await withCheckedContinuation { continuation in
@@ -328,7 +328,7 @@ struct AccountService {
     }
     
     static func getLocalAccount(account: Account) async throws -> Account? {
-        let result = try await SearchService.searchAccount(query: account.acct)
+        let result = await AccountService.lookup(account)
         return result
     }
 }
