@@ -34,7 +34,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         tableView.prefetchDataSource = self
         tableView.backgroundColor = .custom.background
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 310
         tableView.separatorInset = .zero
         tableView.layoutMargins = .zero
         tableView.showsVerticalScrollIndicator = false
@@ -62,7 +62,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     private var feedMenuItems : [UIMenu] = []
     private var viewModel: NewsFeedViewModel
     private var didInitializeOnce = false
-    private var cellHeights = [IndexPath: CGFloat]()
     // switchingAccounts is set to true in the period between
     // willSwitchAccount and didSwitchAccount, when currentAccount
     // should not be accessed.
@@ -263,7 +262,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     
     @objc private func willSwitchAccount() {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
-        self.cellHeights = [:]
         self.viewModel.removeAll(type: self.viewModel.type, clearScrollPosition: false)
         
         if self.isInWindowHierarchy() {
@@ -472,7 +470,11 @@ extension NewsFeedViewController {
 extension NewsFeedViewController {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cellHeights[indexPath] = cell.frame.size.height
+        if let item = self.viewModel.getItemForIndexPath(indexPath) {
+            if case .postCard(let postCardModel) = item {
+                postCardModel.cellHeight = cell.frame.size.height
+            }
+        }
         
         if self.isActiveFeed && self.viewModel.type.shouldSyncItems {
             self.viewModel.requestItemSync(forIndexPath: indexPath, afterSeconds: 3.4)
@@ -512,7 +514,13 @@ extension NewsFeedViewController {
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return cellHeights[indexPath] ?? 310
+        if let item = self.viewModel.getItemForIndexPath(indexPath) {
+            if case .postCard(let postCardModel) = item {
+                return postCardModel.cellHeight ?? 310
+            }
+        }
+        
+        return 310
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -667,10 +675,6 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             
             log.debug("tableview change: \(updateType) for \(feedType)")
             
-            if updateType != .update && updateType != .append {
-                self.cellHeights = [:]
-            }
-            
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .bottom)
 
@@ -715,9 +719,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             guard self.isInWindowHierarchy() else { return }
             
             log.debug("tableview change: \(updateType) for \(feedType)")
-            
-            self.cellHeights = [:]
-            
+                        
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .bottom)
 
@@ -765,7 +767,6 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             
         case .removeAll:
             log.debug("tableview change: \(updateType) for \(feedType)")
-            self.cellHeights = [:]
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
                 guard let self else { return }
                 switch self.viewModel.type {
@@ -783,7 +784,6 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             
         case .hydrate:
             log.debug("tableview change: \(updateType) for \(feedType)")
-            self.cellHeights = [:]
             let scrollPosition = self.viewModel.getScrollPosition(forFeed: feedType)
             
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
@@ -861,7 +861,6 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: fromType)
         self.latestPill.isEnabled = false
         self.unreadIndicator.isEnabled = false
-        self.cellHeights = [:]
     }
     
     func didChangeFeed(type: NewsFeedTypes) {

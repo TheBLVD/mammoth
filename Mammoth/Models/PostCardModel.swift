@@ -99,6 +99,7 @@ final class PostCardModel {
     
     var imagePrefetchToken: SDWebImagePrefetchToken?
     var decodedImages: [String: UIImage?] = [:]
+    var cellHeight: CGFloat?
     
     enum FilterType {
         case warn(String)
