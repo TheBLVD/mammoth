@@ -99,6 +99,18 @@ final class ProfileViewModel {
                 : serverName
             
             if let account = await AccountService.lookup(fullAcct, serverName: serverName) {
+                // Lookup on account's instance
+                let user = UserCardModel(account: account, instanceName: account.server, requestFollowStatusUpdate: .force)
+                await MainActor.run {
+                    user.loadHTMLDescription()
+                    self.user = user
+                }
+                
+                await self.loadListData(type: self.type)
+                
+            } else if let account = await AccountService.lookup(fullAcct, serverName: AccountsManager.shared.currentAccountClient.baseHost) {
+                // Lookup on signed in user's local instance.
+                // This is a fallback for non-mastodon instances
                 let user = UserCardModel(account: account, instanceName: account.server, requestFollowStatusUpdate: .force)
                 await MainActor.run {
                     user.loadHTMLDescription()
