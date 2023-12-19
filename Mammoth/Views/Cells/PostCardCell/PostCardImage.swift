@@ -101,14 +101,11 @@ final class PostCardImage: UIView {
         
         self.media = nil
         self.dismissedSensitiveOverlay = false
-        
-//        self.resetVariableConstraints()
     }
     
     private func resetVariableConstraints() {
         [imageWidthConstraint, imageHeightConstraint, maxHeightConstraint, minHeightConstraint].compactMap({$0}).forEach({
             $0.isActive = false
-//            imageView.removeConstraint($0)
         })
     }
     
