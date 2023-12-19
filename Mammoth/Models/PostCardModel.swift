@@ -288,7 +288,7 @@ final class PostCardModel {
         self.richRebloggerUsername = NSAttributedString(string: self.rebloggerUsername)
         
         self.account = status.reblog?.account ?? status.account
-        self.user = self.account != nil ? UserCardModel(account: self.account!) : nil
+        self.user = self.account != nil ? UserCardModel(account: self.account!, instanceName: instanceName) : nil
 
         // User tag formatting
         self.userTag = (status.reblog?.account?.acct ?? status.account?.acct ?? "")
