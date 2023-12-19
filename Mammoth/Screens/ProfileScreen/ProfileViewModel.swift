@@ -92,6 +92,12 @@ final class ProfileViewModel {
         // we lookup the account based on the account tag
         Task { [weak self] in
             guard let self else { return }
+            
+            // If server is Threads.net, use the user's local instance
+            let serverName = serverName == "www.threads.net"
+                ? AccountsManager.shared.currentAccountClient.baseHost
+                : serverName
+            
             if let account = await AccountService.lookup(fullAcct, serverName: serverName) {
                 let user = UserCardModel(account: account, instanceName: account.server, requestFollowStatusUpdate: .force)
                 await MainActor.run {
