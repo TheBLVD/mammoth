@@ -158,6 +158,7 @@ enum PostCardButtonCallbackData {
     case mention((String, Status))
     case post(PostCardModel)
     case account(Account)
+    case user(UserCardModel)
     case list(String)
 }
 

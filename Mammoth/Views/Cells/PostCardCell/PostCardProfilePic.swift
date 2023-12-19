@@ -192,8 +192,8 @@ extension PostCardProfilePic {
     }
     
     @objc func profileTapped() {
-        if let account = user?.account {
-            self.onPress?(.profile, true, .account(account))
+        if let user = user {
+            self.onPress?(.profile, true, .user(user))
         }
     }
 }

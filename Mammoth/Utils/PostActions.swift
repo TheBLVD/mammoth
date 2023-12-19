@@ -73,6 +73,8 @@ struct PostActions {
             
         case .profile:
             switch data {
+            case .user(let userCardModel):
+                PostActions.onProfilePress(target: target, user: userCardModel)
             case .account(let account):
                 PostActions.onProfilePress(target: target, account: account)
             default:
@@ -745,6 +747,16 @@ extension PostActions {
         let userCardModel = UserCardModel(account: account, requestFollowStatusUpdate: .whenUncertain)
         let isSelf = account.fullAcct == AccountsManager.shared.currentUser()?.fullAcct
         let profileVC = ProfileViewController(user: userCardModel, screenType: isSelf ? .own : .others)
+        if profileVC.isBeingPresented {} else {
+            target.navigationController?.pushViewController(profileVC, animated: true)
+        }
+    }
+    
+    static func onProfilePress(target: UIViewController, user: UserCardModel) {
+        triggerHapticImpact(style: .light)
+        
+        let isSelf = user.account?.fullAcct == AccountsManager.shared.currentUser()?.fullAcct
+        let profileVC = ProfileViewController(user: user, screenType: isSelf ? .own : .others)
         if profileVC.isBeingPresented {} else {
             target.navigationController?.pushViewController(profileVC, animated: true)
         }

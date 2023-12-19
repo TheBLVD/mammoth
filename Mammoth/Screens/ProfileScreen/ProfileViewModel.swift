@@ -273,9 +273,9 @@ extension ProfileViewModel {
         do {
             switch(type) {
             case .posts:
-                return try await AccountService.profilePosts(user: user, range: range, serverName: user.instanceName ?? user.account?.server)
+                return try await AccountService.profilePosts(user: user, range: range, serverName: user.instanceName)
             case .postsAndReplies:
-                return try await AccountService.profilePostsAndReplies(user: user, range: range, serverName: user.instanceName ?? user.account?.server)
+                return try await AccountService.profilePostsAndReplies(user: user, range: range, serverName: user.instanceName)
             }
         } catch {
             // Fallback to the user's instance to fetch the profile posts.
@@ -284,7 +284,7 @@ extension ProfileViewModel {
             let currentServer = AccountsManager.shared.currentAccountClient.baseHost
             
             var localUser = user
-            if user.instanceName != currentServer {
+            if user.instanceName != nil && user.instanceName != currentServer {
                 localUser = await self.reloadUser(forceLocal: true) ?? user
                 await MainActor.run { self.state = .loading }
             }
@@ -350,16 +350,20 @@ extension ProfileViewModel {
                     }
                 }
             } else {
-                guard var user = self.user else { return nil }
+                let user = await MainActor.run { [weak self] in
+                    return self?.user
+                }
+                    
+                guard var user = user else { return nil }
                 await MainActor.run {self.state = .loading }
                 
                 // Fetch the user on its original instance
-                let client = user.instanceName != nil ? Client(baseURL:"https://\(user.instanceName!)") : nil
-                if let account = try await AccountService.user(withId: user.id, client: client), !forceLocal {
+                let instanceName = user.instanceName ?? AccountsManager.shared.currentAccountClient.baseHost
+                if let account = await AccountService.lookup(user.uniqueId, serverName: instanceName), !forceLocal {
                     return await MainActor.run { [weak self] in
                         guard let self else { return nil }
                         let followStatus = self.user?.followStatus
-                        self.user = UserCardModel(account: account, instanceName: self.user?.instanceName)
+                        self.user = UserCardModel(account: account, instanceName: instanceName)
                         self.user?.followStatus = followStatus
                         self.state = .success
                         return self.user

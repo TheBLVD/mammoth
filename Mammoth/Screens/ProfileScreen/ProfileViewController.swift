@@ -135,8 +135,8 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
         
         Task { [weak self] in
             guard let self else { return }
-            await self.viewModel.reloadUser()
             if self.viewModel.screenType == .own {
+                await self.viewModel.reloadUser()
                 await self.viewModel.loadListData()
             }
         }
