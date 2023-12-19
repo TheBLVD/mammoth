@@ -102,16 +102,14 @@ final class PostCardImage: UIView {
         self.media = nil
         self.dismissedSensitiveOverlay = false
         
-        self.resetVariableConstraints()
+//        self.resetVariableConstraints()
     }
     
     private func resetVariableConstraints() {
-        imageWidthConstraint?.isActive = false
-        imageHeightConstraint?.isActive = false
-        maxHeightConstraint?.isActive = false
-        minHeightConstraint?.isActive = false
- 
-        self.translatesAutoresizingMaskIntoConstraints = false
+        [imageWidthConstraint, imageHeightConstraint, maxHeightConstraint, minHeightConstraint].compactMap({$0}).forEach({
+            $0.isActive = false
+//            imageView.removeConstraint($0)
+        })
     }
     
     private func setupUI() {
@@ -127,13 +125,13 @@ final class PostCardImage: UIView {
         self.imageView.addSubview(sensitiveContentOverlay)
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
-            imageView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: self.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            altButton.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor, constant: -10),
-            altButton.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor, constant: -10),
+            altButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
+            altButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
         ])
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(self.onPress))
@@ -146,8 +144,77 @@ final class PostCardImage: UIView {
         self.sensitiveContentOverlay.alpha = 1
     }
     
-    public func configure(postCard: PostCardModel) {
+    override func updateConstraints() {
         self.resetVariableConstraints()
+        
+        // the aspect value might be nil
+        if self.media?.meta?.original?.aspect == nil {
+            self.media?.meta?.original?.aspect = Double(self.media?.meta?.original?.width ?? 10) / Double(self.media?.meta?.original?.height ?? 10)
+        }
+        
+        if let ratio = self.media?.meta?.original?.aspect {
+            // square
+            if fabs(ratio - 1.0) < 0.01 {
+                imageWidthConstraint = imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
+                imageWidthConstraint!.priority = .required
+                imageWidthConstraint!.isActive = true
+                
+                imageHeightConstraint = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
+                imageHeightConstraint!.priority = .required
+                imageHeightConstraint!.isActive = true
+                
+                self.translatesAutoresizingMaskIntoConstraints = false
+            }
+            
+            // landscape
+            else if ratio > 1 {
+                imageWidthConstraint = imageView.widthAnchor.constraint(equalTo: self.widthAnchor)
+                imageWidthConstraint!.priority = .defaultHigh
+                imageWidthConstraint!.isActive = true
+                
+                imageHeightConstraint = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1 / ratio)
+                imageHeightConstraint!.priority = .defaultHigh
+                imageHeightConstraint!.isActive = true
+                
+                minHeightConstraint = imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60)
+                minHeightConstraint!.priority = .required
+                minHeightConstraint!.isActive = true
+            }
+            
+            // portrait
+            else if ratio < 1 {
+                if ratio < 0.44 {
+                    // extremely tall (more than the iPhone 14 Pro Max ratio)
+                    imageWidthConstraint = imageView.widthAnchor.constraint(equalTo: self.widthAnchor)
+                    imageWidthConstraint!.priority = .defaultHigh
+                    imageWidthConstraint!.isActive = true
+                    
+                    imageHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: 420)
+                    imageHeightConstraint!.priority = .defaultHigh
+                    imageHeightConstraint!.isActive = true
+                    
+                } else {
+                    // most portrait images
+                    imageWidthConstraint = imageView.widthAnchor.constraint(lessThanOrEqualTo: self.widthAnchor)
+                    imageWidthConstraint!.priority = .required
+                    imageWidthConstraint!.isActive = true
+                    
+                    imageHeightConstraint = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1 / ratio)
+                    imageHeightConstraint!.priority = .defaultHigh
+                    imageHeightConstraint!.isActive = true
+                    
+                    maxHeightConstraint = imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 420)
+                    maxHeightConstraint!.priority = .required
+                    maxHeightConstraint!.isActive = true
+                }
+            }
+        }
+        
+        super.updateConstraints()
+    }
+    
+    public func configure(postCard: PostCardModel) {
+        let shouldUpdate = self.media == nil || postCard.mediaAttachments.first != self.media!
         
         if let media = postCard.mediaAttachments.first {
             self.media = media
@@ -157,75 +224,6 @@ final class PostCardImage: UIView {
                                                   cachedImage: postCard.decodedImages[previewURL] as? UIImage,
                                                   imageTransformer: PostCardImage.transformer) { image in
                     postCard.decodedImages[previewURL] = image
-                }
-            }
-            
-            // the aspect value might be nil
-            if media.meta?.original?.aspect == nil {
-                media.meta?.original?.aspect = Double(media.meta?.original?.width ?? 10) / Double(media.meta?.original?.height ?? 10)
-            }
-            
-            if let ratio = media.meta?.original?.aspect {
-                // square
-                if fabs(ratio - 1.0) < 0.01 {
-                    imageWidthConstraint = imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
-                    imageWidthConstraint!.priority = .required
-                    imageWidthConstraint!.isActive = true
-                    
-                    imageHeightConstraint = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
-                    imageHeightConstraint!.priority = .required
-                    imageHeightConstraint!.isActive = true
-                    
-                    self.translatesAutoresizingMaskIntoConstraints = false
-                }
-                
-                // landscape
-                else if ratio > 1 {
-                    imageWidthConstraint = imageView.widthAnchor.constraint(equalTo: self.widthAnchor)
-                    imageWidthConstraint!.priority = .defaultHigh
-                    imageWidthConstraint!.isActive = true
-                    
-                    imageHeightConstraint = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1 / ratio)
-                    imageHeightConstraint!.priority = .defaultHigh
-                    imageHeightConstraint!.isActive = true
-                    
-                    minHeightConstraint = imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60)
-                    minHeightConstraint!.priority = .required
-                    minHeightConstraint!.isActive = true
-                    
-                    self.translatesAutoresizingMaskIntoConstraints = false
-                }
-                
-                // portrait
-                else if ratio < 1 {
-                    if ratio < 0.44 {
-                        // extremely tall (more than the iPhone 14 Pro Max ratio)
-                        imageWidthConstraint = imageView.widthAnchor.constraint(equalTo: self.widthAnchor)
-                        imageWidthConstraint!.priority = .defaultHigh
-                        imageWidthConstraint!.isActive = true
-                        
-                        imageHeightConstraint = imageView.heightAnchor.constraint(equalToConstant: 420)
-                        imageHeightConstraint!.priority = .defaultHigh
-                        imageHeightConstraint!.isActive = true
-                        
-                        self.translatesAutoresizingMaskIntoConstraints = false
-                        
-                    } else {
-                        // most portrait images
-                        imageWidthConstraint = imageView.widthAnchor.constraint(lessThanOrEqualTo: self.widthAnchor)
-                        imageWidthConstraint!.priority = .required
-                        imageWidthConstraint!.isActive = true
-                        
-                        imageHeightConstraint = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1 / ratio)
-                        imageHeightConstraint!.priority = .defaultHigh
-                        imageHeightConstraint!.isActive = true
-                        
-                        maxHeightConstraint = imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 420)
-                        maxHeightConstraint!.priority = .required
-                        maxHeightConstraint!.isActive = true
-                        
-                        self.translatesAutoresizingMaskIntoConstraints = false
-                    }
                 }
             }
             
@@ -248,6 +246,10 @@ final class PostCardImage: UIView {
             } else {
                 self.altButton.isHidden = true
             }
+        }
+        
+        if shouldUpdate {
+            self.setNeedsUpdateConstraints()
         }
     }
     

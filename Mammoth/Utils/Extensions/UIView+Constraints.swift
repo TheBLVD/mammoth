@@ -19,7 +19,7 @@ extension UIView {
         widthConstraint.isActive = true
         // Make sure the max width is never exceeded
         let maxWidthConstraint = self.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth)
-        maxWidthConstraint.priority = .defaultHigh
+        maxWidthConstraint.priority = .required
         maxWidthConstraint.isActive = true
         
         return [widthConstraint, maxWidthConstraint]

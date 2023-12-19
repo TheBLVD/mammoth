@@ -60,6 +60,7 @@ class PostCardLinkPreview: UIView {
         imageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         imageView.backgroundColor = .custom.background
         imageView.isOpaque = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     private var imageHeightConstraint: NSLayoutConstraint? = nil
@@ -138,6 +139,8 @@ private extension PostCardLinkPreview {
             mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            
+            imageStack.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
         
         let urlLabelTrailing = urlLabel.trailingAnchor.constraint(equalTo: textStack.trailingAnchor)
