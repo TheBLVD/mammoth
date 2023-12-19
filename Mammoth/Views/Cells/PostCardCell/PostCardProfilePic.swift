@@ -145,7 +145,7 @@ private extension PostCardProfilePic {
         let interaction = UIContextMenuInteraction(delegate: self)
         self.profileImageView.addInteraction(interaction)
         
-        self.profileImageView.addSubview(self.badge)
+        self.addSubview(self.badge)
         self.badge.addSubview(self.badgeIconView)
         NSLayoutConstraint.activate([
             self.badge.widthAnchor.constraint(equalToConstant: 22),
