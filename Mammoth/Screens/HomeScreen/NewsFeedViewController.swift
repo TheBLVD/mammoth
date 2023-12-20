@@ -68,6 +68,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     private var switchingAccounts = false
     
     weak var delegate: NewsFeedViewControllerDelegate?
+    private var deferredSnapshotUpdates: [() -> Void] = []
     
     public var type: NewsFeedTypes {
         return self.viewModel.type
@@ -670,9 +671,22 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         
         let updateDisplay = self.isInWindowHierarchy()
         
+        guard !self.tableView.isDragging, updateDisplay else {
+            let deferredJob = {  [weak self] in
+                guard let self else { return }
+                self.didUpdateSnapshot(snapshot, feedType: feedType, updateType: updateType, onCompleted: onCompleted)
+            }
+            self.deferredSnapshotUpdates.append(deferredJob)
+            return
+        }
+        
+        let tasks = self.deferredSnapshotUpdates
+                    self.deferredSnapshotUpdates = []
+                    tasks.forEach({ $0() })
+        
         switch updateType {
         case .insert, .update, .remove, .replaceAll:
-            
+
             log.debug("tableview change: \(updateType) for \(feedType)")
             
             // Cache scroll position pre-update
