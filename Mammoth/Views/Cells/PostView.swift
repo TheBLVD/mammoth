@@ -2276,13 +2276,6 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
         }
     }
 
-    func detectedLanguage(for string: String) -> String? {
-        let recognizer = NLLanguageRecognizer()
-        recognizer.processString(string)
-        guard let languageCode = recognizer.dominantLanguage?.rawValue else { return nil }
-        return languageCode
-    }
-
     public func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
         return ""
     }
