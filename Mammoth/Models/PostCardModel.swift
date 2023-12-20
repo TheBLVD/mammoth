@@ -140,7 +140,7 @@ final class PostCardModel {
     
     var videoPlayer: AVPlayer?
     
-    let hasQuotePost: Bool
+    var hasQuotePost: Bool
     let quotePostCard: Card?
     var quotePostData: PostCardModel?
     var quotePostStatus: QuotePostStatus = .disabled
@@ -598,6 +598,7 @@ final class PostCardModel {
             card.quotePostStatus = .fetched
         } else {
             card.quotePostStatus = .notFound
+            card.hasQuotePost = false
         }
         
         return card
