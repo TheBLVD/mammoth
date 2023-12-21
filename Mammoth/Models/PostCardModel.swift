@@ -943,6 +943,7 @@ extension PostCardModel: Equatable {
         lhs.likeCount == rhs.likeCount &&
         lhs.replyCount == rhs.replyCount &&
         lhs.repostCount == rhs.repostCount &&
-        lhs.applicationName == rhs.applicationName
+        lhs.applicationName == rhs.applicationName &&
+        lhs.user?.followStatus == rhs.user?.followStatus
     }
 }

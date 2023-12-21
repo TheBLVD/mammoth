@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SDWebImage
+import UnifiedBlurHash
 
 class PostCardLinkPreview: UIView {
     
@@ -108,6 +109,7 @@ class PostCardLinkPreview: UIView {
     func prepareForReuse() {
         self.status = nil
         self.imageView.image = nil
+        self.imageView.sd_cancelCurrentImageLoad()
         self.onPress = nil
     }
     
@@ -140,7 +142,8 @@ private extension PostCardLinkPreview {
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            imageStack.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            imageStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: self.imageStack.trailingAnchor)
         ])
         
         let urlLabelTrailing = urlLabel.trailingAnchor.constraint(equalTo: textStack.trailingAnchor)
@@ -180,10 +183,17 @@ extension PostCardLinkPreview {
         
         // Display the link image if needed
         if !postCard.hideLinkImage, let imageURL = postCard.linkCard?.image {
+            var placeholder: UIImage?
+            if let blurhash = postCard.linkCard?.blurhash {
+                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+            }
             self.imageView.ma_setImage(with: imageURL,
-                                              cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
-                                              imageTransformer: PostCardImage.transformer) { image in
-                postCard.decodedImages[imageURL.absoluteString] = image
+                                       cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
+                                       placeholder: placeholder,
+                                              imageTransformer: PostCardImage.transformer) { [weak self] image in
+                if self?.status == status {
+                    postCard.decodedImages[imageURL.absoluteString] = image
+                }
             }
             
             self.imageView.isHidden = false

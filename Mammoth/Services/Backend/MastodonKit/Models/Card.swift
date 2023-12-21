@@ -33,6 +33,8 @@ public class Card: Codable {
     public let width: Int?
     /// The card's height.
     public let height: Int?
+    /// Blur hash
+    public let blurhash: String?
     
     private enum CodingKeys: String, CodingKey {
         case url
@@ -47,9 +49,10 @@ public class Card: Codable {
         case html
         case width
         case height
+        case blurhash
     }
 
-    public init(url: String?, title: String, description: String, image: URL? = nil, type: CardType, authorName: String? = nil, authorUrl: String? = nil, providerName: String? = nil, providerUrl: String? = nil, html: String? = nil, width: Int? = nil, height: Int? = nil) {
+    public init(url: String?, title: String, description: String, image: URL? = nil, type: CardType, authorName: String? = nil, authorUrl: String? = nil, providerName: String? = nil, providerUrl: String? = nil, html: String? = nil, width: Int? = nil, height: Int? = nil, blurhash: String? = nil) {
         self.url = url
         self.title = title
         self.description = description
@@ -62,6 +65,7 @@ public class Card: Codable {
         self.html = html
         self.width = width
         self.height = height
+        self.blurhash = blurhash
     }
 }
 

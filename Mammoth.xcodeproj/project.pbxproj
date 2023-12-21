@@ -21,6 +21,7 @@
 		144DC7E62B17819C00F4EE98 /* StoreKitTestCertificate.cer in Resources */ = {isa = PBXBuildFile; fileRef = 144DC7E52B17819C00F4EE98 /* StoreKitTestCertificate.cer */; };
 		144DC7EA2B18D29000F4EE98 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC7E92B18D29000F4EE98 /* WebViewController.swift */; };
 		1450CE032ADD4FC300C91923 /* ListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1450CE022ADD4FC300C91923 /* ListService.swift */; };
+		146C6A432B34545B00A002D7 /* UnifiedBlurHash in Frameworks */ = {isa = PBXBuildFile; productRef = 146C6A422B34545B00A002D7 /* UnifiedBlurHash */; };
 		14780F7B2AFBD6A700A7ECD9 /* RealtimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */; };
 		14780F812AFCEA7000A7ECD9 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 14780F802AFCEA7000A7ECD9 /* Reachability */; };
 		149A682D2AD6A4E200E72A83 /* Mute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68282AD6A4E200E72A83 /* Mute.swift */; };
@@ -1615,6 +1616,7 @@
 				5339970F291422D400560F83 /* OrderedCollections in Frameworks */,
 				532F291529476916003C9FAD /* MessageKit in Frameworks */,
 				662B60EF2A4A1F6D00CB331F /* JWTDecode in Frameworks */,
+				146C6A432B34545B00A002D7 /* UnifiedBlurHash in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3139,6 +3141,7 @@
 				662B60EE2A4A1F6D00CB331F /* JWTDecode */,
 				88EFEB2C2AC23A3C0040228B /* SwiftJWT */,
 				14780F802AFCEA7000A7ECD9 /* Reachability */,
+				146C6A422B34545B00A002D7 /* UnifiedBlurHash */,
 			);
 			productName = Mastodon;
 			productReference = 533993DF29141F4600560F83 /* Mammoth.app */;
@@ -3274,6 +3277,7 @@
 				14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */,
 				144DC74E2B17698200F4EE98 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				144DC7E02B1773E400F4EE98 /* XCRemoteSwiftPackageReference "OpenSSL" */,
+				146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */,
 			);
 			productRefGroup = 533993E029141F4600560F83 /* Products */;
 			projectDirPath = "";
@@ -4676,6 +4680,14 @@
 				minimumVersion = 3.1.4000;
 			};
 		};
+		146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/iankoex/UnifiedBlurHash.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.3;
+			};
+		};
 		14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
@@ -4735,6 +4747,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		146C6A422B34545B00A002D7 /* UnifiedBlurHash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */;
+			productName = UnifiedBlurHash;
+		};
 		14780F802AFCEA7000A7ECD9 /* Reachability */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */;
