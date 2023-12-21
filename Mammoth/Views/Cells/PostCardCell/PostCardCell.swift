@@ -672,7 +672,7 @@ extension PostCardCell {
         if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
             if mediaHasChanged {
                 self.video?.configure(postCard: postCard)
-                if type == .detail {
+                if type == .detail && GlobalStruct.autoPlayVideos {
                     self.video?.play()
                 }
                 
