@@ -613,13 +613,7 @@ extension PostActions {
         let unreservedCharset = NSCharacterSet(charactersIn: unreservedChars)
         var trans = bodyText.addingPercentEncoding(withAllowedCharacters: unreservedCharset as CharacterSet)
         trans = trans!.replacingOccurrences(of: "\n\n", with: "%20")
-        var detectedLang = "auto"
-        var tempLanguageCode = ""
-        if bodyText != "" || bodyText != " " {
-            tempLanguageCode = PostActions.detectedLanguage(for: bodyText) ?? "auto"
-            detectedLang = "\(tempLanguageCode.split(separator: "-").first ?? "auto")"
-        }
-        let urlString = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=\(detectedLang)&tl=\(GlobalStruct.langStr)&dt=t&q=\(trans!)&ie=UTF-8&oe=UTF-8"
+        let urlString = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=\(GlobalStruct.langStr)&dt=t&q=\(trans!)&ie=UTF-8&oe=UTF-8"
         guard let requestUrl = URL(string:urlString) else {
             return
         }
@@ -638,8 +632,7 @@ extension PostActions {
                         translatedText = bodyText
                     }
                     DispatchQueue.main.async {
-                        let languageName = Locale.current.localizedString(forLanguageCode: "\(tempLanguageCode)") ?? ""
-                        let alert = UIAlertController(title: nil, message: "\(translatedText)\n\n(Translated from \(languageName))", preferredStyle: .alert)
+                        let alert = UIAlertController(title: nil, message: translatedText, preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Copy", style: .default , handler:{ (UIAlertAction) in
                             UIPasteboard.general.string = translatedText
                         }))
@@ -649,7 +642,7 @@ extension PostActions {
                         let paragraphStyle = NSMutableParagraphStyle()
                         paragraphStyle.alignment = NSTextAlignment.left
                         let messageText = NSMutableAttributedString(
-                            string: "\(translatedText)\n\n(Translated from \(languageName))",
+                            string: translatedText,
                             attributes: [
                                 NSAttributedString.Key.paragraphStyle: paragraphStyle,
                                 NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
@@ -668,13 +661,6 @@ extension PostActions {
             }
         }
         task.resume()
-    }
-    
-    static private func detectedLanguage(for string: String) -> String? {
-        let recognizer = NLLanguageRecognizer()
-        recognizer.processString(string)
-        guard let languageCode = recognizer.dominantLanguage?.rawValue else { return nil }
-        return languageCode
     }
     
     static func onHashtagPress(target: UIViewController, hashtag: String) {
@@ -1004,13 +990,7 @@ extension PostActions {
         let unreservedCharset = NSCharacterSet(charactersIn: unreservedChars)
         var trans = bodyText.addingPercentEncoding(withAllowedCharacters: unreservedCharset as CharacterSet)
         trans = trans!.replacingOccurrences(of: "\n\n", with: "%20")
-        var detectedLang = "auto"
-        var tempLanguageCode = ""
-        if bodyText != "" || bodyText != " " {
-            tempLanguageCode = PostActions.detectedLanguage(for: bodyText) ?? "auto"
-            detectedLang = "\(tempLanguageCode.split(separator: "-").first ?? "auto")"
-        }
-        let urlString = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=\(detectedLang)&tl=\(GlobalStruct.langStr)&dt=t&q=\(trans!)&ie=UTF-8&oe=UTF-8"
+        let urlString = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=\(GlobalStruct.langStr)&dt=t&q=\(trans!)&ie=UTF-8&oe=UTF-8"
         guard let requestUrl = URL(string:urlString) else {
             return
         }
@@ -1029,8 +1009,7 @@ extension PostActions {
                         translatedText = string
                     }
                     DispatchQueue.main.async {
-                        let languageName = Locale.current.localizedString(forLanguageCode: "\(tempLanguageCode)") ?? ""
-                        let alert = UIAlertController(title: nil, message: "\(translatedText)\n\n(Translated from \(languageName))", preferredStyle: .alert)
+                        let alert = UIAlertController(title: nil, message: translatedText, preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Copy", style: .default , handler:{ (UIAlertAction) in
                             UIPasteboard.general.string = translatedText
                         }))
@@ -1040,7 +1019,7 @@ extension PostActions {
                         let paragraphStyle = NSMutableParagraphStyle()
                         paragraphStyle.alignment = NSTextAlignment.left
                         let messageText = NSMutableAttributedString(
-                            string: "\(translatedText)\n\n(Translated from \(languageName))",
+                            string: translatedText,
                             attributes: [
                                 NSAttributedString.Key.paragraphStyle: paragraphStyle,
                                 NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
