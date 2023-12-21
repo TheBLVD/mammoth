@@ -10,13 +10,14 @@ import UIKit
 import SDWebImage
 
 extension UIImageView {
-    func ma_setImage(with imageURL: URL, cachedImage: UIImage?, imageTransformer: SDImageTransformer, completed: @escaping (UIImage?) -> Void) {
+    func ma_setImage(with imageURL: URL, cachedImage: UIImage?, placeholder: UIImage? = nil, imageTransformer: SDImageTransformer, completed: @escaping (UIImage?) -> Void) {
+        self.sd_imageTransition = .fade
         if let cachedImage {
             self.image = cachedImage
         } else {
             self.sd_setImage(
                 with: imageURL,
-                placeholderImage: nil,
+                placeholderImage: placeholder,
                 context: [.imageTransformer: imageTransformer],
                 progress: nil
             ) { image, _, _, _ in

@@ -336,78 +336,11 @@ final class PostCardCell: UITableViewCell {
             self.quotePost?.prepareForReuse()
             self.quotePost?.isHidden = true
         }
-    }
-    
-    override func updateConstraints() {
-        super.updateConstraints()
         
-        if let postCard = self.postCard {
-            // Display poll if needed
-            if postCard.containsPoll {
-                if let constraint = self.pollTrailingConstraint, !constraint.isActive {
-                    NSLayoutConstraint.activate([self.pollTrailingConstraint!])
-                }
-            } else {
-                if let constraint = self.pollTrailingConstraint, constraint.isActive {
-                    NSLayoutConstraint.deactivate([constraint])
-                }
-            }
-            
-            // Display the quote post preview if needed
-            if postCard.hasQuotePost {
-                if let constraint = self.quotePostTrailingConstraint, !constraint.isActive {
-                    NSLayoutConstraint.activate([self.quotePostTrailingConstraint!])
-                }
-            } else {
-                if let constraint = self.quotePostTrailingConstraint, constraint.isActive {
-                    NSLayoutConstraint.deactivate([constraint])
-                }
-            }
-            
-            // Display the link preview if needed
-            if postCard.hasLink && !postCard.hasQuotePost {
-                if let constraint = self.linkPreviewTrailingConstraint, !constraint.isActive {
-                    NSLayoutConstraint.activate([self.linkPreviewTrailingConstraint!])
-                }
-            } else {
-                if let constraint = self.linkPreviewTrailingConstraint, constraint.isActive {
-                    NSLayoutConstraint.deactivate([constraint])
-                }
-            }
-            
-            // Display single image if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage {
-                if let constraint = self.imageTrailingConstraint, !constraint.isActive {
-                    NSLayoutConstraint.activate([self.imageTrailingConstraint!])
-                }
-            } else {
-                if let constraint = self.imageTrailingConstraint, constraint.isActive {
-                    NSLayoutConstraint.deactivate([constraint])
-                }
-            }
-            
-            // Display single video/gif if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
-                if let constraint = self.videoTrailingConstraint, !constraint.isActive {
-                    NSLayoutConstraint.activate([self.videoTrailingConstraint!])
-                }
-            } else {
-                if let constraint = self.videoTrailingConstraint, constraint.isActive {
-                    NSLayoutConstraint.deactivate([constraint])
-                }
-            }
-            
-            // Display the image carousel if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel {
-                if let constraint = self.imageAttachmentTrailingConstraint, !constraint.isActive {
-                    NSLayoutConstraint.activate([self.imageAttachmentTrailingConstraint!])
-                }
-            } else {
-                if let constraints = self.imageAttachmentTrailingConstraint {
-                    NSLayoutConstraint.deactivate([constraints])
-                }
-            }
-        }
+        self.image?.prepareForReuse()
+        self.video?.prepareForReuse()
+        self.poll?.prepareForReuse()
+        self.linkPreview?.prepareForReuse()
     }
 }
 
@@ -456,7 +389,9 @@ private extension PostCardCell {
             childThread.widthAnchor.constraint(equalToConstant: 1),
             childThread.topAnchor.constraint(equalTo: self.profilePic.bottomAnchor),
             childThread.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            childThread.centerXAnchor.constraint(equalTo: profilePic.centerXAnchor)
+            childThread.centerXAnchor.constraint(equalTo: profilePic.centerXAnchor),
+            
+            contentStackView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor)
         ])
         
         contentStackView.addArrangedSubview(header)
@@ -477,9 +412,15 @@ private extension PostCardCell {
         
         if [.textAndMedia, .mediaOnly].contains(self.cellVariant) {
             contentStackView.addArrangedSubview(mediaContainer)
-            
-            // Force media container to fill the parent width - with max width for big displays
-            self.mediaContainerConstraints = mediaContainer.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 320)
+                        
+            if UIDevice.current.userInterfaceIdiom == .phone {
+                let c = mediaContainer.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor)
+                c.isActive = true
+                self.mediaContainerConstraints = [c]
+            } else {
+                // Force media container to fill the parent width - with max width for big displays
+                self.mediaContainerConstraints = mediaContainer.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 320)
+            }
             
             // Setup Image
             self.image = PostCardImage()
@@ -578,8 +519,9 @@ private extension PostCardCell {
 
 // MARK: - Configuration
 extension PostCardCell {
-    func configure(postCard: PostCardModel, type: PostCardCellType = .regular, hasParent: Bool = false, hasChild: Bool = false, onButtonPress: @escaping PostCardButtonCallback) {
+    func configure(postCard: PostCardModel, type: PostCardCellType = .regular, hasParent: Bool = false, hasChild: Bool = false, onButtonPress: @escaping PostCardButtonCallback) {        
         let mediaHasChanged = postCard.mediaAttachments != self.postCard?.mediaAttachments
+        
         self.postCard = postCard
         self.onButtonPress = onButtonPress
         
@@ -777,7 +719,77 @@ extension PostCardCell {
             self.configureForDebugging(postCard: postCard)
         }
         
-        self.setNeedsUpdateConstraints()
+        self.configureContraints()
+    }
+    
+    private func configureContraints() {
+        if let postCard = self.postCard {
+            // Display poll if needed
+            if postCard.containsPoll {
+                if let constraint = self.pollTrailingConstraint, !constraint.isActive {
+                    NSLayoutConstraint.activate([self.pollTrailingConstraint!])
+                }
+            } else {
+                if let constraint = self.pollTrailingConstraint, constraint.isActive {
+                    NSLayoutConstraint.deactivate([constraint])
+                }
+            }
+            
+            // Display the quote post preview if needed
+            if postCard.hasQuotePost {
+                if let constraint = self.quotePostTrailingConstraint, !constraint.isActive {
+                    NSLayoutConstraint.activate([self.quotePostTrailingConstraint!])
+                }
+            } else {
+                if let constraint = self.quotePostTrailingConstraint, constraint.isActive {
+                    NSLayoutConstraint.deactivate([constraint])
+                }
+            }
+            
+            // Display the link preview if needed
+            if postCard.hasLink && !postCard.hasQuotePost {
+                if let constraint = self.linkPreviewTrailingConstraint, !constraint.isActive {
+                    NSLayoutConstraint.activate([self.linkPreviewTrailingConstraint!])
+                }
+            } else {
+                if let constraint = self.linkPreviewTrailingConstraint, constraint.isActive {
+                    NSLayoutConstraint.deactivate([constraint])
+                }
+            }
+            
+            // Display single image if needed
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage {
+                if let constraint = self.imageTrailingConstraint, !constraint.isActive {
+                    NSLayoutConstraint.activate([self.imageTrailingConstraint!])
+                }
+            } else {
+                if let constraint = self.imageTrailingConstraint, constraint.isActive {
+                    NSLayoutConstraint.deactivate([constraint])
+                }
+            }
+            
+            // Display single video/gif if needed
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
+                if let constraint = self.videoTrailingConstraint, !constraint.isActive {
+                    NSLayoutConstraint.activate([self.videoTrailingConstraint!])
+                }
+            } else {
+                if let constraint = self.videoTrailingConstraint, constraint.isActive {
+                    NSLayoutConstraint.deactivate([constraint])
+                }
+            }
+            
+            // Display the image carousel if needed
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel {
+                if let constraint = self.imageAttachmentTrailingConstraint, !constraint.isActive {
+                    NSLayoutConstraint.activate([self.imageAttachmentTrailingConstraint!])
+                }
+            } else {
+                if let constraints = self.imageAttachmentTrailingConstraint {
+                    NSLayoutConstraint.deactivate([constraints])
+                }
+            }
+        }
     }
     
     /// the cell will be displayed in the tableview
