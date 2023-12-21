@@ -187,6 +187,10 @@ final class ProfileViewModel {
                                                name: NSNotification.Name(rawValue: "reloadPinned"),
                                                object: nil)
         NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.onNewPostSent),
+                                               name: NSNotification.Name(rawValue: "updateFeed"),
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.onAvatarDidChange),
                                                name: didUpdateAccountAvatar,
                                                object: nil)
@@ -811,6 +815,14 @@ private extension ProfileViewModel {
                     // Update profile header
                     self.delegate?.didUpdate(with: .success)
                 }
+            }
+        }
+    }
+    
+    @objc func onNewPostSent() {
+        if self.screenType == .own {
+            Task { [weak self] in
+                await self?.loadListData()
             }
         }
     }
