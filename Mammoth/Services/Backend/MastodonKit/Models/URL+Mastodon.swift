@@ -41,8 +41,20 @@ public extension URL {
             return false
         }
         
-        // look for "/@" followed by "/ and one or more digits" in the path
         let urlPath = self.path
+        
+        // Threads post URLs are formatted as https://www.threads.net/@mosseri/post/C01zSvHJ2B-
+        if let urlHost = self.host,
+           urlHost.hasSuffix("www.threads.net") {
+            let regex = try? NSRegularExpression(pattern: "/@[a-zA-Z0-9-_]+/post/[a-zA-Z0-9-_]+", options: [])
+            if let _ = regex?.firstMatch(in: urlPath, range: NSRange(location: 0, length: urlPath.utf16.count)) {
+                return true
+            }
+            
+            return false
+        }
+        
+        // look for "/@" followed by "/ and one or more digits" in the path
         let regex = try? NSRegularExpression(pattern: "/@.+/[0-9]+", options: [])
         if let _ = regex?.firstMatch(in: urlPath, range: NSRange(location: 0, length: urlPath.utf16.count)) {
             return true
