@@ -652,6 +652,10 @@ extension NewsFeedViewController {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+        
+        let tasks = self.deferredSnapshotUpdates
+        self.deferredSnapshotUpdates = []
+        tasks.forEach({ $0() })
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -681,8 +685,8 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         }
         
         let tasks = self.deferredSnapshotUpdates
-                    self.deferredSnapshotUpdates = []
-                    tasks.forEach({ $0() })
+        self.deferredSnapshotUpdates = []
+        tasks.forEach({ $0() })
         
         switch updateType {
         case .insert, .update, .remove, .replaceAll:
@@ -712,14 +716,15 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                 }
                 
-                if updateDisplay {
-                    CATransaction.commit()
-                }
                 onCompleted?()
                 
                 DispatchQueue.main.async {
                     if let scrollPosition {
                         self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
+                    }
+                    
+                    if updateDisplay {
+                        CATransaction.commit()
                     }
                 }
             }
