@@ -167,7 +167,7 @@ class SiriSettingsViewController: UIViewController, UITableViewDataSource, UITab
         var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
         cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell")
         cell.textLabel?.numberOfLines = 0
-        cell.imageView?.image = UIImage(systemName: self.section0Images[indexPath.row])
+        cell.imageView?.image = settingsSystemImage(self.section0Images[indexPath.row])
         cell.textLabel?.text = self.firstSection[indexPath.row]
         cell.backgroundColor = .custom.OVRLYSoftContrast
         

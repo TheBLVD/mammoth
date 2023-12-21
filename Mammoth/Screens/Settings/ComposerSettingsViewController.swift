@@ -133,8 +133,6 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell2")
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell3")
-        self.tableView.register(SelectionCell.self, forCellReuseIdentifier: "SelectionCell1")
-        self.tableView.register(SelectionCell.self, forCellReuseIdentifier: "SelectionCell2")
         self.tableView.register(SelectionCell.self, forCellReuseIdentifier: "SelectionCell3")
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCellS")
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCellU")
@@ -171,7 +169,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell2", for: indexPath)
             cell.textLabel?.numberOfLines = 0
             cell.textLabel?.text = "Require Image Descriptions"
-            cell.imageView?.image = UIImage(systemName: "text.below.photo")
+            cell.imageView?.image = settingsSystemImage("text.below.photo")
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "altText") as? Bool != nil {
                 if UserDefaults.standard.value(forKey: "altText") as? Bool == false {
@@ -201,7 +199,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell3", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "Threader Mode"
-                cell.imageView?.image = UIImage(systemName: "lineweight")
+                cell.imageView?.image = settingsSystemImage("lineweight")
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "threaderMode") as? Bool != nil {
                     if UserDefaults.standard.value(forKey: "threaderMode") as? Bool == false {
@@ -232,22 +230,22 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                 cell.accessibilityLabel = "Thread Style"
                 if GlobalStruct.threaderStyle == 0 {
                     cell.txtLabel2.text = "None"
-                    cell.imageV.image = UIImage(systemName: "1.circle")
+                    cell.imageV.image = settingsSystemImage("1.circle")
                 } else if GlobalStruct.threaderStyle == 1 {
                     cell.txtLabel2.text = "..."
-                    cell.imageV.image = UIImage(systemName: "2.circle")
+                    cell.imageV.image = settingsSystemImage("2.circle")
                 } else if GlobalStruct.threaderStyle == 2 {
                     cell.txtLabel2.text = "(x/n)"
-                    cell.imageV.image = UIImage(systemName: "3.circle")
+                    cell.imageV.image = settingsSystemImage("3.circle")
                 } else if GlobalStruct.threaderStyle == 3 {
                     cell.txtLabel2.text = "🧵"
-                    cell.imageV.image = UIImage(systemName: "4.circle")
+                    cell.imageV.image = settingsSystemImage("4.circle")
                 } else {
                     cell.txtLabel2.text = "🪡"
-                    cell.imageV.image = UIImage(systemName: "5.circle")
+                    cell.imageV.image = settingsSystemImage("5.circle")
                 }
                 var gestureActions: [UIAction] = []
-                let op1 = UIAction(title: "None", image: UIImage(systemName: "1.circle"), identifier: nil) { action in
+                let op1 = UIAction(title: "None", image: settingsSystemImage("1.circle"), identifier: nil) { action in
                     GlobalStruct.threaderStyle = 0
                     UserDefaults.standard.set(GlobalStruct.threaderStyle, forKey: "threaderStyle")
                     self.tableView.reloadData()
@@ -256,7 +254,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                     op1.state = .on
                 }
                 gestureActions.append(op1)
-                let op2 = UIAction(title: "...", image: UIImage(systemName: "2.circle"), identifier: nil) { action in
+                let op2 = UIAction(title: "...", image: settingsSystemImage("2.circle"), identifier: nil) { action in
                     GlobalStruct.threaderStyle = 1
                     UserDefaults.standard.set(GlobalStruct.threaderStyle, forKey: "threaderStyle")
                     self.tableView.reloadData()
@@ -265,7 +263,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                     op2.state = .on
                 }
                 gestureActions.append(op2)
-                let op3 = UIAction(title: "(x/n)", image: UIImage(systemName: "3.circle"), identifier: nil) { action in
+                let op3 = UIAction(title: "(x/n)", image: settingsSystemImage("3.circle"), identifier: nil) { action in
                     GlobalStruct.threaderStyle = 2
                     UserDefaults.standard.set(GlobalStruct.threaderStyle, forKey: "threaderStyle")
                     self.tableView.reloadData()
@@ -274,7 +272,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                     op3.state = .on
                 }
                 gestureActions.append(op3)
-                let op4 = UIAction(title: "🧵", image: UIImage(systemName: "4.circle"), identifier: nil) { action in
+                let op4 = UIAction(title: "🧵", image: settingsSystemImage("4.circle"), identifier: nil) { action in
                     GlobalStruct.threaderStyle = 3
                     UserDefaults.standard.set(GlobalStruct.threaderStyle, forKey: "threaderStyle")
                     self.tableView.reloadData()
@@ -283,7 +281,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                     op4.state = .on
                 }
                 gestureActions.append(op4)
-                let op5 = UIAction(title: "🪡", image: UIImage(systemName: "5.circle"), identifier: nil) { action in
+                let op5 = UIAction(title: "🪡", image: settingsSystemImage("5.circle"), identifier: nil) { action in
                     GlobalStruct.threaderStyle = 4
                     UserDefaults.standard.set(GlobalStruct.threaderStyle, forKey: "threaderStyle")
                     self.tableView.reloadData()
@@ -293,7 +291,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                 }
                 gestureActions.append(op5)
                 cell.bgButton.showsMenuAsPrimaryAction = true
-                cell.bgButton.menu = UIMenu(title: "", image: UIImage(systemName: "1.circle"), options: [.displayInline], children: gestureActions)
+                cell.bgButton.menu = UIMenu(title: "", image: settingsSystemImage("1.circle"), options: [.displayInline], children: gestureActions)
                 cell.accessoryView = .none
                 cell.selectionStyle = .none
                 let bgColorView = UIView()

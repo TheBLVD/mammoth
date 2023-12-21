@@ -206,8 +206,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             case 0:
                 let cell = UITableViewCell(style: .value1, reuseIdentifier: "UITableViewCell.value1")
                 cell.textLabel?.numberOfLines = 0
-                cell.imageView?.image = FontAwesome.image(fromChar: "\u{f894}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
-
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f894}")
                 cell.textLabel?.text = self.firstSection[indexPath.row]
                 
                 if GlobalStruct.customTextSize == 0 {
@@ -247,7 +246,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             case 0:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
                 cell.txtLabel.text = "Theme"
-                cell.imageV.image = FontAwesome.image(fromChar: "\u{f1fc}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                cell.imageV.image = settingsFontAwesomeImage("\u{f1fc}")
                 switch GlobalStruct.overrideTheme {
                 case 1:
                     cell.txtLabel2.text = "Light"
@@ -258,7 +257,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 }
 
                 var gestureActions: [UIAction] = []
-                let op1 = UIAction(title: "System", image: FontAwesome.image(fromChar: "\u{f042}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal), identifier: nil) { action in
+                let op1 = UIAction(title: "System", image: settingsFontAwesomeImage("\u{f042}"), identifier: nil) { action in
                     GlobalStruct.overrideTheme = 0
                     UserDefaults.standard.set(0, forKey: "overrideTheme")
                     FontAwesome.setColorTheme(theme: ColorTheme.systemDefault)
@@ -270,7 +269,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                     op1.state = .on
                 }
                 gestureActions.append(op1)
-                let op2 = UIAction(title: "Light", image: FontAwesome.image(fromChar: "\u{e0c9}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal), identifier: nil) { action in
+                let op2 = UIAction(title: "Light", image: settingsFontAwesomeImage("\u{e0c9}"), identifier: nil) { action in
                     GlobalStruct.overrideTheme = 1
                     UserDefaults.standard.set(1, forKey: "overrideTheme")
                     FontAwesome.setColorTheme(theme: ColorTheme.light)
@@ -282,7 +281,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                     op2.state = .on
                 }
                 gestureActions.append(op2)
-                let op3 = UIAction(title: "Dark", image: FontAwesome.image(fromChar: "\u{f186}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal), identifier: nil) { action in
+                let op3 = UIAction(title: "Dark", image: settingsFontAwesomeImage("\u{f186}"), identifier: nil) { action in
                     GlobalStruct.overrideTheme = 2
                     UserDefaults.standard.set(2, forKey: "overrideTheme")
                     FontAwesome.setColorTheme(theme: ColorTheme.dark)
@@ -307,7 +306,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.txtLabel.text = "Names"
                 cell.accessibilityLabel = "Names"
                 
-                cell.imageV.image = FontAwesome.image(fromChar: "\u{f5b7}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                cell.imageV.image = settingsFontAwesomeImage("\u{f5b7}")
                 if GlobalStruct.displayName == .full {
                     cell.txtLabel2.text = "Full"
                 } else if GlobalStruct.displayName == .usernameOnly {
@@ -319,7 +318,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 }
                 
                 var gestureActions: [UIAction] = []
-                let image1 = FontAwesome.image(fromChar: "\u{f47f}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                let image1 = settingsFontAwesomeImage("\u{f47f}")
                 let op1 = UIAction(title: "Full", image: image1, identifier: nil) { action in
                     
                     GlobalStruct.displayName = .full
@@ -332,7 +331,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 }
                 
                 gestureActions.append(op1)
-                let image2 = FontAwesome.image(fromChar: "\u{f007}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                let image2 = settingsFontAwesomeImage("\u{f007}")
                 let op2 = UIAction(title: "Username", image: image2, identifier: nil) { action in
                     
                     GlobalStruct.displayName = .usernameOnly
@@ -345,7 +344,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 }
                 
                 gestureActions.append(op2)
-                let image3 = FontAwesome.image(fromChar: "\u{40}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                let image3 = settingsFontAwesomeImage("\u{40}")
                 let op3 = UIAction(title: "Usertag", image: image3, identifier: nil) { action in
                     
                     GlobalStruct.displayName = .usertagOnly
@@ -358,7 +357,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 }
                 
                 gestureActions.append(op3)
-                let image4 = FontAwesome.image(fromChar: "\u{f656}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                let image4 = settingsFontAwesomeImage("\u{f656}")
                 let op4 = UIAction(title: "None", image: image4, identifier: nil) { action in
                     
                     GlobalStruct.displayName = .none
@@ -384,7 +383,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.txtLabel.text = "Maximum lines"
                 cell.accessibilityLabel = "Maximum lines"
                 
-                cell.imageV.image = FontAwesome.image(fromChar: "\u{f7a4}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                cell.imageV.image = settingsFontAwesomeImage("\u{f7a4}")
                 if GlobalStruct.maxLines == 0 {
                     cell.txtLabel2.text = "None"
                 } else {
@@ -417,7 +416,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "Circle profile icons"
-                cell.imageView?.image = FontAwesome.image(fromChar: "\u{f2bd}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f2bd}")
 
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "circleProfiles") as? Bool != nil {
@@ -445,7 +444,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "Content warning overlays"
-                cell.imageView?.image = FontAwesome.image(fromChar: "\u{f05e}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f05e}")
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "showCW") as? Bool != nil {
                     if UserDefaults.standard.value(forKey: "showCW") as? Bool == false {
@@ -471,7 +470,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "Blur sensitive content"
-                cell.imageView?.image = FontAwesome.image(fromChar: "\u{f071}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f071}")
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "blurSensitiveContent") as? Bool != nil {
                     if UserDefaults.standard.value(forKey: "blurSensitiveContent") as? Bool == false {
@@ -497,7 +496,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "Auto-play videos & GIFs"
-                cell.imageView?.image = FontAwesome.image(fromChar: "\u{f04b}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f04b}")
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "autoPlayVideos") as? Bool != nil {
                     if UserDefaults.standard.value(forKey: "autoPlayVideos") as? Bool == false {
@@ -523,7 +522,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.text = "Translation language"
                 cell.imageView?.image = UIImage(systemName: "globe")
-                cell.imageView?.image = FontAwesome.image(fromChar: "\u{f0ac}").withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f0ac}")
                 cell.accessoryView = nil
                 cell.accessoryType = .disclosureIndicator
                 cell.backgroundColor = .custom.OVRLYSoftContrast

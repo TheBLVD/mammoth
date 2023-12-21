@@ -220,7 +220,7 @@ class NotificationSettingsViewController: UIViewController, UITableViewDataSourc
             var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell", for: indexPath)
             cell = UITableViewCell(style: .default, reuseIdentifier: "settingsCell")
             cell.textLabel?.numberOfLines = 0
-            cell.imageView?.image = UIImage(systemName: self.section0Images[indexPath.row])
+            cell.imageView?.image = settingsSystemImage(self.section0Images[indexPath.row])
             cell.textLabel?.text = self.firstSection[indexPath.row]
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "notifs1") as? Bool != nil {
@@ -248,7 +248,7 @@ class NotificationSettingsViewController: UIViewController, UITableViewDataSourc
                 var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell2", for: indexPath)
                 cell = UITableViewCell(style: .default, reuseIdentifier: "settingsCell2")
                 cell.textLabel?.numberOfLines = 0
-                cell.imageView?.image = UIImage(systemName: self.section1Images[indexPath.row])
+                cell.imageView?.image = settingsSystemImage(self.section1Images[indexPath.row])
                 cell.textLabel?.text = self.secondSection[indexPath.row]
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "pnMentions") as? Bool != nil {
@@ -288,7 +288,7 @@ class NotificationSettingsViewController: UIViewController, UITableViewDataSourc
                 var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell3", for: indexPath)
                 cell = UITableViewCell(style: .default, reuseIdentifier: "settingsCell3")
                 cell.textLabel?.numberOfLines = 0
-                cell.imageView?.image = UIImage(systemName: self.section1Images[indexPath.row])
+                cell.imageView?.image = settingsSystemImage(self.section1Images[indexPath.row])
                 cell.textLabel?.text = self.secondSection[indexPath.row]
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "pnLikes") as? Bool != nil {
@@ -328,7 +328,7 @@ class NotificationSettingsViewController: UIViewController, UITableViewDataSourc
                 var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell4", for: indexPath)
                 cell = UITableViewCell(style: .default, reuseIdentifier: "settingsCell4")
                 cell.textLabel?.numberOfLines = 0
-                cell.imageView?.image = UIImage(systemName: self.section1Images[indexPath.row])
+                cell.imageView?.image = settingsSystemImage(self.section1Images[indexPath.row])
                 cell.textLabel?.text = self.secondSection[indexPath.row]
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "pnReposts") as? Bool != nil {
@@ -368,7 +368,7 @@ class NotificationSettingsViewController: UIViewController, UITableViewDataSourc
                 var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell5", for: indexPath)
                 cell = UITableViewCell(style: .default, reuseIdentifier: "settingsCell5")
                 cell.textLabel?.numberOfLines = 0
-                cell.imageView?.image = UIImage(systemName: self.section1Images[indexPath.row])
+                cell.imageView?.image = settingsSystemImage(self.section1Images[indexPath.row])
                 cell.textLabel?.text = self.secondSection[indexPath.row]
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "pnFollows") as? Bool != nil {
@@ -408,7 +408,7 @@ class NotificationSettingsViewController: UIViewController, UITableViewDataSourc
                 var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell6", for: indexPath)
                 cell = UITableViewCell(style: .default, reuseIdentifier: "settingsCell6")
                 cell.textLabel?.numberOfLines = 0
-                cell.imageView?.image = UIImage(systemName: self.section1Images[indexPath.row])
+                cell.imageView?.image = settingsSystemImage(self.section1Images[indexPath.row])
                 cell.textLabel?.text = self.secondSection[indexPath.row]
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "pnPolls") as? Bool != nil {
@@ -448,7 +448,7 @@ class NotificationSettingsViewController: UIViewController, UITableViewDataSourc
                 var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell7", for: indexPath)
                 cell = UITableViewCell(style: .default, reuseIdentifier: "settingsCell7")
                 cell.textLabel?.numberOfLines = 0
-                cell.imageView?.image = UIImage(systemName: self.section1Images[indexPath.row])
+                cell.imageView?.image = settingsSystemImage(self.section1Images[indexPath.row])
                 cell.textLabel?.text = self.secondSection[indexPath.row]
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "pnStatuses") as? Bool != nil {
@@ -489,7 +489,7 @@ class NotificationSettingsViewController: UIViewController, UITableViewDataSourc
             var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCellai", for: indexPath)
             cell = UITableViewCell(style: .default, reuseIdentifier: "settingsCellai")
             cell.textLabel?.numberOfLines = 0
-            cell.imageView?.image = UIImage(systemName: "bell.badge")
+            cell.imageView?.image = settingsSystemImage("bell.badge")
             cell.textLabel?.text = "Activity Badges"
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "activityBadges") as? Bool != nil {

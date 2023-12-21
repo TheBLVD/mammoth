@@ -56,7 +56,7 @@ class SelectionCell: UITableViewCell {
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[bgButton]-16-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-6-[bgButton]-6-|", options: [], metrics: metricsDict, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[imageV]-20-[txtLabel]-(>=16)-[txtLabel2]-16-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[imageV]-16-[txtLabel]-(>=16)-[txtLabel2]-16-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[txtLabel]-8-|", options: [], metrics: metricsDict, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[txtLabel2]-8-|", options: [], metrics: metricsDict, views: viewsDict))
         
