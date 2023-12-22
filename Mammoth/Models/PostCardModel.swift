@@ -891,11 +891,6 @@ extension PostCardModel {
     // Strips out HTML, including links, and returns the plain text of the post
     static func formattedPostText(status: Status) -> String {
         var text = (status.reblog?.content ?? status.content)
-        
-        if GlobalStruct.maxLines != 0 {
-            text = text.replacingOccurrences(of: "<br />", with: " ")
-            text = text.replacingOccurrences(of: "\n", with: " ")
-        }
 
         if let url = status.reblog?.quotePostCard()?.url ?? status.quotePostCard()?.url {
             // Remove quote post url from text
