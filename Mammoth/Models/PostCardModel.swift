@@ -392,7 +392,7 @@ final class PostCardModel {
         
         self.applicationName = ((status.reblog?.application ?? status.application)?.name.stripHTML() ?? status.reblog?.application?.name ?? status.application?.name)
         
-        if status.serverName == "www.threads.net" {
+        if self.applicationName == nil && status.serverName == "www.threads.net" {
             self.applicationName = "Threads"
         }
         
@@ -633,7 +633,7 @@ final class PostCardModel {
         // application name is only known by the original post
         self.applicationName = ((newStatus.reblog?.application ?? newStatus.application)?.name.stripHTML() ?? newStatus.reblog?.application?.name ?? newStatus.application?.name)
         
-        if newStatus.serverName == "www.threads.net" {
+        if self.applicationName == nil && newStatus.serverName == "www.threads.net" {
             self.applicationName = "Threads"
         }
         
