@@ -262,6 +262,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     }
     
     @objc private func willSwitchAccount() {
+        self.deferredSnapshotUpdates = []
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         self.viewModel.removeAll(type: self.viewModel.type, clearScrollPosition: false)
         
@@ -276,19 +277,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     
     @objc private func didSwitchAccount() {
         self.switchingAccounts = false
-        
-        log.debug("[NewsFeedViewController] Sync data source from `didSwitchAccount`")
-        self.viewModel.syncDataSource(type: self.viewModel.type) { [weak self] in
-            guard let self else { return }
-            if self.viewModel.snapshot.itemIdentifiers(inSection: .main).isEmpty {
-                let type = self.viewModel.type
-                self.viewModel.displayLoader(forType: type)
-                Task { [weak self] in
-                    guard let self else { return }
-                    try await self.viewModel.loadLatest(feedType: type, threshold: 1)
-                }
-            }
-        }
     }
     
     @objc private func onDragToRefresh(_ sender: Any) {
@@ -673,7 +661,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                            onCompleted: (() -> Void)?) {
         guard !self.switchingAccounts else { return }
         
-        let updateDisplay = self.isInWindowHierarchy()
+        let updateDisplay = [.mentionsIn, .mentionsOut, .activity].contains(feedType) || self.isInWindowHierarchy()
         
         guard !self.tableView.isDragging, updateDisplay else {
             let deferredJob = {  [weak self] in
