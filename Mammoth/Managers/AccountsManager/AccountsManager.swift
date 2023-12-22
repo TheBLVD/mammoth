@@ -150,9 +150,7 @@ class AccountsManager {
     }
     
     public func updateAccount(_ acctData: (any AcctDataType)) {
-        let existingAcctIndex = allAccounts.firstIndex { existingAcct in
-            existingAcct.uniqueID == acctData.uniqueID
-        }
+        let existingAcctIndex = allAccounts.firstIndex(where: {$0.uniqueID == acctData.uniqueID})
         if existingAcctIndex != nil {
             allAccounts[existingAcctIndex!] = acctData
             self.storeAccountsToDisk()
