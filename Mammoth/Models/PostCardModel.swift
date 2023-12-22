@@ -392,6 +392,10 @@ final class PostCardModel {
         
         self.applicationName = ((status.reblog?.application ?? status.application)?.name.stripHTML() ?? status.reblog?.application?.name ?? status.application?.name)
         
+        if self.applicationName == nil && status.serverName == "www.threads.net" {
+            self.applicationName = "Threads"
+        }
+        
         self.visibility = (status.reblog?.visibility ?? status.visibility).rawValue.lowercased()
         
         // Contains quote post?
@@ -628,6 +632,10 @@ final class PostCardModel {
         }
         // application name is only known by the original post
         self.applicationName = ((newStatus.reblog?.application ?? newStatus.application)?.name.stripHTML() ?? newStatus.reblog?.application?.name ?? newStatus.application?.name)
+        
+        if self.applicationName == nil && newStatus.serverName == "www.threads.net" {
+            self.applicationName = "Threads"
+        }
         
         // Filters
         self.filterType = newStatus.filtered?.reduce(FilterType.none) { result, current in
