@@ -14,7 +14,7 @@ class PostLanguages {
     
     private (set) var postLanguage: String {
         didSet {
-            UserDefaults.standard.setValue(postLanguage, forKey: "postLanguages")
+            UserDefaults.standard.setValue(postLanguage, forKey: "postLanguage")
         }
     }
     private (set) var postLanguages: [String] {
