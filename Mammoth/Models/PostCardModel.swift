@@ -898,7 +898,7 @@ extension PostCardModel {
             let range = NSMakeRange(0, text.count)
             text = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
             
-            // Remove legacy quote post url from text
+            // Remove legacy quote post url from text (when we started with From: [accountName] [postURL])
             let regexOld = try! NSRegularExpression(pattern: "<a[^>]*href=\"\(url)\"[^>]*>(?!.*<a[^>]*href=\"\(url)\"[^>]*>).*?</a>", options: .caseInsensitive)
             text = regexOld.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
         }
