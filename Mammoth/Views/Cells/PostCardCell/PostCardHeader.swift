@@ -262,7 +262,7 @@ extension PostCardHeader {
                 self.followButton?.isHidden = false
                 if self.followButton?.alpha == 0 {
                     self.followButton?.transform = CGAffineTransform.identity.scaledBy(x: 0.95, y: 0.95)
-                    // Call animation in next callstack because current callstack 
+                    // Call animation in next RunLoop because current RunLoop
                     // blocks all animations (in didUpdateSnapshot)
                     DispatchQueue.main.async {
                         UIView.animate(withDuration: 0.3, delay: 0, options: [.allowAnimatedContent, .allowUserInteraction, .beginFromCurrentState], animations: {
