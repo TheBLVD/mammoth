@@ -170,7 +170,7 @@ struct MastodonAcctData: AcctDataType {
         }
         // Below are new for 2.1
         do {
-            defaultPostingLanguage = try container.decode(type(of: defaultPostingLanguage).self, forKey: .defaultPostVisibility)
+            defaultPostingLanguage = try container.decode(type(of: defaultPostingLanguage).self, forKey: .defaultPostLanguage)
         } catch {
             defaultPostingLanguage = nil
         }
