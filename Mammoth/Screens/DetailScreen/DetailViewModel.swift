@@ -218,14 +218,24 @@ extension DetailViewModel {
 
 // MARK: - Service
 extension DetailViewModel {
-    public func refreshData(reloadPost: Bool = true) async throws {
+    public func refreshData(reloadPost: Bool = true, instanceName: String? = nil) async throws {
         do {
             await MainActor.run { self.state = .loading }
             
+            var server = instanceName ?? self.listData.post.originalInstanceName ?? GlobalHostServer()
+            var postId = self.listData.post.originalId
+            // For Threads posts, load post and context thru user's instance
+            if self.listData.post.originalInstanceName == "www.threads.net" {
+                server = AccountsManager.shared.currentAccountClient.baseHost
+                postId = self.listData.post.id
+            }
+            
+            let instanceName = server
+            let id = postId
             // fetch original post
-            async let fetchPost = reloadPost ? StatusService.fetchStatus(id: self.listData.post.originalId, instanceName: self.listData.post.originalInstanceName ?? GlobalHostServer()) : nil
+            async let fetchPost = reloadPost ? StatusService.fetchStatus(id: id, instanceName: instanceName) : nil
             // fetch post context (replies and parent post)
-            async let fetchContext: (parents: [PostCardModel]?, replies: [PostCardModel]?)? = self.loadContext(post: self.listData.post)
+            async let fetchContext: (parents: [PostCardModel]?, replies: [PostCardModel]?)? = self.loadContext(post: self.listData.post, instanceName: instanceName)
             // fetch status source
             async let fetchSource = showStatusSource ? TimelineService.forYouStatusSource(id: self.listData.post.id!) : nil
             
@@ -261,18 +271,23 @@ extension DetailViewModel {
                 self.state = .success
             }
         } catch let error {
-            await MainActor.run { [weak self] in
-                guard let self else { return }
-                self.state = .error(error)
+            if instanceName != AccountsManager.shared.currentAccountClient.baseHost {
+                // Retry thru user's instance
+                try await self.refreshData(reloadPost: false, instanceName: AccountsManager.shared.currentAccountClient.baseHost)
+            } else {
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    self.state = .error(error)
+                }
             }
         }
     }
     
-    private func loadContext(post: PostCardModel) async throws -> (parents: [PostCardModel]?, replies: [PostCardModel]?)? {
+    private func loadContext(post: PostCardModel, instanceName: String? = nil) async throws -> (parents: [PostCardModel]?, replies: [PostCardModel]?)? {
         if case .mastodon(let status) = post.data {
-            let context = try await StatusService.fetchContext(status: status, instanceName: post.instanceName, withPolicy: .retryLocally)
-            let parents = context?.ancestors.map({ PostCardModel(status: $0, instanceName: post.instanceName) })
-            let replies = context?.descendants.map({ PostCardModel(status: $0, instanceName: post.instanceName) })
+            let context = try await StatusService.fetchContext(status: status, instanceName: instanceName ?? post.instanceName, withPolicy: .retryLocally)
+            let parents = context?.ancestors.map({ PostCardModel(status: $0, instanceName: instanceName ?? post.instanceName) })
+            let replies = context?.descendants.map({ PostCardModel(status: $0, instanceName: instanceName ?? post.instanceName) })
             
             return (parents: parents, replies: replies)
         }
