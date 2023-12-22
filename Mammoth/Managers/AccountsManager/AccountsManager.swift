@@ -487,14 +487,21 @@ extension AccountsManager {
                 // Compute the new updatedAccount with updated forYouInfo
                 var updatedAccount: any AcctDataType = account
                 if writeToServer {
-                    updatedAccount = await acctHandler.setForYouType(acctData: account, forYouInfo: forYouInfo)
+                    if let updatedAccountFromNetwork = await acctHandler.setForYouType(acctData: account, forYouInfo: forYouInfo) {
+                        updatedAccount = updatedAccountFromNetwork
+                    }
                 } else {
                     if var modifiedAcct = updatedAccount as? MastodonAcctData {
                         modifiedAcct.forYou.forYou = forYouInfo
                         updatedAccount = modifiedAcct
                     }
                 }
-                acctHandler.notifyAboutAccountUpdates(oldAcctData: account, newAcctData: updatedAccount)
+                // The currentAccount may have changed while the network call was ongoing
+                // (seen in the onboarding case). For that reason, re-create an
+                // updated version of the current account now.
+                let currentAccount = self.currentAccount as! MastodonAcctData
+                let updatedCurrentAccount = MastodonAcctData(account: currentAccount.account, instanceData: currentAccount.instanceData, client: currentAccount.client, defaultPostVisibility: currentAccount.defaultPostVisibility, defaultPostingLanguage: currentAccount.defaultPostingLanguage, emoticons: currentAccount.emoticons, forYou: (updatedAccount as! MastodonAcctData).forYou, uniqueID: currentAccount.uniqueID, wentThroughOnboarding: currentAccount.wentThroughOnboarding)
+                acctHandler.notifyAboutAccountUpdates(oldAcctData: account, newAcctData: updatedCurrentAccount)
 
                 // Store the updated settings to the account on disk
                 if var updatedAcctData = account as? MastodonAcctData {

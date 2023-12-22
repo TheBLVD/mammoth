@@ -16,7 +16,7 @@ protocol AcctHandler {
     static func setHeader(_ header: UIImage, for acctData: any AcctDataType) async -> any AcctDataType
     static func updateAccountFromNetwork(acctData: any AcctDataType) async -> any AcctDataType
     static func updateForYouFromNetwork(acctData: any AcctDataType) async -> any AcctDataType
-    static func setForYouType(acctData: any AcctDataType, forYouInfo: ForYouType) async -> any AcctDataType
+    static func setForYouType(acctData: any AcctDataType, forYouInfo: ForYouType) async -> (any AcctDataType)?
     static func notifyAboutAccountUpdates(oldAcctData: any AcctDataType, newAcctData: any AcctDataType)
 }
 
@@ -263,21 +263,20 @@ class MastodonAcctHandler: AcctHandler {
     }
 
     
-    static func setForYouType(acctData: any AcctDataType, forYouInfo: ForYouType) async -> any AcctDataType {
+    static func setForYouType(acctData: any AcctDataType, forYouInfo: ForYouType) async -> (any AcctDataType)? {
         guard let mastodonAcct = acctData as? MastodonAcctData else {
             log.error("wrong acct type")
-            return acctData
+            return nil
         }
 
         do {
             let updatedForYou = try await TimelineService.updateForYouMe(remoteFullOriginalAcct: mastodonAcct.remoteFullOriginalAcct, forYouInfo: forYouInfo)
 
             let updatedMastAcct = MastodonAcctData(account: mastodonAcct.account, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: mastodonAcct.defaultPostVisibility, defaultPostingLanguage: mastodonAcct.defaultPostingLanguage, emoticons: mastodonAcct.emoticons, forYou: updatedForYou, uniqueID: mastodonAcct.uniqueID, wentThroughOnboarding: mastodonAcct.wentThroughOnboarding)
-            AccountsManager.shared.updateAccount(updatedMastAcct)
             return updatedMastAcct
         } catch {
             log.error("problems updating user/server info: \(error)")
-            return mastodonAcct
+            return nil
         }
     }
 
@@ -363,7 +362,7 @@ class BlueskyAcctHandler: AcctHandler {
         return acctData
     }
     
-    static func setForYouType(acctData: any AcctDataType, forYouInfo: ForYouType) async -> any AcctDataType {
+    static func setForYouType(acctData: any AcctDataType, forYouInfo: ForYouType) async -> (any AcctDataType)? {
         log.error(#function + " missing for Bluesky")
         return acctData
     }
