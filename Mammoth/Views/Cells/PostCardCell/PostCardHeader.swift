@@ -161,6 +161,8 @@ class PostCardHeader: UIView {
         self.userTagLabel.text = nil
         self.dateLabel.text = nil
         
+        self.followButton?.alpha = 0
+        
         self.stopTimeUpdates()
     }
     
@@ -256,7 +258,24 @@ extension PostCardHeader {
         if headerType.hasFollowButton(postCard: postCard) {
             if let user = postCard.user {
                 self.followButton?.user = user
+                self.followButton?.alpha = self.followButton?.alpha == 1 ? 1 : 0
                 self.followButton?.isHidden = false
+                if self.followButton?.alpha == 0 {
+                    self.followButton?.transform = CGAffineTransform.identity.scaledBy(x: 0.95, y: 0.95)
+                    // Call animation in next callstack because current callstack 
+                    // blocks all animations (in didUpdateSnapshot)
+                    DispatchQueue.main.async {
+                        UIView.animate(withDuration: 0.3, delay: 0, options: [.allowAnimatedContent, .allowUserInteraction, .beginFromCurrentState], animations: {
+                            self.followButton?.transform = CGAffineTransform.identity.scaledBy(x: 1.02, y: 1.02)
+                            self.followButton?.alpha = 1
+                            }) { finished in
+                                UIView.animate(withDuration: 0.3 / 1.5, animations: {
+                                    self.followButton?.transform = CGAffineTransform.identity
+                                })
+                            }
+                    }
+                }
+                
             } else {
                 self.followButton?.isHidden = true
             }
