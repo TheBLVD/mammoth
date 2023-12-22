@@ -208,6 +208,17 @@ extension FeedEditorCell {
     func onThemeChange() {
         self.contentView.backgroundColor = .custom.background
     }
+    
+    func showLoader() {
+        rightAccessories.arrangedSubviews.forEach({
+            rightAccessories.removeArrangedSubview($0)
+            $0.removeFromSuperview()
+        })
+        
+        let loader = UIActivityIndicatorView()
+        loader.startAnimating()
+        rightAccessories.addArrangedSubview(loader)
+    }
 }
 
 // MARK: Actions

@@ -137,6 +137,7 @@ extension FeedEditorViewController: UITableViewDelegate, UITableViewDataSource, 
                         let alert = UIAlertController(title: "Unfollow hashtag", message: "This hashtag is already hidden, would you like to unfollow it entirely?", preferredStyle: .alert)
                         alert.view.tintColor = .custom.highContrast
                         alert.addAction(UIAlertAction(title: "Unfollow", style: .destructive , handler: { (UIAlertAction) in
+                            cell.showLoader()
                             HashtagManager.shared.unfollowHashtag(tag.name.lowercased(), completion: { _ in })
                         }))
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: { (UIAlertAction) in
@@ -151,6 +152,7 @@ extension FeedEditorViewController: UITableViewDelegate, UITableViewDataSource, 
                         let alert = UIAlertController(title: "Unsubscribe from smart list", message: "This smart list is already hidden, would you like to unsubscribe from it entirely?", preferredStyle: .alert)
                         alert.view.tintColor = .custom.highContrast
                         alert.addAction(UIAlertAction(title: "Unsubscribe", style: .destructive , handler: { (UIAlertAction) in
+                            cell.showLoader()
                             ChannelManager.shared.unsubscribeFromChannel(channel)
                         }))
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: { (UIAlertAction) in
@@ -165,6 +167,7 @@ extension FeedEditorViewController: UITableViewDelegate, UITableViewDataSource, 
                         let alert = UIAlertController(title: "Delete list", message: "Are you sure you want to permanently delete this list?", preferredStyle: .alert)
                         alert.view.tintColor = .custom.highContrast
                         alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler: { (UIAlertAction) in
+                            cell.showLoader()
                             ListManager.shared.deleteList(list.id) { success in
                                 DispatchQueue.main.async {
                                     NotificationCenter.default.post(name: Notification.Name(rawValue: "fetchLists"), object: nil)
@@ -183,6 +186,7 @@ extension FeedEditorViewController: UITableViewDelegate, UITableViewDataSource, 
                         let alert = UIAlertController(title: "Unsubscribe from instance", message: "This instance is already hidden, would you like to unsubscribe from it entirely?", preferredStyle: .alert)
                         alert.view.tintColor = .custom.highContrast
                         alert.addAction(UIAlertAction(title: "Unsubscribe", style: .destructive , handler: { (UIAlertAction) in
+                            cell.showLoader()
                             InstanceManager.shared.unpinInstance(instanceName)
                         }))
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: { (UIAlertAction) in

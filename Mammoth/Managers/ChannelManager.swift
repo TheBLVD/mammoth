@@ -206,13 +206,15 @@ extension ChannelManager {
         // Make the network request
         Task {
             if let currentUser = AccountsManager.shared.currentAccount?.remoteFullOriginalAcct {
-                let forYouInfo = try await ChannelService.unsubscribeFromChannel(remoteFullOriginalAcct: currentUser, channel: channel)
+                let result = try await ChannelService.unsubscribeFromChannel(remoteFullOriginalAcct: currentUser, channel: channel)
                 if !silent {
                     DispatchQueue.main.async {
+                        self.forYouAccount?.subscribedChannels = result.subscribedChannels
+                        NotificationCenter.default.post(name: didChangeChannelStatusNotification, object: self, userInfo: nil)
                         NotificationCenter.default.post(name: ToastNotificationManager.toast.unsubscribed, object: nil)
                     }
                 }
-                AccountsManager.shared.updateCurrentAccountForYou(forYouInfo.forYou)
+                AccountsManager.shared.updateCurrentAccountForYou(result.forYou)
             }
         }
     }
