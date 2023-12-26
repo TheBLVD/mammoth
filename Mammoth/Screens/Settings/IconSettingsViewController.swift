@@ -216,7 +216,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
         self.collectionView.pinEdges()
         
         if let collectionViewLayout = self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            collectionViewLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+            collectionViewLayout.estimatedItemSize = CGSize(width: 1, height: 1)
         }
         
         self.collectionView.reloadData()
