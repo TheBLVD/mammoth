@@ -72,18 +72,24 @@ class EmailHandler: NSObject {
         let outlookPrefix = "ms-outlook://compose?to=\(destinationEncoded)&subject=\(subjectEncoded)&body=\(bodyEncoded)"
         let yahooMailPrefix = "ymail://mail/compose?to=\(destinationEncoded)&subject=\(subjectEncoded)&body=\(bodyEncoded)"
         let sparkPrefix = "readdle-spark://compose?recipient=\(destinationEncoded)&subject=\(subjectEncoded)&body=\(bodyEncoded)"
+        let protonPrefix = "protonmail://mailto:\(destinationEncoded)?subject=\(subjectEncoded)&body=\(bodyEncoded)"
+        let prefixesToTry = [gmailPrefix, outlookPrefix, yahooMailPrefix, sparkPrefix, protonPrefix]
         
-        if let gmailUrl = URL(string: gmailPrefix) {
-            UIApplication.shared.open(gmailUrl)
-        }
-        if let outlookUrl = URL(string: outlookPrefix) {
-            UIApplication.shared.open(outlookUrl)
-        }
-        if let yahooMail = URL(string: yahooMailPrefix) {
-            UIApplication.shared.open(yahooMail)
-        }
-        if let sparkUrl = URL(string: sparkPrefix) {
-            UIApplication.shared.open(sparkUrl)
+        Task {
+            for prefixToTry in prefixesToTry {
+                if let urlToTry = URL(string: prefixToTry) {
+                    DispatchQueue.main.sync {
+                        UIApplication.shared.open(urlToTry) {success in
+                            if success {
+                                return
+                            }
+                        }
+                    }
+                }
+            }
+            
+            
+            
         }
     }
 }
