@@ -298,7 +298,7 @@ extension PostActions {
         vc.fromPro = true
         vc.placeCursorAtEndOfText = false
         
-        vc.proText = "\n\nFrom: @\(vc.quotedAccount?.fullAcct ?? "?")\n\(embeddedStatusComponents?.string ?? "")"
+        vc.proText = "\n\nRE: \(embeddedStatusComponents?.string ?? "")"
         target.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
     
