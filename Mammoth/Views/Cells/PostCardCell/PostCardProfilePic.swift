@@ -227,10 +227,7 @@ extension PostCardProfilePic {
             if user.isSelf {
                 let options = [
                     createContextMenuAction("Mention", .mention, isActive: true, data: nil),
-                    
-                    UIMenu(title: "", options: [.displayInline], children: [
-                        createContextMenuAction("Share Link", .share, isActive: true, data: nil),
-                    ])
+                    createContextMenuAction("Share Link", .share, isActive: true, data: nil),
                 ]
 
                 return UIMenu(title: "", options: [.displayInline], children: options)
@@ -267,9 +264,7 @@ extension PostCardProfilePic {
                  ? createContextMenuAction("Unblock", .unblock, isActive: true, data: nil)
                  : createContextMenuAction("Block", .block, isActive: true, data: nil)),
                 
-                UIMenu(title: "", options: [.displayInline], children: [
-                    createContextMenuAction("Share Link", .share, isActive: true, data: nil),
-                ])
+                createContextMenuAction("Share Link", .share, isActive: true, data: nil),
             ].compactMap({$0})
 
             return UIMenu(title: "", options: [.displayInline], children: options)
