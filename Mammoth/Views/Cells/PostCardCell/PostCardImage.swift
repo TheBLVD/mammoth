@@ -266,7 +266,7 @@ final class PostCardImage: UIView {
         if let originImage = imageView.image {
             
             let photo: SKPhoto = {
-                if let url = media?.previewURL {
+                if let url = media?.url {
                     let photo = SKPhoto.photoWithImageURL(url)
                     photo.shouldCachePhotoURLImage = true
                     return photo
