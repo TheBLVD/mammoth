@@ -61,6 +61,7 @@ class EmailHandler: NSObject {
     }
 
 
+    static var emailAppURLIndex = 0
     fileprivate func openThirdPartyMailURLs(destinationEncoded: String, subjectEncoded: String, bodyEncoded: String) {
         // After lots of searching and digging, it appears there's a bug where calling
         // UIApplication.shared.canOpenURL() to check often fails, even when the correct
@@ -75,21 +76,35 @@ class EmailHandler: NSObject {
         let protonPrefix = "protonmail://mailto:\(destinationEncoded)?subject=\(subjectEncoded)&body=\(bodyEncoded)"
         let prefixesToTry = [gmailPrefix, outlookPrefix, yahooMailPrefix, sparkPrefix, protonPrefix]
         
-        Task {
-            for prefixToTry in prefixesToTry {
-                if let urlToTry = URL(string: prefixToTry) {
-                    DispatchQueue.main.sync {
-                        UIApplication.shared.open(urlToTry) {success in
-                            if success {
-                                return
+        EmailHandler.emailAppURLIndex = 0
+        tryNextAppPrefix()
+        
+        func tryNextAppPrefix() {
+            Task {
+                if EmailHandler.emailAppURLIndex < prefixesToTry.count {
+                    log.debug("trying app URL index \(EmailHandler.emailAppURLIndex)")
+                    let prefixToTry = prefixesToTry[EmailHandler.emailAppURLIndex]
+                    if let urlToTry = URL(string: prefixToTry) {
+                        DispatchQueue.main.sync {
+                            UIApplication.shared.open(urlToTry) {success in
+                                if success {
+                                    log.debug("success emailing with app at index \(EmailHandler.emailAppURLIndex)")
+                                } else {
+                                    log.debug("failed emailing with app at index \(EmailHandler.emailAppURLIndex)")
+                                    EmailHandler.emailAppURLIndex = EmailHandler.emailAppURLIndex + 1
+                                    tryNextAppPrefix()
+                                }
                             }
                         }
+                    } else {
+                        log.error("invalid email app url at index \(EmailHandler.emailAppURLIndex)")
+                        EmailHandler.emailAppURLIndex = EmailHandler.emailAppURLIndex + 1
+                        tryNextAppPrefix()
                     }
+                } else {
+                    log.error("done iterating through email apps; none successful")
                 }
             }
-            
-            
-            
         }
     }
 }
