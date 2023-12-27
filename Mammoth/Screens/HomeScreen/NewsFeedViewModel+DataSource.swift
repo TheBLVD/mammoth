@@ -786,11 +786,14 @@ extension NewsFeedViewModel {
             
             // Don't update data source if this feed is not currently viewed
             guard type == self.type else { return }
-            self.snapshot.deleteItems(toListCardItems([card]))
-            self.delegate?.didUpdateSnapshot(self.snapshot,
-                                             feedType: type,
-                                             updateType: .remove,
-                                             onCompleted: nil)
+            let item = NewsFeedListItem.postCard(card)
+            if self.snapshot.indexOfItem(item) != nil {
+                self.snapshot.deleteItems([item])
+                self.delegate?.didUpdateSnapshot(self.snapshot,
+                                                 feedType: type,
+                                                 updateType: .remove,
+                                                 onCompleted: nil)
+            }
         }
     }
     
@@ -807,6 +810,8 @@ extension NewsFeedViewModel {
                     return false
                 }
             }
+            
+            guard !itemsToDelete.isEmpty else { return }
             
             self.snapshot.deleteItems(itemsToDelete)
             
