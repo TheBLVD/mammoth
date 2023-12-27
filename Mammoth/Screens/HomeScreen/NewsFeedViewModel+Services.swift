@@ -425,9 +425,7 @@ extension NewsFeedViewModel {
                 } else {
                     guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
                     guard !Task.isCancelled else { return }
-                    self.insertNewest(items: newItems,
-                                      includeLoadMore: false,
-                                      forType: feedType)
+                    self.set(withItems: newItems, forType: feedType)
                 }
             }
         } catch {
