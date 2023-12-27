@@ -256,12 +256,9 @@ extension PostCardImageAttachment: UICollectionViewDataSource {
         } else {
             // Open fullscreen image preview
             let images = self.mediaAttachments.map { attachment in
-                if let url = attachment.previewURL {
-                    let photo = SKPhoto.photoWithImageURL(url)
-                    photo.shouldCachePhotoURLImage = true
-                    return photo
-                }
-                return SKPhoto()
+                let photo = SKPhoto.photoWithImageURL(attachment.url)
+                photo.shouldCachePhotoURLImage = true
+                return photo
             }
             
             let descriptions = self.mediaAttachments.map { $0.description }
@@ -269,7 +266,8 @@ extension PostCardImageAttachment: UICollectionViewDataSource {
             if let cell = collectionView.cellForItem(at: indexPath) as? PostCardImageCollectionCell ??
                 collectionView.cellForItem(at: indexPath) as? PostCardImageCollectionCellSmall,
                 let originImage = cell.imageView.image {
-                let browser = SKPhotoBrowser(originImage: originImage, 
+                
+                let browser = SKPhotoBrowser(originImage: originImage,
                                              photos: images,
                                              animatedFromView: cell.imageView,
                                              descriptions: descriptions,
