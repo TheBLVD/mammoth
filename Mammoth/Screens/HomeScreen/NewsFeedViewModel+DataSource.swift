@@ -785,11 +785,22 @@ extension NewsFeedViewModel {
             
             // Don't update data source if this feed is not currently viewed
             guard type == self.type else { return }
-            self.snapshot.deleteItems(toListCardItems([card]))
-            self.delegate?.didUpdateSnapshot(self.snapshot,
-                                             feedType: type,
-                                             updateType: .remove,
-                                             onCompleted: nil)
+            let item = toListCardItems([card])
+            if #available(iOS 16.0, *) {
+                if self.snapshot.itemIdentifiers.contains(item) {
+                    self.snapshot.deleteItems(item)
+                    self.delegate?.didUpdateSnapshot(self.snapshot,
+                                                     feedType: type,
+                                                     updateType: .remove,
+                                                     onCompleted: nil)
+                }
+            } else {
+                self.snapshot.deleteItems(item)
+                self.delegate?.didUpdateSnapshot(self.snapshot,
+                                                 feedType: type,
+                                                 updateType: .remove,
+                                                 onCompleted: nil)
+            }
         }
     }
     
@@ -806,6 +817,8 @@ extension NewsFeedViewModel {
                     return false
                 }
             }
+            
+            guard !itemsToDelete.isEmpty else { return }
             
             self.snapshot.deleteItems(itemsToDelete)
             
