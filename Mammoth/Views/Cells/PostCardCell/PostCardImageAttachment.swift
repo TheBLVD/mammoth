@@ -267,7 +267,6 @@ extension PostCardImageAttachment: UICollectionViewDataSource {
                 collectionView.cellForItem(at: indexPath) as? PostCardImageCollectionCellSmall,
                 let originImage = cell.imageView.image {
                 
-                
                 let browser = SKPhotoBrowser(originImage: originImage,
                                              photos: images,
                                              animatedFromView: cell.imageView,
