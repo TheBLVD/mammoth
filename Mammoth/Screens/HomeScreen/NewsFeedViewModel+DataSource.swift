@@ -440,6 +440,7 @@ extension NewsFeedViewModel {
             // Retrieve cards and scroll position from disk
             self.clearSnapshot()
             self.state = .loading
+            self.delegate?.showLoader(enabled: true)
             self.hydrateCache(forFeedType: feedType) { [weak self] retrievedItems, retrievedPosition in
                 guard let self else { return }
                 
@@ -841,6 +842,7 @@ extension NewsFeedViewModel {
     
     func clearSnapshot() {
         log.debug("[NewsFeedViewModel] Clear snapshot")
+        guard !self.snapshot.sectionIdentifiers.isEmpty else { return }
         self.snapshot.deleteAllItems()
         self.delegate?.didUpdateSnapshot(
             self.snapshot,
@@ -855,11 +857,14 @@ extension NewsFeedViewModel {
         log.debug("[NewsFeedViewModel] Remove All")
         
         self.listData.clear(forType: type)
-        self.snapshot.deleteAllItems()
         self.setUnreadState(count: 0, enabled: true, forFeed: type)
         if clearScrollPosition {
             self.setScrollPosition(model: nil, offset: 0, forFeed: type)
         }
+        
+        guard !self.snapshot.sectionIdentifiers.isEmpty else { return }
+        self.snapshot.deleteAllItems()
+        
         self.delegate?.didUpdateSnapshot(
             self.snapshot,
             feedType: type,
