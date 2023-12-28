@@ -91,7 +91,7 @@ class UserCardModel {
         self.joinedOn = account?.createdAt?.toDate()
     }
     
-    init(account: Account, instanceName: String? = nil, requestFollowStatusUpdate: FollowManager.NetworkUpdateType = .none) {
+    init(account: Account, instanceName: String? = nil, requestFollowStatusUpdate: FollowManager.NetworkUpdateType = .none, isFollowing: Bool = false) {
         self.id = account.id
         self.uniqueId = account.remoteFullOriginalAcct
         self.name = !account.displayName.isEmpty ? account.displayName : account.username
@@ -99,7 +99,7 @@ class UserCardModel {
         self.username = account.username
         self.imageURL = account.avatar
         self.description = account.note.stripHTML()
-        self.isFollowing = false
+        self.isFollowing = isFollowing
         self.emojis = account.emojis
         self.account = account
         

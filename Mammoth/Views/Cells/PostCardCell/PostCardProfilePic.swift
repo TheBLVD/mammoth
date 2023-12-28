@@ -221,7 +221,7 @@ extension PostCardProfilePic {
     
     func createContextMenu() -> UIMenu {
         guard let account = self.user?.account else { return UIMenu() }
-        let isFollowing = FollowManager.shared.followStatusForAccount(account) == .following
+        let isFollowing = FollowManager.shared.followStatusForAccount(account) == .following || (self.user?.isFollowing ?? false)
         
         if let user = self.user {
             if user.isSelf {
