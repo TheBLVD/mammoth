@@ -163,7 +163,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         if [.mentionsIn, .mentionsOut, .activity].contains(self.viewModel.type) {
             if !self.didInitializeOnce {
                 self.didInitializeOnce = true
-                log.debug("[NewsFeedViewController] Sync data source from `viewDidLoad`")
+                log.debug("[NewsFeedViewController] Sync data source from `viewDidLoad` - \(self.viewModel.type)")
                 self.viewModel.syncDataSource(type: self.viewModel.type) { [weak self] in
                     guard let self else { return }
                     guard self.viewModel.snapshot.sectionIdentifiers.contains(.main) else { return }
@@ -185,14 +185,16 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         super.viewDidAppear(animated)
         if !self.didInitializeOnce {
             self.didInitializeOnce = true
-            log.debug("[NewsFeedViewController] Sync data source from `viewDidAppear`")
+            log.debug("[NewsFeedViewController] Sync data source from `viewDidAppear` - \(self.viewModel.type)")
             self.viewModel.syncDataSource(type: self.viewModel.type) { [weak self] in
                 guard let self else { return }
                 guard self.viewModel.snapshot.sectionIdentifiers.contains(.main) else { return }
                 if self.viewModel.snapshot.itemIdentifiers(inSection: .main).isEmpty {
                     let type = self.viewModel.type
-                    self.viewModel.displayLoader(forType: type)
-                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.viewModel.displayLoader(forType: type)
+                    }
+
                     Task { [weak self] in
                         guard let self else { return }
                         try await self.viewModel.loadLatest(feedType: type, threshold: 1)
@@ -204,6 +206,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         if self.viewModel.type.shouldPollForListData {
             self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
         }
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -592,7 +595,7 @@ extension NewsFeedViewController {
         }
         
         // Fetch next again if scrolling past the last elements
-        if scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height - 600,
+        if self.viewModel.snapshot.numberOfItems > 0, scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height - 600,
            viewModel.shouldFetchNext(prefetchRowsAt: [IndexPath(row: viewModel.numberOfItems(forSection: .main), section: 0)]) {
             Task { [weak self] in
                 guard let self else { return }
@@ -615,8 +618,8 @@ extension NewsFeedViewController {
             
             // For feeds with many new posts a second we don't want to
             // nag the user with the unread pill right after they reached the top.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                if self.viewModel.type.shouldPollForListData {
+            if self.viewModel.type.shouldPollForListData && self.viewModel.snapshot.numberOfItems > 0 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
                     self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
                 }
             }
@@ -895,21 +898,30 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         }
     }
     
+    static let LoaderTag = 11
+    
     func showLoader(enabled: Bool) {
         DispatchQueue.main.async {
             if enabled {
-                let loaderView = UIStackView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 40))
-                loaderView.alignment = .center
-                loaderView.layoutMargins = .init(top: 10, left: 10, bottom: 10, right: 10)
-                let loader = UIActivityIndicatorView()
-                loader.startAnimating()
-                loaderView.addArrangedSubview(loader)
-                self.tableView.tableFooterView = loaderView
+                if !self.isLoaderVisible() {
+                    let loaderView = UIStackView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.width, height: 40))
+                    loaderView.alignment = .center
+                    loaderView.layoutMargins = .init(top: 10, left: 10, bottom: 10, right: 10)
+                    let loader = UIActivityIndicatorView()
+                    loader.startAnimating()
+                    loaderView.addArrangedSubview(loader)
+                    loaderView.tag = Self.LoaderTag
+                    self.tableView.tableFooterView = loaderView
+                }
             } else {
                 // Hack to hide last seperator
                 self.tableView.tableFooterView = UIView(frame: CGRect(x: 0, y: 0, width: self.tableView.frame.size.width, height: 1))
             }
         }
+    }
+    
+    func isLoaderVisible() -> Bool {
+        return self.tableView.tableFooterView?.tag == Self.LoaderTag
     }
     
     func getVisibleIndexPaths() async -> [IndexPath]? {
