@@ -333,6 +333,7 @@ class AccountsManager {
         }
         migrateDraftsIfNeeded()
         migrateInstancesIfNeeded()
+        migrateOnboardingStatus()
     }
     
     // Will migrate & delete old accounts as needed
@@ -355,7 +356,7 @@ class AccountsManager {
             log.debug("migrating account: \(account.remoteFullOriginalAcct)")
             // Select this account?
             let client = Client(baseURL: "https://\(instance.returnedText)", accessToken: instance.accessToken)
-            let acctData = MastodonAcctData(account: account, instanceData: instance, client: client, defaultPostVisibility: .public, defaultPostingLanguage: nil, emoticons: [], forYou: ForYouAccount(forYou: ForYouType(), subscribedChannels: []), wentThroughOnboarding: false)
+            let acctData = MastodonAcctData(account: account, instanceData: instance, client: client, defaultPostVisibility: .public, defaultPostingLanguage: nil, emoticons: [], forYou: ForYouAccount(forYou: ForYouType(), subscribedChannels: []))
             if instance == InstanceData.getCurrentInstance() {
                 selectedAcctData = acctData
             }
@@ -383,6 +384,20 @@ class AccountsManager {
                     try await PushNotificationManager.unsubscribe(account: account)
                 }
             }
+        }
+    }
+    
+    // Move any 'wentThroughOnboarding' from AccountInfo to disk if needed
+    @MainActor private func migrateOnboardingStatus() {
+        if !UserDefaults.standard.bool(forKey: "didMigrateOnboardingStatus") {
+            for account in AccountsManager.shared.allAccounts {
+                if let mastodonAcct = account as? MastodonAcctData {
+                    if mastodonAcct.wentThroughOnboarding {
+                        self.didShowOnboardingForAccount(mastodonAcct)
+                    }
+                }
+            }
+            UserDefaults.standard.set(true, forKey: "didMigrateOnboardingStatus")
         }
     }
     
@@ -500,7 +515,7 @@ extension AccountsManager {
                 // (seen in the onboarding case). For that reason, re-create an
                 // updated version of the current account now.
                 let currentAccount = self.currentAccount as! MastodonAcctData
-                let updatedCurrentAccount = MastodonAcctData(account: currentAccount.account, instanceData: currentAccount.instanceData, client: currentAccount.client, defaultPostVisibility: currentAccount.defaultPostVisibility, defaultPostingLanguage: currentAccount.defaultPostingLanguage, emoticons: currentAccount.emoticons, forYou: (updatedAccount as! MastodonAcctData).forYou, uniqueID: currentAccount.uniqueID, wentThroughOnboarding: currentAccount.wentThroughOnboarding)
+                let updatedCurrentAccount = MastodonAcctData(account: currentAccount.account, instanceData: currentAccount.instanceData, client: currentAccount.client, defaultPostVisibility: currentAccount.defaultPostVisibility, defaultPostingLanguage: currentAccount.defaultPostingLanguage, emoticons: currentAccount.emoticons, forYou: (updatedAccount as! MastodonAcctData).forYou, uniqueID: currentAccount.uniqueID)
                 acctHandler.notifyAboutAccountUpdates(oldAcctData: account, newAcctData: updatedCurrentAccount)
 
                 // Store the updated settings to the account on disk
@@ -568,17 +583,26 @@ extension AccountsManager {
 extension AccountsManager {
     
     public func shouldShowOnboardingForCurrentAccount() -> Bool {
-        let wentThroughOnboarding: Bool = (self.currentAccount as? MastodonAcctData)?.wentThroughOnboarding ?? true
-        log.debug("wentThroughOnboarding for \((self.currentAccount as? MastodonAcctData)?.remoteFullOriginalAcct ?? "?") - : \(wentThroughOnboarding)")
-        return !wentThroughOnboarding
+        var shouldShowOnboarding = true
+        if let mastodonAcctData = self.currentAccount as? MastodonAcctData {
+            let onboardedAccounts: [String] = UserDefaults.standard.object(forKey: "onboardedAccounts") as? [String] ?? []
+            shouldShowOnboarding = !onboardedAccounts.contains(mastodonAcctData.remoteFullOriginalAcct)
+        }
+        return shouldShowOnboarding
     }
     
     public func didShowOnboardingForCurrentAccount() {
-        var updatedAcctData = self.currentAccount as? MastodonAcctData
-        if updatedAcctData != nil {
-            log.debug("setting wentThroughOnboarding to true for \(updatedAcctData!.remoteFullOriginalAcct)")
-            updatedAcctData!.wentThroughOnboarding = true
-            updateAccount(updatedAcctData!)
+        if let updatedAcctData = self.currentAccount as? MastodonAcctData {
+            self.didShowOnboardingForAccount(updatedAcctData)
         }
+    }
+    
+    public func didShowOnboardingForAccount(_ mastodonAcctData: MastodonAcctData) {
+        log.debug("setting wentThroughOnboarding to true for \(mastodonAcctData.remoteFullOriginalAcct)")
+        var onboardedAccounts: [String] = UserDefaults.standard.object(forKey: "onboardedAccounts") as? [String] ?? []
+        if !onboardedAccounts.contains(mastodonAcctData.remoteFullOriginalAcct) {
+            onboardedAccounts.append(mastodonAcctData.remoteFullOriginalAcct)
+        }
+        UserDefaults.standard.set(onboardedAccounts, forKey: "onboardedAccounts")
     }
 }

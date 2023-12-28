@@ -174,7 +174,7 @@ private extension ProfileViewController {
         
         self.view.backgroundColor = .custom.background
 
-        let isPastOnboarding: Bool = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.wentThroughOnboarding ?? true
+        let isPastOnboarding: Bool = !AccountsManager.shared.shouldShowOnboardingForCurrentAccount()
 
         if isPastOnboarding {
             self.settingsButton = ProfileViewSettingsButton({ [weak self] type, data in

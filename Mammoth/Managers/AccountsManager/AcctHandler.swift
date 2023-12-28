@@ -75,7 +75,7 @@ class MastodonAcctHandler: AcctHandler {
                                         completion(error, nil)
                                     }
                                 } else {
-                                    let newAcct = MastodonAcctData(account: account, instanceData: instanceData, client: client, defaultPostVisibility: .public, defaultPostingLanguage: nil, emoticons: [], forYou: ForYouAccount(), wentThroughOnboarding: false)
+                                    let newAcct = MastodonAcctData(account: account, instanceData: instanceData, client: client, defaultPostVisibility: .public, defaultPostingLanguage: nil, emoticons: [], forYou: ForYouAccount())
                                     DispatchQueue.main.async {
                                         completion(nil, newAcct)
                                     }
@@ -124,7 +124,7 @@ class MastodonAcctHandler: AcctHandler {
                 }
             }
             if let account = statuses.value {
-                let newAcct = MastodonAcctData(account: account, instanceData: instanceData, client: client, defaultPostVisibility: .public, defaultPostingLanguage: nil, emoticons: [], forYou: ForYouAccount(), wentThroughOnboarding: false)
+                let newAcct = MastodonAcctData(account: account, instanceData: instanceData, client: client, defaultPostVisibility: .public, defaultPostingLanguage: nil, emoticons: [], forYou: ForYouAccount())
                 DispatchQueue.main.async {
                     completion(nil, newAcct)
                 }
@@ -150,7 +150,7 @@ class MastodonAcctHandler: AcctHandler {
             }
             let accountWithUpdatedDisplayName = try await AccountService.updateDisplayName(displayName: displayName)
             if acctData.uniqueID == AccountsManager.shared.currentAccount?.uniqueID {
-                let updatedAcct = MastodonAcctData(account: accountWithUpdatedDisplayName, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: mastodonAcct.defaultPostVisibility, defaultPostingLanguage: mastodonAcct.defaultPostingLanguage, emoticons: mastodonAcct.emoticons, forYou: mastodonAcct.forYou, uniqueID: acctData.uniqueID, wentThroughOnboarding: mastodonAcct.wentThroughOnboarding)
+                let updatedAcct = MastodonAcctData(account: accountWithUpdatedDisplayName, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: mastodonAcct.defaultPostVisibility, defaultPostingLanguage: mastodonAcct.defaultPostingLanguage, emoticons: mastodonAcct.emoticons, forYou: mastodonAcct.forYou, uniqueID: acctData.uniqueID)
                 AccountsManager.shared.updateAccount(updatedAcct)
                 return updatedAcct
             } else {
@@ -171,7 +171,7 @@ class MastodonAcctHandler: AcctHandler {
             }
             let accountWithUpdatedAvatar = try await AccountService.updateAvatar(image: avatar, compressionQuality: 0.5)
             if acctData.uniqueID == AccountsManager.shared.currentAccount?.uniqueID {
-                let updatedAcct = MastodonAcctData(account: accountWithUpdatedAvatar, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: mastodonAcct.defaultPostVisibility, defaultPostingLanguage: mastodonAcct.defaultPostingLanguage, emoticons: mastodonAcct.emoticons, forYou: mastodonAcct.forYou, uniqueID: acctData.uniqueID, wentThroughOnboarding: mastodonAcct.wentThroughOnboarding)
+                let updatedAcct = MastodonAcctData(account: accountWithUpdatedAvatar, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: mastodonAcct.defaultPostVisibility, defaultPostingLanguage: mastodonAcct.defaultPostingLanguage, emoticons: mastodonAcct.emoticons, forYou: mastodonAcct.forYou, uniqueID: acctData.uniqueID)
                 AccountsManager.shared.updateAccount(updatedAcct)
                 return updatedAcct
             } else {
@@ -192,7 +192,7 @@ class MastodonAcctHandler: AcctHandler {
             }
             let accountWithUpdatedHeader = try await AccountService.updateHeader(image: header, compressionQuality: 0.5)
             if acctData.uniqueID == AccountsManager.shared.currentAccount?.uniqueID {
-                let updatedAcct = MastodonAcctData(account: accountWithUpdatedHeader, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: mastodonAcct.defaultPostVisibility, defaultPostingLanguage: mastodonAcct.defaultPostingLanguage, emoticons: mastodonAcct.emoticons, forYou: mastodonAcct.forYou, uniqueID: acctData.uniqueID, wentThroughOnboarding: mastodonAcct.wentThroughOnboarding)
+                let updatedAcct = MastodonAcctData(account: accountWithUpdatedHeader, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: mastodonAcct.defaultPostVisibility, defaultPostingLanguage: mastodonAcct.defaultPostingLanguage, emoticons: mastodonAcct.emoticons, forYou: mastodonAcct.forYou, uniqueID: acctData.uniqueID)
                 AccountsManager.shared.updateAccount(updatedAcct)
                 return updatedAcct
             } else {
@@ -235,7 +235,7 @@ class MastodonAcctHandler: AcctHandler {
             
             let postingLanguage: String? = updatedConstants?.defaultPostingLanguage
             
-            let updatedMastAcct = MastodonAcctData(account: updatedUser, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: postVisiblity, defaultPostingLanguage: postingLanguage, emoticons: updatedEmojis, forYou: mastodonAcct.forYou, uniqueID: mastodonAcct.uniqueID, wentThroughOnboarding: mastodonAcct.wentThroughOnboarding)
+            let updatedMastAcct = MastodonAcctData(account: updatedUser, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: postVisiblity, defaultPostingLanguage: postingLanguage, emoticons: updatedEmojis, forYou: mastodonAcct.forYou, uniqueID: mastodonAcct.uniqueID)
             AccountsManager.shared.updateAccount(updatedMastAcct)
             return updatedMastAcct
         } catch {
@@ -253,7 +253,7 @@ class MastodonAcctHandler: AcctHandler {
         do {
             let getForYou = try await TimelineService.forYouMe(remoteFullOriginalAcct: mastodonAcct.remoteFullOriginalAcct)
 
-            let updatedMastAcct = MastodonAcctData(account: mastodonAcct.account, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: mastodonAcct.defaultPostVisibility, defaultPostingLanguage: mastodonAcct.defaultPostingLanguage, emoticons: mastodonAcct.emoticons, forYou: getForYou, uniqueID: mastodonAcct.uniqueID, wentThroughOnboarding: mastodonAcct.wentThroughOnboarding)
+            let updatedMastAcct = MastodonAcctData(account: mastodonAcct.account, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: mastodonAcct.defaultPostVisibility, defaultPostingLanguage: mastodonAcct.defaultPostingLanguage, emoticons: mastodonAcct.emoticons, forYou: getForYou, uniqueID: mastodonAcct.uniqueID)
             AccountsManager.shared.updateAccount(updatedMastAcct)
             return updatedMastAcct
         } catch {
@@ -272,7 +272,7 @@ class MastodonAcctHandler: AcctHandler {
         do {
             let updatedForYou = try await TimelineService.updateForYouMe(remoteFullOriginalAcct: mastodonAcct.remoteFullOriginalAcct, forYouInfo: forYouInfo)
 
-            let updatedMastAcct = MastodonAcctData(account: mastodonAcct.account, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: mastodonAcct.defaultPostVisibility, defaultPostingLanguage: mastodonAcct.defaultPostingLanguage, emoticons: mastodonAcct.emoticons, forYou: updatedForYou, uniqueID: mastodonAcct.uniqueID, wentThroughOnboarding: mastodonAcct.wentThroughOnboarding)
+            let updatedMastAcct = MastodonAcctData(account: mastodonAcct.account, instanceData: mastodonAcct.instanceData, client: mastodonAcct.client, defaultPostVisibility: mastodonAcct.defaultPostVisibility, defaultPostingLanguage: mastodonAcct.defaultPostingLanguage, emoticons: mastodonAcct.emoticons, forYou: updatedForYou, uniqueID: mastodonAcct.uniqueID)
             return updatedMastAcct
         } catch {
             log.error("problems updating user/server info: \(error)")
