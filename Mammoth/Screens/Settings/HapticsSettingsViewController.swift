@@ -166,7 +166,7 @@ class HapticsSettingsViewController: UIViewController, UITableViewDataSource, UI
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell0", for: indexPath)
             cell.textLabel?.numberOfLines = 0
             cell.textLabel?.text = "\(self.section0[indexPath.row])"
-            cell.imageView?.image = UIImage(systemName: "speaker.wave.3")
+            cell.imageView?.image = settingsSystemImage("speaker.wave.3")
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "sounds") as? Bool != nil {
                 if UserDefaults.standard.value(forKey: "sounds") as? Bool == false {
@@ -195,7 +195,7 @@ class HapticsSettingsViewController: UIViewController, UITableViewDataSource, UI
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
             cell.textLabel?.numberOfLines = 0
             cell.textLabel?.text = "\(self.section1[indexPath.row])"
-            cell.imageView?.image = UIImage(systemName: "waveform.path")
+            cell.imageView?.image = settingsSystemImage("waveform.path")
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "haptics") as? Bool != nil {
                 if UserDefaults.standard.value(forKey: "haptics") as? Bool == false {

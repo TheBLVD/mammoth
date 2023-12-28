@@ -355,8 +355,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         case .normal:
             cell.textLabel?.textColor = .custom.highContrast
             cell.backgroundColor = .custom.OVRLYSoftContrast
-            cell.imageView?.image = FontAwesome.image(fromChar: item.imageName).withTintColor(.custom.mediumContrast, renderingMode: .alwaysOriginal)
-            
+            cell.imageView?.image = settingsFontAwesomeImage(item.imageName)
         case .destructive:
             cell.textLabel?.textColor = .white
             cell.backgroundColor = .custom.destructive

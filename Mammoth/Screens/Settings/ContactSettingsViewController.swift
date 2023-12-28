@@ -151,7 +151,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
             var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell1", for: indexPath)
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell1")
             cell.textLabel?.numberOfLines = 0
-            cell.imageView?.image = UIImage(systemName: self.section0Images[indexPath.row])
+            cell.imageView?.image = settingsSystemImage(self.section0Images[indexPath.row])
             cell.textLabel?.text = self.firstSection[indexPath.row]
             cell.backgroundColor = .custom.OVRLYSoftContrast
             cell.accessoryType = .disclosureIndicator
@@ -163,7 +163,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
             var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell2", for: indexPath)
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell2")
             cell.textLabel?.numberOfLines = 0
-            cell.imageView?.image = UIImage(systemName: "safari")
+            cell.imageView?.image = settingsSystemImage("safari")
             cell.textLabel?.text = "Website"
             cell.backgroundColor = .custom.OVRLYSoftContrast
             if #available(iOS 15.0, *) {
@@ -174,7 +174,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
             var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell3", for: indexPath)
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell3")
             cell.textLabel?.numberOfLines = 0
-            cell.imageView?.image = UIImage(systemName: "hand.raised")
+            cell.imageView?.image = settingsSystemImage("hand.raised")
             cell.textLabel?.text = "Server Privacy Policy"
             cell.backgroundColor = .custom.OVRLYSoftContrast
             if #available(iOS 15.0, *) {
@@ -185,7 +185,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
             var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell4", for: indexPath)
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell4")
             cell.textLabel?.numberOfLines = 0
-            cell.imageView?.image = UIImage(systemName: "heart")
+            cell.imageView?.image = settingsSystemImage("heart")
             cell.textLabel?.text = "Review Prompt"
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "reviewPrompt") as? Bool != nil {
@@ -213,7 +213,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
                 var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell5", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell5")
                 cell.textLabel?.numberOfLines = 0
-                cell.imageView?.image = UIImage(systemName: "doc.text.magnifyingglass")
+                cell.imageView?.image = settingsSystemImage("doc.text.magnifyingglass")
                 cell.textLabel?.text = "Enable Debug Logging"
                 let switchView = UISwitch(frame: .zero)
                 
@@ -233,7 +233,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
                 var cell = tableView.dequeueReusableCell(withIdentifier: "settingsCell6", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell6")
                 cell.textLabel?.numberOfLines = 0
-                cell.imageView?.image = UIImage(systemName: "mail.and.text.magnifyingglass")
+                cell.imageView?.image = settingsSystemImage("mail.and.text.magnifyingglass")
                 cell.textLabel?.text = "Email Logs as Attachment"
                 cell.backgroundColor = .custom.OVRLYSoftContrast
                 if #available(iOS 15.0, *) {

@@ -3932,7 +3932,6 @@ extension NewPostViewController: TranslationComposeViewControllerDelegate {
             let context = UIGraphicsGetCurrentContext()!
             let clipPath: CGPath = UIBezierPath(roundedRect: lineRect, cornerRadius: 2.0).cgPath
             context.addPath(clipPath)
-            context.setFillColor(UIColor.red.cgColor)
             context.closePath()
             context.setLineWidth(borderWidth)
             context.strokePath()
