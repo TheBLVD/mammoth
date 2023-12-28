@@ -18,23 +18,23 @@ struct PostActions {
             PostActions.onReply(target: target, postCard: postCard)
         case .like:
             if !isActive {
-                PostActions.onLike(postCard: postCard, withFetchPolicy: .onlyLocal)
+                PostActions.onLike(postCard: postCard, withFetchPolicy: .retryLocally)
             } else {
-                PostActions.onUnLike(postCard: postCard, withFetchPolicy: .onlyLocal)
+                PostActions.onUnLike(postCard: postCard, withFetchPolicy: .retryLocally)
             }
         case .repost:
             if !isActive {
-                PostActions.onRepost(postCard: postCard, withFetchPolicy: .onlyLocal)
+                PostActions.onRepost(postCard: postCard, withFetchPolicy: .retryLocally)
             } else {
-                PostActions.onUnrepost(postCard: postCard, withFetchPolicy: .onlyLocal)
+                PostActions.onUnrepost(postCard: postCard, withFetchPolicy: .retryLocally)
             }
         case .quote:
             guard case .mastodon(let status) = postCard.data else { return }
             PostActions.presentQuotePostComposer(target: target, stat: status)
         case .bookmark:
-            PostActions.onBookmark(postCard: postCard, withFetchPolicy: .onlyLocal)
+            PostActions.onBookmark(postCard: postCard, withFetchPolicy: .retryLocally)
         case .unbookmark:
-            PostActions.onUnbookmark(postCard: postCard, withFetchPolicy: .onlyLocal)
+            PostActions.onUnbookmark(postCard: postCard, withFetchPolicy: .retryLocally)
             
         case .share:
             switch(data) {
@@ -304,7 +304,7 @@ extension PostActions {
     
     // Handler call when pressing the reply button on a post
     static func onReply(target: UIViewController, postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.data else { return }
+        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
         
         let vc = NewPostViewController()
         vc.isModalInPresentation = true
@@ -412,7 +412,7 @@ extension PostActions {
     
     // Handler call when pressing the bookmark button on a post
     static func onBookmark(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.data else { return }
+        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
         
         if let uniqueId = postCard.uniqueId {
             // Optimistically update local cache
@@ -441,7 +441,7 @@ extension PostActions {
     
     // Handler call when pressing the unbookmark button on a post
     static func onUnbookmark(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.data else { return }
+        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
         
         if let uniqueId = postCard.uniqueId {
             // Optimistically update local cache
@@ -469,7 +469,7 @@ extension PostActions {
     }
     
     static func onEditPost(target: UIViewController, postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.data else { return }
+        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
         
         triggerHapticImpact(style: .light)
         
@@ -481,7 +481,7 @@ extension PostActions {
     }
     
     static func onDeletePost(target: UIViewController, postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.data else { return }
+        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
         
         let alert = UIAlertController(title: nil, message: "Are you sure you want to delete this post?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ (UIAlertAction) in
@@ -521,7 +521,7 @@ extension PostActions {
     
     // Handler call when pressing the pin post button on a post
     static func onPinPost(target: UIViewController, postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.data else { return }
+        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
         triggerHaptic3Notification()
         
         // HTTP request
@@ -546,7 +546,7 @@ extension PostActions {
     
     // Handler call when pressing the unpin post button on a post
     static func onUnpinPost(target: UIViewController, postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.data else { return }
+        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
         
         triggerHaptic3Notification()
 
@@ -566,7 +566,7 @@ extension PostActions {
     }
     
     static func onShare(target: UIViewController, postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.data else { return }
+        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
         
         let text = URL(string: "\(status.reblog?.url ?? status.url ?? "")")!
         self.onShare(target: target, url: text)
@@ -579,7 +579,7 @@ extension PostActions {
     }
     
     static func onViewInBrowser(postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.data else { return }
+        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
         
         if let str = status.reblog?.url ?? status.url {
             if let url = URL(string: str) {
@@ -963,24 +963,6 @@ extension PostActions {
 // MARK: - Legacy functions (deprecated)
 // Moved out of deleted FirstViewController
 extension PostActions {
-    static func bookmarkThis(_ id: String) {
-        StatusCache.shared.addLocalMetric(metricType: .bookmark, statusId: id)
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "postBookmarked"), object: nil)
-        let request = Bookmarks.bookmark(id: id)
-        AccountsManager.shared.currentAccountClient.run(request) { (statuses) in
-            print("bookmark post - \(statuses)")
-        }
-    }
-    
-    static func unbookmarkThis(_ id: String) {
-        StatusCache.shared.removeLocalMetric(metricType: .bookmark, statusId: id)
-        NotificationCenter.default.post(name: Notification.Name(rawValue: "postUnbookmarked"), object: nil)
-        let request = Bookmarks.unbookmark(id: id)
-        AccountsManager.shared.currentAccountClient.run(request) { (statuses) in
-            print("unbookmark post - \(statuses)")
-        }
-    }
-    
     static func translateString(_ string: String) {
         let unreserved = "-._~/?"
         let allowed = NSMutableCharacterSet.alphanumeric()
