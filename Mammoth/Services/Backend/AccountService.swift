@@ -350,7 +350,7 @@ struct AccountService {
     }
     
     static func getLocalAccount(account: Account) async throws -> Account? {
-        let result = await AccountService.lookup(account.fullAcct)
+        let result = await AccountService.lookup(account.remoteFullOriginalAcct)
         return result
     }
 }
