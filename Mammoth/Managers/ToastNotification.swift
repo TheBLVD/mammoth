@@ -69,7 +69,6 @@ class ToastNotificationManager {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "postUnmuted"), object: nil, queue: nil, using: postUnmuted)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "postUnblocked"), object: nil, queue: nil, using: postUnblocked)
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "postReported"), object: nil, queue: nil, using: postReported)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "postDeleted"), object: nil, queue: nil, using: postDeleted)
 
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "postListUpdated"), object: nil, queue: nil, using: postListUpdated)
@@ -90,6 +89,9 @@ class ToastNotificationManager {
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "userNotifsDisabled"), object: nil, queue: nil, using: userNotifsDisabled)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "userRepostsEnabled"), object: nil, queue: nil, using: userRepostsEnabled)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "userRepostsDisabled"), object: nil, queue: nil, using: userRepostsDisabled)
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "userReported"), object: nil, queue: nil, using: userReported)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "postReported"), object: nil, queue: nil, using: postReported)
 
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "actionFrom"), object: nil, queue: nil, using: actionFrom)
         NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "pollVoted"), object: nil, queue: nil, using: pollVoted)
@@ -170,10 +172,6 @@ class ToastNotificationManager {
         self.postNotification(title: "Unblocked User", sound: "soundRemove")
     }
 
-    private func postReported(notification: Notification) {
-        self.postNotification(title: "Reported User", sound: "soundMallet", notificationType: .destructive)
-    }
-
     private func postDeleted(notification: Notification) {
         self.postNotification(title: "Post Deleted", sound: "soundMallet", notificationType: .destructive)
     }
@@ -244,6 +242,14 @@ class ToastNotificationManager {
 
     private func userRepostsDisabled(notification: Notification) {
         self.postNotification(title: "Disabled", sound: "soundRemove", notificationType: .destructive)
+    }
+    
+    private func userReported(notification: Notification) {
+        self.postNotification(title: "User reported", sound: "soundMallet", notificationType: .destructive)
+    }
+    
+    private func postReported(notification: Notification) {
+        self.postNotification(title: "Post reported", sound: "soundMallet", notificationType: .destructive)
     }
 
     private func actionFrom(notification: Notification) {

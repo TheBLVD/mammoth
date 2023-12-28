@@ -327,8 +327,30 @@ struct AccountService {
         return result
     }
     
+    @discardableResult
+    static func report(user: Account, withPolicy fetchPolicy: StatusService.FetchPolicy = StatusService.FetchPolicy.regular) async throws -> Report? {
+        switch(fetchPolicy) {
+        case .regular:
+            let request = Reports.report(accountID: user.id, statusIDs: [], reason: "")
+            let result = try await ClientService.runRequest(request: request)
+            return result
+        case .retryLocally:
+            return try await self.runTaskWithLocalRetry(forAccount: user) { id in
+                let request = Reports.report(accountID: id, statusIDs: [], reason: "")
+                let result = try await ClientService.runRequest(request: request)
+                return result
+            }
+        case .onlyLocal:
+            return try await self.runTaskLocally(forAccount: user) { id in
+                let request = Reports.report(accountID: id, statusIDs: [], reason: "")
+                let result = try await ClientService.runRequest(request: request)
+                return result
+            }
+        }
+    }
+    
     static func getLocalAccount(account: Account) async throws -> Account? {
-        let result = await AccountService.lookup(account)
+        let result = await AccountService.lookup(account.fullAcct)
         return result
     }
 }

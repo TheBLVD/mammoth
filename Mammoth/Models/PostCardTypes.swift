@@ -43,6 +43,8 @@ enum PostCardButtonType: Int {
     case unmute
     case block
     case unblock
+    case reportUser
+    case reportPost
     
     case likes
     case reposts
@@ -94,6 +96,8 @@ enum PostCardButtonType: Int {
             return MAMenu.muteForever.image
         case .block:
             return MAMenu.block.image
+        case .reportUser, .reportPost:
+            return MAMenu.report.image
         case .pinPost:
             return  UIImage(systemName: "pin", withConfiguration: symbolConfig)
         default:

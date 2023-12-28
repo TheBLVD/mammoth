@@ -260,10 +260,12 @@ extension PostCardProfilePic {
                     createContextMenuAction("Mute Forever", .muteForever, isActive: true, data: nil)
                 ])),
                 
-                (user.isBlocked
-                 ? createContextMenuAction("Unblock", .unblock, isActive: true, data: nil)
-                 : createContextMenuAction("Block", .block, isActive: true, data: nil)),
+                createContextMenuAction("Report @\(user.username)", .reportUser, isActive: true, data: nil),
                 
+                (user.isBlocked
+                 ? createContextMenuAction("Unblock @\(user.username)", .unblock, isActive: true, data: nil)
+                 : createContextMenuAction("Block @\(user.username)", .block, isActive: true, data: nil)),
+                                
                 createContextMenuAction("Share Link", .share, isActive: true, data: nil),
             ].compactMap({$0})
 

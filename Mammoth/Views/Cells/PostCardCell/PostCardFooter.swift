@@ -281,6 +281,7 @@ private extension PostFooterButton {
         
         let translateItem = createContextMenuAction("Translate Post", .translate, isActive: false)
         let inBrowserItem = createContextMenuAction("View in Browser", .viewInBrowser, isActive: false)
+        let report = createContextMenuAction("Report Post", .reportPost, isActive: false)
         let shareItem = createContextMenuAction("Share", .share, isActive: false)
         let pinItem = postCard.isPinned
             ? createContextMenuAction("Unpin post", .pinPost, isActive: true)
@@ -295,6 +296,7 @@ private extension PostFooterButton {
         return UIMenu(title: "", options: [.displayInline], children: [bookmarkItem,
                                                                        translateItem,
                                                                        inBrowserItem,
+                                                                       !postCard.isOwn ? report : nil,
                                                                        shareItem,
                                                                        postCard.isOwn ? modifyMenu : nil
                                                                       ].compactMap({ $0 }))
