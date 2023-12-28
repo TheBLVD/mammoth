@@ -111,6 +111,7 @@ struct MastodonAcctData: AcctDataType {
     let defaultPostingLanguage: String?
     let emoticons: [Emoji]
     var forYou: ForYouAccount
+    @available(*, deprecated, message: "Using UserDefaults instead.")
     var wentThroughOnboarding: Bool // false for accounts coming from 1.x
     
     let client: Client
@@ -127,7 +128,7 @@ struct MastodonAcctData: AcctDataType {
         case wentThroughOnboarding
     }
     
-    init(account: Account, instanceData: InstanceData, client: Client, defaultPostVisibility: Visibility, defaultPostingLanguage: String?, emoticons: [Emoji], forYou: ForYouAccount, uniqueID: String? = nil, wentThroughOnboarding: Bool = false) {
+    init(account: Account, instanceData: InstanceData, client: Client, defaultPostVisibility: Visibility, defaultPostingLanguage: String?, emoticons: [Emoji], forYou: ForYouAccount, uniqueID: String? = nil) {
         self.uniqueID = uniqueID ?? UUID().uuidString
         self.account = account
         self.instanceData = instanceData
@@ -137,7 +138,7 @@ struct MastodonAcctData: AcctDataType {
         self.defaultPostingLanguage = defaultPostingLanguage
         self.emoticons = emoticons
         self.forYou = forYou
-        self.wentThroughOnboarding = wentThroughOnboarding
+        self.wentThroughOnboarding = false
     }
     
     init(from decoder: Decoder) throws {
@@ -163,6 +164,8 @@ struct MastodonAcctData: AcctDataType {
         } catch {
             forYou = ForYouAccount()
         }
+        // Although wentThroughOnboarding is deprecated, leave this here so we can
+        // read old values to upgrade account info as needed.
         do {
             wentThroughOnboarding = try container.decode(type(of: wentThroughOnboarding).self, forKey: .wentThroughOnboarding)
         } catch {
@@ -187,7 +190,7 @@ struct MastodonAcctData: AcctDataType {
         try container.encode(defaultPostingLanguage, forKey: .defaultPostLanguage)
         try container.encode(emoticons, forKey: .emoticons)
         try container.encode(forYou, forKey: .forYou)
-        try container.encode(wentThroughOnboarding, forKey: .wentThroughOnboarding)
+        // try container.encode(wentThroughOnboarding, forKey: .wentThroughOnboarding) Deprecated
     }
     
     func diskFolderName() -> String {
