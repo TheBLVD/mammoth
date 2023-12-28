@@ -183,31 +183,30 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        DispatchQueue.main.async {
-            if !self.didInitializeOnce {
-                self.didInitializeOnce = true
-                log.debug("[NewsFeedViewController] Sync data source from `viewDidAppear` - \(self.viewModel.type)")
-                self.viewModel.syncDataSource(type: self.viewModel.type) { [weak self] in
-                    guard let self else { return }
-                    guard self.viewModel.snapshot.sectionIdentifiers.contains(.main) else { return }
-                    if self.viewModel.snapshot.itemIdentifiers(inSection: .main).isEmpty {
-                        let type = self.viewModel.type
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            self.viewModel.displayLoader(forType: type)
-                        }
+        if !self.didInitializeOnce {
+            self.didInitializeOnce = true
+            log.debug("[NewsFeedViewController] Sync data source from `viewDidAppear` - \(self.viewModel.type)")
+            self.viewModel.syncDataSource(type: self.viewModel.type) { [weak self] in
+                guard let self else { return }
+                guard self.viewModel.snapshot.sectionIdentifiers.contains(.main) else { return }
+                if self.viewModel.snapshot.itemIdentifiers(inSection: .main).isEmpty {
+                    let type = self.viewModel.type
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        self.viewModel.displayLoader(forType: type)
+                    }
 
-                        Task { [weak self] in
-                            guard let self else { return }
-                            try await self.viewModel.loadLatest(feedType: type, threshold: 1)
-                        }
+                    Task { [weak self] in
+                        guard let self else { return }
+                        try await self.viewModel.loadLatest(feedType: type, threshold: 1)
                     }
                 }
             }
-            
-            if self.viewModel.type.shouldPollForListData {
-                self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
-            }
         }
+        
+        if self.viewModel.type.shouldPollForListData {
+            self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
+        }
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
