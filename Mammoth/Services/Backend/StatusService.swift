@@ -27,13 +27,13 @@ struct StatusService {
                     return PostCardModel(status: result)
                 }
             case .retryLocally:
-                return try await self.runTaskWithLocalRetry(forStatus: status) { id in
+                return try await self.runTaskWithLocalRetry(forStatus: status) { id,_  in
                     let request = Statuses.favourite(id: id)
                     let result = try await ClientService.runRequest(request: request)
                     return PostCardModel(status: result)
                 }
             case .onlyLocal:
-                return try await self.runTaskLocally(forStatus: status) { id in
+                return try await self.runTaskLocally(forStatus: status) { id,_ in
                     let request = Statuses.favourite(id: id)
                     let result = try await ClientService.runRequest(request: request)
                     return PostCardModel(status: result)
@@ -71,13 +71,13 @@ struct StatusService {
                     return PostCardModel(status: result)
                 }
             case .retryLocally:
-                return try await self.runTaskWithLocalRetry(forStatus: status) { id in
+                return try await self.runTaskWithLocalRetry(forStatus: status) { id,_ in
                     let request = Statuses.unfavourite(id: id)
                     let result = try await ClientService.runRequest(request: request)
                     return PostCardModel(status: result)
                 }
             case .onlyLocal:
-                return try await self.runTaskLocally(forStatus: status) { id in
+                return try await self.runTaskLocally(forStatus: status) { id,_ in
                     let request = Statuses.unfavourite(id: id)
                     let result = try await ClientService.runRequest(request: request)
                     return PostCardModel(status: result)
@@ -112,13 +112,13 @@ struct StatusService {
                     return PostCardModel(status: result)
                 }
             case .retryLocally:
-                return try await self.runTaskWithLocalRetry(forStatus: status) { id in
+                return try await self.runTaskWithLocalRetry(forStatus: status) { id,_ in
                     let request = Statuses.reblog(id: id)
                     let result = try await ClientService.runRequest(request: request)
                     return PostCardModel(status: result)
                 }
             case .onlyLocal:
-                return try await self.runTaskLocally(forStatus: status) { id in
+                return try await self.runTaskLocally(forStatus: status) { id,_ in
                     let request = Statuses.reblog(id: id)
                     let result = try await ClientService.runRequest(request: request)
                     return PostCardModel(status: result)
@@ -156,13 +156,13 @@ struct StatusService {
                     return PostCardModel(status: result)
                 }
             case .retryLocally:
-                return try await self.runTaskWithLocalRetry(forStatus: status) { id in
+                return try await self.runTaskWithLocalRetry(forStatus: status) { id,_ in
                     let request = Statuses.unreblog(id: id)
                     let result = try await ClientService.runRequest(request: request)
                     return PostCardModel(status: result)
                 }
             case .onlyLocal:
-                return try await self.runTaskLocally(forStatus: status) { id in
+                return try await self.runTaskLocally(forStatus: status) { id,_ in
                     let request = Statuses.unreblog(id: id)
                     let result = try await ClientService.runRequest(request: request)
                     return PostCardModel(status: result)
@@ -195,13 +195,13 @@ struct StatusService {
                 return result
             }
         case .retryLocally:
-            return try await self.runTaskWithLocalRetry(forStatus: status) { id in
+            return try await self.runTaskWithLocalRetry(forStatus: status) { id,_ in
                 let request = Bookmarks.bookmark(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
             }
         case .onlyLocal:
-            return try await self.runTaskLocally(forStatus: status) { id in
+            return try await self.runTaskLocally(forStatus: status) { id,_ in
                 let request = Bookmarks.bookmark(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
@@ -220,13 +220,13 @@ struct StatusService {
                 return result
             }
         case .retryLocally:
-            return try await self.runTaskWithLocalRetry(forStatus: status) { id in
+            return try await self.runTaskWithLocalRetry(forStatus: status) { id,_ in
                 let request = Bookmarks.unbookmark(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
             }
         case .onlyLocal:
-            return try await self.runTaskLocally(forStatus: status) { id in
+            return try await self.runTaskLocally(forStatus: status) { id,_ in
                 let request = Bookmarks.unbookmark(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
@@ -245,13 +245,13 @@ struct StatusService {
                 return result
             }
         case .retryLocally:
-            return try await self.runTaskWithLocalRetry(forStatus: status) { id in
+            return try await self.runTaskWithLocalRetry(forStatus: status) { id,_ in
                 let request = Statuses.pin(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
             }
         case .onlyLocal:
-            return try await self.runTaskLocally(forStatus: status) { id in
+            return try await self.runTaskLocally(forStatus: status) { id,_ in
                 let request = Statuses.pin(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
@@ -270,13 +270,13 @@ struct StatusService {
                 return result
             }
         case .retryLocally:
-            return try await self.runTaskWithLocalRetry(forStatus: status) { id in
+            return try await self.runTaskWithLocalRetry(forStatus: status) { id,_ in
                 let request = Statuses.unpin(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
             }
         case .onlyLocal:
-            return try await self.runTaskLocally(forStatus: status) { id in
+            return try await self.runTaskLocally(forStatus: status) { id,_ in
                 let request = Statuses.unpin(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
@@ -295,13 +295,13 @@ struct StatusService {
                 return result
             }
         case .retryLocally:
-            return try await self.runTaskWithLocalRetry(forStatus: status) { id in
+            return try await self.runTaskWithLocalRetry(forStatus: status) { id,_ in
                 let request = Statuses.delete(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
             }
         case .onlyLocal:
-            return try await self.runTaskLocally(forStatus: status) { id in
+            return try await self.runTaskLocally(forStatus: status) { id,_ in
                 let request = Statuses.delete(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
@@ -320,13 +320,13 @@ struct StatusService {
                 return result
             }
         case .retryLocally:
-            return try await self.runTaskWithLocalRetry(forStatus: status) { id in
+            return try await self.runTaskWithLocalRetry(forStatus: status) { id,_ in
                 let request = Statuses.status(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
             }
         case .onlyLocal:
-            return try await self.runTaskLocally(forStatus: status) { id in
+            return try await self.runTaskLocally(forStatus: status) { id,_ in
                 let request = Statuses.status(id: id)
                 let result = try await ClientService.runRequest(request: request)
                 return result
@@ -359,7 +359,7 @@ struct StatusService {
     }
 
     static func getLocalStatus(status: Status) async throws -> Status? {
-        if let url = status.reblog?.url ?? status.url {
+        if let url = status.reblog?.uri ?? status.uri {
            let request = Search.search(query: url, resolve: true)
            let result = try await ClientService.runRequest(request: request)
            return result.statuses.first
@@ -399,7 +399,7 @@ struct StatusService {
                 }
             }
         case .retryLocally:
-            return try await self.runTaskWithLocalRetry(forStatus: status) { id in
+            return try await self.runTaskWithLocalRetry(forStatus: status) { id,_ in
                 let request = Statuses.context(id: id)
                 if let instanceName, !instanceName.isEmpty {
                     let accessToken = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.instanceData.accessToken
@@ -410,7 +410,7 @@ struct StatusService {
                 }
             }
         case .onlyLocal:
-            return try await self.runTaskLocally(forStatus: status) { id in
+            return try await self.runTaskLocally(forStatus: status) { id,_ in
                 let request = Statuses.context(id: id)
                 if let instanceName, !instanceName.isEmpty {
                     let accessToken = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.instanceData.accessToken
@@ -456,15 +456,42 @@ struct StatusService {
         
         return ([], nil)
     }
+    
+    @discardableResult
+    static func report(accountID: String, status: Status, withPolicy fetchPolicy: FetchPolicy = FetchPolicy.regular) async throws -> Report? {
+        
+        switch(fetchPolicy) {
+        case .regular:
+            if let id = status.reblog?.id ?? status.id {
+                let request = Reports.report(accountID: status.account?.id ?? "", statusIDs: [id], reason: "")
+                let result = try await ClientService.runRequest(request: request)
+                return result
+            }
+        case .retryLocally:
+            return try await self.runTaskWithLocalRetry(forStatus: status) { id, accountId in
+                let request = Reports.report(accountID: accountId ?? "", statusIDs: [id], reason: "")
+                let result = try await ClientService.runRequest(request: request)
+                return result
+            }
+        case .onlyLocal:
+            return try await self.runTaskLocally(forStatus: status) { id, accountId in
+                let request = Reports.report(accountID: accountId ?? "", statusIDs: [id], reason: "")
+                let result = try await ClientService.runRequest(request: request)
+                return result
+            }
+        }
+        
+        return nil
+    }
 }
 
 // MARK: - Helpers
 extension StatusService {
     /// Executes a task (like, bookmark, repost, etc). If it fails because of "Record not found"
     /// we'll search for the status on the user's instance and retry the action using the local status
-    static func runTaskWithLocalRetry<Model>(forStatus status: Status, task: (_ id: String) async throws -> Model?) async throws -> Model? {
+    static func runTaskWithLocalRetry<Model>(forStatus status: Status, task: (_ id: String, _ accountId: String?) async throws -> Model?) async throws -> Model? {
         do {
-            return try await task(status.reblog?.id ?? status.id ?? "")
+            return try await task(status.reblog?.id ?? status.id ?? "", status.account?.id)
         } catch let error {
             do {
                 switch error as? ClientError {
@@ -484,18 +511,18 @@ extension StatusService {
     }
     
     /// Search for the status on the user's instance and call the action using the local status
-    static func runTaskLocally<Model>(forStatus status: Status, task: (_ id: String) async throws -> Model?) async throws -> Model? {
+    static func runTaskLocally<Model>(forStatus status: Status, task: (_ id: String, _ accountId: String?) async throws -> Model?) async throws -> Model? {
         do {
             do {
                 guard let originalId = (status.reblog ?? status)?.originalId else {
                     throw NSError(domain: "No original id", code: 401)
                 }
                 
-                return try await task(originalId)
+                return try await task(originalId, status.account?.id)
             } catch {
                 let localStatus = try await StatusService.getLocalStatus(status: status)
                 if let localId = localStatus?.reblog?.id ?? localStatus?.id {
-                    return try await task(localId)
+                    return try await task(localId, localStatus?.account?.id)
                 } else {
                     // throw so caller can handle all error cases
                     throw NSError(domain: "Cant find local id", code: 401)

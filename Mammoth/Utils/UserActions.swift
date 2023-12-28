@@ -251,4 +251,17 @@ struct UserActions {
         }
     }
     
+    static func report(account: Account) {
+        Task {
+            do {
+                try await AccountService.report(user: account, withPolicy: .retryLocally)
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "userReported"), object: nil)
+                }
+            } catch let error {
+                log.error("error reporting user - \(error)")
+            }
+        }
+    }
+    
 }

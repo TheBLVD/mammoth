@@ -38,6 +38,7 @@ enum MAMenu {
     case muteForever
     case unblock
     case block
+    case report
     
     case jumpToNewest
     case following
@@ -119,6 +120,8 @@ extension MAMenu {
             return MenuStyle(title: "Unblock", image: FontAwesome.image(fromChar: "\u{f05e}"))
         case .block: /* circle marked out */
             return MenuStyle(title: "Block", image: FontAwesome.image(fromChar: "\u{f05e}"))
+        case .report:
+            return MenuStyle(title: "Report", image: FontAwesome.image(fromChar: "\u{f024}"))
         
         // main menus
         case .jumpToNewest: /* arrow-up */

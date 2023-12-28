@@ -12,7 +12,7 @@ public class Report: Codable {
     /// The ID of the report.
     public let id: String
     /// The action taken in response to the report.
-    public let actionTaken: String
+    public let actionTaken: Bool
 
     private enum CodingKeys: String, CodingKey {
         case id

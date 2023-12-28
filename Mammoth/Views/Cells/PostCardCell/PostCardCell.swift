@@ -958,6 +958,9 @@ extension PostCardCell {
             
             createContextMenuAction("Translate post", .translate, isActive: false, onPress: onButtonPress),
             createContextMenuAction("View in browser", .viewInBrowser, isActive: false, onPress: onButtonPress),
+            
+            ( !postCard.isOwn ? createContextMenuAction("Report post", .reportPost, isActive: false, onPress: onButtonPress) : nil),
+            
             createContextMenuAction("Share", .share, isActive: false, onPress: onButtonPress),
             
             (postCard.isOwn

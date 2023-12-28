@@ -136,6 +136,13 @@ struct PostActions {
             guard let account = postCard.account else { break }
             ModerationManager.shared.unblock(user: account)
             
+        case .reportUser:
+            guard let account = postCard.account else { break }
+            UserActions.report(account: account)
+            
+        case .reportPost:
+            PostActions.report(postCard: postCard)
+            
         case .addToList:
             guard let account = postCard.account else { break }
             if case .list(let listId) = data {
@@ -1020,5 +1027,19 @@ extension PostActions {
             }
         }
         task.resume()
+    }
+    
+    static func report(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
+        guard let accountID = postCard.account?.id, case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        Task {
+            do {
+                try await StatusService.report(accountID: accountID, status: status, withPolicy: .retryLocally)
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "postReported"), object: nil)
+                }
+            } catch let error {
+                log.error("error reporting post - \(error)")
+            }
+        }
     }
 }
