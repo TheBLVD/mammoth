@@ -305,7 +305,7 @@ extension FeedsManager {
                 let feeds = try Disk.retrieve(path, from: .caches, as: [FeedTypeItem].self)
                 return feeds
             } catch {
-                log.error("unable to read feedTypeItems from \(path) - \(error)")
+                // unable to read feedTypeItems from disk
                 throw error
             }
         }

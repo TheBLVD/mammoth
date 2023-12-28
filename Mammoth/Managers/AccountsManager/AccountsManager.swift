@@ -329,7 +329,7 @@ class AccountsManager {
                 allAccounts.append(acctData)
             }
         } catch {
-            log.error("error decoding accounts from Disk - \(error)")
+            // error decoding accounts from Disk (Could not find an existing file or folder?)
         }
         migrateDraftsIfNeeded()
         migrateInstancesIfNeeded()

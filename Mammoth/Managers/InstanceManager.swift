@@ -60,7 +60,7 @@ class InstanceManager {
         do {
             pinnedInstances = try Disk.retrieve("\(currentAccount?.diskFolderName() ?? "")/instances.json", from: .documents, as: [String].self)
         } catch {
-            log.error("unable to find subscribed instances: \(error)")
+            // unable to find subscribed instances file on disk
         }
     }
     

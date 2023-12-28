@@ -153,7 +153,7 @@ class ModerationManager {
                 return (mutedAccounts, blockedAccounts)
             }
         } catch {
-            log.error("can't find any mutes/blocks on device")
+            // can't find any mutes/blocks on device
             throw error
         }
         
