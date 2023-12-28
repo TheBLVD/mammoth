@@ -141,7 +141,11 @@ class SidebarViewController: UIViewController, UICollectionViewDelegate, UIPenci
     override func didMove(toParent parent: UIViewController?) {
         super.didMove(toParent: parent)
         self.view.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addFillConstraints(with: self.view.superview!)
+        if let viewSuperview = self.view.superview {
+            self.view.addFillConstraints(with: viewSuperview)
+        } else {
+            log.warning("expected to be moved to a superview")
+        }
     }
         
     override func viewDidLoad() {
