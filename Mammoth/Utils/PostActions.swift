@@ -582,6 +582,7 @@ extension PostActions {
     static func onShare(target: UIViewController, url: URL) {
         let textToShare = [url]
         let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = target.view
         target.present(activityViewController, animated: true, completion: nil)
     }
     
