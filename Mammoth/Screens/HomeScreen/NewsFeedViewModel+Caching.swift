@@ -217,7 +217,7 @@ extension NewsFeedViewModel {
                         continuation.resume(returning: items)
                     }
                 } catch {
-                    log.error("unable to read posts from \(path) - \(error)")
+                    // unable to read posts from disk
                     continuation.resume(throwing: error)
                 }
             } else {
@@ -233,7 +233,7 @@ extension NewsFeedViewModel {
                     let position = try Disk.retrieve(path, from: .caches, as: NewsFeedScrollPosition.self)
                     continuation.resume(returning: position)
                 } catch {
-                    log.error("unable to read position from \(path) - \(error)")
+                    // unable to read position from disk
                     continuation.resume(throwing: error)
                 }
             } else {

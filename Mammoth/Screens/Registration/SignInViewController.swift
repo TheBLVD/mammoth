@@ -94,7 +94,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
             self.defaultInstance = try Disk.retrieve("defaultInstance.json", from: .documents, as: [tagInstance].self)
             self.loadingIndicator.stopAnimating()
         } catch {
-            log.error("error fetching instances from Disk - \(error)")
+            // error fetching instances from Disk
         }
         do {
             SignInViewController.allInstances = try Disk.retrieve("allInstances.json", from: .documents, as: [tagInstance].self)
@@ -107,7 +107,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
             SignInViewController.filteredInstances = SignInViewController.allInstances
             self.loadingIndicator.stopAnimating()
         } catch {
-            log.error("error fetching instances from Disk - \(error)")
+            // error fetching instances from Disk
         }
         self.setupNav()
         self.setupUI()

@@ -180,13 +180,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             GlobalStruct.votedOnPolls = try Disk.retrieve("votedOnPolls.json", from: .documents, as: [String: Poll].self)
         } catch {
             // This can happen if the user has never voted on a poll
-            log.warning("error fetching votedOnPolls from Disk - \(error)")
+            // error fetching votedOnPolls from Disk
         }
         do {
             GlobalStruct.blockedUsers = try Disk.retrieve("blockedUsers.json", from: .documents, as: [String].self)
         } catch {
             // This can happen if the user hasn't blocked users yet
-            log.warning("error fetching blocked users from Disk - \(error)")
+            // error fetching blocked users from Disk
         }
         
         GlobalStruct.pnMentions = UserDefaults.standard.value(forKey: "pnMentions") as? Bool ?? true
