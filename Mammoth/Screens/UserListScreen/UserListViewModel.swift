@@ -61,7 +61,7 @@ class UserListViewModel {
                 return (users, pagination)
             case .following:
                 let (accounts, pagination) = try await AccountService.following(userId: user.id, instanceName: user.instanceName, range: range)
-                let users = accounts.map({ UserCardModel(account: $0, requestFollowStatusUpdate: .none) })
+                let users = accounts.map({ UserCardModel(account: $0, requestFollowStatusUpdate: .none, isFollowing: true) })
                 return (users, pagination)
             case .mutes:
 //                let (accounts, pagination) = try await AccountService.mutes(range: range)
