@@ -33,6 +33,12 @@ body:
       required: false
   - type: input
     attributes:
+      label: Instance address
+      placeholder: e.g. moth.social
+    validations:
+      required: true
+  - type: input
+    attributes:
       label: Device
       placeholder: e.g. iPhone 15
     validations:
