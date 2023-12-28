@@ -898,6 +898,8 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         }
     }
     
+    static let LoaderTag = 11
+    
     func showLoader(enabled: Bool) {
         DispatchQueue.main.async {
             if enabled {
@@ -908,7 +910,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     let loader = UIActivityIndicatorView()
                     loader.startAnimating()
                     loaderView.addArrangedSubview(loader)
-                    loaderView.tag = 11
+                    loaderView.tag = Self.LoaderTag
                     self.tableView.tableFooterView = loaderView
                 }
             } else {
@@ -919,7 +921,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
     }
     
     func isLoaderVisible() -> Bool {
-        return self.tableView.tableFooterView?.tag == 11
+        return self.tableView.tableFooterView?.tag == Self.LoaderTag
     }
     
     func getVisibleIndexPaths() async -> [IndexPath]? {
