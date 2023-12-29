@@ -966,6 +966,26 @@ extension PostActions {
             }
         }
     }
+    
+    static func report(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
+        guard let accountID = postCard.account?.id, case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        
+        let alert = UIAlertController(title: "Report this post?", message: "We'll notify your instance’s moderator.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Report post", style: .destructive , handler:{ (UIAlertAction) in
+            Task {
+                do {
+                    try await StatusService.report(accountID: accountID, status: status, withPolicy: .retryLocally)
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "postReported"), object: nil)
+                    }
+                } catch let error {
+                    log.error("error reporting post - \(error)")
+                }
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        getTopMostViewController()?.present(alert, animated: true, completion: nil)
+    }
 }
 
 // MARK: - Legacy functions (deprecated)
@@ -1028,19 +1048,5 @@ extension PostActions {
             }
         }
         task.resume()
-    }
-    
-    static func report(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard let accountID = postCard.account?.id, case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
-        Task {
-            do {
-                try await StatusService.report(accountID: accountID, status: status, withPolicy: .retryLocally)
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "postReported"), object: nil)
-                }
-            } catch let error {
-                log.error("error reporting post - \(error)")
-            }
-        }
     }
 }
