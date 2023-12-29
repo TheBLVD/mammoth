@@ -375,7 +375,7 @@ extension NewsFeedViewController {
                     
                     cell.configure(postCard: model, type: viewModel.type.postCardCellType()) { [weak self] (type, isActive, data) in
                         guard let self else { return }
-                        guard !model.isDeleted else { return }
+                        guard !model.isDeleted, !model.isMuted, !model.isBlocked else { return }
                         PostActions.onActionPress(target: self, type: type, isActive: isActive, postCard: model, data: data)
                         
                         // Show the Upgrade alert if needed (only on home feeds)
@@ -518,7 +518,7 @@ extension NewsFeedViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch viewModel.getItemForIndexPath(indexPath) {
         case .postCard(let postCard):
-            if !postCard.isDeleted {
+            if !postCard.isDeleted && !postCard.isMuted && !postCard.isBlocked {
                 // If it's from ForYou, indicate that the statusSource
                 let showStatusSource = (self.type == .forYou)
                 
@@ -543,7 +543,7 @@ extension NewsFeedViewController {
                 break
             default:
                 if let postCard = activity.postCard {
-                    if !postCard.isDeleted {
+                    if !postCard.isDeleted && !postCard.isMuted && !postCard.isBlocked {
                         let vc = DetailViewController(post: postCard)
                         if vc.isBeingPresented {} else {
                             self.navigationController?.pushViewController(vc, animated: true)
@@ -717,6 +717,12 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     if updateDisplay {
                         CATransaction.commit()
                     }
+                }
+                
+                // This extra commit is needed when updating with .replaceAll (triggered by refresh snapshot)
+                // Without it the UI feezes.
+                if updateType == .replaceAll && updateDisplay {
+                    CATransaction.commit()
                 }
             }
                         
