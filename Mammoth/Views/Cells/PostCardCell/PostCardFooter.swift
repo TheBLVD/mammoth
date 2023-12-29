@@ -251,11 +251,23 @@ private extension PostFooterButton {
 
 // MARK: - Context menu creators
 private extension PostFooterButton {
-    private func createContextMenuAction(_ title: String, _ buttonType: PostCardButtonType, isActive: Bool) -> UIAction {
+    private func createContextMenuAction(_ title: String, _ buttonType: PostCardButtonType, isActive: Bool, attributes:  UIMenuElement.Attributes = []) -> UIAction {
+        
+        var color: UIColor = .black
+        if GlobalStruct.overrideTheme == 1 || self.traitCollection.userInterfaceStyle == .light {
+            color = .black
+        } else if GlobalStruct.overrideTheme == 2 || self.traitCollection.userInterfaceStyle == .dark  {
+            color = .white
+        }
+        
+        if attributes.contains(.destructive) {
+            color = UIColor.systemRed
+        }
+        
         let action = UIAction(title: title,
                               image: isActive
-                              ? buttonType.activeIcon(symbolConfig: postCardSymbolConfig)?.withRenderingMode(.alwaysTemplate)
-                              : buttonType.icon(symbolConfig: postCardSymbolConfig)?.withRenderingMode(.alwaysTemplate),
+                              ? buttonType.activeIcon(symbolConfig: postCardSymbolConfig)?.withTintColor(color).withRenderingMode(.alwaysTemplate)
+                              : buttonType.icon(symbolConfig: postCardSymbolConfig)?.withTintColor(color).withRenderingMode(.alwaysTemplate),
                                   identifier: nil) { [weak self] _ in
             guard let self else { return }
             if buttonType == .repost {
@@ -264,6 +276,8 @@ private extension PostFooterButton {
                 self.onPress?(buttonType, isActive, nil)
             }
         }
+        
+        action.attributes = attributes
         action.accessibilityLabel = title
         return action
     }
@@ -281,15 +295,15 @@ private extension PostFooterButton {
         
         let translateItem = createContextMenuAction("Translate Post", .translate, isActive: false)
         let inBrowserItem = createContextMenuAction("View in Browser", .viewInBrowser, isActive: false)
-        let report = createContextMenuAction("Report Post", .reportPost, isActive: false)
+        let report = createContextMenuAction("Report Post", .reportPost, isActive: false, attributes: .destructive)
+        
         let shareItem = createContextMenuAction("Share", .share, isActive: false)
         let pinItem = postCard.isPinned
             ? createContextMenuAction("Unpin post", .pinPost, isActive: true)
             : createContextMenuAction("Pin post", .pinPost, isActive: false)
         
         let editPostItem = createContextMenuAction("Edit Post", .editPost, isActive: false)
-        let deletePostItem = createContextMenuAction("Delete Post", .deletePost, isActive: false)
-        deletePostItem.attributes = .destructive
+        let deletePostItem = createContextMenuAction("Delete Post", .deletePost, isActive: false, attributes: .destructive)
         
         let modifyMenu = UIMenu(title: "Modify Post", options: [], children: [pinItem, editPostItem, deletePostItem])
         

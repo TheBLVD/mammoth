@@ -927,15 +927,29 @@ extension PostCardCell {
 
 // MARK: - Context menu creators
 extension PostCardCell {
-    private func createContextMenuAction(_ title: String, _ buttonType: PostCardButtonType, isActive: Bool, onPress: @escaping PostCardButtonCallback) -> UIAction {
+    private func createContextMenuAction(_ title: String, _ buttonType: PostCardButtonType, isActive: Bool, onPress: @escaping PostCardButtonCallback, attributes:  UIMenuElement.Attributes = []) -> UIAction {
+        
+        var color: UIColor = .black
+        if GlobalStruct.overrideTheme == 1 || self.traitCollection.userInterfaceStyle == .light {
+            color = .black
+        } else if GlobalStruct.overrideTheme == 2 || self.traitCollection.userInterfaceStyle == .dark  {
+            color = .white
+        }
+        
+        if attributes.contains(.destructive) {
+            color = UIColor.systemRed
+        }
+        
         let action = UIAction(title: title,
                               image: isActive
-                              ? buttonType.activeIcon(symbolConfig: postCardSymbolConfig)
-                              : buttonType.icon(symbolConfig: postCardSymbolConfig),
+                              ? buttonType.activeIcon(symbolConfig: postCardSymbolConfig)?.withTintColor(color).withRenderingMode(.alwaysTemplate)
+                              : buttonType.icon(symbolConfig: postCardSymbolConfig)?.withTintColor(color).withRenderingMode(.alwaysTemplate),
                                   identifier: nil) { _ in
             onPress(buttonType, isActive, nil)
         }
         action.accessibilityLabel = title
+        action.attributes = attributes
+  
         return action
     }
     
@@ -959,7 +973,7 @@ extension PostCardCell {
             createContextMenuAction("Translate post", .translate, isActive: false, onPress: onButtonPress),
             createContextMenuAction("View in browser", .viewInBrowser, isActive: false, onPress: onButtonPress),
             
-            ( !postCard.isOwn ? createContextMenuAction("Report post", .reportPost, isActive: false, onPress: onButtonPress) : nil),
+            ( !postCard.isOwn ? createContextMenuAction("Report post", .reportPost, isActive: false, onPress: onButtonPress, attributes: .destructive) : nil),
             
             createContextMenuAction("Share", .share, isActive: false, onPress: onButtonPress),
             
@@ -971,7 +985,8 @@ extension PostCardCell {
                     : createContextMenuAction("Pin post", .pinPost, isActive: false, onPress: onButtonPress)),
                 
                 createContextMenuAction("Edit post", .editPost, isActive: false, onPress: onButtonPress),
-                createContextMenuAction("Delete post", .deletePost, isActive: false, onPress: onButtonPress)])
+                createContextMenuAction("Delete post", .deletePost, isActive: false, onPress: onButtonPress, attributes: .destructive),
+             ])
              : nil)
         ].compactMap({$0})
         

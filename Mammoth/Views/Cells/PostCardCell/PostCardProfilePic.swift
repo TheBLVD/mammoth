@@ -260,11 +260,11 @@ extension PostCardProfilePic {
                     createContextMenuAction("Mute Forever", .muteForever, isActive: true, data: nil)
                 ])),
                 
-                createContextMenuAction("Report @\(user.username)", .reportUser, isActive: true, data: nil),
+                createContextMenuAction("Report @\(user.username)", .reportUser, isActive: true, data: nil, attributes: .destructive),
                 
                 (user.isBlocked
                  ? createContextMenuAction("Unblock @\(user.username)", .unblock, isActive: true, data: nil)
-                 : createContextMenuAction("Block @\(user.username)", .block, isActive: true, data: nil)),
+                 : createContextMenuAction("Block @\(user.username)", .block, isActive: true, data: nil, attributes: .destructive)),
                                 
                 createContextMenuAction("Share Link", .share, isActive: true, data: nil),
             ].compactMap({$0})
@@ -276,7 +276,7 @@ extension PostCardProfilePic {
         return UIMenu()
     }
 
-    private func createContextMenuAction(_ title: String, _ buttonType: PostCardButtonType, isActive: Bool, data: PostCardButtonCallbackData?) -> UIAction {
+    private func createContextMenuAction(_ title: String, _ buttonType: PostCardButtonType, isActive: Bool, data: PostCardButtonCallbackData?, attributes:  UIMenuElement.Attributes = []) -> UIAction {
         var color: UIColor = .black
         if GlobalStruct.overrideTheme == 1 || self.traitCollection.userInterfaceStyle == .light {
             color = .black
@@ -284,13 +284,13 @@ extension PostCardProfilePic {
             color = .white
         }
         
-        if buttonType == .block {
+        if attributes.contains(.destructive) {
             color = UIColor.systemRed
         }
         
         let action = UIAction(title: title,
-                                  image: buttonType.icon(symbolConfig: postCardSymbolConfig)?.withTintColor(color),
-                                  identifier: nil, attributes: buttonType == .block ? .destructive : UIMenuElement.Attributes()) { _ in
+                                  image: buttonType.icon(symbolConfig: postCardSymbolConfig)?.withTintColor(color).withRenderingMode(.alwaysTemplate),
+                                  identifier: nil, attributes: attributes) { _ in
             self.onPress?(buttonType, isActive, data)
         }
         action.accessibilityLabel = title

@@ -252,16 +252,21 @@ struct UserActions {
     }
     
     static func report(account: Account) {
-        Task {
-            do {
-                try await AccountService.report(user: account, withPolicy: .retryLocally)
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: Notification.Name(rawValue: "userReported"), object: nil)
+        let alert = UIAlertController(title: "Report this user?", message: "We'll notify your instance’s moderator.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Report user", style: .destructive , handler:{ (UIAlertAction) in
+            Task {
+                do {
+                    try await AccountService.report(user: account, withPolicy: .retryLocally)
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "userReported"), object: nil)
+                    }
+                } catch let error {
+                    log.error("error reporting user - \(error)")
                 }
-            } catch let error {
-                log.error("error reporting user - \(error)")
             }
-        }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        getTopMostViewController()?.present(alert, animated: true, completion: nil)
     }
     
 }
