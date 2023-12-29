@@ -687,7 +687,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .bottom)
 
-            if updateDisplay {
+            if updateDisplay && self.viewModel.dataSource != nil {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
