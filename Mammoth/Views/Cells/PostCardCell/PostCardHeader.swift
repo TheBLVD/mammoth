@@ -161,8 +161,6 @@ class PostCardHeader: UIView {
         self.userTagLabel.text = nil
         self.dateLabel.text = nil
         
-        self.followButton?.alpha = 0
-        
         self.stopTimeUpdates()
     }
     
@@ -278,9 +276,11 @@ extension PostCardHeader {
                 
             } else {
                 self.followButton?.isHidden = true
+                self.followButton?.alpha = 0
             }
         } else {
             self.followButton?.isHidden = true
+            self.followButton?.alpha = 0
         }
 
         if headerType == .quotePost, let user = postCard.user {
