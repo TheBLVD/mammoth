@@ -813,6 +813,10 @@ extension PostCardCell {
             self.video?.pause()
         }
         
+        if let postCard = self.postCard, postCard.hasQuotePost, let quotePostCard = postCard.quotePostData, let video = quotePostCard.videoPlayer {
+            video.pause()
+        }
+        
         self.header.stopTimeUpdates()
     }
     
