@@ -731,8 +731,8 @@ extension PostActions {
     }
     
     static func onProfilePress(target: UIViewController, postCard: PostCardModel) {
-        if let account = postCard.user?.account {
-            self.onProfilePress(target: target, account: account)
+        if let user = postCard.user {
+            self.onProfilePress(target: target, user: user)
         }
     }
     
@@ -740,7 +740,7 @@ extension PostActions {
         triggerHapticImpact(style: .light)
         
         let userCardModel = UserCardModel(account: account, requestFollowStatusUpdate: .whenUncertain)
-        let isSelf = account.fullAcct == AccountsManager.shared.currentUser()?.fullAcct
+        let isSelf = account.remoteFullOriginalAcct == AccountsManager.shared.currentUser()?.remoteFullOriginalAcct
         let profileVC = ProfileViewController(user: userCardModel, screenType: isSelf ? .own : .others)
         if profileVC.isBeingPresented {} else {
             target.navigationController?.pushViewController(profileVC, animated: true)
@@ -750,7 +750,7 @@ extension PostActions {
     static func onProfilePress(target: UIViewController, user: UserCardModel) {
         triggerHapticImpact(style: .light)
         
-        let isSelf = user.account?.fullAcct == AccountsManager.shared.currentUser()?.fullAcct
+        let isSelf = user.account?.remoteFullOriginalAcct == AccountsManager.shared.currentUser()?.remoteFullOriginalAcct
         let profileVC = ProfileViewController(user: user, screenType: isSelf ? .own : .others)
         if profileVC.isBeingPresented {} else {
             target.navigationController?.pushViewController(profileVC, animated: true)

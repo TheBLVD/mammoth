@@ -809,7 +809,7 @@ private extension ProfileViewModel {
         if let updatedfullAcct = notification.userInfo!["otherUserFullAcct"] as? String, let currentAccount = user?.account, updatedfullAcct == currentAccount.fullAcct {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
-                let userCard = UserCardModel(account: self.user!.account!)
+                let userCard = UserCardModel(account: currentAccount)
                 if userCard.followStatus != .inProgress {
                     self.user = userCard
                     // Update profile header

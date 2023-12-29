@@ -173,6 +173,7 @@ extension UserCardModel: Equatable {
         lhs.followersCount == rhs.followersCount &&
         lhs.isFollowing == rhs.isFollowing &&
         lhs.followStatus == rhs.followStatus &&
+        lhs.relationship == rhs.relationship &&
         lhs.fields == rhs.fields &&
         lhs.isBot == rhs.isBot &&
         lhs.isLocked == rhs.isLocked
