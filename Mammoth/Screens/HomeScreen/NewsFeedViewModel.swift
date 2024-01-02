@@ -81,63 +81,75 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
             return channel.title
         }
     }
-    
-    func fetchAll(range: RequestRange = .default, batchName: String) async throws -> ([NewsFeedListItem], cursorId: String?) {
+        
+    func fetchAll(range: RequestRange = .default, batchName: String, retryCount: Int = 0) async throws -> ([NewsFeedListItem], cursorId: String?) {
         let batchName = "\(batchName)_\(Int.random(in: 0 ... 10000))"
         
-        switch(self) {
-        case .forYou:
-            guard let remoteFullOriginalAcct = AccountsManager.shared.currentAccount?.remoteFullOriginalAcct else {return ([], cursorId: nil)}
-            let (result, cursorId) = try await TimelineService.forYou(remoteFullOriginalAcct: remoteFullOriginalAcct, range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: true, instanceName: $1.serverName, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-            
-        case .following:
-            let (result, cursorId) = try await TimelineService.home(range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-            
-        case .federated:
-            let (result, cursorId) = try await TimelineService.federated(range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-            
-        case .community(let name):
-            let (result, cursorId) = try await TimelineService.community(instanceName: name, type: .public, range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, instanceName: name, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-            
-        case .trending(let name):
-            let (result, cursorId) = try await TimelineService.community(instanceName: name, type: .trending, range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, instanceName: name, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-            
-        case .hashtag(let hashtag):
-            let (result, cursorId) = try await TimelineService.tag(hashtag: hashtag.name, range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, instanceName: $1.serverName, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-            
-        case .list(let list):
-            let (result, cursorId) = try await TimelineService.list(listId: list.id, range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, instanceName: $1.serverName, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-            
-        case .likes:
-            let (result, cursorId) = try await TimelineService.likes(range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-            
-        case .bookmarks:
-            let (result, cursorId) = try await TimelineService.bookmarks(range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-            
-        case .mentionsIn:
-            let (result, cursorId) = try await TimelineService.mentions(range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-            
-        case .mentionsOut:
-            let (result, cursorId) = try await AccountService.mentionsSent(range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-        
-        case .activity:
-            let (result, cursorId) = try await TimelineService.activity(range: range)
-            return (result.enumerated().map({ .activity(ActivityCardModel(notification: $1, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-        
-        case .channel(let channel):
-            let (result, cursorId) = try await TimelineService.channel(channelId: channel.id, range: range)
-            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, instanceName: $1.serverName, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+        do {
+            switch(self) {
+            case .forYou:
+                guard let remoteFullOriginalAcct = AccountsManager.shared.currentAccount?.remoteFullOriginalAcct else {return ([], cursorId: nil)}
+                let (result, cursorId) = try await TimelineService.forYou(remoteFullOriginalAcct: remoteFullOriginalAcct, range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: true, instanceName: $1.serverName, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .following:
+                let (result, cursorId) = try await TimelineService.home(range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .federated:
+                let (result, cursorId) = try await TimelineService.federated(range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .community(let name):
+                let (result, cursorId) = try await TimelineService.community(instanceName: name, type: .public, range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, instanceName: name, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .trending(let name):
+                let (result, cursorId) = try await TimelineService.community(instanceName: name, type: .trending, range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, instanceName: name, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .hashtag(let hashtag):
+                let (result, cursorId) = try await TimelineService.tag(hashtag: hashtag.name, range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, instanceName: $1.serverName, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .list(let list):
+                let (result, cursorId) = try await TimelineService.list(listId: list.id, range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, instanceName: $1.serverName, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .likes:
+                let (result, cursorId) = try await TimelineService.likes(range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .bookmarks:
+                let (result, cursorId) = try await TimelineService.bookmarks(range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .mentionsIn:
+                let (result, cursorId) = try await TimelineService.mentions(range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .mentionsOut:
+                let (result, cursorId) = try await AccountService.mentionsSent(range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .activity:
+                let (result, cursorId) = try await TimelineService.activity(range: range)
+                return (result.enumerated().map({ .activity(ActivityCardModel(notification: $1, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                
+            case .channel(let channel):
+                let (result, cursorId) = try await TimelineService.channel(channelId: channel.id, range: range)
+                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, instanceName: $1.serverName, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+            }
+        } catch {
+            // Mastodon might return a 206 error when the feed is being regenerated.
+            // If so, wait 3 seconds and retry (max 4 times)
+            // https://docs.joinmastodon.org/methods/timelines/#206-partial-content
+            if (error as NSError).code == 206 && retryCount < 5 {
+                try await Task.sleep(seconds: 3)
+                return try await self.fetchAll(range: range, batchName: batchName, retryCount: retryCount + 1)
+            } else {
+                throw error
+            }
         }
     }
     

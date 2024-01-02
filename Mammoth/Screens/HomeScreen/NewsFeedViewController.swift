@@ -293,10 +293,17 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
 
         Task { [weak self] in
             guard let self else { return }
-            try await self.viewModel.loadLatest(feedType: self.viewModel.type, threshold: 1)
-
-            DispatchQueue.main.async {
-                self.refreshControl.endRefreshing()
+            
+            do {
+                try await self.viewModel.loadLatest(feedType: self.viewModel.type, threshold: 1)
+                
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshControl.endRefreshing()
+                }
+            } catch {
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshControl.endRefreshing()
+                }
             }
         }
     }
