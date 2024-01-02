@@ -384,7 +384,7 @@ class NewsFeedViewModel {
                                                object: nil)
         
         // Websocket updates for activity and mentions tab
-        if [.activity(nil), .mentionsIn].contains(type) {
+        if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(type) {
             RealtimeManager.shared.onEvent { [weak self] data in
                 guard let self else { return }
                 switch data {
@@ -399,10 +399,16 @@ class NewsFeedViewModel {
                             self.insertNewest(items: [NewsFeedListItem.postCard(newPost)], includeLoadMore: false, forType: .mentionsIn)
                         }
                     } else {
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: self)
-                        let currentUnreadCount = self.getUnreadCount(forFeed: .activity(nil))
-                        self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity(nil))
-                        self.insertNewest(items: [NewsFeedListItem.activity(ActivityCardModel(notification: notification))], includeLoadMore: false, forType: .activity(nil))
+                        if case .activity(let activityType) = type, notification.type == activityType {
+                            let currentUnreadCount = self.getUnreadCount(forFeed: .activity(activityType))
+                            self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity(activityType))
+                            self.insertNewest(items: [NewsFeedListItem.activity(ActivityCardModel(notification: notification))], includeLoadMore: false, forType: .activity(activityType))
+                        } else if case .activity(let activityType) = type, activityType == nil {
+                            let currentUnreadCount = self.getUnreadCount(forFeed: .activity(nil))
+                            self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity(nil))
+                            self.insertNewest(items: [NewsFeedListItem.activity(ActivityCardModel(notification: notification))], includeLoadMore: false, forType: .activity(nil))
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: self)
+                        }
                     }
                 default: break
                 }
@@ -499,20 +505,22 @@ private extension NewsFeedViewModel {
                  // Delete post card data in list data and data source
                  self.remove(card: postCard, forType: self.type)
              } else {
-                 // Replace post card data in list data and data source
-                 self.update(with: .postCard(postCard), forType: self.type)
-                 
                  // Replace activity data in list that include this post card
                  if NewsFeedTypes.allActivityTypes.contains(self.type) {
                      self.listData.activity.forEach { (key, activities) in
                          if let index = activities.firstIndex(where: {$0.extractPostCard()?.uniqueId == postCard.uniqueId}) {
                              if case .activity(var activity) = activities[index] {
-                                 activity.postCard = postCard
-                                 let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
-                                 self.update(with: .activity(activity), forType: .activity(activityType))
+                                 if activity.postCard != postCard {
+                                     activity.postCard = postCard
+                                     let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
+                                     self.update(with: .activity(activity), forType: .activity(activityType))
+                                 }
                              }
                          }
                      }
+                 } else {
+                     // Replace post card data in list data and data source
+                     self.update(with: .postCard(postCard), forType: self.type)
                  }
              }
         }

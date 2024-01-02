@@ -64,7 +64,7 @@ class ActivityViewController : UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.pages.forEach({$0.additionalSafeAreaInsets.top = self.headerView.frame.size.height})
+         self.pages.forEach({$0.additionalSafeAreaInsets.top = self.headerView.frame.size.height + 2}) // add 2 to make top border visible
     }
     
     required init?(coder aDecoder: NSCoder) {

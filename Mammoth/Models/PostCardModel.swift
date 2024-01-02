@@ -754,6 +754,10 @@ extension PostCardModel {
                                 newPostCard.batchId! += " (EDITED)"
                             }
                             log.debug("preload quote post: \(newPostCard.uniqueId ?? "unknown")")
+                            
+                            self.quotePostStatus = newPostCard.quotePostStatus
+                            self.quotePostData = newPostCard.quotePostData
+                            
                             // Consolidate list data with updated post card data and request a cell refresh
                             NotificationCenter.default.post(name: PostActions.didUpdatePostCardNotification, object: nil, userInfo: ["postCard": newPostCard])
                         }

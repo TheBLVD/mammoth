@@ -341,7 +341,7 @@ extension PostCardHeader {
             
             if secondsRange ~= createdAt {
                 interval = 5
-                delay = 8
+                delay = 2
             } else if minutesRange ~= createdAt {
                 interval = 30
                 delay = 15

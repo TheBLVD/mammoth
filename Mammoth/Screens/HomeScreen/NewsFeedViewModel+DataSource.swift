@@ -527,8 +527,9 @@ extension NewsFeedViewModel {
             
             // Don't update data source if this feed is not currently viewed
             guard type == self.type else { return }
-            guard let _ = self.listData.forType(type: type)?.firstIndex(where: { $0.uniqueId() == item.uniqueId() }) else { return }
- 
+            guard let current = self.listData.forType(type: type)?.first(where: { $0.uniqueId() == item.uniqueId() }) else { return }
+            guard current != item else { return }
+            
             // Save cards to disk
             let scrollPosition = self.getScrollPosition(forFeed: type)
             self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)

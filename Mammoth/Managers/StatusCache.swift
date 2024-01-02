@@ -130,7 +130,7 @@ class StatusCache {
                             completion(url, stat)
                         }
                     } catch {
-                        log.error("can't load thread post: \(error)")
+                        log.error("can't load thread post")
                         completion(url, nil)
                     }
                 }

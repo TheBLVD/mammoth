@@ -341,6 +341,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     }
     
     override func didReceiveMemoryWarning() {
+        self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         self.viewModel.cleanUpMemoryOfCurrentFeed()
     }
 }
@@ -356,6 +357,11 @@ private extension NewsFeedViewController {
         
         if ![.mentionsIn, .mentionsOut].contains(self.viewModel.type) && !NewsFeedTypes.allActivityTypes.contains(self.viewModel.type)  {
             self.tableView.tableHeaderView = UIView()
+        } else {
+            let px = 1 / UIScreen.main.scale
+            let line = UIView(frame: .init(x: 0, y: 0, width: self.tableView.frame.size.width, height: px))
+            self.tableView.tableHeaderView = line
+            line.backgroundColor = self.tableView.separatorColor
         }
                         
         NSLayoutConstraint.activate([
@@ -1032,7 +1038,7 @@ private extension NewsFeedViewController {
         if let navBar = self.navigationController?.navigationBar {
             let whereIsNavBarInTableView = tableView.convert(navBar.bounds, from: navBar)
             let pointWhereNavBarEnds = CGPoint(x: 0, y: whereIsNavBarInTableView.origin.y + whereIsNavBarInTableView.size.height)
-
+            
             if let currentCellIndexPath = self.getCurrentCellIndexPath(tableView: tableView, scrollReference: scrollReference) {
                 guard let model = self.viewModel.getItemForIndexPath(currentCellIndexPath) else {
                     return nil

@@ -67,7 +67,7 @@ internal struct NewsFeedScrollPositions {
     var bookmarks: NewsFeedScrollPosition = NewsFeedScrollPosition()
     var mentionsIn: NewsFeedScrollPosition = NewsFeedScrollPosition()
     var mentionsOut: NewsFeedScrollPosition = NewsFeedScrollPosition()
-    var activity: NewsFeedScrollPosition = NewsFeedScrollPosition()
+    var activity: [String: NewsFeedScrollPosition] = [:]
     var channel: [String: NewsFeedScrollPosition] = [:]
 
     @discardableResult
@@ -96,8 +96,8 @@ internal struct NewsFeedScrollPositions {
             mentionsIn = position
         case .mentionsOut:
             mentionsOut = position
-        case .activity:
-            activity = position
+        case .activity(let type):
+            activity[type?.rawValue ?? "all"] = position
         case .channel(let data):
             channel[data.id] = position
         }
@@ -129,8 +129,8 @@ internal struct NewsFeedScrollPositions {
             return mentionsIn
         case .mentionsOut:
             return mentionsOut
-        case .activity:
-            return activity
+        case .activity(let type):
+            return activity[type?.rawValue ?? "all"] ?? NewsFeedScrollPosition()
         case .channel(let data):
             return channel[data.id] ?? NewsFeedScrollPosition()
         }
