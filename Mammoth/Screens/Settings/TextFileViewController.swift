@@ -15,6 +15,7 @@ class TextFileViewController : UIViewController {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isEditable = false
+        textView.backgroundColor = .custom.background
         return textView
     }()
     
