@@ -132,6 +132,10 @@ private extension DiscoveryViewController {
             self.loader.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         ])
         
+        let px = 1 / UIScreen.main.scale
+        let line = UIView(frame: .init(x: 0, y: 0, width: self.tableView.frame.size.width, height: px))
+        self.tableView.tableHeaderView = line
+        line.backgroundColor = self.tableView.separatorColor
         
     }
     
