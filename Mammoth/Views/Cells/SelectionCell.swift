@@ -50,15 +50,12 @@ class SelectionCell: UITableViewCell {
             "txtLabel2" : txtLabel2,
             "imageV" : imageV,
         ]
-        let metricsDict = [
-            "height" : UIFont.preferredFont(forTextStyle: .body).pointSize + 16
-        ]
         
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[bgButton]-16-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-6-[bgButton]-6-|", options: [], metrics: metricsDict, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[imageV]-16-[txtLabel]-(>=16)-[txtLabel2]-16-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[txtLabel]-8-|", options: [], metrics: metricsDict, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[txtLabel2]-8-|", options: [], metrics: metricsDict, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-6-[bgButton]-6-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[imageV]-15-[txtLabel]-(>=16)-[txtLabel2]-16-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[txtLabel]-8-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[txtLabel2]-8-|", options: [], metrics: nil, views: viewsDict))
         
         self.imageV.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
