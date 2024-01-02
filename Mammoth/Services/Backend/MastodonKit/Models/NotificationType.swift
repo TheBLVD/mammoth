@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum NotificationType: String, Codable {
+public enum NotificationType: String, Codable, CaseIterable {
     /// The user has been mentioned.
     case mention
     /// The status message has been reblogged.

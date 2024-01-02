@@ -58,8 +58,8 @@ extension NewsFeedViewModel {
                 return "\(user.diskFolderName())/mentions_in.json"
             case .mentionsOut:
                 return "\(user.diskFolderName())/mentions_out.json"
-            case .activity:
-                return "\(user.diskFolderName())/activity.json"
+            case .activity(let type):
+                return "\(user.diskFolderName())/activity_\(type?.rawValue ?? "all").json"
             case .channel(let channel):
                 return "\(user.diskFolderName())/channel_\(channel.id.sanitizedFileName).json"
             }
@@ -92,8 +92,8 @@ extension NewsFeedViewModel {
                 return "\(user.diskFolderName())/position_mentions_in.json"
             case .mentionsOut:
                 return "\(user.diskFolderName())/position_mentions_out.json"
-            case .activity:
-                return "\(user.diskFolderName())/position_activity.json"
+            case .activity(let type):
+                return "\(user.diskFolderName())/position_activity_\(type?.rawValue ?? "all").json"
             case .channel(let channel):
                 return "\(user.diskFolderName())/position_\(channel.id.sanitizedFileName).json"
             }

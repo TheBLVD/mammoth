@@ -160,7 +160,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         let gestureUnread = UITapGestureRecognizer(target: self, action: #selector(self.onUnreadTapped))
         self.unreadIndicator.addGestureRecognizer(gestureUnread)
         
-        if [.mentionsIn, .mentionsOut, .activity].contains(self.viewModel.type) {
+        if (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(self.viewModel.type) {
             if !self.didInitializeOnce {
                 self.didInitializeOnce = true
                 log.debug("[NewsFeedViewController] Sync data source from `viewDidLoad` - \(self.viewModel.type)")
@@ -230,7 +230,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if !self.switchingAccounts {
-            if self.viewModel.type != .activity && self.viewModel.type != .mentionsIn {
+            if !NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) && self.viewModel.type != .mentionsIn {
                 self.viewModel.stopPollingListData()
             }
             if self.viewModel.type.shouldSyncItems {
@@ -354,7 +354,7 @@ private extension NewsFeedViewController {
         view.addSubview(latestPill)
         view.addSubview(unreadIndicator)
         
-        if ![.mentionsIn, .mentionsOut, .activity].contains(self.viewModel.type) {
+        if ![.mentionsIn, .mentionsOut].contains(self.viewModel.type) && !NewsFeedTypes.allActivityTypes.contains(self.viewModel.type)  {
             self.tableView.tableHeaderView = UIView()
         }
                         
@@ -390,7 +390,7 @@ extension NewsFeedViewController {
                         PostActions.onActionPress(target: self, type: type, isActive: isActive, postCard: model, data: data)
                         
                         // Show the Upgrade alert if needed (only on home feeds)
-                        if ![.activity, .mentionsIn, .mentionsOut, .likes, .bookmarks].contains(self.viewModel.type), 
+                        if !(NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut, .likes, .bookmarks]).contains(self.viewModel.type),
                             [.like, .reply, .repost, .quote, .bookmark].contains(type) {
                             IAPManager.shared.showUpgradeAlertIfNeeded()
                         }
@@ -476,6 +476,8 @@ extension NewsFeedViewController {
         if let item = self.viewModel.getItemForIndexPath(indexPath) {
             if case .postCard(let postCardModel) = item {
                 postCardModel.cellHeight = cell.frame.size.height
+            } else if case .activity(var activityModel) = item {
+                activityModel.cellHeight = cell.frame.size.height
             }
         }
         
@@ -675,7 +677,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                            onCompleted: (() -> Void)?) {
         guard !self.switchingAccounts else { return }
         
-        let updateDisplay = [.mentionsIn, .mentionsOut, .activity].contains(feedType) || self.isInWindowHierarchy()
+        let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || self.isInWindowHierarchy()
         
         guard !self.tableView.isDragging, updateDisplay else {
             let deferredJob = {  [weak self] in

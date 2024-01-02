@@ -19,6 +19,8 @@ struct ActivityCardModel {
     var createdAt: Date
     var time: String
     
+    var cellHeight: CGFloat?
+    
     // Debug properties
     var batchId: String?
     var batchItemIndex: Int?

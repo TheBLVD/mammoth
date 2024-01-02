@@ -115,8 +115,22 @@ struct TimelineService {
         return (result.compactMap({$0.status}), cursorId: result.last?.id)
     }
     
-    static func activity(range: RequestRange = .default) async throws -> ([Notificationt], cursorId: String?) {
-        let request = Notifications.all(range: range, typesToExclude: [.direct, .mention])
+    static func activity(range: RequestRange = .default, type: NotificationType?) async throws -> ([Notificationt], cursorId: String?) {
+        let excludedTypes: [NotificationType] = NotificationType.allCases.filter({
+            switch type {
+            case .favourite:
+                return $0 != .favourite
+            case .reblog:
+                return $0 != .reblog
+            case .follow:
+                return $0 != .follow
+            case .update:
+                return $0 != .update
+            default:
+                return [NotificationType.direct, NotificationType.mention].contains($0)
+            }
+        })
+        let request = Notifications.all(range: range, typesToExclude: excludedTypes)
         let result = try await ClientService.runRequest(request: request)
         return (result, cursorId: result.last?.id)
     }

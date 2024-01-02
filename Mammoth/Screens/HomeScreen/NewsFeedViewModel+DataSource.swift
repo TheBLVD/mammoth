@@ -26,7 +26,7 @@ internal struct NewsFeedListData {
     var bookmarks: [NewsFeedListItem]?
     var mentionsIn: [NewsFeedListItem]?
     var mentionsOut: [NewsFeedListItem]?
-    var activity: [NewsFeedListItem]?
+    var activity: [String: [NewsFeedListItem]] = [:]
     var channel: [String: [NewsFeedListItem]] = [:]
 
     let empty = NewsFeedListItem.empty
@@ -59,8 +59,8 @@ internal struct NewsFeedListData {
             return self.mentionsIn
         case .mentionsOut:
             return self.mentionsOut
-        case .activity:
-            return self.activity
+        case .activity(let type):
+            return self.activity[type?.rawValue ?? "all"]
         case .channel(let channel):
             return self.channel[channel.id]
         }
@@ -90,8 +90,8 @@ internal struct NewsFeedListData {
             self.mentionsIn = items
         case .mentionsOut:
             self.mentionsOut = items
-        case .activity:
-            self.activity = items
+        case .activity(let type):
+            self.activity[type?.rawValue ?? "all"] = items
         case .channel(let channel):
             self.channel[channel.id] = items
         }
@@ -121,8 +121,8 @@ internal struct NewsFeedListData {
             self.mentionsIn = []
         case .mentionsOut:
             self.mentionsOut = []
-        case .activity:
-            self.activity = []
+        case .activity(let type):
+            self.activity[type?.rawValue ?? "all"]  = []
         case .channel(let channel):
             self.channel[channel.id] = []
         }
@@ -196,11 +196,12 @@ internal struct NewsFeedListData {
             copy?.insert(contentsOf: items, at: index ?? self.mentionsOut?.count ?? 0)
             self.mentionsOut = copy
             
-        case .activity:
-            let index = self.activity?.firstIndex(where: {$0 == after})
-            var copy = self.activity
-            copy?.insert(contentsOf: items, at: index ?? self.activity?.count ?? 0)
-            self.activity = copy
+        case .activity(let type):
+            let key = type?.rawValue ?? "all"
+            let index = self.activity[key]?.firstIndex(where: {$0 == after})
+            var copy = self.activity[key]
+            copy?.insert(contentsOf: items, at: index ?? self.activity[key]?.count ?? 0)
+            self.activity[key] = copy
 
         case .channel(let channel):
             let index = self.channel[channel.id]?.firstIndex(where: {$0 == after})
@@ -270,14 +271,17 @@ internal struct NewsFeedListData {
                     self.update(item: item, atIndex: index, forType: feedType)
                 }
                 
-            case .activity:
-                if let index = self.activity?.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
-                    self.update(item: item, atIndex: index, forType: feedType)
-                } else if let index = self.activity?.firstIndex(where: {$0.extractPostCard()?.uniqueId == item.uniqueId()}){
-                    // update the postcard in the activity
-                    if case .activity(var activity) = self.activity?[index] {
-                        activity.postCard = item.extractPostCard()
-                        self.update(item: .activity(activity), atIndex: index, forType: feedType)
+            case .activity(let type):
+                self.activity.forEach { (key, activities) in
+                    let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
+                    if let index = activities.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
+                        self.update(item: item, atIndex: index, forType: .activity(activityType))
+                    } else if let index = activities.firstIndex(where: {$0.extractPostCard()?.uniqueId == item.uniqueId()}){
+                        // update the postcard in the activity
+                        if case .activity(var activity) = activities[index] {
+                            activity.postCard = item.extractPostCard()
+                            self.update(item: .activity(activity), atIndex: index, forType: .activity(activityType))
+                        }
                     }
                 }
 
@@ -315,8 +319,8 @@ internal struct NewsFeedListData {
             self.mentionsIn?[index] = item
         case .mentionsOut:
             self.mentionsOut?[index] = item
-        case .activity:
-            self.activity?[index] = item
+        case .activity(let type):
+            self.activity[type?.rawValue ?? "all"]?[index] = item
         case .channel(let channel):
             self.channel[channel.id]?[index] = item
         }
@@ -347,8 +351,8 @@ internal struct NewsFeedListData {
             return self.mentionsIn?.remove(at: index)
         case .mentionsOut:
             return self.mentionsOut?.remove(at: index)
-        case .activity:
-            return self.activity?.remove(at: index)
+        case .activity(let type):
+            return self.activity[type?.rawValue ?? "all"]?.remove(at: index)
         case .channel(let channel):
             return self.channel[channel.id]?.remove(at: index)
         }
@@ -411,9 +415,12 @@ internal struct NewsFeedListData {
                     self.remove(atIndex: index, forType: feedType)
                 }
                 
-            case .activity:
-                if let index = self.activity?.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
-                    self.remove(atIndex: index, forType: feedType)
+            case .activity(let type):
+                self.activity.forEach { (key, activities) in
+                    if let index = activities.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
+                        let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
+                        self.remove(atIndex: index, forType: .activity(activityType))
+                    }
                 }
                 
             case .channel:
@@ -716,7 +723,7 @@ extension NewsFeedViewModel {
                 
                 // Set the unread state after updating the data source.
                 // This will show the unread pill/indicator
-                if [.activity, .mentionsIn, .mentionsOut].contains(type) {
+                if NewsFeedTypes.allActivityTypes.contains(type) || [.mentionsIn, .mentionsOut].contains(type) {
                     self.setUnreadState(count: items.count, enabled: true, forFeed: type)
                 } else {
                     if items.count >= 5 && numberOfItemsPreUpdate > 0 {

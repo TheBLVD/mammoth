@@ -181,6 +181,10 @@ final class ActivityCardCell: UITableViewCell {
             }
         }
         
+        if let postCard = self.activityCard?.postCard, postCard.hasQuotePost {
+            postCard.preloadQuotePost()
+        }
+        
         self.header.startTimeUpdates()
     }
     
@@ -188,6 +192,10 @@ final class ActivityCardCell: UITableViewCell {
     public func didEndDisplay() {
         if let postCard = self.activityCard?.postCard, postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
             self.video?.pause()
+        }
+        
+        if let postCard = self.activityCard?.postCard, postCard.hasQuotePost, let quotePostCard = postCard.quotePostData, let video = quotePostCard.videoPlayer {
+            video.pause()
         }
         
         self.header.stopTimeUpdates()
