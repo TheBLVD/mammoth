@@ -643,6 +643,10 @@
 		BFBD41F02ACC70C8009BA818 /* ForYouChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFBD41EF2ACC70C8009BA818 /* ForYouChannelCell.xib */; };
 		BFBD41F22ACC70EA009BA818 /* ForYouChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD41F12ACC70EA009BA818 /* ForYouChannelCell.swift */; };
 		BFBD94E2297B52740064E71D /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD94E1297B52740064E71D /* Category.swift */; };
+		BFBD97A72B44DD0F00A0645B /* moth.social.Instance.json in Resources */ = {isa = PBXBuildFile; fileRef = BFBD97A52B44DD0F00A0645B /* moth.social.Instance.json */; };
+		BFBD97A82B44DD0F00A0645B /* OtherInstances.json in Resources */ = {isa = PBXBuildFile; fileRef = BFBD97A62B44DD0F00A0645B /* OtherInstances.json */; };
+		BFBD97AA2B44DD9A00A0645B /* staging.moth.social.Instance.json in Resources */ = {isa = PBXBuildFile; fileRef = BFBD97A92B44DD9A00A0645B /* staging.moth.social.Instance.json */; };
+		BFBD97AC2B44ECDA00A0645B /* Bundle+decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD97AB2B44ECDA00A0645B /* Bundle+decode.swift */; };
 		BFCC50A12B0D626A0081BFB5 /* ChannelOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCC50A02B0D626A0081BFB5 /* ChannelOwner.swift */; };
 		BFCC9AB929AAF86E0081CE3B /* FollowManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFCC9AB829AAF86E0081CE3B /* FollowManagerTest.swift */; };
 		BFCC9ABC29AB017D0081CE3B /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = BFCC9ABB29AB017D0081CE3B /* SDWebImage */; };
@@ -1477,6 +1481,10 @@
 		BFBD41EF2ACC70C8009BA818 /* ForYouChannelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForYouChannelCell.xib; sourceTree = "<group>"; };
 		BFBD41F12ACC70EA009BA818 /* ForYouChannelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForYouChannelCell.swift; sourceTree = "<group>"; };
 		BFBD94E1297B52740064E71D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		BFBD97A52B44DD0F00A0645B /* moth.social.Instance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = moth.social.Instance.json; sourceTree = "<group>"; };
+		BFBD97A62B44DD0F00A0645B /* OtherInstances.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OtherInstances.json; sourceTree = "<group>"; };
+		BFBD97A92B44DD9A00A0645B /* staging.moth.social.Instance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = staging.moth.social.Instance.json; sourceTree = "<group>"; };
+		BFBD97AB2B44ECDA00A0645B /* Bundle+decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+decode.swift"; sourceTree = "<group>"; };
 		BFCC50A02B0D626A0081BFB5 /* ChannelOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelOwner.swift; sourceTree = "<group>"; };
 		BFCC9AAF29AAF8130081CE3B /* MammothTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MammothTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFCC9AB829AAF86E0081CE3B /* FollowManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowManagerTest.swift; sourceTree = "<group>"; };
@@ -2188,6 +2196,9 @@
 				5339946D2914214A00560F83 /* SignInViewController.swift */,
 				534118512954B26D00696DDA /* EmailVerificationViewController.swift */,
 				BF0F3BBF2A859C2D0055BB81 /* EmailVerificationView.xib */,
+				BFBD97A52B44DD0F00A0645B /* moth.social.Instance.json */,
+				BFBD97A92B44DD9A00A0645B /* staging.moth.social.Instance.json */,
+				BFBD97A62B44DD0F00A0645B /* OtherInstances.json */,
 			);
 			path = Registration;
 			sourceTree = "<group>";
@@ -3054,6 +3065,7 @@
 				BF8598A32AF5634900E2BA8D /* ProcessID.swift */,
 				144DC6C82B14E26200F4EE98 /* UIColor+Gradient.swift */,
 				1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */,
+				BFBD97AB2B44ECDA00A0645B /* Bundle+decode.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3441,6 +3453,7 @@
 				5383F20029796808005F1B20 /* Icon1.png in Resources */,
 				14C45DDC2B1A1F8C000171A9 /* Blue Jay.png in Resources */,
 				14C45DBA2B1A1F8C000171A9 /* Paper Light@2x.png in Resources */,
+				BFBD97A72B44DD0F00A0645B /* moth.social.Instance.json in Resources */,
 				14C45DF12B1A4266000171A9 /* Pride@2x.png in Resources */,
 				BF83E7AD2A7D74CB00CBE9A8 /* IntroViewController.xib in Resources */,
 				14C45DC32B1A1F8C000171A9 /* Six Colors@2x.png in Resources */,
@@ -3450,6 +3463,7 @@
 				14C45DE12B1A1F8C000171A9 /* Pride Light@2x.png in Resources */,
 				5383F21129796808005F1B20 /* IconC6.png in Resources */,
 				14C45DC92B1A1F8C000171A9 /* Layout.png in Resources */,
+				BFBD97A82B44DD0F00A0645B /* OtherInstances.json in Resources */,
 				14C45DB02B1A1F8C000171A9 /* Burton@3x.png in Resources */,
 				14C45DC82B1A1F8C000171A9 /* Foil Dark@2x.png in Resources */,
 				5383F1F929796808005F1B20 /* IconC6@3x.png in Resources */,
@@ -3518,6 +3532,7 @@
 				14C45DAF2B1A1F8C000171A9 /* Blueprints@2x.png in Resources */,
 				14C45DA52B1A1F8C000171A9 /* Soft@3x.png in Resources */,
 				14C45DB62B1A1F8C000171A9 /* Benson@2x.png in Resources */,
+				BFBD97AA2B44DD9A00A0645B /* staging.moth.social.Instance.json in Resources */,
 				BF4D709529EE55E90059C250 /* fa-solid-900.ttf in Resources */,
 				149A682F2AD6A4E200E72A83 /* mute.aiff in Resources */,
 			);
@@ -3648,6 +3663,7 @@
 				BFDCBD1A2A9D61BB00606234 /* ChannelsViewModel.swift in Sources */,
 				533996DA2914227A00560F83 /* CropViewController.swift in Sources */,
 				C3BBEEF02A9F933D0027C761 /* MentionsViewController.swift in Sources */,
+				BFBD97AC2B44ECDA00A0645B /* Bundle+decode.swift in Sources */,
 				533996492914227A00560F83 /* BioMetricAuthenticator.swift in Sources */,
 				BF57C4052AE9C64000D11485 /* StatusSource.swift in Sources */,
 				53399A4F291526B900560F83 /* Results.swift in Sources */,

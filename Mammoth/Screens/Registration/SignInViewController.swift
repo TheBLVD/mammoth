@@ -90,25 +90,33 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
         loadingIndicator.center = self.view.center
         self.view.addSubview(loadingIndicator)
         
+        let defaultInstance: [tagInstance]
         do {
-            self.defaultInstance = try Disk.retrieve("defaultInstance.json", from: .documents, as: [tagInstance].self)
-            self.loadingIndicator.stopAnimating()
+            defaultInstance = try Disk.retrieve("defaultInstance.json", from: .documents, as: [tagInstance].self)
         } catch {
-            // error fetching instances from Disk
+            // error fetching instances from Disk; use the default instance from disk
+            defaultInstance = Bundle.main.decode([tagInstance].self, from: GlobalHostServer() + ".Instance.json")
         }
+        self.defaultInstance = defaultInstance
+        self.loadingIndicator.stopAnimating()
+
+        let allInstances: [tagInstance]
         do {
-            SignInViewController.allInstances = try Disk.retrieve("allInstances.json", from: .documents, as: [tagInstance].self)
-            if !self.isFromSignIn {
-                let currentInstance = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.instanceData
-                SignInViewController.allInstances = SignInViewController.allInstances.filter({ x in
-                    x.name != currentInstance?.returnedText ?? ""
-                })
-            }
-            SignInViewController.filteredInstances = SignInViewController.allInstances
-            self.loadingIndicator.stopAnimating()
+            allInstances = try Disk.retrieve("allInstances.json", from: .documents, as: [tagInstance].self)
         } catch {
-            // error fetching instances from Disk
+            // error fetching instances from Disk; use the default list fro disk
+            allInstances = Bundle.main.decode([tagInstance].self, from: "OtherInstances.json")
         }
+        SignInViewController.allInstances = allInstances
+        if !self.isFromSignIn {
+            let currentInstance = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.instanceData
+            SignInViewController.allInstances = SignInViewController.allInstances.filter({ x in
+                x.name != currentInstance?.returnedText ?? ""
+            })
+        }
+        SignInViewController.filteredInstances = SignInViewController.allInstances
+        self.loadingIndicator.stopAnimating()
+        
         self.setupNav()
         self.setupUI()
         self.setupTable()
