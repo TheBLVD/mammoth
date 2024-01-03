@@ -28,7 +28,7 @@ class SidebarViewController: UIViewController, UICollectionViewDelegate, UIPenci
     let accountSwitcherButton = AccountSwitcherButton()
     let undoButton = UIButton()
     var collectionView: UICollectionView
-    var selectedIndex: Int = 0
+    var previouslySelectedIndex: Int? = nil
     var doneOnceAppear: Bool = false
     var doneOnceList: Bool = false
     var doneOnceList2: Bool = false
@@ -412,6 +412,11 @@ class SidebarViewController: UIViewController, UICollectionViewDelegate, UIPenci
         self.collectionView.selectItem(at: IndexPath(item: GlobalStruct.sidebarItem, section: 0), animated: true, scrollPosition: .top)
     }
     
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        previouslySelectedIndex = collectionView.indexPathsForSelectedItems?.first?.row
+        return true
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.controlBar(didSelect: indexPath.item)
     }
@@ -422,6 +427,14 @@ extension SidebarViewController: Jumpable {
     
     func barSingleTap(didSelect index: Int) {
         delegate?.didSelect(index)
+
+        if index == previouslySelectedIndex {
+            let viewController = self.viewControllerAtIndex(index)
+            if let navController = viewController?.navigationController as? UINavigationController {
+                navController.popToRootViewController(animated: true)
+            }
+        }
+        
         GlobalStruct.tappedSidebarItem = true
         let itemToFetch = index + 1
         GlobalStruct.tempSidebar = Int(GlobalStruct.columnsOrder.firstIndex(of: itemToFetch) ?? 0)
