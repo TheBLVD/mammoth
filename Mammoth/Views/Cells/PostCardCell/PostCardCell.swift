@@ -718,36 +718,7 @@ extension PostCardCell {
             self.postTextView.backgroundColor = .custom.background
         }
         
-        
-        if self.cellVariant.hasText {
-            if self.postTextView.textContainer.maximumNumberOfLines != type.numberOfLines {
-                self.postTextView.textContainer.maximumNumberOfLines = type.numberOfLines
-            }
-            
-            if let postTextContent = postCard.metaPostText, !postTextContent.original.isEmpty {
-                self.postTextView.configure(content: postTextContent)
-                self.postTextView.isHidden = false
-                
-            } else if [.small, .hidden].contains(self.cellVariant.mediaVariant) {
-                // If there's no post text, but a media attachment,
-                // set the post text to either:
-                //  - ([type])
-                //  - ([type] description: [meta description])
-                if let type = postCard.mediaDisplayType.captializedDisplayName  {
-                    if let desc = postCard.mediaAttachments.first?.description {
-                        let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type) description: \(desc))", emojis: [:]))
-                        self.postTextView.configure(content: content)
-                        self.postTextView.isHidden = false
-                    } else {
-                        let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type))", emojis: [:]))
-                        self.postTextView.configure(content: content)
-                        self.postTextView.isHidden = false
-                    }
-                } else {
-                    self.postTextView.isHidden = true
-                }
-            }
-        }
+        self.configureMetaTextContent()
         
         if self.cellVariant.hasMedia {
             // Display poll if needed
@@ -919,7 +890,41 @@ extension PostCardCell {
             self.configureForDebugging(postCard: postCard)
         }
         
+        self.configureMetaTextContent()
+        
         self.configureContraints()
+    }
+    
+    func configureMetaTextContent() {
+        if self.cellVariant.hasText {
+            if self.postTextView.textContainer.maximumNumberOfLines != type!.numberOfLines {
+                self.postTextView.textContainer.maximumNumberOfLines = type!.numberOfLines
+            }
+            
+            if let postTextContent = postCard?.metaPostText, !postTextContent.original.isEmpty {
+                self.postTextView.configure(content: postTextContent)
+                self.postTextView.isHidden = false
+                
+            } else if [.small, .hidden].contains(self.cellVariant.mediaVariant) {
+                // If there's no post text, but a media attachment,
+                // set the post text to either:
+                //  - ([type])
+                //  - ([type] description: [meta description])
+                if let type = postCard?.mediaDisplayType.captializedDisplayName  {
+                    if let desc = postCard?.mediaAttachments.first?.description {
+                        let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type) description: \(desc))", emojis: [:]))
+                        self.postTextView.configure(content: content)
+                        self.postTextView.isHidden = false
+                    } else {
+                        let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type))", emojis: [:]))
+                        self.postTextView.configure(content: content)
+                        self.postTextView.isHidden = false
+                    }
+                } else {
+                    self.postTextView.isHidden = true
+                }
+            }
+        }
     }
     
     private func configureContraints() {
@@ -1113,9 +1118,11 @@ extension PostCardCell {
         if let postCard = self.postCard, postCard.isPrivateMention {
             self.backgroundColor = .custom.OVRLYSoftContrast
             self.contentView.backgroundColor = .custom.OVRLYSoftContrast
+            self.postTextView.backgroundColor = .custom.OVRLYSoftContrast
         } else {
             self.backgroundColor = .custom.background
             self.contentView.backgroundColor = .custom.background
+            self.postTextView.backgroundColor = .custom.background
         }
 
         self.postTextView.backgroundColor = self.contentView.backgroundColor
@@ -1127,6 +1134,19 @@ extension PostCardCell {
         self.quotePost?.onThemeChange()
         self.footer.onThemeChange()
         self.footer.backgroundColor = self.contentView.backgroundColor
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Update all items that use .custom colors
+        contentWarningButton.backgroundColor = .custom.OVRLYSoftContrast
+        deletedWarningButton.backgroundColor = .custom.OVRLYSoftContrast
+        postTextView.textColor = .custom.mediumContrast
+        postTextView.backgroundColor = .custom.background
+        parentThread.backgroundColor = .custom.feintContrast
+        childThread.backgroundColor = .custom.feintContrast
+        setupUIFromSettings()
+        configureMetaTextContent()
     }
 }
 

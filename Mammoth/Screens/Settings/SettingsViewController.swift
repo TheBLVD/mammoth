@@ -169,28 +169,16 @@ class SettingsViewController: UIViewController {
     }
     
     @objc func reloadAll() {
-        DispatchQueue.main.async {
-            let hcText = UserDefaults.standard.value(forKey: "hcText") as? Bool ?? true
-            if hcText == true {
-                UIColor.custom.mainTextColor = .label
-            } else {
-                UIColor.custom.mainTextColor = .secondaryLabel
-            }
-            self.tableView.reloadData()
-            
-            // update various elements
-            self.view.backgroundColor = .custom.backgroundTint
-        }
-    }
-    
-    @objc func overrideTheme() {
-        if GlobalStruct.overrideTheme == 1 {
-            self.navigationController?.overrideUserInterfaceStyle = .light
-        } else if GlobalStruct.overrideTheme == 2 {
-            self.navigationController?.overrideUserInterfaceStyle = .dark
+        let hcText = UserDefaults.standard.value(forKey: "hcText") as? Bool ?? true
+        if hcText == true {
+            UIColor.custom.mainTextColor = .label
         } else {
-            self.navigationController?.overrideUserInterfaceStyle = .unspecified
+            UIColor.custom.mainTextColor = .secondaryLabel
         }
+        self.tableView.reloadData()
+        
+        // update various elements
+        self.view.backgroundColor = .custom.backgroundTint
     }
     
     var tempScrollPosition: CGFloat = 0
@@ -249,15 +237,6 @@ class SettingsViewController: UIViewController {
         self.view.backgroundColor = .custom.backgroundTint
         self.navigationItem.title = "Settings"
         
-        if GlobalStruct.overrideTheme == 1 {
-            self.navigationController?.overrideUserInterfaceStyle = .light
-        } else if GlobalStruct.overrideTheme == 2 {
-            self.navigationController?.overrideUserInterfaceStyle = .dark
-        } else {
-            self.navigationController?.overrideUserInterfaceStyle = .unspecified
-        }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.overrideTheme), name: NSNotification.Name(rawValue: "overrideTheme"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadAll), name: NSNotification.Name(rawValue: "reloadAll"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollToTop), name: NSNotification.Name(rawValue: "scrollToTop9"), object: nil)
         
@@ -532,9 +511,10 @@ internal extension SettingsViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         
          if #available(iOS 13.0, *) {
-             if (traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection)) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                  configureNavigationBarLayout(navigationController: self.navigationController, userInterfaceStyle: self.traitCollection.userInterfaceStyle)
              }
          }
+         self.reloadAll()
     }
 }

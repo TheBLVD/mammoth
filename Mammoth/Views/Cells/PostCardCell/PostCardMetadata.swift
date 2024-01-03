@@ -176,4 +176,20 @@ final class PostCardMetadata: UIView {
             self.onButtonPress?(.replies, false, nil)
         }
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Update all items that use .custom colors
+        likesLabel.textColor = UIColor.custom.feintContrast
+        likesLabel.backgroundColor = .custom.background
+        repostsLabel.textColor = UIColor.custom.feintContrast
+        repostsLabel.backgroundColor = .custom.background
+        repliesLabel.textColor = UIColor.custom.feintContrast
+        repliesLabel.backgroundColor = .custom.background
+        applicationLabel.textColor = UIColor.custom.feintContrast
+        applicationLabel.backgroundColor = .custom.background
+        viewDetailsLabel.textColor = UIColor.custom.feintContrast
+        viewDetailsLabel.backgroundColor = .custom.background
+    }
+
 }

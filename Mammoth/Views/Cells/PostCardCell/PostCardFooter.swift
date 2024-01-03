@@ -222,6 +222,19 @@ extension PostFooterButton {
     func onThemeChange() {
         self.label.textColor = .custom.actionButtons
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Update all items that use .custom colors
+        self.backgroundColor = .custom.background
+        container.backgroundColor = .custom.background
+        label.textColor = .custom.actionButtons
+        label.backgroundColor = .custom.background
+        icon.backgroundColor = .custom.background
+        icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons,
+                             renderingMode: .alwaysOriginal)
+    }
+
 }
 
 // MARK: - Handlers

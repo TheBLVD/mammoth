@@ -159,6 +159,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.padColWidth = UserDefaults.standard.value(forKey: "padColWidth") as? Int ?? 412
         
         GlobalStruct.overrideTheme = UserDefaults.standard.value(forKey: "overrideTheme") as? Int ?? 0
+        GlobalStruct.overrideThemeHighContrast = UserDefaults.standard.value(forKey: "overrideThemeHighContrast") as? Bool ?? false
         GlobalStruct.customTextSize = UserDefaults.standard.value(forKey: "customTextSize") as? CGFloat ?? 0
         GlobalStruct.customLineSize = UserDefaults.standard.value(forKey: "customLineSize") as? CGFloat ?? 0
         GlobalStruct.timeStampStyle = UserDefaults.standard.value(forKey: "timeStampStyle") as? Int ?? 0

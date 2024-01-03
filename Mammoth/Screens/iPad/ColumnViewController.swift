@@ -460,7 +460,24 @@ class ColumnViewController: UIViewController {
     @objc func reloadAll() {
         DispatchQueue.main.async {
             self.view.backgroundColor = .custom.backgroundTint
+            let navApp = UINavigationBarAppearance()
+            navApp.configureWithOpaqueBackground()
+            navApp.backgroundColor = .custom.backgroundTint
+            navApp.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .semibold)]
+
+            self.mainColumnNavVC?.navigationBar.standardAppearance = navApp
+            self.mainColumnNavVC?.navigationBar.scrollEdgeAppearance = navApp
+            self.mainColumnNavVC?.navigationBar.compactAppearance = navApp
+
+            self.auxColumnNavVC?.navigationBar.standardAppearance = navApp
+            self.auxColumnNavVC?.navigationBar.scrollEdgeAppearance = navApp
+            self.auxColumnNavVC?.navigationBar.compactAppearance = navApp
+
             self.mainColumnNavVC?.view.layer.borderColor = UIColor.custom.outlines.cgColor
+            self.mainColumnNavVC?.navigationBar.backgroundColor = .custom.backgroundTint
+            self.mainColumnNavVC?.view.layer.borderColor = UIColor.custom.outlines.cgColor
+            self.auxColumnNavVC?.view.layer.borderColor = UIColor.custom.outlines.cgColor
+            self.auxColumnNavVC?.navigationBar.backgroundColor = .custom.backgroundTint
             self.auxColumnNavVC?.view.layer.borderColor = UIColor.custom.outlines.cgColor
         }
     }
@@ -472,7 +489,7 @@ internal extension ColumnViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         
          if #available(iOS 13.0, *) {
-             if (traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection)) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                  self.reloadAll()
              }
          }

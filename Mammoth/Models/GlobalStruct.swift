@@ -106,6 +106,7 @@ public struct GlobalStruct {
     
     // app settings
     static var overrideTheme: Int = 0
+    static var overrideThemeHighContrast = false
     static var soundsEnabled: Bool = true
     static var hapticsEnabled: Bool = true
     static var actionAnimations: Bool = true
