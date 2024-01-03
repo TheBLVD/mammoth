@@ -10,8 +10,8 @@ import UIKit
 
 class ActivityViewController : UIViewController {
     
-    private let headerView: MentionsHeader = {
-        let headerView = MentionsHeader()
+    private let headerView: CarouselNavigationHeader = {
+        let headerView = CarouselNavigationHeader(title: "Activity")
         headerView.translatesAutoresizingMaskIntoConstraints = false
         return headerView
     }()
@@ -150,6 +150,13 @@ extension ActivityViewController: UIPageViewControllerDataSource, UIPageViewCont
         
         if let currentIndex = self.currentPageIndex() {
             self.headerView.carousel.selectItem(atIndex: currentIndex)
+            
+            // Pause all videos when switching feeds
+            if let previousPageViewController = previousViewControllers.first as? NewsFeedViewController {
+                DispatchQueue.main.async {
+                    previousPageViewController.pauseAllVideos()
+                }
+            }
         }
     }
     

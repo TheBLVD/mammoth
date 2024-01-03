@@ -24,11 +24,7 @@ class NavigationBarTitle: UIView {
     
     func setupUI() {
         
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            self.layoutMargins = UIEdgeInsets(top: 0, left: -4, bottom: 9, right: 0)
-        } else {
-            self.layoutMargins = UIEdgeInsets(top: 0, left: -4, bottom: 0, right: 0)
-        }
+        self.layoutMargins = UIEdgeInsets(top: 0, left: -4, bottom: 0, right: 0)
         
         titleLabel.textAlignment = .left
         titleLabel.font = .systemFont(ofSize: 24.0, weight: .semibold)

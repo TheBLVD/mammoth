@@ -188,21 +188,23 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
             log.debug("[NewsFeedViewController] Sync data source from `viewDidAppear` - \(self.viewModel.type)")
             self.viewModel.syncDataSource(type: self.viewModel.type) { [weak self] in
                 guard let self else { return }
-                self.viewModel.snapshot = self.viewModel.appendMainSectionToSnapshot(snapshot: self.viewModel.snapshot)
-                self.viewModel.dataSource?.apply(self.viewModel.snapshot, animatingDifferences: false)
-                
-                if self.viewModel.snapshot.itemIdentifiers(inSection: .main).isEmpty {
-                    let type = self.viewModel.type
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        self.viewModel.displayLoader(forType: type)
+                Task {
+                    self.viewModel.snapshot = self.viewModel.appendMainSectionToSnapshot(snapshot: self.viewModel.snapshot)
+                    self.viewModel.dataSource?.apply(self.viewModel.snapshot, animatingDifferences: false)
+                    
+                    if self.viewModel.snapshot.itemIdentifiers(inSection: .main).isEmpty {
+                        let type = self.viewModel.type
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            self.viewModel.displayLoader(forType: type)
+                        }
+                        
+                        Task { [weak self] in
+                            guard let self else { return }
+                            try await self.viewModel.loadLatest(feedType: type, threshold: 1)
+                        }
+                    } else {
+                        self.showLoader(enabled: false)
                     }
-
-                    Task { [weak self] in
-                        guard let self else { return }
-                        try await self.viewModel.loadLatest(feedType: type, threshold: 1)
-                    }
-                } else {
-                    self.showLoader(enabled: false)
                 }
             }
         }
