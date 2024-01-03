@@ -1,5 +1,5 @@
 //
-//  MentionsHeader.swift
+//  CarouselNavigationHeader.swift
 //  Mammoth
 //
 //  Created by Benoit Nolens on 12/10/2023.
@@ -10,7 +10,7 @@ import Foundation
 
 import UIKit
 
-class MentionsHeader: UIView {
+class CarouselNavigationHeader: UIView {
 
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -34,11 +34,12 @@ class MentionsHeader: UIView {
         return stackView
     }()
     
-    public let title = NavigationBarTitle(title: "Mentions")
+    public let title: NavigationBarTitle
     public let carousel: Carousel = Carousel(withContextButton: false)
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(title: String) {
+        self.title = NavigationBarTitle(title: title)
+        super.init(frame: .zero)
         self.setupUI()
     }
     
@@ -48,11 +49,12 @@ class MentionsHeader: UIView {
 }
 
 // MARK: - Setup UI
-private extension MentionsHeader {
+private extension CarouselNavigationHeader {
     func setupUI() {
         self.backgroundColor = .clear
 
         title.translatesAutoresizingMaskIntoConstraints = false
+        title.clipsToBounds = false
         carousel.translatesAutoresizingMaskIntoConstraints = false
         
         titleStackView.addArrangedSubview(title)

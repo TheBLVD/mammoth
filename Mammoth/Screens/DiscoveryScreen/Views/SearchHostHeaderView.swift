@@ -15,6 +15,7 @@ class SearchHostHeaderView: UIView {
         stackView.axis = .vertical
         stackView.alignment = .center
         stackView.distribution = .fill
+        stackView.spacing = 4.0
         stackView.backgroundColor = .clear
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
@@ -64,7 +65,7 @@ private extension SearchHostHeaderView {
 
             carousel.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: 16),
             carousel.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant:  -16),
-            carousel.heightAnchor.constraint(equalToConstant: 44),
+            carousel.heightAnchor.constraint(equalToConstant: 30),
         ])
     }
 }

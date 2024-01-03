@@ -10,8 +10,8 @@ import UIKit
 
 class MentionsViewController : UIViewController {
     
-    private let headerView: MentionsHeader = {
-        let headerView = MentionsHeader()
+    private let headerView: CarouselNavigationHeader = {
+        let headerView = CarouselNavigationHeader(title: "Mentions")
         headerView.translatesAutoresizingMaskIntoConstraints = false
         return headerView
     }()
@@ -64,7 +64,7 @@ class MentionsViewController : UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.pages.forEach({$0.additionalSafeAreaInsets.top = self.headerView.frame.size.height})
+        self.pages.forEach({$0.additionalSafeAreaInsets.top = self.headerView.frame.size.height + 2}) // add 2 to make top border visible
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -150,6 +150,13 @@ extension MentionsViewController: UIPageViewControllerDataSource, UIPageViewCont
         
         if let currentIndex = self.currentPageIndex() {
             self.headerView.carousel.selectItem(atIndex: currentIndex)
+            
+            // Pause all videos when switching feeds
+            if let previousPageViewController = previousViewControllers.first as? NewsFeedViewController {
+                DispatchQueue.main.async {
+                    previousPageViewController.pauseAllVideos()
+                }
+            }
         }
     }
     

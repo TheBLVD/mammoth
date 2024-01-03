@@ -199,7 +199,7 @@ extension ActivityCardHeader {
     func onThemeChange() {}
     
     func startTimeUpdates() {
-        if let createdAt = self.activity?.postCard?.createdAt {
+        if let createdAt = self.activity?.createdAt {
             var interval: Double = 60*60
             var delay: Double = 60*15
             let now = Date()
@@ -210,7 +210,7 @@ extension ActivityCardHeader {
             
             if secondsRange ~= createdAt {
                 interval = 5
-                delay = 8
+                delay = 2
             } else if minutesRange ~= createdAt {
                 interval = 30
                 delay = 15

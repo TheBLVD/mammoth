@@ -58,8 +58,8 @@ extension NewsFeedViewModel {
                 return "\(user.diskFolderName())/mentions_in.json"
             case .mentionsOut:
                 return "\(user.diskFolderName())/mentions_out.json"
-            case .activity:
-                return "\(user.diskFolderName())/activity.json"
+            case .activity(let type):
+                return "\(user.diskFolderName())/activity_\(type?.rawValue ?? "all").json"
             case .channel(let channel):
                 return "\(user.diskFolderName())/channel_\(channel.id.sanitizedFileName).json"
             }
@@ -92,8 +92,8 @@ extension NewsFeedViewModel {
                 return "\(user.diskFolderName())/position_mentions_in.json"
             case .mentionsOut:
                 return "\(user.diskFolderName())/position_mentions_out.json"
-            case .activity:
-                return "\(user.diskFolderName())/position_activity.json"
+            case .activity(let type):
+                return "\(user.diskFolderName())/position_activity_\(type?.rawValue ?? "all").json"
             case .channel(let channel):
                 return "\(user.diskFolderName())/position_\(channel.id.sanitizedFileName).json"
             }
@@ -120,8 +120,8 @@ extension NewsFeedViewModel {
             let scrollPositionCardIndex = items?.firstIndex(where: { $0 == position.model })
 
             if let scrollPositionCardIndex {
-                // Keep the bookmarked card, 5 younger cards, and 10 older cards
-                var cardsSubset = items?[max(scrollPositionCardIndex - 5, 0)...min(scrollPositionCardIndex + 10, (items?.count ?? 1) - 1)]
+                // Keep the bookmarked card, 14 younger cards, and 10 older cards
+                var cardsSubset = items?[max(scrollPositionCardIndex - 14, 0)...min(scrollPositionCardIndex + 10, (items?.count ?? 1) - 1)]
 
                 // If the 'load more' button is inside the subset of cards saved to disk
                 // only keep the chunk of the subset before or after the 'load more' button

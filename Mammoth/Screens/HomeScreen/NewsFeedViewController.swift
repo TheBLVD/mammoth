@@ -160,7 +160,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         let gestureUnread = UITapGestureRecognizer(target: self, action: #selector(self.onUnreadTapped))
         self.unreadIndicator.addGestureRecognizer(gestureUnread)
         
-        if [.mentionsIn, .mentionsOut, .activity].contains(self.viewModel.type) {
+        if (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(self.viewModel.type) {
             if !self.didInitializeOnce {
                 self.didInitializeOnce = true
                 log.debug("[NewsFeedViewController] Sync data source from `viewDidLoad` - \(self.viewModel.type)")
@@ -188,21 +188,23 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
             log.debug("[NewsFeedViewController] Sync data source from `viewDidAppear` - \(self.viewModel.type)")
             self.viewModel.syncDataSource(type: self.viewModel.type) { [weak self] in
                 guard let self else { return }
-                self.viewModel.snapshot = self.viewModel.appendMainSectionToSnapshot(snapshot: self.viewModel.snapshot)
-                self.viewModel.dataSource?.apply(self.viewModel.snapshot, animatingDifferences: false)
-                
-                if self.viewModel.snapshot.itemIdentifiers(inSection: .main).isEmpty {
-                    let type = self.viewModel.type
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        self.viewModel.displayLoader(forType: type)
+                Task {
+                    self.viewModel.snapshot = self.viewModel.appendMainSectionToSnapshot(snapshot: self.viewModel.snapshot)
+                    self.viewModel.dataSource?.apply(self.viewModel.snapshot, animatingDifferences: false)
+                    
+                    if self.viewModel.snapshot.itemIdentifiers(inSection: .main).isEmpty {
+                        let type = self.viewModel.type
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            self.viewModel.displayLoader(forType: type)
+                        }
+                        
+                        Task { [weak self] in
+                            guard let self else { return }
+                            try await self.viewModel.loadLatest(feedType: type, threshold: 1)
+                        }
+                    } else {
+                        self.showLoader(enabled: false)
                     }
-
-                    Task { [weak self] in
-                        guard let self else { return }
-                        try await self.viewModel.loadLatest(feedType: type, threshold: 1)
-                    }
-                } else {
-                    self.showLoader(enabled: false)
                 }
             }
         }
@@ -230,7 +232,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if !self.switchingAccounts {
-            if self.viewModel.type != .activity && self.viewModel.type != .mentionsIn {
+            if !NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) && self.viewModel.type != .mentionsIn {
                 self.viewModel.stopPollingListData()
             }
             if self.viewModel.type.shouldSyncItems {
@@ -341,6 +343,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     }
     
     override func didReceiveMemoryWarning() {
+        self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         self.viewModel.cleanUpMemoryOfCurrentFeed()
     }
 }
@@ -354,8 +357,13 @@ private extension NewsFeedViewController {
         view.addSubview(latestPill)
         view.addSubview(unreadIndicator)
         
-        if ![.mentionsIn, .mentionsOut, .activity].contains(self.viewModel.type) {
+        if ![.mentionsIn, .mentionsOut].contains(self.viewModel.type) && !NewsFeedTypes.allActivityTypes.contains(self.viewModel.type)  {
             self.tableView.tableHeaderView = UIView()
+        } else {
+            let px = 1 / UIScreen.main.scale
+            let line = UIView(frame: .init(x: 0, y: 0, width: self.tableView.frame.size.width, height: px))
+            self.tableView.tableHeaderView = line
+            line.backgroundColor = self.tableView.separatorColor
         }
                         
         NSLayoutConstraint.activate([
@@ -390,7 +398,7 @@ extension NewsFeedViewController {
                         PostActions.onActionPress(target: self, type: type, isActive: isActive, postCard: model, data: data)
                         
                         // Show the Upgrade alert if needed (only on home feeds)
-                        if ![.activity, .mentionsIn, .mentionsOut, .likes, .bookmarks].contains(self.viewModel.type), 
+                        if !(NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut, .likes, .bookmarks]).contains(self.viewModel.type),
                             [.like, .reply, .repost, .quote, .bookmark].contains(type) {
                             IAPManager.shared.showUpgradeAlertIfNeeded()
                         }
@@ -476,6 +484,8 @@ extension NewsFeedViewController {
         if let item = self.viewModel.getItemForIndexPath(indexPath) {
             if case .postCard(let postCardModel) = item {
                 postCardModel.cellHeight = cell.frame.size.height
+            } else if case .activity(var activityModel) = item {
+                activityModel.cellHeight = cell.frame.size.height
             }
         }
         
@@ -675,7 +685,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                            onCompleted: (() -> Void)?) {
         guard !self.switchingAccounts else { return }
         
-        let updateDisplay = [.mentionsIn, .mentionsOut, .activity].contains(feedType) || self.isInWindowHierarchy()
+        let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || self.isInWindowHierarchy()
         
         guard !self.tableView.isDragging, updateDisplay else {
             let deferredJob = {  [weak self] in
@@ -1030,7 +1040,7 @@ private extension NewsFeedViewController {
         if let navBar = self.navigationController?.navigationBar {
             let whereIsNavBarInTableView = tableView.convert(navBar.bounds, from: navBar)
             let pointWhereNavBarEnds = CGPoint(x: 0, y: whereIsNavBarInTableView.origin.y + whereIsNavBarInTableView.size.height)
-
+            
             if let currentCellIndexPath = self.getCurrentCellIndexPath(tableView: tableView, scrollReference: scrollReference) {
                 guard let model = self.viewModel.getItemForIndexPath(currentCellIndexPath) else {
                     return nil

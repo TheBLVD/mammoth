@@ -382,7 +382,7 @@ extension NewsFeedViewModel {
                     guard !Task.isCancelled else { return }
                     
                     if newUniqueItems.count >= (threshold ?? self.newItemsThreshold) {
-                        if feedType != .mentionsIn && feedType != .mentionsOut && feedType != .activity {
+                        if feedType != .mentionsIn && feedType != .mentionsOut && NewsFeedTypes.allActivityTypes.contains(feedType) {
                             self.stopPollingListData()
                         }
                         
@@ -418,14 +418,20 @@ extension NewsFeedViewModel {
                         // display a tab bar badge when new items are fetched
                         if feedType == .mentionsIn {
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity2"), object: nil)
-                        } else if feedType == .activity {
+                        } else if feedType == .activity(nil) {
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: nil)
                         }
                     }
                 } else {
                     guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
                     guard !Task.isCancelled else { return }
-                    self.set(withItems: newItems, forType: feedType)
+                    
+                    if newItems.isEmpty {
+                        self.hideLoader(forType: feedType)
+                        self.showEmpty(forType: feedType)
+                    } else {
+                        self.set(withItems: newItems, forType: feedType)
+                    }
                 }
             }
         } catch {

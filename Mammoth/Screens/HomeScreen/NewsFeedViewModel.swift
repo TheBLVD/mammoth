@@ -35,7 +35,9 @@ typealias NewsFeedSnapshot =  NSDiffableDataSourceSnapshot<NewsFeedSections, New
 
 /// Feed types (e.g. For You, Following, Federated, etc.)
 enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
-    static var allCases: [NewsFeedTypes] = [.forYou, .following, .federated, .community("instance"), .trending("instance"), .hashtag(Tag()), .list(List()), .likes, .bookmarks, .mentionsIn, .mentionsOut, .activity, .channel(Channel())]
+    static var allCases: [NewsFeedTypes] = [.forYou, .following, .federated, .community("instance"), .trending("instance"), .hashtag(Tag()), .list(List()), .likes, .bookmarks, .mentionsIn, .mentionsOut, .activity(nil), .channel(Channel())]
+    
+    static var allActivityTypes: [NewsFeedTypes] = [.activity(nil), .activity(.favourite), .activity(.reblog), .activity(.follow), .activity(.update)]
 
     case forYou
     case following
@@ -48,7 +50,7 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
     case bookmarks
     case mentionsIn
     case mentionsOut
-    case activity
+    case activity(NotificationType?)
     case channel(Channel)
     
     func title() -> String {
@@ -132,8 +134,8 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
                 let (result, cursorId) = try await AccountService.mentionsSent(range: range)
                 return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
                 
-            case .activity:
-                let (result, cursorId) = try await TimelineService.activity(range: range)
+            case .activity(let type):
+                let (result, cursorId) = try await TimelineService.activity(range: range, type: type)
                 return (result.enumerated().map({ .activity(ActivityCardModel(notification: $1, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
                 
             case .channel(let channel):
@@ -197,8 +199,8 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
             return hasher.combine("mentionsIn")
         case .mentionsOut:
             return hasher.combine("mentionsOut")
-        case .activity:
-            return hasher.combine("activity")
+        case .activity(let type):
+            return hasher.combine("activity:\(type?.rawValue ?? "all")")
         case .channel(let channel):
             return hasher.combine("channel:\(channel.id)")
         }
@@ -228,8 +230,8 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
             return true
         case (.mentionsOut, .mentionsOut):
             return true
-        case (.activity, .activity):
-            return true
+        case (.activity(let lhsType), .activity(let rhsType)):
+            return lhsType == rhsType
         case (.channel(let lhsChannel), .channel(let rhsChannel)):
             return lhsChannel.id == rhsChannel.id
         default:
@@ -382,7 +384,7 @@ class NewsFeedViewModel {
                                                object: nil)
         
         // Websocket updates for activity and mentions tab
-        if [.activity, .mentionsIn].contains(type) {
+        if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(type) {
             RealtimeManager.shared.onEvent { [weak self] data in
                 guard let self else { return }
                 switch data {
@@ -397,10 +399,16 @@ class NewsFeedViewModel {
                             self.insertNewest(items: [NewsFeedListItem.postCard(newPost)], includeLoadMore: false, forType: .mentionsIn)
                         }
                     } else {
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: self)
-                        let currentUnreadCount = self.getUnreadCount(forFeed: .activity)
-                        self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity)
-                        self.insertNewest(items: [NewsFeedListItem.activity(ActivityCardModel(notification: notification))], includeLoadMore: false, forType: .activity)
+                        if case .activity(let activityType) = type, notification.type == activityType {
+                            let currentUnreadCount = self.getUnreadCount(forFeed: .activity(activityType))
+                            self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity(activityType))
+                            self.insertNewest(items: [NewsFeedListItem.activity(ActivityCardModel(notification: notification))], includeLoadMore: false, forType: .activity(activityType))
+                        } else if case .activity(let activityType) = type, activityType == nil {
+                            let currentUnreadCount = self.getUnreadCount(forFeed: .activity(nil))
+                            self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity(nil))
+                            self.insertNewest(items: [NewsFeedListItem.activity(ActivityCardModel(notification: notification))], includeLoadMore: false, forType: .activity(nil))
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: self)
+                        }
                     }
                 default: break
                 }
@@ -497,17 +505,20 @@ private extension NewsFeedViewModel {
                  // Delete post card data in list data and data source
                  self.remove(card: postCard, forType: self.type)
              } else {
-                 // Replace post card data in list data and data source
-                 self.update(with: .postCard(postCard), forType: self.type)
-                 
                  // Replace activity data in list that include this post card
-                 if self.type == .activity {
-                     if let index = self.listData.activity?.firstIndex(where: {$0.extractPostCard()?.uniqueId == postCard.uniqueId}) {
-                         if case .activity(var activity) = self.listData.activity?[index] {
-                             activity.postCard = postCard
-                             self.update(with: .activity(activity), forType: self.type)
+                 if NewsFeedTypes.allActivityTypes.contains(self.type) {
+                     self.listData.activity.forEach { (key, activities) in
+                         if let index = activities.firstIndex(where: {$0.extractPostCard()?.uniqueId == postCard.uniqueId}) {
+                             if case .activity(var activity) = activities[index] {
+                                 activity.postCard = postCard
+                                 let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
+                                 self.update(with: .activity(activity), forType: .activity(activityType))
+                             }
                          }
                      }
+                 } else {
+                     // Replace post card data in list data and data source
+                     self.update(with: .postCard(postCard), forType: self.type)
                  }
              }
         }

@@ -73,6 +73,11 @@ private extension HashtagsViewController {
             self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             self.tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
         ])
+        
+        let px = 1 / UIScreen.main.scale
+        let line = UIView(frame: .init(x: 0, y: 0, width: self.tableView.frame.size.width, height: px))
+        self.tableView.tableHeaderView = line
+        line.backgroundColor = self.tableView.separatorColor
     }
     
 }

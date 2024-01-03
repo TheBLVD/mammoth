@@ -26,7 +26,7 @@ internal struct NewsFeedUnreadStates {
     var bookmarks = NewsFeedUnreadState()
     var mentionsIn = NewsFeedUnreadState()
     var mentionsOut = NewsFeedUnreadState()
-    var activity = NewsFeedUnreadState()
+    var activity: [String: NewsFeedUnreadState] = [:]
     var channel: [String: NewsFeedUnreadState] = [:]
 
     mutating func setCount(count: Int, forFeed type: NewsFeedTypes) {
@@ -61,8 +61,10 @@ internal struct NewsFeedUnreadStates {
             mentionsIn.count = count
         case .mentionsOut:
             mentionsOut.count = count
-        case .activity:
-            activity.count = count
+        case .activity(let type):
+            var model = activity[type?.rawValue ?? "all"] ?? NewsFeedUnreadState()
+            model.count = count
+            activity[type?.rawValue ?? "all"] = model
         case .channel(let data):
             var model = channel[data.id] ?? NewsFeedUnreadState()
             model.count = count
@@ -102,8 +104,10 @@ internal struct NewsFeedUnreadStates {
             mentionsIn.enabled = enabled
         case .mentionsOut:
             mentionsOut.enabled = enabled
-        case .activity:
-            activity.enabled = enabled
+        case .activity(let type):
+            var model = activity[type?.rawValue ?? "all"] ?? NewsFeedUnreadState()
+            model.enabled = enabled
+            activity[type?.rawValue ?? "all"] = model
         case .channel(let data):
             var model = channel[data.id] ?? NewsFeedUnreadState()
             model.enabled = enabled
@@ -143,8 +147,10 @@ internal struct NewsFeedUnreadStates {
             mentionsIn.unreadPics = urls
         case .mentionsOut:
             mentionsOut.unreadPics = urls
-        case .activity:
-            activity.unreadPics = urls
+        case .activity(let type):
+            var model = activity[type?.rawValue ?? "all"] ?? NewsFeedUnreadState()
+            model.unreadPics = urls
+            activity[type?.rawValue ?? "all"] = model
         case .channel(let data):
             var model = channel[data.id] ?? NewsFeedUnreadState()
             model.unreadPics = urls
@@ -176,8 +182,8 @@ internal struct NewsFeedUnreadStates {
             return mentionsIn
         case .mentionsOut:
             return mentionsOut
-        case .activity:
-            return activity
+        case .activity(let type):
+            return activity[type?.rawValue ?? "all"] ?? NewsFeedUnreadState()
         case .channel(let data):
             return channel[data.id] ?? NewsFeedUnreadState()
         }

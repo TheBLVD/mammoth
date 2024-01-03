@@ -38,7 +38,7 @@ class BlurredBackground: UIView {
         self.addSubview(blurEffectView)
         
         if (self.traitCollection.userInterfaceStyle == .light) {
-            underlay.backgroundColor = .custom.background.darker(by: 0.65)?.withAlphaComponent(underlayAlpha ?? (self.isDimmed ? 0.75 : 0.35))
+            underlay.backgroundColor = .custom.background.darker(by: 2.1)?.withAlphaComponent(underlayAlpha ?? (self.isDimmed ? 0.70 : 0.35))
         } else {
             underlay.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: underlayAlpha ?? (self.isDimmed ? 0.85 : 0.45))
         }
