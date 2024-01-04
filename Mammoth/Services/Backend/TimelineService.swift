@@ -125,7 +125,7 @@ struct TimelineService {
             case .follow:
                 return $0 != .follow
             case .update:
-                return $0 != .update
+                return $0 != .status
             default:
                 return [NotificationType.direct, NotificationType.mention].contains($0)
             }
