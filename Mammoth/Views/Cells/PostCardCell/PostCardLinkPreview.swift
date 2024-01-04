@@ -146,13 +146,8 @@ private extension PostCardLinkPreview {
             imageView.trailingAnchor.constraint(equalTo: self.imageStack.trailingAnchor)
         ])
         
-        let urlLabelTrailing = urlLabel.trailingAnchor.constraint(equalTo: textStack.trailingAnchor)
-        urlLabelTrailing.priority = .defaultLow
-        urlLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        
-        let titleLabelTrailing = titleLabel.trailingAnchor.constraint(equalTo: textStack.trailingAnchor)
-        titleLabelTrailing.priority = .defaultLow
-        titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        let urlLabelTrailing = urlLabel.trailingAnchor.constraint(equalTo: textStack.layoutMarginsGuide.trailingAnchor)
+        let titleLabelTrailing = titleLabel.trailingAnchor.constraint(equalTo: textStack.layoutMarginsGuide.trailingAnchor)
         
         NSLayoutConstraint.activate([
             // Force urlLabel to fill the parent width
