@@ -104,7 +104,7 @@ class ActivityViewController : UIViewController {
             headerView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor)
         ])
         
-        self.headerView.carousel.content = ["All", "Likes", "Reposts", "Follows", "Updates"]
+        self.headerView.carousel.content = ["All", "Likes", "Reposts", "Follows", "Posts"]
     }
 }
 
