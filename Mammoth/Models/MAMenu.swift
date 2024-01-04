@@ -83,7 +83,7 @@ extension MAMenu {
         case .messages:
             return MenuStyle(title: "Messages", image: FontAwesome.image(fromChar: "\u{f0e0}"))
         case .favorites:
-            return MenuStyle(title: "Favorites", image: FontAwesome.image(fromChar: "\u{f004}"))
+            return MenuStyle(title: "Likes", image: FontAwesome.image(fromChar: "\u{f004}"))
         case .search:
             return MenuStyle(title: "Search", image: FontAwesome.image(fromChar: "\u{f002}"))
             
@@ -155,7 +155,7 @@ extension MAMenu {
         case .receivedMentions:
             return MenuStyle(title: "Received Mentions", image: FontAwesome.image(fromChar: "\u{40}"))
         case .likes:
-            return MenuStyle(title: "Likes", image: FontAwesome.image(fromChar: "\u{f005}"))
+            return MenuStyle(title: "Likes", image: FontAwesome.image(fromChar: "\u{f004}"))
         case .reposts:
             return MenuStyle(title: "Reposts", image: FontAwesome.image(fromChar: "\u{f361}"))
 
