@@ -185,7 +185,7 @@ extension ActivityCardHeader {
         case .status:
             return "posted"
         case .update:
-            return "updated"
+            return "edited"
         case .direct:
             return "mentioned you"
         case .mention:
