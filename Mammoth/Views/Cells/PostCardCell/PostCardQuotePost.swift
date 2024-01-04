@@ -229,6 +229,12 @@ extension PostCardQuotePost {
         // If a quote post status is found and loaded
         if let quotePostCard = postCard.quotePostData {
             
+            if let postLoader = self.postLoader {
+                contentStackView.removeArrangedSubview(postLoader)
+                postLoader.removeFromSuperview()
+                self.postLoaderTrailingConstraint?.isActive = false
+            }
+            
             // Display header
             self.header.configure(postCard: quotePostCard, headerType: .quotePost)
             self.header.isUserInteractionEnabled = false
@@ -335,6 +341,12 @@ extension PostCardQuotePost {
         }
         
         if postCard.quotePostStatus == .notFound {
+            if let postLoader = self.postLoader {
+                contentStackView.removeArrangedSubview(postLoader)
+                postLoader.removeFromSuperview()
+                self.postLoaderTrailingConstraint?.isActive = false
+            }
+            
             // Quote post can't be found
             if self.postNotFound == nil {
                 self.postNotFound = PostCardQuoteNotFound()
@@ -347,7 +359,6 @@ extension PostCardQuotePost {
             postNotFoundTrailingConstraint?.isActive = true
             
             mainStackView.directionalLayoutMargins.bottom = 10
-
         }
         
         if postCard.quotePostStatus == .loading  {
