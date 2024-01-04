@@ -81,8 +81,8 @@ public func formatRichText(string: NSAttributedString, label: UILabel, emojis: [
     if let emojis = emojis {
         emojis.forEach({
             let textAttachment = NSTextAttachment()
-            textAttachment.kf.setImage(with: $0.url, attributedView: label, completionHandler:  nil)
-            textAttachment.bounds = CGRect(x:0, y: 0, width: Int(label.font.lineHeight - 6), height: Int(label.font.lineHeight - 6))
+            textAttachment.kf.setImage(with: $0.url, attributedView: label)
+            textAttachment.bounds = CGRect(x:0, y: -Int(label.font.lineHeight) / 10, width: Int(label.font.lineHeight - 6), height: Int(label.font.lineHeight - 6))
             let attrStringWithImage = NSAttributedString(attachment: textAttachment)
             
             while str.mutableString.contains(":\($0.shortcode):") {

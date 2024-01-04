@@ -340,7 +340,10 @@ public typealias ElementTuple = (range: NSRange, element: ActiveElement, type: A
                 mutAttrString.mutableString.setString(newString)
             }
         }
+        
         addLinkAttribute(mutAttrString)
+        copyAttachmentAttributes(attributedText, destinationAttrString: mutAttrString)
+        
         textStorage.setAttributedString(mutAttrString)
         _customizing = true
         text = mutAttrString.string
@@ -399,6 +402,18 @@ public typealias ElementTuple = (range: NSRange, element: ActiveElement, type: A
             for element in elements {
                 if (element.range.location + element.range.length) > mutAttrString.length {} else {
                     mutAttrString.setAttributes(attributes, range: element.range)
+                }
+            }
+        }
+    }
+    
+    fileprivate func copyAttachmentAttributes(_ originalAttrString: NSAttributedString, destinationAttrString: NSMutableAttributedString) {
+        let range = NSRange(location: 0, length: originalAttrString.length)
+        originalAttrString.enumerateAttributes(in: range, options: []) { (attributes, range, _) in
+            for attribute in attributes {
+                if attribute.key == NSAttributedString.Key.attachment,
+                   let attachment = attribute.value as? NSTextAttachment {
+                    destinationAttrString.addAttributes([.attachment: attachment], range: range)
                 }
             }
         }

@@ -8,6 +8,7 @@
 
 import Foundation
 import SDWebImage
+import Kingfisher
 import AVFoundation
 
 final class PostCardModel {
@@ -716,8 +717,15 @@ extension PostCardModel {
         }
     }
     
+    func preloadEmojis() {
+        self.emojis?.forEach({
+            ImageDownloader.default.downloadImage(with: $0.url)
+        })
+    }
+    
     func preloadImages() {
         self.user?.preloadImages()
+        self.preloadEmojis()
         self.preloadPostImages()
     }
     
