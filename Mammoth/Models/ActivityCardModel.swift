@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ActivityCardModel {
+class ActivityCardModel {
     let id: String  // Local ID (might not be unique across instances)
     let uniqueId: String // Unique ID across instances
     let cursorId: String // ID used for pagination
