@@ -8,6 +8,7 @@
 
 import Foundation
 import SDWebImage
+import Kingfisher
 
 class UserCardModel {
     let id: String
@@ -206,6 +207,10 @@ extension UserCardModel {
             let prefetcher = SDWebImagePrefetcher.shared
             self.imagePrefetchToken = prefetcher.prefetchURLs([profilePicURL], context: [.imageTransformer: PostCardProfilePic.transformer], progress: nil)
         }
+        
+        self.emojis?.forEach({
+            ImageDownloader.default.downloadImage(with: $0.url)
+        })
     }
     
     func cancelAllPreloadTasks() {
