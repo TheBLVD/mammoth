@@ -78,18 +78,16 @@ private extension PostCardHeaderExtension {
 // MARK: - Configuration
 extension PostCardHeaderExtension {
     func configure(postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.data else { return }
+        guard case .mastodon(_) = postCard.data else { return }
         
         self.postCard = postCard
         
         if postCard.isReblogged {
-            if let name = postCard.richRebloggerUsername {
-                let string = NSMutableAttributedString(attributedString: formatRichText(string: name, label: self.titleLabel, emojis: status.account?.emojis))
-                string.append(NSMutableAttributedString(string: " reposted"))
-                self.titleLabel.attributedText = string
-            } else {
-                self.titleLabel.text = postCard.rebloggerUsername + " reposted"
-            }
+            self.titleLabel.text = postCard
+                .rebloggerUsername
+                .stripCustomEmojiShortcodes()
+                .stripEmojis()
+                .stripLeadingTrailingSpaces() + " reposted"
         }
         
         if postCard.isHashtagged {

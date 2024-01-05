@@ -23,6 +23,7 @@
 		1450CE032ADD4FC300C91923 /* ListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1450CE022ADD4FC300C91923 /* ListService.swift */; };
 		146C6A432B34545B00A002D7 /* UnifiedBlurHash in Frameworks */ = {isa = PBXBuildFile; productRef = 146C6A422B34545B00A002D7 /* UnifiedBlurHash */; };
 		146C6A452B456EFB00A002D7 /* CarouselNavigationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C6A442B456EFB00A002D7 /* CarouselNavigationHeader.swift */; };
+		146C6A472B48113500A002D7 /* String+StripEmojis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C6A462B48113500A002D7 /* String+StripEmojis.swift */; };
 		14780F7B2AFBD6A700A7ECD9 /* RealtimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */; };
 		14780F812AFCEA7000A7ECD9 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 14780F802AFCEA7000A7ECD9 /* Reachability */; };
 		149A682D2AD6A4E200E72A83 /* Mute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68282AD6A4E200E72A83 /* Mute.swift */; };
@@ -830,6 +831,7 @@
 		144DC7E92B18D29000F4EE98 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		1450CE022ADD4FC300C91923 /* ListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListService.swift; sourceTree = "<group>"; };
 		146C6A442B456EFB00A002D7 /* CarouselNavigationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselNavigationHeader.swift; sourceTree = "<group>"; };
+		146C6A462B48113500A002D7 /* String+StripEmojis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+StripEmojis.swift"; sourceTree = "<group>"; };
 		14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeManager.swift; sourceTree = "<group>"; };
 		149A68232AD6A1FE00E72A83 /* Mute-master */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "Mute-master"; path = "../Mute-master"; sourceTree = "<group>"; };
 		149A68282AD6A4E200E72A83 /* Mute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mute.swift; sourceTree = "<group>"; };
@@ -3058,6 +3060,7 @@
 				144DC6C82B14E26200F4EE98 /* UIColor+Gradient.swift */,
 				1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */,
 				BFBD97AB2B44ECDA00A0645B /* Bundle+decode.swift */,
+				146C6A462B48113500A002D7 /* String+StripEmojis.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3622,6 +3625,7 @@
 				53399A77291526B900560F83 /* Request.swift in Sources */,
 				53450E7A2936127C00D720EA /* DateFormatterTransform.swift in Sources */,
 				538E230229CC5815002675EB /* AccountsManager.swift in Sources */,
+				146C6A472B48113500A002D7 /* String+StripEmojis.swift in Sources */,
 				1441736D2B2B1FDA0058AFCC /* SDImageTransformers.swift in Sources */,
 				53B1585E293F66D20026E90B /* DecryptNotification.swift in Sources */,
 				5383F236298015B5005F1B20 /* SAConfettiView.swift in Sources */,
