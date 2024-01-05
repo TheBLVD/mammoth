@@ -11,7 +11,7 @@ import Foundation
 extension String {
     func stripCustomEmojiShortcodes() -> String {
         var strippedText = self
-        let regex = try! NSRegularExpression(pattern: ":[a-z_]+:", options: [])
+        let regex = try! NSRegularExpression(pattern: ":[a-zA-Z0-9\\._]+:", options: [])
         let matches = regex.matches(in: self, options: [], range: NSRange(location: 0, length: self.utf16.count))
         
         // Iterate through matches in reverse order to correctly adjust indices
