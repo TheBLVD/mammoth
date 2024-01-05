@@ -187,7 +187,11 @@ extension ChannelCell {
     func configure(channel: Channel, isSubscribed: Bool) {
         self.channel = channel
         self.titleLabel.attributedText = NewsFeedTypes.channel(channel).attributedTitle()
-        self.ownerButton.setTitle(channel.owner?.displayName ?? "", for: .normal)
+        self.ownerButton.setTitle(channel.owner?
+            .displayName
+            .stripCustomEmojiShortcodes()
+            .stripEmojis()
+            .stripLeadingTrailingSpaces() ?? "", for: .normal)
         self.descriptionLabel.text = channel.description
         self.channelPic.configure(channel: channel)
                 
