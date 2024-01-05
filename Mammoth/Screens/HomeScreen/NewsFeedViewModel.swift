@@ -70,7 +70,7 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
         case .list(let list):
             return list.title
         case .likes:
-            return "Favorites"
+            return "Likes"
         case .bookmarks:
             return "Bookmarks"
         case .mentionsIn:

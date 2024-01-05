@@ -137,7 +137,7 @@ extension ProfileViewSettingsButton {
                 let options = [
                     createContextMenuAction("Share profile", .share, isActive: true, data: nil),
                     
-                    createContextMenuAction("Favorites", .likes, isActive: true, data: nil),
+                    createContextMenuAction("Likes", .likes, isActive: true, data: nil),
                     createContextMenuAction("Bookmarks", .bookmarks, isActive: true, data: nil),
                     
                     createContextMenuAction("Filters", .filters, isActive: true, data: nil),
