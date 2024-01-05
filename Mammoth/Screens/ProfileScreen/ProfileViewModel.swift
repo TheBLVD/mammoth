@@ -293,11 +293,46 @@ extension ProfileViewModel {
 extension ProfileViewModel {
     private func createRequest(forType: ViewTypes, user: UserCardModel, range: RequestRange = .default) async throws -> (pinned: [Status], statuses: [Status], cursorId: String?) {
         do {
+            
+            // First, try to get posts directly from the profile's instance.
+            //
+            // For this to work, the userCardModel.id must be valid on the
+            // instance specified by serverName.
+            
+            
+            // userCardModel.id is only valid if user.instanceName == user.account?.server
+            // otherwise, we need to first lookup the profile's ID on the profile's instance.
+            var profileCardModel = user
+            var profileInstance: String
+            if user.instanceName != nil, user.instanceName == user.account?.server {
+                // the existing user.id is valid on user.instance
+                profileInstance = user.instanceName!
+            } else {
+                // user.id is not valid on user.instance; do a lookup for the id
+                // on the user's instance.
+                let fullAcct = user.account?.remoteFullOriginalAcct
+                let userAccountServer = user.account?.server
+                if let fullAcct, let userAccountServer {
+                    if let account = await AccountService.lookup(fullAcct, serverName: userAccountServer) {
+                        profileInstance = userAccountServer
+                        profileCardModel = UserCardModel(account: account)
+                    } else {
+                        let error = NSError(domain: "profileViewModel - no account", code: 401)
+                        throw error
+                    }
+                } else {
+                    let error = NSError(domain: "profileViewModel - no fullAcct, userAccountServer", code: 401)
+                    throw error
+                }
+            }
+            
+            // These calls use the account.id, and for that to work, profileCardModel.id must
+            // be valid on profileInstance
             switch(type) {
             case .posts:
-                return try await AccountService.profilePosts(user: user, range: range, serverName: user.instanceName)
+                return try await AccountService.profilePosts(user: profileCardModel, range: range, serverName: profileInstance )
             case .postsAndReplies:
-                return try await AccountService.profilePostsAndReplies(user: user, range: range, serverName: user.instanceName)
+                return try await AccountService.profilePostsAndReplies(user: profileCardModel, range: range, serverName: profileInstance)
             }
         } catch {
             // Fallback to the user's instance to fetch the profile posts.

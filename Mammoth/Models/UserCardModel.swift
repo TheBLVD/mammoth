@@ -22,7 +22,7 @@ class UserCardModel {
     let emojis: [Emoji]?
     let account: Account?
     
-    var instanceName: String?
+    var instanceName: String? // if set, it referrs to the instance for the id
     
     let isLocked: Bool
     let isBot: Bool

@@ -78,8 +78,19 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
         }
     }
     
-    convenience init(fullAcct: String, serverName: String = AccountsManager.shared.currentAccountClient.baseHost) {
-        self.init(viewModel: ProfileViewModel(fullAcct: fullAcct, serverName: serverName))
+    convenience init(fullAcct: String, serverName: String? = nil) {
+        // If no server is specified, use the server name from fullAcct
+        var instanceName = serverName
+        if instanceName == nil {
+            if let index = fullAcct.range(of: "@", options: .backwards)?.upperBound {
+                instanceName = String(fullAcct.suffix(from: index))
+            }
+        }
+        // If there's still no valid server name, use the user's instance
+        if instanceName == nil {
+            instanceName = AccountsManager.shared.currentAccountClient.baseHost
+        }
+        self.init(viewModel: ProfileViewModel(fullAcct: fullAcct, serverName: instanceName!))
     }
 
     required init?(coder aDecoder: NSCoder) {
