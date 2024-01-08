@@ -54,8 +54,12 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
 
     private var viewModel: ProfileViewModel
 
-    required init(user: UserCardModel? = nil, screenType: ProfileViewModel.ProfileScreenType = .own) {
-        self.viewModel = ProfileViewModel(.posts, user: user, screenType: screenType)
+    required init(user: UserCardModel? = nil, screenType: ProfileViewModel.ProfileScreenType = .own, viewModel: ProfileViewModel? = nil) {
+        if let viewModel {
+            self.viewModel = viewModel
+        } else {
+            self.viewModel = ProfileViewModel(.posts, user: user, screenType: screenType)
+        }
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
 
@@ -75,14 +79,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
     }
     
     convenience init(fullAcct: String, serverName: String = AccountsManager.shared.currentAccountClient.baseHost) {
-        self.init()
-        self.viewModel = ProfileViewModel(fullAcct: fullAcct, serverName: serverName)
-        self.viewModel.delegate = self
-
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.reloadAll),
-                                               name: NSNotification.Name(rawValue: "reloadAll"),
-                                               object: nil)
+        self.init(viewModel: ProfileViewModel(fullAcct: fullAcct, serverName: serverName))
     }
 
     required init?(coder aDecoder: NSCoder) {
