@@ -2239,11 +2239,11 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func setPostFailure() {
         let alert = UIAlertController(title: "Post failed to upload", message: "", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Retry", style: .default , handler:{ (UIAlertAction) in
-            self.sendData()
+        alert.addAction(UIAlertAction(title: "Retry", style: .default , handler:{ [weak self] (UIAlertAction) in
+            self?.sendData()
         }))
-        alert.addAction(UIAlertAction(title: "Save Draft", style: .default , handler:{ (UIAlertAction) in
-            self.saveDraft()
+        alert.addAction(UIAlertAction(title: "Save Draft", style: .default , handler:{ [weak self] (UIAlertAction) in
+            self?.saveDraft()
         }))
         alert.addAction(UIAlertAction(title: "Discard", style: .destructive , handler:{ (UIAlertAction) in
         }))
@@ -3783,8 +3783,8 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
                         // Put an alert to retry if needed.
                         if !successGettingPostID {
-                            DispatchQueue.main.async {
-                                self.setPostFailure()
+                            DispatchQueue.main.async { [weak self] in
+                                self?.setPostFailure()
                             }
                         }
                     }
@@ -3833,8 +3833,8 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 
                 // Put an alert to retry if needed.
                 if !successSendingPost {
-                    DispatchQueue.main.async {
-                        self.setPostFailure()
+                    DispatchQueue.main.async { [weak self] in
+                        self?.setPostFailure()
                     }
                 }
             }
