@@ -8,6 +8,8 @@
 
 import UIKit
 import Combine
+import Meta
+import MetaTextKit
 
 class ActivityCardHeader: UIView {
     
@@ -42,12 +44,13 @@ class ActivityCardHeader: UIView {
         return stackView
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor.label
+    private let titleLabel: MetaLabel = {
+        let label = MetaLabel()
+        label.textColor = .custom.displayNames
         label.numberOfLines = 1
         label.isOpaque = true
         label.backgroundColor = .custom.background
+        label.textContainer.lineFragmentPadding = 0
         return label
     }()
     
@@ -101,6 +104,7 @@ class ActivityCardHeader: UIView {
     func prepareForReuse() {
         self.activity = nil
         self.onPress = nil
+        self.titleLabel.attributedText = nil
         self.titleLabel.text = nil
         self.actionLabel.text = nil
         self.dateLabel.text = nil
@@ -115,8 +119,14 @@ class ActivityCardHeader: UIView {
     
     func setupUIFromSettings() {
         actionLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
-        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
         dateLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        
+        titleLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.displayNames
+        ]
+
+        titleLabel.linkAttributes = titleLabel.textAttributes
     }
 }
 
@@ -159,11 +169,15 @@ private extension ActivityCardHeader {
 extension ActivityCardHeader {
     func configure(activity: ActivityCardModel) {
         self.activity = activity
-
-        if let name = activity.user.richName {
-            self.titleLabel.attributedText = formatRichText(string: name, label: self.titleLabel, emojis:activity.user.emojis)
+        
+        if GlobalStruct.displayName == .usertagOnly {
+            self.titleLabel.text = activity.user.userTag.lowercased()
         } else {
-            self.titleLabel.text = activity.user.name
+            if let metaContent = activity.user.metaName {
+                self.titleLabel.configure(content: metaContent)
+            } else {
+                self.titleLabel.text = activity.user.name
+            }
         }
         
         self.actionLabel.text = self.mapTypeToAction(activity: activity)

@@ -6,8 +6,10 @@
 //  Copyright © 2023 The BLVD. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import Meta
+import MastodonMeta
+import MetaTextKit
 
 class PostCardQuotePost: UIView {
     
@@ -49,18 +51,44 @@ class PostCardQuotePost: UIView {
     private var header = PostCardHeader()
     private var headerTrailingConstraint: NSLayoutConstraint?
     
-    private var postTextLabel: ActiveLabel = {
-        let label = ActiveLabel()
-        label.textColor = .custom.mediumContrast
-        label.enabledTypes = [.mention, .hashtag, .url, .email]
-        label.numberOfLines = 4
-        label.mentionColor = .custom.highContrast
-        label.hashtagColor = .custom.highContrast
-        label.URLColor = .custom.highContrast
-        label.emailColor = .custom.highContrast
-        label.linkWeight = .semibold
-        label.urlMaximumLength = 30
-        return label
+    private var postTextLabel: MetaText = {
+        let metaText = MetaText()
+        metaText.textView.isOpaque = true
+        metaText.textView.backgroundColor = .custom.background
+        metaText.textView.translatesAutoresizingMaskIntoConstraints = false
+        metaText.textView.isEditable = false
+        metaText.textView.isScrollEnabled = false
+        metaText.textView.isSelectable = false
+        metaText.textView.textContainer.lineFragmentPadding = 0
+        metaText.textView.textContainerInset = .zero
+        metaText.textView.textDragInteraction?.isEnabled = false
+        metaText.textView.textContainer.lineBreakMode = .byTruncatingTail
+        metaText.textView.textContainer.maximumNumberOfLines = 4
+        
+        metaText.textView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        metaText.textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        metaText.textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        metaText.textView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        
+        metaText.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+
+        metaText.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+
+        metaText.paragraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 5 : 0
+            style.paragraphSpacing = 8
+            style.alignment = .natural
+            return style
+        }()
+
+        return metaText
     }()
     
     // Contains image attachment, poll, and/or link preview if needed
@@ -132,8 +160,8 @@ class PostCardQuotePost: UIView {
         mediaContainer.directionalLayoutMargins.leading = 12
         mediaContainer.directionalLayoutMargins.trailing = 12
         
-        contentStackView.removeArrangedSubview(self.postTextLabel)
-        self.postTextLabel.removeFromSuperview()
+        contentStackView.removeArrangedSubview(self.postTextLabel.textView)
+        self.postTextLabel.textView.removeFromSuperview()
         
         if let poll = self.poll {
             self.pollTrailingConstraint?.isActive = false
@@ -187,7 +215,22 @@ class PostCardQuotePost: UIView {
     }
     
     func setupUIFromSettings() {
-        postTextLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        self.postTextLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+        self.postTextLabel.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+
+        self.postTextLabel.paragraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 5 : 0
+            style.paragraphSpacing = 4
+            style.alignment = .natural
+            return style
+        }()
     }
 }
 
@@ -243,18 +286,14 @@ extension PostCardQuotePost {
             headerTrailingConstraint?.isActive = true
             
             // Display post text
-            if case .mastodon(let status) = quotePostCard.data,
-                let postText = quotePostCard.richPostText {
-                
-                self.postTextLabel.attributedText = formatRichText(string: postText, label: self.postTextLabel, emojis: status.emojis)
-            } else {
-                self.postTextLabel.text = quotePostCard.postText
+            if let postTextContent = quotePostCard.metaPostText {
+                self.postTextLabel.configure(content: postTextContent)
             }
             
-            self.postTextLabel.isUserInteractionEnabled = false
-            contentStackView.addArrangedSubview(self.postTextLabel)
+            self.postTextLabel.textView.isUserInteractionEnabled = false
+            contentStackView.addArrangedSubview(self.postTextLabel.textView)
 
-//            // Display poll if needed
+            // Display poll if needed
             if quotePostCard.containsPoll {
                 if self.poll == nil {
                     self.poll = PostCardPoll()
@@ -381,11 +420,6 @@ extension PostCardQuotePost {
         self.mainStackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
         
         self.header.onThemeChange()
-        self.postTextLabel.mentionColor = .custom.highContrast
-        self.postTextLabel.hashtagColor = .custom.highContrast
-        self.postTextLabel.URLColor = .custom.highContrast
-        self.postTextLabel.emailColor = .custom.highContrast
-        
         self.linkPreview?.onThemeChange()
         self.poll?.onThemeChange()
         self.postNotFound?.onThemeChange()

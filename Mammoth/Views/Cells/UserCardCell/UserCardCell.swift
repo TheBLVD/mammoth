@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Meta
+import MetaTextKit
 
 final class UserCardCell: UITableViewCell {
     static let reuseIdentifier = "UserCardCell"
@@ -53,11 +55,14 @@ final class UserCardCell: UITableViewCell {
     private var followButton: FollowButton?
     private var actionButton: UserCardActionButton?
     private let profilePic = PostCardProfilePic(withSize: .regular)
-
-    private var titleLabel: UILabel = {
-        let label = UILabel()
+    
+    private let titleLabel: MetaLabel = {
+        let label = MetaLabel()
         label.textColor = .custom.highContrast
         label.numberOfLines = 1
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
+        label.textContainer.lineFragmentPadding = 0
         return label
     }()
 
@@ -107,6 +112,7 @@ final class UserCardCell: UITableViewCell {
         self.userCard = nil
         self.profilePic.prepareForReuse()
         self.titleLabel.text = nil
+        self.titleLabel.attributedText = nil
         self.userTagLabel.text = nil
         self.descriptionLabel.attributedText = nil
         setupUIFromSettings()
@@ -170,11 +176,17 @@ private extension UserCardCell {
     }
 
     func setupUIFromSettings() {
-        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
         userTagLabel.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
         descriptionLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
         descriptionLabel.minimumLineHeight = DeviceHelpers.isiOSAppOnMac() ? UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 5 : 0
         descriptionLabel.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 2 : -2
+        
+        titleLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast
+        ]
+
+        titleLabel.linkAttributes = titleLabel.textAttributes
     }
 }
 
@@ -183,8 +195,8 @@ extension UserCardCell {
     func configure(info: UserCardModel, actionButtonType: ActionButtonType = .follow, onButtonPress: @escaping PostCardButtonCallback) {
         self.userCard = info
         
-        if let name = info.richName {
-            self.titleLabel.attributedText = formatRichText(string: name, label: self.titleLabel, emojis: info.emojis)
+        if let metaContent = info.metaName {
+            self.titleLabel.configure(content: metaContent)
         } else {
             self.titleLabel.text = info.name
         }

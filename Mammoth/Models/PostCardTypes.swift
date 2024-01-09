@@ -160,6 +160,7 @@ enum PostCardButtonCallbackData {
     case url(URL)
     case hashtag(String)
     case mention((String, Status))
+    case email(String)
     case post(PostCardModel)
     case account(Account)
     case user(UserCardModel)
