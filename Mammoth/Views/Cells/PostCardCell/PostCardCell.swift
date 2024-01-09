@@ -944,7 +944,7 @@ extension PostCardCell: MetaTextViewDelegate {
         case .hashtag(_, let hashtag, _):
             self.onButtonPress?(.link, true, .hashtag(hashtag))
         default:
-            guard let postCard = self.postCard else { return }
+            guard let postCard = self.postCard, self.type != .detail else { return }
             self.onButtonPress?(.postDetails, true, .post(postCard))
         }
     }
