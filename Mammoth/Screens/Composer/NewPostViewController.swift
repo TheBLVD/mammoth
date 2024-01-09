@@ -2237,6 +2237,23 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         getTopMostViewController()?.present(alert, animated: true, completion: nil)
     }
     
+    func setPostFailure() {
+        let alert = UIAlertController(title: "Post failed to upload", message: "Would you like to try again?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Retry", style: .default , handler:{ (UIAlertAction) in
+            self.sendData()
+        }))
+        alert.addAction(UIAlertAction(title: "Save Draft", style: .default , handler:{ (UIAlertAction) in
+            self.saveDraft()
+        }))
+        alert.addAction(UIAlertAction(title: "Discard", style: .destructive , handler:{ (UIAlertAction) in
+        }))
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = getTopMostViewController()?.view
+            presenter.sourceRect = getTopMostViewController()?.view.bounds ?? .zero
+        }
+        getTopMostViewController()?.present(alert, animated: true, completion: nil)
+    }
+    
     @objc func schedulePost() {
         self.cellPostTextView?.resignFirstResponder()
 
@@ -3074,67 +3091,65 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func saveDraft() {
-        if self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) is ComposeCell {
-            let postText: String = cellPostText
-            var reply: String? = nil
-            if self.allStatuses.isEmpty && self.quoteString.isEmpty {} else {
-                // replying to
-                reply = self.allStatuses.first?.reblog?.inReplyToID ?? self.allStatuses.first?.inReplyToID ?? ""
+        let postText: String = cellPostText
+        var reply: String? = nil
+        if self.allStatuses.isEmpty && self.quoteString.isEmpty {} else {
+            // replying to
+            reply = self.allStatuses.first?.reblog?.inReplyToID ?? self.allStatuses.first?.inReplyToID ?? ""
+        }
+        var replyA: String? = nil
+        if self.allStatuses.isEmpty && self.quoteString.isEmpty {} else {
+            // replying to
+            replyA = self.allStatuses.first?.reblog?.inReplyToAccountID ?? self.allStatuses.first?.inReplyToAccountID ?? ""
+        }
+        if self.mediaAttached {
+            self.mediaIdStrings = self.mediaIdStrings.filter({ x in
+                x != ""
+            })
+            var images: [Data] = []
+            for index in 0..<numImages {
+                if let a1 = self.imageButton[index].currentImage?.pngData() {
+                    images.append(a1)
+                }
             }
-            var replyA: String? = nil
-            if self.allStatuses.isEmpty && self.quoteString.isEmpty {} else {
-                // replying to
-                replyA = self.allStatuses.first?.reblog?.inReplyToAccountID ?? self.allStatuses.first?.inReplyToAccountID ?? ""
+            var poll: Poll? = nil
+            if let x = GlobalStruct.newPollPost {
+                var pOpt: [PollOptions] = []
+                let a = x[0] as? [String] ?? []
+                for z in a {
+                    pOpt.append(PollOptions(title: z, votesCount: nil))
+                }
+                let pp = Poll(id: "0", expired: false, multiple: false, votesCount: 0, options: pOpt)
+                poll = pp
             }
-            if self.mediaAttached {
-                self.mediaIdStrings = self.mediaIdStrings.filter({ x in
-                    x != ""
-                })
-                var images: [Data] = []
-                for index in 0..<numImages {
-                    if let a1 = self.imageButton[index].currentImage?.pngData() {
-                        images.append(a1)
-                    }
+            let draftPost = Status(id: "\(Int.random(in: 0 ... 1000000))", uri: "", url: nil, account: self.currentUser!, inReplyToID: reply, inReplyToAccountID: replyA, content: postText, createdAt: "", emojis: [], repliesCount: 0, reblogsCount: 0, favouritesCount: 0, reblogged: nil, favourited: nil, bookmarked: nil, sensitive: nil, spoilerText: self.spoilerText, visibility: self.whoCanReply ?? .public, mediaAttachments: [], mentions: [], tags: [], card: nil, application: nil, language: nil, reblog: nil, pinned: nil, poll: poll, editedAt: nil)
+            let dr1 = Draft(id: Int.random(in: 0 ... 1000000), contents: draftPost, images: images, imagesIds: self.mediaIdStrings, replyPost: self.allStatuses)
+            GlobalStruct.drafts.insert(dr1, at: 0)
+            do {
+                try Disk.save(GlobalStruct.drafts, to: .documents, as: "\(AccountsManager.shared.currentAccount?.diskFolderName() ?? "")/drafts.json")
+                self.dismiss(animated: true, completion: nil)
+            } catch {
+                log.error("error saving drafts to Disk")
+            }
+        } else {
+            var poll: Poll? = nil
+            if let x = GlobalStruct.newPollPost {
+                var pOpt: [PollOptions] = []
+                let a = x[0] as? [String] ?? []
+                for z in a {
+                    pOpt.append(PollOptions(title: z, votesCount: nil))
                 }
-                var poll: Poll? = nil
-                if let x = GlobalStruct.newPollPost {
-                    var pOpt: [PollOptions] = []
-                    let a = x[0] as? [String] ?? []
-                    for z in a {
-                        pOpt.append(PollOptions(title: z, votesCount: nil))
-                    }
-                    let pp = Poll(id: "0", expired: false, multiple: false, votesCount: 0, options: pOpt)
-                    poll = pp
-                }
-                let draftPost = Status(id: "\(Int.random(in: 0 ... 1000000))", uri: "", url: nil, account: self.currentUser!, inReplyToID: reply, inReplyToAccountID: replyA, content: postText, createdAt: "", emojis: [], repliesCount: 0, reblogsCount: 0, favouritesCount: 0, reblogged: nil, favourited: nil, bookmarked: nil, sensitive: nil, spoilerText: self.spoilerText, visibility: self.whoCanReply ?? .public, mediaAttachments: [], mentions: [], tags: [], card: nil, application: nil, language: nil, reblog: nil, pinned: nil, poll: poll, editedAt: nil)
-                let dr1 = Draft(id: Int.random(in: 0 ... 1000000), contents: draftPost, images: images, imagesIds: self.mediaIdStrings, replyPost: self.allStatuses)
-                GlobalStruct.drafts.insert(dr1, at: 0)
-                do {
-                    try Disk.save(GlobalStruct.drafts, to: .documents, as: "\(AccountsManager.shared.currentAccount?.diskFolderName() ?? "")/drafts.json")
-                    self.dismiss(animated: true, completion: nil)
-                } catch {
-                    log.error("error saving drafts to Disk")
-                }
-            } else {
-                var poll: Poll? = nil
-                if let x = GlobalStruct.newPollPost {
-                    var pOpt: [PollOptions] = []
-                    let a = x[0] as? [String] ?? []
-                    for z in a {
-                        pOpt.append(PollOptions(title: z, votesCount: nil))
-                    }
-                    let pp = Poll(id: "0", expired: false, multiple: false, votesCount: 0, options: pOpt)
-                    poll = pp
-                }
-                let draftPost = Status(id: "\(Int.random(in: 0 ... 1000000))", uri: "", url: nil, account: self.currentUser!, inReplyToID: reply, inReplyToAccountID: replyA, content: postText, createdAt: "", emojis: [], repliesCount: 0, reblogsCount: 0, favouritesCount: 0, reblogged: nil, favourited: nil, bookmarked: nil, sensitive: nil, spoilerText: self.spoilerText, visibility: self.whoCanReply ?? .public, mediaAttachments: [], mentions: [], tags: [], card: nil, application: nil, language: nil, reblog: nil, pinned: nil, poll: poll, editedAt: nil)
-                let dr1 = Draft(id: Int.random(in: 0 ... 1000000), contents: draftPost, images: [], imagesIds: nil, replyPost: self.allStatuses)
-                GlobalStruct.drafts.insert(dr1, at: 0)
-                do {
-                    try Disk.save(GlobalStruct.drafts, to: .documents, as: "\(AccountsManager.shared.currentAccount?.diskFolderName() ?? "")/drafts.json")
-                    self.dismiss(animated: true, completion: nil)
-                } catch {
-                    log.error("error saving drafts to Disk")
-                }
+                let pp = Poll(id: "0", expired: false, multiple: false, votesCount: 0, options: pOpt)
+                poll = pp
+            }
+            let draftPost = Status(id: "\(Int.random(in: 0 ... 1000000))", uri: "", url: nil, account: self.currentUser!, inReplyToID: reply, inReplyToAccountID: replyA, content: postText, createdAt: "", emojis: [], repliesCount: 0, reblogsCount: 0, favouritesCount: 0, reblogged: nil, favourited: nil, bookmarked: nil, sensitive: nil, spoilerText: self.spoilerText, visibility: self.whoCanReply ?? .public, mediaAttachments: [], mentions: [], tags: [], card: nil, application: nil, language: nil, reblog: nil, pinned: nil, poll: poll, editedAt: nil)
+            let dr1 = Draft(id: Int.random(in: 0 ... 1000000), contents: draftPost, images: [], imagesIds: nil, replyPost: self.allStatuses)
+            GlobalStruct.drafts.insert(dr1, at: 0)
+            do {
+                try Disk.save(GlobalStruct.drafts, to: .documents, as: "\(AccountsManager.shared.currentAccount?.diskFolderName() ?? "")/drafts.json")
+                self.dismiss(animated: true, completion: nil)
+            } catch {
+                log.error("error saving drafts to Disk")
             }
         }
     }
@@ -3748,12 +3763,15 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 if let statURL = self.allStatuses.first?.reblog?.url ?? self.allStatuses.first?.url {
                     let request = Search.search(query: statURL, resolve: true)
                     (self.currentAcct as? MastodonAcctData)?.client.run(request) { (statuses) in
+                        var successGettingPostID = false
                         if let error = statuses.error {
-                            log.error("error: \(error)")
+                            log.error("error from Search.search(): \(error)")
+                            // I have seen 500, 503 errors returned when the serer is very busy
                         }
                         if let results = statuses.value {
                             let statuses = results.statuses
                             if let statID = statuses.first?.id {
+                                successGettingPostID = true
                                 DispatchQueue.main.async {
                                     self.inReplyId = statID
                                     // Try again
@@ -3763,11 +3781,20 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                                 log.error("Expected a status")
                             }
                         }
+                        // Put an alert to retry if needed.
+                        if !successGettingPostID {
+                            DispatchQueue.main.async {
+                                self.setPostFailure()
+                            }
+                        }
                     }
+                } else {
+                    log.error("unable to get a stat url")
                 }
                 return
             }
             
+            var successSendingPost = false
             var repId: String? = nil
             if self.inReplyId != "" {
                 repId = self.inReplyId
@@ -3783,6 +3810,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                     log.error("Unable to post; error: \(error)")
                 }
                 if let _ = statuses.value {
+                    successSendingPost = true
                     DispatchQueue.main.async {
                         if self.scheduledTime == nil {
                             if self.whoCanReply == .direct {
@@ -3800,6 +3828,13 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                         }
 
                         self.dismissTap()
+                    }
+                }
+                
+                // Put an alert to retry if needed.
+                if !successSendingPost {
+                    DispatchQueue.main.async {
+                        self.setPostFailure()
                     }
                 }
             }
