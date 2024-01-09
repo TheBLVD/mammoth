@@ -94,7 +94,7 @@ final class ProfileViewModel {
             guard let self else { return }
             
             // If server is Threads.net, use the user's local instance
-            let serverName = serverName == "www.threads.net"
+            let serverName = (serverName == "www.threads.net")
                 ? AccountsManager.shared.currentAccountClient.baseHost
                 : serverName
             
@@ -379,8 +379,8 @@ extension ProfileViewModel {
                 guard var user = user else { return nil }
                 await MainActor.run {self.state = .loading }
                 
-                // Fetch the user on its original instance
-                let instanceName = user.instanceName ?? AccountsManager.shared.currentAccountClient.baseHost
+                // Fetch the profile on its original instance
+                let instanceName = user.instanceName ?? user.account?.server ?? AccountsManager.shared.currentAccountClient.baseHost
                 if let account = await AccountService.lookup(user.uniqueId, serverName: instanceName), !forceLocal {
                     return await MainActor.run { [weak self] in
                         guard let self else { return nil }

@@ -16,7 +16,8 @@ protocol ChannelCellDelegate: AnyObject {
 extension UIViewController: ChannelCellDelegate {
     func didTapChannelOwner(channel: Channel) {
         if let acct = channel.owner?.acct {
-            let vc = ProfileViewController(fullAcct: acct)
+            let serverName = channel.owner?.domain ?? AccountsManager.shared.currentAccountClient.baseHost
+            let vc = ProfileViewController(fullAcct: acct, serverName: serverName)
             if vc.isBeingPresented {} else {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
