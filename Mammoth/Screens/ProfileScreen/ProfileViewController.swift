@@ -54,12 +54,8 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
 
     private var viewModel: ProfileViewModel
 
-    required init(user: UserCardModel? = nil, screenType: ProfileViewModel.ProfileScreenType = .own, viewModel: ProfileViewModel? = nil) {
-        if let viewModel {
-            self.viewModel = viewModel
-        } else {
-            self.viewModel = ProfileViewModel(.posts, user: user, screenType: screenType)
-        }
+    required init(viewModel: ProfileViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
 
@@ -68,7 +64,12 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
                                                name: NSNotification.Name(rawValue: "reloadAll"),
                                                object: nil)
     }
-    
+
+    convenience init(user: UserCardModel? = nil, screenType: ProfileViewModel.ProfileScreenType = .own) {
+        let viewModel = ProfileViewModel(.posts, user: user, screenType: screenType)
+        self.init(viewModel: viewModel)
+    }
+
     convenience init(acctData: (any AcctDataType)?) {
         if let mastodonAccount = (acctData as? MastodonAcctData)?.account {
             let userCardModel = UserCardModel(account: mastodonAccount)
@@ -79,7 +80,8 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
     }
     
     convenience init(fullAcct: String, serverName: String = AccountsManager.shared.currentAccountClient.baseHost) {
-        self.init(viewModel: ProfileViewModel(fullAcct: fullAcct, serverName: serverName))
+        let viewModel = ProfileViewModel(fullAcct: fullAcct, serverName: serverName)
+        self.init(viewModel: viewModel)
     }
 
     required init?(coder aDecoder: NSCoder) {
