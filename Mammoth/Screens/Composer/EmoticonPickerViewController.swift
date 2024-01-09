@@ -145,7 +145,7 @@ class EmoticonPickerViewController: UIViewController, UICollectionViewDelegate, 
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.collectionView.showsVerticalScrollIndicator = false
-        self.collectionView.register(ImageCell.self, forCellWithReuseIdentifier: "ImageCell")
+        self.collectionView.register(EmojiCell.self, forCellWithReuseIdentifier: EmojiCell.reuseIdentifier)
         self.view.addSubview(self.collectionView)
         self.collectionView.reloadData()
     }
@@ -168,21 +168,14 @@ class EmoticonPickerViewController: UIViewController, UICollectionViewDelegate, 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath) as! ImageCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCell.reuseIdentifier, for: indexPath) as! EmojiCell
         cell.image.image = nil
-        cell.layer.cornerRadius = 16
-        cell.layer.cornerCurve = .continuous
-        cell.image.layer.cornerRadius = 16
-        cell.image.layer.cornerCurve = .continuous
-        cell.image.layer.masksToBounds = true
-        cell.backgroundColor = UIColor.clear
         let x = 6
         let y = self.view.bounds.width
         let z = CGFloat(y)/CGFloat(x)
         cell.image.frame.size.width = z - CGFloat(((x+1)*20)/x)
         cell.image.frame.size.height = z - CGFloat(((x+1)*20)/x)
         cell.image.sd_setImage(with: allEmoticons()[indexPath.row].url)
-        cell.image.contentMode = .scaleAspectFill
         if #available(iOS 13.4, *) {
             let interaction = UIPointerInteraction(delegate: nil)
             cell.addInteraction(interaction)
