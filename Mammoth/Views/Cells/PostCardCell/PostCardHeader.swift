@@ -13,7 +13,7 @@ import Meta
 import MetaTextKit
 
 class PostCardHeader: UIView {
-    
+
     enum PostCardHeaderTypes {
         case regular
         case forYou
@@ -101,6 +101,7 @@ class PostCardHeader: UIView {
         label.isOpaque = true
         label.backgroundColor = .custom.background
         label.textContainer.lineFragmentPadding = 0
+        label.isUserInteractionEnabled = false
         return label
     }()
     

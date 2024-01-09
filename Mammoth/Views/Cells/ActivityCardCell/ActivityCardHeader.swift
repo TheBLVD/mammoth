@@ -51,6 +51,7 @@ class ActivityCardHeader: UIView {
         label.isOpaque = true
         label.backgroundColor = .custom.background
         label.textContainer.lineFragmentPadding = 0
+        label.isUserInteractionEnabled = false
         return label
     }()
     
