@@ -225,24 +225,6 @@ final class PostCardCell: UITableViewCell {
         metaText.textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
         metaText.textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         metaText.textView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-        
-        metaText.textAttributes = [
-            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
-            .foregroundColor: UIColor.custom.mediumContrast,
-        ]
-
-        metaText.linkAttributes = [
-            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
-            .foregroundColor: UIColor.custom.highContrast,
-        ]
-
-        metaText.paragraphStyle = {
-            let style = NSMutableParagraphStyle()
-            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 5 : 0
-            style.paragraphSpacing = 8
-            style.alignment = .natural
-            return style
-        }()
 
         return metaText
     }()
@@ -535,6 +517,7 @@ private extension PostCardCell {
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
             .foregroundColor: UIColor.custom.mediumContrast,
         ]
+        
         self.postTextView.linkAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
             .foregroundColor: UIColor.custom.highContrast,
