@@ -2238,7 +2238,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func setPostFailure() {
-        let alert = UIAlertController(title: "Post failed to upload", message: "Would you like to try again?", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Post failed to upload", message: "", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Retry", style: .default , handler:{ (UIAlertAction) in
             self.sendData()
         }))
