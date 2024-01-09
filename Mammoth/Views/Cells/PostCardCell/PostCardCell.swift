@@ -7,8 +7,12 @@
 //
 
 import UIKit
+import Meta
+import MastodonMeta
+import MetaTextKit
 
 final class PostCardCell: UITableViewCell {
+
     static func reuseIdentifier(for variant: PostCardVariant) -> String {
         switch variant {
         case .textOnly: return "PostCardCellTextOnly"
@@ -204,20 +208,25 @@ final class PostCardCell: UITableViewCell {
     }()
     private var deletedWarningConstraints: [NSLayoutConstraint] = []
 
-    private var postTextLabel: ActiveLabel = {
-        let label = ActiveLabel()
-        label.textColor = .custom.mediumContrast
-        label.enabledTypes = [.mention, .hashtag, .url, .email]
-        label.mentionColor = .custom.highContrast
-        label.hashtagColor = .custom.highContrast
-        label.URLColor = .custom.highContrast
-        label.emailColor = .custom.highContrast
-        label.linkWeight = .semibold
-        label.isOpaque = true
-        label.backgroundColor = .custom.background
-        label.urlMaximumLength = 30
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private var postTextView: MetaText = {
+        let metaText = MetaText()
+        metaText.textView.isOpaque = true
+        metaText.textView.backgroundColor = .custom.background
+        metaText.textView.translatesAutoresizingMaskIntoConstraints = false
+        metaText.textView.isEditable = false
+        metaText.textView.isScrollEnabled = false
+        metaText.textView.isSelectable = false
+        metaText.textView.textContainer.lineFragmentPadding = 0
+        metaText.textView.textContainerInset = .zero
+        metaText.textView.textDragInteraction?.isEnabled = false
+        metaText.textView.textContainer.lineBreakMode = .byTruncatingTail
+        
+        metaText.textView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        metaText.textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        metaText.textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        metaText.textView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+
+        return metaText
     }()
     
     private var postTextTrailingConstraint: NSLayoutConstraint?
@@ -256,6 +265,7 @@ final class PostCardCell: UITableViewCell {
     private var quotePostTrailingConstraint: NSLayoutConstraint? = nil
     
     private var postCard: PostCardModel?
+    private var type: PostCardCellType?
     private var onButtonPress: PostCardButtonCallback?
     private var headerExtension: PostCardHeaderExtension?
     private var metadata: PostCardMetadata?
@@ -314,6 +324,7 @@ final class PostCardCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.postCard = nil
+        self.postTextView.textView.attributedText = nil
         self.profilePic.prepareForReuse()
         self.footer.onButtonPress = nil
         self.separatorInset = .zero
@@ -398,14 +409,17 @@ private extension PostCardCell {
         
         // insert a text label if there's a post text
         if [.textOnly, .textAndMedia].contains(self.cellVariant) {
-            contentStackView.addArrangedSubview(postTextLabel)
+            contentStackView.addArrangedSubview(postTextView.textView)
             
+            postTextView.textView.delegate = self
+            postTextView.textView.linkDelegate = self
+
             if self.cellVariant == .textAndMedia {
-                self.contentStackView.setCustomSpacing(6.0, after: self.postTextLabel)
+                self.contentStackView.setCustomSpacing(6.0, after: self.postTextView.textView)
             }
             
             // Force post text to fill the parent width
-            self.postTextTrailingConstraint = postTextLabel.trailingAnchor.constraint(equalTo: contentStackView.layoutMarginsGuide.trailingAnchor)
+            self.postTextTrailingConstraint = postTextView.textView.trailingAnchor.constraint(equalTo: contentStackView.layoutMarginsGuide.trailingAnchor)
             postTextTrailingConstraint!.priority = .defaultHigh
             postTextTrailingConstraint!.isActive = true
         }
@@ -498,8 +512,24 @@ private extension PostCardCell {
     
     @objc func setupUIFromSettings() {
         deletedWarningButton.titleLabel?.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
-        postTextLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
-        postTextLabel.minimumLineHeight = DeviceHelpers.isiOSAppOnMac() ? UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 5 : 0
+
+        self.postTextView.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+        
+        self.postTextView.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+
+        self.postTextView.paragraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 5 : 0
+            style.paragraphSpacing = self.type == .detail ? 14 : 4
+            style.alignment = .natural
+            return style
+        }()
         
         if footer.isHidden {
             contentView.layoutMargins = .init(top: 16, left: 13, bottom: 10, right: 13)
@@ -523,6 +553,7 @@ extension PostCardCell {
         let mediaHasChanged = postCard.mediaAttachments != self.postCard?.mediaAttachments
         
         self.postCard = postCard
+        self.type = type
         self.onButtonPress = onButtonPress
         
         // Display header extension (reblogged or hashtagged indicator)
@@ -546,32 +577,12 @@ extension PostCardCell {
         
         
         if [.textOnly, .textAndMedia].contains(self.cellVariant) {
-            self.postTextLabel.customize { [weak self] label in
-                
-                if label.numberOfLines != type.numberOfLines {
-                    label.numberOfLines = type.numberOfLines
-                }
-                
-                if case .mastodon(let status) = postCard.data,
-                   let postText = postCard.richPostText {
-                    label.attributedText = formatRichText(string: postText, label: label, emojis: status.reblog?.emojis ?? status.emojis)
-                } else {
-                    label.text = postCard.postText
-                }
-
-                // Post text link handlers
-                label.handleURLTap { [weak self] url in
-                    self?.onButtonPress?(.link, true, .url(url))
-                }
-                label.handleHashtagTap { [weak self] hashtag in
-                    self?.onButtonPress?(.link, true, .hashtag(hashtag))
-                }
-                
-                if case .mastodon(let status) = postCard.data {
-                    label.handleMentionTap { [weak self] mention in
-                        self?.onButtonPress?(.link, true, .mention((mention, status)))
-                    }
-                }
+            if self.postTextView.textView.textContainer.maximumNumberOfLines != type.numberOfLines {
+                self.postTextView.textView.textContainer.maximumNumberOfLines = type.numberOfLines
+            }
+            
+            if let postTextContent = postCard.metaPostText {
+                self.postTextView.configure(content: postTextContent)
             }
         }
         
@@ -689,8 +700,8 @@ extension PostCardCell {
             // add custom spacing above the post details ("via Mammoth, public", and metrics)
             if self.contentStackView.arrangedSubviews.contains(self.mediaContainer) {
                 self.contentStackView.setCustomSpacing(12, after: self.mediaContainer)
-            } else if self.contentStackView.arrangedSubviews.contains(self.postTextLabel) {
-                self.contentStackView.setCustomSpacing(10, after: self.postTextLabel)
+            } else if self.contentStackView.arrangedSubviews.contains(self.postTextView.textView) {
+                self.contentStackView.setCustomSpacing(10, after: self.postTextView.textView)
             }
         } else {
             // remove the detailStack when not needed
@@ -701,13 +712,13 @@ extension PostCardCell {
         if type == .detail {
             // long press to copy the post text
             self.textLongPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.onTextLongPress))
-            postTextLabel.addGestureRecognizer(self.textLongPressGesture!)
-            
+            self.postTextView.textView.addGestureRecognizer(self.textLongPressGesture!)
+                        
             // make sure the thread lines are behind all the other elements
             mainStackView.sendSubviewToBack(parentThread)
             mainStackView.sendSubviewToBack(childThread)
-        } else if let gesture = self.textLongPressGesture, (self.postTextLabel.gestureRecognizers?.contains(gesture) as? Bool) == true {
-            self.postTextLabel.removeGestureRecognizer(gesture)
+        } else if let gesture = self.textLongPressGesture, (self.postTextView.textView.gestureRecognizers?.contains(gesture) as? Bool) == true {
+            self.postTextView.textView.removeGestureRecognizer(gesture)
         }
         
         // Make sure all views are underneath the contentWarningButton and the deletedWarningButton
@@ -834,29 +845,25 @@ extension PostCardCell {
     
     @objc private func onMetricPress(recognizer: UIGestureRecognizer) {
         if recognizer.view?.tag == MetricButtons.likes.rawValue {
-            // Implementation done in separate ticket
             self.onButtonPress?(.likes, false, nil)
         }
         
         if recognizer.view?.tag == MetricButtons.reposts.rawValue {
-            // Implementation done in separate ticket
             self.onButtonPress?(.reposts, false, nil)
         }
         
         if recognizer.view?.tag == MetricButtons.replies.rawValue {
-            // Implementation done in separate ticket
             self.onButtonPress?(.replies, false, nil)
         }
     }
     
     @objc private func copyText() {
-        UIPasteboard.general.setValue(self.postCard?.postText ?? "", forPasteboardType: "public.utf8-plain-text")
+        UIPasteboard.general.setValue(self.postCard?.metaPostText?.original ?? "", forPasteboardType: "public.utf8-plain-text")
     }
     
     private func configureForDebugging(postCard: PostCardModel) {
         if let batchId = postCard.batchId, let batchItemIndex = postCard.batchItemIndex {
-            self.postTextLabel.attributedText = nil
-            self.postTextLabel.text = "\(batchId) - \(batchItemIndex)"
+            self.postTextView.textView.text = "\(batchId) - \(batchItemIndex)"
             
             if let imageAttachment = self.imageAttachment {
                 self.imageAttachmentTrailingConstraint?.isActive = false
@@ -898,15 +905,8 @@ extension PostCardCell {
             self.backgroundColor = .custom.background
             self.contentView.backgroundColor = .custom.background
         }
-        
-        self.postTextLabel.customize { [weak self] label in
-            guard let self else { return }
-            label.mentionColor = .custom.highContrast
-            label.hashtagColor = .custom.highContrast
-            label.URLColor = .custom.highContrast
-            label.emailColor = .custom.highContrast
-            label.backgroundColor = self.contentView.backgroundColor
-        }
+
+        self.postTextView.textView.backgroundColor = self.contentView.backgroundColor
         
         self.profilePic.onThemeChange()
         self.header.onThemeChange()
@@ -926,6 +926,53 @@ extension PostCardCell {
         self.contentWarningButton.isUserInteractionEnabled = false
         GlobalStruct.allCW.append(self.postCard?.id ?? "")
         self.postCard?.filterType = .none
+    }
+}
+
+// MARK: - MetaTextViewDelegate
+extension PostCardCell: MetaTextViewDelegate {
+    func metaTextView(_ metaTextView: MetaTextView, didSelectMeta meta: Meta) {
+        switch meta {
+        case .url(_, _, let urlString, _):
+            if let url = URL(string: urlString) {
+                self.onButtonPress?(.link, true, .url(url))
+            }
+        case .mention(_, let mention, _):
+            if case .mastodon(let status) = self.postCard?.data {
+                self.onButtonPress?(.link, true, .mention((mention, status)))
+            }
+        case .hashtag(_, let hashtag, _):
+            self.onButtonPress?(.link, true, .hashtag(hashtag))
+        default:
+            guard let postCard = self.postCard, self.type != .detail else { return }
+            self.onButtonPress?(.postDetails, true, .post(postCard))
+        }
+    }
+}
+
+// MARK: - UITextViewDelegate
+extension PostCardCell: UITextViewDelegate {
+
+    public func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        switch textView {
+        case postTextView:
+            return false
+        default:
+            log.error("Unsupported UITextView")
+            assertionFailure()
+            return true
+        }
+    }
+
+    public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        switch textView {
+        case postTextView:
+            return false
+        default:
+            log.error("Unsupported UITextView")
+            assertionFailure()
+            return true
+        }
     }
 }
 

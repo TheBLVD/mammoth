@@ -29,6 +29,7 @@
 		149A682D2AD6A4E200E72A83 /* Mute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68282AD6A4E200E72A83 /* Mute.swift */; };
 		149A682F2AD6A4E200E72A83 /* mute.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 149A682B2AD6A4E200E72A83 /* mute.aiff */; };
 		149A68312AD6CE3700E72A83 /* AVManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68302AD6CE3700E72A83 /* AVManager.swift */; };
+		14A849FF2B4D75F20027C689 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14A849FE2B4D75F20027C689 /* MetaTextKit */; };
 		14BE1A502AEFDAB700C13189 /* String+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE1A4F2AEFDAB700C13189 /* String+Image.swift */; };
 		14BE1A522AF1047D00C13189 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE1A512AF1047D00C13189 /* PushNotificationManager.swift */; };
 		14BE1A562AF1208200C13189 /* KeyChainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE1A552AF1208200C13189 /* KeyChainHelper.swift */; };
@@ -1629,6 +1630,7 @@
 				532F291529476916003C9FAD /* MessageKit in Frameworks */,
 				662B60EF2A4A1F6D00CB331F /* JWTDecode in Frameworks */,
 				146C6A432B34545B00A002D7 /* UnifiedBlurHash in Frameworks */,
+				14A849FF2B4D75F20027C689 /* MetaTextKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3152,6 +3154,7 @@
 				88EFEB2C2AC23A3C0040228B /* SwiftJWT */,
 				14780F802AFCEA7000A7ECD9 /* Reachability */,
 				146C6A422B34545B00A002D7 /* UnifiedBlurHash */,
+				14A849FE2B4D75F20027C689 /* MetaTextKit */,
 			);
 			productName = Mastodon;
 			productReference = 533993DF29141F4600560F83 /* Mammoth.app */;
@@ -3288,6 +3291,7 @@
 				144DC74E2B17698200F4EE98 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				144DC7E02B1773E400F4EE98 /* XCRemoteSwiftPackageReference "OpenSSL" */,
 				146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */,
+				14A849FD2B4D75F20027C689 /* XCRemoteSwiftPackageReference "MetaTextKit" */,
 			);
 			productRefGroup = 533993E029141F4600560F83 /* Products */;
 			projectDirPath = "";
@@ -4712,6 +4716,14 @@
 				kind = branch;
 			};
 		};
+		14A849FD2B4D75F20027C689 /* XCRemoteSwiftPackageReference "MetaTextKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TheBLVD/MetaTextKit";
+			requirement = {
+				kind = exactVersion;
+				version = 2.3.3;
+			};
+		};
 		532F291329476916003C9FAD /* XCRemoteSwiftPackageReference "MessageKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
@@ -4772,6 +4784,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */;
 			productName = Reachability;
+		};
+		14A849FE2B4D75F20027C689 /* MetaTextKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14A849FD2B4D75F20027C689 /* XCRemoteSwiftPackageReference "MetaTextKit" */;
+			productName = MetaTextKit;
 		};
 		532F291429476916003C9FAD /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;

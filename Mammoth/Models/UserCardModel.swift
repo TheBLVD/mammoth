@@ -9,6 +9,8 @@
 import Foundation
 import SDWebImage
 import Kingfisher
+import Meta
+import MastodonMeta
 
 class UserCardModel {
     let id: String
@@ -16,6 +18,8 @@ class UserCardModel {
     let name: String
     let userTag: String
     let username: String
+    let metaName: MastodonMetaContent?
+    
     let imageURL: String?
     let description: String?
     let isFollowing: Bool
@@ -65,13 +69,24 @@ class UserCardModel {
         self.name = name
         self.userTag = userTag
         self.username = account?.username ?? ""
+        self.emojis = emojis
+        
         self.imageURL = imageURL
         self.description = description?.stripHTML()
         self.isFollowing = isFollowing
-        self.emojis = emojis
         self.account = account
         
         self.richName = NSAttributedString(string: self.name)
+        
+        var emojisDic: MastodonContent.Emojis = [:]
+        self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
+        let content = MastodonContent(content: self.name, emojis: emojisDic)
+        do {
+            self.metaName = try MastodonMetaContent.convert(document: content)
+        } catch {
+            self.metaName = MastodonMetaContent.convert(text: content)
+        }
+        
         self.richDescription = nil
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil
         
@@ -105,6 +120,16 @@ class UserCardModel {
         self.account = account
         
         self.richName = NSAttributedString(string: self.name)
+        
+        var emojisDic: MastodonContent.Emojis = [:]
+        self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
+        let content = MastodonContent(content: self.name, emojis: emojisDic)
+        do {
+            self.metaName = try MastodonMetaContent.convert(document: content)
+        } catch {
+            self.metaName = MastodonMetaContent.convert(text: content)
+        }
+        
         self.richDescription = nil
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil
         

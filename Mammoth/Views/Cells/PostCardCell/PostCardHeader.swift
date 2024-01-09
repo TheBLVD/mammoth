@@ -9,9 +9,11 @@
 import Foundation
 import UIKit
 import Combine
+import Meta
+import MetaTextKit
 
 class PostCardHeader: UIView {
-    
+
     enum PostCardHeaderTypes {
         case regular
         case forYou
@@ -92,12 +94,14 @@ class PostCardHeader: UIView {
         return stackView
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
+    private let titleLabel: MetaLabel = {
+        let label = MetaLabel()
         label.textColor = .custom.displayNames
         label.numberOfLines = 1
         label.isOpaque = true
         label.backgroundColor = .custom.background
+        label.textContainer.lineFragmentPadding = 0
+        label.isUserInteractionEnabled = false
         return label
     }()
     
@@ -157,6 +161,7 @@ class PostCardHeader: UIView {
         self.postCard = nil
         self.onPress = nil
         self.profilePic?.prepareForReuse()
+        self.titleLabel.attributedText = nil
         self.titleLabel.text = nil
         self.userTagLabel.text = nil
         self.dateLabel.text = nil
@@ -165,9 +170,15 @@ class PostCardHeader: UIView {
     }
     
     func setupUIFromSettings() {
-        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
         userTagLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
         dateLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        
+        titleLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.displayNames
+        ]
+
+        titleLabel.linkAttributes = titleLabel.textAttributes
         
         self.onThemeChange()
     }
@@ -293,11 +304,10 @@ extension PostCardHeader {
         if GlobalStruct.displayName == .usertagOnly {
             self.titleLabel.text = headerType == .detail ? postCard.fullUserTag.lowercased() : postCard.userTag.lowercased()
         } else {
-            if let name = postCard.richUsername {
-                self.titleLabel.attributedText = formatRichText(string: name, label: self.titleLabel, emojis: postCard.account?.emojis)
-                
+            if let metaContent = postCard.user?.metaName {
+                self.titleLabel.configure(content: metaContent)
             } else {
-                self.titleLabel.text = postCard.username
+                self.titleLabel.text = postCard.user?.name
             }
         }
         

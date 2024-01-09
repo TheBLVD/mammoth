@@ -206,6 +206,8 @@ struct PostActions {
                 PostActions.onHashtagPress(target: target, hashtag: hashtag)
             case .mention((let mention, let status)):
                 PostActions.onMentionPress(target: target, mention: mention, status: status)
+            case .email(let email):
+                PostActions.onEmailPress(email: email)
             default:
                 break
             }

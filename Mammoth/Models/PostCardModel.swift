@@ -10,6 +10,8 @@ import Foundation
 import SDWebImage
 import Kingfisher
 import AVFoundation
+import Meta
+import MastodonMeta
 
 final class PostCardModel {
     
@@ -73,6 +75,7 @@ final class PostCardModel {
     let isSensitive: Bool
     var postText: String
     var richPostText: NSAttributedString?
+    let metaPostText: MastodonMetaContent?
     
     var profileURL: URL?
     let isLockedAccount: Bool
@@ -303,7 +306,17 @@ final class PostCardModel {
         
         // Post text formatting
         self.postText = PostCardModel.formattedPostText(status: status)
-        self.richPostText = removeTrailingLinebreaks(string: NSAttributedString(string: self.postText))
+        
+        var emojisDic: MastodonContent.Emojis = [:]
+        self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
+        let content = MastodonContent(content: self.postText, emojis: emojisDic)
+        do {
+            self.metaPostText = try MastodonMetaContent.convert(document: content)
+        } catch {
+            self.metaPostText = MastodonMetaContent.convert(text: content)
+        }
+        
+        self.richPostText = NSMutableAttributedString(string: self.metaPostText?.string ?? self.postText)
         
         // Content warning (applies to entire post)
         self.contentWarning = (status.reblog?.spoilerText ?? status.spoilerText).stripHTML()
@@ -485,6 +498,7 @@ final class PostCardModel {
         
         self.postText = postVM.post.record.text
         self.richPostText = nil
+        self.metaPostText = nil
         
         self.contentWarning = ""
         self.isSensitive = false
@@ -922,7 +936,13 @@ extension PostCardModel {
             }
         }
         
-        return text.stripHTML()
+        // If a quote post link is removed we end up with an empty <p> tag. Remove that tag.
+        text = text.replacingOccurrences(of: "<p></p>", with: "", options: NSString.CompareOptions.regularExpression, range: nil)
+        
+        // If a post text ends with a final line break, remove it
+        text = text.replacingOccurrences(of: "<br></p>", with: "</p>", options: NSString.CompareOptions.regularExpression, range: nil)
+        
+        return text
     }
     
     static func containsPoll(status: Status) -> Bool {
