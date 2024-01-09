@@ -958,6 +958,7 @@ extension PostCardCell: UITextViewDelegate {
         case postTextView:
             return false
         default:
+            log.error("Unsupported UITextView")
             assertionFailure()
             return true
         }
@@ -968,6 +969,7 @@ extension PostCardCell: UITextViewDelegate {
         case postTextView:
             return false
         default:
+            log.error("Unsupported UITextView")
             assertionFailure()
             return true
         }
