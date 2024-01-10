@@ -213,19 +213,9 @@ final class PostCardCell: UITableViewCell {
         metaText.isOpaque = true
         metaText.backgroundColor = .custom.background
         metaText.translatesAutoresizingMaskIntoConstraints = false
-//        metaText.isEditable = false
-//        metaText.isScrollEnabled = false
-//        metaText.isSelectable = false
         metaText.textContainer.lineFragmentPadding = 0
         metaText.numberOfLines = 0
-//        metaText.textContainerInset = .zero
-//        metaText.textDragInteraction?.isEnabled = false
         metaText.textContainer.lineBreakMode = .byTruncatingTail
-        
-        metaText.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        metaText.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        metaText.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        metaText.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
 
         return metaText
     }()
