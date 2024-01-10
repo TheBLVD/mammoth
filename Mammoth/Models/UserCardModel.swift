@@ -209,7 +209,8 @@ extension UserCardModel: Equatable {
         lhs.relationship == rhs.relationship &&
         lhs.fields == rhs.fields &&
         lhs.isBot == rhs.isBot &&
-        lhs.isLocked == rhs.isLocked
+        lhs.isLocked == rhs.isLocked &&
+        lhs.emojis == rhs.emojis
     }
 }
 
