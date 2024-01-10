@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MetaTextKit
 
 final class ActivityCardCell: UITableViewCell {
     static let reuseIdentifier = "ActivityCardCell"
@@ -49,20 +50,44 @@ final class ActivityCardCell: UITableViewCell {
     private let profilePic = PostCardProfilePic(withSize: .regular)
     private let header = ActivityCardHeader()
 
-    private var postTextLabel: ActiveLabel = {
-        let label = ActiveLabel()
-        label.textColor = .custom.mediumContrast
-        label.enabledTypes = [.mention, .hashtag, .url, .email]
-        label.mentionColor = .custom.highContrast
-        label.hashtagColor = .custom.highContrast
-        label.URLColor = .custom.highContrast
-        label.emailColor = .custom.highContrast
-        label.linkWeight = .semibold
-        label.isOpaque = true
-        label.urlMaximumLength = 30
-        label.numberOfLines = 4
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private var postTextLabel: MetaText = {
+        let metaText = MetaText()
+        metaText.textView.isOpaque = true
+        metaText.textView.backgroundColor = .custom.background
+        metaText.textView.translatesAutoresizingMaskIntoConstraints = false
+        metaText.textView.isEditable = false
+        metaText.textView.isScrollEnabled = false
+        metaText.textView.isSelectable = false
+        metaText.textView.textContainer.lineFragmentPadding = 0
+        metaText.textView.textContainerInset = .zero
+        metaText.textView.textDragInteraction?.isEnabled = false
+        metaText.textView.textContainer.lineBreakMode = .byTruncatingTail
+        metaText.textView.textContainer.maximumNumberOfLines = 4
+        
+        metaText.textView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        metaText.textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        metaText.textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        metaText.textView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        
+        metaText.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+
+        metaText.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+
+        metaText.paragraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
+            style.paragraphSpacing = 8
+            style.alignment = .natural
+            return style
+        }()
+
+        return metaText
     }()
     
     // Contains image attachment, poll, and/or link preview if needed
@@ -120,10 +145,8 @@ final class ActivityCardCell: UITableViewCell {
         super.prepareForReuse()
         self.activityCard = nil
         self.profilePic.prepareForReuse()
-        self.postTextLabel.text = nil
-        self.postTextLabel.attributedText = nil
-        self.postTextLabel.linkWeight = .semibold
-        self.postTextLabel.isUserInteractionEnabled = true
+        self.postTextLabel.textView.text = nil
+        self.postTextLabel.textView.isUserInteractionEnabled = true
         
         self.header.prepareForReuse()
         
@@ -229,17 +252,20 @@ private extension ActivityCardCell {
         mainStackView.addArrangedSubview(contentStackView)
         
         contentStackView.addArrangedSubview(header)
-        contentStackView.addArrangedSubview(postTextLabel)
+        contentStackView.addArrangedSubview(postTextLabel.textView)
         contentStackView.addArrangedSubview(mediaContainer)
-                
-        let postTextTrailing = postTextLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor)
-        postTextTrailing.priority = .defaultHigh
+        
+//        postTextLabel.linkDelegate = self
+        postTextLabel.textView.linkDelegate = self
+
+        //        let postTextTrailing = postTextLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor)
+//        postTextTrailing.priority = .defaultHigh
 
         NSLayoutConstraint.activate([
             // Force header to fill the parent width
             header.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
             // Force post text to fill the parent width
-            postTextTrailing
+//            postTextTrailing
         ])
         
         // Force media container to fill the parent width - with max width for big displays
@@ -249,8 +275,24 @@ private extension ActivityCardCell {
     }
     
     @objc func setupUIFromSettings() {
-        postTextLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        self.postTextLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
         
+        self.postTextLabel.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+
+        self.postTextLabel.paragraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
+            style.paragraphSpacing = 4
+            style.alignment = .natural
+            return style
+        }()
+
         self.header.setupUIFromSettings()
         self.linkPreview?.setupUIFromSettings()
         self.quotePost?.setupUIFromSettings()
@@ -270,35 +312,16 @@ extension ActivityCardCell {
         self.header.configure(activity: activity)
         self.header.onPress = onButtonPress
         
-        self.postTextLabel.customize { label in
-            switch activity.type {
-            case .follow, .follow_request:
-                label.attributedText = nil
-                label.text = activity.user.userTag
-                label.linkWeight = .regular
-                label.isUserInteractionEnabled = false
-            default:
-                if let postCard = activity.postCard {
-                    if let postText = postCard.richPostText {
-                        label.attributedText = formatRichText(string: postText, label: label, emojis: postCard.emojis)
-                    } else {
-                        label.text = postCard.postText
-                    }
-                }
-            }
-            
-            // Post text link handlers
-            label.handleURLTap { url in
-                onButtonPress(.link, true, .url(url))
-            }
-            label.handleHashtagTap { hashtag in
-                onButtonPress(.link, true, .hashtag(hashtag))
-            }
-            
-            if case .mastodon(let status) = activity.postCard?.data {
-                label.handleMentionTap { mention in
-                    onButtonPress(.link, true, .mention((mention, status)))
-                }
+        switch activity.type {
+        case .follow, .follow_request:
+            postTextLabel.textView.attributedText = nil
+            postTextLabel.textView.text = activity.user.userTag
+            postTextLabel.textView.isUserInteractionEnabled = false
+        default:
+            if let content = activity.postCard?.metaPostText {
+                self.postTextLabel.configure(content: content)
+            } else {
+                self.postTextLabel.textView.text = activity.postCard?.postText
             }
         }
         
@@ -425,8 +448,8 @@ extension ActivityCardCell {
     
     private func configureForDebugging(activity: ActivityCardModel) {
         if let batchId = activity.batchId, let batchItemIndex = activity.batchItemIndex {
-            self.postTextLabel.attributedText = nil
-            self.postTextLabel.text = "\(batchId) - \(batchItemIndex)"
+            self.postTextLabel.textView.attributedText = nil
+            self.postTextLabel.textView.text = "\(batchId) - \(batchItemIndex)"
             
             if let imageAttachment = self.imageAttachment {
                 self.imageAttachmentTrailingConstraint?.isActive = false
@@ -460,11 +483,7 @@ extension ActivityCardCell {
     func onThemeChange() {
         self.backgroundColor = .custom.background
         self.contentView.backgroundColor = .custom.background
-        self.postTextLabel.mentionColor = .custom.highContrast
-        self.postTextLabel.hashtagColor = .custom.highContrast
-        self.postTextLabel.URLColor = .custom.highContrast
-        self.postTextLabel.emailColor = .custom.highContrast
-        self.postTextLabel.backgroundColor = self.contentView.backgroundColor
+        self.postTextLabel.textView.backgroundColor = self.contentView.backgroundColor
         
         self.profilePic.onThemeChange()
         self.header.onThemeChange()
@@ -522,5 +541,28 @@ extension ActivityCardCell {
         ].compactMap({$0})
         
         return UIMenu(title: "", options: [.displayInline], children: options)
+    }
+}
+
+// MARK: - MetaTextViewDelegate
+extension ActivityCardCell: MetaTextViewDelegate {
+    func metaTextView(_ metaTextView: MetaTextKit.MetaTextView, didSelectMeta meta: Meta) {
+
+        switch meta {
+        case .url(_, _, let urlString, _):
+            if let url = URL(string: urlString) {
+                self.onButtonPress?(.link, true, .url(url))
+            }
+        case .mention(_, let mention, _):
+            if case .mastodon(let status) = self.activityCard?.postCard?.data {
+                self.onButtonPress?(.link, true, .mention((mention, status)))
+            }
+        case .hashtag(_, let hashtag, _):
+            self.onButtonPress?(.link, true, .hashtag(hashtag))
+        default:
+            if let postCard = self.activityCard?.postCard {
+                self.onButtonPress?(.postDetails, true, .post(postCard))
+            }
+        }
     }
 }
