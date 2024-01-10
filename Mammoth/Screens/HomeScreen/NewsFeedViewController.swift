@@ -340,6 +340,14 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         if self.isActiveFeed && self.viewModel.type.shouldPollForListData {
             self.viewModel.startPollingListData(forFeed: self.type, delay: 2)
         }
+        
+        self.tableView.visibleCells.forEach({
+            if let cell = $0 as? PostCardCell {
+                cell.willDisplay()
+            } else if let cell = $0 as? ActivityCardCell {
+                cell.willDisplay()
+            }
+        })
     }
     
     override func didReceiveMemoryWarning() {
@@ -484,7 +492,7 @@ extension NewsFeedViewController {
         if let item = self.viewModel.getItemForIndexPath(indexPath) {
             if case .postCard(let postCardModel) = item {
                 postCardModel.cellHeight = cell.frame.size.height
-            } else if case .activity(var activityModel) = item {
+            } else if case .activity(let activityModel) = item {
                 activityModel.cellHeight = cell.frame.size.height
             }
         }

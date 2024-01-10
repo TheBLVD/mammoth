@@ -372,6 +372,12 @@ extension PostCardHeader {
                     self.dateLabel.text = newTime
                 }
             }
+            
+            if let status = self.status {
+                let newTime = PostCardModel.formattedTime(status: status, formatter: GlobalStruct.dateFormatter)
+                self.postCard?.time = newTime
+                self.dateLabel.text = newTime
+            }
         }
     }
     
