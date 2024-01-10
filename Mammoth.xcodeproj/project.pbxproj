@@ -664,6 +664,7 @@
 		BFDE45932B1539E90055480A /* ServerOverloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDE45922B1539E90055480A /* ServerOverloadCell.swift */; };
 		BFDE45952B16CAA20055480A /* TextFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDE45942B16CAA20055480A /* TextFileViewController.swift */; };
 		BFDE45972B16CFB30055480A /* About.rtf in Resources */ = {isa = PBXBuildFile; fileRef = BFDE45962B16CFB30055480A /* About.rtf */; };
+		BFE23A662B4DF1A800A34684 /* EmojiCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE23A652B4DF1A800A34684 /* EmojiCell.swift */; };
 		BFE5A3072A02C7BD004CBD9F /* URL+Mastodon.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE5A3062A02C7BD004CBD9F /* URL+Mastodon.swift */; };
 		BFE721AB2A58A6960028F78F /* AccountSwitcherButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE721AA2A58A6960028F78F /* AccountSwitcherButton.swift */; };
 		BFEA73292B2A4A5600A0D032 /* SetupMammothViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEA73272B2A4A5600A0D032 /* SetupMammothViewController.swift */; };
@@ -1504,6 +1505,7 @@
 		BFDE45922B1539E90055480A /* ServerOverloadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerOverloadCell.swift; sourceTree = "<group>"; };
 		BFDE45942B16CAA20055480A /* TextFileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFileViewController.swift; sourceTree = "<group>"; };
 		BFDE45962B16CFB30055480A /* About.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = About.rtf; sourceTree = "<group>"; };
+		BFE23A652B4DF1A800A34684 /* EmojiCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCell.swift; sourceTree = "<group>"; };
 		BFE5A3062A02C7BD004CBD9F /* URL+Mastodon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Mastodon.swift"; sourceTree = "<group>"; };
 		BFE721AA2A58A6960028F78F /* AccountSwitcherButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSwitcherButton.swift; sourceTree = "<group>"; };
 		BFEA73272B2A4A5600A0D032 /* SetupMammothViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupMammothViewController.swift; sourceTree = "<group>"; };
@@ -1808,6 +1810,7 @@
 				5339944E2914214A00560F83 /* AltTextViewController.swift */,
 				533994502914214A00560F83 /* PollViewController.swift */,
 				53B1583E293E65000026E90B /* EmoticonPickerViewController.swift */,
+				BFE23A652B4DF1A800A34684 /* EmojiCell.swift */,
 			);
 			path = Composer;
 			sourceTree = "<group>";
@@ -3777,6 +3780,7 @@
 				533994A62914214A00560F83 /* HapticsSettingsViewController.swift in Sources */,
 				533994B92914214A00560F83 /* UndoWidget.swift in Sources */,
 				BF0F3BB52A855A310055BB81 /* FloatLabelTextField.swift in Sources */,
+				BFE23A662B4DF1A800A34684 /* EmojiCell.swift in Sources */,
 				533996D92914227A00560F83 /* TOCropViewController.m in Sources */,
 				C354D5FD2A0D172300F8AC04 /* DiscoveryViewController.swift in Sources */,
 				53B15860293F66D20026E90B /* PushNotificationDataObjects.swift in Sources */,
