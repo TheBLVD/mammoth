@@ -787,18 +787,15 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func addEmoji() {
-        if self.cellPostText == "" {
+        if cellPostText == "" {
             cellPostText = ":\(GlobalStruct.emoticonToAdd):"
-            self.tableView.reloadRows(at: [IndexPath(row: 1, section: 1)], with: .none)
+        } else if cellPostText.last == " " {
+            cellPostText = "\(cellPostText):\(GlobalStruct.emoticonToAdd):"
         } else {
-            if cellPostText.last == " " {
-                cellPostText = "\(cellPostText):\(GlobalStruct.emoticonToAdd):"
-            } else {
-                cellPostText = "\(cellPostText) :\(GlobalStruct.emoticonToAdd):"
-            }
-            if let textRange = self.cellPostTextView?.selectedTextRange {
-                self.cellPostTextView!.replace(textRange, withText: ":\(GlobalStruct.emoticonToAdd): ")
-            }
+            cellPostText = "\(cellPostText) :\(GlobalStruct.emoticonToAdd):"
+        }
+        if let textRange = cellPostTextView?.selectedTextRange {
+            cellPostTextView!.replace(textRange, withText: ":\(GlobalStruct.emoticonToAdd): ")
         }
     }
     
