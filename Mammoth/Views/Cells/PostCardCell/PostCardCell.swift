@@ -208,23 +208,24 @@ final class PostCardCell: UITableViewCell {
     }()
     private var deletedWarningConstraints: [NSLayoutConstraint] = []
 
-    private var postTextView: MetaText = {
-        let metaText = MetaText()
-        metaText.textView.isOpaque = true
-        metaText.textView.backgroundColor = .custom.background
-        metaText.textView.translatesAutoresizingMaskIntoConstraints = false
-        metaText.textView.isEditable = false
-        metaText.textView.isScrollEnabled = false
-        metaText.textView.isSelectable = false
-        metaText.textView.textContainer.lineFragmentPadding = 0
-        metaText.textView.textContainerInset = .zero
-        metaText.textView.textDragInteraction?.isEnabled = false
-        metaText.textView.textContainer.lineBreakMode = .byTruncatingTail
+    private var postTextView: MetaLabel = {
+        let metaText = MetaLabel()
+        metaText.isOpaque = true
+        metaText.backgroundColor = .custom.background
+        metaText.translatesAutoresizingMaskIntoConstraints = false
+//        metaText.isEditable = false
+//        metaText.isScrollEnabled = false
+//        metaText.isSelectable = false
+        metaText.textContainer.lineFragmentPadding = 0
+        metaText.numberOfLines = 0
+//        metaText.textContainerInset = .zero
+//        metaText.textDragInteraction?.isEnabled = false
+        metaText.textContainer.lineBreakMode = .byTruncatingTail
         
-        metaText.textView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        metaText.textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        metaText.textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        metaText.textView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        metaText.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        metaText.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        metaText.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        metaText.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
 
         return metaText
     }()
@@ -324,7 +325,7 @@ final class PostCardCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.postCard = nil
-        self.postTextView.textView.attributedText = nil
+        self.postTextView.attributedText = nil
         self.profilePic.prepareForReuse()
         self.footer.onButtonPress = nil
         self.separatorInset = .zero
@@ -409,17 +410,16 @@ private extension PostCardCell {
         
         // insert a text label if there's a post text
         if [.textOnly, .textAndMedia].contains(self.cellVariant) {
-            contentStackView.addArrangedSubview(postTextView.textView)
+            contentStackView.addArrangedSubview(postTextView)
             
-            postTextView.textView.delegate = self
-            postTextView.textView.linkDelegate = self
+            postTextView.linkDelegate = self
 
             if self.cellVariant == .textAndMedia {
-                self.contentStackView.setCustomSpacing(6.0, after: self.postTextView.textView)
+                self.contentStackView.setCustomSpacing(6.0, after: self.postTextView)
             }
             
             // Force post text to fill the parent width
-            self.postTextTrailingConstraint = postTextView.textView.trailingAnchor.constraint(equalTo: contentStackView.layoutMarginsGuide.trailingAnchor)
+            self.postTextTrailingConstraint = postTextView.trailingAnchor.constraint(equalTo: contentStackView.layoutMarginsGuide.trailingAnchor)
             postTextTrailingConstraint!.priority = .defaultHigh
             postTextTrailingConstraint!.isActive = true
         }
@@ -577,8 +577,8 @@ extension PostCardCell {
         
         
         if [.textOnly, .textAndMedia].contains(self.cellVariant) {
-            if self.postTextView.textView.textContainer.maximumNumberOfLines != type.numberOfLines {
-                self.postTextView.textView.textContainer.maximumNumberOfLines = type.numberOfLines
+            if self.postTextView.textContainer.maximumNumberOfLines != type.numberOfLines {
+                self.postTextView.textContainer.maximumNumberOfLines = type.numberOfLines
             }
             
             if let postTextContent = postCard.metaPostText {
@@ -700,8 +700,8 @@ extension PostCardCell {
             // add custom spacing above the post details ("via Mammoth, public", and metrics)
             if self.contentStackView.arrangedSubviews.contains(self.mediaContainer) {
                 self.contentStackView.setCustomSpacing(12, after: self.mediaContainer)
-            } else if self.contentStackView.arrangedSubviews.contains(self.postTextView.textView) {
-                self.contentStackView.setCustomSpacing(10, after: self.postTextView.textView)
+            } else if self.contentStackView.arrangedSubviews.contains(self.postTextView) {
+                self.contentStackView.setCustomSpacing(10, after: self.postTextView)
             }
         } else {
             // remove the detailStack when not needed
@@ -712,13 +712,13 @@ extension PostCardCell {
         if type == .detail {
             // long press to copy the post text
             self.textLongPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.onTextLongPress))
-            self.postTextView.textView.addGestureRecognizer(self.textLongPressGesture!)
+            self.postTextView.addGestureRecognizer(self.textLongPressGesture!)
                         
             // make sure the thread lines are behind all the other elements
             mainStackView.sendSubviewToBack(parentThread)
             mainStackView.sendSubviewToBack(childThread)
-        } else if let gesture = self.textLongPressGesture, (self.postTextView.textView.gestureRecognizers?.contains(gesture) as? Bool) == true {
-            self.postTextView.textView.removeGestureRecognizer(gesture)
+        } else if let gesture = self.textLongPressGesture, (self.postTextView.gestureRecognizers?.contains(gesture) as? Bool) == true {
+            self.postTextView.removeGestureRecognizer(gesture)
         }
         
         // Make sure all views are underneath the contentWarningButton and the deletedWarningButton
@@ -863,7 +863,7 @@ extension PostCardCell {
     
     private func configureForDebugging(postCard: PostCardModel) {
         if let batchId = postCard.batchId, let batchItemIndex = postCard.batchItemIndex {
-            self.postTextView.textView.text = "\(batchId) - \(batchItemIndex)"
+            self.postTextView.text = "\(batchId) - \(batchItemIndex)"
             
             if let imageAttachment = self.imageAttachment {
                 self.imageAttachmentTrailingConstraint?.isActive = false
@@ -906,7 +906,7 @@ extension PostCardCell {
             self.contentView.backgroundColor = .custom.background
         }
 
-        self.postTextView.textView.backgroundColor = self.contentView.backgroundColor
+        self.postTextView.backgroundColor = self.contentView.backgroundColor
         
         self.profilePic.onThemeChange()
         self.header.onThemeChange()
@@ -930,8 +930,9 @@ extension PostCardCell {
 }
 
 // MARK: - MetaTextViewDelegate
-extension PostCardCell: MetaTextViewDelegate {
-    func metaTextView(_ metaTextView: MetaTextView, didSelectMeta meta: Meta) {
+extension PostCardCell: MetaLabelDelegate {
+    
+    func metaLabel(_ metaLabel: MetaLabel, didSelectMeta meta: Meta) {
         switch meta {
         case .url(_, _, let urlString, _):
             if let url = URL(string: urlString) {
@@ -946,32 +947,6 @@ extension PostCardCell: MetaTextViewDelegate {
         default:
             guard let postCard = self.postCard, self.type != .detail else { return }
             self.onButtonPress?(.postDetails, true, .post(postCard))
-        }
-    }
-}
-
-// MARK: - UITextViewDelegate
-extension PostCardCell: UITextViewDelegate {
-
-    public func textView(_ textView: UITextView, shouldInteractWith textAttachment: NSTextAttachment, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        switch textView {
-        case postTextView:
-            return false
-        default:
-            log.error("Unsupported UITextView")
-            assertionFailure()
-            return true
-        }
-    }
-
-    public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        switch textView {
-        case postTextView:
-            return false
-        default:
-            log.error("Unsupported UITextView")
-            assertionFailure()
-            return true
         }
     }
 }
