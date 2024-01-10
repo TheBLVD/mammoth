@@ -428,7 +428,11 @@ private extension UpgradeRootView {
         expandedStack.addArrangedSubview(productOptionsStack)
         
         optionsListStack.addArrangedSubview(createOptionLabel("early access to new features"))
-        optionsListStack.addArrangedSubview(createOptionLabel("supporter only app icons"))
+        var appIconBenefit = "supporter only app icons"
+        if !UIApplication.shared.supportsAlternateIcons {
+            appIconBenefit += " (iOS)"
+        }
+        optionsListStack.addArrangedSubview(createOptionLabel(appIconBenefit))
         optionsListStack.addArrangedSubview(createOptionLabel("support an open and free web"))
         optionsListStack.addArrangedSubview(createOptionLabel("vote on new features"))
         

@@ -103,12 +103,12 @@ class SettingsViewController: UIViewController {
                 ]),
                 Section(items: [
                     .postAppearance,
-                    .appIcon,
+                    UIApplication.shared.supportsAlternateIcons ? .appIcon : nil,
                     .composer,
                     .pushNotifications,
                     .soundsAndHaptics,
                     .siriShortcuts
-                ]),
+                ].compactMap{$0}),
                 Section(items: [
                     .getInTouch,
                     .subscriptions,
@@ -131,12 +131,12 @@ class SettingsViewController: UIViewController {
                 ]),
                 Section(items: [
                     .postAppearance,
-                    .appIcon,
+                    UIApplication.shared.supportsAlternateIcons ? .appIcon : nil,
                     .composer,
                     .pushNotifications,
                     .soundsAndHaptics,
                     .siriShortcuts
-                ]),
+                ].compactMap{$0}),
                 Section(items: [
                     .getInTouch,
                     .openSourceCredits,
