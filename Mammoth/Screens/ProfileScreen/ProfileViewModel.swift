@@ -102,7 +102,6 @@ final class ProfileViewModel {
                 // Lookup on account's instance
                 let user = UserCardModel(account: account, instanceName: serverName, requestFollowStatusUpdate: .force)
                 await MainActor.run {
-                    user.loadHTMLDescription()
                     self.user = user
                 }
                 
@@ -113,7 +112,6 @@ final class ProfileViewModel {
                 // This is a fallback for non-mastodon instances
                 let user = UserCardModel(account: account, instanceName: AccountsManager.shared.currentAccountClient.baseHost, requestFollowStatusUpdate: .force)
                 await MainActor.run {
-                    user.loadHTMLDescription()
                     self.user = user
                 }
                 
@@ -130,7 +128,6 @@ final class ProfileViewModel {
     init(_ type: ViewTypes = .posts, user: UserCardModel?, screenType: ProfileScreenType = .own) {
         self.type = type
         self.user = user
-        self.user?.loadHTMLDescription()
         self.screenType = (user?.isSelf ?? false) ? .own : screenType
         self.state = .success
         

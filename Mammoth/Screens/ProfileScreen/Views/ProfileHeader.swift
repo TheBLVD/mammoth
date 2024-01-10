@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Meta
+import MetaTextKit
 
 class ProfileHeader: UIView {
     
@@ -100,12 +102,14 @@ class ProfileHeader: UIView {
         return stackView
     }()
     
-    private let nameLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 4, weight: .bold)
-        label.textColor = UIColor.label
+    private let nameLabel: MetaLabel = {
+        let label = MetaLabel()
+        label.textColor = .custom.displayNames
         label.numberOfLines = 1
         label.textAlignment = .center
+        label.backgroundColor = .clear
+        label.textContainer.lineFragmentPadding = 0
+        label.isUserInteractionEnabled = false
         return label
     }()
 
@@ -117,22 +121,24 @@ class ProfileHeader: UIView {
         return label
     }()
     
-    private let descriptionLabel: ActiveLabel = {
-        let label = ActiveLabel()
-        label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .light)
-        label.textColor = .custom.mediumContrast
-        label.lineSpacing = GlobalStruct.customLineSize
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.enabledTypes = [.mention, .hashtag, .url, .email]
-        label.mentionColor = .custom.highContrast
-        label.hashtagColor = .custom.highContrast
-        label.URLColor = .custom.highContrast
-        label.emailColor = .custom.highContrast
-        label.linkWeight = .semibold
-        label.isOpaque = true
-        label.urlMaximumLength = 30
-        return label
+    private var descriptionLabel: MetaText = {
+        let metaText = MetaText()
+        metaText.textView.backgroundColor = .clear
+        metaText.textView.textAlignment = .center
+        metaText.textView.translatesAutoresizingMaskIntoConstraints = false
+        metaText.textView.isEditable = false
+        metaText.textView.isScrollEnabled = false
+        metaText.textView.isSelectable = false
+        metaText.textView.textContainer.lineFragmentPadding = 0
+        metaText.textView.textContainerInset = .zero
+        metaText.textView.textDragInteraction?.isEnabled = false
+        
+        metaText.textView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        metaText.textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        metaText.textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        metaText.textView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+
+        return metaText
     }()
     
     private let actionButton: UIButton = {
@@ -267,21 +273,7 @@ private extension ProfileHeader {
         self.profilePic.isContextMenuEnabled = false
         self.followersButton.addTarget(self, action: #selector(self.onFollowersTapped), for: .touchUpInside)
         
-        // When a description starts with a hashtag or mention the formatting is not correct.
-        // Defining the attributes again in this custom configurateLinkAttribute callback fixes it.
-        self.descriptionLabel.configureLinkAttribute = { (activeType, attributes: [NSAttributedString.Key: Any], _) in
-            switch activeType {
-            case .url, .mention, .email, .hashtag:
-                var newAttributes: [NSAttributedString.Key: Any] = [:]
-                newAttributes[.foregroundColor] = UIColor.custom.highContrast
-                newAttributes[.underlineStyle] = nil
-                newAttributes[.paragraphStyle] = attributes[.paragraphStyle]
-                newAttributes[.font] = attributes[.font]
-                return newAttributes
-            default:
-                return attributes
-            }
-        }
+        self.descriptionLabel.textView.linkDelegate = self
     }
     
     func profilePicTapped(_ type: PostCardButtonType,
@@ -325,63 +317,30 @@ extension ProfileHeader {
         
         self.profilePic.configure(user: user)
         
-        if let name = user.richName {
-            self.nameLabel.attributedText = formatRichText(string: name, label: self.nameLabel, emojis: user.emojis)
+        if let content = user.metaName {
+            self.nameLabel.configure(content: content)
         } else {
             self.nameLabel.text = user.name
         }
         
         self.userTagLabel.attributedText = self.formatUserTag(user: user)
         
-        self.descriptionLabel.customize { [weak self] label in
-            guard let self else { return }
-            
-            if let description = user.richDescription {
-                label.attributedText = formatRichText(string: description, label: label, emojis: user.emojis)
-            } else {
-                label.text = user.description
+        if let description = user.metaDescription {
+            self.descriptionLabel.configure(content: description)
+        } else {
+            self.descriptionLabel.textView.text = user.description
+        }
+                
+        if let description = user.description, !description.isEmpty {
+            if !contentStackView.arrangedSubviews.contains(descriptionLabel.textView) {
+                contentStackView.insertArrangedSubview(descriptionLabel.textView, at: 0)
+                descriptionLabel.textView.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 420, constant: -(contentStackView.layoutMargins.left + contentStackView.layoutMargins.right))
             }
-            
-            if let description = user.description, !description.isEmpty {
-                if !contentStackView.arrangedSubviews.contains(descriptionLabel) {
-                    contentStackView.insertArrangedSubview(descriptionLabel, at: 0)
-                    descriptionLabel.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 420, constant: -(contentStackView.layoutMargins.left + contentStackView.layoutMargins.right))
-                }
-                
-                label.mentionColor = .custom.highContrast
-                label.hashtagColor = .custom.highContrast
-                label.URLColor = .custom.highContrast
-                label.emailColor = .custom.highContrast
-                label.textColor = .custom.highContrast
-                
-                // Post text link handlers
-                label.handleURLTap { url in
-                    self.onButtonPress?(.link, .url(url))
-                }
-                label.handleHashtagTap { hashtag in
-                    self.onButtonPress?(.link, .hashtag(hashtag))
-                }
-                label.handleMentionTap { mention in
-                    if let (range, _, _) = self.descriptionLabel.selectedElement {
-                        if let url = self.user?.richDescription?.attribute(.link, at: range.location, effectiveRange: nil) as? URL {
-                            self.onButtonPress?(.link, .mention("@\(mention)@\(url.host ?? "")"))
-                            return
-                        }
-                    }
-                    
-                    self.onButtonPress?(.link, .mention(mention))
-                }
-                label.handleEmailTap { email in
-                    self.onButtonPress?(.link, .email(email))
-                }
-                
-                
-            } else {
-                if contentStackView.arrangedSubviews.contains(descriptionLabel) {
-                    contentStackView.removeArrangedSubview(descriptionLabel)
-                    descriptionLabel.removeFromSuperview()
-                    descriptionLabel.constraints.forEach({ $0.isActive = false })
-                }
+        } else {
+            if contentStackView.arrangedSubviews.contains(descriptionLabel.textView) {
+                contentStackView.removeArrangedSubview(descriptionLabel.textView)
+                descriptionLabel.textView.removeFromSuperview()
+                descriptionLabel.textView.constraints.forEach({ $0.isActive = false })
             }
         }
         
@@ -501,12 +460,34 @@ extension ProfileHeader {
             self.userTagLabel.attributedText = self.formatUserTag(user: user)
         }
         
-        self.descriptionLabel.mentionColor = .custom.highContrast
-        self.descriptionLabel.hashtagColor = .custom.highContrast
-        self.descriptionLabel.URLColor = .custom.highContrast
-        self.descriptionLabel.emailColor = .custom.highContrast
+        self.descriptionLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .light),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
         
-        self.nameLabel.textColor = .custom.highContrast
+        self.descriptionLabel.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+        
+        self.descriptionLabel.paragraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
+            style.paragraphSpacing = 4
+            style.alignment = .center
+            return style
+        }()
+                
+        self.nameLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 4, weight: .bold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+        
+        self.nameLabel.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 4, weight: .bold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+        
         self.userTagLabel.textColor = .custom.softContrast
         
         self.actionButton.layer.borderColor = UIColor.custom.outlines.cgColor
@@ -609,6 +590,33 @@ extension ProfileHeader {
     }
 }
 
+extension ProfileHeader: MetaTextViewDelegate {
+    func metaTextView(_ metaTextView: MetaTextView, didSelectMeta meta: Meta) {
+        switch meta {
+        case .url(_, _, let urlString, _):
+            if let url = URL(string: urlString) {
+                self.onButtonPress?(.link, .url(url))
+            }
+        case .mention(_, let mention, let userInfo):
+            if let userInfo = userInfo, 
+                let firstItem = userInfo.first,
+                let value = firstItem.value as? String,
+                let url = URL(string: value),
+                let host = url.host {
+                self.onButtonPress?(.link, .mention("@\(mention)@\(host)/"))
+            } else {
+                self.onButtonPress?(.link, .mention(mention))
+            }
+        case .hashtag(_, let hashtag, _):
+            self.onButtonPress?(.link, .hashtag(hashtag))
+        case .email(let text, _):
+            self.onButtonPress?(.link, .email(text))
+        default:
+            break
+        }
+    }
+}
+
 // MARK: Appearance changes
 internal extension ProfileHeader {
      override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -652,7 +660,7 @@ extension ProfileHeader {
 }
 
 // MARK: - Profile field
-final class ProfileField: UIStackView {
+final class ProfileField: UIStackView, MetaLabelDelegate {
     
     private let valueStack: UIStackView = {
         let stackView = UIStackView()
@@ -675,26 +683,23 @@ final class ProfileField: UIStackView {
     
     private let verifiedImage = UIImageView(image: FontAwesome.image(fromChar: "\u{e416}", size: 15, weight: .bold).withConfiguration(userCardSymbolConfig).withTintColor(.custom.mediumContrast, renderingMode: .alwaysTemplate))
         
-    private let descriptionLabel: ActiveLabel = {
-        let label = ActiveLabel()
+    private let descriptionLabel: MetaLabel = {
+        let label = MetaLabel()
         label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular)
         label.textColor = .custom.mediumContrast
         label.textAlignment = .left
         label.numberOfLines = 0
-        label.enabledTypes = [.mention, .hashtag, .url, .email]
-        label.urlMaximumLength = 120
-        label.mentionColor = .custom.mediumContrast
-        label.hashtagColor = .custom.mediumContrast
-        label.URLColor = .custom.mediumContrast
-        label.emailColor = .custom.mediumContrast
-        label.linkWeight = .regular
         label.isOpaque = true
+        label.textContainer.lineFragmentPadding = 0
         return label
     }()
+    
+    private let field: HashType
     
     var onButtonPress: UserCardButtonCallback?
     
     init(field: HashType) {
+        self.field = field
         super.init(frame: .zero)
         setupUI()
         
@@ -709,8 +714,14 @@ final class ProfileField: UIStackView {
             verifiedImage.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .horizontal)
         }
         
-        if let description = parseRichText(text: field.value.stripHTML()) {
-            descriptionLabel.attributedText = formatRichText(string: description, label: descriptionLabel, emojis: nil)
+        descriptionLabel.linkDelegate = self
+        
+        // long press to copy the post text
+        let textLongPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.onTextLongPress))
+        self.descriptionLabel.addGestureRecognizer(textLongPressGesture)
+        
+        if let description = field.metaValue {
+            descriptionLabel.configure(content: description)
         }
     }
     
@@ -734,27 +745,64 @@ final class ProfileField: UIStackView {
             valueStack.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
         ])
         
-        descriptionLabel.handleURLTap { url in
-            self.onButtonPress?(.link, .url(url))
+        self.onThemeChange()
+    }
+    
+    @objc private func onTextLongPress(recognizer: UIGestureRecognizer) {
+        if let view = recognizer.view, let superview = recognizer.view?.superview {
+            view.becomeFirstResponder()
+            let menuController = UIMenuController.shared
+                    
+            let copyItem = UIMenuItem(title: "Copy", action: #selector(self.copyText))
+            menuController.menuItems = [copyItem]
+            
+            menuController.showMenu(from: superview, rect: view.frame)
         }
-        descriptionLabel.handleHashtagTap { hashtag in
-            self.onButtonPress?(.link, .hashtag(hashtag))
-        }
-        descriptionLabel.handleMentionTap { mention in
-            self.onButtonPress?(.link, .mention(mention))
-        }
-        descriptionLabel.handleEmailTap { email in
-            self.onButtonPress?(.link, .email(email))
-        }
+    }
+    
+    @objc private func copyText() {
+        UIPasteboard.general.setValue(self.field.metaValue?.original ?? "", forPasteboardType: "public.utf8-plain-text")
     }
     
     func onThemeChange() {
         self.titleLabel.textColor = .custom.feintContrast
-        self.descriptionLabel.mentionColor = .custom.mediumContrast
-        self.descriptionLabel.hashtagColor = .custom.mediumContrast
-        self.descriptionLabel.URLColor = .custom.mediumContrast
-        self.descriptionLabel.emailColor = .custom.mediumContrast
+        
+        self.descriptionLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+        
+        self.descriptionLabel.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
     }
+    
+    func metaLabel(_ metaLabel: MetaTextKit.MetaLabel, didSelectMeta meta: Meta) {
+        switch meta {
+        case .url(_, _, let urlString, _):
+            if let url = URL(string: urlString) {
+                self.onButtonPress?(.link, .url(url))
+            }
+        case .mention(_, let mention, let userInfo):
+            if let userInfo = userInfo,
+                let firstItem = userInfo.first,
+                let value = firstItem.value as? String,
+                let url = URL(string: value),
+                let host = url.host {
+                self.onButtonPress?(.link, .mention("@\(mention)@\(host)/"))
+            } else {
+                self.onButtonPress?(.link, .mention(mention))
+            }
+        case .hashtag(_, let hashtag, _):
+            self.onButtonPress?(.link, .hashtag(hashtag))
+        case .email(let text, _):
+            self.onButtonPress?(.link, .email(text))
+        default:
+            break
+        }
+    }
+    
 }
 
 final class ProfileFieldSeperator: UIView {

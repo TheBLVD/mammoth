@@ -82,7 +82,7 @@ class PostCardQuotePost: UIView {
 
         metaText.paragraphStyle = {
             let style = NSMutableParagraphStyle()
-            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 5 : 0
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
             style.paragraphSpacing = 8
             style.alignment = .natural
             return style
@@ -226,7 +226,7 @@ class PostCardQuotePost: UIView {
 
         self.postTextLabel.paragraphStyle = {
             let style = NSMutableParagraphStyle()
-            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 5 : 0
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
             style.paragraphSpacing = 4
             style.alignment = .natural
             return style

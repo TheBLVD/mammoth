@@ -73,18 +73,13 @@ final class UserCardCell: UITableViewCell {
         return label
     }()
 
-    private var descriptionLabel: ActiveLabel = {
-        let label = ActiveLabel()
+    private var descriptionLabel: MetaLabel = {
+        let label = MetaLabel()
         label.textColor = .custom.mediumContrast
-        label.enabledTypes = [.mention, .hashtag, .url, .email]
         label.numberOfLines = 2
-        label.mentionColor = .custom.highContrast
-        label.hashtagColor = .custom.highContrast
-        label.URLColor = .custom.highContrast
-        label.emailColor = .custom.highContrast
-        label.linkWeight = .semibold
-        label.urlMaximumLength = 30
+        label.textContainer.maximumNumberOfLines = 2
         label.isUserInteractionEnabled = false
+        label.textContainer.lineFragmentPadding = 0
         return label
     }()
     
@@ -115,6 +110,7 @@ final class UserCardCell: UITableViewCell {
         self.titleLabel.text = nil
         self.titleLabel.attributedText = nil
         self.userTagLabel.text = nil
+        self.descriptionLabel.text = nil
         self.descriptionLabel.attributedText = nil
         setupUIFromSettings()
     }
@@ -145,7 +141,7 @@ private extension UserCardCell {
         contentStackView.addArrangedSubview(headerStackView)
         contentStackView.addArrangedSubview(descriptionLabel)
         
-        contentStackView.setCustomSpacing(-1, after: headerStackView)
+        contentStackView.setCustomSpacing(4, after: headerStackView)
         
         headerStackView.addArrangedSubview(headerTitleStackView)
         
@@ -157,30 +153,29 @@ private extension UserCardCell {
         headerTitleStackView.addArrangedSubview(titleLabel)
         headerTitleStackView.addArrangedSubview(userTagLabel)
         
-        // When a description starts with a hashtag or mention the formatting is not correct.
-        // Defining the attributes again in this custom configurateLinkAttribute callback fixes it.
-        self.descriptionLabel.configureLinkAttribute = { (activeType, attributes: [NSAttributedString.Key: Any], _) in
-            switch activeType {
-            case .url, .mention, .email, .hashtag:
-                var newAttributes: [NSAttributedString.Key: Any] = [:]
-                newAttributes[.foregroundColor] = UIColor.custom.highContrast
-                newAttributes[.underlineStyle] = nil
-                newAttributes[.paragraphStyle] = attributes[.paragraphStyle]
-                newAttributes[.font] = attributes[.font]
-                return newAttributes
-            default:
-                return attributes
-            }
-        }
-        
         setupUIFromSettings()
     }
 
     func setupUIFromSettings() {
         userTagLabel.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
-        descriptionLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
-        descriptionLabel.minimumLineHeight = DeviceHelpers.isiOSAppOnMac() ? UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 5 : 0
-        descriptionLabel.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 2 : -2
+
+        self.descriptionLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+        
+        self.descriptionLabel.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+        
+        self.descriptionLabel.paragraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : -1
+            style.paragraphSpacing = 4
+            style.alignment = .left
+            return style
+        }()
         
         titleLabel.textAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
@@ -204,9 +199,9 @@ extension UserCardCell {
         
         self.userTagLabel.text = info.userTag
         
-        if let desc = info.richPreviewDescription {
+        if let desc = info.metaDescription {
             self.descriptionLabel.isHidden = false
-            self.descriptionLabel.attributedText = formatRichText(string: desc, label: self.descriptionLabel, emojis: info.emojis)
+            self.descriptionLabel.configure(content: desc)
         } else {
             self.descriptionLabel.isHidden = true
         }

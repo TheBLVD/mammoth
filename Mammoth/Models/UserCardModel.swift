@@ -18,7 +18,6 @@ class UserCardModel {
     let name: String
     let userTag: String
     let username: String
-    let metaName: MastodonMetaContent?
     
     let imageURL: String?
     let description: String?
@@ -32,7 +31,10 @@ class UserCardModel {
     let isBot: Bool
     
     var richName: NSAttributedString?
-    var richDescription: NSAttributedString?
+    let metaName: MastodonMetaContent?
+
+    let metaDescription: MastodonMetaContent?
+
     let richPreviewDescription: NSAttributedString?
     var followStatus: FollowManager.FollowStatus?
     let followingCount: String
@@ -80,15 +82,19 @@ class UserCardModel {
         
         var emojisDic: MastodonContent.Emojis = [:]
         self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
-        let content = MastodonContent(content: self.name, emojis: emojisDic)
         do {
-            self.metaName = try MastodonMetaContent.convert(document: content)
+            self.metaName = try MastodonMetaContent.convert(document: MastodonContent(content: self.name, emojis: emojisDic))
         } catch {
-            self.metaName = MastodonMetaContent.convert(text: content)
+            self.metaName = MastodonMetaContent.convert(text: MastodonContent(content: self.name, emojis: emojisDic))
         }
         
-        self.richDescription = nil
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil
+        
+        do {
+            self.metaDescription = try MastodonMetaContent.convert(document: MastodonContent(content: self.description ?? "", emojis: emojisDic))
+        } catch {
+            self.metaDescription = MastodonMetaContent.convert(text: MastodonContent(content: self.description ?? "", emojis: emojisDic))
+        }
         
         self.instanceName = nil
         
@@ -104,6 +110,7 @@ class UserCardModel {
         self.followersCount = max(account?.followersCount ?? 0, 0).formatUsingAbbrevation()
         
         self.fields = account?.fields
+        self.fields?.forEach({$0.configureMetaValue(with: emojisDic)})
         self.joinedOn = account?.createdAt?.toDate()
     }
     
@@ -114,7 +121,7 @@ class UserCardModel {
         self.userTag = account.fullAcct
         self.username = account.username
         self.imageURL = account.avatar
-        self.description = account.note.stripHTML()
+        self.description = account.note
         self.isFollowing = isFollowing
         self.emojis = account.emojis
         self.account = account
@@ -123,15 +130,20 @@ class UserCardModel {
         
         var emojisDic: MastodonContent.Emojis = [:]
         self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
-        let content = MastodonContent(content: self.name, emojis: emojisDic)
+        
         do {
-            self.metaName = try MastodonMetaContent.convert(document: content)
+            self.metaName = try MastodonMetaContent.convert(document: MastodonContent(content: self.name, emojis: emojisDic))
         } catch {
-            self.metaName = MastodonMetaContent.convert(text: content)
+            self.metaName = MastodonMetaContent.convert(text: MastodonContent(content: self.name, emojis: emojisDic))
         }
         
-        self.richDescription = nil
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil
+        
+        do {
+            self.metaDescription = try MastodonMetaContent.convert(document: MastodonContent(content: self.description ?? "", emojis: emojisDic))
+        } catch {
+            self.metaDescription = MastodonMetaContent.convert(text: MastodonContent(content: self.description ?? "", emojis: emojisDic))
+        }
         
         self.instanceName = instanceName
         
@@ -147,6 +159,7 @@ class UserCardModel {
         self.followersCount = max(account.followersCount, 0).formatUsingAbbrevation()
         
         self.fields = account.fields
+        self.fields?.forEach({$0.configureMetaValue(with: emojisDic)})
         self.joinedOn = account.createdAt?.toDate()
     }
     
@@ -173,12 +186,6 @@ class UserCardModel {
     
     static func isOwn(account: Account) -> Bool {
         return AccountsManager.shared.currentUser()?.fullAcct != nil && AccountsManager.shared.currentUser()?.fullAcct == account.fullAcct
-    }
-    
-    @discardableResult
-    public func loadHTMLDescription() -> NSAttributedString? {
-        self.richDescription = self.description != nil ? parseRichText(text: description) : nil
-        return self.richDescription
     }
     
 }
