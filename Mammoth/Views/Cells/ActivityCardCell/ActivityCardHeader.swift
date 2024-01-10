@@ -246,6 +246,12 @@ extension ActivityCardHeader {
                     self.dateLabel.text = newTime
                 }
             }
+            
+            if let notification = self.activity?.notification {
+                let newTime = ActivityCardModel.formattedTime(notification: notification, formatter: GlobalStruct.dateFormatter)
+                self.activity?.time = newTime
+                self.dateLabel.text = newTime
+            }
         }
     }
     
