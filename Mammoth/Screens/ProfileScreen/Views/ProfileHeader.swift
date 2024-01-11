@@ -514,8 +514,6 @@ extension ProfileHeader {
         if screenType == .own {
             self.actionButton.menu = self.createContextMenu()
         }
-        
-        self.setNeedsDisplay()
     }
     
     @objc func followTapped() {
