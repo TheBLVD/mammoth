@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MetaTextKit
 
 final class ActivityCardCell: UITableViewCell {
     static let reuseIdentifier = "ActivityCardCell"
@@ -49,19 +50,32 @@ final class ActivityCardCell: UITableViewCell {
     private let profilePic = PostCardProfilePic(withSize: .regular)
     private let header = ActivityCardHeader()
 
-    private var postTextLabel: ActiveLabel = {
-        let label = ActiveLabel()
+    private var postTextLabel: MetaLabel = {
+        let label = MetaLabel()
         label.textColor = .custom.mediumContrast
-        label.enabledTypes = [.mention, .hashtag, .url, .email]
-        label.mentionColor = .custom.highContrast
-        label.hashtagColor = .custom.highContrast
-        label.URLColor = .custom.highContrast
-        label.emailColor = .custom.highContrast
-        label.linkWeight = .semibold
         label.isOpaque = true
-        label.urlMaximumLength = 30
         label.numberOfLines = 4
+        label.textContainer.maximumNumberOfLines = 4
         label.translatesAutoresizingMaskIntoConstraints = false
+        
+        label.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+
+        label.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+
+        label.paragraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
+            style.paragraphSpacing = 8
+            style.alignment = .natural
+            return style
+        }()
+
         return label
     }()
     
@@ -121,8 +135,6 @@ final class ActivityCardCell: UITableViewCell {
         self.activityCard = nil
         self.profilePic.prepareForReuse()
         self.postTextLabel.text = nil
-        self.postTextLabel.attributedText = nil
-        self.postTextLabel.linkWeight = .semibold
         self.postTextLabel.isUserInteractionEnabled = true
         
         self.header.prepareForReuse()
@@ -231,7 +243,9 @@ private extension ActivityCardCell {
         contentStackView.addArrangedSubview(header)
         contentStackView.addArrangedSubview(postTextLabel)
         contentStackView.addArrangedSubview(mediaContainer)
-                
+        
+        postTextLabel.linkDelegate = self
+
         let postTextTrailing = postTextLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor)
         postTextTrailing.priority = .defaultHigh
 
@@ -249,8 +263,24 @@ private extension ActivityCardCell {
     }
     
     @objc func setupUIFromSettings() {
-        postTextLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        self.postTextLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
         
+        self.postTextLabel.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+
+        self.postTextLabel.paragraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
+            style.paragraphSpacing = 4
+            style.alignment = .natural
+            return style
+        }()
+
         self.header.setupUIFromSettings()
         self.linkPreview?.setupUIFromSettings()
         self.quotePost?.setupUIFromSettings()
@@ -270,35 +300,16 @@ extension ActivityCardCell {
         self.header.configure(activity: activity)
         self.header.onPress = onButtonPress
         
-        self.postTextLabel.customize { label in
-            switch activity.type {
-            case .follow, .follow_request:
-                label.attributedText = nil
-                label.text = activity.user.userTag
-                label.linkWeight = .regular
-                label.isUserInteractionEnabled = false
-            default:
-                if let postCard = activity.postCard {
-                    if let postText = postCard.richPostText {
-                        label.attributedText = formatRichText(string: postText, label: label, emojis: postCard.emojis)
-                    } else {
-                        label.text = postCard.postText
-                    }
-                }
-            }
-            
-            // Post text link handlers
-            label.handleURLTap { url in
-                onButtonPress(.link, true, .url(url))
-            }
-            label.handleHashtagTap { hashtag in
-                onButtonPress(.link, true, .hashtag(hashtag))
-            }
-            
-            if case .mastodon(let status) = activity.postCard?.data {
-                label.handleMentionTap { mention in
-                    onButtonPress(.link, true, .mention((mention, status)))
-                }
+        switch activity.type {
+        case .follow, .follow_request:
+            postTextLabel.attributedText = nil
+            postTextLabel.text = activity.user.userTag
+            postTextLabel.isUserInteractionEnabled = false
+        default:
+            if let content = activity.postCard?.metaPostText {
+                self.postTextLabel.configure(content: content)
+            } else {
+                self.postTextLabel.text = activity.postCard?.postText
             }
         }
         
@@ -460,10 +471,6 @@ extension ActivityCardCell {
     func onThemeChange() {
         self.backgroundColor = .custom.background
         self.contentView.backgroundColor = .custom.background
-        self.postTextLabel.mentionColor = .custom.highContrast
-        self.postTextLabel.hashtagColor = .custom.highContrast
-        self.postTextLabel.URLColor = .custom.highContrast
-        self.postTextLabel.emailColor = .custom.highContrast
         self.postTextLabel.backgroundColor = self.contentView.backgroundColor
         
         self.profilePic.onThemeChange()
@@ -522,5 +529,27 @@ extension ActivityCardCell {
         ].compactMap({$0})
         
         return UIMenu(title: "", options: [.displayInline], children: options)
+    }
+}
+
+// MARK: - MetaLabelDelegate
+extension ActivityCardCell: MetaLabelDelegate {
+    func metaLabel(_ metaLabel: MetaTextKit.MetaLabel, didSelectMeta meta: Meta) {
+        switch meta {
+        case .url(_, _, let urlString, _):
+            if let url = URL(string: urlString) {
+                self.onButtonPress?(.link, true, .url(url))
+            }
+        case .mention(_, let mention, _):
+            if case .mastodon(let status) = self.activityCard?.postCard?.data {
+                self.onButtonPress?(.link, true, .mention((mention, status)))
+            }
+        case .hashtag(_, let hashtag, _):
+            self.onButtonPress?(.link, true, .hashtag(hashtag))
+        default:
+            if let postCard = self.activityCard?.postCard {
+                self.onButtonPress?(.postDetails, true, .post(postCard))
+            }
+        }
     }
 }
