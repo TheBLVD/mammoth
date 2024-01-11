@@ -17,6 +17,8 @@ public enum ClientError: Error {
     case invalidModel
     /// Generic error.
     case genericError
+    ///  Network error.
+    case networkError(_ statusCode: Int)
     /// The Mastodon service returned an error.
     case mastodonError(_ message: String)
 }

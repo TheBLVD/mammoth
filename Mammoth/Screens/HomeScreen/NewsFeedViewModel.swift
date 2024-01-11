@@ -146,9 +146,18 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
             // Mastodon might return a 206 error when the feed is being regenerated.
             // If so, wait 3 seconds and retry (max 4 times)
             // https://docs.joinmastodon.org/methods/timelines/#206-partial-content
-            if (error as NSError).code == 206 && retryCount < 5 {
-                try await Task.sleep(seconds: 3)
-                return try await self.fetchAll(range: range, batchName: batchName, retryCount: retryCount + 1)
+            if let clientError = error as? ClientError {
+                switch clientError {
+                case .networkError(let statusCode):
+                    if (statusCode == 206 || statusCode == 500) && retryCount < 5 {
+                        log.error("error status code \(statusCode); going to retry in 3 seconds")
+                        try await Task.sleep(seconds: 3)
+                        return try await self.fetchAll(range: range, batchName: batchName, retryCount: retryCount + 1)
+                    }
+                    fallthrough
+                default:
+                    throw error
+                }
             } else {
                 throw error
             }

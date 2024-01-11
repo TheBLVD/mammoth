@@ -78,7 +78,7 @@ public class Client: NSObject, ClientType, URLSessionTaskDelegate {
                     let statusCode = (response as? HTTPURLResponse)?.statusCode
                     log.error("error status code: \(statusCode ?? 0)")
                     let mastodonError = try? MastodonError.decode(data: data)
-                    let error: ClientError = mastodonError.map { .mastodonError($0.description) } ?? .genericError
+                    let error: ClientError = mastodonError.map { .mastodonError($0.description) } ?? (statusCode != nil ? .networkError(statusCode!) : .genericError)
                     completion(.failure(error))
                     NetworkMonitor.shared.logNetworkCall(response: response, isMothClient: self.isMothClient)
                     return
