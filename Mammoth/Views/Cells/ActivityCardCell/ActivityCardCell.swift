@@ -50,36 +50,25 @@ final class ActivityCardCell: UITableViewCell {
     private let profilePic = PostCardProfilePic(withSize: .regular)
     private let header = ActivityCardHeader()
 
-    private var postTextLabel: MetaText = {
-        let metaText = MetaText()
-        metaText.textView.isOpaque = true
-        metaText.textView.backgroundColor = .custom.background
-        metaText.textView.translatesAutoresizingMaskIntoConstraints = false
-        metaText.textView.isEditable = false
-        metaText.textView.isScrollEnabled = false
-        metaText.textView.isSelectable = false
-        metaText.textView.textContainer.lineFragmentPadding = 0
-        metaText.textView.textContainerInset = .zero
-        metaText.textView.textDragInteraction?.isEnabled = false
-        metaText.textView.textContainer.lineBreakMode = .byTruncatingTail
-        metaText.textView.textContainer.maximumNumberOfLines = 4
+    private var postTextLabel: MetaLabel = {
+        let label = MetaLabel()
+        label.textColor = .custom.mediumContrast
+        label.isOpaque = true
+        label.numberOfLines = 4
+        label.textContainer.maximumNumberOfLines = 4
+        label.translatesAutoresizingMaskIntoConstraints = false
         
-        metaText.textView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        metaText.textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        metaText.textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        metaText.textView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-        
-        metaText.textAttributes = [
+        label.textAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
             .foregroundColor: UIColor.custom.mediumContrast,
         ]
 
-        metaText.linkAttributes = [
+        label.linkAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
             .foregroundColor: UIColor.custom.highContrast,
         ]
 
-        metaText.paragraphStyle = {
+        label.paragraphStyle = {
             let style = NSMutableParagraphStyle()
             style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
             style.paragraphSpacing = 8
@@ -87,7 +76,7 @@ final class ActivityCardCell: UITableViewCell {
             return style
         }()
 
-        return metaText
+        return label
     }()
     
     // Contains image attachment, poll, and/or link preview if needed
@@ -145,8 +134,8 @@ final class ActivityCardCell: UITableViewCell {
         super.prepareForReuse()
         self.activityCard = nil
         self.profilePic.prepareForReuse()
-        self.postTextLabel.textView.text = nil
-        self.postTextLabel.textView.isUserInteractionEnabled = true
+        self.postTextLabel.text = nil
+        self.postTextLabel.isUserInteractionEnabled = true
         
         self.header.prepareForReuse()
         
@@ -252,20 +241,19 @@ private extension ActivityCardCell {
         mainStackView.addArrangedSubview(contentStackView)
         
         contentStackView.addArrangedSubview(header)
-        contentStackView.addArrangedSubview(postTextLabel.textView)
+        contentStackView.addArrangedSubview(postTextLabel)
         contentStackView.addArrangedSubview(mediaContainer)
         
-//        postTextLabel.linkDelegate = self
-        postTextLabel.textView.linkDelegate = self
+        postTextLabel.linkDelegate = self
 
-        //        let postTextTrailing = postTextLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor)
-//        postTextTrailing.priority = .defaultHigh
+        let postTextTrailing = postTextLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor)
+        postTextTrailing.priority = .defaultHigh
 
         NSLayoutConstraint.activate([
             // Force header to fill the parent width
             header.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor),
             // Force post text to fill the parent width
-//            postTextTrailing
+            postTextTrailing
         ])
         
         // Force media container to fill the parent width - with max width for big displays
@@ -314,14 +302,14 @@ extension ActivityCardCell {
         
         switch activity.type {
         case .follow, .follow_request:
-            postTextLabel.textView.attributedText = nil
-            postTextLabel.textView.text = activity.user.userTag
-            postTextLabel.textView.isUserInteractionEnabled = false
+            postTextLabel.attributedText = nil
+            postTextLabel.text = activity.user.userTag
+            postTextLabel.isUserInteractionEnabled = false
         default:
             if let content = activity.postCard?.metaPostText {
                 self.postTextLabel.configure(content: content)
             } else {
-                self.postTextLabel.textView.text = activity.postCard?.postText
+                self.postTextLabel.text = activity.postCard?.postText
             }
         }
         
@@ -448,8 +436,8 @@ extension ActivityCardCell {
     
     private func configureForDebugging(activity: ActivityCardModel) {
         if let batchId = activity.batchId, let batchItemIndex = activity.batchItemIndex {
-            self.postTextLabel.textView.attributedText = nil
-            self.postTextLabel.textView.text = "\(batchId) - \(batchItemIndex)"
+            self.postTextLabel.attributedText = nil
+            self.postTextLabel.text = "\(batchId) - \(batchItemIndex)"
             
             if let imageAttachment = self.imageAttachment {
                 self.imageAttachmentTrailingConstraint?.isActive = false
@@ -483,7 +471,7 @@ extension ActivityCardCell {
     func onThemeChange() {
         self.backgroundColor = .custom.background
         self.contentView.backgroundColor = .custom.background
-        self.postTextLabel.textView.backgroundColor = self.contentView.backgroundColor
+        self.postTextLabel.backgroundColor = self.contentView.backgroundColor
         
         self.profilePic.onThemeChange()
         self.header.onThemeChange()
@@ -544,10 +532,9 @@ extension ActivityCardCell {
     }
 }
 
-// MARK: - MetaTextViewDelegate
-extension ActivityCardCell: MetaTextViewDelegate {
-    func metaTextView(_ metaTextView: MetaTextKit.MetaTextView, didSelectMeta meta: Meta) {
-
+// MARK: - MetaLabelDelegate
+extension ActivityCardCell: MetaLabelDelegate {
+    func metaLabel(_ metaLabel: MetaTextKit.MetaLabel, didSelectMeta meta: Meta) {
         switch meta {
         case .url(_, _, let urlString, _):
             if let url = URL(string: urlString) {
