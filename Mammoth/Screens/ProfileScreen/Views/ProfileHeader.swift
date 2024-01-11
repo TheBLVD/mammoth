@@ -315,6 +315,8 @@ extension ProfileHeader {
         self.user = user
         self.screenType = screenType
         
+        self.onThemeChange()
+        
         self.profilePic.configure(user: user)
         
         if let content = user.metaName {
@@ -443,8 +445,6 @@ extension ProfileHeader {
             
             NSLayoutConstraint.activate(extraInfoConstraints!)
         }
-        
-        self.onThemeChange()
     }
     
     func optimisticUpdate(image: UIImage) {
