@@ -136,6 +136,7 @@ final class ActivityCardCell: UITableViewCell {
         self.activityCard = nil
         self.profilePic.prepareForReuse()
         self.postTextLabel.text = nil
+        self.postTextLabel.attributedText = nil
         self.postTextLabel.isUserInteractionEnabled = true
         
         self.header.prepareForReuse()
