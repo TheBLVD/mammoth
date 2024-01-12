@@ -133,8 +133,7 @@ class AccountSwitcherButton: UIButton {
             // Add account
             DispatchQueue.main.async {
                 triggerHapticImpact(style: .light)
-                let vc = IntroViewController()
-                vc.fromPlus = true
+                let vc = AccountsSettingsViewController()
                 if vc.isBeingPresented {} else {
                     getTopMostViewController()?.present(UINavigationController(rootViewController: vc), animated: true)
                 }
