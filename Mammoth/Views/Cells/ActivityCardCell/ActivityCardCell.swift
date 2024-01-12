@@ -269,11 +269,7 @@ private extension ActivityCardCell {
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
             .foregroundColor: UIColor.custom.mediumContrast,
         ]
-        
-        self.postTextLabel.linkAttributes = [
-            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
-            .foregroundColor: UIColor.custom.highContrast,
-        ]
+        configurePostTextLabelAttributes()
 
         self.postTextLabel.paragraphStyle = {
             let style = NSMutableParagraphStyle()
@@ -289,6 +285,25 @@ private extension ActivityCardCell {
         
         self.onThemeChange()
     }
+    
+    func configurePostTextLabelAttributes() {
+        let linkAttributeColor: UIColor
+        let linkAttributeWeight: UIFont.Weight
+        if let cardType = activityCard?.type {
+            switch cardType {
+            case .follow, .follow_request:
+                linkAttributeColor = UIColor.custom.mediumContrast
+                linkAttributeWeight = .regular
+            default:
+                linkAttributeColor = UIColor.custom.highContrast
+                linkAttributeWeight = .semibold
+            }
+            self.postTextLabel.linkAttributes = [
+                .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: linkAttributeWeight),
+                .foregroundColor: linkAttributeColor
+            ]
+        }
+    }
 }
 
 // MARK: - Configuration
@@ -302,6 +317,7 @@ extension ActivityCardCell {
         self.header.configure(activity: activity)
         self.header.onPress = onButtonPress
         
+        configurePostTextLabelAttributes()
         switch activity.type {
         case .follow, .follow_request:
             let content = MastodonContent(content: activity.user.userTag, emojis: [:])
