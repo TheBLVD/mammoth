@@ -8,6 +8,7 @@
 
 import UIKit
 import MetaTextKit
+import MastodonMeta
 
 final class ActivityCardCell: UITableViewCell {
     static let reuseIdentifier = "ActivityCardCell"
@@ -135,6 +136,7 @@ final class ActivityCardCell: UITableViewCell {
         self.activityCard = nil
         self.profilePic.prepareForReuse()
         self.postTextLabel.text = nil
+        self.postTextLabel.attributedText = nil
         self.postTextLabel.isUserInteractionEnabled = true
         
         self.header.prepareForReuse()
@@ -267,11 +269,7 @@ private extension ActivityCardCell {
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
             .foregroundColor: UIColor.custom.mediumContrast,
         ]
-        
-        self.postTextLabel.linkAttributes = [
-            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
-            .foregroundColor: UIColor.custom.highContrast,
-        ]
+        configurePostTextLabelAttributes()
 
         self.postTextLabel.paragraphStyle = {
             let style = NSMutableParagraphStyle()
@@ -287,6 +285,25 @@ private extension ActivityCardCell {
         
         self.onThemeChange()
     }
+    
+    func configurePostTextLabelAttributes() {
+        let linkAttributeColor: UIColor
+        let linkAttributeWeight: UIFont.Weight
+        if let cardType = activityCard?.type {
+            switch cardType {
+            case .follow, .follow_request:
+                linkAttributeColor = UIColor.custom.mediumContrast
+                linkAttributeWeight = .regular
+            default:
+                linkAttributeColor = UIColor.custom.highContrast
+                linkAttributeWeight = .semibold
+            }
+            self.postTextLabel.linkAttributes = [
+                .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: linkAttributeWeight),
+                .foregroundColor: linkAttributeColor
+            ]
+        }
+    }
 }
 
 // MARK: - Configuration
@@ -300,16 +317,15 @@ extension ActivityCardCell {
         self.header.configure(activity: activity)
         self.header.onPress = onButtonPress
         
+        configurePostTextLabelAttributes()
         switch activity.type {
         case .follow, .follow_request:
-            postTextLabel.attributedText = nil
-            postTextLabel.text = activity.user.userTag
+            let content = MastodonContent(content: activity.user.userTag, emojis: [:])
+            postTextLabel.configure(content: MastodonMetaContent.convert(text: content))
             postTextLabel.isUserInteractionEnabled = false
         default:
             if let content = activity.postCard?.metaPostText {
                 self.postTextLabel.configure(content: content)
-            } else {
-                self.postTextLabel.text = activity.postCard?.postText
             }
         }
         
