@@ -8,6 +8,7 @@
 
 import UIKit
 import MetaTextKit
+import MastodonMeta
 
 final class ActivityCardCell: UITableViewCell {
     static let reuseIdentifier = "ActivityCardCell"
@@ -302,14 +303,12 @@ extension ActivityCardCell {
         
         switch activity.type {
         case .follow, .follow_request:
-            postTextLabel.attributedText = nil
-            postTextLabel.text = activity.user.userTag
+            let content = MastodonContent(content: activity.user.userTag, emojis: [:])
+            postTextLabel.configure(content: MastodonMetaContent.convert(text: content))
             postTextLabel.isUserInteractionEnabled = false
         default:
             if let content = activity.postCard?.metaPostText {
                 self.postTextLabel.configure(content: content)
-            } else {
-                self.postTextLabel.text = activity.postCard?.postText
             }
         }
         
