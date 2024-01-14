@@ -330,12 +330,14 @@ public struct Accounts {
         let toLimitBounds = between(1, and: 80, default: 40)
         let parameters = [
             Parameter(name: "q", value: query),
+            Parameter(name: "resolve", true),
+            Parameter(name: "type", "accounts"),
             Parameter(name: "limit", value: limit.map(toLimitBounds).flatMap(toOptionalString)),
             Parameter(name: "following", value: following.flatMap(trueOrNil))
         ]
 
         let method = HTTPMethod.get(.parameters(parameters))
-        return Request<[Account]>(path: "/api/v1/accounts/search", method: method)
+        return Request<[Account]>(path: "/api/v2/search", method: method)
     }
     
     public static func registerAccount(username: String, email: String, password: String, agreement: Bool, locale: String) -> Request<LoginSettings> {
