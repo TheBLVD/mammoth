@@ -26,26 +26,6 @@ public struct Search {
         return Request<Results>(path: "/api/v2/search", method: method)
     }
 
-    // Use Accounts.search instead
-//    public static func searchAccounts(query: String) -> Request<Results> {
-//        let parameters = [
-//            Parameter(name: "q", value: query),
-//            Parameter(name: "limit", value: "50"),
-//        ]
-//        let method = HTTPMethod.get(.parameters(parameters))
-//        return Request<Results>(path: "/api/v1/accounts/search", method: method)
-//    }
-    
-    public static func searchAccount(query: String) -> Request<Results> {
-        let parameters = [
-            Parameter(name: "q", value: query),
-            Parameter(name: "type", value: "accounts"),
-            Parameter(name: "limit", value: "1"),
-        ]
-        let method = HTTPMethod.get(.parameters(parameters))
-        return Request<Results>(path: "/api/v2/search", method: method)
-    }
-
     public static func searchPosts(query: String) -> Request<Results> {
         let parameters = [
             Parameter(name: "q", value: query),
