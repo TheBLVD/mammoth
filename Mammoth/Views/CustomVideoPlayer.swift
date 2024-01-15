@@ -25,7 +25,7 @@ class CustomVideoPlayer: AVPlayerViewController, UIContextMenuInteractionDelegat
         let interaction0 = UIContextMenuInteraction(delegate: self)
         self.view.addInteraction(interaction0)
         self.videoGravity = .resizeAspect
-        self.requiresLinearPlayback = true
+        self.requiresLinearPlayback = false
         self.showsPlaybackControls = false
         
         self.delegate = self
