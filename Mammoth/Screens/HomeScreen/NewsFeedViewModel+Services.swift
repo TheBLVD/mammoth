@@ -645,10 +645,15 @@ extension NewsFeedViewModel {
                 switch error as? ClientError {
                 case .mastodonError(let message):
                     if message == "Record not found" {
-                        if let postCard = item.extractPostCard() {
-                            let deletedPostCard = postCard
-                            deletedPostCard.isDeleted = true
-                            NotificationCenter.default.post(name: PostActions.didUpdatePostCardNotification, object: nil, userInfo: ["postCard": deletedPostCard])
+                        if let postCard = item.extractPostCard(), 
+                            let user = postCard.user,
+                            let instanceName = user.instanceName {
+                            // Do a webfinger lookup and only delete post if the account is federated
+                            if let webfinger = await AccountService.webfinger(user: user, serverName: instanceName), !webfinger.isEmpty {
+                                let deletedPostCard = postCard
+                                deletedPostCard.isDeleted = true
+                                NotificationCenter.default.post(name: PostActions.didUpdatePostCardNotification, object: nil, userInfo: ["postCard": deletedPostCard])
+                            }
                         }
                     }
                 default:
