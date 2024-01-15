@@ -17,12 +17,14 @@ final class PostCardCell: UITableViewCell {
         case hidden
         case small
         case large
+        case auto
         
         var displayName: String {
             switch self {
             case .hidden: return "Hidden"
             case .small: return "Thumbnail"
             case .large: return "Full size"
+            case .auto: return "Automatic"
             }
         }
         
@@ -31,6 +33,7 @@ final class PostCardCell: UITableViewCell {
             case .hidden: return "\u{f070}"
             case .small: return "\u{53}"
             case .large: return "\u{4c}"
+            case .auto: return "\u{e2ca}"
             }
         }
     }
@@ -154,8 +157,20 @@ final class PostCardCell: UITableViewCell {
             let hasText = !postCard.postText.isEmpty
             
             if postCard.containsPoll || postCard.hasQuotePost || postCard.hasLink || postCard.hasMediaAttachment {
+                var mediaVariant = cellType.mediaVariant
+
+                if mediaVariant == .auto {
+                    if let firstImage = postCard.mediaAttachments.first,
+                        let original = firstImage.meta?.original,
+                        (original.width ?? 0) < 200 && (original.height ?? 0) < 200 {
+                        mediaVariant = .small
+                    } else {
+                        mediaVariant = .large
+                    }
+                }
+                
                 // NOTE: when a post has only media in thumbnail-mode we do display a text label as well
-                return hasText || [.small, .hidden].contains(cellType.mediaVariant) ? .textAndMedia(cellType.mediaVariant) : .mediaOnly(cellType.mediaVariant)
+                return hasText || [.small, .hidden].contains(mediaVariant) ? .textAndMedia(mediaVariant) : .mediaOnly(mediaVariant)
             }
             
             return .textOnly
@@ -510,8 +525,6 @@ private extension PostCardCell {
             
             // Setup Image
             switch self.cellVariant.mediaVariant {
-            case .hidden:
-                break
             case .small:
                 self.image = PostCardImage(variant: .thumbnail)
                 self.image!.translatesAutoresizingMaskIntoConstraints = false
@@ -522,12 +535,11 @@ private extension PostCardCell {
                 self.image!.translatesAutoresizingMaskIntoConstraints = false
                 mediaContainer.addArrangedSubview(self.image!)
                 imageTrailingConstraint = imageTrailingConstraint ?? self.image!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+            default: break
             }
             
             // Setup Video
             switch self.cellVariant.mediaVariant {
-            case .hidden:
-                break
             case .small:
                 self.video = PostCardVideo(variant: .thumbnail)
                 self.video!.translatesAutoresizingMaskIntoConstraints = false
@@ -538,13 +550,12 @@ private extension PostCardCell {
                 self.video!.translatesAutoresizingMaskIntoConstraints = false
                 mediaContainer.addArrangedSubview(self.video!)
                 videoTrailingConstraint = videoTrailingConstraint ?? self.video!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+            default: break
             }
             
             
             // Setup Image Carousel
             switch self.cellVariant.mediaVariant {
-            case .hidden:
-                break
             case .small:
                 self.imageStack = PostCardImageStack(variant: .thumbnail)
                 self.imageStack?.translatesAutoresizingMaskIntoConstraints = false
@@ -555,6 +566,7 @@ private extension PostCardCell {
                 self.imageAttachment?.translatesAutoresizingMaskIntoConstraints = false
                 mediaContainer.addArrangedSubview(self.imageAttachment!)
                 imageAttachmentTrailingConstraint = imageAttachmentTrailingConstraint ?? self.imageAttachment!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+            default: break
             }
             
             
@@ -933,8 +945,6 @@ extension PostCardCell {
             // Display the image carousel if needed
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel {
                 switch self.cellVariant.mediaVariant {
-                case .hidden:
-                    break
                 case .small:
                     if let constraint = self.imageStackTrailingConstraint, !constraint.isActive {
                         NSLayoutConstraint.activate([self.imageStackTrailingConstraint!])
@@ -949,6 +959,7 @@ extension PostCardCell {
                     if let constraints = self.imageStackTrailingConstraint {
                         NSLayoutConstraint.deactivate([constraints])
                     }
+                default: break
                 }
                 
             } else {

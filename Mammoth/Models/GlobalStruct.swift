@@ -146,7 +146,7 @@ public struct GlobalStruct {
     @available(*, deprecated, message: "Use GlobalStruct.mediaSize instead")
     static var smallImages: Bool { mediaSize == .small }
     
-    static var mediaSize: PostCardCell.PostCardMediaVariant = PostCardCell.PostCardMediaVariant.large
+    static var mediaSize: PostCardCell.PostCardMediaVariant = PostCardCell.PostCardMediaVariant.auto
     
     static var shareAsImageText: Bool = false
     static var shareAsImageTextCaption: String = "Check this out!"

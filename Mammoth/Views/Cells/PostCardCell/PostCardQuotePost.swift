@@ -382,16 +382,13 @@ extension PostCardQuotePost {
                     case .large:
                         self.image = PostCardImage(variant: .fullSize)
                         self.image!.translatesAutoresizingMaskIntoConstraints = false
-                    case .hidden:
-                        break
+                    default: break
                     }
                 }
                 
                 self.image?.configure(postCard: quotePostCard)
                 
                 switch self.mediaVariant {
-                case .hidden:
-                    break
                 case .small:
                     textAndSmallMediaStackView.addArrangedSubview(self.image!)
                     imageTrailingConstraint = imageTrailingConstraint ?? self.image!.widthAnchor.constraint(equalToConstant: 60)
@@ -400,6 +397,7 @@ extension PostCardQuotePost {
                     mediaContainer.addArrangedSubview(self.image!)
                     imageTrailingConstraint = imageTrailingConstraint ?? self.image!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
                     imageTrailingConstraint?.isActive = true
+                default: break
                 }
             }
             
@@ -413,8 +411,7 @@ extension PostCardQuotePost {
                     case .large:
                         self.video = PostCardVideo(variant: .fullSize)
                         self.video!.translatesAutoresizingMaskIntoConstraints = false
-                    case .hidden:
-                        break
+                    default: break
                     }
                 }
                 
@@ -426,8 +423,6 @@ extension PostCardQuotePost {
                 }
                 
                 switch self.mediaVariant {
-                case .hidden:
-                    break
                 case .small:
                     textAndSmallMediaStackView.addArrangedSubview(self.video!)
                     videoTrailingConstraint = videoTrailingConstraint ?? self.video!.widthAnchor.constraint(equalToConstant: 60)
@@ -436,6 +431,7 @@ extension PostCardQuotePost {
                     mediaContainer.addArrangedSubview(self.video!)
                     videoTrailingConstraint = videoTrailingConstraint ?? self.video!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
                     videoTrailingConstraint?.isActive = true
+                default: break
                 }
             }
             
