@@ -20,8 +20,12 @@ extension UIImageView {
                 placeholderImage: placeholder,
                 context: [.imageTransformer: imageTransformer],
                 progress: nil
-            ) { image, _, _, _ in
-                completed(image)
+            ) { image, error, _, _ in
+                if let error {
+                    // Likely the image request was cancelled
+                } else {
+                    completed(image)
+                }
             }
         }
     }
