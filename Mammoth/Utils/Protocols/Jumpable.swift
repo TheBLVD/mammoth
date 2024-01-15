@@ -49,7 +49,11 @@ extension Jumpable {
                 if !success {
                     log.warning("no handler for jumpToNewest:")
                 }
+            } else {
+                log.warning("currentVC does not respond to jumpToSelector")
             }
+        } else {
+            log.warning("[jumpToSelector] cannot find VC at index")
         }
     }
 

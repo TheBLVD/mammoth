@@ -15,6 +15,7 @@ extension UITableView {
            indexPath.row < self.numberOfRows(inSection: indexPath.section) {
             self.scrollToRow(at: indexPath, at: scrollPosition, animated: animated)
         } else {
+            self.setContentOffset(.zero, animated: true)
             log.error("Tried to scroll to a non-existant indexPath: \(indexPath)")
         }
     }
