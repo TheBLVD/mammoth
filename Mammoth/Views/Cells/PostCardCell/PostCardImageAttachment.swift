@@ -207,17 +207,9 @@ extension PostCardImageAttachment: UICollectionViewDataSource {
             if let mediaURL = URL(string: mediaURLString) {
                 let player = AVPlayer(url: mediaURL)
                 let vc = CustomVideoPlayer()
-                vc.delegate = self
                 vc.allowsPictureInPicturePlayback = true
-                
-                NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: nil) { (_) in
-                    if UIApplication.shared.applicationState == .active {
-                        player.seek(to: CMTime.zero)
-                        player.play()
-                    }
-                }
-                
                 vc.player = player
+                vc.altText = model.mediaAttachment.description ?? ""
                 GlobalStruct.inVideoPlayer = true
                 getTopMostViewController()?.present(vc, animated: true) {
                     vc.player?.play()

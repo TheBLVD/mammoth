@@ -14,6 +14,7 @@ import MetaTextKit
 final class PostCardCell: UITableViewCell {
     
     enum PostCardMediaVariant: String, Equatable, CaseIterable {
+//        UNCOMMENT TO SUPPORT DYNAMIC MEDIA SIZE MODE
 //        case auto
         case large
         case small
@@ -21,7 +22,9 @@ final class PostCardCell: UITableViewCell {
         
         var displayName: String {
             switch self {
+//            UNCOMMENT TO SUPPORT DYNAMIC MEDIA SIZE MODE
 //            case .auto: return "Dynamic"
+                
             case .large: return "Large"
             case .small: return "Small"
             case .hidden: return "Hidden"
@@ -148,8 +151,9 @@ final class PostCardCell: UITableViewCell {
             let hasText = !postCard.postText.isEmpty
             
             if postCard.containsPoll || postCard.hasQuotePost || postCard.hasLink || postCard.hasMediaAttachment {
-                var mediaVariant = cellType.mediaVariant
+                let mediaVariant = cellType.mediaVariant
 
+//                UNCOMMENT TO SUPPORT DYNAMIC MEDIA SIZE MODE
 //                if mediaVariant == .auto {
 //                    if let firstImage = postCard.mediaAttachments.first,
 //                        let original = firstImage.meta?.original,

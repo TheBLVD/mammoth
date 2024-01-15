@@ -8,6 +8,7 @@
 
 import UIKit
 import UnifiedBlurHash
+import AVFoundation
 
 final class PostCardImageStack: UIView {
     
@@ -56,6 +57,9 @@ final class PostCardImageStack: UIView {
         self.postCard = nil
         self.imageView.prepareForReuse()
         self.videoView.prepareForReuse()
+        self.backgroundCard.sd_cancelCurrentImageLoad()
+        self.backgroundCard.image = nil
+        self.backgroundCard.isHidden = false
     }
     
     private func setupUI() {
@@ -122,10 +126,20 @@ final class PostCardImageStack: UIView {
                     self.videoView.isHidden = true
                 }
                 
-                if media.type == .video || media.type == .gifv {
+                if media.type == .video || media.type == .gifv || media.type == .audio {
                     self.videoView.configure(postCard: postCard)
                     self.videoView.isHidden = false
                     self.imageView.isHidden = true
+                    
+                    self.videoView.pause()
+                    
+                    // Audio is currenlty using a carousel view in large-mode.
+                    // To make this work in small-mode using this image stack
+                    // we hide the backgroundCard if it's an audio track alone.
+                    // @FIX: when audio has it's own view
+                    if media.type == .audio && postCard.mediaAttachments.count == 1 {
+                        self.backgroundCard.isHidden = true
+                    }
                 }
                 
                 if let second = (postCard.mediaAttachments.count > 1 ? postCard.mediaAttachments[1] : nil), let blurHash = second.blurhash {
@@ -163,6 +177,23 @@ final class PostCardImageStack: UIView {
             SKPhotoBrowserOptions.displayStatusbar = false
             browser.initializePageIndex(0)
             getTopMostViewController()?.present(browser, animated: true, completion: {})
+        } else {
+            
+            // Open fullscreen video player
+            if let mediaURLString = self.media?.url {
+                if let mediaURL = URL(string: mediaURLString) {
+                    let player = AVPlayer(url: mediaURL)
+                    
+                    let vc = CustomVideoPlayer()
+                    vc.allowsPictureInPicturePlayback = true
+                    vc.player = player
+                    vc.altText = self.media?.description ?? ""
+                    GlobalStruct.inVideoPlayer = true
+                    getTopMostViewController()?.present(vc, animated: true) {
+                        vc.player?.play()
+                    }
+                }
+            }
         }
     }
 }
