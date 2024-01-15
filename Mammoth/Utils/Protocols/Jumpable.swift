@@ -47,13 +47,13 @@ extension Jumpable {
             if currentViewController.responds(to: jumpToSelector) {
                 let success = UIApplication.shared.sendAction(jumpToSelector, to: currentViewController, from: self, for: nil)
                 if !success {
-                    log.warning("no handler for jumpToNewest:")
+                    log.error("no handler for jumpToNewest:")
                 }
             } else {
-                log.warning("currentVC does not respond to jumpToSelector")
+                log.error("currentVC does not respond to jumpToSelector")
             }
         } else {
-            log.warning("[jumpToSelector] cannot find VC at index")
+            log.error("[jumpToSelector] cannot find VC at index")
         }
     }
 
