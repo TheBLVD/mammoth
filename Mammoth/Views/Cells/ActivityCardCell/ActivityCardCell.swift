@@ -200,6 +200,7 @@ final class ActivityCardCell: UITableViewCell {
             postCard.preloadQuotePost()
         }
         
+        self.profilePic.willDisplay()
         self.header.startTimeUpdates()
     }
     

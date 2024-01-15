@@ -806,6 +806,7 @@ extension PostCardCell {
         }
         
         self.header.startTimeUpdates()
+        self.profilePic.willDisplay()
     }
     
     // the cell will end being displayed in the tableview
