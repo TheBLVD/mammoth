@@ -212,11 +212,11 @@ extension PostCardProfilePic {
         if let profileStr = self.user?.imageURL, let profileURL = URL(string: profileStr) {
             if self.profileImageView.sd_currentImageURL != profileURL {
                 self.profileImageView.sd_cancelCurrentImageLoad()
+                
+                self.profileImageView.ma_setImage(with: profileURL,
+                                                  cachedImage: self.user?.decodedProfilePic,
+                                                  imageTransformer: PostCardProfilePic.transformer) { image in }
             }
-            
-            self.profileImageView.ma_setImage(with: profileURL,
-                                              cachedImage: self.user?.decodedProfilePic,
-                                              imageTransformer: PostCardProfilePic.transformer) { image in }
         }
     }
 }
