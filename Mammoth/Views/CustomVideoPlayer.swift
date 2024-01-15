@@ -14,6 +14,7 @@ class CustomVideoPlayer: AVPlayerViewController, UIContextMenuInteractionDelegat
     var scrubbingBeginTime: CMTime?
     var showShare: Bool = true
     private var keepPlayingOnClose: Bool = false
+    public var altText: String = ""
     
     //autorotate
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -87,7 +88,26 @@ class CustomVideoPlayer: AVPlayerViewController, UIContextMenuInteractionDelegat
         let op6 = UIAction(title: "Skip to Beginning", image: UIImage(systemName: "backward.end"), identifier: nil) { action in
             self.player?.seek(to: .zero)
         }
+
         let newMenu0 = UIMenu(title: "", options: [.displayInline], children: [op6])
+        
+        let alt = UIAction(title: "Show ALT text", image: FontAwesome.image(fromChar: "\u{f05a}"), identifier: nil) { action in
+            triggerHapticImpact(style: .light)
+            let alert = UIAlertController(title: nil, message: self.altText, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Copy", style: .default , handler:{ (UIAlertAction) in
+                let pasteboard = UIPasteboard.general
+                pasteboard.string = self.altText
+            }))
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+
+            }))
+            if let presenter = alert.popoverPresentationController {
+                presenter.sourceView = self.view
+                presenter.sourceRect = self.view.bounds
+            }
+            getTopMostViewController()?.present(alert, animated: true, completion: nil)
+        }
+        
         let share = UIAction(title: "Share", image: FontAwesome.image(fromChar: "\u{e09a}"), identifier: nil) { action in
             if let x = ((self.player?.currentItem?.asset) as? AVURLAsset)?.url {
                 let imageToShare = [x]
@@ -116,7 +136,7 @@ class CustomVideoPlayer: AVPlayerViewController, UIContextMenuInteractionDelegat
                 }
             }
         }
-        let newMenu00 = UIMenu(title: "", options: [.displayInline], children: [share, save])
+        let newMenu00 = UIMenu(title: "", options: [.displayInline], children: [self.altText.isEmpty ? nil : alt, share, save].compactMap({$0}))
         if self.showShare {
             let newMenu = UIMenu(title: "", options: [], children: [op1, op2, op3, op4, op5, newMenu0, newMenu00])
             return newMenu

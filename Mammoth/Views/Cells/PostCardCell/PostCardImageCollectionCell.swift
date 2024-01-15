@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SDWebImage
+import UnifiedBlurHash
 
 struct PostCardImageCollectionCellModel {
     var altText: String
@@ -165,9 +166,14 @@ class PostCardImageCollectionCell: UICollectionViewCell {
         self.model = model
         self.imageView.accessibilityLabel = model.altText
         if model.mediaAttachment.previewURL != nil {
+            var placeholder: UIImage?
+            if let blurhash = model.mediaAttachment.blurhash {
+                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+            }
             
             self.imageView.ma_setImage(with: URL(string: model.mediaAttachment.previewURL!)!,
                                               cachedImage: model.postCard.decodedImages[model.mediaAttachment.previewURL!] as? UIImage,
+                                              placeholder: placeholder,
                                               imageTransformer: PostCardImage.transformer) { image in
                 model.postCard.decodedImages[model.mediaAttachment.previewURL!] = image
             }

@@ -12,6 +12,11 @@ import UnifiedBlurHash
 
 final class PostCardImage: UIView {
     
+    enum PostCardImageVariant {
+        case fullSize
+        case thumbnail
+    }
+    
     static var transformer: SDImageTransformer {
         return ScaleDownTransformer()
     }
@@ -24,6 +29,10 @@ final class PostCardImage: UIView {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
+    
+    public var image: UIImage? {
+        return self.imageView.image
+    }
     
     private lazy var sensitiveContentOverlay: UIButton = {
         let button = UIButton(type: .custom)
@@ -122,8 +131,10 @@ final class PostCardImage: UIView {
     }()
     
     private var media: Attachment?
+    private let variant: PostCardImageVariant
     
-    override init(frame: CGRect) {
+    init(variant: PostCardImageVariant = .fullSize) {
+        self.variant = variant
         super.init(frame: .zero)
         self.setupUI()
     }
@@ -150,14 +161,23 @@ final class PostCardImage: UIView {
         self.addSubview(altButton)
         self.imageView.addSubview(sensitiveContentOverlay)
         
+        switch self.variant {
+        case .fullSize:
+            self.altButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+            self.altButton.contentEdgeInsets = .init(top: 3, left: 5, bottom: 2, right: 5)
+        case .thumbnail:
+            self.altButton.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
+            self.altButton.contentEdgeInsets = .init(top: 3, left: 5, bottom: 2, right: 5)
+        }
+        
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: self.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             imageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            altButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
-            altButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            altButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: self.variant == .fullSize ? -10 : -2),
+            altButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: self.variant == .fullSize ? -10 : -2),
         ])
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(self.onPress))
@@ -220,7 +240,7 @@ final class PostCardImage: UIView {
     
             if let ratio = self.media?.meta?.original?.aspect {
                 // square
-                if fabs(ratio - 1.0) < 0.01 {
+                if self.variant == .thumbnail || fabs(ratio - 1.0) < 0.01 {
                     self.deactivateAllImageConstraints()
                     NSLayoutConstraint.activate(self.squareConstraints)
                 }

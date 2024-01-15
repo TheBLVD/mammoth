@@ -168,8 +168,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.showCW = UserDefaults.standard.value(forKey: "showCW") as? Bool ?? true
         GlobalStruct.blurSensitiveContent = UserDefaults.standard.value(forKey: "blurSensitiveContent") as? Bool ?? true
         GlobalStruct.autoPlayVideos = UserDefaults.standard.value(forKey: "autoPlayVideos") as? Bool ?? true
-        GlobalStruct.hideMed = UserDefaults.standard.value(forKey: "hideMed") as? Bool ?? false
-        GlobalStruct.smallImages = UserDefaults.standard.value(forKey: "smallImages") as? Bool ?? false
+        GlobalStruct.mediaSize = PostCardCell.PostCardMediaVariant(rawValue: (UserDefaults.standard.value(forKey: "mediaSize") ?? "") as! String) ?? PostCardCell.PostCardMediaVariant.large
         GlobalStruct.activityBadges = UserDefaults.standard.value(forKey: "activityBadges") as? Bool ?? true
         GlobalStruct.reviewPrompt = UserDefaults.standard.value(forKey: "reviewPrompt") as? Bool ?? true
         GlobalStruct.enableLogging = UserDefaults.standard.value(forKey: "enableLogging") as? Bool ?? true

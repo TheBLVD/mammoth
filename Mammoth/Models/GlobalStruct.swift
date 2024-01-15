@@ -140,8 +140,13 @@ public struct GlobalStruct {
     static var displayName: DisplayNameType = .usernameOnly
     static var maxLines: Int = 0
     
-    static var hideMed: Bool = false
-    static var smallImages: Bool = false
+    @available(*, deprecated, message: "Use GlobalStruct.mediaSize instead")
+    static var hideMed: Bool { mediaSize == .hidden }
+    
+    @available(*, deprecated, message: "Use GlobalStruct.mediaSize instead")
+    static var smallImages: Bool { mediaSize == .small }
+    
+    static var mediaSize: PostCardCell.PostCardMediaVariant = PostCardCell.PostCardMediaVariant.large
     
     static var shareAsImageText: Bool = false
     static var shareAsImageTextCaption: String = "Check this out!"

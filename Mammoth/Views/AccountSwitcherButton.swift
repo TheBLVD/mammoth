@@ -130,7 +130,7 @@ class AccountSwitcherButton: UIButton {
         }
         
         let addAccountAction = UIAction(title: "Account settings", image: FontAwesome.image(fromChar: "\u{f2bd}").withRenderingMode(.alwaysTemplate), identifier: nil) { action in
-            // Add account
+            // Account settings
             DispatchQueue.main.async {
                 triggerHapticImpact(style: .light)
                 let vc = AccountsSettingsViewController()

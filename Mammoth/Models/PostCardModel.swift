@@ -357,6 +357,15 @@ final class PostCardModel {
         // Has an image/video/audio to display
         self.hasMediaAttachment = self.mediaAttachments.count > 0
         
+        // The link to display
+        self.linkCard = status.reblog?.card ?? status.card
+        
+        // Post has a link to display
+        self.hasLink = self.linkCard?.url != nil
+        
+        // Hide the link image if there is a media attachment
+        self.hideLinkImage = true //self.hasMediaAttachment
+
         if self.mediaAttachments.count > 1 {
             self.mediaDisplayType = .carousel
         } else if self.mediaAttachments.count == 1 {
@@ -370,18 +379,18 @@ final class PostCardModel {
                 self.mediaDisplayType = .carousel
             }
         } else {
-            self.mediaDisplayType = .none
+            // When there's no media attachment, we create one attachment with
+            // the link image (if there's a link image).
+            // This is used in small-image variant cells
+            if (self.linkCard?.image) != nil {
+                self.mediaDisplayType = .singleImage
+                self.mediaAttachments = [Attachment(card: self.linkCard!)]
+                self.hasMediaAttachment = true
+            } else {
+                self.mediaDisplayType = .none
+            }
         }
 
-        // The link to display
-        self.linkCard = status.reblog?.card ?? status.card
-        
-        // Post has a link to display
-        self.hasLink = self.linkCard?.url != nil
-        
-        // Hide the link image if there is a media attachment
-        self.hideLinkImage = self.hasMediaAttachment
-        
         // Format card url to only domain
         if #available(iOS 16.0, *),
             let urlString = self.linkCard?.url {

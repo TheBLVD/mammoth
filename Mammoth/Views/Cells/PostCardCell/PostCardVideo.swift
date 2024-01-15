@@ -11,6 +11,11 @@ import AVFoundation
 
 final class PostCardVideo: UIView {
     
+    enum PostCardVideoVariant {
+        case fullSize
+        case thumbnail
+    }
+    
     private var videoView: UIView = {
         let videoView = UIView()
         videoView.setContentHuggingPriority(.defaultLow, for: .horizontal)
@@ -124,7 +129,7 @@ final class PostCardVideo: UIView {
     private var loopCount: Int = 0
     private let maxLoopCount: Int = 8
     
-    private var systemPausedOverlay: UIButton = {
+    private var systemPausedOverlayLarge: UIButton = {
         
         let button = UIButton(type: .custom)
         button.isHidden = true
@@ -164,12 +169,58 @@ final class PostCardVideo: UIView {
 
     }()
     
+    private var systemPausedOverlayThumbnail: UIButton = {
+        
+        let button = UIButton(type: .custom)
+        button.isHidden = true
+        button.setTitle("", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        let iconView = BlurredBackground(dimmed: false)
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        iconView.layer.cornerRadius = 4
+        iconView.clipsToBounds = true
+        
+        button.insertSubview(iconView, aboveSubview: button.imageView!)
+        
+        NSLayoutConstraint.activate([
+            iconView.trailingAnchor.constraint(equalTo: button.trailingAnchor, constant: -3),
+            iconView.bottomAnchor.constraint(equalTo: button.bottomAnchor, constant: -3),
+            iconView.widthAnchor.constraint(equalToConstant: 15),
+            iconView.heightAnchor.constraint(equalToConstant: 15),
+        ])
+        
+        let icon = UIImageView(image: FontAwesome.image(fromChar: "\u{f04b}", color: .custom.linkText, size: 8, weight: .bold).withRenderingMode(.alwaysTemplate))
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        icon.contentMode = .center
+        iconView.addSubview(icon)
+        
+        NSLayoutConstraint.activate([
+            icon.centerXAnchor.constraint(equalTo: iconView.centerXAnchor, constant: 0.5),
+            icon.centerYAnchor.constraint(equalTo: iconView.centerYAnchor, constant: 0.25)
+        ])
+        
+        return button
+
+    }()
+    
+    private lazy var systemPausedOverlay: (_ variant: PostCardVideoVariant) -> UIButton = { variant in
+        switch variant {
+        case .fullSize:
+            return self.systemPausedOverlayLarge
+        case .thumbnail:
+            return self.systemPausedOverlayThumbnail
+        }
+    }
+    
     private var isSystemPaused: Bool = false
         
     private var media: Attachment?
     private var isSensitive: Bool = false
+    private let variant: PostCardVideoVariant
     
-    override init(frame: CGRect) {
+    init(variant: PostCardVideoVariant = .fullSize) {
+        self.variant = variant
         super.init(frame: .zero)
         self.setupUI()
         
@@ -197,7 +248,7 @@ final class PostCardVideo: UIView {
         self.dismissedSensitiveOverlay = false
         self.onPressGesture.isEnabled = true
         self.isSystemPaused = false
-        self.systemPausedOverlay.isHidden = true
+        self.systemPausedOverlay(self.variant).isHidden = true
         
         playerRateObserver?.invalidate()
         playerStatusObserver?.invalidate()
@@ -238,7 +289,7 @@ final class PostCardVideo: UIView {
                 
         videoView.addSubview(previewImage)
         videoView.addSubview(loadingIndicator)
-        videoView.addSubview(systemPausedOverlay)
+        videoView.addSubview(systemPausedOverlay(self.variant))
 
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         loadingIndicator.startAnimating()
@@ -246,6 +297,15 @@ final class PostCardVideo: UIView {
         
         self.addSubview(muteButton)
         self.addSubview(altButton)
+        
+        switch self.variant {
+        case .fullSize:
+            self.altButton.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+            self.altButton.contentEdgeInsets = .init(top: 3, left: 5, bottom: 2, right: 5)
+        case .thumbnail:
+            self.altButton.titleLabel?.font = UIFont.systemFont(ofSize: 10, weight: .semibold)
+            self.altButton.contentEdgeInsets = .init(top: 3, left: 5, bottom: 2, right: 5)
+        }
         
         NSLayoutConstraint.activate([
             videoView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -261,20 +321,32 @@ final class PostCardVideo: UIView {
             loadingIndicator.centerXAnchor.constraint(equalTo: videoView.centerXAnchor),
             loadingIndicator.centerYAnchor.constraint(equalTo: videoView.centerYAnchor),
             
-            systemPausedOverlay.topAnchor.constraint(equalTo: videoView.topAnchor),
-            systemPausedOverlay.bottomAnchor.constraint(equalTo: videoView.bottomAnchor),
-            systemPausedOverlay.leadingAnchor.constraint(equalTo: videoView.leadingAnchor),
-            systemPausedOverlay.trailingAnchor.constraint(equalTo: videoView.trailingAnchor),
-            
-            muteButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2),
-            muteButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
-            muteButton.widthAnchor.constraint(equalToConstant: 40),
-            muteButton.heightAnchor.constraint(equalToConstant: 40),
-            
-            altButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
-            altButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            systemPausedOverlay(self.variant).topAnchor.constraint(equalTo: videoView.topAnchor),
+            systemPausedOverlay(self.variant).bottomAnchor.constraint(equalTo: videoView.bottomAnchor),
+            systemPausedOverlay(self.variant).leadingAnchor.constraint(equalTo: videoView.leadingAnchor),
+            systemPausedOverlay(self.variant).trailingAnchor.constraint(equalTo: videoView.trailingAnchor),
+            altButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: self.variant == .fullSize ? -10 : -2),
+            altButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: self.variant == .fullSize ? -10 : -2),
         ])
         
+        if self.variant == .thumbnail {
+            altButton.isHidden = true
+            NSLayoutConstraint.activate([
+                muteButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                muteButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+                muteButton.widthAnchor.constraint(equalToConstant: 40),
+                muteButton.heightAnchor.constraint(equalToConstant: 40),
+            ])
+        } else {
+            altButton.isHidden = false
+            NSLayoutConstraint.activate([
+                muteButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -2),
+                muteButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 2),
+                muteButton.widthAnchor.constraint(equalToConstant: 40),
+                muteButton.heightAnchor.constraint(equalToConstant: 40),
+            ])
+        }
+                
         self.onPressGesture = UITapGestureRecognizer(target: self, action: #selector(self.onPress))
         self.addGestureRecognizer(self.onPressGesture)
         
@@ -285,7 +357,7 @@ final class PostCardVideo: UIView {
         self.altButton.addGestureRecognizer(altPress)
         
         let systemPausedPress = UITapGestureRecognizer(target: self, action: #selector(self.systemPausedPress))
-        self.systemPausedOverlay.addGestureRecognizer(systemPausedPress)
+        self.systemPausedOverlay(self.variant).addGestureRecognizer(systemPausedPress)
     }
     
     override func layoutSubviews() {
@@ -298,7 +370,7 @@ final class PostCardVideo: UIView {
                 
         if let ratio = self.media?.meta?.small?.aspect {
             // square
-            if fabs(ratio - 1.0) < 0.01 {
+            if self.variant == .thumbnail || fabs(ratio - 1.0) < 0.01 {
                 videoWidthConstraint = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor)
                 videoWidthConstraint!.priority = .required
                 videoWidthConstraint!.isActive = true
@@ -440,7 +512,7 @@ final class PostCardVideo: UIView {
                 
                 videoView.layer.addSublayer(playerLayer!)
 
-                self.videoView.bringSubviewToFront(self.systemPausedOverlay)
+                self.videoView.bringSubviewToFront(self.systemPausedOverlay(self.variant))
                 self.videoView.bringSubviewToFront(self.sensitiveContentOverlay)
             }
             
@@ -474,7 +546,7 @@ final class PostCardVideo: UIView {
     }
     
     @objc public func play() {
-        self.systemPausedOverlay.isHidden = true
+        self.systemPausedOverlay(self.variant).isHidden = true
         self.isSystemPaused = false
         self.loopCount = 0
         self.showMuteButton()
@@ -492,7 +564,7 @@ final class PostCardVideo: UIView {
     
     public func pause() {
         self.isSystemPaused = true
-        self.systemPausedOverlay.isHidden = false
+        self.systemPausedOverlay(self.variant).isHidden = false
         self.hideMuteButton()
         if let player = self.player, player.isPlaying() {
             player.pause()
@@ -501,7 +573,7 @@ final class PostCardVideo: UIView {
     
     @objc public func stoppedBySystem() {
         self.isSystemPaused = true
-        self.systemPausedOverlay.isHidden = false
+        self.systemPausedOverlay(self.variant).isHidden = false
         self.hideMuteButton()
         
         self.loopCount = 0
@@ -562,15 +634,15 @@ final class PostCardVideo: UIView {
                 // When looping - rates switch from paused to playing at the end of each cycle.
                 // To prevent the overlay to flash on each cycle we add this delay
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    if let player = self.player, !player.isPlaying() && self.systemPausedOverlay.isHidden {
-                        self.systemPausedOverlay.isHidden = false
+                    if let player = self.player, !player.isPlaying() && self.systemPausedOverlay(self.variant).isHidden {
+                        self.systemPausedOverlay(self.variant).isHidden = false
                         self.hideMuteButton()
                     }
                 }
             } else {
                 // Playing
-                if !self.systemPausedOverlay.isHidden {
-                    self.systemPausedOverlay.isHidden = true
+                if !self.systemPausedOverlay(self.variant).isHidden {
+                    self.systemPausedOverlay(self.variant).isHidden = true
                     self.showMuteButton()
                 }
             }
@@ -593,6 +665,7 @@ final class PostCardVideo: UIView {
             let vc = CustomVideoPlayer()
             vc.allowsPictureInPicturePlayback = true
             vc.player = player
+            vc.altText = media.description ?? ""
             GlobalStruct.inVideoPlayer = true
             getTopMostViewController()?.present(vc, animated: true) {
                 vc.player?.play()
@@ -623,10 +696,14 @@ final class PostCardVideo: UIView {
     }
     
     @objc func systemPausedPress() {
-        if let player = self.player {
-            self.play()
-            AVManager.shared.currentPlayer = player
-            self.unmute(player)
+        if self.variant == .thumbnail {
+            self.onPress()
+        } else {
+            if let player = self.player {
+                self.play()
+                AVManager.shared.currentPlayer = player
+                self.unmute(player)
+            }
         }
     }
     

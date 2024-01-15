@@ -52,6 +52,18 @@ public class Attachment: Codable, Equatable {
         blurhash = nil
     }
     
+    init(card: Card) {
+        id = card.url ?? ""
+        type = .image
+        url = card.image?.absoluteString ?? ""
+        remoteURL = card.image?.absoluteString ?? ""
+        previewURL = card.image?.absoluteString ?? ""
+        textURL = nil
+        description = card.description
+        blurhash = card.blurhash
+        meta = AttachmentMeta(width: card.width ?? 60, height: card.height ?? 60)
+    }
+    
     public static func == (lhs: Attachment, rhs: Attachment) -> Bool {
         return lhs.id != rhs.id &&
         lhs.url == rhs.url
@@ -62,6 +74,11 @@ public class Attachment: Codable, Equatable {
 public class AttachmentMeta: Codable {
     public let small: AttachmentMeta2?
     public let original: AttachmentMeta2?
+    
+    init(width: Int, height: Int) {
+        self.small = AttachmentMeta2(width: width, height: height)
+        self.original = AttachmentMeta2(width: width, height: height)
+    }
 
     private enum CodingKeys: String, CodingKey {
         case small
@@ -77,6 +94,14 @@ public class AttachmentMeta2: Codable {
 //    public let frameRate: Int?
     public let duration: TimeInterval?
 //    public let bitrate: String?
+    
+    init(width: Int, height: Int) {
+        self.width = width
+        self.height = height
+        self.aspect = Double(height / max(width, 1))
+        self.duration = nil
+        self.size = nil
+    }
 
     private enum CodingKeys: String, CodingKey {
         case width
