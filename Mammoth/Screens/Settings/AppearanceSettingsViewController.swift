@@ -442,8 +442,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.txtLabel2.text = GlobalStruct.mediaSize.displayName
                 
                 let gestureActions: [UIAction] = PostCardCell.PostCardMediaVariant.allCases.map({ mediaVariant in
-                    let image = settingsFontAwesomeImage(mediaVariant.iconCode)
-                    let op = UIAction(title: mediaVariant.displayName , image: image, identifier: nil) { action in
+                    let op = UIAction(title: mediaVariant.displayName , image: nil, identifier: nil) { action in
                         // Call on next runloop for smooth menu animation
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                             GlobalStruct.mediaSize = mediaVariant

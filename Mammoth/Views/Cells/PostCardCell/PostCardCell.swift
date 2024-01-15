@@ -14,26 +14,17 @@ import MetaTextKit
 final class PostCardCell: UITableViewCell {
     
     enum PostCardMediaVariant: String, Equatable, CaseIterable {
-        case hidden
-        case small
-        case large
         case auto
+        case large
+        case small
+        case hidden
         
         var displayName: String {
             switch self {
+            case .auto: return "Dynamic"
+            case .large: return "Large"
+            case .small: return "Small"
             case .hidden: return "Hidden"
-            case .small: return "Thumbnail"
-            case .large: return "Full size"
-            case .auto: return "Automatic"
-            }
-        }
-        
-        var iconCode: String {
-            switch self {
-            case .hidden: return "\u{f070}"
-            case .small: return "\u{53}"
-            case .large: return "\u{4c}"
-            case .auto: return "\u{e2ca}"
             }
         }
     }
