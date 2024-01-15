@@ -166,12 +166,12 @@ extension PostCardProfilePic {
     func configure(user: UserCardModel, badgeIcon: UIImage? = nil) {
         self.user = user
         
+        if self.profileImageView.sd_currentImageURL?.absoluteString != user.imageURL {
+            self.profileImageView.sd_cancelCurrentImageLoad()
+        }
+        
         if let profileStr = user.imageURL, let profileURL = URL(string: profileStr) {
             let userForImage = user
-            
-            if self.profileImageView.sd_currentImageURL != profileURL {
-                self.profileImageView.sd_cancelCurrentImageLoad()
-            }
             
             self.profileImageView.ma_setImage(with: profileURL,
                                               cachedImage: self.user?.decodedProfilePic,
@@ -209,6 +209,16 @@ extension PostCardProfilePic {
     }
     
     func willDisplay() {
+        if self.profileImageView.sd_currentImageURL?.absoluteString != self.user?.imageURL {
+            self.profileImageView.sd_cancelCurrentImageLoad()
+            
+            if let profileStr = self.user?.imageURL, let profileURL = URL(string: profileStr) {
+                self.profileImageView.ma_setImage(with: profileURL,
+                                                  cachedImage: self.user?.decodedProfilePic,
+                                                  imageTransformer: PostCardProfilePic.transformer) { image in }
+            }
+        }
+        
         if let profileStr = self.user?.imageURL, let profileURL = URL(string: profileStr) {
             if self.profileImageView.sd_currentImageURL != profileURL {
                 self.profileImageView.sd_cancelCurrentImageLoad()
