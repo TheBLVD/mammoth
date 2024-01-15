@@ -110,7 +110,7 @@ class UserCardModel {
         self.followersCount = max(account?.followersCount ?? 0, 0).formatUsingAbbrevation()
         
         self.fields = account?.fields
-        self.fields?.forEach({$0.configureMetaValue(with: emojisDic)})
+        self.fields?.forEach({$0.configureMetaContent(with: emojisDic)})
         self.joinedOn = account?.createdAt?.toDate()
     }
     
@@ -159,7 +159,7 @@ class UserCardModel {
         self.followersCount = max(account.followersCount, 0).formatUsingAbbrevation()
         
         self.fields = account.fields
-        self.fields?.forEach({$0.configureMetaValue(with: emojisDic)})
+        self.fields?.forEach({$0.configureMetaContent(with: emojisDic)})
         self.joinedOn = account.createdAt?.toDate()
     }
     

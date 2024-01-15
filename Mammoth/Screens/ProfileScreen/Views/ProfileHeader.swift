@@ -672,12 +672,11 @@ final class ProfileField: UIStackView, MetaLabelDelegate {
         return stackView
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular)
-        label.textColor = .custom.feintContrast
+    private let titleLabel: MetaLabel = {
+        let label = MetaLabel()
         label.textAlignment = .left
         label.numberOfLines = 1
+        label.textContainer.lineFragmentPadding = 0
         return label
     }()
     
@@ -685,8 +684,6 @@ final class ProfileField: UIStackView, MetaLabelDelegate {
         
     private let descriptionLabel: MetaLabel = {
         let label = MetaLabel()
-        label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular)
-        label.textColor = .custom.mediumContrast
         label.textAlignment = .left
         label.numberOfLines = 0
         label.isOpaque = true
@@ -703,7 +700,9 @@ final class ProfileField: UIStackView, MetaLabelDelegate {
         super.init(frame: .zero)
         setupUI()
         
-        titleLabel.text = field.name
+        if let name = field.metaName {
+            titleLabel.configure(content: name)
+        }
         
         if let verifiedAt = field.verifiedAt, !verifiedAt.isEmpty {
             valueStack.insertArrangedSubview(verifiedImage, at: 0)
@@ -765,7 +764,15 @@ final class ProfileField: UIStackView, MetaLabelDelegate {
     }
     
     func onThemeChange() {
-        self.titleLabel.textColor = .custom.feintContrast
+        self.titleLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular),
+            .foregroundColor: UIColor.custom.feintContrast,
+        ]
+        
+        self.titleLabel.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular),
+            .foregroundColor: UIColor.custom.feintContrast,
+        ]
         
         self.descriptionLabel.textAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular),

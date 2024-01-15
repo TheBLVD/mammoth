@@ -13,6 +13,7 @@ import MastodonMeta
 public class HashType: Codable {
     
     public let name: String
+    public var metaName: MastodonMetaContent?
     public let value: String
     public var metaValue: MastodonMetaContent?
     public let verifiedAt: String?
@@ -25,11 +26,17 @@ public class HashType: Codable {
 }
 
 extension HashType {
-    public func configureMetaValue(with emojis: MastodonContent.Emojis) {
+    public func configureMetaContent(with emojis: MastodonContent.Emojis) {
         do {
             self.metaValue = try MastodonMetaContent.convert(document: MastodonContent(content: self.value, emojis: emojis))
         } catch {
             self.metaValue = MastodonMetaContent.convert(text: MastodonContent(content: self.value, emojis: emojis))
+        }
+        
+        do {
+            self.metaName = try MastodonMetaContent.convert(document: MastodonContent(content: self.name, emojis: emojis))
+        } catch {
+            self.metaName = MastodonMetaContent.convert(text: MastodonContent(content: self.name, emojis: emojis))
         }
     }
 }
