@@ -14,14 +14,14 @@ import MetaTextKit
 final class PostCardCell: UITableViewCell {
     
     enum PostCardMediaVariant: String, Equatable, CaseIterable {
-        case auto
+//        case auto
         case large
         case small
         case hidden
         
         var displayName: String {
             switch self {
-            case .auto: return "Dynamic"
+//            case .auto: return "Dynamic"
             case .large: return "Large"
             case .small: return "Small"
             case .hidden: return "Hidden"
@@ -150,15 +150,15 @@ final class PostCardCell: UITableViewCell {
             if postCard.containsPoll || postCard.hasQuotePost || postCard.hasLink || postCard.hasMediaAttachment {
                 var mediaVariant = cellType.mediaVariant
 
-                if mediaVariant == .auto {
-                    if let firstImage = postCard.mediaAttachments.first,
-                        let original = firstImage.meta?.original,
-                        (original.width ?? 0) < 200 && (original.height ?? 0) < 200 {
-                        mediaVariant = .small
-                    } else {
-                        mediaVariant = .large
-                    }
-                }
+//                if mediaVariant == .auto {
+//                    if let firstImage = postCard.mediaAttachments.first,
+//                        let original = firstImage.meta?.original,
+//                        (original.width ?? 0) < 200 && (original.height ?? 0) < 200 {
+//                        mediaVariant = .small
+//                    } else {
+//                        mediaVariant = .large
+//                    }
+//                }
                 
                 // NOTE: when a post has only media in thumbnail-mode we do display a text label as well
                 return hasText || [.small, .hidden].contains(mediaVariant) ? .textAndMedia(mediaVariant) : .mediaOnly(mediaVariant)
