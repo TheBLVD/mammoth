@@ -103,6 +103,7 @@ public class Status: Codable, Hashable {
         case favouritesCount = "favourites_count"
         case reblogged
         case favourited
+        case bookmarked
         case sensitive
         case spoilerText = "spoiler_text"
         case visibility
