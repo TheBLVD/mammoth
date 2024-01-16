@@ -1510,7 +1510,7 @@
 		BFE721AA2A58A6960028F78F /* AccountSwitcherButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSwitcherButton.swift; sourceTree = "<group>"; };
 		BFEA73272B2A4A5600A0D032 /* SetupMammothViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupMammothViewController.swift; sourceTree = "<group>"; };
 		BFEA73282B2A4A5600A0D032 /* SetupMammothViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupMammothViewModel.swift; sourceTree = "<group>"; };
-		BFF77EC629BD58DA00DFDE26 /* Version Info */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Version Info"; sourceTree = "<group>"; };
+		BFF77EC629BD58DA00DFDE26 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		BFF7B5B929FC43B400B29D94 /* ComposeQuotePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeQuotePostCell.swift; sourceTree = "<group>"; };
 		BFF8FA4F2AF1AD85004D3553 /* ForYouCustomizationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForYouCustomizationHeader.swift; sourceTree = "<group>"; };
 		C3085A032AC42EEF007E1CFD /* PostCardMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardMetadata.swift; sourceTree = "<group>"; };
@@ -1734,7 +1734,7 @@
 				C3A521EF29FFCCB2008AA5D1 /* Services */,
 				C354D6012A0D1ADE00F8AC04 /* Utils */,
 				533993FC2914214A00560F83 /* Views */,
-				BFF77EC629BD58DA00DFDE26 /* Version Info */,
+				BFF77EC629BD58DA00DFDE26 /* CHANGELOG.md */,
 				53B15855293F63130026E90B /* Mammoth.entitlements */,
 				533999902914254000560F83 /* Mammoth-Bridging-Header.h */,
 				533993F029141F4700560F83 /* Info.plist */,
