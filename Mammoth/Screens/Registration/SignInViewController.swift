@@ -240,8 +240,12 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
         
         self.present(signingInAlertController(), animated: true, completion: nil)
         
+        var serverName = instance
+        if let url = URL(string: instance), let host = url.host {
+            serverName = host
+        }
         GlobalStruct.newInstance = InstanceData()
-        GlobalStruct.newClient = Client(baseURL: "https://\(instance)")
+        GlobalStruct.newClient = Client(baseURL: "https://\(serverName)")
         let request = Clients.register(
             clientName: "Mammoth",
             redirectURI: "mammoth://addNewInstance",
@@ -275,10 +279,10 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
                         if let application = application.value {
                             GlobalStruct.newInstance?.clientID = application.clientID
                             GlobalStruct.newInstance?.clientSecret = application.clientSecret
-                            GlobalStruct.newInstance?.returnedText = instance
+                            GlobalStruct.newInstance?.returnedText = serverName
                             GlobalStruct.newInstance?.redirect = "mammoth://addNewInstance".addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
                             DispatchQueue.main.async {
-                                let queryURL = URL(string: "https://\(instance)/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.newInstance!.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
+                                let queryURL = URL(string: "https://\(serverName)/oauth/authorize?response_type=code&redirect_uri=\(GlobalStruct.newInstance!.redirect)&scope=read%20write%20follow%20push&client_id=\(application.clientID)")!
                                 UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
                                     if !success {
                                         self.safariVC = SFSafariViewController(url: queryURL)
