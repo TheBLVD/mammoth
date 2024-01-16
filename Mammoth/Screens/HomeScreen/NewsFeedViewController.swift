@@ -78,7 +78,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         if let isActive = self.delegate?.isActiveFeed(self.type){
             return isActive
         }
-        return false
+        return true
     }
     
     convenience init(type: NewsFeedTypes) {

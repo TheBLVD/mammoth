@@ -201,7 +201,7 @@ final class PostCardCell: UITableViewCell {
         button.contentVerticalAlignment = .center
         button.contentHorizontalAlignment = .center
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.isUserInteractionEnabled = true
+        button.isUserInteractionEnabled = false
 
         button.isOpaque = true
         return button
@@ -482,7 +482,7 @@ private extension PostCardCell {
         deletedWarningButton.isHidden = true
         deletedWarningButton.setTitle("Post removed", for: .normal)
         deletedWarningConstraints = [
-            deletedWarningButton.topAnchor.constraint(equalTo: contentStackView.topAnchor, constant: -1),
+            deletedWarningButton.topAnchor.constraint(equalTo: wrapperStackView.topAnchor, constant: -1),
             deletedWarningButton.bottomAnchor.constraint(equalTo: contentStackView.bottomAnchor, constant: -8),
             deletedWarningButton.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor, constant: -1),
             deletedWarningButton.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: 1),

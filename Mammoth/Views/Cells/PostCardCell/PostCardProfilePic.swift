@@ -197,6 +197,8 @@ extension PostCardProfilePic {
     }
     
     func onThemeChange() {
+        self.profileImageView.backgroundColor = .custom.OVRLYSoftContrast
+        
         if let user = self.user {
             self.configure(user: user)
         }
