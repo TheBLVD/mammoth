@@ -1,19 +1,19 @@
 # Change Log
 
------
+---
 
-Version: 2.4 (build 373)
-Tag: Version-2.4
-App Store Release Date: January 15, 2024
+### Version: 2.4 (build 373)
+Tag: Version-2.4<br>
+App Store Release Date: January 15, 2024<br>
 
 * Support for custom emojis, including animated emojis! We’ve also added custom emojis to Moth.social
 * Reorganized the Activity tab to view just Likes, Reposts, Follows or Posts
 
 ---
 
-Version: 2.3.1 (build 367)
-Tag: Version-2.3
-App Store Release Date: December 29, 2023
+### Version: 2.3.1 (build 367)
+Tag: Version-2.3<br>
+App Store Release Date: December 29, 2023<br>
 
 * Handle the case where the server doesn't return a list of instances to sign into
 
