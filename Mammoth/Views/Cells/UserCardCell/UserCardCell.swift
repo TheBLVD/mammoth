@@ -192,14 +192,16 @@ extension UserCardCell {
         self.userCard = info
         
         if let metaContent = info.metaName {
-            self.titleLabel.configure(content: metaContent)
+            if !metaContent.original.isEmpty {
+                self.titleLabel.configure(content: metaContent)
+            }
         } else {
             self.titleLabel.text = info.name
         }
         
         self.userTagLabel.text = info.userTag
         
-        if let desc = info.metaDescription {
+        if let desc = info.metaDescription, !desc.original.isEmpty {
             self.descriptionLabel.isHidden = false
             self.descriptionLabel.configure(content: desc)
         } else {

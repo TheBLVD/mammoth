@@ -175,7 +175,9 @@ extension ActivityCardHeader {
             self.titleLabel.text = activity.user.userTag.lowercased()
         } else {
             if let metaContent = activity.user.metaName {
-                self.titleLabel.configure(content: metaContent)
+                if !metaContent.original.isEmpty {
+                    self.titleLabel.configure(content: metaContent)
+                }
             } else {
                 self.titleLabel.text = activity.user.name
             }

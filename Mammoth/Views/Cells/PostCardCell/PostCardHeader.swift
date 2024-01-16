@@ -305,7 +305,9 @@ extension PostCardHeader {
             self.titleLabel.text = headerType == .detail ? postCard.fullUserTag.lowercased() : postCard.userTag.lowercased()
         } else {
             if let metaContent = postCard.user?.metaName {
-                self.titleLabel.configure(content: metaContent)
+                if !metaContent.original.isEmpty {
+                    self.titleLabel.configure(content: metaContent)
+                }
             } else {
                 self.titleLabel.text = postCard.user?.name
             }

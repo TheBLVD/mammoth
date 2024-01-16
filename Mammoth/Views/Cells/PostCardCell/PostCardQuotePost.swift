@@ -286,7 +286,7 @@ extension PostCardQuotePost {
             headerTrailingConstraint?.isActive = true
             
             // Display post text
-            if let postTextContent = quotePostCard.metaPostText {
+            if let postTextContent = quotePostCard.metaPostText, !postTextContent.original.isEmpty {
                 self.postTextLabel.configure(content: postTextContent)
             }
             

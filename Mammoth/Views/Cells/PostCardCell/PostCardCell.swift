@@ -571,7 +571,7 @@ extension PostCardCell {
                 self.postTextView.textContainer.maximumNumberOfLines = type.numberOfLines
             }
             
-            if let postTextContent = postCard.metaPostText {
+            if let postTextContent = postCard.metaPostText, !postTextContent.original.isEmpty {
                 self.postTextView.configure(content: postTextContent)
             }
         }

@@ -320,7 +320,9 @@ extension ProfileHeader {
         self.profilePic.configure(user: user)
         
         if let content = user.metaName {
-            self.nameLabel.configure(content: content)
+            if !content.original.isEmpty {
+                self.nameLabel.configure(content: content)
+            }
         } else {
             self.nameLabel.text = user.name
         }
@@ -328,7 +330,9 @@ extension ProfileHeader {
         self.userTagLabel.attributedText = self.formatUserTag(user: user)
         
         if let description = user.metaDescription {
-            self.descriptionLabel.configure(content: description)
+            if !description.original.isEmpty {
+                self.descriptionLabel.configure(content: description)
+            }
         } else {
             self.descriptionLabel.textView.text = user.description
         }
@@ -720,7 +724,7 @@ final class ProfileField: UIStackView, MetaLabelDelegate {
         let textLongPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.onTextLongPress))
         self.descriptionLabel.addGestureRecognizer(textLongPressGesture)
         
-        if let description = field.metaValue {
+        if let description = field.metaValue, !description.original.isEmpty {
             descriptionLabel.configure(content: description)
         }
     }

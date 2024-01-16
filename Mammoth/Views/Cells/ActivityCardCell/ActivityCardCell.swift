@@ -325,7 +325,7 @@ extension ActivityCardCell {
             postTextLabel.configure(content: MastodonMetaContent.convert(text: content))
             postTextLabel.isUserInteractionEnabled = false
         default:
-            if let content = activity.postCard?.metaPostText {
+            if let content = activity.postCard?.metaPostText, !content.original.isEmpty {
                 self.postTextLabel.configure(content: content)
             }
         }
