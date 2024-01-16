@@ -17,27 +17,53 @@ class LoadMoreCell: UITableViewCell {
     public var titleLabel = UILabel()
     public var loadingIndicator = UIActivityIndicatorView()
     
+    private var stackView = {
+        let stackView = UIStackView()
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.spacing = 10
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private let arrow = {
+        let icon = UIImageView()
+        icon.image = FontAwesome.image(fromChar: "\u{f062}", color: .custom.mediumContrast, size: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 2).withRenderingMode(.alwaysTemplate)
+        icon.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        icon.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        icon.contentMode = .scaleAspectFit
+        return icon
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         self.isOpaque = true
         self.contentView.isOpaque = true
-        self.contentView.backgroundColor = .custom.background
-        self.backgroundColor = .custom.background
+        self.contentView.backgroundColor = .custom.OVRLYSoftContrast
+        self.backgroundColor = .custom.OVRLYSoftContrast
         
         bgView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(bgView)
         
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.numberOfLines = 1
         titleLabel.textAlignment = .center
         titleLabel.textColor = .custom.mediumContrast
         titleLabel.isOpaque = true
-        titleLabel.backgroundColor = .custom.background
-        bgView.addSubview(titleLabel)
+        titleLabel.backgroundColor = .custom.OVRLYSoftContrast
+        titleLabel.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        titleLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        stackView.addArrangedSubview(UIView())
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(arrow)
+        stackView.addArrangedSubview(UIView())
+        
+        bgView.addSubview(stackView)
         
         self.configure()
-        titleLabel.isHidden = false
+        stackView.isHidden = false
         
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         loadingIndicator.hidesWhenStopped = true
@@ -48,15 +74,15 @@ class LoadMoreCell: UITableViewCell {
         
         let viewsDict = [
             "bgView" : bgView,
-            "titleLabel" : titleLabel,
+            "stackView" : stackView,
             "loadingIndicator" : loadingIndicator,
         ]
         
         self.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[bgView]-0-|", options: [], metrics: nil, views: viewsDict))
         self.contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-0-[bgView]-0-|", options: [], metrics: nil, views: viewsDict))
         
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[titleLabel]-20-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-12-[titleLabel]-12-|", options: [], metrics: nil, views: viewsDict))
+        stackView.centerXAnchor.constraint(equalTo: bgView.centerXAnchor).isActive = true
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-12-[stackView]-12-|", options: [], metrics: nil, views: viewsDict))
         
         loadingIndicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-12-[loadingIndicator]-12-|", options: [], metrics: nil, views: viewsDict))
@@ -74,11 +100,11 @@ class LoadMoreCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         
         if selected {
-            titleLabel.isHidden = true
+            stackView.isHidden = true
             loadingIndicator.isHidden = false
             loadingIndicator.startAnimating()
         } else {
-            titleLabel.isHidden = false
+            stackView.isHidden = false
             loadingIndicator.isHidden = true
             loadingIndicator.stopAnimating()
         }
