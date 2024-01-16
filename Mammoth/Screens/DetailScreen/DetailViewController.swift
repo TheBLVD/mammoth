@@ -14,8 +14,12 @@ class DetailViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textOnly))
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia))
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.hidden)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.small)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.large)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.hidden)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.small)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.large)))
         tableView.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
         tableView.register(ErrorCell.self, forCellReuseIdentifier: ErrorCell.reuseIdentifier)
         tableView.delegate = self
@@ -213,7 +217,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             
         case .parents:
             if let postCard = model {
-                let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard), for: indexPath) as! PostCardCell
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard, cellType: .parent), for: indexPath) as! PostCardCell
                 cell.configure(postCard: postCard, type: .parent, hasParent: hasParent, hasChild: hasChild) { [weak self] (type, isActive, data) in
                     guard let self else { return }
                     PostActions.onActionPress(target: self, type: type, isActive: isActive, postCard: postCard, data: data)
@@ -223,7 +227,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             
         case .post:
             if let postCard = model {
-                let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard), for: indexPath) as! PostCardCell
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard, cellType: .detail), for: indexPath) as! PostCardCell
                 cell.configure(postCard: postCard, type: .detail, hasParent: hasParent || postCard.isAReply, hasChild: hasChild || postCard.hasReplies) { [weak self] (type, isActive, data) in
                     guard let self else { return }
                     
@@ -266,7 +270,7 @@ extension DetailViewController: UITableViewDataSource, UITableViewDelegate {
             }
             
             if let postCard = model {
-                let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard), for: indexPath) as! PostCardCell
+                let cell = self.tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: postCard, cellType: .reply), for: indexPath) as! PostCardCell
                 cell.configure(postCard: postCard, type: .reply, hasParent: hasParent, hasChild: hasChild) { [weak self] (type, isActive, data) in
                     guard let self else { return }
                     PostActions.onActionPress(target: self, type: type, isActive: isActive, postCard: postCard, data: data)

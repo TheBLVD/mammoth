@@ -48,6 +48,20 @@ final class ActivityCardCell: UITableViewCell {
         return stackView
     }()
     
+    // Includes text, small media
+    private var textAndSmallMediaStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        stackView.spacing = 12
+        stackView.isOpaque = true
+        stackView.layoutMargins = .zero
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.preservesSuperviewLayoutMargins = false
+        return stackView
+    }()
+    
     private let profilePic = PostCardProfilePic(withSize: .regular)
     private let header = ActivityCardHeader()
 
@@ -151,11 +165,29 @@ final class ActivityCardCell: UITableViewCell {
             self.image = nil
         }
         
+        if let image = self.image, self.textAndSmallMediaStackView.arrangedSubviews.contains(image) {
+            self.image?.prepareForReuse()
+            self.imageTrailingConstraint?.isActive = false
+            self.imageTrailingConstraint = nil
+            self.textAndSmallMediaStackView.removeArrangedSubview(image)
+            image.removeFromSuperview()
+            self.image = nil
+        }
+        
         if let video = self.video, self.mediaContainer.arrangedSubviews.contains(video) {
             self.video?.prepareForReuse()
             self.videoTrailingConstraint?.isActive = false
             self.videoTrailingConstraint = nil
             self.mediaContainer.removeArrangedSubview(video)
+            video.removeFromSuperview()
+            self.video = nil
+        }
+        
+        if let video = self.video, self.textAndSmallMediaStackView.arrangedSubviews.contains(video) {
+            self.video?.prepareForReuse()
+            self.videoTrailingConstraint?.isActive = false
+            self.videoTrailingConstraint = nil
+            self.textAndSmallMediaStackView.removeArrangedSubview(video)
             video.removeFromSuperview()
             self.video = nil
         }
@@ -245,7 +277,8 @@ private extension ActivityCardCell {
         mainStackView.addArrangedSubview(contentStackView)
         
         contentStackView.addArrangedSubview(header)
-        contentStackView.addArrangedSubview(postTextLabel)
+        contentStackView.addArrangedSubview(textAndSmallMediaStackView)
+        textAndSmallMediaStackView.addArrangedSubview(postTextLabel)
         contentStackView.addArrangedSubview(mediaContainer)
         
         postTextLabel.linkDelegate = self
@@ -350,7 +383,7 @@ extension ActivityCardCell {
             // Display the quote post preview if needed
             if postCard.hasQuotePost {
                 if self.quotePost == nil {
-                    self.quotePost = PostCardQuotePost()
+                    self.quotePost = PostCardQuotePost(mediaVariant: .small)
                 }
 
                 self.quotePost!.configure(postCard: postCard)
@@ -378,26 +411,26 @@ extension ActivityCardCell {
             // Display single image if needed
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage {
                 if self.image == nil {
-                    self.image = PostCardImage()
+                    self.image = PostCardImage(variant: .thumbnail)
                     self.image!.translatesAutoresizingMaskIntoConstraints = false
                 }
                 
                 self.image!.configure(postCard: postCard)
-                mediaContainer.addArrangedSubview(self.image!)
-                imageTrailingConstraint = imageTrailingConstraint ?? self.image!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+                textAndSmallMediaStackView.addArrangedSubview(self.image!)
+                imageTrailingConstraint = imageTrailingConstraint ?? self.image!.widthAnchor.constraint(equalToConstant: 60)
                 imageTrailingConstraint?.isActive = true
             }
             
             // Display single video/gif if needed
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
                 if self.video == nil {
-                    self.video = PostCardVideo()
+                    self.video = PostCardVideo(variant: .thumbnail)
                     self.video!.translatesAutoresizingMaskIntoConstraints = false
                 }
                 
                 self.video!.configure(postCard: postCard)
-                mediaContainer.addArrangedSubview(self.video!)
-                videoTrailingConstraint = videoTrailingConstraint ?? self.video!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+                textAndSmallMediaStackView.addArrangedSubview(self.video!)
+                videoTrailingConstraint = videoTrailingConstraint ?? self.video!.widthAnchor.constraint(equalToConstant: 60)
                 videoTrailingConstraint?.isActive = true
             }
 

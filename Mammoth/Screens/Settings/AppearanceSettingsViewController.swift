@@ -11,6 +11,22 @@ import UIKit
 import SDWebImage
 
 class AppearanceSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIColorPickerViewControllerDelegate {
+    
+    private enum AppearanceOptions: Int, CaseIterable {
+        case theme
+        case names
+        case maximumLines
+        case mediaSize
+        case profileIcon
+        case contentWarning
+        case sensitiveContent
+        case autoplay
+        case translation
+        
+        var index: Int {
+            self.rawValue
+        }
+    }
 
     var tableView = UITableView()
     let btn0 = UIButton(type: .custom)
@@ -183,7 +199,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         switch section {
         case 0: return 1    // sample cell
         case 1: return 2    // text size + slider
-        case 2: return 8    // remaining options
+        case 2: return AppearanceOptions.allCases.count    // remaining options
         default: return 0
         }
     }
@@ -242,8 +258,13 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             }
             
         case 2: // remaining cells
-            switch indexPath.row {
-            case 0:
+            guard let option = AppearanceOptions(rawValue: indexPath.row) else {
+                log.error("Unsupported Appearance option")
+                return UITableViewCell()
+            }
+            
+            switch option {
+            case AppearanceOptions.theme:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
                 cell.txtLabel.text = "Theme"
                 cell.imageV.image = settingsFontAwesomeImage("\u{f1fc}")
@@ -301,7 +322,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.bgButton.backgroundColor = .clear
                 return cell
 
-            case 1:
+            case AppearanceOptions.names:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
                 cell.txtLabel.text = "Names"
                 cell.accessibilityLabel = "Names"
@@ -378,7 +399,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.bgButton.backgroundColor = .clear
                 return cell
 
-            case 2:
+            case AppearanceOptions.maximumLines:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
                 cell.txtLabel.text = "Maximum lines"
                 cell.accessibilityLabel = "Maximum lines"
@@ -412,7 +433,37 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.bgButton.backgroundColor = .clear
                 return cell
                 
-            case 3:
+            case AppearanceOptions.mediaSize:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
+                cell.textLabel?.numberOfLines = 0
+                cell.txtLabel.text = "Media size"
+                cell.accessibilityLabel = "Media size"
+                cell.imageV.image = settingsFontAwesomeImage("\u{f03e}")
+                cell.txtLabel2.text = GlobalStruct.mediaSize.displayName
+                
+                let gestureActions: [UIAction] = PostCardCell.PostCardMediaVariant.allCases.map({ mediaVariant in
+                    let op = UIAction(title: mediaVariant.displayName , image: nil, identifier: nil) { action in
+                        // Call on next runloop for smooth menu animation
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            GlobalStruct.mediaSize = mediaVariant
+                            UserDefaults.standard.set(GlobalStruct.mediaSize.rawValue, forKey: "mediaSize")
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadAll"), object: nil)
+                        }
+                  }
+                    if GlobalStruct.mediaSize == mediaVariant { op.state = .on }
+                    
+                    return op
+                })
+                
+                cell.bgButton.showsMenuAsPrimaryAction = true
+                cell.bgButton.menu = UIMenu(title: "", image: nil, options: [.displayInline], children: gestureActions)
+                cell.accessoryView = .none
+                cell.selectionStyle = .none
+                cell.backgroundColor = .custom.OVRLYSoftContrast
+                cell.bgButton.backgroundColor = .clear
+                return cell
+                
+            case AppearanceOptions.profileIcon:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "Circle profile icons"
@@ -440,7 +491,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 }
                 return cell
 
-            case 4:
+            case AppearanceOptions.contentWarning:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "Content warning overlays"
@@ -466,7 +517,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 }
                 return cell
 
-            case 5:
+            case AppearanceOptions.sensitiveContent:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "Blur sensitive content"
@@ -492,7 +543,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 }
                 return cell
 
-            case 6:
+            case AppearanceOptions.autoplay:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
                 cell.textLabel?.text = "Auto-play videos & GIFs"
@@ -518,7 +569,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 }
                 return cell
                 
-            case 7:
+            case AppearanceOptions.translation:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.text = "Translation language"
                 cell.imageView?.image = UIImage(systemName: "globe")
@@ -530,8 +581,6 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                     cell.focusEffect = UIFocusHaloEffect()
                 }
                 return cell
-                                
-            default: return UITableViewCell()
             }
             
         default: return UITableViewCell()
@@ -544,7 +593,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         switch indexPath.section {
         case 2:
             switch indexPath.row {
-            case 7:
+            case AppearanceOptions.translation.index:
                 let vc = TranslationSettingsViewController()
                 navigationController?.pushViewController(vc, animated: true)
             default:

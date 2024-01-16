@@ -13,8 +13,6 @@ import AVKit
 
 class PostCardImageAttachment: UIView, AVPlayerViewControllerDelegate {
     
-    static private let smallImageHeight = 66.0
-    static private let smallImageWidth = 66.0
     static let largeImageHeight = 220.0
     // largeImageWidth determined by self.view.bounds.width
     static let gapBetweenLargeImages = 20.0
@@ -24,17 +22,6 @@ class PostCardImageAttachment: UIView, AVPlayerViewControllerDelegate {
     
     // MARK: - Properties
     private var cellHeightConstraint: NSLayoutConstraint?
-    private var smallLayout: ColumnFlowLayoutS = {
-        let layout = ColumnFlowLayoutS(
-            cellsPerRow: 1,
-            minimumInteritemSpacing: 0,
-            minimumLineSpacing: 0,
-            sectionInset: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        )
-        layout.itemSize = CGSize(width: smallImageWidth, height: smallImageHeight)
-        layout.scrollDirection = .horizontal
-        return layout
-    }()
     private var standardLayout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 0 // horizontal gap between cells
@@ -46,14 +33,10 @@ class PostCardImageAttachment: UIView, AVPlayerViewControllerDelegate {
     private var imageCollectionView: UICollectionView = {
         var imageCollectionView: UICollectionView
         var placeholderLayout = UICollectionViewLayout()
-        if false && GlobalStruct.smallImages {
-            imageCollectionView = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: smallImageWidth, height: smallImageHeight), collectionViewLayout: placeholderLayout)
+        if UIApplication.shared.preferredApplicationWindow?.traitCollection.horizontalSizeClass != .compact {
+            imageCollectionView = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(GlobalStruct.padColWidth), height: largeImageHeight), collectionViewLayout: placeholderLayout)
         } else {
-            if UIApplication.shared.preferredApplicationWindow?.traitCollection.horizontalSizeClass != .compact {
-                imageCollectionView = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: CGFloat(GlobalStruct.padColWidth), height: largeImageHeight), collectionViewLayout: placeholderLayout)
-            } else {
-                imageCollectionView = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: 50.0 /*CGFloat(UIApplication.shared.windows.first?.bounds.width ?? UIScreen.main.bounds.width) */, height: largeImageHeight), collectionViewLayout: placeholderLayout)
-            }
+            imageCollectionView = UICollectionView(frame: CGRect(x: CGFloat(0), y: CGFloat(0), width: 50.0 /*CGFloat(UIApplication.shared.windows.first?.bounds.width ?? UIScreen.main.bounds.width) */, height: largeImageHeight), collectionViewLayout: placeholderLayout)
         }
         imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
         imageCollectionView.showsHorizontalScrollIndicator = false
@@ -111,14 +94,9 @@ class PostCardImageAttachment: UIView, AVPlayerViewControllerDelegate {
         super.layoutSubviews()
         // In setupUI(), imageCollectionView.bounds.width is not known yet, and so
         // setting the layout.itemSize is done here.
-        if false && GlobalStruct.smallImages {
-            cellHeightConstraint?.constant = PostCardImageAttachment.smallImageHeight
-            imageCollectionView.collectionViewLayout = smallLayout
-        } else {
-            cellHeightConstraint?.constant = PostCardImageAttachment.largeImageHeight
-            standardLayout.itemSize = CGSize(width: imageCollectionView.bounds.width, height: PostCardImageAttachment.largeImageHeight)
-            imageCollectionView.collectionViewLayout = standardLayout
-        }
+        cellHeightConstraint?.constant = PostCardImageAttachment.largeImageHeight
+        standardLayout.itemSize = CGSize(width: imageCollectionView.bounds.width, height: PostCardImageAttachment.largeImageHeight)
+        imageCollectionView.collectionViewLayout = standardLayout
     }
     
 }
@@ -137,7 +115,7 @@ private extension PostCardImageAttachment {
             imageCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
         ])
 
-        let height = (false && GlobalStruct.smallImages) ? PostCardImageAttachment.smallImageHeight : PostCardImageAttachment.largeImageHeight
+        let height = PostCardImageAttachment.largeImageHeight
         cellHeightConstraint = imageCollectionView.heightAnchor.constraint(equalToConstant: height)
         cellHeightConstraint?.priority = UILayoutPriority(rawValue: 999)
         cellHeightConstraint?.isActive = true
@@ -210,21 +188,13 @@ extension PostCardImageAttachment: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if false && GlobalStruct.smallImages {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostCardImageCollectionCellSmall", for: indexPath) as! PostCardImageCollectionCellSmall
-            if !self.collectionCellModels.isEmpty {
-                cell.configure(model: collectionCellModels[indexPath.item])
-            }
-            return cell
-        } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostCardImageCollectionCell", for: indexPath) as! PostCardImageCollectionCell
-            if !self.collectionCellModels.isEmpty {
-                cell.configure(model: collectionCellModels[indexPath.item], withRoundedCorners: self.hasRoundedCorners)
-                cell.altButton.tag = indexPath.item
-                cell.altButton.addTarget(self, action: #selector(self.altTextTap), for: .touchUpInside)
-            }
-            return cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PostCardImageCollectionCell", for: indexPath) as! PostCardImageCollectionCell
+        if !self.collectionCellModels.isEmpty {
+            cell.configure(model: collectionCellModels[indexPath.item], withRoundedCorners: self.hasRoundedCorners)
+            cell.altButton.tag = indexPath.item
+            cell.altButton.addTarget(self, action: #selector(self.altTextTap), for: .touchUpInside)
         }
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -237,17 +207,9 @@ extension PostCardImageAttachment: UICollectionViewDataSource {
             if let mediaURL = URL(string: mediaURLString) {
                 let player = AVPlayer(url: mediaURL)
                 let vc = CustomVideoPlayer()
-                vc.delegate = self
                 vc.allowsPictureInPicturePlayback = true
-                
-                NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: player.currentItem, queue: nil) { (_) in
-                    if UIApplication.shared.applicationState == .active {
-                        player.seek(to: CMTime.zero)
-                        player.play()
-                    }
-                }
-                
                 vc.player = player
+                vc.altText = model.mediaAttachment.description ?? ""
                 GlobalStruct.inVideoPlayer = true
                 getTopMostViewController()?.present(vc, animated: true) {
                     vc.player?.play()
