@@ -16,9 +16,10 @@ extension String {
         
         // Iterate through matches in reverse order to correctly adjust indices
         for match in matches.reversed() {
-            let range = Range(match.range, in: self)!
-            let shortcode = self[range]
-            strippedText = strippedText.replacingOccurrences(of: String(shortcode), with: "")
+            if let range = Range(match.range, in: self) {
+                let shortcode = self[range]
+                strippedText = strippedText.replacingOccurrences(of: String(shortcode), with: "")
+            }
         }
         
         return strippedText.replaceDoubleSpaces()
@@ -31,8 +32,9 @@ extension String {
         
         // Iterate through matches in reverse order to correctly adjust indices
         for match in matches.reversed() {
-            let range = Range(match.range, in: self)!
-            strippedText = strippedText.replacingCharacters(in: range, with: "")
+            if let range = Range(match.range, in: self) {
+                strippedText = strippedText.replacingCharacters(in: range, with: "")
+            }
         }
         
         return strippedText.replaceDoubleSpaces()
