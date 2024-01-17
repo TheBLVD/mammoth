@@ -295,14 +295,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
             let lab = UILabel()
             lab.frame = bg.frame
             
-            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
-            let fullString = NSMutableAttributedString(string: "")
-            let image1Attachment = NSTextAttachment()
-            image1Attachment.image = UIImage(systemName: "character.bubble.fill", withConfiguration: symbolConfig)?.withTintColor(.custom.baseTint, renderingMode: .alwaysTemplate)
-            let image1String = NSAttributedString(attachment: image1Attachment)
-            fullString.append(image1String)
-            fullString.append(NSAttributedString(string: "  Display Name"))
-            lab.attributedText = fullString
+            lab.attributedText = NSAttributedString(string: "Display Name")
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             lab.textColor = UIColor.label
@@ -314,14 +307,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
             let lab = UILabel()
             lab.frame = bg.frame
             
-            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
-            let fullString = NSMutableAttributedString(string: "")
-            let image1Attachment = NSTextAttachment()
-            image1Attachment.image = UIImage(systemName: "quote.bubble.fill", withConfiguration: symbolConfig)?.withTintColor(.custom.baseTint, renderingMode: .alwaysTemplate)
-            let image1String = NSAttributedString(attachment: image1Attachment)
-            fullString.append(image1String)
-            fullString.append(NSAttributedString(string: "  Note"))
-            lab.attributedText = fullString
+            lab.attributedText = NSAttributedString(string: "Note")
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             lab.textColor = UIColor.label
@@ -333,14 +319,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
             let lab = UILabel()
             lab.frame = bg.frame
             
-            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
-            let fullString = NSMutableAttributedString(string: "")
-            let image1Attachment = NSTextAttachment()
-            image1Attachment.image = UIImage(systemName: "star.fill", withConfiguration: symbolConfig)?.withTintColor(.custom.baseTint, renderingMode: .alwaysTemplate)
-            let image1String = NSAttributedString(attachment: image1Attachment)
-            fullString.append(image1String)
-            fullString.append(NSAttributedString(string: "  Extras"))
-            lab.attributedText = fullString
+            lab.attributedText = NSAttributedString(string: "Extras")
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             lab.textColor = UIColor.label
@@ -352,14 +331,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
             let lab = UILabel()
             lab.frame = bg.frame
             
-            let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
-            let fullString = NSMutableAttributedString(string: "")
-            let image1Attachment = NSTextAttachment()
-            image1Attachment.image = UIImage(systemName: "heart.text.square.fill", withConfiguration: symbolConfig)?.withTintColor(.custom.baseTint, renderingMode: .alwaysTemplate)
-            let image1String = NSAttributedString(attachment: image1Attachment)
-            fullString.append(image1String)
-            fullString.append(NSAttributedString(string: "   Posts"))
-            lab.attributedText = fullString
+            lab.attributedText = NSAttributedString(string: "Posts")
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             lab.textColor = UIColor.label
