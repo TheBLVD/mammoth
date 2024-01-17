@@ -2,6 +2,20 @@
 
 ---
 
+### Version: 2.4.2 (build 377)
+Tag: Version-2.4.2, App Store Release Date: January 16, 2024
+
+* Fix for an intermittent crash
+
+---
+
+### Version: 2.4.1 (build 376)
+Tag: Version-2.4.1, App Store Release Date: January 15, 2024
+
+* Fix for incorrect avatars showing sometimes
+
+---
+
 ### Version: 2.4 (build 373)
 Tag: Version-2.4, App Store Release Date: January 15, 2024
 
