@@ -285,14 +285,7 @@ class EditFieldsViewController: UIViewController, UITableViewDataSource, UITable
         let lab = UILabel()
         lab.frame = bg.frame
         
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .regular)
-        let fullString = NSMutableAttributedString(string: "")
-        let image1Attachment = NSTextAttachment()
-        image1Attachment.image = UIImage(systemName: "quote.bubble.fill", withConfiguration: symbolConfig)?.withTintColor(.custom.baseTint, renderingMode: .alwaysTemplate)
-        let image1String = NSAttributedString(attachment: image1Attachment)
-        fullString.append(image1String)
-        fullString.append(NSAttributedString(string: "  Field \(section+1)"))
-        lab.attributedText = fullString
+        lab.attributedText = NSAttributedString(string: "Field \(section+1)")
         
         lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         lab.textColor = UIColor.label
