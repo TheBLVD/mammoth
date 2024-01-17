@@ -116,6 +116,56 @@ public struct Statuses {
         return Request<Status>(path: "/api/v1/statuses", method: method)
     }
     
+    /// Posts a new status.
+    ///
+    /// - Parameters:
+    ///   - status: The text of the status.
+    ///   - replyTo: The local ID of the status you want to reply to.
+    ///   - mediaIDs: The array of media IDs to attach to the status (maximum 4).
+    ///   - sensitive: Marks the status as NSFW.
+    ///   - spoilerText: the text to be shown as a warning before the actual content.
+    ///   - scheduledAt: the timestamp for scheduled toots.
+    ///   - poll: the poll to attach.
+    ///   - visibility: The status' visibility.
+    /// - Returns: Request for `Status`.
+    public static func createGhost(status: String,
+                              replyToID: String? = nil,
+                              mediaIDs: [String] = [],
+                              sensitive: Bool? = nil,
+                              spoilerText: String? = nil,
+                              scheduledAt: String? = nil,
+                              language: String? = nil,
+                              poll: [Any]? = nil,
+                              visibility: Visibility = .public) -> Request<Status> {
+        var parameters = [
+            Parameter(name: "status", value: status),
+            Parameter(name: "in_reply_to_id", value: replyToID),
+            Parameter(name: "sensitive", value: sensitive.flatMap(trueOrNil)),
+            Parameter(name: "spoiler_text", value: spoilerText),
+            Parameter(name: "scheduled_at", value: scheduledAt),
+            Parameter(name: "language", value: language),
+            Parameter(name: "visibility", value: visibility.rawValue),
+            Parameter(name: "application", value: "Mammoth"),
+            ] + mediaIDs.map(toArrayOfParameters(withName: "media_ids"))
+        
+        if poll?.isEmpty ?? false {
+            
+        } else {
+            if let poll = poll {
+                let newParams = [
+                    Parameter(name: "poll[expires_in]", value: String(poll[1] as! Int)),
+                    Parameter(name: "poll[multiple]", value: (poll[2] as? Bool).flatMap(trueOrNil)),
+                    Parameter(name: "poll[hide_totals]", value: (poll[3] as? Bool).flatMap(trueOrNil))
+                    ] + (poll[0] as! [String]).map(toArrayOfParameters(withName: "poll[options]"))
+                parameters = parameters + newParams
+            }
+        }
+
+        let method = HTTPMethod.post(.parameters(parameters))
+        return Request<Status>(path: "/api/v1/statuses", method: method)
+    }
+
+    
     public static func edit(id: String,
                             status: String,
                             mediaIDs: [String] = [],

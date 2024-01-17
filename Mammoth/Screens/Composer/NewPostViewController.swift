@@ -3704,8 +3704,8 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             spoilerText = self.spoilerText
         }
         log.debug("posting thread piece reply to: \(repId ?? "<no id>"), visiblity: \(whoCanRep)")
-        let request = Statuses.create(status: thisPostPiece, replyToID: repId, mediaIDs: self.mediaIdStrings, sensitive: self.isSensitive, spoilerText: spoilerText, scheduledAt: self.scheduledTime, language: PostLanguages.shared.postLanguage, poll: GlobalStruct.newPollPost, visibility: whoCanRep)
-        (self.currentAcct as? MastodonAcctData)?.client.run(request) { (statuses) in
+        let request = Statuses.createGhost(status: thisPostPiece, replyToID: repId, mediaIDs: self.mediaIdStrings, sensitive: self.isSensitive, spoilerText: spoilerText, scheduledAt: self.scheduledTime, language: PostLanguages.shared.postLanguage, poll: GlobalStruct.newPollPost, visibility: whoCanRep)
+        (self.currentAcct as? MastodonAcctData)?.ghostClient.run(request) { (statuses) in
             if let error = statuses.error {
                 log.error("Unable to post thread piece; error: \(error)")
             }

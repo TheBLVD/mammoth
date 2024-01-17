@@ -116,7 +116,8 @@ struct MastodonAcctData: AcctDataType {
     
     let client: Client
     let mothClient: Client
-    
+    let ghostClient: Client
+
     private enum CodingKeys: String, CodingKey {
         case uniqueID
         case account
@@ -128,12 +129,19 @@ struct MastodonAcctData: AcctDataType {
         case wentThroughOnboarding
     }
     
+    static func createGhostClient() -> Client {
+        let ghostToken = "abc"
+        let ghostClient = Client(baseURL: "https://ghost.foo.bar", accessToken: ghostToken)
+        return ghostClient
+    }
+    
     init(account: Account, instanceData: InstanceData, client: Client, defaultPostVisibility: Visibility, defaultPostingLanguage: String?, emoticons: [Emoji], forYou: ForYouAccount, uniqueID: String? = nil) {
         self.uniqueID = uniqueID ?? UUID().uuidString
         self.account = account
         self.instanceData = instanceData
         self.client = Client(baseURL: "https://\(instanceData.returnedText)", accessToken: instanceData.accessToken)
         self.mothClient = Client(baseURL: "https://\(GlobalHostServer())", accessToken: MothSocialJWT(acct: account.remoteFullOriginalAcct), isMothClient: true)
+        self.ghostClient = Self.createGhostClient()
         self.defaultPostVisibility = defaultPostVisibility
         self.defaultPostingLanguage = defaultPostingLanguage
         self.emoticons = emoticons
@@ -148,6 +156,7 @@ struct MastodonAcctData: AcctDataType {
         instanceData = try container.decode(InstanceData.self, forKey: .instanceData)
         client = Client(baseURL: "https://\(instanceData.returnedText)", accessToken: instanceData.accessToken)
         mothClient = Client(baseURL: "https://\(GlobalHostServer())", accessToken: MothSocialJWT(acct: account.remoteFullOriginalAcct), isMothClient: true)
+        self.ghostClient = Self.createGhostClient()
         // Below are new for 2.0
         do {
             defaultPostVisibility = try container.decode(Visibility.self, forKey: .defaultPostVisibility)
