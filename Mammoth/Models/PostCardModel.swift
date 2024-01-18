@@ -430,7 +430,8 @@ final class PostCardModel {
         // Quote post status data
         if self.hasQuotePost {
             if let urlStr = self.quotePostCard?.url,
-                let url = URL(string: urlStr),
+               let url = URL(string: urlStr),
+               urlStr != self.url,
                let cachedQuoteStatus = StatusCache.shared.cachedStatusForURL(url: url) {
                 // If local quote post status found, use it
                 self.quotePostData = PostCardModel(status: cachedQuoteStatus, withStaticMetrics: false)
