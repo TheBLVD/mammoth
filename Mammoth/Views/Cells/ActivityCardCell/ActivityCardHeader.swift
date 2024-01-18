@@ -183,11 +183,24 @@ extension ActivityCardHeader {
         
         self.actionLabel.text = self.mapTypeToAction(activity: activity)
         self.dateLabel.text = activity.time
+        
+        if activity.type == .favourite, let text = activity.postCard?.postText, text.isEmpty {
+            headerTitleStackView.axis = .vertical
+            headerTitleStackView.alignment = .leading
+            headerTitleStackView.spacing = 0
+        } else {
+            headerTitleStackView.axis = .horizontal
+            headerTitleStackView.alignment = .center
+            headerTitleStackView.spacing = 5
+        }
     }
     
    private func mapTypeToAction(activity: ActivityCardModel) -> String {
         switch activity.type {
         case .favourite:
+            if let text = activity.postCard?.postText, text.isEmpty, let mediaType = activity.postCard?.mediaDisplayType.displayName {
+                return "liked your \(mediaType)"
+            }
             return "liked"
         case .follow:
             return "followed you"
@@ -196,6 +209,9 @@ extension ActivityCardHeader {
         case .poll:
             return "poll ended"
         case .reblog:
+            if let text = activity.postCard?.postText, text.isEmpty, let mediaType = activity.postCard?.mediaDisplayType.displayName {
+                return "reposted your \(mediaType)"
+            }
             return "reposted"
         case .status:
             return "posted"
