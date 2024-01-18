@@ -266,15 +266,15 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             switch option {
             case AppearanceOptions.theme:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
-                cell.txtLabel.text = "Theme"
-                cell.imageV.image = settingsFontAwesomeImage("\u{f1fc}")
+                cell.textLabel?.text = "Theme"
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f1fc}")
                 switch GlobalStruct.overrideTheme {
                 case 1:
-                    cell.txtLabel2.text = "Light"
+                    cell.detailTextLabel?.text = "Light"
                 case 2:
-                    cell.txtLabel2.text = "Dark"
+                    cell.detailTextLabel?.text = "Dark"
                 default:
-                    cell.txtLabel2.text = "System"
+                    cell.detailTextLabel?.text = "System"
                 }
 
                 var gestureActions: [UIAction] = []
@@ -314,28 +314,23 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                     op3.state = .on
                 }
                 gestureActions.append(op3)
-                cell.bgButton.showsMenuAsPrimaryAction = true
-                cell.bgButton.menu = UIMenu(title: "", image: UIImage(systemName: "sun.max"), options: [.displayInline], children: gestureActions)
-                cell.accessoryView = .none
-                cell.selectionStyle = .none
-                cell.backgroundColor = .custom.OVRLYSoftContrast
-                cell.bgButton.backgroundColor = .clear
+                cell.backgroundButton.menu = UIMenu(title: "", image: UIImage(systemName: "sun.max"), options: [.displayInline], children: gestureActions)
                 return cell
 
             case AppearanceOptions.names:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
-                cell.txtLabel.text = "Names"
+                cell.textLabel?.text = "Names"
                 cell.accessibilityLabel = "Names"
                 
-                cell.imageV.image = settingsFontAwesomeImage("\u{f5b7}")
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f5b7}")
                 if GlobalStruct.displayName == .full {
-                    cell.txtLabel2.text = "Full"
+                    cell.detailTextLabel?.text = "Full"
                 } else if GlobalStruct.displayName == .usernameOnly {
-                    cell.txtLabel2.text = "Username"
+                    cell.detailTextLabel?.text = "Username"
                 } else if GlobalStruct.displayName == .usertagOnly {
-                    cell.txtLabel2.text = "Usertag"
+                    cell.detailTextLabel?.text = "Usertag"
                 } else {
-                    cell.txtLabel2.text = "None" // .none
+                    cell.detailTextLabel?.text = "None" // .none
                 }
                 
                 var gestureActions: [UIAction] = []
@@ -391,24 +386,19 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 }
                 
                 gestureActions.append(op4)
-                cell.bgButton.showsMenuAsPrimaryAction = true
-                cell.bgButton.menu = UIMenu(title: "", image: UIImage(systemName: "person.crop.square.fill.and.at.rectangle"), options: [.displayInline], children: gestureActions)
-                cell.accessoryView = .none
-                cell.selectionStyle = .none
-                cell.backgroundColor = .custom.OVRLYSoftContrast
-                cell.bgButton.backgroundColor = .clear
+                cell.backgroundButton.menu = UIMenu(title: "", image: UIImage(systemName: "person.crop.square.fill.and.at.rectangle"), options: [.displayInline], children: gestureActions)
                 return cell
 
             case AppearanceOptions.maximumLines:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
-                cell.txtLabel.text = "Maximum lines"
+                cell.textLabel?.text = "Maximum lines"
                 cell.accessibilityLabel = "Maximum lines"
                 
-                cell.imageV.image = settingsFontAwesomeImage("\u{f7a4}")
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f7a4}")
                 if GlobalStruct.maxLines == 0 {
-                    cell.txtLabel2.text = "None"
+                    cell.detailTextLabel?.text = "None"
                 } else {
-                    cell.txtLabel2.text = "\(GlobalStruct.maxLines)"
+                    cell.detailTextLabel?.text = "\(GlobalStruct.maxLines)"
                 }
                 
                 var gestureActions: [UIAction] = []
@@ -425,21 +415,16 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                     }
                     gestureActions.append(op1)
                 }
-                cell.bgButton.showsMenuAsPrimaryAction = true
-                cell.bgButton.menu = UIMenu(title: "", image: UIImage(systemName: "person.crop.square.fill.and.at.rectangle"), options: [.displayInline], children: gestureActions)
-                cell.accessoryView = .none
-                cell.selectionStyle = .none
-                cell.backgroundColor = .custom.OVRLYSoftContrast
-                cell.bgButton.backgroundColor = .clear
+                cell.backgroundButton.menu = UIMenu(title: "", image: UIImage(systemName: "person.crop.square.fill.and.at.rectangle"), options: [.displayInline], children: gestureActions)
                 return cell
                 
             case AppearanceOptions.mediaSize:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
                 cell.textLabel?.numberOfLines = 0
-                cell.txtLabel.text = "Media size"
+                cell.textLabel?.text = "Media size"
                 cell.accessibilityLabel = "Media size"
-                cell.imageV.image = settingsFontAwesomeImage("\u{f03e}")
-                cell.txtLabel2.text = GlobalStruct.mediaSize.displayName
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f03e}")
+                cell.detailTextLabel?.text = GlobalStruct.mediaSize.displayName
                 
                 let gestureActions: [UIAction] = PostCardCell.PostCardMediaVariant.allCases.map({ mediaVariant in
                     let op = UIAction(title: mediaVariant.displayName , image: nil, identifier: nil) { action in
@@ -455,12 +440,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                     return op
                 })
                 
-                cell.bgButton.showsMenuAsPrimaryAction = true
-                cell.bgButton.menu = UIMenu(title: "", image: nil, options: [.displayInline], children: gestureActions)
-                cell.accessoryView = .none
-                cell.selectionStyle = .none
-                cell.backgroundColor = .custom.OVRLYSoftContrast
-                cell.bgButton.backgroundColor = .clear
+                cell.backgroundButton.menu = UIMenu(title: "", image: nil, options: [.displayInline], children: gestureActions)
                 return cell
                 
             case AppearanceOptions.profileIcon:

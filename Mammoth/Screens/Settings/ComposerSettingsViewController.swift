@@ -17,13 +17,6 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
         super.viewDidLayoutSubviews()
         self.tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
         
-        for cell in self.tableView.visibleCells {
-            if let cell = cell as? SelectionCell {
-                cell.backgroundColor = .custom.OVRLYSoftContrast
-                cell.bgButton.backgroundColor = .custom.OVRLYSoftContrast
-            }
-        }
-        
         let navApp = UINavigationBarAppearance()
         navApp.configureWithOpaqueBackground()
         navApp.backgroundColor = .custom.backgroundTint
@@ -70,13 +63,6 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                 self.extendedLayoutIncludesOpaqueBars = true
             } else {
                 self.extendedLayoutIncludesOpaqueBars = false
-            }
-            
-            for cell in self.tableView.visibleCells {
-                if let cell = cell as? SelectionCell {
-                    cell.backgroundColor = .custom.OVRLYSoftContrast
-                    cell.bgButton.backgroundColor = .custom.quoteTint
-                }
             }
         }
     }
@@ -226,23 +212,23 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell3", for: indexPath) as! SelectionCell
-                cell.txtLabel.text = "Thread Style"
+                cell.textLabel?.text = "Thread Style"
                 cell.accessibilityLabel = "Thread Style"
                 if GlobalStruct.threaderStyle == 0 {
-                    cell.txtLabel2.text = "None"
-                    cell.imageV.image = settingsSystemImage("1.circle")
+                    cell.detailTextLabel?.text = "None"
+                    cell.imageView?.image = settingsSystemImage("1.circle")
                 } else if GlobalStruct.threaderStyle == 1 {
-                    cell.txtLabel2.text = "..."
-                    cell.imageV.image = settingsSystemImage("2.circle")
+                    cell.detailTextLabel?.text = "..."
+                    cell.imageView?.image = settingsSystemImage("2.circle")
                 } else if GlobalStruct.threaderStyle == 2 {
-                    cell.txtLabel2.text = "(x/n)"
-                    cell.imageV.image = settingsSystemImage("3.circle")
+                    cell.detailTextLabel?.text = "(x/n)"
+                    cell.imageView?.image = settingsSystemImage("3.circle")
                 } else if GlobalStruct.threaderStyle == 3 {
-                    cell.txtLabel2.text = "🧵"
-                    cell.imageV.image = settingsSystemImage("4.circle")
+                    cell.detailTextLabel?.text = "🧵"
+                    cell.imageView?.image = settingsSystemImage("4.circle")
                 } else {
-                    cell.txtLabel2.text = "🪡"
-                    cell.imageV.image = settingsSystemImage("5.circle")
+                    cell.detailTextLabel?.text = "🪡"
+                    cell.imageView?.image = settingsSystemImage("5.circle")
                 }
                 var gestureActions: [UIAction] = []
                 let op1 = UIAction(title: "None", image: settingsSystemImage("1.circle"), identifier: nil) { action in
@@ -290,8 +276,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                     op5.state = .on
                 }
                 gestureActions.append(op5)
-                cell.bgButton.showsMenuAsPrimaryAction = true
-                cell.bgButton.menu = UIMenu(title: "", image: settingsSystemImage("1.circle"), options: [.displayInline], children: gestureActions)
+                cell.backgroundButton.menu = UIMenu(title: "", image: settingsSystemImage("1.circle"), options: [.displayInline], children: gestureActions)
                 cell.accessoryView = .none
                 cell.selectionStyle = .none
                 let bgColorView = UIView()
@@ -299,13 +284,13 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                 cell.selectedBackgroundView = bgColorView
                 cell.backgroundColor = .custom.OVRLYSoftContrast
                 if GlobalStruct.threaderMode {
-                    cell.txtLabel.isEnabled = true
+                    cell.textLabel?.isEnabled = true
                     cell.isUserInteractionEnabled = true
-                    cell.imageV.tintColor = .custom.baseTint
+                    cell.imageView?.tintColor = .custom.baseTint
                 } else {
-                    cell.txtLabel.isEnabled = false
+                    cell.textLabel?.isEnabled = false
                     cell.isUserInteractionEnabled = false
-                    cell.imageV.tintColor = UIColor.secondaryLabel
+                    cell.imageView?.tintColor = UIColor.secondaryLabel
                 }
                 return cell
             }

@@ -81,7 +81,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
             
             for cell in self.tableView.visibleCells {
                 if let cell = cell as? SelectionCell {
-                    cell.txtLabel.textColor = .custom.mainTextColor
+                    cell.textLabel?.textColor = .custom.mainTextColor
                     cell.backgroundColor = .custom.backgroundTint
                 }
                 if let cell = cell as? PollCell {
@@ -291,29 +291,29 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else if indexPath.section == options.count {
             // duration cell
             let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
-            cell.txtLabel.text = "Duration"
-            cell.imageV.image = UIImage(systemName: "chart.pie")
+            cell.textLabel?.text = "Duration"
+            cell.imageView?.image = UIImage(systemName: "chart.pie")
             
             if self.durationMin == 5 * 60 {
-                cell.txtLabel2.text = "5 mins"
+                cell.detailTextLabel?.text = "5 mins"
             }
             if self.durationMin == 15 * 60 {
-                cell.txtLabel2.text = "15 mins"
+                cell.detailTextLabel?.text = "15 mins"
             }
             if self.durationMin == 30 * 60 {
-                cell.txtLabel2.text = "30 mins"
+                cell.detailTextLabel?.text = "30 mins"
             }
             if self.durationMin == 60 * 60 {
-                cell.txtLabel2.text = "1 hour"
+                cell.detailTextLabel?.text = "1 hour"
             }
             if self.durationMin == 360 * 60 {
-                cell.txtLabel2.text = "6 hours"
+                cell.detailTextLabel?.text = "6 hours"
             }
             if self.durationMin == 720 * 60 {
-                cell.txtLabel2.text = "12 hours"
+                cell.detailTextLabel?.text = "12 hours"
             }
             if self.durationMin == 1440 * 60 {
-                cell.txtLabel2.text = "1 day"
+                cell.detailTextLabel?.text = "1 day"
             }
             
             let view1 = UIAction(title: "5 mins", image: UIImage(systemName: "clock"), identifier: nil) { action in
@@ -373,8 +373,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 view7.state = .on
             }
             let itemMenu1 = UIMenu(title: "", options: [], children: [view1, view2, view3, view4, view5, view6, view7])
-            cell.bgButton.showsMenuAsPrimaryAction = true
-            cell.bgButton.menu = itemMenu1
+            cell.backgroundButton.menu = itemMenu1
             
             cell.separatorInset = .zero
             let bgColorView = UIView()
