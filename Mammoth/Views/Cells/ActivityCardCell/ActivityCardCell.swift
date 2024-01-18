@@ -115,8 +115,8 @@ final class ActivityCardCell: UITableViewCell {
     private var video: PostCardVideo?
     private var videoTrailingConstraint: NSLayoutConstraint? = nil
     
-    private var mediaStack: PostCardImageStack?
-    private var mediaStackTrailingConstraint: NSLayoutConstraint? = nil
+    private var imageAttachment: PostCardImageAttachment?
+    private var imageAttachmentTrailingConstraint: NSLayoutConstraint? = nil
     
     private var linkPreview: PostCardLinkPreview?
     private var linkPreviewTrailingConstraint: NSLayoutConstraint? = nil
@@ -192,10 +192,10 @@ final class ActivityCardCell: UITableViewCell {
             self.video = nil
         }
         
-        if let mediaStack = self.mediaStack {
-            self.mediaStackTrailingConstraint?.isActive = false
-            self.textAndSmallMediaStackView.removeArrangedSubview(mediaStack)
-            mediaStack.removeFromSuperview()
+        if let imageAttachment = self.imageAttachment {
+            self.imageAttachmentTrailingConstraint?.isActive = false
+            self.mediaContainer.removeArrangedSubview(imageAttachment)
+            imageAttachment.removeFromSuperview()
         }
         
         if let linkPreview = self.linkPreview {
@@ -435,15 +435,15 @@ extension ActivityCardCell {
             }
 
             // Display the image carousel if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel && !hideMedia {
-                if self.mediaStack == nil {
-                    self.mediaStack = PostCardImageStack(variant: .thumbnail)
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel {
+                if self.imageAttachment == nil {
+                    self.imageAttachment = PostCardImageAttachment()
                 }
 
-                self.mediaStack!.configure(postCard: postCard)
-                textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
-                mediaStackTrailingConstraint = mediaStackTrailingConstraint ?? self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
-                mediaStackTrailingConstraint?.isActive = true
+                self.imageAttachment!.configure(postCard: postCard)
+                mediaContainer.addArrangedSubview(self.imageAttachment!)
+                imageAttachmentTrailingConstraint = imageAttachmentTrailingConstraint ?? self.imageAttachment!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+                imageAttachmentTrailingConstraint?.isActive = true
             }
 
             // If we are hiding the link image, move the link view
@@ -490,10 +490,10 @@ extension ActivityCardCell {
             self.postTextLabel.attributedText = nil
             self.postTextLabel.text = "\(batchId) - \(batchItemIndex)"
             
-            if let mediaStack = self.mediaStack {
-                self.mediaStackTrailingConstraint?.isActive = false
-                self.textAndSmallMediaStackView.removeArrangedSubview(mediaStack)
-                mediaStack.removeFromSuperview()
+            if let imageAttachment = self.imageAttachment {
+                self.imageAttachmentTrailingConstraint?.isActive = false
+                self.mediaContainer.removeArrangedSubview(imageAttachment)
+                imageAttachment.removeFromSuperview()
             }
             
             if let linkPreview = self.linkPreview {
