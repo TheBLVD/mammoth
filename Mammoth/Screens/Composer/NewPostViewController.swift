@@ -3704,6 +3704,10 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             spoilerText = self.spoilerText
         }
         log.debug("posting thread piece reply to: \(repId ?? "<no id>"), visiblity: \(whoCanRep)")
+        
+        
+        
+        /*
         let request = Statuses.createGhost(status: thisPostPiece, replyToID: repId, mediaIDs: self.mediaIdStrings, sensitive: self.isSensitive, spoilerText: spoilerText, scheduledAt: self.scheduledTime, language: PostLanguages.shared.postLanguage, poll: GlobalStruct.newPollPost, visibility: whoCanRep)
         (self.currentAcct as? MastodonAcctData)?.ghostClient.run(request) { (statuses) in
             if let error = statuses.error {
@@ -3721,6 +3725,8 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             }
         }
+        
+        */
     }
     
     func sendDataBluesky() {
@@ -3800,8 +3806,69 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             if self.spoilerText != "" {
                 spoilerText = self.spoilerText
             }
-            let request = Statuses.create(status: postText, replyToID: repId, mediaIDs: self.mediaIdStrings, sensitive: self.isSensitive, spoilerText: spoilerText, scheduledAt: self.scheduledTime, language: PostLanguages.shared.postLanguage, poll: GlobalStruct.newPollPost, visibility: self.whoCanReply ?? .public)
-            (self.currentAcct as? MastodonAcctData)?.client.run(request) { (statuses) in
+            
+            
+            // Run this to generate the token…
+            // ./ghost-token.sh
+            
+            
+            
+            let parameters = "{\n    \"posts\": [\n        {\n            \"title\": \"(Untitled)\",\n            \"html\": \"<p>\(postText)</p>\",\n            \"status\": \"published\"\n        }\n    ]\n}"
+            let postData = parameters.data(using: .utf8)
+
+            var request = URLRequest(url: URL(string: "https://j-cactus.ghost.io/ghost/api/admin/posts?source=html")!,timeoutInterval: Double.infinity)
+            request.addValue("Ghost eyJhbGciOiAiSFMyNTYiLCJ0eXAiOiAiSldUIiwgImtpZCI6ICI2NWE5M2Q2NzNmYTAyYzAwMDFiZDEzOTkifQ.eyJpYXQiOjE3MDU1OTg4MzIsImV4cCI6MTcwNTU5OTEzMiwiYXVkIjogIi9hZG1pbi8ifQ.TeERWygNKM_sg2-RtpK7EDfW3SuE9TFyyVEkGnCLKy4", forHTTPHeaderField: "Authorization")
+            request.addValue("v3.0", forHTTPHeaderField: "Accept-Version")
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+            request.httpMethod = "POST"
+            request.httpBody = postData
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                
+                guard let data = data else {
+                    print(String(describing: error))
+                    
+                    // error
+                    DispatchQueue.main.async { [weak self] in
+                        self?.setPostFailure()
+                    }
+                    return
+                }
+                
+                // success
+                successSendingPost = true
+                DispatchQueue.main.async {
+                    if self.scheduledTime == nil {
+                        if self.whoCanReply == .direct {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "postSentMessage"), object: nil)
+                        } else {
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "postPosted"), object: nil)
+                        }
+                    } else {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "postScheduled"), object: nil)
+                    }
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "updateFeed"), object: nil)
+                    
+                    if self.fromExpanded != "" {
+                        NotificationCenter.default.post(name: Notification.Name(rawValue: "updateMessageList"), object: nil)
+                    }
+                    
+                    self.dismissTap()
+                }
+                
+            }
+
+            task.resume()
+            
+            
+            
+            
+            
+     /*
+            
+//            let request = Statuses.create(status: postText, replyToID: repId, mediaIDs: self.mediaIdStrings, sensitive: self.isSensitive, spoilerText: spoilerText, scheduledAt: self.scheduledTime, language: PostLanguages.shared.postLanguage, poll: GlobalStruct.newPollPost, visibility: self.whoCanReply ?? .public)
+//            (self.currentAcct as? MastodonAcctData)?.client.run(request) { (statuses) in
                 print("new post - \(statuses)")
                 if let error = statuses.error {
                     log.error("Unable to post; error: \(error)")
@@ -3835,6 +3902,8 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                     }
                 }
             }
+      
+      */
         }
     }
     
