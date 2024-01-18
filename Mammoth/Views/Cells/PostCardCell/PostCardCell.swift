@@ -327,13 +327,15 @@ final class PostCardCell: UITableViewCell {
     private var video: PostCardVideo?
     private var videoTrailingConstraint: NSLayoutConstraint? = nil
     
-    private var imageAttachment: PostCardImageAttachment?
-    private var imageAttachmentTrailingConstraint: NSLayoutConstraint? = nil
+    private var mediaGallery: PostCardMediaGallery?
+    private var mediaGalleryLeadingConstraint: NSLayoutConstraint? = nil
+    private var mediaGalleryTrailingConstraint: NSLayoutConstraint? = nil
     
-    private var imageStack: PostCardImageStack?
-    private var imageStackTrailingConstraint: NSLayoutConstraint? = nil
+    private var mediaStack: PostCardMediaStack?
+    private var mediaStackTrailingConstraint: NSLayoutConstraint? = nil
     
     private var linkPreview: PostCardLinkPreview?
+    private var linkPreviewLeadingConstraint: NSLayoutConstraint? = nil
     private var linkPreviewTrailingConstraint: NSLayoutConstraint? = nil
     
     private var quotePost: PostCardQuotePost?
@@ -427,7 +429,16 @@ final class PostCardCell: UITableViewCell {
         self.video?.prepareForReuse()
         self.poll?.prepareForReuse()
         self.linkPreview?.prepareForReuse()
-        self.imageStack?.prepareForReuse()
+        self.mediaStack?.prepareForReuse()
+        self.mediaGallery?.prepareForReuse()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let marginLeft = self.convert(self.mainStackView.frame.origin, to: self.mediaContainer).x
+        self.mediaGalleryLeadingConstraint?.constant = marginLeft
+        self.mediaGallery?.leftInset = marginLeft * -1
+        self.mediaGalleryTrailingConstraint?.constant = contentView.layoutMargins.right
     }
 }
 
@@ -549,18 +560,19 @@ private extension PostCardCell {
             }
             
             
-            // Setup Image Carousel
+            // Setup Media Carousel
             switch self.cellVariant.mediaVariant {
             case .small:
-                self.imageStack = PostCardImageStack(variant: .thumbnail)
-                self.imageStack?.translatesAutoresizingMaskIntoConstraints = false
-                textAndSmallMediaStackView.addArrangedSubview(self.imageStack!)
-                imageStackTrailingConstraint = imageStackTrailingConstraint ?? self.imageStack!.widthAnchor.constraint(equalToConstant: 60)
+                self.mediaStack = PostCardMediaStack(variant: .thumbnail)
+                self.mediaStack?.translatesAutoresizingMaskIntoConstraints = false
+                textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
+                mediaStackTrailingConstraint = mediaStackTrailingConstraint ?? self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
             case .large:
-                self.imageAttachment = PostCardImageAttachment()
-                self.imageAttachment?.translatesAutoresizingMaskIntoConstraints = false
-                mediaContainer.addArrangedSubview(self.imageAttachment!)
-                imageAttachmentTrailingConstraint = imageAttachmentTrailingConstraint ?? self.imageAttachment!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+                self.mediaGallery = PostCardMediaGallery()
+                self.mediaGallery?.translatesAutoresizingMaskIntoConstraints = false
+                mediaContainer.addArrangedSubview(self.mediaGallery!)
+                mediaGalleryTrailingConstraint = mediaGalleryTrailingConstraint ?? self.mediaGallery!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+                self.mediaGalleryLeadingConstraint = mediaGalleryLeadingConstraint ?? self.mediaGallery!.leadingAnchor.constraint(equalTo: self.mediaContainer.leadingAnchor, constant: 0)
             default: break
             }
             
@@ -569,6 +581,7 @@ private extension PostCardCell {
             self.linkPreview = PostCardLinkPreview()
             self.linkPreview?.translatesAutoresizingMaskIntoConstraints = false
             mediaContainer.addArrangedSubview(self.linkPreview!)
+            linkPreviewLeadingConstraint = linkPreviewLeadingConstraint ?? self.linkPreview!.leadingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.leadingAnchor)
             linkPreviewTrailingConstraint = linkPreviewTrailingConstraint ?? self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
             
             // Setup Poll
@@ -774,18 +787,18 @@ extension PostCardCell {
             // Display the image carousel if needed
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel {
                 if self.cellVariant.mediaVariant == .small {
-                    self.imageStack?.configure(postCard: postCard)
-                    self.imageStack?.isHidden = false
-                    self.imageAttachment?.isHidden = true
+                    self.mediaStack?.configure(postCard: postCard)
+                    self.mediaStack?.isHidden = false
+                    self.mediaGallery?.isHidden = true
                 } else {
-                    self.imageAttachment?.configure(postCard: postCard)
-                    self.imageAttachment?.isHidden = false
-                    self.imageStack?.isHidden = true
+                    self.mediaGallery?.configure(postCard: postCard)
+                    self.mediaGallery?.isHidden = false
+                    self.mediaStack?.isHidden = true
                 }
                 
             } else {
-                self.imageAttachment?.isHidden = true
-                self.imageStack?.isHidden = true
+                self.mediaGallery?.isHidden = true
+                self.mediaStack?.isHidden = true
             }
             
             // If we are hiding the link image, move the link view
@@ -907,10 +920,16 @@ extension PostCardCell {
             // Display the link preview if needed
             if postCard.hasLink && !postCard.hasQuotePost {
                 if let constraint = self.linkPreviewTrailingConstraint, !constraint.isActive {
-                    NSLayoutConstraint.activate([self.linkPreviewTrailingConstraint!])
+                    NSLayoutConstraint.activate([constraint])
+                }
+                if let constraint = self.linkPreviewLeadingConstraint, !constraint.isActive {
+                    NSLayoutConstraint.activate([constraint])
                 }
             } else {
                 if let constraint = self.linkPreviewTrailingConstraint, constraint.isActive {
+                    NSLayoutConstraint.deactivate([constraint])
+                }
+                if let constraint = self.linkPreviewLeadingConstraint, constraint.isActive {
                     NSLayoutConstraint.deactivate([constraint])
                 }
             }
@@ -941,26 +960,35 @@ extension PostCardCell {
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel {
                 switch self.cellVariant.mediaVariant {
                 case .small:
-                    if let constraint = self.imageStackTrailingConstraint, !constraint.isActive {
-                        NSLayoutConstraint.activate([self.imageStackTrailingConstraint!])
+                    if let constraint = self.mediaStackTrailingConstraint, !constraint.isActive {
+                        NSLayoutConstraint.activate([self.mediaStackTrailingConstraint!])
                     }
-                    if let constraints = self.imageAttachmentTrailingConstraint {
-                        NSLayoutConstraint.deactivate([constraints])
-                    }
+                    NSLayoutConstraint.deactivate([
+                        self.mediaGalleryTrailingConstraint,
+                        self.mediaGalleryLeadingConstraint
+                    ].compactMap({$0}))
                 case .large:
-                    if let constraint = self.imageAttachmentTrailingConstraint, !constraint.isActive {
-                        NSLayoutConstraint.activate([self.imageAttachmentTrailingConstraint!])
+                    if let constraint = self.mediaGalleryTrailingConstraint, !constraint.isActive {
+                        let marginLeft = self.convert(self.mainStackView.frame.origin, to: self.mediaContainer).x
+                        self.mediaGalleryLeadingConstraint?.constant = marginLeft
+                        self.mediaGallery?.leftInset = marginLeft * -1
+                        
+                        NSLayoutConstraint.activate([
+                            self.mediaGalleryLeadingConstraint!,
+                            self.mediaGalleryTrailingConstraint!
+                        ])
                     }
-                    if let constraints = self.imageStackTrailingConstraint {
+                    if let constraints = self.mediaStackTrailingConstraint {
                         NSLayoutConstraint.deactivate([constraints])
                     }
                 default: break
                 }
                 
             } else {
-                if let constraints = self.imageAttachmentTrailingConstraint {
-                    NSLayoutConstraint.deactivate([constraints])
-                }
+                NSLayoutConstraint.deactivate([
+                    self.mediaGalleryTrailingConstraint,
+                    self.mediaGalleryLeadingConstraint
+                ].compactMap({$0}))
             }
         }
     }
@@ -1033,14 +1061,16 @@ extension PostCardCell {
         if let batchId = postCard.batchId, let batchItemIndex = postCard.batchItemIndex {
             self.postTextView.text = "\(batchId) - \(batchItemIndex)"
             
-            if let imageAttachment = self.imageAttachment {
-                self.imageAttachmentTrailingConstraint?.isActive = false
-                self.mediaContainer.removeArrangedSubview(imageAttachment)
-                imageAttachment.removeFromSuperview()
+            if let mediaGallery = self.mediaGallery {
+                self.mediaGalleryLeadingConstraint?.isActive = false
+                self.mediaGalleryTrailingConstraint?.isActive = false
+                self.mediaContainer.removeArrangedSubview(mediaGallery)
+                mediaGallery.removeFromSuperview()
             }
             
             if let linkPreview = self.linkPreview {
                 self.linkPreviewTrailingConstraint?.isActive = false
+                self.linkPreviewLeadingConstraint?.isActive = false
                 self.mediaContainer.removeArrangedSubview(linkPreview)
                 linkPreview.removeFromSuperview()
                 linkPreview.prepareForReuse()
