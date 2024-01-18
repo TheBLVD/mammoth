@@ -4720,8 +4720,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = revision;
+				revision = a81b7367f2c46875f29577e03a60c39cdfad0c8d;
 			};
 		};
 		14A849FD2B4D75F20027C689 /* XCRemoteSwiftPackageReference "MetaTextKit" */ = {
@@ -4736,8 +4736,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
 			};
 		};
 		532F291629476B29003C9FAD /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */ = {
@@ -4752,16 +4752,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
 			};
 		};
 		539F3A2A292282FE0090CD00 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
 			};
 		};
 		662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
