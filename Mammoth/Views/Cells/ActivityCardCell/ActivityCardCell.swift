@@ -69,9 +69,9 @@ final class ActivityCardCell: UITableViewCell {
         let label = MetaLabel()
         label.textColor = .custom.mediumContrast
         label.isOpaque = true
-        label.numberOfLines = 4
+        label.numberOfLines = 2
         label.textContainer.lineFragmentPadding = 0
-        label.textContainer.maximumNumberOfLines = 4
+        label.textContainer.maximumNumberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
         
         label.textAttributes = [
