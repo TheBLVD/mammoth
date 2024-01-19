@@ -160,7 +160,7 @@ final class PostCardMediaStack: UIView {
                 return photo
             } ?? [SKPhoto()]
             
-            let descriptions = self.postCard?.mediaAttachments.map { $0.description } ?? []
+            let descriptions = self.postCard?.mediaAttachments.map { $0.description ?? "" } ?? []
             
             let browser = SKPhotoBrowser(originImage: originImage,
                                          photos: images,
