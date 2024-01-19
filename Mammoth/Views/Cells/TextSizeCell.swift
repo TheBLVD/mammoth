@@ -25,7 +25,7 @@ class TextSizeCell: UITableViewCell {
         
         contentView.layer.masksToBounds = false
         
-        contentView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 70).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
