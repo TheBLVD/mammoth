@@ -413,6 +413,7 @@ extension ProfileHeader {
             extraInfoStackView.removeFromSuperview()
             NSLayoutConstraint.deactivate(infoConstraints)
         }
+        self.extraInfoConstraints = nil
         
         // Set all fields
         if let fields = user.fields, !fields.isEmpty {

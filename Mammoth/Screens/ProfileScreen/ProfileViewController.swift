@@ -62,6 +62,10 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
+        self.header.onButtonPress = { [weak self] type, data in
+            guard let self else { return }
+            self.onUserActionPress(type: type, data: data)
+        }
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.reloadAll),
@@ -194,11 +198,6 @@ private extension ProfileViewController {
         view.addSubview(coverImage)
         view.addSubview(tableView)
         
-        header.onButtonPress = { [weak self] type, data in
-            guard let self else { return }
-            self.onUserActionPress(type: type, data: data)
-        }
-                
         NSLayoutConstraint.activate([
             self.coverImage.topAnchor.constraint(equalTo: self.view.topAnchor),
             self.coverImage.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
