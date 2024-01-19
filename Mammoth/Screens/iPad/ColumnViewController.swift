@@ -320,63 +320,54 @@ class ColumnViewController: UIViewController {
     }
     
     @objc func scrollTo1() {
-        GlobalStruct.tempSidebar = 0
         NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTo"), object: nil)
         GlobalStruct.sidebarItem = 0
         NotificationCenter.default.post(name: Notification.Name(rawValue: "selectItem"), object: nil)
     }
     
     @objc func scrollTo2() {
-        GlobalStruct.tempSidebar = 1
         NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTo"), object: nil)
         GlobalStruct.sidebarItem = 1
         NotificationCenter.default.post(name: Notification.Name(rawValue: "selectItem"), object: nil)
     }
     
     @objc func scrollTo3() {
-        GlobalStruct.tempSidebar = 2
         NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTo"), object: nil)
         GlobalStruct.sidebarItem = 2
         NotificationCenter.default.post(name: Notification.Name(rawValue: "selectItem"), object: nil)
     }
     
     @objc func scrollTo4() {
-        GlobalStruct.tempSidebar = 3
         NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTo"), object: nil)
         GlobalStruct.sidebarItem = 3
         NotificationCenter.default.post(name: Notification.Name(rawValue: "selectItem"), object: nil)
     }
     
     @objc func scrollTo5() {
-        GlobalStruct.tempSidebar = 4
         NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTo"), object: nil)
         GlobalStruct.sidebarItem = 4
         NotificationCenter.default.post(name: Notification.Name(rawValue: "selectItem"), object: nil)
     }
     
     @objc func scrollTo6() {
-        GlobalStruct.tempSidebar = 5
         NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTo"), object: nil)
         GlobalStruct.sidebarItem = 5
         NotificationCenter.default.post(name: Notification.Name(rawValue: "selectItem"), object: nil)
     }
     
     @objc func scrollTo7() {
-        GlobalStruct.tempSidebar = 6
         NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTo"), object: nil)
         GlobalStruct.sidebarItem = 6
         NotificationCenter.default.post(name: Notification.Name(rawValue: "selectItem"), object: nil)
     }
     
     @objc func scrollTo8() {
-        GlobalStruct.tempSidebar = 7
         NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTo"), object: nil)
         GlobalStruct.sidebarItem = 7
         NotificationCenter.default.post(name: Notification.Name(rawValue: "selectItem"), object: nil)
     }
     
     @objc func scrollTo9() {
-        GlobalStruct.tempSidebar = 8
         NotificationCenter.default.post(name: Notification.Name(rawValue: "scrollTo"), object: nil)
         GlobalStruct.sidebarItem = 8
         NotificationCenter.default.post(name: Notification.Name(rawValue: "selectItem"), object: nil)

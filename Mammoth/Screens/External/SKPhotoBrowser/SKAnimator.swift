@@ -50,11 +50,6 @@ class SKAnimator: NSObject, SKPhotoBrowserAnimatorDelegate {
     }
     
     func willPresent(_ browser: SKPhotoBrowser) {
-        GlobalStruct.canScroll1 = false
-        GlobalStruct.canScroll2 = false
-        GlobalStruct.canScroll3 = false
-        GlobalStruct.inOverlayedScreen = true
-        
         guard let sender = browser.delegate?.viewForPhoto?(browser, index: browser.currentPageIndex) ?? senderViewForAnimation else {
             presentAnimation(browser)
             return
@@ -220,11 +215,6 @@ private extension SKAnimator {
                     self.senderViewForAnimation?.alpha = 1
                 }
             })
-        
-        GlobalStruct.canScroll1 = true
-        GlobalStruct.canScroll2 = true
-        GlobalStruct.canScroll3 = true
-        GlobalStruct.inOverlayedScreen = false
     }
 }
 

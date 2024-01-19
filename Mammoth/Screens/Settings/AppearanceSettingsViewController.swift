@@ -111,21 +111,6 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         }
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        GlobalStruct.inOverlayedScreen = false
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        GlobalStruct.inOverlayedScreen = true
-    }
-
     @objc func reloadBars() {
         DispatchQueue.main.async {
             if GlobalStruct.hideNavBars2 {

@@ -162,7 +162,6 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                     if "\(error)".lowercased().contains("forbidden") {
                         let alert = UIAlertController(title: "We're full!", message: "moth.social is currently at max capacity, please check back soon.", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
-                            GlobalStruct.displayingTopFriendPrompt = false
                         }))
                         if let presenter = alert.popoverPresentationController {
                             presenter.sourceView = getTopMostViewController()?.view

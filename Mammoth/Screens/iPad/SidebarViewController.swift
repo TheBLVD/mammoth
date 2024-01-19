@@ -435,9 +435,7 @@ extension SidebarViewController: Jumpable {
             }
         }
         
-        GlobalStruct.tappedSidebarItem = true
         let itemToFetch = index + 1
-        GlobalStruct.tempSidebar = Int(GlobalStruct.columnsOrder.firstIndex(of: itemToFetch) ?? 0)
     }
 
     func viewControllerAtIndex(_ index: Int) -> UIViewController? {
