@@ -51,11 +51,14 @@ final class PostCardMediaGallery: UIView {
         
         scrollView.addSubview(stackView)
         stackView.pinEdges()
-                
-        NSLayoutConstraint.activate([
-            scrollView.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight),
-            stackView.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight)
-        ])
+        
+        let scrollViewHeight = scrollView.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight)
+        scrollViewHeight.isActive = true
+        scrollViewHeight.priority = .required
+        
+        let stackViewHeight = stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+        stackViewHeight.isActive = true
+        stackViewHeight.priority = .required
     }
 }
 
@@ -83,7 +86,10 @@ extension PostCardMediaGallery {
                 }
                 
                 if media.type == .video || media.type == .gifv || media.type == .audio {
-                    
+                    let video = PostCardVideo()
+                    video.configure(video: media, postCard: postCard)
+                    video.pause()
+                    self.stackView.addArrangedSubview(video)
                 }
             })
         }

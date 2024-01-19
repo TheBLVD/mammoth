@@ -224,7 +224,7 @@ final class PostCardCell: UITableViewCell {
     private var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .top
+        stackView.alignment = .fill
         stackView.distribution = .fill
         stackView.spacing = 2
         stackView.isOpaque = true

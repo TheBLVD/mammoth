@@ -215,6 +215,7 @@ final class PostCardVideo: UIView {
     
     private var isSystemPaused: Bool = false
         
+    private var postCard: PostCardModel?
     private var media: Attachment?
     private var isSensitive: Bool = false
     private let variant: PostCardVideoVariant
@@ -243,6 +244,7 @@ final class PostCardVideo: UIView {
     }
     
     func prepareForReuse() {
+        self.postCard = nil
         self.media = nil
         self.isSensitive = false
         self.dismissedSensitiveOverlay = false
@@ -442,10 +444,11 @@ final class PostCardVideo: UIView {
         super.updateConstraints()
     }
     
-    public func configure(postCard: PostCardModel) {
+    public func configure(video: Attachment?, postCard: PostCardModel, cachedPlayer: AVPlayer? = nil) {
         self.isSensitive = postCard.isSensitive
+        self.postCard = postCard
         
-        if let media = postCard.mediaAttachments.first {
+        if let media = video {
             guard self.media != media else { return }
             
             self.media = media
@@ -454,7 +457,7 @@ final class PostCardVideo: UIView {
                 loadingIndicator.startAnimating()
                 previewImage.sd_setImage(with: previewImageURL)
                 
-                if let cachedPlayer = postCard.videoPlayer {
+                if let cachedPlayer = cachedPlayer {
                     // if the player is preloaded
                     player = cachedPlayer
                     
@@ -542,6 +545,12 @@ final class PostCardVideo: UIView {
             }
             
             self.setNeedsUpdateConstraints()
+        }
+    }
+    
+    public func configure(postCard: PostCardModel) {
+        if let firstVideo = postCard.mediaAttachments.first, [.video, .gifv].contains(firstVideo.type) {
+            self.configure(video: firstVideo, postCard: postCard, cachedPlayer: postCard.videoPlayer)
         }
     }
     
