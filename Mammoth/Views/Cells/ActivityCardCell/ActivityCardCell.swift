@@ -441,7 +441,7 @@ extension ActivityCardCell {
             }
 
             // Display the image carousel if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel && !hideMedia {
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel {
                 if self.mediaStack == nil {
                     self.mediaStack = PostCardImageStack(variant: .thumbnail)
                 }
