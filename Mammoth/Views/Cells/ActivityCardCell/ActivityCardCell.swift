@@ -370,7 +370,7 @@ extension ActivityCardCell {
         
         
         if let postCard = activity.postCard {
-            let hideMedia = postCard.postText.isEmpty && [.favourite, .reblog].contains(activity.type)
+            let hideMedia = [.favourite, .reblog].contains(activity.type)
             
             // Display poll if needed
             if postCard.containsPoll {
@@ -387,7 +387,7 @@ extension ActivityCardCell {
             }
 
             // Display the quote post preview if needed
-            if postCard.hasQuotePost {
+            if postCard.hasQuotePost && !hideMedia {
                 if self.quotePost == nil {
                     self.quotePost = PostCardQuotePost(mediaVariant: .small)
                 }
@@ -401,7 +401,7 @@ extension ActivityCardCell {
             }
 
             // Display the link preview if needed
-            if postCard.hasLink && !postCard.hasQuotePost {
+            if postCard.hasLink && !postCard.hasQuotePost && !hideMedia {
                 if self.linkPreview == nil {
                     self.linkPreview = PostCardLinkPreview()
                 }

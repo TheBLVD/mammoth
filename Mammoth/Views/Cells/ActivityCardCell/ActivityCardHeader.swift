@@ -184,7 +184,7 @@ extension ActivityCardHeader {
         self.actionLabel.text = self.mapTypeToAction(activity: activity)
         self.dateLabel.text = activity.time
         
-        if activity.type == .favourite, let text = activity.postCard?.postText, text.isEmpty {
+        if [.favourite, .reblog].contains(activity.type), let text = activity.postCard?.postText, text.isEmpty {
             headerTitleStackView.axis = .vertical
             headerTitleStackView.alignment = .leading
             headerTitleStackView.spacing = 0
@@ -201,6 +201,12 @@ extension ActivityCardHeader {
             if let text = activity.postCard?.postText, text.isEmpty, let mediaType = activity.postCard?.mediaDisplayType.displayName {
                 return "liked your \(mediaType)"
             }
+            if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasQuotePost {
+                return "liked your quote post"
+            }
+            if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasLink {
+                return "liked your link"
+            }
             return "liked"
         case .follow:
             return "followed you"
@@ -211,6 +217,12 @@ extension ActivityCardHeader {
         case .reblog:
             if let text = activity.postCard?.postText, text.isEmpty, let mediaType = activity.postCard?.mediaDisplayType.displayName {
                 return "reposted your \(mediaType)"
+            }
+            if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasQuotePost {
+                return "reposted your quote post"
+            }
+            if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasLink {
+                return "reposted your link"
             }
             return "reposted"
         case .status:
