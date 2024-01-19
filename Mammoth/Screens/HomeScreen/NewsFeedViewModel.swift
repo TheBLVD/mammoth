@@ -358,7 +358,7 @@ class NewsFeedViewModel {
     internal var newestSectionLength: Int = 35
     internal var newItemsThreshold: Int {
         switch self.type {
-        case .mentionsIn, .mentionsOut, .activity:
+        case .mentionsIn, .mentionsOut, .activity, .bookmarks:
             return 1
         default:
             return 5
