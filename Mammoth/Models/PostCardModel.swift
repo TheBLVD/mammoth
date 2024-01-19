@@ -118,6 +118,15 @@ final class PostCardModel {
         case singleVideo
         case carousel
         case none
+        
+        var displayName: String? {
+            switch self {
+            case .singleImage: return "image"
+            case .singleVideo: return "video"
+            case .carousel: return "carousel"
+            default: return nil
+            }
+        }
     }
     
     enum QuotePostStatus: Int, CaseIterable, Equatable {

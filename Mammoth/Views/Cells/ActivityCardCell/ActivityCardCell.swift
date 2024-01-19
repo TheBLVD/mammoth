@@ -358,14 +358,20 @@ extension ActivityCardCell {
             let content = MastodonContent(content: activity.user.userTag, emojis: [:])
             postTextLabel.configure(content: MastodonMetaContent.convert(text: content))
             postTextLabel.isUserInteractionEnabled = false
+            self.postTextLabel.isHidden = false
         default:
-            if let content = activity.postCard?.metaPostText {
+            if let postText = activity.postCard?.postText, postText.isEmpty {
+                self.postTextLabel.isHidden = true
+            } else if let content = activity.postCard?.metaPostText {
                 self.postTextLabel.configure(content: content)
+                self.postTextLabel.isHidden = false
             }
         }
         
         
         if let postCard = activity.postCard {
+            let hideMedia = [.favourite, .reblog].contains(activity.type)
+            
             // Display poll if needed
             if postCard.containsPoll {
                 if self.poll == nil {
@@ -381,7 +387,7 @@ extension ActivityCardCell {
             }
 
             // Display the quote post preview if needed
-            if postCard.hasQuotePost {
+            if postCard.hasQuotePost && !hideMedia {
                 if self.quotePost == nil {
                     self.quotePost = PostCardQuotePost(mediaVariant: .small)
                 }
@@ -409,7 +415,7 @@ extension ActivityCardCell {
             }
             
             // Display single image if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage {
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage && !hideMedia {
                 if self.image == nil {
                     self.image = PostCardImage(variant: .thumbnail)
                     self.image!.translatesAutoresizingMaskIntoConstraints = false
@@ -422,7 +428,7 @@ extension ActivityCardCell {
             }
             
             // Display single video/gif if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo && !hideMedia {
                 if self.video == nil {
                     self.video = PostCardVideo(variant: .thumbnail)
                     self.video!.translatesAutoresizingMaskIntoConstraints = false
@@ -435,7 +441,7 @@ extension ActivityCardCell {
             }
 
             // Display the image carousel if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel {
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel && !hideMedia {
                 if self.imageAttachment == nil {
                     self.imageAttachment = PostCardImageAttachment()
                 }
@@ -448,7 +454,7 @@ extension ActivityCardCell {
 
             // If we are hiding the link image, move the link view
             // so it's below any possible media.
-            if let linkPreview = self.linkPreview, postCard.hideLinkImage && mediaContainer.arrangedSubviews.contains(linkPreview) {
+            if let linkPreview = self.linkPreview, postCard.hideLinkImage && mediaContainer.arrangedSubviews.contains(linkPreview), !hideMedia {
                 mediaContainer.insertArrangedSubview(linkPreview, at: mediaContainer.arrangedSubviews.count - 1)
             }
         }
