@@ -1365,6 +1365,9 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         let gifButtonImage = FontAwesome.image(fromChar: "\u{e190}", weight: .bold).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
         let gifButton = UIBarButtonItem(image: gifButtonImage, style: .plain, target: self, action: #selector(self.gifTapped))
         gifButton.accessibilityLabel = "GIF"
+        let customEmojiButtonImage = FontAwesome.image(fromChar: "\u{e409}").withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
+        let customEmojiButton = UIBarButtonItem(image: customEmojiButtonImage, style: .plain, target: self, action: #selector(self.customEmojiTapped))
+        customEmojiButton.accessibilityLabel = "Custom Emoji"
         let pollButtonImage = FontAwesome.image(fromChar: "\u{f828}", weight: .regular).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
         var pollButton = UIBarButtonItem(image: pollButtonImage, style: .plain, target: self, action: #selector(self.pollTapped))
         if GlobalStruct.newPollPost != nil {
@@ -1426,6 +1429,8 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             photoButton,
             fixedSpacer,
             gifButton,
+            fixedSpacer,
+            customEmojiButton,
             fixedSpacer,
             pollButton,
             fixedSpacer,
@@ -1598,12 +1603,6 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         if self.spoilerText != "" {
             viewSensitive.attributes = .disabled
         }
-                                
-        let customEmoji = UIAction(title: "Custom Emoji", image: UIImage(systemName: "face.smiling"), identifier: nil) { action in
-            let vc = EmoticonPickerViewController()
-            self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
-        }
-        customEmoji.accessibilityLabel = "Custom Emoji"
         
         let translatePost = UIAction(title: "Translate Post", image: UIImage(systemName: "arrow.triangle.2.circlepath"), identifier: nil) { action in
             self.translatePostTapped()
@@ -1611,10 +1610,10 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         translatePost.accessibilityLabel = "Translate Post"
                 
         if self.imageButton[0].alpha == 1 {
-            let itemMenu = UIMenu(title: "", options: [], children: [viewSensitive, translatePost, customEmoji])
+            let itemMenu = UIMenu(title: "", options: [], children: [viewSensitive, translatePost])
             itemLast.menu = itemMenu
         } else {
-            let itemMenu = UIMenu(title: "", options: [], children: [translatePost, customEmoji])
+            let itemMenu = UIMenu(title: "", options: [], children: [translatePost])
             itemLast.menu = itemMenu
         }
     }
@@ -1839,6 +1838,11 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         let nvc = UINavigationController(rootViewController: vc)
         nvc.modalPresentationStyle = .automatic
         self.present(nvc, animated: true, completion: nil)
+    }
+    
+    @objc func customEmojiTapped() {
+        let vc = EmoticonPickerViewController()
+        self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
     
     func giphyControllerDidSelectGif(controller: SwiftyGiphyViewController, item: GiphyItem) {
