@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 @objc public protocol SKPhotoProtocol: NSObjectProtocol {
     var index: Int { get set }

@@ -297,11 +297,16 @@ final class PostCardImage: UIView {
     @objc func onPress() {
         if let originImage = imageView.image {
             
+            // Preload other images
+            let prefetcher = SDWebImagePrefetcher.shared
+            let urls = self.postCard?.mediaAttachments.compactMap { URL(string: $0.url) }
+            prefetcher.prefetchURLs(urls, progress: nil)
+            
             // Open fullscreen image preview
             let images = self.postCard?.mediaAttachments.compactMap { attachment in
                 guard attachment.type == .image else { return nil }
                 let photo = SKPhoto.photoWithImageURL(attachment.url)
-                photo.shouldCachePhotoURLImage = true
+                photo.underlyingImage = SDImageCache.shared.imageFromCache(forKey: attachment.url)
                 return photo
             } ?? [SKPhoto()]
             
