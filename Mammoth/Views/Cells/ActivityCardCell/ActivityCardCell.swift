@@ -115,7 +115,7 @@ final class ActivityCardCell: UITableViewCell {
     private var video: PostCardVideo?
     private var videoTrailingConstraint: NSLayoutConstraint? = nil
     
-    private var mediaStack: PostCardImageStack?
+    private var mediaStack: PostCardMediaStack?
     private var mediaStackTrailingConstraint: NSLayoutConstraint? = nil
     
     private var linkPreview: PostCardLinkPreview?
@@ -443,7 +443,7 @@ extension ActivityCardCell {
             // Display the image carousel if needed
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel {
                 if self.mediaStack == nil {
-                    self.mediaStack = PostCardImageStack(variant: .thumbnail)
+                    self.mediaStack = PostCardMediaStack(variant: .thumbnail)
                 }
 
                 self.mediaStack!.configure(postCard: postCard)
