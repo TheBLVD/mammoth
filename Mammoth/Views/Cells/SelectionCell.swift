@@ -11,53 +11,24 @@ import UIKit
 
 class SelectionCell: UITableViewCell {
     
-    var bgButton = UIButton()
-    var txtLabel = UILabel()
-    var txtLabel2 = UILabel()
-    var imageV = UIImageView()
+    let backgroundButton: UIButton = {
+        let backgroundButton = UIButton()
+        backgroundButton.translatesAutoresizingMaskIntoConstraints = true
+        backgroundButton.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        backgroundButton.backgroundColor = .custom.quoteTint
+        backgroundButton.showsMenuAsPrimaryAction = true
+        backgroundButton.backgroundColor = .clear
+        return backgroundButton
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        bgButton.translatesAutoresizingMaskIntoConstraints = false
-        bgButton.backgroundColor = .custom.quoteTint
-        contentView.addSubview(bgButton)
-        
-        txtLabel.translatesAutoresizingMaskIntoConstraints = false
-        txtLabel.textColor = UIColor.label
-        txtLabel.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
-        txtLabel.backgroundColor = UIColor.clear
-        contentView.addSubview(txtLabel)
-        
-        txtLabel2.translatesAutoresizingMaskIntoConstraints = false
-        txtLabel2.textColor = UIColor.secondaryLabel
-        txtLabel2.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .regular)
-        txtLabel2.backgroundColor = UIColor.clear
-        contentView.addSubview(txtLabel2)
-        
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .title1).pointSize, weight: .regular)
-        imageV.translatesAutoresizingMaskIntoConstraints = false
-        imageV.image = UIImage(systemName: "mappin.and.ellipse", withConfiguration: symbolConfig)?.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
-        imageV.backgroundColor = UIColor.clear
-        imageV.contentMode = .scaleAspectFill
-        contentView.addSubview(imageV)
-        
-        contentView.layer.masksToBounds = false
-        
-        let viewsDict = [
-            "bgButton" : bgButton,
-            "txtLabel" : txtLabel,
-            "txtLabel2" : txtLabel2,
-            "imageV" : imageV,
-        ]
-        
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[bgButton]-16-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-6-[bgButton]-6-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-16-[imageV]-15-[txtLabel]-(>=16)-[txtLabel2]-16-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[txtLabel]-8-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-8-[txtLabel2]-8-|", options: [], metrics: nil, views: viewsDict))
-        
-        self.imageV.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        super.init(style: .value1, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .custom.OVRLYSoftContrast
+        self.selectionStyle = .none
+        self.textLabel?.numberOfLines = 0
+        self.detailTextLabel?.numberOfLines = 0
+        self.addSubview(backgroundButton)
+        self.backgroundButton.frame = self.backgroundButton.superview!.bounds
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -585,11 +585,11 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
             // expires after
             let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
             if let _ = self.filter {
-                cell.txtLabel.text = "Expires at..."
+                cell.textLabel?.text = "Expires at..."
             } else {
-                cell.txtLabel.text = "Expire after..."
+                cell.textLabel?.text = "Expire after..."
             }
-            cell.imageV.image = UIImage(systemName: "clock")
+            cell.imageView?.image = UIImage(systemName: "clock")
             
             let da1 = self.filter?.expiresAt ?? ""
             let dateFormatter = DateFormatter()
@@ -598,28 +598,28 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
             let da = updatedAt?.toString(dateStyle: .medium, timeStyle: .medium) ?? ""
             
             if self.durationMin == 100 {
-                cell.txtLabel2.text = "\(da)"
+                cell.detailTextLabel?.text = "\(da)"
             }
             if self.durationMin == 0 {
-                cell.txtLabel2.text = "Never"
+                cell.detailTextLabel?.text = "Never"
             }
             if self.durationMin == 30 {
-                cell.txtLabel2.text = "30 mins"
+                cell.detailTextLabel?.text = "30 mins"
             }
             if self.durationMin == 60 {
-                cell.txtLabel2.text = "1 hour"
+                cell.detailTextLabel?.text = "1 hour"
             }
             if self.durationMin == 360 {
-                cell.txtLabel2.text = "6 hours"
+                cell.detailTextLabel?.text = "6 hours"
             }
             if self.durationMin == 720 {
-                cell.txtLabel2.text = "12 hours"
+                cell.detailTextLabel?.text = "12 hours"
             }
             if self.durationMin == 1440 {
-                cell.txtLabel2.text = "1 day"
+                cell.detailTextLabel?.text = "1 day"
             }
             if self.durationMin == 1440 * 7 {
-                cell.txtLabel2.text = "1 week"
+                cell.detailTextLabel?.text = "1 week"
             }
             
             let view0 = UIAction(title: "\(da)", image: UIImage(systemName: "clock"), identifier: nil) { action in
@@ -696,8 +696,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
             }
             
             let itemMenu1 = UIMenu(title: "", options: [], children: [view1, view3, view4, view5, view6, view7, view2])
-            cell.bgButton.showsMenuAsPrimaryAction = true
-            cell.bgButton.menu = itemMenu1
+            cell.backgroundButton.menu = itemMenu1
             
             cell.separatorInset = .zero
             let bgColorView = UIView()

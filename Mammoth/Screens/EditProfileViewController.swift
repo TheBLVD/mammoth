@@ -502,9 +502,9 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
                 return cell
             } else if indexPath.row == 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
-                cell.txtLabel.text = "Default Privacy"
-                cell.txtLabel2.text = self.privacyType
-                cell.imageV.image = UIImage(systemName: "eye")
+                cell.textLabel?.text = "Default Privacy"
+                cell.detailTextLabel?.text = self.privacyType
+                cell.imageView?.image = UIImage(systemName: "eye")
                 
                 let view0 = UIAction(title: "Public", image: UIImage(systemName: "person.2"), identifier: nil) { action in
                     self.privacyType = "Public"
@@ -531,8 +531,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
                     view2.state = .on
                 }
                 let itemMenu1 = UIMenu(title: "", options: [], children: [view0, view1, view2])
-                cell.bgButton.showsMenuAsPrimaryAction = true
-                cell.bgButton.menu = itemMenu1
+                cell.backgroundButton.menu = itemMenu1
                 
                 cell.separatorInset = .zero
                 let bgColorView = UIView()
