@@ -130,6 +130,7 @@ final class PostCardImage: UIView {
         return button
     }()
     
+    private var postCard: PostCardModel?
     private var media: Attachment?
     private let variant: PostCardImageVariant
     
@@ -144,6 +145,7 @@ final class PostCardImage: UIView {
     }
     
     func prepareForReuse() {
+        self.postCard = nil
         self.media = nil
         self.dismissedSensitiveOverlay = false
         self.imageView.sd_cancelCurrentImageLoad()
@@ -191,22 +193,26 @@ final class PostCardImage: UIView {
         
     }
     
-    public func configure(postCard: PostCardModel) {
-        let shouldUpdate = self.media == nil || postCard.mediaAttachments.first != self.media!
+    public func configure(image: Attachment?, postCard: PostCardModel) {
+        let shouldUpdate = self.media == nil || image != self.media!
+        self.postCard = postCard
         
-        if let media = postCard.mediaAttachments.first {
+        if let media = image {
             self.media = media
             if let previewURL = media.previewURL, let imageURL = URL(string: previewURL) {
                 var placeholder: UIImage?
                 if let blurhash = media.blurhash {
                     placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
                 }
+                let decodedImage = (media.previewURL != nil) ? postCard.decodedImages[media.previewURL!] as? UIImage : nil
                 self.imageView.ma_setImage(with: imageURL,
-                                           cachedImage: postCard.decodedImages[previewURL] as? UIImage,
+                                           cachedImage: decodedImage,
                                            placeholder: placeholder,
                                                   imageTransformer: PostCardImage.transformer) { [weak self] image in
-                    if self?.media == media {
-                        postCard.decodedImages[previewURL] = image
+                    if self?.media == media, let image = image {
+                        if let key = media.previewURL {
+                            postCard.decodedImages[key] = image
+                        }
                     }
                 }
             }
@@ -273,6 +279,12 @@ final class PostCardImage: UIView {
         }
     }
     
+    public func configure(postCard: PostCardModel) {
+        if let firstImage = postCard.mediaAttachments.first {
+            self.configure(image: firstImage, postCard: postCard)
+        }
+    }
+    
     private func deactivateAllImageConstraints() {
         NSLayoutConstraint.deactivate(self.squareConstraints
                                       + self.portraitConstraints
@@ -285,16 +297,27 @@ final class PostCardImage: UIView {
     @objc func onPress() {
         if let originImage = imageView.image {
             
-            let photo: SKPhoto = {
-                if let url = media?.url {
-                    let photo = SKPhoto.photoWithImageURL(url)
-                    photo.shouldCachePhotoURLImage = true
-                    return photo
-                }
-                return SKPhoto()
-            }()
+            // Preload other images
+            let prefetcher = SDWebImagePrefetcher.shared
+            let urls = self.postCard?.mediaAttachments.compactMap { URL(string: $0.url) }
+            prefetcher.prefetchURLs(urls, progress: nil)
             
-            let browser = SKPhotoBrowser(originImage: originImage, photos: [photo], animatedFromView: imageView, imageText: media?.description ?? "", imageText2: 0, imageText3: 0, imageText4: "")
+            // Open fullscreen image preview
+            let images = self.postCard?.mediaAttachments.compactMap { attachment in
+                guard attachment.type == .image else { return nil }
+                let photo = SKPhoto.photoWithImageURL(attachment.url)
+                photo.underlyingImage = SDImageCache.shared.imageFromCache(forKey: attachment.url)
+                return photo
+            } ?? [SKPhoto()]
+            
+            let descriptions = self.postCard?.mediaAttachments.map { $0.description ?? "" } ?? []
+            let currentIndex = self.postCard?.mediaAttachments.firstIndex(where: {$0.id == self.media?.id}) ?? 0
+            
+            let browser = SKPhotoBrowser(originImage: originImage,
+                                         photos: images,
+                                         animatedFromView: self.imageView,
+                                         descriptions: descriptions,
+                                         currentIndex: currentIndex)
             SKPhotoBrowserOptions.enableSingleTapDismiss = false
             SKPhotoBrowserOptions.displayCounterLabel = false
             SKPhotoBrowserOptions.displayBackAndForwardButton = false
@@ -303,7 +326,7 @@ final class PostCardImage: UIView {
             SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
             SKPhotoBrowserOptions.displayCloseButton = false
             SKPhotoBrowserOptions.displayStatusbar = false
-            browser.initializePageIndex(0)
+            browser.initializePageIndex(currentIndex)
             getTopMostViewController()?.present(browser, animated: true, completion: {})
         }
     }

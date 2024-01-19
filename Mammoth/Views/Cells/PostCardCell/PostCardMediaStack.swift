@@ -1,5 +1,5 @@
 //
-//  PostCardImageStack.swift
+//  PostCardMediaStack.swift
 //  Mammoth
 //
 //  Created by Benoit Nolens on 12/01/2024
@@ -10,7 +10,7 @@ import UIKit
 import UnifiedBlurHash
 import AVFoundation
 
-final class PostCardImageStack: UIView {
+final class PostCardMediaStack: UIView {
     
     enum PostCardImageStackVariant {
         case fullSize
@@ -136,7 +136,7 @@ final class PostCardImageStack: UIView {
                     // Audio is currenlty using a carousel view in large-mode.
                     // To make this work in small-mode using this image stack
                     // we hide the backgroundCard if it's an audio track alone.
-                    // @FIX: when audio has it's own view
+                    // FIX: when audio has it's own view
                     if media.type == .audio && postCard.mediaAttachments.count == 1 {
                         self.backgroundCard.isHidden = true
                     }
@@ -160,7 +160,7 @@ final class PostCardImageStack: UIView {
                 return photo
             } ?? [SKPhoto()]
             
-            let descriptions = self.postCard?.mediaAttachments.map { $0.description } ?? []
+            let descriptions = self.postCard?.mediaAttachments.map { $0.description ?? "" } ?? []
             
             let browser = SKPhotoBrowser(originImage: originImage,
                                          photos: images,

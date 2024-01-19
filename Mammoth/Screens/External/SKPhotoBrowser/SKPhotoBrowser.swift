@@ -123,7 +123,7 @@ open class SKPhotoBrowser: UIViewController, UIContextMenuInteractionDelegate, U
         animator.senderViewForAnimation = animatedFromView
         
         self.currentPageIndex = currentIndex
-        self.imageText = descriptions[currentIndex]
+        self.imageText = descriptions.count > currentIndex ? descriptions[currentIndex] : nil
         self.imageText2 = 0
         self.imageText3 = 0
         self.imageText4 = ""

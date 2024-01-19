@@ -699,7 +699,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         
         let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || self.isInWindowHierarchy()
         
-        guard !self.tableView.isDragging, updateDisplay else {
+        guard !self.tableView.isTracking, updateDisplay else {
             let deferredJob = {  [weak self] in
                 guard let self else { return }
                 self.didUpdateSnapshot(snapshot, feedType: feedType, updateType: updateType, onCompleted: onCompleted)
