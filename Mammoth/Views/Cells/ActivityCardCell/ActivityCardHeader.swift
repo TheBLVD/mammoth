@@ -204,9 +204,6 @@ extension ActivityCardHeader {
             if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasQuotePost {
                 return "liked your quote post"
             }
-            if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasLink {
-                return "liked your link"
-            }
             return "liked"
         case .follow:
             return "followed you"
@@ -220,9 +217,6 @@ extension ActivityCardHeader {
             }
             if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasQuotePost {
                 return "reposted your quote post"
-            }
-            if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasLink {
-                return "reposted your link"
             }
             return "reposted"
         case .status:

@@ -401,7 +401,7 @@ extension ActivityCardCell {
             }
 
             // Display the link preview if needed
-            if postCard.hasLink && !postCard.hasQuotePost && !hideMedia {
+            if postCard.hasLink && !postCard.hasQuotePost {
                 if self.linkPreview == nil {
                     self.linkPreview = PostCardLinkPreview()
                 }
