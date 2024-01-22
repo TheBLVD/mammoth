@@ -404,6 +404,8 @@ final class PostCardCell: UITableViewCell {
         self.footer.onButtonPress = nil
         self.separatorInset = .zero
         
+        self.contentStackView.setCustomSpacing(self.contentStackView.spacing, after: self.header)
+        
         self.contentWarningButton.isHidden = true
         self.contentWarningButton.isUserInteractionEnabled = false
         NSLayoutConstraint.deactivate(self.contentWarningConstraints)
@@ -726,7 +728,6 @@ extension PostCardCell {
                     self.postTextView.isHidden = true
                 }
             }
-            
         }
         
         if self.cellVariant.hasMedia {
@@ -796,6 +797,10 @@ extension PostCardCell {
                     self.mediaGallery?.configure(postCard: postCard)
                     self.mediaGallery?.isHidden = false
                     self.mediaStack?.isHidden = true
+                    
+                    if !self.cellVariant.hasText {
+                        self.contentStackView.setCustomSpacing(24, after: self.header)
+                    }
                 }
                 
             } else {
