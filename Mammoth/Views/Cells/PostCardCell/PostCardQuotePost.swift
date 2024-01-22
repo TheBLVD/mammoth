@@ -316,7 +316,7 @@ extension PostCardQuotePost {
                 // set the post text to either:
                 //  - ([type])
                 //  - ([type] description: [meta description])
-                if let type = quotePostCard.mediaDisplayType.displayName?.capitalized  {
+                if let type = quotePostCard.mediaDisplayType.captializedDisplayName  {
                     if let desc = quotePostCard.mediaAttachments.first?.description {
                         let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type) description: \(desc))", emojis: [:]))
                         self.postTextLabel.configure(content: content)

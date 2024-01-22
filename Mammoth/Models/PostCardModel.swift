@@ -129,6 +129,16 @@ final class PostCardModel {
             default: return nil
             }
         }
+        
+        var captializedDisplayName: String? {
+            switch self {
+            case .singleImage: return "Image"
+            case .singleVideo: return "Video"
+            case .singleGIF: return "GIF"
+            case .carousel: return "Carousel"
+            default: return nil
+            }
+        }
     }
     
     enum QuotePostStatus: Int, CaseIterable, Equatable {
