@@ -366,33 +366,33 @@ private extension ProfileViewController {
             UserActions.onMessage(target: self, user: account)
 
         case .muteOneDay:
-            guard let account = self.viewModel.user?.account else { break }
+            guard let account = self.viewModel.user?.preSyncAccount ?? self.viewModel.user?.account else { break }
             UserActions.onMuteOneDay(target: self, user: account)
             
         case .muteForever:
-            guard let account = self.viewModel.user?.account else { break }
+            guard let account = self.viewModel.user?.preSyncAccount ?? self.viewModel.user?.account else { break }
             UserActions.onMute(target: self, user: account)
             
         case .unmute:
-            guard let account = self.viewModel.user?.account else { break }
+            guard let account = self.viewModel.user?.preSyncAccount ?? self.viewModel.user?.account else { break }
             ModerationManager.shared.unmute(user: account)
             
         case .block:
-            guard let account = self.viewModel.user?.account else { break }
+            guard let account = self.viewModel.user?.preSyncAccount ?? self.viewModel.user?.account else { break }
             UserActions.onBlock(target: self, user: account)
             
         case .unblock:
-            guard let account = self.viewModel.user?.account else { break }
+            guard let account = self.viewModel.user?.preSyncAccount ?? self.viewModel.user?.account else { break }
             ModerationManager.shared.unblock(user: account)
             
         case .addToList:
-            guard let account = self.viewModel.user?.account else { break }
+            guard let account = self.viewModel.user?.preSyncAccount ?? self.viewModel.user?.account else { break }
             if case .list(let listId) = data {
                 UserActions.addToList(user: account, listId: listId)
             }
             break
         case .removeFromList:
-            guard let account = self.viewModel.user?.account else { break }
+            guard let account = self.viewModel.user?.preSyncAccount ?? self.viewModel.user?.account else { break }
             if case .list(let listId) = data {
                 UserActions.removeFromList(user: account, listId: listId)
             }
@@ -403,19 +403,19 @@ private extension ProfileViewController {
             self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
             break
         case .enableReposts:
-            guard let account = self.viewModel.user?.account else { break }
+            guard let account = self.viewModel.user?.preSyncAccount ?? self.viewModel.user?.account else { break }
             UserActions.enableReposts(user: account)
             break
         case .disableReposts:
-            guard let account = self.viewModel.user?.account else { break }
+            guard let account = self.viewModel.user?.preSyncAccount ?? self.viewModel.user?.account else { break }
             UserActions.disableReposts(user: account)
             break
         case .enableNotifications:
-            guard let account = self.viewModel.user?.account else { break }
+            guard let account = self.viewModel.user?.preSyncAccount ?? self.viewModel.user?.account else { break }
             UserActions.enableNotifications(user: account)
             break
         case .disableNotifications:
-            guard let account = self.viewModel.user?.account else { break }
+            guard let account = self.viewModel.user?.preSyncAccount ?? self.viewModel.user?.account else { break }
             UserActions.disableNotifications(user: account)
             break
         }

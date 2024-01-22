@@ -383,9 +383,12 @@ extension ProfileViewModel {
                         guard let self else { return nil }
                         let followStatus = self.user?.followStatus
                         let cachedProfilePic = self.user?.decodedProfilePic
+                        let preSyncAccount = self.user?.account
+                        
                         self.user = UserCardModel(account: account, instanceName: instanceName)
                         self.user?.followStatus = followStatus
                         self.user?.decodedProfilePic = cachedProfilePic
+                        self.user?.preSyncAccount = preSyncAccount
                         self.state = .success
                         return self.user
                     }
@@ -401,10 +404,12 @@ extension ProfileViewModel {
                                 guard let self else { return nil }
                                 let followStatus = self.user?.followStatus
                                 let cachedProfilePic = self.user?.decodedProfilePic
+                                let preSyncAccount = self.user?.account
                                 
                                 self.user = user
                                 self.user?.followStatus = followStatus
                                 user.decodedProfilePic = cachedProfilePic
+                                user.preSyncAccount = preSyncAccount
                                 self.state = .success
                                 return self.user
                             }
@@ -781,7 +786,12 @@ private extension ProfileViewModel {
            account.fullAcct == self.user?.account?.fullAcct {
             // Override user with updated user account
             let userCard = UserCardModel(account: account)
+            let preSyncAccount = self.user?.preSyncAccount
+            let cachedProfilePic = self.user?.decodedProfilePic
+            
             self.user = userCard
+            self.user?.decodedProfilePic = cachedProfilePic
+            self.user?.preSyncAccount = preSyncAccount
             // Override user in each post card
             self.listData.posts = self.listData.posts?.map({ postCard in postCard.withNewUser(user: userCard) })
             self.listData.postsAndReplies = self.listData.postsAndReplies?.map({ postCard in postCard.withNewUser(user: userCard) })
@@ -796,7 +806,12 @@ private extension ProfileViewModel {
            account.fullAcct == self.user?.account?.fullAcct {
             // Override user with updated user account
             let userCard = UserCardModel(account: account)
+            let preSyncAccount = self.user?.preSyncAccount
+            let cachedProfilePic = self.user?.decodedProfilePic
+            
             self.user = userCard
+            self.user?.decodedProfilePic = cachedProfilePic
+            self.user?.preSyncAccount = preSyncAccount
             // Update profile header
             self.delegate?.didUpdate(with: .success)
         }
@@ -808,7 +823,12 @@ private extension ProfileViewModel {
                 guard let self else { return }
                 let userCard = UserCardModel(account: currentAccount)
                 if userCard.followStatus != .inProgress {
+                    let preSyncAccount = self.user?.preSyncAccount
+                    let cachedProfilePic = self.user?.decodedProfilePic
+                    
                     self.user = userCard
+                    self.user?.decodedProfilePic = cachedProfilePic
+                    self.user?.preSyncAccount = preSyncAccount
                     // Update profile header
                     self.delegate?.didUpdate(with: .success)
                 }

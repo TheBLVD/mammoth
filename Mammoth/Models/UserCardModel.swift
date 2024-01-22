@@ -18,11 +18,13 @@ class UserCardModel {
     let name: String
     let userTag: String
     let username: String
-    
+        
     let imageURL: String?
     let description: String?
     let isFollowing: Bool
     let emojis: [Emoji]?
+    
+    var preSyncAccount: Account?
     let account: Account?
     
     var instanceName: String?
