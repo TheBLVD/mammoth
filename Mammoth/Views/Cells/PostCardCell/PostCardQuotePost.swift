@@ -310,6 +310,7 @@ extension PostCardQuotePost {
             // Display post text
             if let postTextContent = quotePostCard.metaPostText, !postTextContent.original.isEmpty {
                 self.postTextLabel.configure(content: postTextContent)
+                self.postTextLabel.isHidden = false
             } else if [.small, .hidden].contains(self.mediaVariant) {
                 // If there's no post text, but a media attachment,
                 // set the post text to either:
@@ -319,11 +320,17 @@ extension PostCardQuotePost {
                     if let desc = quotePostCard.mediaAttachments.first?.description {
                         let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type) description: \(desc))", emojis: [:]))
                         self.postTextLabel.configure(content: content)
+                        self.postTextLabel.isHidden = false
                     } else {
                         let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type))", emojis: [:]))
                         self.postTextLabel.configure(content: content)
+                        self.postTextLabel.isHidden = false
                     }
+                } else {
+                    self.postTextLabel.isHidden = true
                 }
+            } else {
+                self.postTextLabel.isHidden = true
             }
             
             self.postTextLabel.isUserInteractionEnabled = false
