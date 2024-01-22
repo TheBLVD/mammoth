@@ -232,8 +232,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.threaderMode = UserDefaults.standard.value(forKey: "threaderMode") as? Bool ?? false
         GlobalStruct.threaderStyle = UserDefaults.standard.value(forKey: "threaderStyle") as? Int ?? 0
         
-        GlobalStruct.geoString = UserDefaults.standard.value(forKey: "geoString") as? String ?? ""
-        
         GlobalStruct.idsToUnlike = UserDefaults.standard.value(forKey: "idsToUnlike") as? [String] ?? []
         
         GlobalStruct.notifs1 = UserDefaults.standard.value(forKey: "notifs1") as? Bool ?? false // Has the user enabled push notifications?

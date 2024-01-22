@@ -42,10 +42,6 @@ public struct GlobalStruct {
     static var autoPlayVideos: Bool = true
     static var currentFilterId: String = ""
     static var currentFilter: Filters? = nil
-    static var switchingAccount: Bool = false
-    static var switchingAccount2: Bool = false
-    static var switchingAccount3: Bool = false
-    static var switchingAccount4: Bool = false
     static var circleProfiles: Bool = true
     static var chatView: Bool = true
     static var currentPostLang2: String? = nil // used to set the user's profile language
@@ -59,14 +55,9 @@ public struct GlobalStruct {
     static var limitProfileLines: Bool = false
     static var timer1 = Timer()
     static var canLoadLink: Bool = true
-    static var canScroll1: Bool = true
-    static var canScroll2: Bool = true
-    static var canScroll3: Bool = true
     static var altAdded: [Int: String] = [:]
-    static var inOverlayedScreen: Bool = false
     static var accountIDsToFollow: [String] = []
     static var accountIDsToUnfollow: [String] = []
-    static var hashtagNamesToFollow: [String] = []
     static var deviceToken: Data?
     static var deviceTokenAccountUID: String?
     static var audioPlayer = AVAudioPlayer()
@@ -76,8 +67,6 @@ public struct GlobalStruct {
     static var tempUpdateMetrics: [Status] = []
     static var tempUpdateIndex: Int? = nil
     static var blockedUsers: [String] = []
-    static var displayingTopFriendPrompt: Bool = false
-    static var viewOfMetricsBeingUpdated: Int = 0
     static var tempFollowing: [Account] = []
     static var reviewPrompt: Bool = true
     static var enableLogging: Bool = false
@@ -98,10 +87,6 @@ public struct GlobalStruct {
     
     // 0 for first time, 1 for displaying, 2 for hidden
     static var displayingVIPLists: Int = 0
-    static var topFriendsText1: String = "Top Friends"
-    static var topFriendsText2: String = "A new custom list will be created for you on Mastodon to make managing and viewing your top friends quicker and easier. Would you like to proceed?"
-    static var promptedVIP: Bool = false
-    static var createdVIP: Bool = false
     
     static var VIPListID: String = ""
     static var topAccounts: [Account] = []
@@ -115,9 +100,6 @@ public struct GlobalStruct {
     static var pnPolls: Bool = true
     static var pnStatuses: Bool = true
     static var pnFollowRequests: Bool = true
-    
-    static var avaFile = "avatar"
-    static var heaFile = "header"
     
     static var refreshToken: String = ""
     static var allPinned: [Status] = []
@@ -157,18 +139,11 @@ public struct GlobalStruct {
     static var tabBarProfileIcon: Bool = true
 
     static var langStr: String = Locale.current.languageCode ?? "en"
-    static var screenshotWatermark: Bool = true
     static var tintedCounters: Bool = false
     static var hideNavBars: Bool = false
     static var hideNavBars2: Bool = false
     static var scrollDirectionDown: Bool = true
     static var appLock: Bool = false
-    
-    static var dmImageCache = NSCache<NSString, AnyObject>()
-    
-    // Focus Filter API
-    static var focusFilter: Bool = false
-    static var focusFilter2: Bool = false
     
     // composer
     static var keyboardType: Int = 0
@@ -199,12 +174,6 @@ public struct GlobalStruct {
         case lowerRight = 1
     }
     static var postButtonLocation: PostButtonLocationType = .lowerRight
-    static var relationUser1: String = ""
-    static var relationUser1name: String = ""
-    static var relationUser1profile: String = ""
-    static var relationUser2: String = ""
-    static var relationUser2name: String = ""
-    static var relationUser2profile: String = ""
     static var showingNewPostComposer: Bool = false
     static var canvasImage = UIImage()
     static var currentTrendPost: Int = 0
@@ -224,7 +193,6 @@ public struct GlobalStruct {
     static var threaderMode: Bool = false
     static var threaderStyle: Int = 0
     static var reviewCount: Int = 0
-    static var geoString: String = ""
     static var notifs1: Bool = false
     static var notifIDs: [String] = []
     static var isNeedingColumnsUpdate: Bool = false
@@ -251,33 +219,11 @@ public struct GlobalStruct {
     // iPad
     static var isCompact: Bool = false
     static var padColWidth: Int = 412
-    static var hiddenColumns: [Int] = []
     static var objects: [DiffSections] = []
-    static var tempSidebar: Int = 0
     static var sidebarHighlight: Int = 0
-    static var tappedSidebarItem: Bool = false
     static var singleColumn: Bool = false
     static var currentSingleColumnViewController = SingleColumnViewController()
-    static var changedColumn: Bool = false
-    static var didSetupOnce: Bool = false
-    
-    // cloud models
-    static var feedPositions: [String: String] = [:]
         
-    static var metadataStorage = MetadataStorage()
-    
-    static var likesThreshold: Bool = false
-    static var likesThresholdDirection: Int = 0
-    static var likesThresholdAmount: Int = 100
-    
-    static var repostsThreshold: Bool = false
-    static var repostsThresholdDirection: Int = 0
-    static var repostsThresholdAmount: Int = 100
-    
-    static var followersThreshold: Bool = false
-    static var followersThresholdDirection: Int = 0
-    static var followersThresholdAmount: Int = 100
-    
     // iPad columns
     static var columnsViews2: [UIViewController] = [
         HomeViewController(),
@@ -750,37 +696,6 @@ extension UIDevice {
             return window.safeAreaInsets.top >= 44
         } else {
             return window.safeAreaInsets.left > 0 || window.safeAreaInsets.right > 0
-        }
-    }
-}
-
-struct MetadataStorage {
-    private let storage = UserDefaults.standard
-    
-    func store(_ metadata: LPLinkMetadata) {
-        do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: metadata, requiringSecureCoding: true)
-            var metadatas = storage.dictionary(forKey: "Metadata") as? [String: Data] ?? [String: Data]()
-            while metadatas.count > 10 {
-                metadatas.removeValue(forKey: metadatas.randomElement()!.key)
-            }
-            metadatas[metadata.originalURL!.absoluteString] = data
-            storage.set(metadatas, forKey: "Metadata")
-        }
-        catch {
-            log.error("Failed storing metadata with error \(error as NSError)")
-        }
-    }
-    
-    func metadata(for url: URL) -> LPLinkMetadata? {
-        guard let metadatas = storage.dictionary(forKey: "Metadata") as? [String: Data] else { return nil }
-        guard let data = metadatas[url.absoluteString] else { return nil }
-        do {
-            return try NSKeyedUnarchiver.unarchivedObject(ofClass: LPLinkMetadata.self, from: data)
-        }
-        catch {
-            log.error("Failed to unarchive metadata with error \(error as NSError)")
-            return nil
         }
     }
 }

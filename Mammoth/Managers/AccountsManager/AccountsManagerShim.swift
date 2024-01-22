@@ -26,10 +26,6 @@ class AccountsManagerShim {
             
             let currentAccount = AccountsManager.shared.currentAccount
             
-            GlobalStruct.switchingAccount = true
-            GlobalStruct.switchingAccount2 = true
-            GlobalStruct.switchingAccount3 = true
-            GlobalStruct.switchingAccount4 = true
             GlobalStruct.hasSetupNewsDots = false
             GlobalStruct.timer1.invalidate()
             GlobalStruct.topAccounts = []
@@ -61,7 +57,6 @@ class AccountsManagerShim {
                 userInfo = ["userCard": UserCardModel(account: mastodonAccount)]
             }
             
-            GlobalStruct.switchingAccount = false
             NotificationCenter.default.post(name: didSwitchCurrentAccountNotification, object: self, userInfo: userInfo)
             
             AccountsManager.shared.updateCurrentAccountFromNetwork()
