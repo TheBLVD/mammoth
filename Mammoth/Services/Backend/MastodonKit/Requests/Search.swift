@@ -18,7 +18,6 @@ public struct Search {
     public static func search(query: String, resolve: Bool? = nil) -> Request<Results> {
         let parameters = [
             Parameter(name: "q", value: query),
-            Parameter(name: "resolve", value: true),
             Parameter(name: "limit", value: "10"),
             Parameter(name: "resolve", value: resolve.flatMap(trueOrNil))
         ]
