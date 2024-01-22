@@ -222,7 +222,7 @@ final class ActivityCardCell: UITableViewCell {
     
     /// the cell will be displayed in the tableview
     public func willDisplay() {
-        if let postCard = self.activityCard?.postCard, postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
+        if let postCard = self.activityCard?.postCard, postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType) {
             if GlobalStruct.autoPlayVideos {
                 self.video?.play()
             }
@@ -238,7 +238,7 @@ final class ActivityCardCell: UITableViewCell {
     
     // the cell will end being displayed in the tableview
     public func didEndDisplay() {
-        if let postCard = self.activityCard?.postCard, postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
+        if let postCard = self.activityCard?.postCard, postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType) {
             self.video?.pause()
         }
         
@@ -428,7 +428,7 @@ extension ActivityCardCell {
             }
             
             // Display single video/gif if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo && !hideMedia {
+            if postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType) && !hideMedia {
                 if self.video == nil {
                     self.video = PostCardVideo(variant: .thumbnail)
                     self.video!.translatesAutoresizingMaskIntoConstraints = false

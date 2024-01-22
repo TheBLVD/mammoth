@@ -116,6 +116,7 @@ final class PostCardModel {
     enum MediaDisplayType {
         case singleImage
         case singleVideo
+        case singleGIF
         case carousel
         case none
         
@@ -123,6 +124,7 @@ final class PostCardModel {
             switch self {
             case .singleImage: return "image"
             case .singleVideo: return "video"
+            case .singleGIF: return "GIF"
             case .carousel: return "carousel"
             default: return nil
             }
@@ -381,8 +383,10 @@ final class PostCardModel {
             switch self.mediaAttachments.first?.type {
             case .image:
                 self.mediaDisplayType = .singleImage
-            case .gifv, .video:
+            case .video:
                 self.mediaDisplayType = .singleVideo
+            case .gifv:
+                self.mediaDisplayType = .singleGIF
             default:
                 // TODO: enable single media view for all media types when implementation is done (video, gifs, images and audio)
                 self.mediaDisplayType = .carousel

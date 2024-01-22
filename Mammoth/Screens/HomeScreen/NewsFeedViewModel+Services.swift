@@ -516,7 +516,7 @@ extension NewsFeedViewModel {
                     postCard.preloadQuotePost()
                 }
                 
-                if postCard.mediaDisplayType == .singleVideo {
+                if postCard.mediaDisplayType == .singleVideo || postCard.mediaDisplayType == .singleGIF {
                     postCard.preloadVideo()
                 }
                 
@@ -530,7 +530,7 @@ extension NewsFeedViewModel {
                     activity.postCard?.preloadQuotePost()
                 }
                 
-                if activity.postCard?.mediaDisplayType == .singleVideo {
+                if activity.postCard?.mediaDisplayType == .singleVideo || activity.postCard?.mediaDisplayType == .singleGIF {
                     activity.postCard?.preloadVideo()
                 }
                 

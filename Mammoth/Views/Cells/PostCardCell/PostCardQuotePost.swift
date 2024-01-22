@@ -155,7 +155,7 @@ class PostCardQuotePost: UIView {
         mediaContainer.directionalLayoutMargins.leading = 12
         mediaContainer.directionalLayoutMargins.trailing = 12
         
-        self.postTextLabel.attributedText = nil
+        self.postTextLabel.reset()
         textAndSmallMediaStackView.removeArrangedSubview(self.postTextLabel)
         self.postTextLabel.removeFromSuperview()
         
@@ -315,7 +315,7 @@ extension PostCardQuotePost {
                 // set the post text to either:
                 //  - ([type])
                 //  - ([type] description: [meta description])
-                if let type = quotePostCard.mediaAttachments.first?.type.rawValue.capitalized  {
+                if let type = quotePostCard.mediaDisplayType.displayName?.capitalized  {
                     if let desc = quotePostCard.mediaAttachments.first?.description {
                         let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type) description: \(desc))", emojis: [:]))
                         self.postTextLabel.configure(content: content)
@@ -387,7 +387,7 @@ extension PostCardQuotePost {
             }
             
             // Display single video/gif if needed
-            if quotePostCard.hasMediaAttachment && quotePostCard.mediaDisplayType == .singleVideo {
+            if quotePostCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(quotePostCard.mediaDisplayType) {
                 if self.video == nil {
                     switch self.mediaVariant {
                     case .small:

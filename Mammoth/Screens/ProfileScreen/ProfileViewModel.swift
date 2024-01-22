@@ -592,7 +592,7 @@ extension ProfileViewModel {
                         card.preloadImages()
                     }
                     
-                    if card.mediaDisplayType == .singleVideo {
+                    if card.mediaDisplayType == .singleVideo || card.mediaDisplayType == .singleGIF {
                         card.preloadVideo()
                     }
                 }
@@ -608,7 +608,7 @@ extension ProfileViewModel {
                         card.preloadImages()
                     }
                     
-                    if card.mediaDisplayType == .singleVideo {
+                    if card.mediaDisplayType == .singleVideo || card.mediaDisplayType == .singleGIF {
                         card.preloadVideo()
                     }
                 }
