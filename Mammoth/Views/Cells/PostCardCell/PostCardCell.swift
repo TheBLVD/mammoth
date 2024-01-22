@@ -714,7 +714,7 @@ extension PostCardCell {
                 // set the post text to either:
                 //  - ([type])
                 //  - ([type] description: [meta description])
-                if let type = postCard.mediaDisplayType.displayName?.capitalized  {
+                if let type = postCard.mediaDisplayType.captializedDisplayName  {
                     if let desc = postCard.mediaAttachments.first?.description {
                         let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type) description: \(desc))", emojis: [:]))
                         self.postTextView.configure(content: content)
