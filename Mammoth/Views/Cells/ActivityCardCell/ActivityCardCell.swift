@@ -373,7 +373,7 @@ extension ActivityCardCell {
             let hideMedia = [.favourite, .reblog].contains(activity.type)
             
             // Display poll if needed
-            if postCard.containsPoll {
+            if postCard.containsPoll && !hideMedia {
                 if self.poll == nil {
                     self.poll = PostCardPoll()
                 } else {
