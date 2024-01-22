@@ -224,7 +224,7 @@ final class PostCardCell: UITableViewCell {
     private var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.alignment = .leading
         stackView.distribution = .fill
         stackView.spacing = 2
         stackView.isOpaque = true
@@ -399,7 +399,7 @@ final class PostCardCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         self.postCard = nil
-        self.postTextView.attributedText = nil
+        self.postTextView.reset()
         self.profilePic.prepareForReuse()
         self.footer.onButtonPress = nil
         self.separatorInset = .zero
@@ -696,20 +696,25 @@ extension PostCardCell {
             
             if let postTextContent = postCard.metaPostText, !postTextContent.original.isEmpty {
                 self.postTextView.configure(content: postTextContent)
+                self.postTextView.isHidden = false
                 
             } else if [.small, .hidden].contains(self.cellVariant.mediaVariant) {
                 // If there's no post text, but a media attachment,
                 // set the post text to either:
                 //  - ([type])
                 //  - ([type] description: [meta description])
-                if let type = postCard.mediaAttachments.first?.type.rawValue.capitalized  {
+                if let type = postCard.mediaDisplayType.displayName?.capitalized  {
                     if let desc = postCard.mediaAttachments.first?.description {
                         let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type) description: \(desc))", emojis: [:]))
                         self.postTextView.configure(content: content)
+                        self.postTextView.isHidden = false
                     } else {
                         let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type))", emojis: [:]))
                         self.postTextView.configure(content: content)
+                        self.postTextView.isHidden = false
                     }
+                } else {
+                    self.postTextView.isHidden = true
                 }
             }
             
@@ -752,7 +757,7 @@ extension PostCardCell {
             }
             
             // Display single video/gif if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
+            if postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType) {
                 if mediaHasChanged {
                     self.video?.configure(postCard: postCard)
                     
@@ -928,7 +933,7 @@ extension PostCardCell {
             }
             
             // Display single video/gif if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
+            if postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType) {
                 if let constraint = self.videoTrailingConstraint, !constraint.isActive {
                     NSLayoutConstraint.activate([self.videoTrailingConstraint!])
                 }
@@ -971,7 +976,7 @@ extension PostCardCell {
     /// the cell will be displayed in the tableview
     public func willDisplay() {
         if let postCard = self.postCard, 
-            postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo,
+            postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType),
            ![.small, .hidden].contains(self.cellVariant.mediaVariant) {
             if GlobalStruct.autoPlayVideos {
                 self.video?.play()
@@ -989,7 +994,7 @@ extension PostCardCell {
     // the cell will end being displayed in the tableview
     public func didEndDisplay() {
         if let postCard = self.postCard, 
-            postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleVideo {
+            postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType) {
             self.video?.pause()
         }
         
