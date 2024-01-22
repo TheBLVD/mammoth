@@ -224,7 +224,7 @@ final class PostCardCell: UITableViewCell {
     private var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.alignment = .leading
         stackView.distribution = .fill
         stackView.spacing = 2
         stackView.isOpaque = true
@@ -429,6 +429,15 @@ final class PostCardCell: UITableViewCell {
         self.linkPreview?.prepareForReuse()
         self.mediaStack?.prepareForReuse()
         self.mediaGallery?.prepareForReuse()
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let mediaGallery = self.mediaGallery {
+            let convertedPoint = mediaGallery.convert(point, from: self)
+            return self.mediaGallery?.hitTest(convertedPoint, with: event) ?? super.hitTest(point, with: event)
+        }
+        
+        return super.hitTest(point, with: event)
     }
 }
 
