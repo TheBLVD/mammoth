@@ -26,7 +26,7 @@ final class PostCardMediaGallery: UIView {
     private let stackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .fill
+        stackView.alignment = .leading
         stackView.distribution = .equalSpacing
         stackView.spacing = 8.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,6 +59,21 @@ final class PostCardMediaGallery: UIView {
         let stackViewHeight = stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         stackViewHeight.isActive = true
         stackViewHeight.priority = .required
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let leadingInset = -86.0 // Inset needs to be >= leading inset from the edge of the cell to the gallery
+        let trailingOffset = 800.0 // Offset needs to be >= trailing offset from the trailing edge of the gallery to the trailing edge of the cell
+        let expendedBounds = CGRect.init(origin: self.bounds.insetBy(dx: leadingInset, dy: 0).origin,
+                                         size: .init(width: self.bounds.width + trailingOffset, height: self.bounds.height))
+        if expendedBounds.contains(point) {
+            let convertedPoint = self.stackView.convert(point, from: self)
+            // Accept touches outside the scrollview bounds,
+            // if it's hitting scrollview content
+            return self.stackView.hitTest(convertedPoint, with: event)
+        }
+        
+        return nil
     }
 }
 

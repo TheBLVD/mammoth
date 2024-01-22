@@ -430,6 +430,15 @@ final class PostCardCell: UITableViewCell {
         self.mediaStack?.prepareForReuse()
         self.mediaGallery?.prepareForReuse()
     }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        if let mediaGallery = self.mediaGallery, self.postCard?.mediaDisplayType == .carousel {
+            let convertedPoint = mediaGallery.convert(point, from: self)
+            return self.mediaGallery?.hitTest(convertedPoint, with: event) ?? super.hitTest(point, with: event)
+        }
+        
+        return super.hitTest(point, with: event)
+    }
 }
 
 // MARK: - Setup UI
