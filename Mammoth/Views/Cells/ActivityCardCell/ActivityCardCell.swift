@@ -178,6 +178,15 @@ final class ActivityCardCell: UITableViewCell {
             self.image = nil
         }
         
+        if let image = self.image, self.mediaContainer.arrangedSubviews.contains(image) {
+            self.image?.prepareForReuse()
+            self.imageTrailingConstraint?.isActive = false
+            self.imageTrailingConstraint = nil
+            self.mediaContainer.removeArrangedSubview(image)
+            image.removeFromSuperview()
+            self.image = nil
+        }
+        
         if let video = self.video, self.mediaContainer.arrangedSubviews.contains(video) {
             self.video?.prepareForReuse()
             self.videoTrailingConstraint?.isActive = false
@@ -376,6 +385,13 @@ extension ActivityCardCell {
         if let postCard = activity.postCard {
             let hideMedia = [.favourite, .reblog].contains(activity.type)
             
+            if activity.type == .status {
+                let cellVariant = PostCardCell.PostCardVariant.cellVariant(for: postCard, cellType: .regular)
+                if self.postTextLabel.textContainer.maximumNumberOfLines != GlobalStruct.maxLines {
+                    self.postTextLabel.textContainer.maximumNumberOfLines = GlobalStruct.maxLines
+                }
+            }
+            
             // Display poll if needed
             if postCard.containsPoll && !hideMedia {
                 if self.poll == nil {
@@ -420,46 +436,117 @@ extension ActivityCardCell {
             
             // Display single image if needed
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage && !hideMedia {
-                if self.image == nil {
+                if activity.type == .status, let postCard = activity.postCard {
+                    let cellVariant = PostCardCell.PostCardVariant.cellVariant(for: postCard, cellType: .regular)
+                    switch cellVariant?.mediaVariant {
+                    case .small:
+                        self.image = PostCardImage(variant: .thumbnail)
+                        self.image!.translatesAutoresizingMaskIntoConstraints = false
+                        self.image?.configure(postCard: postCard)
+                        textAndSmallMediaStackView.addArrangedSubview(self.image!)
+                        imageTrailingConstraint = self.image!.widthAnchor.constraint(equalToConstant: 60)
+                        imageTrailingConstraint?.isActive = true
+                    case .large:
+                        self.image = PostCardImage(variant: .fullSize)
+                        self.image!.translatesAutoresizingMaskIntoConstraints = false
+                        self.image?.configure(postCard: postCard)
+                        mediaContainer.addArrangedSubview(self.image!)
+                        imageTrailingConstraint = self.image!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+                        imageTrailingConstraint?.isActive = true
+                    default:
+                        self.image = nil
+                        break
+                    }
+                } else {
                     self.image = PostCardImage(variant: .thumbnail)
                     self.image!.translatesAutoresizingMaskIntoConstraints = false
+                    self.image?.configure(postCard: postCard)
+                    textAndSmallMediaStackView.addArrangedSubview(self.image!)
+                    imageTrailingConstraint = self.image!.widthAnchor.constraint(equalToConstant: 60)
+                    imageTrailingConstraint?.isActive = true
                 }
-                
-                self.image!.configure(postCard: postCard)
-                textAndSmallMediaStackView.addArrangedSubview(self.image!)
-                imageTrailingConstraint = imageTrailingConstraint ?? self.image!.widthAnchor.constraint(equalToConstant: 60)
-                imageTrailingConstraint?.isActive = true
+
             }
             
             // Display single video/gif if needed
             if postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType) && !hideMedia {
-                if self.video == nil {
+                if activity.type == .status, let postCard = activity.postCard {
+                    let cellVariant = PostCardCell.PostCardVariant.cellVariant(for: postCard, cellType: .regular)
+                    switch cellVariant?.mediaVariant {
+                    case .small:
+                        self.video = PostCardVideo(variant: .thumbnail)
+                        self.video!.translatesAutoresizingMaskIntoConstraints = false
+                        self.video?.configure(postCard: postCard)
+                        textAndSmallMediaStackView.addArrangedSubview(self.video!)
+                        videoTrailingConstraint = self.video!.widthAnchor.constraint(equalToConstant: 60)
+                        videoTrailingConstraint?.isActive = true
+                    case .large:
+                        self.video = PostCardVideo(variant: .fullSize)
+                        self.video!.translatesAutoresizingMaskIntoConstraints = false
+                        self.video?.configure(postCard: postCard)
+                        mediaContainer.addArrangedSubview(self.video!)
+                        videoTrailingConstraint = self.video!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+                        videoTrailingConstraint?.isActive = true
+                    default:
+                        self.video = nil
+                        break
+                    }
+                } else {
                     self.video = PostCardVideo(variant: .thumbnail)
                     self.video!.translatesAutoresizingMaskIntoConstraints = false
+                    self.video?.configure(postCard: postCard)
+                    textAndSmallMediaStackView.addArrangedSubview(self.video!)
+                    videoTrailingConstraint = self.video!.widthAnchor.constraint(equalToConstant: 60)
+                    videoTrailingConstraint?.isActive = true
                 }
-                
-                self.video!.configure(postCard: postCard)
-                textAndSmallMediaStackView.addArrangedSubview(self.video!)
-                videoTrailingConstraint = videoTrailingConstraint ?? self.video!.widthAnchor.constraint(equalToConstant: 60)
-                videoTrailingConstraint?.isActive = true
             }
 
             // Display the image carousel if needed
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel && !hideMedia {
-                if self.mediaStack == nil {
+                
+                if activity.type == .status, let postCard = activity.postCard {
+                    let cellVariant = PostCardCell.PostCardVariant.cellVariant(for: postCard, cellType: .regular)
+                    switch cellVariant?.mediaVariant {
+                    case .small:
+                        self.mediaStack = PostCardMediaStack(variant: .thumbnail)
+                        self.mediaStack!.translatesAutoresizingMaskIntoConstraints = false
+                        self.mediaStack?.configure(postCard: postCard)
+                        textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
+                        mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
+                        mediaStackTrailingConstraint?.isActive = true
+                    case .large:
+                        self.mediaStack = PostCardMediaStack(variant: .fullSize)
+                        self.mediaStack!.translatesAutoresizingMaskIntoConstraints = false
+                        self.mediaStack?.configure(postCard: postCard)
+                        mediaContainer.addArrangedSubview(self.mediaStack!)
+                        mediaStackTrailingConstraint = self.mediaStack!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+                        mediaStackTrailingConstraint?.isActive = true
+                    default:
+                        self.video = nil
+                        break
+                    }
+                } else {
                     self.mediaStack = PostCardMediaStack(variant: .thumbnail)
+                    self.mediaStack!.translatesAutoresizingMaskIntoConstraints = false
+                    self.mediaStack?.configure(postCard: postCard)
+                    textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
+                    mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
+                    mediaStackTrailingConstraint?.isActive = true
                 }
-
-                self.mediaStack!.configure(postCard: postCard)
-                textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
-                mediaStackTrailingConstraint = mediaStackTrailingConstraint ?? self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
-                mediaStackTrailingConstraint?.isActive = true
             }
 
             // If we are hiding the link image, move the link view
             // so it's below any possible media.
             if let linkPreview = self.linkPreview, postCard.hideLinkImage && mediaContainer.arrangedSubviews.contains(linkPreview), !hideMedia {
                 mediaContainer.insertArrangedSubview(linkPreview, at: mediaContainer.arrangedSubviews.count - 1)
+            }
+            
+            // Add extra spacing between text and media
+            let cellVariant = PostCardCell.PostCardVariant.cellVariant(for: postCard, cellType: .regular)
+            if (postCard.hasLink || postCard.hasMediaAttachment) && activity.type == .status, !postCard.postText.isEmpty, cellVariant?.mediaVariant == .large{
+                contentStackView.setCustomSpacing(12, after: self.textAndSmallMediaStackView)
+            } else {
+                contentStackView.setCustomSpacing(2, after: self.textAndSmallMediaStackView)
             }
         }
         
