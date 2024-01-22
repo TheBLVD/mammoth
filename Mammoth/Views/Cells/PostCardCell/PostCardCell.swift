@@ -432,7 +432,7 @@ final class PostCardCell: UITableViewCell {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let mediaGallery = self.mediaGallery {
+        if let mediaGallery = self.mediaGallery, self.postCard?.mediaDisplayType == .carousel {
             let convertedPoint = mediaGallery.convert(point, from: self)
             return self.mediaGallery?.hitTest(convertedPoint, with: event) ?? super.hitTest(point, with: event)
         }

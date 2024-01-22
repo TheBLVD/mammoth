@@ -62,7 +62,10 @@ final class PostCardMediaGallery: UIView {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let expendedBounds = self.bounds.insetBy(dx: -86, dy: 0)
+        let leadingInset = -86.0 // Inset needs to be >= leading inset from the edge of the cell to the gallery
+        let trailingOffset = 800.0 // Offset needs to be >= trailing offset from the trailing edge of the gallery to the trailing edge of the cell
+        let expendedBounds = CGRect.init(origin: self.bounds.insetBy(dx: leadingInset, dy: 0).origin,
+                                         size: .init(width: self.bounds.width + trailingOffset, height: self.bounds.height))
         if expendedBounds.contains(point) {
             let convertedPoint = self.stackView.convert(point, from: self)
             // Accept touches outside the scrollview bounds,
