@@ -120,11 +120,6 @@ final class PostCardVideo: UIView {
     private var playerRateObserver: NSKeyValueObservation?
     private var playerMuteObserver: NSKeyValueObservation?
     private var playerLoopObserver: NSObjectProtocol?
-
-    private var videoWidthConstraint: NSLayoutConstraint?
-    private var videoHeightConstraint: NSLayoutConstraint?
-    private var maxHeightConstraint: NSLayoutConstraint?
-    private var minHeightConstraint: NSLayoutConstraint?
     
     private var loopCount: Int = 0
     private let maxLoopCount: Int = 8
@@ -220,6 +215,49 @@ final class PostCardVideo: UIView {
     private var isSensitive: Bool = false
     private let variant: PostCardVideoVariant
     
+    private var dynamicHeightConstraint: NSLayoutConstraint?
+    
+    private lazy var squareConstraints: [NSLayoutConstraint] = {
+        let c1 = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor)
+        c1.priority = .required
+
+        let c2 = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor)
+        c2.priority = .required
+        return [c1, c2]
+    }()
+    
+    private lazy var portraitConstraints: [NSLayoutConstraint] = {
+        let c1 = videoView.widthAnchor.constraint(equalTo: self.widthAnchor)
+        c1.priority = .defaultHigh
+
+        let c2 = videoView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60)
+        c2.priority = .required
+        
+        return [c1, c2]
+    }()
+    
+    private lazy var tallPortraitConstraints: [NSLayoutConstraint] = {
+        // extremely tall (more than the iPhone 14 Pro Max ratio)
+        let c1 = videoView.widthAnchor.constraint(equalTo: self.widthAnchor)
+        c1.priority = .defaultHigh
+
+        let c2 = videoView.heightAnchor.constraint(equalToConstant: 420)
+        c2.priority = .defaultHigh
+        
+        return [c1, c2]
+    }()
+    
+    private lazy var landscapeConstraints: [NSLayoutConstraint] = {
+        // most portrait videos
+        let c1 = videoView.widthAnchor.constraint(lessThanOrEqualTo: self.widthAnchor)
+        c1.priority = .required
+
+        let c2 = videoView.heightAnchor.constraint(lessThanOrEqualToConstant: 420)
+        c2.priority = .required
+        
+        return [c1, c2]
+    }()
+    
     init(variant: PostCardVideoVariant = .fullSize) {
         self.variant = variant
         super.init(frame: .zero)
@@ -269,12 +307,6 @@ final class PostCardVideo: UIView {
         if let _ = self.videoView.subviews.firstIndex(of: self.sensitiveContentOverlay) {
             self.sensitiveContentOverlay.removeFromSuperview()
         }
-    }
-    
-    private func resetVariableConstraints() {
-        [videoWidthConstraint, videoHeightConstraint, maxHeightConstraint, minHeightConstraint].compactMap({$0}).forEach({
-            $0.isActive = false
-        })
     }
     
     private func setupUI() {
@@ -367,84 +399,8 @@ final class PostCardVideo: UIView {
         playerLayer?.frame = videoView.bounds
     }
     
-    override func updateConstraints() {
-        self.resetVariableConstraints()
-                
-        if let ratio = self.media?.meta?.small?.aspect {
-            // square
-            if self.variant == .thumbnail || fabs(ratio - 1.0) < 0.01 {
-                videoWidthConstraint = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor)
-                videoWidthConstraint!.priority = .required
-                videoWidthConstraint!.isActive = true
-                
-                videoHeightConstraint = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor)
-                videoHeightConstraint!.priority = .required
-                videoHeightConstraint!.isActive = true
-                
-                self.translatesAutoresizingMaskIntoConstraints = false
-            }
-            
-            // landscape
-            else if ratio > 1 {
-                videoWidthConstraint = videoView.widthAnchor.constraint(equalTo: self.widthAnchor)
-                videoWidthConstraint!.priority = .defaultHigh
-                videoWidthConstraint!.isActive = true
-                
-                videoHeightConstraint = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor, multiplier: 1 / ratio)
-                videoHeightConstraint!.priority = .defaultHigh
-                videoHeightConstraint!.isActive = true
-                
-                minHeightConstraint = videoView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60)
-                minHeightConstraint!.priority = .required
-                minHeightConstraint!.isActive = true
-                
-                self.translatesAutoresizingMaskIntoConstraints = false
-            }
-            
-            // portrait
-            else if ratio < 1 {
-                if ratio < 0.45 {
-                    // extremely tall (more than the iPhone 14 Pro Max ratio)
-                    videoWidthConstraint = videoView.widthAnchor.constraint(equalTo: self.widthAnchor)
-                    videoWidthConstraint!.priority = .defaultHigh
-                    videoWidthConstraint!.isActive = true
-                    
-                    videoHeightConstraint = videoView.heightAnchor.constraint(equalToConstant: 420)
-                    videoHeightConstraint!.priority = .defaultHigh
-                    videoHeightConstraint!.isActive = true
-                    
-                    self.translatesAutoresizingMaskIntoConstraints = false
-                    
-                } else {
-                    // most portrait images
-                    videoWidthConstraint = videoView.widthAnchor.constraint(lessThanOrEqualTo: self.widthAnchor)
-                    videoWidthConstraint!.priority = .required
-                    videoWidthConstraint!.isActive = true
-                    
-                    videoHeightConstraint = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor, multiplier: 1 / ratio)
-                    videoHeightConstraint!.priority = .defaultHigh
-                    videoHeightConstraint!.isActive = true
-                    
-                    maxHeightConstraint = videoView.heightAnchor.constraint(lessThanOrEqualToConstant: 420)
-                    maxHeightConstraint!.priority = .required
-                    maxHeightConstraint!.isActive = true
-                }
-            }
-        } else if !videoView.bounds.width.isZero {
-            // if there's no meta data treat it as a square
-            videoWidthConstraint = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor)
-            videoWidthConstraint!.priority = .required
-            videoWidthConstraint!.isActive = true
-            
-            videoHeightConstraint = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor)
-            videoHeightConstraint!.priority = .required
-            videoHeightConstraint!.isActive = true
-        }
-        
-        super.updateConstraints()
-    }
-    
     public func configure(video: Attachment?, postCard: PostCardModel, cachedPlayer: AVPlayer? = nil) {
+        let shouldUpdate = self.media == nil || video != self.media!
         self.isSensitive = postCard.isSensitive
         self.postCard = postCard
         
@@ -519,32 +475,65 @@ final class PostCardVideo: UIView {
                 self.videoView.bringSubviewToFront(self.sensitiveContentOverlay)
             }
             
-            // the aspect value might be nil
-            if media.meta?.small?.aspect == nil {
-                media.meta?.small?.aspect = Double(media.meta?.small?.width ?? 10) / Double(media.meta?.small?.height ?? 10)
-            }
-            
-            if GlobalStruct.blurSensitiveContent && self.isSensitive && !self.dismissedSensitiveOverlay {
-                self.sensitiveContentOverlay.frame = self.videoView.bounds
-                self.sensitiveContentOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-                self.sensitiveContentOverlay.alpha = 1
-                
-                if self.hideSensitiveOverlayGesture == nil {
-                    self.hideSensitiveOverlayGesture = UITapGestureRecognizer(target: self, action: #selector(self.hideSensitiveOverlay))
-                    self.sensitiveContentOverlay.addGestureRecognizer(self.hideSensitiveOverlayGesture!)
+            if shouldUpdate {
+                // the aspect value might be nil
+                if self.media?.meta?.original?.aspect == nil {
+                    self.media?.meta?.original?.aspect = Double(self.media?.meta?.original?.width ?? 10) / Double(self.media?.meta?.original?.height ?? 10)
+                }
+        
+                if let ratio = self.media?.meta?.original?.aspect {
+                    // square
+                    if self.variant == .thumbnail || fabs(ratio - 1.0) < 0.01 {
+                        self.deactivateAllImageConstraints()
+                        NSLayoutConstraint.activate(self.squareConstraints)
+                    }
+
+                    // landscape
+                    else if ratio > 1 {
+                        self.deactivateAllImageConstraints()
+                        
+                        self.dynamicHeightConstraint = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor, multiplier: 1.0 / ratio)
+                        dynamicHeightConstraint!.priority = .required
+                        
+                        NSLayoutConstraint.activate(self.landscapeConstraints + [self.dynamicHeightConstraint!])
+                    }
+
+                    // portrait
+                    else if ratio < 1 {
+                        if ratio < 0.44 {
+                            self.deactivateAllImageConstraints()
+                            NSLayoutConstraint.activate(self.tallPortraitConstraints)
+                        } else {
+                            self.deactivateAllImageConstraints()
+                            
+                            self.dynamicHeightConstraint = videoView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0 / ratio)
+                            dynamicHeightConstraint!.priority = .defaultHigh
+                            
+                            NSLayoutConstraint.activate(self.portraitConstraints + [self.dynamicHeightConstraint!])
+                        }
+                    }
                 }
                 
-                self.videoView.addSubview(self.sensitiveContentOverlay)
+                if GlobalStruct.blurSensitiveContent && self.isSensitive && !self.dismissedSensitiveOverlay {
+                    self.sensitiveContentOverlay.frame = self.videoView.bounds
+                    self.sensitiveContentOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+                    self.sensitiveContentOverlay.alpha = 1
+                    
+                    if self.hideSensitiveOverlayGesture == nil {
+                        self.hideSensitiveOverlayGesture = UITapGestureRecognizer(target: self, action: #selector(self.hideSensitiveOverlay))
+                        self.sensitiveContentOverlay.addGestureRecognizer(self.hideSensitiveOverlayGesture!)
+                    }
+                    
+                    self.videoView.addSubview(self.sensitiveContentOverlay)
+                }
+                
+                if let description = media.description, !description.isEmpty, media.type == .gifv {
+                    self.altButton.isHidden = false
+                    self.bringSubviewToFront(self.altButton)
+                } else {
+                    self.altButton.isHidden = true
+                }
             }
-            
-            if let description = media.description, !description.isEmpty, media.type == .gifv {
-                self.altButton.isHidden = false
-                self.bringSubviewToFront(self.altButton)
-            } else {
-                self.altButton.isHidden = true
-            }
-            
-            self.setNeedsUpdateConstraints()
         }
     }
     
@@ -552,6 +541,15 @@ final class PostCardVideo: UIView {
         if let firstVideo = postCard.mediaAttachments.first, [.video, .gifv].contains(firstVideo.type) {
             self.configure(video: firstVideo, postCard: postCard, cachedPlayer: postCard.videoPlayer)
         }
+    }
+    
+    private func deactivateAllImageConstraints() {
+        NSLayoutConstraint.deactivate(self.squareConstraints
+                                      + self.portraitConstraints
+                                      + self.tallPortraitConstraints
+                                      + self.landscapeConstraints
+                                      + [self.dynamicHeightConstraint].compactMap({$0})
+        )
     }
     
     @objc public func play() {
