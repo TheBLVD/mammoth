@@ -65,46 +65,21 @@ class PostCardQuotePost: UIView {
     private var header = PostCardHeader()
     private var headerTrailingConstraint: NSLayoutConstraint?
     
-    private var postTextLabel: MetaText = {
-        let metaText = MetaText()
-        metaText.textView.isOpaque = true
-        metaText.textView.backgroundColor = .custom.background
-        metaText.textView.translatesAutoresizingMaskIntoConstraints = false
-        metaText.textView.isEditable = false
-        metaText.textView.isScrollEnabled = false
-        metaText.textView.isSelectable = false
-        metaText.textView.textContainer.lineFragmentPadding = 0
-        metaText.textView.textContainerInset = .zero
-        metaText.textView.textDragInteraction?.isEnabled = false
-        metaText.textView.textContainer.lineBreakMode = .byTruncatingTail
-        metaText.textView.textContainer.maximumNumberOfLines = 4
-        
-        metaText.textView.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        metaText.textView.setContentHuggingPriority(.defaultHigh, for: .vertical)
-        metaText.textView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        metaText.textView.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-        
-        metaText.textAttributes = [
-            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
-            .foregroundColor: UIColor.custom.mediumContrast,
-        ]
-
-        metaText.linkAttributes = [
-            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
-            .foregroundColor: UIColor.custom.highContrast,
-        ]
-
-        metaText.paragraphStyle = {
-            let style = NSMutableParagraphStyle()
-            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
-            style.paragraphSpacing = 8
-            style.alignment = .natural
-            return style
-        }()
+    private var mediaContainerConstraints: [NSLayoutConstraint]? = []
+    
+    private var postTextLabel: MetaLabel = {
+        let metaText = MetaLabel()
+        metaText.isOpaque = true
+        metaText.backgroundColor = .custom.background
+        metaText.translatesAutoresizingMaskIntoConstraints = false
+        metaText.textContainer.lineFragmentPadding = 0
+        metaText.numberOfLines = 4
+        metaText.textContainer.maximumNumberOfLines = 4
+        metaText.textContainer.lineBreakMode = .byTruncatingTail
 
         return metaText
     }()
-    
+        
     // Contains image attachment, poll, and/or link preview if needed
     private var mediaContainer: UIStackView = {
         let stackView = UIStackView()
@@ -131,8 +106,11 @@ class PostCardQuotePost: UIView {
     private var video: PostCardVideo?
     private var videoTrailingConstraint: NSLayoutConstraint? = nil
     
-    private var imageAttachment: PostCardImageAttachment?
-    private var imageAttachmentTrailingConstraint: NSLayoutConstraint?
+    private var mediaGallery: PostCardMediaGallery?
+    private var mediaGalleryTrailingConstraint: NSLayoutConstraint? = nil
+    
+    private var mediaStack: PostCardMediaStack?
+    private var mediaStackTrailingConstraint: NSLayoutConstraint? = nil
     
     private var linkPreview: PostCardLinkPreview?
     private var linkPreviewTrailingConstraint: NSLayoutConstraint?
@@ -177,8 +155,9 @@ class PostCardQuotePost: UIView {
         mediaContainer.directionalLayoutMargins.leading = 12
         mediaContainer.directionalLayoutMargins.trailing = 12
         
-        textAndSmallMediaStackView.removeArrangedSubview(self.postTextLabel.textView)
-        self.postTextLabel.textView.removeFromSuperview()
+        self.postTextLabel.attributedText = nil
+        textAndSmallMediaStackView.removeArrangedSubview(self.postTextLabel)
+        self.postTextLabel.removeFromSuperview()
         
         if let poll = self.poll {
             self.pollTrailingConstraint?.isActive = false
@@ -223,10 +202,16 @@ class PostCardQuotePost: UIView {
             self.video = nil
         }
         
-        if let imageAttachment = self.imageAttachment {
-            self.imageAttachmentTrailingConstraint?.isActive = false
-            self.mediaContainer.removeArrangedSubview(imageAttachment)
-            imageAttachment.removeFromSuperview()
+        if let mediaStack = self.mediaStack {
+            self.mediaStackTrailingConstraint?.isActive = false
+            self.textAndSmallMediaStackView.removeArrangedSubview(mediaStack)
+            mediaStack.removeFromSuperview()
+        }
+        
+        if let mediaGallery = self.mediaGallery {
+            self.mediaGalleryTrailingConstraint?.isActive = false
+            self.mediaContainer.removeArrangedSubview(mediaGallery)
+            mediaGallery.removeFromSuperview()
         }
         
         if let linkPreview = self.linkPreview {
@@ -341,8 +326,8 @@ extension PostCardQuotePost {
                 }
             }
             
-            self.postTextLabel.textView.isUserInteractionEnabled = false
-            textAndSmallMediaStackView.addArrangedSubview(self.postTextLabel.textView)
+            self.postTextLabel.isUserInteractionEnabled = false
+            textAndSmallMediaStackView.addArrangedSubview(self.postTextLabel)
 
             // Display poll if needed
             if quotePostCard.containsPoll {
@@ -437,26 +422,29 @@ extension PostCardQuotePost {
             
             // Display the image carousel if needed
             if quotePostCard.hasMediaAttachment && quotePostCard.mediaDisplayType == .carousel {
-                if self.imageAttachment == nil {
-                    self.imageAttachment = PostCardImageAttachment()
-                }
-                
-                self.imageAttachment!.isUserInteractionEnabled = false
-                mediaContainer.addArrangedSubview(self.imageAttachment!)
+                switch self.mediaVariant {
+                case .small:
+                    self.mediaStack = PostCardMediaStack(variant: .thumbnail)
+                    self.mediaStack?.translatesAutoresizingMaskIntoConstraints = false
+                    self.mediaStack?.configure(postCard: quotePostCard)
 
-                if !quotePostCard.hasLink {
-                    // If there's only an image (no link) - remove the padding around the image
-                    self.imageAttachment!.configure(postCard: quotePostCard, withRoundedCorners: false)
+                    textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
+                    mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
+                    mediaStackTrailingConstraint?.isActive = true
+                    self.mediaStack?.isHidden = false
+                    self.mediaGallery?.isHidden = true
+                case .large:
+                    self.mediaGallery = PostCardMediaGallery()
+                    self.mediaGallery?.translatesAutoresizingMaskIntoConstraints = false
+                    self.mediaGallery?.configure(postCard: quotePostCard)
 
-                    mainStackView.directionalLayoutMargins.bottom = 0
-                    mediaContainer.directionalLayoutMargins.leading = 0
-                    mediaContainer.directionalLayoutMargins.trailing = 0
-                } else {
-                    self.imageAttachment!.configure(postCard: quotePostCard, withRoundedCorners: true)
+                    mediaContainer.addArrangedSubview(self.mediaGallery!)
+                    mediaGalleryTrailingConstraint = self.mediaGallery!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+                    mediaGalleryTrailingConstraint?.isActive = true
+                    self.mediaGallery?.isHidden = false
+                    self.mediaStack?.isHidden = true
+                default: break
                 }
-                
-                imageAttachmentTrailingConstraint = self.imageAttachment!.trailingAnchor.constraint(equalTo: self.mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
-                imageAttachmentTrailingConstraint?.isActive = true
             }
 
             // If we are hiding the link image, move the link view
