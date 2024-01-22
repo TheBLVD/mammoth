@@ -33,6 +33,7 @@ final class ActivityCardCell: UITableViewCell {
         stackView.alignment = .leading
         stackView.distribution = .fillProportionally
         stackView.spacing = 11.0
+        stackView.preservesSuperviewLayoutMargins = false
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -45,6 +46,7 @@ final class ActivityCardCell: UITableViewCell {
         stackView.distribution = .fill
         stackView.spacing = 2
         stackView.isOpaque = true
+        stackView.layoutMargins = .zero
         return stackView
     }()
     
@@ -102,7 +104,9 @@ final class ActivityCardCell: UITableViewCell {
         stackView.alignment = .top
         stackView.distribution = .fill
         stackView.spacing = 0.0
+        stackView.layoutMargins = .zero
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.preservesSuperviewLayoutMargins = false
         return stackView
     }()
     
@@ -294,7 +298,7 @@ private extension ActivityCardCell {
         ])
         
         // Force media container to fill the parent width - with max width for big displays
-        mediaContainer.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 320)
+        mediaContainer.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 340)
         
         setupUIFromSettings()
     }
