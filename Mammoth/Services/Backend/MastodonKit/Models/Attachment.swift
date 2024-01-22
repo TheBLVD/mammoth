@@ -98,7 +98,7 @@ public class AttachmentMeta2: Codable {
     init(width: Int, height: Int) {
         self.width = width
         self.height = height
-        self.aspect = Double(height / max(width, 1))
+        self.aspect = Double(max(Float(width), 1.0) / Float(height))
         self.duration = nil
         self.size = nil
     }
