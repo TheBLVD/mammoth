@@ -17,7 +17,7 @@ struct SearchService {
     }
 
     static func searchAccounts(query: String) async throws -> [Account] {
-        let request = Accounts.search(query: query)
+        let request = Accounts.searchAccounts(query: query)
         let result = try await ClientService.runRequest(request: request)
         return result
     }

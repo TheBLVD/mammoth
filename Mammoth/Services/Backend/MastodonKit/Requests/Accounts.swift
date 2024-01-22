@@ -326,7 +326,7 @@ public struct Accounts {
     ///   - limit: Maximum number of matching accounts to return (default: 40).
     ///   - following: Limit the search to following (default: false).
     /// - Returns: Request for `[Account]`.
-    public static func search(query: String, limit: Int? = nil, following: Bool? = nil) -> Request<[Account]> {
+    public static func searchAccounts(query: String, limit: Int? = nil, following: Bool? = nil) -> Request<[Account]> {
         let toLimitBounds = between(1, and: 80, default: 40)
         let parameters = [
             Parameter(name: "q", value: query),
