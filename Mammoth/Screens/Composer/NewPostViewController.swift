@@ -1365,7 +1365,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         let gifButtonImage = FontAwesome.image(fromChar: "\u{e190}", weight: .bold).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
         let gifButton = UIBarButtonItem(image: gifButtonImage, style: .plain, target: self, action: #selector(self.gifTapped))
         gifButton.accessibilityLabel = "GIF"
-        let customEmojiButtonImage = FontAwesome.image(fromChar: "\u{e409}").withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
+        let customEmojiButtonImage = FontAwesome.image(fromChar: "\u{e409}", weight: .bold).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
         let customEmojiButton = UIBarButtonItem(image: customEmojiButtonImage, style: .plain, target: self, action: #selector(self.customEmojiTapped))
         customEmojiButton.accessibilityLabel = "Custom Emoji"
         let pollButtonImage = FontAwesome.image(fromChar: "\u{f828}", weight: .regular).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
