@@ -56,7 +56,6 @@ class PostCardHeader: UIView {
         stackView.distribution = .fill
         stackView.spacing = 16
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.layoutMargins = .zero
         return stackView
     }()
     
@@ -157,6 +156,7 @@ class PostCardHeader: UIView {
     }
     
     func prepareForReuse() {
+        self.directionalLayoutMargins = .zero
         self.status = nil
         self.postCard = nil
         self.onPress = nil
@@ -190,13 +190,14 @@ private extension PostCardHeader {
     func setupUI() {
         self.isOpaque = true
         self.backgroundColor = UIColor.custom.background
+        self.directionalLayoutMargins = .zero
         self.addSubview(mainStackView)
                 
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            mainStackView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor)
         ])
         
         mainStackView.addArrangedSubview(headerTitleStackView)
@@ -274,11 +275,13 @@ extension PostCardHeader {
                     // Call animation in next RunLoop because current RunLoop
                     // blocks all animations (in didUpdateSnapshot)
                     DispatchQueue.main.async {
-                        UIView.animate(withDuration: 0.3, delay: 0, options: [.allowAnimatedContent, .allowUserInteraction, .beginFromCurrentState], animations: {
+                        UIView.animate(withDuration: 0.3, delay: 0, options: [.allowAnimatedContent, .allowUserInteraction, .beginFromCurrentState], animations: { [weak self] in
+                            guard let self else { return }
                             self.followButton?.transform = CGAffineTransform.identity.scaledBy(x: 1.02, y: 1.02)
                             self.followButton?.alpha = 1
-                            }) { finished in
+                            }) { [weak self] finished in
                                 UIView.animate(withDuration: 0.3 / 1.5, animations: {
+                                    guard let self else { return }
                                     self.followButton?.transform = CGAffineTransform.identity
                                 })
                             }
@@ -331,6 +334,11 @@ extension PostCardHeader {
             self.pinIcon.isHidden = false
         } else {
             self.pinIcon.isHidden = true
+        }
+        
+        // center header content vertically when the post has a carousel and no post text
+        if postCard.mediaDisplayType == .carousel && postCard.postText.isEmpty && self.userTagLabel.isHidden && headerType != .quotePost {
+            self.directionalLayoutMargins = .init(top: 10, leading: 0, bottom: 12, trailing: 0)
         }
     }
     
