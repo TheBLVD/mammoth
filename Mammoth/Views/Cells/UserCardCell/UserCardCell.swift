@@ -107,11 +107,9 @@ final class UserCardCell: UITableViewCell {
         super.prepareForReuse()
         self.userCard = nil
         self.profilePic.prepareForReuse()
-        self.titleLabel.text = nil
-        self.titleLabel.attributedText = nil
+        self.titleLabel.reset()
         self.userTagLabel.text = nil
-        self.descriptionLabel.text = nil
-        self.descriptionLabel.attributedText = nil
+        self.descriptionLabel.reset()
         setupUIFromSettings()
     }
 }

@@ -696,7 +696,12 @@ extension PostCardCell {
             }
         }
         
-        self.header.configure(postCard: postCard, headerType: type.headerType)
+        let isVerticallyCentered = postCard.mediaDisplayType == .carousel
+                                    && postCard.postText.isEmpty
+                                    && type.headerType != .quotePost
+                                    && self.cellVariant.mediaVariant == .large
+        
+        self.header.configure(postCard: postCard, headerType: type.headerType, isVerticallyCentered: isVerticallyCentered)
         self.header.onPress = onButtonPress
         
         
