@@ -631,7 +631,7 @@ extension NewsFeedViewModel {
         case .postCard(let postCard):
             guard !postCard.isSyncedWithOriginal else { return }
             do {
-                if let status = try await StatusService.fetchStatus(id: postCard.originalId, instanceName: postCard.originalInstanceName ?? GlobalHostServer()) {
+                if let status = try await StatusService.fetchStatus(id: postCard.originalId, instanceName: postCard.originalInstanceName ?? AccountsManager.shared.currentAccountClient.baseHost) {
                     guard !Task.isCancelled else { return }
 
                     let newPostCard = postCard.mergeInOriginalData(status: status)
