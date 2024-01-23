@@ -100,6 +100,10 @@ extension PostCardMediaGallery {
                     let image = PostCardImage(inGallery: true)
                     image.configure(image: media, postCard: postCard)
                     self.stackView.addArrangedSubview(image)
+                    
+                    let heightAnchor = image.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight)
+                    heightAnchor.priority = .defaultHigh
+                    heightAnchor.isActive = true
                 }
                 
                 if media.type == .video || media.type == .gifv || media.type == .audio {
@@ -107,6 +111,10 @@ extension PostCardMediaGallery {
                     video.configure(video: media, postCard: postCard)
                     video.pause()
                     self.stackView.addArrangedSubview(video)
+                    
+                    let heightAnchor = video.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight)
+                    heightAnchor.priority = .defaultHigh
+                    heightAnchor.isActive = true
                 }
             })
         }
