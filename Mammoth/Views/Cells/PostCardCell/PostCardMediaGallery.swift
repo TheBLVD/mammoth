@@ -12,6 +12,11 @@ import UnifiedBlurHash
 
 fileprivate let PostCardMediaGalleryHeight =  min((UIScreen.main.bounds.width * 0.76) * (9.0/16.0), 260)
 
+protocol PostCardMediaGalleryDelegate: AnyObject {
+    func galleryItemForPhoto(withIndex index: Int) -> PostCardImage?
+    func scrollGalleryToItem(atIndex index: Int, animated: Bool)
+}
+
 final class PostCardMediaGallery: UIView {
 
     private let scrollView = {
@@ -100,6 +105,7 @@ extension PostCardMediaGallery {
                 if media.type == .image {
                     let image = PostCardImage(inGallery: true)
                     image.configure(image: media, postCard: postCard)
+                    image.galleryDelegate = self
                     self.stackView.addArrangedSubview(image)
                     
                     let heightAnchor = image.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight)
@@ -118,6 +124,25 @@ extension PostCardMediaGallery {
                     heightAnchor.isActive = true
                 }
             })
+        }
+    }
+}
+
+extension PostCardMediaGallery: PostCardMediaGalleryDelegate {
+    func galleryItemForPhoto(withIndex index: Int) -> PostCardImage? {
+        if let item = self.stackView.arrangedSubviews[index] as? PostCardImage {
+            return item
+        }
+        
+        return nil
+    }
+    
+    func scrollGalleryToItem(atIndex index: Int, animated: Bool) {
+        if let activeItem = self.stackView.arrangedSubviews[index] as? PostCardImage {
+            let maxOffset = self.scrollView.contentSize.width - self.scrollView.frame.size.width
+            self.scrollView.setContentOffset(.init(x: min(activeItem.frame.origin.x, maxOffset), y: 0), animated: animated)
+        } else {
+            self.scrollView.setContentOffset(.zero, animated: animated)
         }
     }
 }
