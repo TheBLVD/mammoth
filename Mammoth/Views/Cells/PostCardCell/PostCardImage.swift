@@ -21,7 +21,7 @@ final class PostCardImage: UIView {
         return ScaleDownTransformer()
     }
     
-    private var imageView: UIImageView = {
+    private(set) var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = .custom.OVRLYSoftContrast
@@ -170,10 +170,14 @@ final class PostCardImage: UIView {
         return button
     }()
     
+    private var ownGalleryIndex: Int?
+    
     private var postCard: PostCardModel?
     private var media: Attachment?
     private let variant: PostCardImageVariant
     private let inGallery: Bool
+    
+    weak var galleryDelegate: PostCardMediaGalleryDelegate?
     
     init(variant: PostCardImageVariant = .fullSize, inGallery: Bool = false) {
         self.variant = variant
@@ -189,6 +193,7 @@ final class PostCardImage: UIView {
     func prepareForReuse() {
         self.postCard = nil
         self.media = nil
+        self.galleryDelegate = nil
         self.dismissedSensitiveOverlay = false
         self.imageView.sd_cancelCurrentImageLoad()
     }
@@ -239,9 +244,9 @@ final class PostCardImage: UIView {
     public func configure(image: Attachment?, postCard: PostCardModel) {
         let shouldUpdate = self.media == nil || image != self.media!
         self.postCard = postCard
+        self.media = image
         
         if let media = image {
-            self.media = media
             if let previewURL = media.previewURL, let imageURL = URL(string: previewURL) {
                 var placeholder: UIImage?
                 if let blurhash = media.blurhash {
@@ -370,13 +375,13 @@ final class PostCardImage: UIView {
             } ?? [SKPhoto()]
             
             let descriptions = self.postCard?.mediaAttachments.map { $0.description ?? "" } ?? []
-            let currentIndex = self.postCard?.mediaAttachments.firstIndex(where: {$0.id == self.media?.id}) ?? 0
+            self.ownGalleryIndex = self.postCard?.mediaAttachments.firstIndex(where: {$0.id == self.media?.id}) ?? 0
             
             let browser = SKPhotoBrowser(originImage: originImage,
                                          photos: images,
                                          animatedFromView: self.imageView,
                                          descriptions: descriptions,
-                                         currentIndex: currentIndex)
+                                         currentIndex: self.ownGalleryIndex ?? 0)
             SKPhotoBrowserOptions.enableSingleTapDismiss = false
             SKPhotoBrowserOptions.displayCounterLabel = false
             SKPhotoBrowserOptions.displayBackAndForwardButton = false
@@ -385,7 +390,8 @@ final class PostCardImage: UIView {
             SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
             SKPhotoBrowserOptions.displayCloseButton = false
             SKPhotoBrowserOptions.displayStatusbar = false
-            browser.initializePageIndex(currentIndex)
+            browser.initializePageIndex(self.ownGalleryIndex ?? 0)
+            browser.delegate = self
             getTopMostViewController()?.present(browser, animated: true, completion: {})
         }
     }
@@ -416,6 +422,24 @@ final class PostCardImage: UIView {
             self.sensitiveContentOverlay.alpha = 0
         } completion: { _ in
             self.sensitiveContentOverlay.removeFromSuperview()
+        }
+    }
+}
+
+extension PostCardImage: SKPhotoBrowserDelegate {
+    func viewForPhoto(_ browser: SKPhotoBrowser, index: Int) -> UIView? {
+        if self.ownGalleryIndex != index {
+            return self.galleryDelegate?.galleryItemForPhoto(withIndex: index)?.imageView
+        }
+        
+        return self.imageView
+    }
+    
+    func willDismissAtPageIndex(_ index: Int) {
+        if self.ownGalleryIndex != index {
+            self.imageView.alpha = 1
+            self.imageView.isHidden = false
+            self.galleryDelegate?.scrollGalleryToItem(atIndex: index, animated: false)
         }
     }
 }
