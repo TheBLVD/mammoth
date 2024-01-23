@@ -147,7 +147,7 @@ class HashtagManager {
 
     
     // Update our list of all followed hashtags
-    public func fetchFollowingTags() {
+    public func fetchFollowingTags(retryCount: Int = 10) {
         guard AccountsManager.shared.currentAccount != nil else {
             return
         }
@@ -155,8 +155,10 @@ class HashtagManager {
         AccountsManager.shared.currentAccountClient.run(request) { (statuses) in
             if let error = statuses.error {
                 log.error("error getting hashtags; will retry; error: \(error)")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    self.fetchFollowingTags()
+                if retryCount > 0 {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        self.fetchFollowingTags(retryCount: retryCount-1)
+                    }
                 }
             }
             if let stat = statuses.value {
