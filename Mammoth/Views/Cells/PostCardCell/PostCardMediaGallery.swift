@@ -18,6 +18,7 @@ final class PostCardMediaGallery: UIView {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.clipsToBounds = false
+        view.layoutMargins = .zero
         view.showsVerticalScrollIndicator = false
         view.showsHorizontalScrollIndicator = false
         return view
@@ -29,6 +30,7 @@ final class PostCardMediaGallery: UIView {
         stackView.alignment = .leading
         stackView.distribution = .equalSpacing
         stackView.spacing = 8.0
+        stackView.layoutMargins = .zero
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -50,13 +52,13 @@ final class PostCardMediaGallery: UIView {
         scrollView.pinEdges()
         
         scrollView.addSubview(stackView)
-        stackView.pinEdges()
+        stackView.pinEdges(to: scrollView)
         
         let scrollViewHeight = scrollView.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight)
         scrollViewHeight.isActive = true
-        scrollViewHeight.priority = .required
+        scrollViewHeight.priority = .defaultHigh
         
-        let stackViewHeight = stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+        let stackViewHeight = stackView.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight)
         stackViewHeight.isActive = true
         stackViewHeight.priority = .required
     }
@@ -95,16 +97,24 @@ extension PostCardMediaGallery {
         if shouldUpdate {
             self.attachments?.forEach({ media in
                 if media.type == .image {
-                    let image = PostCardImage()
+                    let image = PostCardImage(inGallery: true)
                     image.configure(image: media, postCard: postCard)
                     self.stackView.addArrangedSubview(image)
+                    
+                    let heightAnchor = image.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight)
+                    heightAnchor.priority = .defaultHigh
+                    heightAnchor.isActive = true
                 }
                 
                 if media.type == .video || media.type == .gifv || media.type == .audio {
-                    let video = PostCardVideo()
+                    let video = PostCardVideo(inGallery: true)
                     video.configure(video: media, postCard: postCard)
                     video.pause()
                     self.stackView.addArrangedSubview(video)
+                    
+                    let heightAnchor = video.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight)
+                    heightAnchor.priority = .defaultHigh
+                    heightAnchor.isActive = true
                 }
             })
         }
