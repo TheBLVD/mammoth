@@ -472,15 +472,15 @@ private extension PostCardCell {
             // Force main stack view to fill the parent width
             mainStackView.trailingAnchor.constraint(equalTo: wrapperStackView.layoutMarginsGuide.trailingAnchor),
         ])
+        
+        mainStackView.addSubview(parentThread)
+        mainStackView.addSubview(childThread)
 
         mainStackView.addArrangedSubview(profilePic)
         mainStackView.addArrangedSubview(contentStackView)
         
         contentStackView.addArrangedSubview(header)
         contentStackView.addArrangedSubview(textAndSmallMediaStackView)
-        
-        mainStackView.addSubview(parentThread)
-        mainStackView.addSubview(childThread)
         
         NSLayoutConstraint.activate([
             parentThread.widthAnchor.constraint(equalToConstant: 1),
@@ -798,6 +798,8 @@ extension PostCardCell {
                     self.mediaGallery?.isHidden = false
                     self.mediaStack?.isHidden = true
                     
+                    self.mainStackView.bringSubviewToFront(self.mediaGallery!)
+                    
                     if !self.cellVariant.hasText {
                         self.contentStackView.setCustomSpacing(24, after: self.header)
                     }
@@ -880,10 +882,10 @@ extension PostCardCell {
             // long press to copy the post text
             self.textLongPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.onTextLongPress))
             self.postTextView.addGestureRecognizer(self.textLongPressGesture!)
-                        
+            
             // make sure the thread lines are behind all the other elements
-            mainStackView.sendSubviewToBack(parentThread)
-            mainStackView.sendSubviewToBack(childThread)
+            self.mainStackView.sendSubviewToBack(self.childThread)
+            self.mainStackView.sendSubviewToBack(self.parentThread)
         } else if let gesture = self.textLongPressGesture, (self.postTextView.gestureRecognizers?.contains(gesture) as? Bool) == true {
             self.postTextView.removeGestureRecognizer(gesture)
         }
