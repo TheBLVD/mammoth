@@ -394,7 +394,7 @@ extension ActivityCardCell {
                     self.postTextLabel.configure(content: content)
                     self.postTextLabel.isHidden = false
                     
-                } else if [.small, .hidden].contains(cellVariant?.mediaVariant) {
+                } else if [.small, .hidden].contains(cellVariant?.mediaVariant) && activity.type == .status {
                     // If there's no post text, but a media attachment,
                     // set the post text to either:
                     //  - ([type])
