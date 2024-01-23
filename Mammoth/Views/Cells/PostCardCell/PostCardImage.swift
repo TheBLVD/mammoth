@@ -439,6 +439,10 @@ extension PostCardImage: SKPhotoBrowserDelegate {
         if self.ownGalleryIndex != index {
             self.imageView.alpha = 1
             self.imageView.isHidden = false
+            if let targetImage = self.galleryDelegate?.galleryItemForPhoto(withIndex: index) {
+                targetImage.imageView.alpha = 0
+                targetImage.imageView.isHidden = true
+            }
             self.galleryDelegate?.scrollGalleryToItem(atIndex: index, animated: false)
         }
     }
