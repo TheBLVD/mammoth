@@ -10,7 +10,7 @@ import UIKit
 import SDWebImage
 import UnifiedBlurHash
 
-fileprivate let PostCardMediaGalleryHeight = 180.0
+fileprivate let PostCardMediaGalleryHeight =  min((UIScreen.main.bounds.width * 0.76) * (9.0/16.0), 260)
 
 final class PostCardMediaGallery: UIView {
 
@@ -83,6 +83,7 @@ extension PostCardMediaGallery {
     func prepareForReuse() {
         self.attachments = nil
         self.postCard = nil
+        self.scrollView.setContentOffset(.zero, animated: false)
         self.stackView.arrangedSubviews.forEach({
             self.stackView.removeArrangedSubview($0)
             $0.removeFromSuperview()
