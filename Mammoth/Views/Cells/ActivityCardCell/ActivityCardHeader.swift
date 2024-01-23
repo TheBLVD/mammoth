@@ -103,9 +103,10 @@ class ActivityCardHeader: UIView {
     }
     
     func prepareForReuse() {
+        self.directionalLayoutMargins = .zero
         self.activity = nil
         self.onPress = nil
-        self.titleLabel.attributedText = nil
+        self.titleLabel.reset()
         self.titleLabel.text = nil
         self.actionLabel.text = nil
         self.dateLabel.text = nil
@@ -139,10 +140,10 @@ private extension ActivityCardHeader {
         self.addSubview(mainStackView)
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
         ])
         
         mainStackView.addArrangedSubview(headerTitleStackView)
@@ -168,7 +169,7 @@ private extension ActivityCardHeader {
 
 // MARK: - Configuration
 extension ActivityCardHeader {
-    func configure(activity: ActivityCardModel) {
+    func configure(activity: ActivityCardModel, isVerticallyCentered: Bool = false) {
         self.activity = activity
         
         if GlobalStruct.displayName == .usertagOnly {
@@ -192,6 +193,13 @@ extension ActivityCardHeader {
             headerTitleStackView.axis = .horizontal
             headerTitleStackView.alignment = .center
             headerTitleStackView.spacing = 5
+        }
+        
+        // center header content vertically when the post has a carousel and no post text
+        if isVerticallyCentered {
+            self.directionalLayoutMargins = .init(top: 10, leading: 0, bottom: 12, trailing: 0)
+        } else {
+            self.directionalLayoutMargins = .zero
         }
     }
     

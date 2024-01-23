@@ -161,8 +161,7 @@ class PostCardHeader: UIView {
         self.postCard = nil
         self.onPress = nil
         self.profilePic?.prepareForReuse()
-        self.titleLabel.attributedText = nil
-        self.titleLabel.text = nil
+        self.titleLabel.reset()
         self.userTagLabel.text = nil
         self.dateLabel.text = nil
         
@@ -235,7 +234,7 @@ private extension PostCardHeader {
 
 // MARK: - Configuration
 extension PostCardHeader {
-    func configure(postCard: PostCardModel, headerType: PostCardHeaderTypes = .regular) {
+    func configure(postCard: PostCardModel, headerType: PostCardHeaderTypes = .regular, isVerticallyCentered: Bool = false) {
         self.postCard = postCard
 
         if case .mastodon(let status) = postCard.data {
@@ -337,7 +336,7 @@ extension PostCardHeader {
         }
         
         // center header content vertically when the post has a carousel and no post text
-        if postCard.mediaDisplayType == .carousel && postCard.postText.isEmpty && self.userTagLabel.isHidden && headerType != .quotePost {
+        if isVerticallyCentered && self.userTagLabel.isHidden {
             self.directionalLayoutMargins = .init(top: 10, leading: 0, bottom: 12, trailing: 0)
         }
     }

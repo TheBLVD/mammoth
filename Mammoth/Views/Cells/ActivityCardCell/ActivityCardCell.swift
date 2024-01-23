@@ -122,6 +122,9 @@ final class ActivityCardCell: UITableViewCell {
     private var mediaStack: PostCardMediaStack?
     private var mediaStackTrailingConstraint: NSLayoutConstraint? = nil
     
+    private var mediaGallery: PostCardMediaGallery?
+    private var mediaGalleryTrailingConstraint: NSLayoutConstraint? = nil
+    
     private var linkPreview: PostCardLinkPreview?
     private var linkPreviewTrailingConstraint: NSLayoutConstraint? = nil
     
@@ -154,8 +157,7 @@ final class ActivityCardCell: UITableViewCell {
         super.prepareForReuse()
         self.activityCard = nil
         self.profilePic.prepareForReuse()
-        self.postTextLabel.text = nil
-        self.postTextLabel.attributedText = nil
+        self.postTextLabel.reset()
         self.postTextLabel.isUserInteractionEnabled = true
         
         self.header.prepareForReuse()
@@ -209,6 +211,12 @@ final class ActivityCardCell: UITableViewCell {
             self.mediaStackTrailingConstraint?.isActive = false
             self.textAndSmallMediaStackView.removeArrangedSubview(mediaStack)
             mediaStack.removeFromSuperview()
+        }
+        
+        if let mediaGallery = self.mediaGallery {
+            self.mediaGalleryTrailingConstraint?.isActive = false
+            self.mediaContainer.removeArrangedSubview(mediaGallery)
+            mediaGallery.removeFromSuperview()
         }
         
         if let linkPreview = self.linkPreview {
@@ -359,10 +367,18 @@ extension ActivityCardCell {
     func configure(activity: ActivityCardModel, onButtonPress: @escaping PostCardButtonCallback) {
         self.activityCard = activity
         self.onButtonPress = onButtonPress
+        
+        let cellVariant = activity.postCard != nil ? PostCardCell.PostCardVariant.cellVariant(for: activity.postCard!, cellType: .regular) : nil
 
         self.profilePic.configure(user: activity.user, badgeIcon: mapTypeTBadgeImage(activity: activity))
         self.profilePic.onPress = onButtonPress
-        self.header.configure(activity: activity)
+        
+        let isVerticallyCentered = activity.postCard?.mediaDisplayType == .carousel
+                                    && ((activity.postCard?.postText ?? "")?.isEmpty ?? false)
+                                    && cellVariant?.mediaVariant == .large
+                                    && activity.type == .status
+        
+        self.header.configure(activity: activity, isVerticallyCentered: isVerticallyCentered)
         self.header.onPress = onButtonPress
         
         configurePostTextLabelAttributes()
@@ -373,11 +389,32 @@ extension ActivityCardCell {
             postTextLabel.isUserInteractionEnabled = false
             self.postTextLabel.isHidden = false
         default:
-            if let postText = activity.postCard?.postText, postText.isEmpty {
-                self.postTextLabel.isHidden = true
-            } else if let content = activity.postCard?.metaPostText {
-                self.postTextLabel.configure(content: content)
-                self.postTextLabel.isHidden = false
+            if let content = activity.postCard?.metaPostText {
+                if !content.original.isEmpty {
+                    self.postTextLabel.configure(content: content)
+                    self.postTextLabel.isHidden = false
+                    
+                } else if [.small, .hidden].contains(cellVariant?.mediaVariant) {
+                    // If there's no post text, but a media attachment,
+                    // set the post text to either:
+                    //  - ([type])
+                    //  - ([type] description: [meta description])
+                    if let type = activity.postCard?.mediaDisplayType.captializedDisplayName  {
+                        if let desc = activity.postCard?.mediaAttachments.first?.description {
+                            let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type) description: \(desc))", emojis: [:]))
+                            self.postTextLabel.configure(content: content)
+                            self.postTextLabel.isHidden = false
+                        } else {
+                            let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type))", emojis: [:]))
+                            self.postTextLabel.configure(content: content)
+                            self.postTextLabel.isHidden = false
+                        }
+                    } else {
+                        self.postTextLabel.isHidden = true
+                    }
+                } else {
+                    self.postTextLabel.isHidden = true
+                }
             }
         }
         
@@ -386,7 +423,6 @@ extension ActivityCardCell {
             let hideMedia = [.favourite, .reblog].contains(activity.type)
             
             if activity.type == .status {
-                let cellVariant = PostCardCell.PostCardVariant.cellVariant(for: postCard, cellType: .regular)
                 if self.postTextLabel.textContainer.maximumNumberOfLines != GlobalStruct.maxLines {
                     self.postTextLabel.textContainer.maximumNumberOfLines = GlobalStruct.maxLines
                 }
@@ -437,7 +473,6 @@ extension ActivityCardCell {
             // Display single image if needed
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage && !hideMedia {
                 if activity.type == .status, let postCard = activity.postCard {
-                    let cellVariant = PostCardCell.PostCardVariant.cellVariant(for: postCard, cellType: .regular)
                     switch cellVariant?.mediaVariant {
                     case .small:
                         self.image = PostCardImage(variant: .thumbnail)
@@ -505,7 +540,6 @@ extension ActivityCardCell {
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .carousel && !hideMedia {
                 
                 if activity.type == .status, let postCard = activity.postCard {
-                    let cellVariant = PostCardCell.PostCardVariant.cellVariant(for: postCard, cellType: .regular)
                     switch cellVariant?.mediaVariant {
                     case .small:
                         self.mediaStack = PostCardMediaStack(variant: .thumbnail)
@@ -515,14 +549,15 @@ extension ActivityCardCell {
                         mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
                         mediaStackTrailingConstraint?.isActive = true
                     case .large:
-                        self.mediaStack = PostCardMediaStack(variant: .fullSize)
-                        self.mediaStack!.translatesAutoresizingMaskIntoConstraints = false
-                        self.mediaStack?.configure(postCard: postCard)
-                        mediaContainer.addArrangedSubview(self.mediaStack!)
-                        mediaStackTrailingConstraint = self.mediaStack!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
-                        mediaStackTrailingConstraint?.isActive = true
+                        self.mediaGallery = PostCardMediaGallery()
+                        self.mediaGallery!.translatesAutoresizingMaskIntoConstraints = false
+                        self.mediaGallery?.configure(postCard: postCard)
+                        mediaContainer.addArrangedSubview(self.mediaGallery!)
+                        mediaGalleryTrailingConstraint = self.mediaGallery!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+                        mediaGalleryTrailingConstraint?.isActive = true
                     default:
-                        self.video = nil
+                        self.mediaStack = nil
+                        self.mediaGallery = nil
                         break
                     }
                 } else {
@@ -584,7 +619,7 @@ extension ActivityCardCell {
     
     private func configureForDebugging(activity: ActivityCardModel) {
         if let batchId = activity.batchId, let batchItemIndex = activity.batchItemIndex {
-            self.postTextLabel.attributedText = nil
+            self.postTextLabel.reset()
             self.postTextLabel.text = "\(batchId) - \(batchItemIndex)"
             
             if let mediaStack = self.mediaStack {
