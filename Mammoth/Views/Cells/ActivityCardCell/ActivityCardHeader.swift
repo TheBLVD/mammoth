@@ -10,6 +10,7 @@ import UIKit
 import Combine
 import Meta
 import MetaTextKit
+import MastodonMeta
 
 class ActivityCardHeader: UIView {
     
@@ -48,10 +49,15 @@ class ActivityCardHeader: UIView {
         let label = MetaLabel()
         label.textColor = .custom.displayNames
         label.numberOfLines = 1
+        label.textContainer.maximumNumberOfLines = 1
         label.isOpaque = true
         label.backgroundColor = .custom.background
         label.textContainer.lineFragmentPadding = 0
         label.isUserInteractionEnabled = false
+        label.lineBreakMode = .byTruncatingTail
+        label.textContainer.lineBreakMode = .byTruncatingTail
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
     }()
     
@@ -71,6 +77,7 @@ class ActivityCardHeader: UIView {
         label.textColor = UIColor.custom.feintContrast
         label.isOpaque = true
         label.backgroundColor = .custom.background
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
     
@@ -107,7 +114,6 @@ class ActivityCardHeader: UIView {
         self.activity = nil
         self.onPress = nil
         self.titleLabel.reset()
-        self.titleLabel.text = nil
         self.actionLabel.text = nil
         self.dateLabel.text = nil
         
@@ -152,10 +158,6 @@ private extension ActivityCardHeader {
         rightAttributesStack.addArrangedSubview(dateLabel)
         
         // Don't compress but let siblings fill the space
-        titleLabel.setContentHuggingPriority(UILayoutPriority(rawValue: 251), for: .horizontal)
-        titleLabel.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .horizontal)
-        
-        // Don't compress but let siblings fill the space
         dateLabel.setContentHuggingPriority(UILayoutPriority(rawValue: 251), for: .horizontal)
         dateLabel.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 752), for: .horizontal)
         
@@ -173,12 +175,16 @@ extension ActivityCardHeader {
         self.activity = activity
         
         if GlobalStruct.displayName == .usertagOnly {
-            self.titleLabel.text = activity.user.userTag.lowercased()
+            let text = activity.user.userTag.lowercased()
+            let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
+            self.titleLabel.configure(content: content)
         } else {
             if let metaContent = activity.user.metaName {
                 self.titleLabel.configure(content: metaContent)
             } else {
-                self.titleLabel.text = activity.user.name
+                let text = activity.user.name
+                let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
+                self.titleLabel.configure(content: content)
             }
         }
         
