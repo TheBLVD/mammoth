@@ -783,10 +783,6 @@ extension PostCardCell {
                     self.mediaGallery?.configure(postCard: postCard)
                     self.mediaGallery?.isHidden = false
                     self.mediaStack?.isHidden = true
-                    
-                    if !self.cellVariant.hasText {
-                        self.contentStackView.setCustomSpacing(24, after: self.header)
-                    }
                 }
                 
             } else {
