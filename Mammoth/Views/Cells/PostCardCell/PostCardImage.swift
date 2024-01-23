@@ -296,17 +296,18 @@ final class PostCardImage: UIView {
     
     @objc func onPress() {
         if let originImage = imageView.image {
-            
-            // Preload other images
-            let prefetcher = SDWebImagePrefetcher.shared
-            let urls = self.postCard?.mediaAttachments.compactMap { URL(string: $0.url) }
-            prefetcher.prefetchURLs(urls, progress: nil)
-            
+
             // Open fullscreen image preview
             let images = self.postCard?.mediaAttachments.compactMap { attachment in
-                guard attachment.type == .image else { return nil }
+                guard attachment.type == .image else { return SKPhoto() }
                 let photo = SKPhoto.photoWithImageURL(attachment.url)
-                photo.underlyingImage = SDImageCache.shared.imageFromCache(forKey: attachment.url)
+                photo.shouldCachePhotoURLImage = false
+                
+                var blurImage: UIImage? = nil
+                if let blurhash = attachment.blurhash, let currentMedia = self.media, attachment.url != currentMedia.url {
+                    blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+                }
+                photo.underlyingImage = SDImageCache.shared.imageFromCache(forKey: attachment.url) ?? blurImage
                 return photo
             } ?? [SKPhoto()]
             
@@ -328,6 +329,27 @@ final class PostCardImage: UIView {
             SKPhotoBrowserOptions.displayStatusbar = false
             browser.initializePageIndex(currentIndex)
             getTopMostViewController()?.present(browser, animated: true, completion: {})
+            
+            // Preload other images
+            PostCardModel.imageDecodeQueue.async { [weak self] in
+                guard let self else { return }
+                let prefetcher = SDWebImagePrefetcher.shared
+                let urls = self.postCard?.mediaAttachments.compactMap { URL(string: $0.url) }
+                prefetcher.prefetchURLs(urls, progress: nil) { _, _ in
+                    let images = self.postCard?.mediaAttachments.compactMap { attachment in
+                        guard attachment.type == .image else { return nil }
+                        let photo = SKPhoto.photoWithImageURL(attachment.url)
+                        photo.shouldCachePhotoURLImage = false
+                        photo.underlyingImage = SDImageCache.shared.imageFromCache(forKey: attachment.url)
+                        return photo
+                    } ?? [SKPhoto()]
+                    
+                    DispatchQueue.main.async {
+                        browser.photos = images
+                        browser.reloadData()
+                    }
+                }
+            }
         }
     }
     
