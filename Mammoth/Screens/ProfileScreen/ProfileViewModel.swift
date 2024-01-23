@@ -785,7 +785,7 @@ private extension ProfileViewModel {
         if let account = (acctData as? MastodonAcctData)?.account,
            account.fullAcct == self.user?.account?.fullAcct {
             // Override user with updated user account
-            let userCard = UserCardModel(account: account)
+            let userCard = UserCardModel(account: account, instanceName: self.user?.instanceName)
             let preSyncAccount = self.user?.preSyncAccount
             let cachedProfilePic = self.user?.decodedProfilePic
             
@@ -805,7 +805,7 @@ private extension ProfileViewModel {
         if let account = (acctData as? MastodonAcctData)?.account,
            account.fullAcct == self.user?.account?.fullAcct {
             // Override user with updated user account
-            let userCard = UserCardModel(account: account)
+            let userCard = UserCardModel(account: account, instanceName: self.user?.instanceName)
             let preSyncAccount = self.user?.preSyncAccount
             let cachedProfilePic = self.user?.decodedProfilePic
             
@@ -821,7 +821,7 @@ private extension ProfileViewModel {
         if let updatedfullAcct = notification.userInfo!["otherUserFullAcct"] as? String, let currentAccount = user?.account, updatedfullAcct == currentAccount.fullAcct {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
-                let userCard = UserCardModel(account: currentAccount)
+                let userCard = UserCardModel(account: currentAccount, instanceName: self.user?.instanceName)
                 if userCard.followStatus != .inProgress {
                     let preSyncAccount = self.user?.preSyncAccount
                     let cachedProfilePic = self.user?.decodedProfilePic
