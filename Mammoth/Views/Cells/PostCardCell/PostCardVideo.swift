@@ -215,7 +215,12 @@ final class PostCardVideo: UIView {
     private var isSensitive: Bool = false
     private let variant: PostCardVideoVariant
     
+    // A dynamic width is used when the view has a fixed height (as in the gallery)
+    private var dynamicWidthConstraint: NSLayoutConstraint?
+    // A dynamic height is used when the view has a max width (as in standalone image in post card cell)
     private var dynamicHeightConstraint: NSLayoutConstraint?
+    
+    private let tallAspectRatio = 0.44
     
     private lazy var squareConstraints: [NSLayoutConstraint] = {
         let c1 = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor)
@@ -223,43 +228,81 @@ final class PostCardVideo: UIView {
 
         let c2 = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor)
         c2.priority = .required
-        return [c1, c2]
+        
+        let c3 = videoView.heightAnchor.constraint(equalTo: self.heightAnchor)
+        c3.priority = .required
+        
+        return [c1, c2, c3]
     }()
     
     private lazy var portraitConstraints: [NSLayoutConstraint] = {
-        let c1 = videoView.widthAnchor.constraint(equalTo: self.widthAnchor)
-        c1.priority = .defaultHigh
+        // most landscape images
+        if self.inGallery {
+            let c1 = videoView.heightAnchor.constraint(equalTo: self.heightAnchor)
+            c1.priority = .defaultLow
 
-        let c2 = videoView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60)
-        c2.priority = .required
-        
-        return [c1, c2]
+            let c2 = videoView.widthAnchor.constraint(lessThanOrEqualTo: self.heightAnchor, multiplier: tallAspectRatio)
+            c2.priority = .defaultHigh
+            
+            return [c1, c2]
+        } else {
+            let c1 = videoView.widthAnchor.constraint(equalTo: self.widthAnchor)
+            c1.priority = .defaultHigh
+
+            let c2 = videoView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60)
+            c2.priority = .required
+            
+            return [c1, c2]
+        }
     }()
     
     private lazy var tallPortraitConstraints: [NSLayoutConstraint] = {
-        // extremely tall (more than the iPhone 14 Pro Max ratio)
-        let c1 = videoView.widthAnchor.constraint(equalTo: self.widthAnchor)
-        c1.priority = .defaultHigh
-
-        let c2 = videoView.heightAnchor.constraint(equalToConstant: 420)
-        c2.priority = .defaultHigh
-        
-        return [c1, c2]
+        if self.inGallery {
+            // extremely tall (more than the iPhone 14 Pro Max ratio)
+            let c1 = videoView.heightAnchor.constraint(equalTo: self.heightAnchor)
+            c1.priority = .defaultLow
+            
+            let c2 = videoView.widthAnchor.constraint(equalTo: self.heightAnchor, multiplier: 9.0/16.0)
+            c2.priority = .required
+            
+            return [c1, c2]
+        } else {
+            // extremely tall (more than the iPhone 14 Pro Max ratio)
+            let c1 = videoView.widthAnchor.constraint(equalTo: self.widthAnchor)
+            c1.priority = .defaultHigh
+            
+            let c2 = videoView.heightAnchor.constraint(equalToConstant: 420)
+            c2.priority = .defaultHigh
+            
+            return [c1, c2]
+        }
     }()
     
     private lazy var landscapeConstraints: [NSLayoutConstraint] = {
-        // most portrait videos
-        let c1 = videoView.widthAnchor.constraint(lessThanOrEqualTo: self.widthAnchor)
-        c1.priority = .required
-
-        let c2 = videoView.heightAnchor.constraint(lessThanOrEqualToConstant: 420)
-        c2.priority = .required
-        
-        return [c1, c2]
+        if self.inGallery {
+            let c1 = videoView.heightAnchor.constraint(equalTo: self.heightAnchor)
+            c1.priority = .required
+            
+            let c2 = videoView.widthAnchor.constraint(lessThanOrEqualTo: self.heightAnchor, multiplier: 16.0/9.0)
+            c2.priority = .required
+            
+            return [c1, c2]
+        } else {
+            let c1 = videoView.widthAnchor.constraint(lessThanOrEqualTo: self.widthAnchor)
+            c1.priority = .required
+            
+            let c2 = videoView.heightAnchor.constraint(lessThanOrEqualToConstant: 420)
+            c2.priority = .required
+            
+            return [c1, c2]
+        }
     }()
     
-    init(variant: PostCardVideoVariant = .fullSize) {
+    private let inGallery: Bool
+    
+    init(variant: PostCardVideoVariant = .fullSize, inGallery: Bool = false) {
         self.variant = variant
+        self.inGallery = inGallery
         super.init(frame: .zero)
         self.setupUI()
         
@@ -492,24 +535,41 @@ final class PostCardVideo: UIView {
                     else if ratio > 1 {
                         self.deactivateAllImageConstraints()
                         
-                        self.dynamicHeightConstraint = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor, multiplier: 1.0 / ratio)
-                        dynamicHeightConstraint!.priority = .required
+                        if self.inGallery {
+                            if ratio < 16.0/9.0 {
+                                self.dynamicWidthConstraint = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor, multiplier: ratio)
+                                self.dynamicWidthConstraint!.priority = .defaultHigh + 1
+                                self.dynamicWidthConstraint!.isActive = true
+                            }
+                        } else {
+                            self.dynamicHeightConstraint = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor, multiplier: 1.0 / ratio)
+                            self.dynamicHeightConstraint!.priority = .defaultHigh + 1
+                            self.dynamicHeightConstraint!.isActive = true
+                        }
+
                         
-                        NSLayoutConstraint.activate(self.landscapeConstraints + [self.dynamicHeightConstraint!])
+                        NSLayoutConstraint.activate(self.landscapeConstraints)
                     }
 
                     // portrait
                     else if ratio < 1 {
-                        if ratio < 0.44 {
+                        if ratio < tallAspectRatio {
                             self.deactivateAllImageConstraints()
                             NSLayoutConstraint.activate(self.tallPortraitConstraints)
                         } else {
                             self.deactivateAllImageConstraints()
                             
-                            self.dynamicHeightConstraint = videoView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0 / ratio)
-                            dynamicHeightConstraint!.priority = .defaultHigh
+                            if self.inGallery {
+                                self.dynamicWidthConstraint = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor, multiplier: ratio)
+                                self.dynamicWidthConstraint!.priority = .defaultHigh
+                                self.dynamicWidthConstraint!.isActive = true
+                            } else {
+                                self.dynamicHeightConstraint = videoView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0 / ratio)
+                                self.dynamicHeightConstraint!.priority = .defaultHigh
+                                self.dynamicHeightConstraint!.isActive = true
+                            }
                             
-                            NSLayoutConstraint.activate(self.portraitConstraints + [self.dynamicHeightConstraint!])
+                            NSLayoutConstraint.activate(self.portraitConstraints)
                         }
                     }
                 }
@@ -548,7 +608,7 @@ final class PostCardVideo: UIView {
                                       + self.portraitConstraints
                                       + self.tallPortraitConstraints
                                       + self.landscapeConstraints
-                                      + [self.dynamicHeightConstraint].compactMap({$0})
+                                      + [self.dynamicHeightConstraint, self.dynamicWidthConstraint].compactMap({$0})
         )
     }
     
