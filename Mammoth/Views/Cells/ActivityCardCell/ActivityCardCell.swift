@@ -166,16 +166,19 @@ final class ActivityCardCell: UITableViewCell {
             self.image?.prepareForReuse()
             self.imageTrailingConstraint?.isActive = false
             self.imageTrailingConstraint = nil
-            self.mediaContainer.removeArrangedSubview(image)
-            image.removeFromSuperview()
-            self.image = nil
-        }
-        
-        if let image = self.image, self.textAndSmallMediaStackView.arrangedSubviews.contains(image) {
-            self.image?.prepareForReuse()
+            
             self.imageTrailingConstraint?.isActive = false
             self.imageTrailingConstraint = nil
-            self.textAndSmallMediaStackView.removeArrangedSubview(image)
+            
+            if self.mediaContainer.arrangedSubviews.contains(image) {
+                self.mediaContainer.removeArrangedSubview(image)
+            }
+            
+            if self.textAndSmallMediaStackView.arrangedSubviews.contains(image) {
+                self.textAndSmallMediaStackView.removeArrangedSubview(image)
+            }
+            
+            
             image.removeFromSuperview()
             self.image = nil
         }
@@ -500,7 +503,8 @@ extension ActivityCardCell {
                     imageTrailingConstraint = self.image!.widthAnchor.constraint(equalToConstant: 60)
                     imageTrailingConstraint?.isActive = true
                 }
-
+            } else {
+                self.image?.isHidden = true
             }
             
             // Display single video/gif if needed
@@ -534,6 +538,8 @@ extension ActivityCardCell {
                     videoTrailingConstraint = self.video!.widthAnchor.constraint(equalToConstant: 60)
                     videoTrailingConstraint?.isActive = true
                 }
+            } else {
+                self.video?.isHidden = true
             }
 
             // Display the image carousel if needed
@@ -568,6 +574,9 @@ extension ActivityCardCell {
                     mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
                     mediaStackTrailingConstraint?.isActive = true
                 }
+            } else {
+                self.mediaStack?.isHidden = true
+                self.mediaGallery?.isHidden = true
             }
 
             // If we are hiding the link image, move the link view
