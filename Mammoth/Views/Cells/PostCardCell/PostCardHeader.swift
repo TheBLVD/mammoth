@@ -11,6 +11,7 @@ import UIKit
 import Combine
 import Meta
 import MetaTextKit
+import MastodonMeta
 
 class PostCardHeader: UIView {
 
@@ -97,10 +98,13 @@ class PostCardHeader: UIView {
         let label = MetaLabel()
         label.textColor = .custom.displayNames
         label.numberOfLines = 1
+        label.textContainer.maximumNumberOfLines = 1
         label.isOpaque = true
         label.backgroundColor = .custom.background
         label.textContainer.lineFragmentPadding = 0
         label.isUserInteractionEnabled = false
+        label.lineBreakMode = .byTruncatingTail
+        label.textContainer.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -304,12 +308,16 @@ extension PostCardHeader {
         }
         
         if GlobalStruct.displayName == .usertagOnly {
-            self.titleLabel.text = headerType == .detail ? postCard.fullUserTag.lowercased() : postCard.userTag.lowercased()
+            let text = headerType == .detail ? postCard.fullUserTag.lowercased() : postCard.userTag.lowercased()
+            let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
+            self.titleLabel.configure(content: content)
         } else {
             if let metaContent = postCard.user?.metaName {
                 self.titleLabel.configure(content: metaContent)
             } else {
-                self.titleLabel.text = postCard.user?.name
+                let text = postCard.user?.name ?? ""
+                let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
+                self.titleLabel.configure(content: content)
             }
         }
         
