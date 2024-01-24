@@ -386,6 +386,27 @@ final class PostCardModel {
         
         // Hide the link image if there is a media attachment
         self.hideLinkImage = true //self.hasMediaAttachment
+        
+        // Contains quote post?
+        self.hasQuotePost = (status.reblog?.quotePostCard() ?? status.quotePostCard()) != nil
+        
+        // Quote post card
+        self.quotePostCard = status.reblog?.quotePostCard() ?? status.quotePostCard()
+        
+        // Quote post status data
+        if self.hasQuotePost {
+            if let urlStr = self.quotePostCard?.url,
+               let url = URL(string: urlStr),
+               urlStr != self.url,
+               let cachedQuoteStatus = StatusCache.shared.cachedStatusForURL(url: url) {
+                // If local quote post status found, use it
+                self.quotePostData = PostCardModel(status: cachedQuoteStatus, withStaticMetrics: false)
+                self.quotePostStatus = .fetched
+            } else {
+                // If no local quote post status found, assume we'll prefetch it
+                self.quotePostStatus = .loading
+            }
+        }
 
         if self.mediaAttachments.count > 1 {
             self.mediaDisplayType = .carousel
@@ -405,7 +426,7 @@ final class PostCardModel {
             // When there's no media attachment, we create one attachment with
             // the link image (if there's a link image).
             // This is used in small-image variant cells
-            if (self.linkCard?.image) != nil {
+            if (self.linkCard?.image) != nil && !self.hasQuotePost {
                 self.mediaDisplayType = .singleImage
                 self.mediaAttachments = [Attachment(card: self.linkCard!)]
                 self.hasMediaAttachment = true
@@ -443,27 +464,6 @@ final class PostCardModel {
         }
         
         self.visibility = (status.reblog?.visibility ?? status.visibility).rawValue.lowercased()
-        
-        // Contains quote post?
-        self.hasQuotePost = (status.reblog?.quotePostCard() ?? status.quotePostCard()) != nil
-        
-        // Quote post card
-        self.quotePostCard = status.reblog?.quotePostCard() ?? status.quotePostCard()
-        
-        // Quote post status data
-        if self.hasQuotePost {
-            if let urlStr = self.quotePostCard?.url,
-               let url = URL(string: urlStr),
-               urlStr != self.url,
-               let cachedQuoteStatus = StatusCache.shared.cachedStatusForURL(url: url) {
-                // If local quote post status found, use it
-                self.quotePostData = PostCardModel(status: cachedQuoteStatus, withStaticMetrics: false)
-                self.quotePostStatus = .fetched
-            } else {
-                // If no local quote post status found, assume we'll prefetch it
-                self.quotePostStatus = .loading
-            }
-        }
         
         // Status
         self.statusSource = nil
