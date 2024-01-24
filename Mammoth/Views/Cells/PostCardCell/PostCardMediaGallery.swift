@@ -140,6 +140,7 @@ extension PostCardMediaGallery: PostCardMediaGalleryDelegate {
     
     func scrollGalleryToItem(atIndex index: Int, animated: Bool) {
         if let activeItem = self.stackView.arrangedSubviews[index] as? PostCardImage {
+            guard self.scrollView.contentSize.width > self.scrollView.frame.size.width else { return }
             let maxOffset = self.scrollView.contentSize.width - self.scrollView.frame.size.width
             self.scrollView.setContentOffset(.init(x: min(activeItem.frame.origin.x, maxOffset), y: 0), animated: animated)
         } else {
