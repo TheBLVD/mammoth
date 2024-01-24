@@ -186,7 +186,6 @@ final class ActivityCardCell: UITableViewCell {
             self.video?.prepareForReuse()
             self.videoTrailingConstraint?.isActive = false
             self.videoTrailingConstraint = nil
-            self.mediaContainer.removeArrangedSubview(video)
             
             if self.mediaContainer.arrangedSubviews.contains(video) {
                 self.mediaContainer.removeArrangedSubview(video)
