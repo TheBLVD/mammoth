@@ -162,7 +162,7 @@ final class ActivityCardCell: UITableViewCell {
         
         self.header.prepareForReuse()
         
-        if let image = self.image, self.mediaContainer.arrangedSubviews.contains(image) {
+        if let image = self.image {
             self.image?.prepareForReuse()
             self.imageTrailingConstraint?.isActive = false
             self.imageTrailingConstraint = nil
@@ -178,34 +178,24 @@ final class ActivityCardCell: UITableViewCell {
                 self.textAndSmallMediaStackView.removeArrangedSubview(image)
             }
             
-            
             image.removeFromSuperview()
             self.image = nil
         }
         
-        if let image = self.image, self.mediaContainer.arrangedSubviews.contains(image) {
-            self.image?.prepareForReuse()
-            self.imageTrailingConstraint?.isActive = false
-            self.imageTrailingConstraint = nil
-            self.mediaContainer.removeArrangedSubview(image)
-            image.removeFromSuperview()
-            self.image = nil
-        }
-        
-        if let video = self.video, self.mediaContainer.arrangedSubviews.contains(video) {
+        if let video = self.video {
             self.video?.prepareForReuse()
             self.videoTrailingConstraint?.isActive = false
             self.videoTrailingConstraint = nil
             self.mediaContainer.removeArrangedSubview(video)
-            video.removeFromSuperview()
-            self.video = nil
-        }
-        
-        if let video = self.video, self.textAndSmallMediaStackView.arrangedSubviews.contains(video) {
-            self.video?.prepareForReuse()
-            self.videoTrailingConstraint?.isActive = false
-            self.videoTrailingConstraint = nil
-            self.textAndSmallMediaStackView.removeArrangedSubview(video)
+            
+            if self.mediaContainer.arrangedSubviews.contains(video) {
+                self.mediaContainer.removeArrangedSubview(video)
+            }
+            
+            if self.textAndSmallMediaStackView.arrangedSubviews.contains(video) {
+                self.textAndSmallMediaStackView.removeArrangedSubview(video)
+            }
+            
             video.removeFromSuperview()
             self.video = nil
         }
