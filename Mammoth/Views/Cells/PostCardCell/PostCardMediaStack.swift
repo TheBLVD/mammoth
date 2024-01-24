@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SDWebImage
 import UnifiedBlurHash
 import AVFoundation
 
@@ -152,11 +153,22 @@ final class PostCardMediaStack: UIView {
     
     @objc func onPress() {
         if let originImage = imageView.image {
-            
+
             // Open fullscreen image preview
-            let images = self.postCard?.mediaAttachments.map { attachment in
+            let images = self.postCard?.mediaAttachments.compactMap { attachment in
+                guard attachment.type == .image else { return SKPhoto() }
                 let photo = SKPhoto.photoWithImageURL(attachment.url)
-                photo.shouldCachePhotoURLImage = true
+                photo.shouldCachePhotoURLImage = false
+                
+                let imageFromCache = SDImageCache.shared.imageFromCache(forKey: attachment.url)
+                
+                var blurImage: UIImage? = nil
+                if let blurhash = attachment.blurhash, imageFromCache == nil, let currentMedia = self.media, attachment.url != currentMedia.url {
+                    let blurWidth = attachment.meta?.original?.width != nil ? attachment.meta!.original!.width! / 20 : 32
+                    let blurHeight = attachment.meta?.original?.height != nil ? attachment.meta!.original!.height! / 20 : 32
+                    blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: blurWidth, height: blurHeight))
+                }
+                photo.underlyingImage = imageFromCache ?? blurImage
                 return photo
             } ?? [SKPhoto()]
             
@@ -177,6 +189,28 @@ final class PostCardMediaStack: UIView {
             SKPhotoBrowserOptions.displayStatusbar = false
             browser.initializePageIndex(0)
             getTopMostViewController()?.present(browser, animated: true, completion: {})
+            
+            // Preload other images
+            PostCardModel.imageDecodeQueue.async { [weak self] in
+                guard let self else { return }
+                let prefetcher = SDWebImagePrefetcher.shared
+                let urls = self.postCard?.mediaAttachments.compactMap { URL(string: $0.url) }
+                prefetcher.prefetchURLs(urls, progress: nil) { _, _ in
+                    let images = self.postCard?.mediaAttachments.compactMap { attachment in
+                        guard attachment.type == .image else { return nil }
+                        let photo = SKPhoto.photoWithImageURL(attachment.url)
+                        photo.shouldCachePhotoURLImage = false
+                        photo.underlyingImage = SDImageCache.shared.imageFromCache(forKey: attachment.url)
+                        return photo
+                    } ?? [SKPhoto()]
+                    
+                    DispatchQueue.main.async {
+                        browser.photos = images
+                        browser.reloadData()
+                    }
+                }
+            }
+            
         } else {
             
             // Open fullscreen video player
