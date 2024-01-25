@@ -98,7 +98,12 @@ private extension UnreadIndicator {
 // MARK: - Configure
 extension UnreadIndicator {
     func configure(unreadCount: Int) {
-        guard self.unreadCount != unreadCount else { return }
+        guard self.unreadCount != unreadCount else {
+            if unreadCount == 0 && self.isEnabled {
+                self.isEnabled = false
+            }
+            return
+        }
         self.unreadCount = unreadCount
         self.setTitle(self.formatter.dividedByK(number: Double(unreadCount)), for: .normal)
         

@@ -178,7 +178,11 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                     
                     Task { [weak self] in
                         guard let self else { return }
-                        try await self.viewModel.loadLatest(feedType: type, threshold: 1)
+                        if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
+                            try await self.viewModel.loadListData(type: type, fetchType: .refresh)
+                        } else {
+                            try await self.viewModel.loadLatest(feedType: type, threshold: 1)
+                        }
                     }
                 }
             }
@@ -204,7 +208,11 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                         
                         Task { [weak self] in
                             guard let self else { return }
-                            try await self.viewModel.loadLatest(feedType: type, threshold: 1)
+                            if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
+                                try await self.viewModel.loadListData(type: type, fetchType: .refresh)
+                            } else {
+                                try await self.viewModel.loadLatest(feedType: type, threshold: 1)
+                            }
                         }
                     } else {
                         self.showLoader(enabled: false)
@@ -301,7 +309,11 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
             guard let self else { return }
             
             do {
-                try await self.viewModel.loadLatest(feedType: self.viewModel.type, threshold: 1)
+                if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
+                    try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
+                } else {
+                    try await self.viewModel.loadLatest(feedType: self.viewModel.type, threshold: 1)
+                }
                 
                 DispatchQueue.main.async { [weak self] in
                     self?.refreshControl.endRefreshing()
@@ -328,6 +340,16 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             self.latestPill.configure(unreadCount: 0, picUrls: [])
             self.unreadIndicator.configure(unreadCount: 0)
+        }
+        
+        if [.mentionsIn].contains(type) {
+            // // Hide the tab bar mentions indicator (dot)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "hideIndActivity2"), object: nil)
+        }
+        
+        if NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
+            // // Hide the tab bar activity indicator (dot)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "hideIndActivity"), object: nil)
         }
     }
     
@@ -623,7 +645,7 @@ extension NewsFeedViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         // scroll past the last item in feed (pull up)
-        if scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height + 150 {
+        if (scrollView.contentOffset.y + self.view.safeAreaInsets.top) > max(scrollView.contentSize.height - (scrollView.bounds.height - self.view.safeAreaInsets.top - self.view.safeAreaInsets.bottom), 0) + 130 {
             self.viewModel.clearErrorState(type: self.viewModel.type)
         }
         
@@ -644,11 +666,25 @@ extension NewsFeedViewController {
             self.delegate?.didScrollToTop()
         }
         
+        // Clean unread indicator when close to top
+        if scrollView.contentOffset.y < 0 - self.view.safeAreaInsets.top + 20 {
+            self.viewModel.setUnreadState(count: 0, enabled: true, forFeed: self.viewModel.type)
+            
+            switch self.viewModel.type {
+            case .mentionsIn, .mentionsOut, .activity:
+                self.unreadIndicator.configure(unreadCount: 0)
+                self.unreadIndicator.isEnabled = true
+            default:
+                self.latestPill.configure(unreadCount: 0, picUrls: self.viewModel.getUnreadPics(forFeed: self.viewModel.type))
+                self.latestPill.isEnabled = true
+            }
+            
+            self.delegate?.didScrollToTop()
+        }
+        
         // When scrollview surpass the top
         // We need to include an inset when the background is translucent
         if scrollView.contentOffset.y <= 0 - self.view.safeAreaInsets.top {
-            self.viewModel.setUnreadState(count: 0, enabled: true, forFeed: self.viewModel.type)
-            
             // For feeds with many new posts a second we don't want to
             // nag the user with the unread pill right after they reached the top.
             if self.viewModel.type.shouldPollForListData && self.viewModel.snapshot.numberOfItems > 0 {
@@ -1085,7 +1121,11 @@ extension NewsFeedViewController: JumpToNewest {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             Task { [weak self] in
                 guard let self else { return }
-                try await self.viewModel.loadLatest(feedType: self.viewModel.type)
+                if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
+                    try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
+                } else {
+                    try await self.viewModel.loadLatest(feedType: self.viewModel.type, threshold: 1)
+                }
             }
         }
     }

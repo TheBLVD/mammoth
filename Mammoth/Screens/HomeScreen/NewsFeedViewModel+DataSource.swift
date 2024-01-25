@@ -1123,6 +1123,10 @@ extension NewsFeedViewModel {
     
     // MARK: - Helpers
     
+    func isItemInSnapshot(_ item: NewsFeedListItem) -> Bool {
+        return self.getIndexPathForItem(item: item) != nil
+    }
+    
     // First item id in the feed
     func newestItemId(forType type: NewsFeedTypes) -> String? {
         guard let _ = self.snapshot.indexOfSection(.main) else { return nil }
