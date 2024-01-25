@@ -26,10 +26,18 @@ public enum ClientError: Error {
 extension ClientError: LocalizedError {
     public var errorDescription: String? {
         switch self {
+        case .malformedURL:
+            return "Malformed URL"
+        case .malformedJSON:
+            return "Malformed JSON"
+        case .invalidModel:
+            return "Invalid model"
+        case .genericError:
+            return "Unexpected error"
         case let .mastodonError(message):
             return message
-        default:
-            return self.localizedDescription
+        case let .networkError(statusCode):
+            return "Network error; status code \(statusCode)"
         }
     }
 }
