@@ -41,3 +41,9 @@ extension Channel: Equatable {
        return lhs.id == rhs.id
     }
 }
+
+extension Channel: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        self.title
+    }
+}
