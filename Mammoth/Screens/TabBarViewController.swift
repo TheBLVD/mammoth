@@ -112,15 +112,28 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
     
     @objc func goToActivityTab() {
         self.selectedIndex = GlobalStruct.tab3Index
-        // when the tab hasn't 'switched' to the activity view yet, as it doesn't act like the activity is loaded when there's no dispatch there
-        // it needs that time to do the switch tab
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "fromPush"), object: self)
+        
+        if let activityVC = self.selectedViewController?.children.first as? ActivityViewController {
+            activityVC.carouselItemPressed(withIndex: 0)
+            activityVC.headerView.carousel.scrollTo(index: 0)
+            // Delay required to finish the carousel animation smoothly first
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                activityVC.jumpToNewest()
+            }
         }
     }
     
     @objc func goToMessagesTab() {
         self.selectedIndex = GlobalStruct.tab4Index
+        
+        if let mentionsVC = self.selectedViewController?.children.first as? MentionsViewController {
+            mentionsVC.carouselItemPressed(withIndex: 0)
+            mentionsVC.headerView.carousel.scrollTo(index: 0)
+            // Delay required to finish the carousel animation smoothly first
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                mentionsVC.jumpToNewest()
+            }
+        }
     }
     
     @objc func gotoS() {

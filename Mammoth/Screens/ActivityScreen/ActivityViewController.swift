@@ -10,7 +10,7 @@ import UIKit
 
 class ActivityViewController : UIViewController {
     
-    private let headerView: CarouselNavigationHeader = {
+    public let headerView: CarouselNavigationHeader = {
         let headerView = CarouselNavigationHeader(title: "Activity")
         headerView.translatesAutoresizingMaskIntoConstraints = false
         return headerView

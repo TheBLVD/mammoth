@@ -10,7 +10,7 @@ import UIKit
 
 class MentionsViewController : UIViewController {
     
-    private let headerView: CarouselNavigationHeader = {
+    public let headerView: CarouselNavigationHeader = {
         let headerView = CarouselNavigationHeader(title: "Mentions")
         headerView.translatesAutoresizingMaskIntoConstraints = false
         return headerView
