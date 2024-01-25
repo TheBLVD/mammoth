@@ -516,7 +516,6 @@ extension AccountsManager {
                 // updated version of the current account now.
                 let currentAccount = self.currentAccount as! MastodonAcctData
                 let updatedCurrentAccount = MastodonAcctData(account: currentAccount.account, instanceData: currentAccount.instanceData, client: currentAccount.client, defaultPostVisibility: currentAccount.defaultPostVisibility, defaultPostingLanguage: currentAccount.defaultPostingLanguage, emoticons: currentAccount.emoticons, forYou: (updatedAccount as! MastodonAcctData).forYou, uniqueID: currentAccount.uniqueID)
-                acctHandler.notifyAboutAccountUpdates(oldAcctData: account, newAcctData: updatedCurrentAccount)
 
                 // Store the updated settings to the account on disk
                 if var updatedAcctData = account as? MastodonAcctData {
@@ -524,6 +523,8 @@ extension AccountsManager {
                     updatedAcctData.forYou = (updatedAccount as? MastodonAcctData)!.forYou
                     updateAccount(updatedAcctData)
                 }
+                
+                acctHandler.notifyAboutAccountUpdates(oldAcctData: account, newAcctData: updatedCurrentAccount)
             }
         }
     }
