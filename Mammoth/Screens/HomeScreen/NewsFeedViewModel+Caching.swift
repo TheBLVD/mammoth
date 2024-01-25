@@ -133,8 +133,12 @@ extension NewsFeedViewModel {
                 }) {
                     let cardsSubsetArray = Array(cardsSubset ?? [])
                     if loadMoreIndex <= 5 {
-                        cardsSubset = cardsSubsetArray[loadMoreIndex+1...cardsSubsetArray.count-1]
+                        // keep what's after the 'load more' button
+                        if  loadMoreIndex+1 <= cardsSubsetArray.count-1 {
+                            cardsSubset = cardsSubsetArray[loadMoreIndex+1...cardsSubsetArray.count-1]
+                        }
                     } else {
+                        // keep what's before the 'load more' button
                         cardsSubset = cardsSubsetArray[0...min(max(loadMoreIndex-1, 1), cardsSubsetArray.count-1)]
                     }
                 }
