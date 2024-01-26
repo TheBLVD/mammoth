@@ -536,12 +536,12 @@ private extension PostCardCell {
                 self.image = PostCardImage(variant: .thumbnail)
                 self.image!.translatesAutoresizingMaskIntoConstraints = false
                 textAndSmallMediaStackView.addArrangedSubview(self.image!)
-                imageTrailingConstraint = imageTrailingConstraint ?? self.image!.widthAnchor.constraint(equalToConstant: 60)
+                imageTrailingConstraint = self.image!.widthAnchor.constraint(equalToConstant: 60)
             case .large:
                 self.image = PostCardImage(variant: .fullSize)
                 self.image!.translatesAutoresizingMaskIntoConstraints = false
                 mediaContainer.addArrangedSubview(self.image!)
-                imageTrailingConstraint = imageTrailingConstraint ?? self.image!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+                imageTrailingConstraint = self.image!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
             default: break
             }
             
@@ -551,12 +551,12 @@ private extension PostCardCell {
                 self.video = PostCardVideo(variant: .thumbnail)
                 self.video!.translatesAutoresizingMaskIntoConstraints = false
                 textAndSmallMediaStackView.addArrangedSubview(self.video!)
-                videoTrailingConstraint = videoTrailingConstraint ?? self.video!.widthAnchor.constraint(equalToConstant: 60)
+                videoTrailingConstraint = self.video!.widthAnchor.constraint(equalToConstant: 60)
             case .large:
                 self.video = PostCardVideo(variant: .fullSize)
                 self.video!.translatesAutoresizingMaskIntoConstraints = false
                 mediaContainer.addArrangedSubview(self.video!)
-                videoTrailingConstraint = videoTrailingConstraint ?? self.video!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+                videoTrailingConstraint = self.video!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
             default: break
             }
             
@@ -567,12 +567,12 @@ private extension PostCardCell {
                 self.mediaStack = PostCardMediaStack(variant: .thumbnail)
                 self.mediaStack?.translatesAutoresizingMaskIntoConstraints = false
                 textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
-                mediaStackTrailingConstraint = mediaStackTrailingConstraint ?? self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
+                mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
             case .large:
                 self.mediaGallery = PostCardMediaGallery()
                 self.mediaGallery?.translatesAutoresizingMaskIntoConstraints = false
                 mediaContainer.addArrangedSubview(self.mediaGallery!)
-                mediaGalleryTrailingConstraint = mediaGalleryTrailingConstraint ?? self.mediaGallery!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+                mediaGalleryTrailingConstraint = self.mediaGallery!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
             default: break
             }
             
@@ -581,20 +581,20 @@ private extension PostCardCell {
             self.linkPreview = PostCardLinkPreview()
             self.linkPreview?.translatesAutoresizingMaskIntoConstraints = false
             mediaContainer.addArrangedSubview(self.linkPreview!)
-            linkPreviewTrailingConstraint = linkPreviewTrailingConstraint ?? self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+            linkPreviewTrailingConstraint = self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
             
             // Setup Poll
             self.poll = PostCardPoll()
             self.poll?.translatesAutoresizingMaskIntoConstraints = false
             mediaContainer.addArrangedSubview(self.poll!)
-            pollTrailingConstraint = pollTrailingConstraint ?? self.poll!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+            pollTrailingConstraint = self.poll!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
             pollTrailingConstraint?.isActive = true
             
             // Setup Quote Post
             self.quotePost = PostCardQuotePost(mediaVariant: self.cellVariant.mediaVariant)
             self.quotePost?.translatesAutoresizingMaskIntoConstraints = false
             mediaContainer.addArrangedSubview(self.quotePost!)
-            quotePostTrailingConstraint = quotePostTrailingConstraint ?? self.quotePost!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+            quotePostTrailingConstraint = self.quotePost!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
             
         }
         
