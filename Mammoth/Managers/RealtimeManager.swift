@@ -24,6 +24,7 @@ class RealtimeManager {
     private let reachability = try? Reachability(hostname: "google.com")
     private var callbacks: [Callback] = []
     private var receivedCallback: ((Result<URLSessionWebSocketTask.Message, Error>) -> Void)? = nil
+    private var pingTimer: Timer?
     
     public func prepareForUse() {
         
@@ -61,6 +62,11 @@ class RealtimeManager {
                                                object: nil)
         
         NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.appWillResignActive),
+                                               name: UIApplication.willResignActiveNotification,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.reachabilityChanged),
                                                name: .reachabilityChanged,
                                                object: nil)
@@ -90,6 +96,8 @@ class RealtimeManager {
         webSocket = session?.webSocketTask(with: request)
         self.setListener()
         webSocket?.resume()
+        
+        self.startPinging()
     }
     
     public func disconnect() {
@@ -127,11 +135,17 @@ class RealtimeManager {
     }
     
     @objc private func appDidBecomeActive() {
-        if let ws = self.webSocket, [.canceling, .suspended].contains(ws.state) {
+        if let ws = self.webSocket, [.canceling, .suspended, .completed].contains(ws.state) {
             try? self.connect()
+        } else {
+            self.startPinging()
         }
         
         self.setListener()
+    }
+    
+    @objc private func appWillResignActive() {
+        self.stopPinging()
     }
     
     @objc private func reachabilityChanged(notification: Notification) {
@@ -139,13 +153,34 @@ class RealtimeManager {
 
         switch reachability.connection {
         case .wifi, .cellular:
-            if let ws = self.webSocket, [.canceling, .suspended].contains(ws.state) {
+            if let ws = self.webSocket, [.canceling, .suspended, .completed].contains(ws.state) {
                 try? self.connect()
             }
             self.setListener()
         case .unavailable:
             self.disconnect()
         }
+    }
+    
+    // Ping the server every 10s to keep the connection alive
+    private func startPinging() {
+        guard self.pingTimer == nil else { return }
+        self.pingTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) { [weak self] timer in
+            self?.webSocket?.sendPing { error in
+                guard let self else { return }
+                if error != nil {
+                    if let timer = self.pingTimer, timer.isValid {
+                        self.stopPinging()
+                        try? self.connect()
+                    }
+                }
+            }
+        }
+    }
+    
+    private func stopPinging() {
+        self.pingTimer?.invalidate()
+        self.pingTimer = nil
     }
 }
 
