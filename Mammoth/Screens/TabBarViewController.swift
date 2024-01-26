@@ -110,20 +110,37 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
         self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
     
-    @objc func goToActivityTab() {
+    @objc func goToActivityTab(notification: Notification) {
         self.selectedIndex = GlobalStruct.tab3Index
         
         if let activityVC = self.selectedViewController?.children.first as? ActivityViewController {
             activityVC.carouselItemPressed(withIndex: 0)
             activityVC.headerView.carousel.scrollTo(index: 0)
+            
             // Delay required to finish the carousel animation smoothly first
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                 activityVC.jumpToNewest()
             }
+            
+            if let navController = self.selectedViewController as? UINavigationController {
+                navController.popToRootViewController(animated: true)
+            }
+            
+            // Navigate to the target post if there's one included in the notification
+            if let postCard = notification.userInfo?["postCard"] as? PostCardModel {
+                if !postCard.isDeleted && !postCard.isMuted && !postCard.isBlocked {
+                    let vc = DetailViewController(post: postCard)
+                    if vc.isBeingPresented {} else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            (self.selectedViewController as? UINavigationController)?.pushViewController(vc, animated: true)
+                        }
+                    }
+                }
+            }
         }
     }
     
-    @objc func goToMessagesTab() {
+    @objc func goToMessagesTab(notification: Notification) {
         self.selectedIndex = GlobalStruct.tab4Index
         
         if let mentionsVC = self.selectedViewController?.children.first as? MentionsViewController {
@@ -132,6 +149,22 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
             // Delay required to finish the carousel animation smoothly first
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
                 mentionsVC.jumpToNewest()
+            }
+            
+            if let navController = self.selectedViewController as? UINavigationController {
+                navController.popToRootViewController(animated: true)
+            }
+            
+            // Navigate to the target post if there's one included in the notification
+            if let postCard = notification.userInfo?["postCard"] as? PostCardModel {
+                if !postCard.isDeleted && !postCard.isMuted && !postCard.isBlocked {
+                    let vc = DetailViewController(post: postCard)
+                    if vc.isBeingPresented {} else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            (self.selectedViewController as? UINavigationController)?.pushViewController(vc, animated: true)
+                        }
+                    }
+                }
             }
         }
     }
