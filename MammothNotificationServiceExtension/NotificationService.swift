@@ -59,6 +59,9 @@ class NotificationService: UNNotificationServiceExtension {
                 
                 bestAttemptContent.sound = UNNotificationSound.init(named: UNNotificationSoundName(rawValue: "soundPush.wav"))
                 
+                // remove custom emoji shortcodes
+                bestAttemptContent.title =  bestAttemptContent.title.stripCustomEmojiShortcodes()
+                
                 var theType: String = ""
                 if content.notificationType == .status {
                     theType = "status"
