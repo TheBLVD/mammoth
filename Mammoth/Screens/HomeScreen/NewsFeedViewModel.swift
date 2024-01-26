@@ -136,7 +136,10 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
                 
             case .activity(let type):
                 let (result, cursorId) = try await TimelineService.activity(range: range, type: type)
-                return (result.enumerated().map({ .activity(ActivityCardModel(notification: $1, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                return (result.enumerated().compactMap({
+                    // Hide 'New Post' notifications of deleted posts
+                    guard !($1.type == .status && $1.status == nil) else { return nil }
+                    return .activity(ActivityCardModel(notification: $1, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
                 
             case .channel(let channel):
                 let (result, cursorId) = try await TimelineService.channel(channelId: channel.id, range: range)
