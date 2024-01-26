@@ -42,6 +42,9 @@ class ColumnViewController: UIViewController {
     
     required init() {
         super.init(nibName: nil, bundle: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.goToActivityTab), name: NSNotification.Name(rawValue: "goToActivityTab"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.goToMessagesTab), name: NSNotification.Name(rawValue: "goToMessagesTab"), object: nil)
     }
     
     private func setupUI() {
@@ -71,6 +74,7 @@ class ColumnViewController: UIViewController {
         // Side column view
         auxColumnPlaceholderView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(auxColumnPlaceholderView)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -122,6 +126,65 @@ class ColumnViewController: UIViewController {
             previousAuxColumnVC?.willMove(toParent: nil)
             previousAuxColumnVC?.view.removeFromSuperview()
             previousAuxColumnVC?.removeFromParent()
+        }
+    }
+    
+    @objc func goToActivityTab(notification: Notification) {
+        self.sidebarViewController.barSingleTap(didSelect: 2)
+        
+        if let activityVC = self.mainColumnNavVC?.children.first as? ActivityViewController {
+            activityVC.carouselItemPressed(withIndex: 0)
+            activityVC.headerView.carousel.scrollTo(index: 0)
+            
+            // Delay required to finish the carousel animation smoothly first
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                activityVC.jumpToNewest()
+            }
+            
+            if let navController = self.mainColumnNavVC {
+                navController.popToRootViewController(animated: true)
+            }
+            
+            // Navigate to the target post if there's one included in the notification
+            if let postCard = notification.userInfo?["postCard"] as? PostCardModel {
+                if !postCard.isDeleted && !postCard.isMuted && !postCard.isBlocked {
+                    let vc = DetailViewController(post: postCard)
+                    if vc.isBeingPresented {} else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.mainColumnNavVC?.pushViewController(vc, animated: true)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    @objc func goToMessagesTab(notification: Notification) {
+        self.sidebarViewController.barSingleTap(didSelect: 3)
+        
+        if let mentionsVC = self.mainColumnNavVC?.children.first as? MentionsViewController {
+            mentionsVC.carouselItemPressed(withIndex: 0)
+            mentionsVC.headerView.carousel.scrollTo(index: 0)
+            // Delay required to finish the carousel animation smoothly first
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                mentionsVC.jumpToNewest()
+            }
+            
+            if let navController = self.mainColumnNavVC {
+                navController.popToRootViewController(animated: true)
+            }
+            
+            // Navigate to the target post if there's one included in the notification
+            if let postCard = notification.userInfo?["postCard"] as? PostCardModel {
+                if !postCard.isDeleted && !postCard.isMuted && !postCard.isBlocked {
+                    let vc = DetailViewController(post: postCard)
+                    if vc.isBeingPresented {} else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            self.mainColumnNavVC?.pushViewController(vc, animated: true)
+                        }
+                    }
+                }
+            }
         }
     }
 

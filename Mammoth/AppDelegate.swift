@@ -117,17 +117,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 }
             }
             if let stat = (statuses.value) {
+                let postCard = stat.status != nil ? PostCardModel(status: stat.status!) : nil
                 DispatchQueue.main.async {
                     switch stat.type {
                     case .direct, .mention:
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity2"), object: nil)
                         if alsoGoToTab {
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: "goToMessagesTab"), object: self)
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "goToMessagesTab"), object: self, userInfo: postCard != nil ? ["postCard": postCard!] : nil)
                         }
                     default:
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: nil)
                         if alsoGoToTab {
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: "goToActivityTab"), object: self)
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "goToActivityTab"), object: self, userInfo: postCard != nil ? ["postCard": postCard!] : nil)
                         }
                     }
                     
