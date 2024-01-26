@@ -435,7 +435,7 @@ extension SidebarViewController: Jumpable {
             }
         }
         
-        let itemToFetch = index + 1
+        self.collectionView.selectItem(at: IndexPath(item: index, section: 0), animated: true, scrollPosition: .top)
     }
 
     func viewControllerAtIndex(_ index: Int) -> UIViewController? {
