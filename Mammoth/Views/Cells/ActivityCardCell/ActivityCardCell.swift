@@ -168,6 +168,8 @@ final class ActivityCardCell: UITableViewCell {
         
         self.header.prepareForReuse()
         self.resetMedia()
+        
+        contentStackView.setCustomSpacing(0, after: self.textAndSmallMediaStackView)
     }
     
     private func resetMedia() {
@@ -247,15 +249,16 @@ private extension ActivityCardCell {
         self.contentView.preservesSuperviewLayoutMargins = false
         self.isOpaque = true
         self.contentView.isOpaque = true
+        self.contentView.layoutMargins = .init(top: 18, left: 13, bottom: 18, right: 13)
         
         contentView.addSubview(wrapperStackView)
         wrapperStackView.addArrangedSubview(mainStackView)
         
         NSLayoutConstraint.activate([
-            wrapperStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor, constant: 16),
-            wrapperStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor, constant: -16),
-            wrapperStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor, constant: 13),
-            wrapperStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor, constant: -13),
+            wrapperStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            wrapperStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+            wrapperStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            wrapperStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
             
             // Force main stack view to fill the parent width
             mainStackView.trailingAnchor.constraint(equalTo: wrapperStackView.layoutMarginsGuide.trailingAnchor),
@@ -593,7 +596,11 @@ extension ActivityCardCell {
             if (postCard.hasLink || postCard.hasMediaAttachment) && activity.type == .status, !postCard.postText.isEmpty, cellVariant?.mediaVariant == .large {
                 contentStackView.setCustomSpacing(12, after: self.textAndSmallMediaStackView)
             } else {
-                contentStackView.setCustomSpacing(2, after: self.textAndSmallMediaStackView)
+                if postCard.hasMediaAttachment {
+                    contentStackView.setCustomSpacing(2, after: self.textAndSmallMediaStackView)
+                } else {
+                    contentStackView.setCustomSpacing(0, after: self.textAndSmallMediaStackView)
+                }
             }
         } else {
             self.resetMedia()
