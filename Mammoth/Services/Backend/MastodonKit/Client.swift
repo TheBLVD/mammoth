@@ -70,8 +70,6 @@ public class Client: NSObject, ClientType, URLSessionTaskDelegate {
                 let urlServer = url.host
                 if userServer != nil, urlServer != nil, userServer == urlServer {
                     accessToken = self.accessToken
-                } else {
-                    log.error("almost sent token to \(urlServer)")
                 }
             }
             
