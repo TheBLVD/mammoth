@@ -58,7 +58,24 @@ public class Client: NSObject, ClientType, URLSessionTaskDelegate {
                     return
             }
             
-            let urlRequest = URLRequest(url: url, request: request, accessToken: self.accessToken)
+            // Only send the token to the user's instance
+            var accessToken: String? = nil
+            let unrestrictedURLPaths = ["/api/v1/accounts/verify_credentials", "/api/v1/accounts"]
+            if isMothClient {
+                accessToken = self.accessToken
+            } else if unrestrictedURLPaths.contains(url.path) {
+                accessToken = self.accessToken
+            } else {
+                let userServer = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.account.server
+                let urlServer = url.host
+                if userServer != nil, urlServer != nil, userServer == urlServer {
+                    accessToken = self.accessToken
+                } else {
+                    log.error("almost sent token to \(urlServer)")
+                }
+            }
+            
+            let urlRequest = URLRequest(url: url, request: request, accessToken: accessToken)
             let task = self.session.dataTask(with: urlRequest) { data, response, error in
                 if let error = error {
                     completion(.failure(error))
