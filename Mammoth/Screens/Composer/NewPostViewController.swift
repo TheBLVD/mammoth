@@ -1841,7 +1841,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func customEmojiTapped() {
-        let vc = EmoticonPickerViewController()
+        let vc = EmoticonPickerViewController(emoticons: (self.currentAcct as? MastodonAcctData)?.emoticons)
         self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
     

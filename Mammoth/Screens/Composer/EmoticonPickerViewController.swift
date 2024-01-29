@@ -17,6 +17,17 @@ class EmoticonPickerViewController: UIViewController, UICollectionViewDelegate, 
     var doneOnce: Bool = false
     var engineNeedsStart = true
     
+    public let emoticons: [Emoji]?
+    
+    init(emoticons: [Emoji]?) {
+        self.emoticons = emoticons
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     @objc func rotated() {
         self.collectionView.reloadData()
     }
@@ -152,7 +163,7 @@ class EmoticonPickerViewController: UIViewController, UICollectionViewDelegate, 
     
     //MARK: CollectionView
     func allEmoticons() -> [Emoji] {
-         return (AccountsManager.shared.currentAccount as? MastodonAcctData)?.emoticons ?? []
+        return self.emoticons ?? []
     }
 
     
