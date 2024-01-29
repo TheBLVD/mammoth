@@ -184,7 +184,7 @@ extension ChannelManager {
                             NotificationCenter.default.post(name: ToastNotificationManager.toast.subscribed, object: nil)
                         }
                     }
-                    AccountsManager.shared.updateCurrentAccountForYou(forYouInfo.forYou)
+                    AccountsManager.shared.updateCurrentAccountForYou(forYouInfo, writeToServer: false)
                 } catch {
                     log.error("\(error)")
                 }
@@ -214,7 +214,7 @@ extension ChannelManager {
                         NotificationCenter.default.post(name: ToastNotificationManager.toast.unsubscribed, object: nil)
                     }
                 }
-                AccountsManager.shared.updateCurrentAccountForYou(result.forYou)
+                AccountsManager.shared.updateCurrentAccountForYou(result, writeToServer: false)
             }
         }
     }
