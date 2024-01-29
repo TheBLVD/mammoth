@@ -434,12 +434,16 @@ final class PostCardCell: UITableViewCell {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let mediaGallery = self.mediaGallery, self.postCard?.mediaDisplayType == .carousel {
+        guard let hitView = super.hitTest(point, with: event) else { return nil }
+        if let mediaGallery = self.mediaGallery,
+            self.postCard?.mediaDisplayType == .carousel,
+            mediaGallery.isHidden == false,
+            mediaGallery.alpha == 1 {
             let convertedPoint = mediaGallery.convert(point, from: self)
-            return self.mediaGallery?.hitTest(convertedPoint, with: event) ?? super.hitTest(point, with: event)
+            return mediaGallery.hitTest(convertedPoint, with: event) ?? hitView
         }
         
-        return super.hitTest(point, with: event)
+        return hitView
     }
 }
 
@@ -855,6 +859,13 @@ extension PostCardCell {
             deletedWarningButton.setTitle("Muted author", for: .normal)
         }
         
+        // Hide media gallery (carousel) if covered with content warning / deleted overlay
+        if self.contentWarningButton.isHidden == false || self.deletedWarningButton.isHidden == false {
+            self.mediaGallery?.alpha = 0
+        } else {
+            self.mediaGallery?.alpha = 1
+        }
+        
         self.footer.configure(postCard: postCard, includeMetrics: false)
         self.footer.onButtonPress = onButtonPress
         
@@ -1117,6 +1128,7 @@ extension PostCardCell {
         self.contentWarningButton.isUserInteractionEnabled = false
         GlobalStruct.allCW.append(self.postCard?.id ?? "")
         self.postCard?.filterType = .none
+        self.mediaGallery?.alpha = 1
     }
 }
 
