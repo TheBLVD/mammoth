@@ -1,0 +1,12 @@
+{
+  "name": "Mammoth",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "yarn react-native start"
+  },
+  "dependencies": {
+    "react": "^18.3.0-next-fecc288b7-20221025",
+    "react-native": "^0.73.3"
+  }
+}
