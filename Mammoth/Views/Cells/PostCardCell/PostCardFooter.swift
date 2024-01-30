@@ -53,7 +53,6 @@ final class PostCardFooter: UIView {
 private extension PostCardFooter {
     func setupUI() {
         self.isOpaque = true
-        self.backgroundColor = .custom.background
         self.addSubview(mainStackView)
         self.layoutMargins = .init(top: 0, left: 0, bottom: 7, right: 0)
         
@@ -74,6 +73,12 @@ private extension PostCardFooter {
 // MARK: - Configuration
 extension PostCardFooter {
     func configure(postCard: PostCardModel, includeMetrics: Bool = true) {
+        if postCard.isPrivateMention {
+            self.backgroundColor = .custom.OVRLYSoftContrast
+        } else {
+            self.backgroundColor = .custom.background
+        }
+        
         replyButton.configure(buttonText: includeMetrics ? postCard.replyCount : nil)
         repostButton.configure(buttonText: includeMetrics ? postCard.repostCount : nil, isActive: postCard.isReposted, postCard: postCard)
         likeButton.configure(buttonText: includeMetrics ? postCard.likeCount : nil, isActive: postCard.isLiked)
@@ -103,7 +108,6 @@ fileprivate class PostFooterButton: UIButton {
         stackView.isBaselineRelativeArrangement = true
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.isOpaque = true
-        stackView.backgroundColor = .custom.background
         return stackView
     }()
     
@@ -112,7 +116,6 @@ fileprivate class PostFooterButton: UIButton {
         image.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         image.contentMode = .left
         image.isOpaque = true
-        image.backgroundColor = .custom.background
         return image
     }()
     
@@ -122,7 +125,6 @@ fileprivate class PostFooterButton: UIButton {
         label.textColor = .custom.actionButtons
         label.font = .systemFont(ofSize: 15, weight: .regular)
         label.isOpaque = true
-        label.backgroundColor = .custom.background
         return label
     }()
     
@@ -152,7 +154,6 @@ fileprivate class PostFooterButton: UIButton {
     
     private func setupUI() {
         self.isOpaque = true
-        self.backgroundColor = .custom.background
         self.addSubview(container)
         self.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         

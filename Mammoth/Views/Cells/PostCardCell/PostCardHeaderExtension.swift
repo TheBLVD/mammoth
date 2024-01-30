@@ -27,7 +27,6 @@ class PostCardHeaderExtension: UIView {
         label.textColor = .custom.feintContrast
         label.numberOfLines = 1
         label.isOpaque = true
-        label.backgroundColor = .custom.background
         return label
     }()
     
@@ -96,6 +95,12 @@ extension PostCardHeaderExtension {
         
         if postCard.isPrivateMention {
             self.titleLabel.text = "private mention"
+        }
+        
+        if let postCard = self.postCard, postCard.isPrivateMention {
+            titleLabel.backgroundColor = .custom.OVRLYSoftContrast
+        } else {
+            titleLabel.backgroundColor = .custom.background
         }
     }
     

@@ -65,7 +65,6 @@ final class PostCardMediaStack: UIView {
     
     private func setupUI() {
         self.isOpaque = true
-        self.backgroundColor = .custom.background
         self.layoutMargins = .zero
         self.isUserInteractionEnabled = true
         
@@ -118,6 +117,12 @@ final class PostCardMediaStack: UIView {
         let shouldUpdate = self.media == nil || postCard.mediaAttachments.first != self.media!
         self.media = postCard.mediaAttachments.first
         self.postCard = postCard
+        
+        if postCard.isPrivateMention {
+            self.backgroundColor = .custom.OVRLYSoftContrast
+        } else {
+            self.backgroundColor = .custom.background
+        }
         
         if shouldUpdate {
             if let media = self.media {

@@ -704,6 +704,16 @@ extension PostCardCell {
         self.header.configure(postCard: postCard, headerType: type.headerType, isVerticallyCentered: isVerticallyCentered)
         self.header.onPress = onButtonPress
         
+        if let postCard = self.postCard, postCard.isPrivateMention {
+            self.backgroundColor = .custom.OVRLYSoftContrast
+            self.contentView.backgroundColor = .custom.OVRLYSoftContrast
+            self.postTextView.backgroundColor = .custom.OVRLYSoftContrast
+        } else {
+            self.backgroundColor = .custom.background
+            self.contentView.backgroundColor = .custom.background
+            self.postTextView.backgroundColor = .custom.background
+        }
+        
         
         if self.cellVariant.hasText {
             if self.postTextView.textContainer.maximumNumberOfLines != type.numberOfLines {
