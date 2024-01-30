@@ -1,0 +1,6 @@
+framework module React_graphics {
+  umbrella header "React-graphics-umbrella.h"
+
+  export *
+  module * { export * }
+}

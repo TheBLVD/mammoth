@@ -1,0 +1,6 @@
+framework module React_runtimescheduler {
+  umbrella header "React-runtimescheduler-umbrella.h"
+
+  export *
+  module * { export * }
+}

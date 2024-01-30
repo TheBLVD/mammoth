@@ -1,0 +1,6 @@
+framework module React_rendererdebug {
+  umbrella header "React-rendererdebug-umbrella.h"
+
+  export *
+  module * { export * }
+}

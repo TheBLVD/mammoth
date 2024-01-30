@@ -1,0 +1,6 @@
+framework module React_FabricImage {
+  umbrella header "React-FabricImage-umbrella.h"
+
+  export *
+  module * { export * }
+}

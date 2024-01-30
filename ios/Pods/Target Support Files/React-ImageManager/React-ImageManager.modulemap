@@ -1,0 +1,6 @@
+framework module React_ImageManager {
+  umbrella header "React-ImageManager-umbrella.h"
+
+  export *
+  module * { export * }
+}
