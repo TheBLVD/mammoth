@@ -65,7 +65,6 @@ final class PostCardProfilePic: UIButton {
         imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage()
         imageView.isOpaque = true
-        imageView.backgroundColor = .custom.background
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
         imageView.layer.isOpaque = true
@@ -120,7 +119,6 @@ final class PostCardProfilePic: UIButton {
 private extension PostCardProfilePic {
     func setupUI() {
         self.isOpaque = true
-        self.backgroundColor = .custom.background
         self.addSubview(profileImageView)
         self.translatesAutoresizingMaskIntoConstraints = false
         

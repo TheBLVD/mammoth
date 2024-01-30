@@ -201,7 +201,6 @@ final class PostCardImage: UIView {
     private func setupUI() {
         self.isOpaque = true
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.backgroundColor = .custom.background
         self.layoutMargins = .init(top: 3, left: 0, bottom: 0, right: 0)
 
         imageView.clipsToBounds = true

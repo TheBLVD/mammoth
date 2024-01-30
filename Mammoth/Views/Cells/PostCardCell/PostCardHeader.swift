@@ -116,7 +116,6 @@ class PostCardHeader: UIView {
         imageView.image = icon
         imageView.tintColor = .custom.feintContrast
         imageView.isOpaque = true
-        imageView.backgroundColor = .custom.background
         return imageView
     }()
 
@@ -192,7 +191,6 @@ class PostCardHeader: UIView {
 private extension PostCardHeader {
     func setupUI() {
         self.isOpaque = true
-        self.backgroundColor = UIColor.custom.background
         self.directionalLayoutMargins = .zero
         self.addSubview(mainStackView)
                 
@@ -341,6 +339,18 @@ extension PostCardHeader {
             self.pinIcon.isHidden = false
         } else {
             self.pinIcon.isHidden = true
+        }
+        
+        if let postCard = self.postCard, postCard.isPrivateMention {
+            self.backgroundColor = .custom.OVRLYSoftContrast
+            titleLabel.backgroundColor = .custom.OVRLYSoftContrast
+            userTagLabel.backgroundColor = .custom.OVRLYSoftContrast
+            dateLabel.backgroundColor = .custom.OVRLYSoftContrast
+        } else {
+            self.backgroundColor = .custom.background
+            titleLabel.backgroundColor = .custom.background
+            userTagLabel.backgroundColor = .custom.background
+            dateLabel.backgroundColor = .custom.background
         }
         
         // center header content vertically when the post has a carousel and no post text

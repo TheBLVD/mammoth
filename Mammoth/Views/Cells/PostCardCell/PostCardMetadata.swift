@@ -41,7 +41,6 @@ final class PostCardMetadata: UIView {
         label.textColor = UIColor.custom.feintContrast
         label.isUserInteractionEnabled = true
         label.isOpaque = true
-        label.backgroundColor = .custom.background
         return label
     }
     

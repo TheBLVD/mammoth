@@ -71,7 +71,6 @@ class PostCardLinkPreview: UIView {
         label.textColor = .custom.actionButtons
         label.numberOfLines = 1
         label.isOpaque = true
-        label.backgroundColor = .custom.background
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
@@ -82,7 +81,6 @@ class PostCardLinkPreview: UIView {
         label.textColor = UIColor.label
         label.numberOfLines = 3
         label.isOpaque = true
-        label.backgroundColor = .custom.background
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return label
@@ -199,7 +197,6 @@ extension PostCardLinkPreview {
     
     func onThemeChange() {
         self.mainStackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
-        self.imageView.backgroundColor = .custom.quoteTint
         self.urlLabel.textColor = .custom.actionButtons
     }
 }

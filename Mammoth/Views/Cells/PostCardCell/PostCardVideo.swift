@@ -354,7 +354,6 @@ final class PostCardVideo: UIView {
     
     private func setupUI() {
         self.isOpaque = true
-        self.backgroundColor = .custom.background
         self.layoutMargins = .init(top: 3, left: 0, bottom: 0, right: 0)
 
         videoView.clipsToBounds = true

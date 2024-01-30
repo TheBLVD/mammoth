@@ -21,6 +21,7 @@ class PostCardQuotePost: UIView {
         stackView.distribution = .fill
         stackView.spacing = 4.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.backgroundColor = .custom.background
 
         stackView.layer.borderWidth = 0.4
         stackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
