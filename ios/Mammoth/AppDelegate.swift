@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     var restrictRotation: UIInterfaceOrientationMask = .all
     var restrictRotationPhone: UIInterfaceOrientationMask = .portrait
+    var window: UIWindow?
     
     static let shared = AppDelegate()
     

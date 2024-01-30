@@ -1,8 +1,3 @@
-# Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
-use_frameworks!
-inhibit_all_warnings!
-
 # Resolve react_native_pods.rb with node to allow for hoisting
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
@@ -12,11 +7,24 @@ require Pod::Executable.execute_command('node', ['-p',
 
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
+#inhibit_all_warnings!
+#use_frameworks!
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
   use_frameworks! :linkage => linkage.to_sym
+  
+  # https://github.com/software-mansion/react-native-screens/issues/1963#issuecomment-1848246731
+  pre_install do |installer|
+      installer.pod_targets.each do |pod|
+        if pod.name.eql?('RNReanimated') # add more pod names here
+          def pod.build_type;
+            Pod::BuildType.static_library
+          end
+        end
+      end
+    end
 end
 
 target 'Mammoth' do

@@ -4,7 +4,6 @@ CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/React-jserrorhandler
 FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/DoubleConversion" "${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly" "${PODS_CONFIGURATION_BUILD_DIR}/React-Mapbuffer" "${PODS_CONFIGURATION_BUILD_DIR}/React-debug" "${PODS_CONFIGURATION_BUILD_DIR}/React-jsi" "${PODS_CONFIGURATION_BUILD_DIR}/fmt" "${PODS_CONFIGURATION_BUILD_DIR}/glog" "${PODS_CONFIGURATION_BUILD_DIR}/libevent" "${PODS_ROOT}/hermes-engine/destroot/Library/Frameworks/universal" "${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/hermes-engine" "${PODS_CONFIGURATION_BUILD_DIR}/React-debug/React_debug.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/React-Mapbuffer/React_Mapbuffer.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -framework "React_Mapbuffer" -framework "React_debug" -framework "folly" -framework "jsi"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_DEVELOPMENT_LANGUAGE = ${DEVELOPMENT_LANGUAGE}

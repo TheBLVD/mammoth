@@ -44,6 +44,8 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
     private let extremeLeadingOffset = -73.0
     
     private var areColorsInverted = DeviceHelpers.isiOSAppOnMac()
+    
+    private let composeViewController = ComposeViewController()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -224,14 +226,25 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
         guard sender.state == .began else {
             return
         }
-        if GlobalStruct.drafts.isEmpty {} else {
-            triggerHaptic3Impact()
-            let vc = ScheduledPostsViewController()
-            vc.drafts = GlobalStruct.drafts
-            vc.fromComposeButton = true
-            let nvc = UINavigationController(rootViewController: vc)
-            getTopMostViewController()?.present(nvc, animated: true, completion: nil)
+        
+        triggerHaptic3Impact()
+        
+        self.composeViewController.isModalInPresentation = true
+        if !self.composeViewController.isBeingPresented {
+            getTopMostViewController()?.present(self.composeViewController, animated: true, completion: nil)
         }
+        
+//        guard sender.state == .began else {
+//            return
+//        }
+//        if GlobalStruct.drafts.isEmpty {} else {
+//            triggerHaptic3Impact()
+//            let vc = ScheduledPostsViewController()
+//            vc.drafts = GlobalStruct.drafts
+//            vc.fromComposeButton = true
+//            let nvc = UINavigationController(rootViewController: vc)
+//            getTopMostViewController()?.present(nvc, animated: true, completion: nil)
+//        }
     }
     
     @objc func newPostTap() {
