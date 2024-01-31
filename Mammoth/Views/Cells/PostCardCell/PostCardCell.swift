@@ -890,8 +890,6 @@ extension PostCardCell {
             self.configureForDebugging(postCard: postCard)
         }
         
-        self.configureMetaTextContent()
-        
         self.configureContraints()
     }
     
