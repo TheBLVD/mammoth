@@ -143,6 +143,7 @@ public struct GlobalStruct {
     static var hideNavBars: Bool = false
     static var hideNavBars2: Bool = false
     static var scrollDirectionDown: Bool = true
+    static var openLinksInBrowser: Bool = false
     static var appLock: Bool = false
     
     // composer

@@ -305,9 +305,7 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
                                         if let error = statuses.error {
                                             log.error("Failed to search: \(error)")
                                             DispatchQueue.main.async {
-                                                if let y = URL(string: x) {
-                                                    PostActions.openLinks2(y, url2: x)
-                                                }
+                                                PostActions.openLinks2(x)
                                             }
                                         }
                                         if let stat = (statuses.value) {
@@ -331,9 +329,7 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
                                 if let error = statuses.error {
                                     log.error("Failed to search: \(error)")
                                     DispatchQueue.main.async {
-                                        if let y = URL(string: x) {
-                                            PostActions.openLinks2(y, url2: x)
-                                        }
+                                        PostActions.openLinks2(x)
                                     }
                                 }
                                 if let stat = (statuses.value) {
