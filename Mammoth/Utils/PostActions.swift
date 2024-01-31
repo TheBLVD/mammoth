@@ -803,7 +803,7 @@ extension PostActions {
                             }
                         }
                     } else {
-                        PostActions.openLinks2(url, url2: url2)
+                        PostActions.openLinks2(url2)
                     }
                 } else if url.isAccountURL() {
                     let split = url2.split(separator: "/")
@@ -816,7 +816,7 @@ extension PostActions {
                             if let error = statuses.error {
                                 log.error("Failed to search: \(error)")
                                 DispatchQueue.main.async {
-                                    PostActions.openLinks2(url, url2: url2)
+                                    PostActions.openLinks2(url2)
                                 }
                             }
                             if let stat = (statuses.value) {
@@ -839,10 +839,10 @@ extension PostActions {
                         }
                     }
                 } else {
-                    PostActions.openLinks2(url, url2: url2)
+                    PostActions.openLinks2(url2)
                 }
             } else {
-                PostActions.openLinks2(url, url2: url2)
+                PostActions.openLinks2(url2)
             }
         }
     }
@@ -861,7 +861,7 @@ extension PostActions {
                 log.error("Failed to fetch status: \(error)")
                 DispatchQueue.main.async {
                     GlobalStruct.canLoadLink = true
-                    PostActions.openLinks2(url, url2: url2)
+                    PostActions.openLinks2(url2)
                 }
             }
             if let stat = (statuses.value) {
@@ -879,30 +879,27 @@ extension PostActions {
         }
     }
     
-    static func openLinks2(_ url: URL, url2: String) {
-        // this is used when opening external links that aren't Mastodon links
-        var url2 = url2
-        
-        if !url2.contains("https") {
-            if !url2.contains("http") {
-                url2 = "https://\(url2)"
-            } else {
-                url2 = "\(url2.replacingOccurrences(of: "http", with: "https"))"
-            }
+    // This is used when opening external links that aren't Mastodon links
+    static func openLinks2(_ url: String) {
+        // Add an https prefix if necessary
+        var urlString = url
+        if !urlString.hasPrefix("http") {
+            urlString = "https://\(urlString)"
         }
-        if let url3 = URL(string: url2) {
-            if url.absoluteString.contains("https://twitter.com/JPEGuin") {
-                url2 = url.absoluteString.replacingOccurrences(of: "https", with: "aviary")
-                if let url3 = URL(string: url2) {
-                    UIApplication.shared.open(url3, options: [:], completionHandler: nil)
-                    GlobalStruct.canLoadLink = true
-                }
+
+        // Open URL in a window, or the browser
+        if let urlToOpen = URL(string: urlString) {
+            if GlobalStruct.openLinksInBrowser {
+                UIApplication.shared.open(urlToOpen)
+                GlobalStruct.canLoadLink = true
             } else {
                 let config = SFSafariViewController.Configuration()
-                let vc = SFSafariViewController(url: url3, configuration: config)
+                let vc = SFSafariViewController(url: urlToOpen, configuration: config)
                 getTopMostViewController()?.present(vc, animated: true)
                 GlobalStruct.canLoadLink = true
             }
+        } else {
+            log.error("Unable to convert to URL: \(urlString)")
         }
     }
     

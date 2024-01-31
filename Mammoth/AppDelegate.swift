@@ -215,6 +215,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.hideNavBars = UserDefaults.standard.value(forKey: "hideNavBars") as? Bool ?? false
         GlobalStruct.hideNavBars2 = UserDefaults.standard.value(forKey: "hideNavBars2") as? Bool ?? false
         GlobalStruct.scrollDirectionDown = UserDefaults.standard.value(forKey: "scrollDirectionDown") as? Bool ?? true
+        GlobalStruct.openLinksInBrowser = UserDefaults.standard.value(forKey: "openLinksInBrowser") as? Bool ?? false
         GlobalStruct.appLock = UserDefaults.standard.value(forKey: "appLock") as? Bool ?? false
         
         GlobalStruct.tab2 = UserDefaults.standard.value(forKey: "tab2") as? Bool ?? true
