@@ -30,7 +30,6 @@
 		149A682D2AD6A4E200E72A83 /* Mute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68282AD6A4E200E72A83 /* Mute.swift */; };
 		149A682F2AD6A4E200E72A83 /* mute.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 149A682B2AD6A4E200E72A83 /* mute.aiff */; };
 		149A68312AD6CE3700E72A83 /* AVManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68302AD6CE3700E72A83 /* AVManager.swift */; };
-		14A2AF9E2B6928C50052B599 /* ComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A2AF9D2B6928C50052B599 /* ComposerViewController.swift */; };
 		14A849FF2B4D75F20027C689 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14A849FE2B4D75F20027C689 /* MetaTextKit */; };
 		14BE1A502AEFDAB700C13189 /* String+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE1A4F2AEFDAB700C13189 /* String+Image.swift */; };
 		14BE1A522AF1047D00C13189 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE1A512AF1047D00C13189 /* PushNotificationManager.swift */; };
@@ -144,6 +143,13 @@
 		14C45DEF2B1A4266000171A9 /* Pride@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEC2B1A4266000171A9 /* Pride@3x.png */; };
 		14C45DF02B1A4266000171A9 /* Pride.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DED2B1A4266000171A9 /* Pride.png */; };
 		14C45DF12B1A4266000171A9 /* Pride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEE2B1A4266000171A9 /* Pride@2x.png */; };
+		14D7AFAF2B6A53F600C6C81A /* ReactBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFAE2B6A53F600C6C81A /* ReactBridge.swift */; };
+		14D7AFBD2B6A820000C6C81A /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFB42B6A820000C6C81A /* UIColor+Hex.m */; };
+		14D7AFBE2B6A820000C6C81A /* NavigatorRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFB52B6A820000C6C81A /* NavigatorRegistry.swift */; };
+		14D7AFBF2B6A820000C6C81A /* NavigatorModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFB62B6A820000C6C81A /* NavigatorModule.m */; };
+		14D7AFC02B6A820000C6C81A /* RCCCustomTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFB92B6A820000C6C81A /* RCCCustomTitleView.m */; };
+		14D7AFC12B6A820000C6C81A /* NavigationEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFBA2B6A820000C6C81A /* NavigationEventEmitter.m */; };
+		14D7AFC22B6A820000C6C81A /* ReactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFBB2B6A820000C6C81A /* ReactViewController.swift */; };
 		14E08C6A2B20BF9C00EF5A55 /* DeviceHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E08C692B20BF9C00EF5A55 /* DeviceHelpers.swift */; };
 		14F47F452B517DAB008F45CE /* PostCardMediaStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F47F442B517DAB008F45CE /* PostCardMediaStack.swift */; };
 		14F47F472B57F48B008F45CE /* PostCardMediaGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F47F462B57F48B008F45CE /* PostCardMediaGallery.swift */; };
@@ -846,7 +852,6 @@
 		149A68282AD6A4E200E72A83 /* Mute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mute.swift; sourceTree = "<group>"; };
 		149A682B2AD6A4E200E72A83 /* mute.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = mute.aiff; sourceTree = "<group>"; };
 		149A68302AD6CE3700E72A83 /* AVManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVManager.swift; sourceTree = "<group>"; };
-		14A2AF9D2B6928C50052B599 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerViewController.swift; sourceTree = "<group>"; };
 		14A2AF9F2B6944BA0052B599 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		14BE1A4F2AEFDAB700C13189 /* String+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Image.swift"; sourceTree = "<group>"; };
 		14BE1A512AF1047D00C13189 /* PushNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationManager.swift; sourceTree = "<group>"; };
@@ -959,6 +964,16 @@
 		14C45DEC2B1A4266000171A9 /* Pride@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@3x.png"; sourceTree = "<group>"; };
 		14C45DED2B1A4266000171A9 /* Pride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pride.png; sourceTree = "<group>"; };
 		14C45DEE2B1A4266000171A9 /* Pride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@2x.png"; sourceTree = "<group>"; };
+		14D7AFAE2B6A53F600C6C81A /* ReactBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactBridge.swift; sourceTree = "<group>"; };
+		14D7AFB32B6A820000C6C81A /* RCCCustomTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCCustomTitleView.h; sourceTree = "<group>"; };
+		14D7AFB42B6A820000C6C81A /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
+		14D7AFB52B6A820000C6C81A /* NavigatorRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigatorRegistry.swift; sourceTree = "<group>"; };
+		14D7AFB62B6A820000C6C81A /* NavigatorModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigatorModule.m; sourceTree = "<group>"; };
+		14D7AFB72B6A820000C6C81A /* NavigationEventEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationEventEmitter.h; sourceTree = "<group>"; };
+		14D7AFB82B6A820000C6C81A /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		14D7AFB92B6A820000C6C81A /* RCCCustomTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCCustomTitleView.m; sourceTree = "<group>"; };
+		14D7AFBA2B6A820000C6C81A /* NavigationEventEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationEventEmitter.m; sourceTree = "<group>"; };
+		14D7AFBB2B6A820000C6C81A /* ReactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactViewController.swift; sourceTree = "<group>"; };
 		14E08C692B20BF9C00EF5A55 /* DeviceHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceHelpers.swift; sourceTree = "<group>"; };
 		14F47F442B517DAB008F45CE /* PostCardMediaStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardMediaStack.swift; sourceTree = "<group>"; };
 		14F47F462B57F48B008F45CE /* PostCardMediaGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardMediaGallery.swift; sourceTree = "<group>"; };
@@ -1705,6 +1720,31 @@
 			path = Sound;
 			sourceTree = "<group>";
 		};
+		14D7AFB02B6A81F300C6C81A /* ReactHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				14D7AFB12B6A820000C6C81A /* NativeNavigationLibrary */,
+			);
+			path = ReactHelpers;
+			sourceTree = "<group>";
+		};
+		14D7AFB12B6A820000C6C81A /* NativeNavigationLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				14D7AFB72B6A820000C6C81A /* NavigationEventEmitter.h */,
+				14D7AFBA2B6A820000C6C81A /* NavigationEventEmitter.m */,
+				14D7AFB62B6A820000C6C81A /* NavigatorModule.m */,
+				14D7AFB52B6A820000C6C81A /* NavigatorRegistry.swift */,
+				14D7AFB32B6A820000C6C81A /* RCCCustomTitleView.h */,
+				14D7AFB92B6A820000C6C81A /* RCCCustomTitleView.m */,
+				14D7AFAE2B6A53F600C6C81A /* ReactBridge.swift */,
+				14D7AFBB2B6A820000C6C81A /* ReactViewController.swift */,
+				14D7AFB82B6A820000C6C81A /* UIColor+Hex.h */,
+				14D7AFB42B6A820000C6C81A /* UIColor+Hex.m */,
+			);
+			path = NativeNavigationLibrary;
+			sourceTree = "<group>";
+		};
 		14E08C6B2B20C9B100EF5A55 /* TutorialOverlay */ = {
 			isa = PBXGroup;
 			children = (
@@ -1850,7 +1890,6 @@
 				533994502914214A00560F83 /* PollViewController.swift */,
 				53B1583E293E65000026E90B /* EmoticonPickerViewController.swift */,
 				BFE23A652B4DF1A800A34684 /* EmojiCell.swift */,
-				14A2AF9D2B6928C50052B599 /* ComposerViewController.swift */,
 			);
 			path = Composer;
 			sourceTree = "<group>";
@@ -2822,6 +2861,7 @@
 		C354D6012A0D1ADE00F8AC04 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				14D7AFB02B6A81F300C6C81A /* ReactHelpers */,
 				C3D3C47B2A335D4E007B31EE /* Extensions */,
 				53450E4C2936127C00D720EA /* ObjectMapper */,
 				C3C997802A49A3000079457D /* Protocols */,
@@ -3777,6 +3817,7 @@
 				662B61132A4A1FB500CB331F /* AbbreviatedNumberFormatter.swift in Sources */,
 				533996F82914227A00560F83 /* TrendsCell.swift in Sources */,
 				533996E32914227A00560F83 /* ProfileCell.swift in Sources */,
+				14D7AFC02B6A820000C6C81A /* RCCCustomTitleView.m in Sources */,
 				533996EE2914227A00560F83 /* UserCell.swift in Sources */,
 				534118522954B26D00696DDA /* EmailVerificationViewController.swift in Sources */,
 				C3DE20812A40C50300B07B24 /* AccountCacher.swift in Sources */,
@@ -3799,6 +3840,7 @@
 				53399A61291526B900560F83 /* Mutes.swift in Sources */,
 				53399A77291526B900560F83 /* Request.swift in Sources */,
 				53450E7A2936127C00D720EA /* DateFormatterTransform.swift in Sources */,
+				14D7AFBE2B6A820000C6C81A /* NavigatorRegistry.swift in Sources */,
 				538E230229CC5815002675EB /* AccountsManager.swift in Sources */,
 				146C6A472B48113500A002D7 /* String+StripEmojis.swift in Sources */,
 				1441736D2B2B1FDA0058AFCC /* SDImageTransformers.swift in Sources */,
@@ -3859,6 +3901,7 @@
 				662B60D32A4A1E8600CB331F /* Actor.swift in Sources */,
 				66D091E92A53625F00291B8D /* UIView+Layout.swift in Sources */,
 				BF33A0F22AA7E9740008D9DF /* NetworkMonitor.swift in Sources */,
+				14D7AFAF2B6A53F600C6C81A /* ReactBridge.swift in Sources */,
 				53450E3D2936121600D720EA /* GiphyUser.swift in Sources */,
 				533996462914227A00560F83 /* ColumnFlowLayout.swift in Sources */,
 				BF32F9DB2A3CB64400AE4291 /* NewPostButton.swift in Sources */,
@@ -3877,6 +3920,7 @@
 				BF193DCA2AC4E09000D0F6F7 /* StaticPic.swift in Sources */,
 				5339968B2914227A00560F83 /* Disk.swift in Sources */,
 				538E230029CB462A002675EB /* WebFinger.swift in Sources */,
+				14D7AFC12B6A820000C6C81A /* NavigationEventEmitter.m in Sources */,
 				1450CE032ADD4FC300C91923 /* ListService.swift in Sources */,
 				662B60E32A4A1EFC00CB331F /* BlueskyAPI+Actor.swift in Sources */,
 				533996EC2914227A00560F83 /* CollectionImageCell.swift in Sources */,
@@ -3925,6 +3969,7 @@
 				C3FD24EC2A45DC3100AAAFE4 /* EmptyFeedCell.swift in Sources */,
 				BF57C4072AE9C7D600D11485 /* StatusSourceType.swift in Sources */,
 				533996DF2914227A00560F83 /* UIImage+CropRotate.m in Sources */,
+				14D7AFBD2B6A820000C6C81A /* UIColor+Hex.m in Sources */,
 				53450E402936121600D720EA /* GiphySimpleSingleGIFResponse.swift in Sources */,
 				C3BBEEDF2A97577C0027C761 /* Carousel.swift in Sources */,
 				5339968F2914227A00560F83 /* Disk+Errors.swift in Sources */,
@@ -4123,7 +4168,6 @@
 				88330AC429F09BA40019AA62 /* MAMenu.swift in Sources */,
 				C3C22E782A39F53E00C7CB0A /* UserCardTypes.swift in Sources */,
 				53399A65291526B900560F83 /* Login.swift in Sources */,
-				14A2AF9E2B6928C50052B599 /* ComposerViewController.swift in Sources */,
 				BF32F9D72A3A843300AE4291 /* Jumpable.swift in Sources */,
 				C349A9632A0ED42000E65D74 /* ClientService.swift in Sources */,
 				BF193DC82AC4DF6A00D0F6F7 /* HashtagCell.swift in Sources */,
@@ -4191,6 +4235,7 @@
 				53399A5C291526B900560F83 /* Account.swift in Sources */,
 				5339964A2914227A00560F83 /* BiometricAuthenticationConstants.swift in Sources */,
 				53450E442936121600D720EA /* CornerRoundingMaskView.swift in Sources */,
+				14D7AFC22B6A820000C6C81A /* ReactViewController.swift in Sources */,
 				533996F02914227A00560F83 /* ProfileNoteCell.swift in Sources */,
 				C316428D2A27584D00DCB4A3 /* PostCardLinkPreview.swift in Sources */,
 				BFB396552A3243890014D0DA /* AuxColumnViewController.swift in Sources */,
@@ -4262,6 +4307,7 @@
 				53399A3B291526B900560F83 /* Data.swift in Sources */,
 				53399A4B291526B900560F83 /* CardType.swift in Sources */,
 				662B60CF2A4A1E8600CB331F /* Model.swift in Sources */,
+				14D7AFBF2B6A820000C6C81A /* NavigatorModule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

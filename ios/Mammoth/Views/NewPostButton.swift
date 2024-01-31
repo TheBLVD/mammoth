@@ -45,8 +45,6 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
     
     private var areColorsInverted = DeviceHelpers.isiOSAppOnMac()
     
-    private let composeViewController = ComposeViewController()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = areColorsInverted ? .custom.active : .custom.blurredOVRLYHigh
@@ -223,16 +221,21 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
     }
     
     @objc func longPressedNB(sender: UILongPressGestureRecognizer) {
-        guard sender.state == .began else {
-            return
-        }
+        guard sender.state == .began else { return }
         
         triggerHaptic3Impact()
         
-        self.composeViewController.isModalInPresentation = true
-        if !self.composeViewController.isBeingPresented {
-            getTopMostViewController()?.present(self.composeViewController, animated: true, completion: nil)
+        let currentAccount: MastodonAcctData = AccountsManager.shared.currentAccount as! MastodonAcctData
+        let jsonEncoder = JSONEncoder()
+        if let jsonData = try? jsonEncoder.encode(currentAccount),
+            let json = String(data: jsonData, encoding: String.Encoding.utf8) {
+            let composer = ReactViewController(moduleName: "Composer", initialProperties: ["current": json])
+            let composerNav = UINavigationController(rootViewController: composer)
+            composerNav.modalPresentationStyle = .automatic
+            getTopMostViewController()?.present(composerNav, animated: true, completion: nil)
         }
+        
+        
         
 //        guard sender.state == .began else {
 //            return

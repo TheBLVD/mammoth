@@ -80,6 +80,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         RealtimeManager.shared.prepareForUse()
         IAPManager.shared.prepareForUse()
         
+        let _ = ReactViewController(moduleName: "Composer", initialProperties: nil)
+        
         Task {
             try await AccountsManager.shared.prepareForUse()
             await MainActor.run {

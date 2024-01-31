@@ -1,6 +1,9 @@
 Mammoth.xcodeproj/project.xcworkspace/xcuserdata/
 Mammoth.xcodeproj/project.xcworkspace/xcshareddata/
 Mammoth.xcodeproj/xcuserdata/
+
+Mammoth.xcworkspace
+
 ArkanaKeys
 .env
 node_modules
