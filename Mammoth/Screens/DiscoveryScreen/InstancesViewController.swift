@@ -65,6 +65,15 @@ class InstancesViewController: UIViewController, UITableViewDataSourcePrefetchin
                                                object: nil)
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+       super.traitCollectionDidChange(previousTraitCollection)
+        if #available(iOS 13.0, *) {
+            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                tableView.backgroundColor = .custom.background
+            }
+        }
+   }
+
 }
 
 // MARK: UI Setup

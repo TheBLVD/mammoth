@@ -106,7 +106,13 @@ extension PostCardHeaderExtension {
     
     func onThemeChange() {
         self.titleLabel.textColor = .custom.feintContrast
+        self.titleLabel.backgroundColor = .custom.background
     }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+       super.traitCollectionDidChange(previousTraitCollection)
+       onThemeChange()
+   }
 }
 
 // MARK: - Handlers

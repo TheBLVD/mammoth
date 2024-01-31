@@ -15,7 +15,6 @@ class SelectionCell: UITableViewCell {
         let backgroundButton = UIButton()
         backgroundButton.translatesAutoresizingMaskIntoConstraints = true
         backgroundButton.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        backgroundButton.backgroundColor = .custom.quoteTint
         backgroundButton.showsMenuAsPrimaryAction = true
         backgroundButton.backgroundColor = .clear
         return backgroundButton
@@ -36,4 +35,18 @@ class SelectionCell: UITableViewCell {
     }
     
 }
+
+// MARK: Appearance changes
+internal extension SelectionCell {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.backgroundColor = .custom.OVRLYSoftContrast
+             }
+         }
+    }
+}
+
 

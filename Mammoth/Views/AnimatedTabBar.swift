@@ -232,6 +232,20 @@ class AnimatedTabBarView : UIView {
     }
 }
 
+// MARK: Appearance changes
+internal extension AnimatedTabBarView {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.selectionPill.backgroundColor = .custom.OVRLYMedContrast
+             }
+         }
+    }
+}
+
+
 class AnimatedTabBarItem: UIButton {
     private let itemTitle: String
     let unreadDot: UIView = {
@@ -320,6 +334,20 @@ class AnimatedTabBarItem: UIButton {
         return biggerFrame.contains(point)
     }
 
+}
+
+internal extension AnimatedTabBarItem {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.tintColor = .custom.mediumContrast
+                 self.setTitleColor(.custom.mediumContrast, for: .normal)
+                 self.unreadDot.backgroundColor = .custom.mediumContrast
+             }
+         }
+    }
 }
 
 fileprivate extension UIButton {

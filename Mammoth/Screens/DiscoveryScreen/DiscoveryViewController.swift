@@ -98,8 +98,19 @@ class DiscoveryViewController: UIViewController {
     }
     
     @objc private func onThemeChange() {
+        self.tableView.backgroundColor = .custom.background
         self.tableView.reloadData()
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+       super.traitCollectionDidChange(previousTraitCollection)
+        if #available(iOS 13.0, *) {
+            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                self.onThemeChange()
+            }
+        }
+   }
+
 }
 
 // MARK: UI Setup

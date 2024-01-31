@@ -64,7 +64,7 @@ class BlurredBackground: UIView {
         super.traitCollectionDidChange(previousTraitCollection)
         
          if #available(iOS 13.0, *) {
-             if (traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection)) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                  if (self.traitCollection.userInterfaceStyle == .light) {
                      underlay.backgroundColor = .custom.background.darker(by: 0.65)?.withAlphaComponent(self.isDimmed ? 0.75 : 0.35)
                  } else {

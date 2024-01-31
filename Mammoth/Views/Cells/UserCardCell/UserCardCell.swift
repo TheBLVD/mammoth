@@ -69,7 +69,7 @@ final class UserCardCell: UITableViewCell {
 
     private var userTagLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.custom.feintContrast
+        label.textColor = .custom.feintContrast
         return label
     }()
 
@@ -263,7 +263,20 @@ extension UserCardCell {
         self.onThemeChange()
     }
     
-    func onThemeChange() {}
+    func onThemeChange() {
+        contentView.backgroundColor = .custom.background
+        titleLabel.textColor = .custom.highContrast
+        userTagLabel.textColor = .custom.feintContrast
+        descriptionLabel.textColor = .custom.mediumContrast
+        self.descriptionLabel.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]        
+        self.descriptionLabel.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+    }
 }
 
 // MARK: Appearance changes
@@ -272,7 +285,7 @@ internal extension UserCardCell {
         super.traitCollectionDidChange(previousTraitCollection)
         
          if #available(iOS 13.0, *) {
-             if (traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection)) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                  self.onThemeChange()
              }
          }

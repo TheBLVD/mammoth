@@ -233,11 +233,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.overrideUserInterfaceStyle = .unspecified
         } else if GlobalStruct.overrideTheme == 1 {
             UIApplication.shared.statusBarStyle = .darkContent
-            window?.overrideUserInterfaceStyle = .light
+            self.window?.overrideUserInterfaceStyle = .light
         } else {
             UIApplication.shared.statusBarStyle = .lightContent
-            window?.overrideUserInterfaceStyle = .dark
+            self.window?.overrideUserInterfaceStyle = .dark
         }
+        
+        if #available(iOS 17.0, *) {
+            var themeContrast: ThemeContrast
+            if GlobalStruct.overrideThemeHighContrast {
+                themeContrast = ThemeContrast.highContrast
+            } else {
+                themeContrast = ThemeContrast.standard
+            }
+            
+            self.window?.windowScene?.traitOverrides.themeContrast = themeContrast
+        }
+
     }
     
     func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {

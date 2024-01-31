@@ -139,7 +139,7 @@ class PostCardHeader: UIView {
     
     private var status: Status?
     private var postCard: PostCardModel?
-    private var type: PostCardHeaderTypes = .regular
+    private var headerType: PostCardHeaderTypes = .regular
     public var onPress: PostCardButtonCallback?
     
     private var subscription: Cancellable?
@@ -238,6 +238,7 @@ private extension PostCardHeader {
 extension PostCardHeader {
     func configure(postCard: PostCardModel, headerType: PostCardHeaderTypes = .regular, isVerticallyCentered: Bool = false) {
         self.postCard = postCard
+        self.headerType = headerType
 
         if case .mastodon(let status) = postCard.data {
             self.status = status
@@ -305,20 +306,7 @@ extension PostCardHeader {
             self.profilePic!.isHidden = true
         }
         
-        if GlobalStruct.displayName == .usertagOnly {
-            let text = headerType == .detail ? postCard.fullUserTag.lowercased() : postCard.userTag.lowercased()
-            let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
-            self.titleLabel.configure(content: content)
-        } else {
-            if let metaContent = postCard.user?.metaName {
-                self.titleLabel.configure(content: metaContent)
-            } else {
-                let text = postCard.user?.name ?? ""
-                let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
-                self.titleLabel.configure(content: content)
-            }
-        }
-        
+        self.configureMetaTextContent()
         
         self.userTagLabel.text = headerType == .detail ? postCard.fullUserTag.lowercased() : postCard.userTag.lowercased()
         self.dateLabel.text = postCard.time
@@ -359,10 +347,42 @@ extension PostCardHeader {
         }
     }
     
+    func configureMetaTextContent() {
+        if GlobalStruct.displayName == .usertagOnly {
+            let text = headerType == .detail ? postCard!.fullUserTag.lowercased() : postCard!.userTag.lowercased()
+            let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
+            self.titleLabel.configure(content: content)
+        } else {
+            if let metaContent = postCard!.user?.metaName {
+                self.titleLabel.configure(content: metaContent)
+            } else {
+                let text = postCard!.user?.name ?? ""
+                let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
+                self.titleLabel.configure(content: content)
+            }
+        }
+    }
+    
     func onThemeChange() {
         self.profilePic?.onThemeChange()
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Update all items that use .custom colors
+        configureMetaTextContent()
+        self.backgroundColor = .custom.background
+        titleLabel.textColor = .custom.displayNames
+        titleLabel.backgroundColor = .custom.background
+        let config = UIImage.SymbolConfiguration(pointSize: GlobalStruct.smallerFontSize, weight: .light)
+        pinIcon.image = UIImage(systemName: "pin.fill", withConfiguration: config)?.withTintColor(.custom.feintContrast, renderingMode: .alwaysTemplate)
+        pinIcon.tintColor = .custom.feintContrast
+        userTagLabel.textColor = .custom.feintContrast
+        userTagLabel.backgroundColor = .custom.background
+        dateLabel.textColor = .custom.feintContrast
+        dateLabel.backgroundColor = .custom.background
+        setupUIFromSettings()
+    }
     
     func startTimeUpdates() {
         if let createdAt = self.postCard?.createdAt {

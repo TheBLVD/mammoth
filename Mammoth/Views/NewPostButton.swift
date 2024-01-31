@@ -248,3 +248,17 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
     }
 
 }
+
+// MARK: Appearance changes
+internal extension NewPostButton {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.backgroundColor = areColorsInverted ? .custom.active : .custom.blurredOVRLYHigh
+                 updateNewPostButtonImage()
+             }
+         }
+    }
+}

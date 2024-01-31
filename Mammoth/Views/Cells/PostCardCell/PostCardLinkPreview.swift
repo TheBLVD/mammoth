@@ -198,7 +198,15 @@ extension PostCardLinkPreview {
     func onThemeChange() {
         self.mainStackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
         self.urlLabel.textColor = .custom.actionButtons
+        self.urlLabel.backgroundColor = .custom.background
+        self.titleLabel.backgroundColor = .custom.background
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+       super.traitCollectionDidChange(previousTraitCollection)
+       onThemeChange()
+   }
+
 }
 
 // MARK: - Handlers

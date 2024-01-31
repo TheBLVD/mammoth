@@ -27,3 +27,19 @@ class ThinSlider: UISlider {
         return CGRect(origin: point, size: CGSize(width: bounds.width, height: 1))
     }
 }
+
+// MARK: Appearance changes
+internal extension ThinSlider {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.tintColor = .custom.baseTint
+                 self.minimumTrackTintColor = .custom.feintContrast
+                 self.maximumTrackTintColor = .custom.feintContrast
+             }
+         }
+    }
+}
+

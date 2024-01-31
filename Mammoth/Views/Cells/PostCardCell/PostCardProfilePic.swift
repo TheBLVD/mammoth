@@ -202,6 +202,15 @@ extension PostCardProfilePic {
         }
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Update all items that use .custom colors
+        self.backgroundColor = .custom.background
+        profileImageView.backgroundColor = .custom.background
+        profileImageView.layer.backgroundColor = UIColor.custom.background.cgColor
+        badgeIconView.tintColor = .custom.linkText
+    }    
+    
     @objc func profileTapped() {
         if let user = user {
             self.onPress?(.profile, true, .user(user))
