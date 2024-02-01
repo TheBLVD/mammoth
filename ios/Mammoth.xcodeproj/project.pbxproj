@@ -12,6 +12,7 @@
 		1441736D2B2B1FDA0058AFCC /* SDImageTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */; };
 		1441736F2B2C6C600058AFCC /* UIImageView+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */; };
 		1441C0342B63EE5A00AFEE39 /* String+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1441C0332B63EE5A00AFEE39 /* String+Helpers.swift */; };
+		144CF93D2B6BA19A000CD6DB /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 144CF93B2B6BA199000CD6DB /* UIColor+Hex.m */; };
 		144DC6C32B14AA7300F4EE98 /* UpgradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C22B14AA7300F4EE98 /* UpgradeCell.swift */; };
 		144DC6C52B14E1D200F4EE98 /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C42B14E1D200F4EE98 /* GradientLabel.swift */; };
 		144DC6C72B14E20200F4EE98 /* GradientBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C62B14E20200F4EE98 /* GradientBorderView.swift */; };
@@ -144,7 +145,6 @@
 		14C45DF02B1A4266000171A9 /* Pride.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DED2B1A4266000171A9 /* Pride.png */; };
 		14C45DF12B1A4266000171A9 /* Pride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEE2B1A4266000171A9 /* Pride@2x.png */; };
 		14D7AFAF2B6A53F600C6C81A /* ReactBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFAE2B6A53F600C6C81A /* ReactBridge.swift */; };
-		14D7AFBD2B6A820000C6C81A /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFB42B6A820000C6C81A /* UIColor+Hex.m */; };
 		14D7AFBE2B6A820000C6C81A /* NavigatorRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFB52B6A820000C6C81A /* NavigatorRegistry.swift */; };
 		14D7AFBF2B6A820000C6C81A /* NavigatorModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFB62B6A820000C6C81A /* NavigatorModule.m */; };
 		14D7AFC02B6A820000C6C81A /* RCCCustomTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D7AFB92B6A820000C6C81A /* RCCCustomTitleView.m */; };
@@ -834,6 +834,8 @@
 		1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDImageTransformers.swift; sourceTree = "<group>"; };
 		1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Caching.swift"; sourceTree = "<group>"; };
 		1441C0332B63EE5A00AFEE39 /* String+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Helpers.swift"; sourceTree = "<group>"; };
+		144CF93B2B6BA199000CD6DB /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
+		144CF93C2B6BA19A000CD6DB /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
 		144DC6C22B14AA7300F4EE98 /* UpgradeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeCell.swift; sourceTree = "<group>"; };
 		144DC6C42B14E1D200F4EE98 /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
 		144DC6C62B14E20200F4EE98 /* GradientBorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBorderView.swift; sourceTree = "<group>"; };
@@ -966,11 +968,9 @@
 		14C45DEE2B1A4266000171A9 /* Pride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@2x.png"; sourceTree = "<group>"; };
 		14D7AFAE2B6A53F600C6C81A /* ReactBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactBridge.swift; sourceTree = "<group>"; };
 		14D7AFB32B6A820000C6C81A /* RCCCustomTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCCCustomTitleView.h; sourceTree = "<group>"; };
-		14D7AFB42B6A820000C6C81A /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		14D7AFB52B6A820000C6C81A /* NavigatorRegistry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigatorRegistry.swift; sourceTree = "<group>"; };
 		14D7AFB62B6A820000C6C81A /* NavigatorModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigatorModule.m; sourceTree = "<group>"; };
 		14D7AFB72B6A820000C6C81A /* NavigationEventEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavigationEventEmitter.h; sourceTree = "<group>"; };
-		14D7AFB82B6A820000C6C81A /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
 		14D7AFB92B6A820000C6C81A /* RCCCustomTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCCustomTitleView.m; sourceTree = "<group>"; };
 		14D7AFBA2B6A820000C6C81A /* NavigationEventEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationEventEmitter.m; sourceTree = "<group>"; };
 		14D7AFBB2B6A820000C6C81A /* ReactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactViewController.swift; sourceTree = "<group>"; };
@@ -1739,8 +1739,8 @@
 				14D7AFB92B6A820000C6C81A /* RCCCustomTitleView.m */,
 				14D7AFAE2B6A53F600C6C81A /* ReactBridge.swift */,
 				14D7AFBB2B6A820000C6C81A /* ReactViewController.swift */,
-				14D7AFB82B6A820000C6C81A /* UIColor+Hex.h */,
-				14D7AFB42B6A820000C6C81A /* UIColor+Hex.m */,
+				144CF93C2B6BA19A000CD6DB /* UIColor+Hex.h */,
+				144CF93B2B6BA199000CD6DB /* UIColor+Hex.m */,
 			);
 			path = NativeNavigationLibrary;
 			sourceTree = "<group>";
@@ -3925,6 +3925,7 @@
 				662B60E32A4A1EFC00CB331F /* BlueskyAPI+Actor.swift in Sources */,
 				533996EC2914227A00560F83 /* CollectionImageCell.swift in Sources */,
 				53399A7F29152EF100560F83 /* SignInInstanceCell.swift in Sources */,
+				144CF93D2B6BA19A000CD6DB /* UIColor+Hex.m in Sources */,
 				53399A71291526B900560F83 /* DomainBlocks.swift in Sources */,
 				53450E762936127C00D720EA /* IntegerOperators.swift in Sources */,
 				53399A50291526B900560F83 /* List.swift in Sources */,
@@ -3969,7 +3970,6 @@
 				C3FD24EC2A45DC3100AAAFE4 /* EmptyFeedCell.swift in Sources */,
 				BF57C4072AE9C7D600D11485 /* StatusSourceType.swift in Sources */,
 				533996DF2914227A00560F83 /* UIImage+CropRotate.m in Sources */,
-				14D7AFBD2B6A820000C6C81A /* UIColor+Hex.m in Sources */,
 				53450E402936121600D720EA /* GiphySimpleSingleGIFResponse.swift in Sources */,
 				C3BBEEDF2A97577C0027C761 /* Carousel.swift in Sources */,
 				5339968F2914227A00560F83 /* Disk+Errors.swift in Sources */,

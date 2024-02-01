@@ -1,0 +1,71 @@
+{
+  "search.exclude": {
+    "**/node_modules": false
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true,
+    "**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "**/*.js.map": true,
+    "**/node_modules": false
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true
+  },
+  "debug.node.autoAttach": "off",
+
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "never"
+  },
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "never"
+    }
+  },
+  "[javascriptreact]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "[typescriptreact]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "javascript.format.enable": false,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "git.ignoreLimitWarning": true,
+  "java.configuration.updateBuildConfiguration": "disabled",
+  "git.branchProtection": [
+    "main",
+  ],
+  "[javascriptreact][typescript][typescriptreact]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+}

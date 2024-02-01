@@ -14,3 +14,4 @@
 #import <React/RCTConvert.h>
 #import "NavigationEventEmitter.h"
 #import "RCCCustomTitleView.h"
+#import "UIColor+Hex.h"
