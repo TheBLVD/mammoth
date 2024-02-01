@@ -1,6 +1,0 @@
-framework module Pods_Mammoth_MammothTests {
-  umbrella header "Pods-Mammoth-MammothTests-umbrella.h"
-
-  export *
-  module * { export * }
-}
