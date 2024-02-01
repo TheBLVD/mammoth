@@ -284,3 +284,17 @@ extension DiscoverSuggestionsViewController: JumpToNewest {
         self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
 }
+
+// MARK: Appearance changes
+internal extension DiscoverSuggestionsViewController {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 tableView.backgroundColor = .custom.background
+                 tableView.reloadData()
+             }
+         }
+    }
+}

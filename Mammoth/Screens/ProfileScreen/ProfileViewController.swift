@@ -251,10 +251,7 @@ internal extension ProfileViewController {
         
          if #available(iOS 13.0, *) {
              if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                 self.titleView.onThemeChange()
-                 self.header.onThemeChange()
-                 self.coverImage.onThemeChange()
-                 self.settingsButton?.onThemeChange()
+                 self.reloadAll()
                  
                  let maxOffset = navigationBarAnimationThreshold - self.tableView.safeAreaInsets.top
                  if self.tableView.contentOffset.y < maxOffset {
