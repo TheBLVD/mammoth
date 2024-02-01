@@ -12,17 +12,34 @@ The Mammoth Team
 **Requirements:**
 
 - Ruby 3.1+
-- Node.js 16+
+- Node.js 20.10.+
 - Xcode 13+
 - Swift 5+
+- Yarn 1.22+
 
 1. Clone the repo
 1. Copy the `sample.env` to `.env`
-1. Run `bundle install` to get the needed gems
-1. From the root of the application still run `bin/arkana` This will generated
+1. Run `yarn` to install dependencies
+1. From the [ios](./ios) directory run `bundle install` to get the needed gems
+1. From the [ios](./ios) directory run `bin/arkana` This will generated
    the needed 'ArkanaKeys' package that is a local swift package dependency.
+1. From the [ios](./ios) directory install Cocoapods dependencies
+    - For Apple Silicon: `USE_FRAMEWORKS=static RCT_NEW_ARCH_ENABLED=1 arch -x86_64 bundle exec pod install`
+    - For Intel Mac: `USE_FRAMEWORKS=static RCT_NEW_ARCH_ENABLED=1 bundle exec pod install`
+
+**Run on iOS/iPadOS/MacOS**
+
+1. Start the Metro packager by running `yarn start` from the root directory
+1. Open `Mammoth.xcworkspace` in the [ios](./ios) directory and run the `Mastodon` target
+
 
 **Troubleshooting**
+
+- If you're not running Node.js version 20.10.+ (`node --version`), use [nvm](https://github.com/nvm-sh/nvm) to install the correct Node.js version.
+    - Install [nvm](https://github.com/nvm-sh/nvm) using Homebrew: `brew install nvm `
+    - Download Node.js v20.10.0: `nvm install 20.10.0`
+    - Use Node.js v20.10.0: `nvm use 20.10.0`
+    - Check if you're using the right Node.js version: `node --version`
 
 - If you run `bin/arkana` and see the following, it can't find a valid `.env`
   file. Make sure you've copied the provided sample correctly and that it is in
@@ -34,7 +51,7 @@ The Mammoth Team
   the repo.
   ![XcodeArkanaBuildError](https://github.com/TheBLVD/mammoth-app/assets/76360/ec0fd8a9-285f-41dd-817d-60fc41d94e54)
 
-- If you run `bin/arckan` and see the following:
+- If you run `bin/arkana` and see the following:
 
 ```sh
 /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin22/rbconfig.rb:21: warning: Insecure world writable dir /usr/local/bin in PATH, mode 040777
