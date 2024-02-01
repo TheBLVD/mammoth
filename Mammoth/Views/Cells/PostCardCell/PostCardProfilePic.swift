@@ -69,7 +69,6 @@ final class PostCardProfilePic: UIButton {
         imageView.isUserInteractionEnabled = true
         imageView.layer.isOpaque = true
         imageView.layer.masksToBounds = true
-        imageView.layer.backgroundColor = UIColor.custom.background.cgColor
         return imageView
     }()
     
@@ -93,6 +92,7 @@ final class PostCardProfilePic: UIButton {
     }()
         
     private var user: UserCardModel?
+    private var isPrivateMention: Bool = false
     private var size: ProfilePicSize = ProfilePicSize.regular
     public var onPress: PostCardButtonCallback?
     public var isContextMenuEnabled = true
@@ -161,8 +161,9 @@ private extension PostCardProfilePic {
 
 // MARK: - Configuration
 extension PostCardProfilePic {
-    func configure(user: UserCardModel, badgeIcon: UIImage? = nil) {
+    func configure(user: UserCardModel, badgeIcon: UIImage? = nil, isPrivateMention: Bool = false) {
         self.user = user
+        self.isPrivateMention = isPrivateMention
         
         if self.profileImageView.sd_currentImageURL?.absoluteString != user.imageURL {
             self.profileImageView.sd_cancelCurrentImageLoad()
@@ -188,6 +189,8 @@ extension PostCardProfilePic {
         } else {
             self.badge.isHidden = true
         }
+        
+        self.onThemeChange()
     }
     
     func optimisticUpdate(image: UIImage) {
@@ -195,21 +198,17 @@ extension PostCardProfilePic {
     }
     
     func onThemeChange() {
-        self.profileImageView.backgroundColor = .custom.OVRLYSoftContrast
-        
-        if let user = self.user {
-            self.configure(user: user)
-        }
+        let backgroundColor: UIColor = isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
+        self.profileImageView.backgroundColor = backgroundColor
+        self.backgroundColor = backgroundColor
+        profileImageView.layer.backgroundColor = backgroundColor.cgColor
+        badgeIconView.tintColor = .custom.linkText
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        // Update all items that use .custom colors
-        self.backgroundColor = .custom.background
-        profileImageView.backgroundColor = .custom.background
-        profileImageView.layer.backgroundColor = UIColor.custom.background.cgColor
-        badgeIconView.tintColor = .custom.linkText
-    }    
+        self.onThemeChange()
+    }
     
     @objc func profileTapped() {
         if let user = user {
