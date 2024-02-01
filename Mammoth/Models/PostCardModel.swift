@@ -668,7 +668,13 @@ final class PostCardModel {
         if self.preSyncData == nil {
             self.preSyncData = self.data
         }
-        // updating the data object so that computed properties 
+        
+        // bookmarked status is local authoritative only, so remote fetched data will always be wrong
+        if (self.isBookmarked) {
+            newStatus.bookmarked = true
+        }
+
+        // updating the data object so that computed properties
         // e.g. likesCount is getting updated
         if self.isReblogged {
             if case .mastodon(let status) = data {
