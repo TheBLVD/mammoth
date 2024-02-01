@@ -673,6 +673,11 @@ final class PostCardModel {
         if (self.isBookmarked) {
             newStatus.bookmarked = true
         }
+        
+        // Same with if a toot has been liked outside the app, and hasLocalMetric() cannot override it
+        if (self.isLiked) {
+            newStatus.favourited = true
+        }
 
         // updating the data object so that computed properties
         // e.g. likesCount is getting updated
