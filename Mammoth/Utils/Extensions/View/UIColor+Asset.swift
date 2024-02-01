@@ -22,7 +22,7 @@ extension UIColor {
         static var actionButtons: UIColor { return UIColor.secondaryLabel.withAlphaComponent(0.4) }
         
         // Previously used around the app
-        static var appCol: UIColor { return appColorNamed("AppCol") }
+        static var appCol: UIColor { return UIColor(named: "AppCol")! }
         static var selectedCell: UIColor { return appColorNamed("selectedCell") }
         static var selectedFollowing: UIColor { return appColorNamed("selectedFollowing") }
         static var spinnerBG: UIColor { return appColorNamed("spinnerBG") }
