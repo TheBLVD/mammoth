@@ -1,7 +1,11 @@
 {
   "name": "mammoth-mobile",
   "version": "0.0.1",
+  "author": "TheBLVD, Inc.",
   "private": true,
+  "engines": {
+    "node": "20.10.*"
+  },
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -37,7 +41,13 @@
     "react-test-renderer": "18.2.0",
     "typescript": "^5.3.3"
   },
-  "engines": {
-    "node": ">=18"
+  "codegenConfig": {
+    "libraries": [
+      {
+        "name": "CustomModules",
+        "type": "modules",
+        "jsSrcsDir": "src/custom-modules/specs/"
+      }
+    ]
   }
 }
