@@ -13,6 +13,8 @@
 		1441736F2B2C6C600058AFCC /* UIImageView+Caching.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */; };
 		1441C0342B63EE5A00AFEE39 /* String+Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1441C0332B63EE5A00AFEE39 /* String+Helpers.swift */; };
 		144CF93D2B6BA19A000CD6DB /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 144CF93B2B6BA199000CD6DB /* UIColor+Hex.m */; };
+		144CF93F2B6BEEA2000CD6DB /* PostCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 144CF93E2B6BEEA2000CD6DB /* PostCardManager.m */; };
+		144CF9412B6BF337000CD6DB /* PostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144CF9402B6BF337000CD6DB /* PostCardView.swift */; };
 		144DC6C32B14AA7300F4EE98 /* UpgradeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C22B14AA7300F4EE98 /* UpgradeCell.swift */; };
 		144DC6C52B14E1D200F4EE98 /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C42B14E1D200F4EE98 /* GradientLabel.swift */; };
 		144DC6C72B14E20200F4EE98 /* GradientBorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144DC6C62B14E20200F4EE98 /* GradientBorderView.swift */; };
@@ -28,6 +30,8 @@
 		146C6A472B48113500A002D7 /* String+StripEmojis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C6A462B48113500A002D7 /* String+StripEmojis.swift */; };
 		14780F7B2AFBD6A700A7ECD9 /* RealtimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */; };
 		14780F812AFCEA7000A7ECD9 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 14780F802AFCEA7000A7ECD9 /* Reachability */; };
+		1493DE562B6D361800CB1611 /* MetaTextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493DE552B6D361800CB1611 /* MetaTextManager.m */; };
+		1493DE5C2B6D3E7100CB1611 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493DE5B2B6D3E7100CB1611 /* Helpers.swift */; };
 		149A682D2AD6A4E200E72A83 /* Mute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68282AD6A4E200E72A83 /* Mute.swift */; };
 		149A682F2AD6A4E200E72A83 /* mute.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 149A682B2AD6A4E200E72A83 /* mute.aiff */; };
 		149A68312AD6CE3700E72A83 /* AVManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68302AD6CE3700E72A83 /* AVManager.swift */; };
@@ -726,7 +730,7 @@
 		C382D2CA2AA617ED00688A83 /* BlurredBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = C382D2C92AA617ED00688A83 /* BlurredBackground.swift */; };
 		C382D2CC2AA6398F00688A83 /* ProfileBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C382D2CB2AA6398F00688A83 /* ProfileBackButton.swift */; };
 		C38B11142AAF1ED60077E053 /* ScrollUpIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38B11132AAF1ED60077E053 /* ScrollUpIndicator.swift */; };
-		C3A3DAC52A37592F00D275B6 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
+		C3A3DAC52A37592F00D275B6 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		C3A521F129FFCCD5008AA5D1 /* VideoProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A521F029FFCCD5008AA5D1 /* VideoProcessor.swift */; };
 		C3A834C52AB30BFF007E4A12 /* FeedEditorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A834C42AB30BFF007E4A12 /* FeedEditorCell.swift */; };
 		C3B5A5D82A30B9AD00427C73 /* PostCardQuotePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B5A5D72A30B9AD00427C73 /* PostCardQuotePost.swift */; };
@@ -836,6 +840,8 @@
 		1441C0332B63EE5A00AFEE39 /* String+Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Helpers.swift"; sourceTree = "<group>"; };
 		144CF93B2B6BA199000CD6DB /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		144CF93C2B6BA19A000CD6DB /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		144CF93E2B6BEEA2000CD6DB /* PostCardManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PostCardManager.m; sourceTree = "<group>"; };
+		144CF9402B6BF337000CD6DB /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardView.swift; sourceTree = "<group>"; };
 		144DC6C22B14AA7300F4EE98 /* UpgradeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeCell.swift; sourceTree = "<group>"; };
 		144DC6C42B14E1D200F4EE98 /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
 		144DC6C62B14E20200F4EE98 /* GradientBorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBorderView.swift; sourceTree = "<group>"; };
@@ -850,6 +856,8 @@
 		146C6A442B456EFB00A002D7 /* CarouselNavigationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselNavigationHeader.swift; sourceTree = "<group>"; };
 		146C6A462B48113500A002D7 /* String+StripEmojis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+StripEmojis.swift"; sourceTree = "<group>"; };
 		14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeManager.swift; sourceTree = "<group>"; };
+		1493DE552B6D361800CB1611 /* MetaTextManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MetaTextManager.m; sourceTree = "<group>"; };
+		1493DE5B2B6D3E7100CB1611 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		149A68232AD6A1FE00E72A83 /* Mute-master */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "Mute-master"; path = "../Mute-master"; sourceTree = "<group>"; };
 		149A68282AD6A4E200E72A83 /* Mute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mute.swift; sourceTree = "<group>"; };
 		149A682B2AD6A4E200E72A83 /* mute.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = mute.aiff; sourceTree = "<group>"; };
@@ -1711,6 +1719,24 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		1493DE572B6D39F000CB1611 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				1493DE582B6D3A1D00CB1611 /* MetaText */,
+				144CF93E2B6BEEA2000CD6DB /* PostCardManager.m */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		1493DE582B6D3A1D00CB1611 /* MetaText */ = {
+			isa = PBXGroup;
+			children = (
+				1493DE552B6D361800CB1611 /* MetaTextManager.m */,
+				1493DE5B2B6D3E7100CB1611 /* Helpers.swift */,
+			);
+			path = MetaText;
+			sourceTree = "<group>";
+		};
 		149A68242AD6A4BF00E72A83 /* Sound */ = {
 			isa = PBXGroup;
 			children = (
@@ -1723,6 +1749,7 @@
 		14D7AFB02B6A81F300C6C81A /* ReactHelpers */ = {
 			isa = PBXGroup;
 			children = (
+				1493DE572B6D39F000CB1611 /* Managers */,
 				14D7AFB12B6A820000C6C81A /* NativeNavigationLibrary */,
 			);
 			path = ReactHelpers;
@@ -3192,6 +3219,7 @@
 				C3B693C02A38748300E85927 /* PostCardProfilePic.swift */,
 				C3B5A5D72A30B9AD00427C73 /* PostCardQuotePost.swift */,
 				C311EACF2ACAE1DA005B5708 /* PostCardVideo.swift */,
+				144CF9402B6BF337000CD6DB /* PostCardView.swift */,
 			);
 			path = PostCardCell;
 			sourceTree = "<group>";
@@ -3380,9 +3408,9 @@
 				539F3A2A292282FE0090CD00 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				532F291329476916003C9FAD /* XCRemoteSwiftPackageReference "MessageKit" */,
 				532F291629476B29003C9FAD /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */,
-				662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
+				662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode" */,
 				88EFEB2B2AC23A3C0040228B /* XCRemoteSwiftPackageReference "Swift-JWT" */,
-				14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability.swift" */,
+				14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */,
 				144DC74E2B17698200F4EE98 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				144DC7E02B1773E400F4EE98 /* XCRemoteSwiftPackageReference "OpenSSL" */,
 				146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */,
@@ -3882,7 +3910,7 @@
 				BF57C4052AE9C64000D11485 /* StatusSource.swift in Sources */,
 				53399A4F291526B900560F83 /* Results.swift in Sources */,
 				BF492DAE29F1E04C004100B8 /* QuotePostMutedView.swift in Sources */,
-				C3A3DAC52A37592F00D275B6 /* BuildFile in Sources */,
+				C3A3DAC52A37592F00D275B6 /* (null) in Sources */,
 				C3BBEEE72A978E320027C761 /* CarouselFlowLayout.swift in Sources */,
 				5339963E2914227A00560F83 /* MultilineTextField.swift in Sources */,
 				5339947F2914214A00560F83 /* IconSettingsViewController.swift in Sources */,
@@ -3902,6 +3930,7 @@
 				66D091E92A53625F00291B8D /* UIView+Layout.swift in Sources */,
 				BF33A0F22AA7E9740008D9DF /* NetworkMonitor.swift in Sources */,
 				14D7AFAF2B6A53F600C6C81A /* ReactBridge.swift in Sources */,
+				144CF9412B6BF337000CD6DB /* PostCardView.swift in Sources */,
 				53450E3D2936121600D720EA /* GiphyUser.swift in Sources */,
 				533996462914227A00560F83 /* ColumnFlowLayout.swift in Sources */,
 				BF32F9DB2A3CB64400AE4291 /* NewPostButton.swift in Sources */,
@@ -3984,6 +4013,7 @@
 				BF073FB12A16A3EC00FF6EEF /* Suggestion.swift in Sources */,
 				BFE5A3072A02C7BD004CBD9F /* URL+Mastodon.swift in Sources */,
 				C376357C2A55974F0008DD21 /* NewsFeedListItem.swift in Sources */,
+				144CF93F2B6BEEA2000CD6DB /* PostCardManager.m in Sources */,
 				662B60E52A4A1EFC00CB331F /* BlueskyAPI+Notification.swift in Sources */,
 				C36DDAA72A1EA5FF00357964 /* TimelineService.swift in Sources */,
 				C3EE65A02AD43E91009489EE /* ModerationManager.swift in Sources */,
@@ -4017,6 +4047,7 @@
 				BF2451F42A4B3D6300B409D4 /* AcctHandler.swift in Sources */,
 				533996E72914227A00560F83 /* DetailCell.swift in Sources */,
 				BFDCBD182A9D5EEB00606234 /* ChannelsViewController.swift in Sources */,
+				1493DE5C2B6D3E7100CB1611 /* Helpers.swift in Sources */,
 				53399A46291526B900560F83 /* Attachment.swift in Sources */,
 				C33DC38D2AA203EC00B18AB1 /* ActivityCardModel.swift in Sources */,
 				53450E462936121600D720EA /* SwiftyGiphyCollectionViewCell.swift in Sources */,
@@ -4064,6 +4095,7 @@
 				BF6A77E92A533C85001727A9 /* AcctDataViewModel.swift in Sources */,
 				BF57C4032AE7130E00D11485 /* ServerUpdatedCell.swift in Sources */,
 				BF5F97F22A23E0C500014DF3 /* PostCardImageCollectionCell.swift in Sources */,
+				1493DE562B6D361800CB1611 /* MetaTextManager.m in Sources */,
 				144DC6CD2B174C2500F4EE98 /* IAPManager.swift in Sources */,
 				D8CA77612AB90D4000F49ECC /* ShareableViewController.swift in Sources */,
 				BF57C4012AE7130300D11485 /* ServerUpdatingCell.swift in Sources */,
@@ -4566,10 +4598,7 @@
 					"$(inherited)",
 					"-DRN_FABRIC_ENABLED",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -4645,10 +4674,7 @@
 					"$(inherited)",
 					"-DRN_FABRIC_ENABLED",
 				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
@@ -4987,7 +5013,7 @@
 				minimumVersion = 1.0.3;
 			};
 		};
-		14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability.swift" */ = {
+		14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
 			requirement = {
@@ -5035,7 +5061,7 @@
 				minimumVersion = 7.0.0;
 			};
 		};
-		662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
+		662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
 			requirement = {
@@ -5061,7 +5087,7 @@
 		};
 		14780F802AFCEA7000A7ECD9 /* Reachability */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability.swift" */;
+			package = 14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */;
 			productName = Reachability;
 		};
 		14A849FE2B4D75F20027C689 /* MetaTextKit */ = {
@@ -5095,7 +5121,7 @@
 		};
 		662B60EE2A4A1F6D00CB331F /* JWTDecode */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
+			package = 662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode" */;
 			productName = JWTDecode;
 		};
 		887B32952A0AC72A00EE7EE3 /* ArkanaKeys */ = {

@@ -3,6 +3,7 @@ import {NativeModules} from 'react-native';
 import {registerCustomButtons} from '../../_navigation/registerCustomButtons';
 import {LeftButton} from './components/LeftButton';
 import {RightButton} from './components/RightButton';
+
 const nativeNavigator = NativeModules.Navigator;
 
 export const useScreenRegister = (screenId: number) => {

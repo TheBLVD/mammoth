@@ -2,11 +2,20 @@ import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'stretch',
+    // flex: 1,
+    // justifyContent: 'center',
+    // alignItems: 'stretch',
     backgroundColor: '#151515',
     marginHorizontal: 16,
+  },
+  page: {
+    // flex: 1,
+  },
+  postCard: {
+    flex: 1,
+    marginLeft: 20,
+    marginTop: 20,
+    // height: 100,
   },
   reach: {
     color: '#fff',
@@ -49,8 +58,9 @@ export const styles = StyleSheet.create({
   richEditorContainer: {
     margin: 0,
     padding: 0,
-    marginLeft: 18,
+    marginLeft: 38,
     fontSize: 14,
+    height: 200,
   },
   avatar: {
     width: 36,
