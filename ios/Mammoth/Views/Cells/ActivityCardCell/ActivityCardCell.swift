@@ -238,6 +238,19 @@ final class ActivityCardCell: UITableViewCell {
         
         self.header.stopTimeUpdates()
     }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        guard let hitView = super.hitTest(point, with: event) else { return nil }
+        if let mediaGallery = self.mediaGallery,
+           self.activityCard?.postCard?.mediaDisplayType == .carousel,
+            mediaGallery.isHidden == false,
+            mediaGallery.alpha == 1 {
+            let convertedPoint = mediaGallery.convert(point, from: self)
+            return mediaGallery.hitTest(convertedPoint, with: event) ?? hitView
+        }
+        
+        return hitView
+    }
 }
 
 // MARK: - Setup UI
@@ -755,5 +768,18 @@ extension ActivityCardCell: MetaLabelDelegate {
                 self.onButtonPress?(.postDetails, true, .post(postCard))
             }
         }
+    }
+}
+
+// MARK: Appearance changes
+internal extension ActivityCardCell {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.setupUIFromSettings()
+             }
+         }
     }
 }

@@ -434,12 +434,16 @@ final class PostCardCell: UITableViewCell {
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        if let mediaGallery = self.mediaGallery, self.postCard?.mediaDisplayType == .carousel {
+        guard let hitView = super.hitTest(point, with: event) else { return nil }
+        if let mediaGallery = self.mediaGallery,
+            self.postCard?.mediaDisplayType == .carousel,
+            mediaGallery.isHidden == false,
+            mediaGallery.alpha == 1 {
             let convertedPoint = mediaGallery.convert(point, from: self)
-            return self.mediaGallery?.hitTest(convertedPoint, with: event) ?? super.hitTest(point, with: event)
+            return mediaGallery.hitTest(convertedPoint, with: event) ?? hitView
         }
         
-        return super.hitTest(point, with: event)
+        return hitView
     }
 }
 
@@ -691,7 +695,7 @@ extension PostCardCell {
         
         if let user = postCard.user, !postCard.isDeleted, !postCard.isMuted, !postCard.isBlocked {
             if case .hide(_) = postCard.filterType {} else {
-                self.profilePic.configure(user: user)
+                self.profilePic.configure(user: user, isPrivateMention: postCard.isPrivateMention)
                 self.profilePic.onPress = onButtonPress
             }
         }
@@ -714,36 +718,7 @@ extension PostCardCell {
             self.postTextView.backgroundColor = .custom.background
         }
         
-        
-        if self.cellVariant.hasText {
-            if self.postTextView.textContainer.maximumNumberOfLines != type.numberOfLines {
-                self.postTextView.textContainer.maximumNumberOfLines = type.numberOfLines
-            }
-            
-            if let postTextContent = postCard.metaPostText, !postTextContent.original.isEmpty {
-                self.postTextView.configure(content: postTextContent)
-                self.postTextView.isHidden = false
-                
-            } else if [.small, .hidden].contains(self.cellVariant.mediaVariant) {
-                // If there's no post text, but a media attachment,
-                // set the post text to either:
-                //  - ([type])
-                //  - ([type] description: [meta description])
-                if let type = postCard.mediaDisplayType.captializedDisplayName  {
-                    if let desc = postCard.mediaAttachments.first?.description {
-                        let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type) description: \(desc))", emojis: [:]))
-                        self.postTextView.configure(content: content)
-                        self.postTextView.isHidden = false
-                    } else {
-                        let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type))", emojis: [:]))
-                        self.postTextView.configure(content: content)
-                        self.postTextView.isHidden = false
-                    }
-                } else {
-                    self.postTextView.isHidden = true
-                }
-            }
-        }
+        self.configureMetaTextContent()
         
         if self.cellVariant.hasMedia {
             // Display poll if needed
@@ -865,6 +840,13 @@ extension PostCardCell {
             deletedWarningButton.setTitle("Muted author", for: .normal)
         }
         
+        // Hide media gallery (carousel) if covered with content warning / deleted overlay
+        if self.contentWarningButton.isHidden == false || self.deletedWarningButton.isHidden == false {
+            self.mediaGallery?.alpha = 0
+        } else {
+            self.mediaGallery?.alpha = 1
+        }
+        
         self.footer.configure(postCard: postCard, includeMetrics: false)
         self.footer.onButtonPress = onButtonPress
         
@@ -909,6 +891,38 @@ extension PostCardCell {
         }
         
         self.configureContraints()
+    }
+    
+    func configureMetaTextContent() {
+        if self.cellVariant.hasText {
+            if self.postTextView.textContainer.maximumNumberOfLines != type!.numberOfLines {
+                self.postTextView.textContainer.maximumNumberOfLines = type!.numberOfLines
+            }
+            
+            if let postTextContent = postCard?.metaPostText, !postTextContent.original.isEmpty {
+                self.postTextView.configure(content: postTextContent)
+                self.postTextView.isHidden = false
+                
+            } else if [.small, .hidden].contains(self.cellVariant.mediaVariant) {
+                // If there's no post text, but a media attachment,
+                // set the post text to either:
+                //  - ([type])
+                //  - ([type] description: [meta description])
+                if let type = postCard?.mediaDisplayType.captializedDisplayName  {
+                    if let desc = postCard?.mediaAttachments.first?.description {
+                        let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type) description: \(desc))", emojis: [:]))
+                        self.postTextView.configure(content: content)
+                        self.postTextView.isHidden = false
+                    } else {
+                        let content = MastodonMetaContent.convert(text: MastodonContent(content: "(\(type))", emojis: [:]))
+                        self.postTextView.configure(content: content)
+                        self.postTextView.isHidden = false
+                    }
+                } else {
+                    self.postTextView.isHidden = true
+                }
+            }
+        }
     }
     
     private func configureContraints() {
@@ -1102,9 +1116,11 @@ extension PostCardCell {
         if let postCard = self.postCard, postCard.isPrivateMention {
             self.backgroundColor = .custom.OVRLYSoftContrast
             self.contentView.backgroundColor = .custom.OVRLYSoftContrast
+            self.postTextView.backgroundColor = .custom.OVRLYSoftContrast
         } else {
             self.backgroundColor = .custom.background
             self.contentView.backgroundColor = .custom.background
+            self.postTextView.backgroundColor = .custom.background
         }
 
         self.postTextView.backgroundColor = self.contentView.backgroundColor
@@ -1117,6 +1133,19 @@ extension PostCardCell {
         self.footer.onThemeChange()
         self.footer.backgroundColor = self.contentView.backgroundColor
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Update all items that use .custom colors
+        contentWarningButton.backgroundColor = .custom.OVRLYSoftContrast
+        deletedWarningButton.backgroundColor = .custom.OVRLYSoftContrast
+        postTextView.textColor = .custom.mediumContrast
+        postTextView.backgroundColor = .custom.background
+        parentThread.backgroundColor = .custom.feintContrast
+        childThread.backgroundColor = .custom.feintContrast
+        setupUIFromSettings()
+        configureMetaTextContent()
+    }
 }
 
 // MARK: - Handlers
@@ -1127,6 +1156,7 @@ extension PostCardCell {
         self.contentWarningButton.isUserInteractionEnabled = false
         GlobalStruct.allCW.append(self.postCard?.id ?? "")
         self.postCard?.filterType = .none
+        self.mediaGallery?.alpha = 1
     }
 }
 

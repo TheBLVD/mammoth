@@ -29,6 +29,8 @@ private enum Item {
     case subscriptions
     case openSourceCredits
     
+    case openLinks
+    
     case appLock
     
     case clearData
@@ -46,6 +48,7 @@ private enum Item {
         case .getInTouch: return "Get in touch"
         case .subscriptions: return "Manage subscriptions"
         case .openSourceCredits: return "About"
+        case .openLinks: return "Open links in browser"
         case .appLock: return "App lock"
         case .clearData: return "Clear cache and data"
         }
@@ -64,6 +67,7 @@ private enum Item {
         case .getInTouch: return "\u{f0e0}"
         case .subscriptions: return "\u{f336}"
         case .openSourceCredits: return "\u{f15c}"
+        case .openLinks: return "\u{f08e}"
         case .appLock: return "\u{f023}"
         case .clearData: return "\u{f1f8}"
         }
@@ -115,6 +119,9 @@ class SettingsViewController: UIViewController {
                     .openSourceCredits,
                 ]),
                 Section(items: [
+                    .openLinks
+                ]),
+                Section(items: [
                     .appLock
                 ]),
                 Section(
@@ -140,6 +147,9 @@ class SettingsViewController: UIViewController {
                 Section(items: [
                     .getInTouch,
                     .openSourceCredits,
+                ]),
+                Section(items: [
+                    .openLinks
                 ]),
                 Section(items: [
                     .appLock
@@ -169,28 +179,16 @@ class SettingsViewController: UIViewController {
     }
     
     @objc func reloadAll() {
-        DispatchQueue.main.async {
-            let hcText = UserDefaults.standard.value(forKey: "hcText") as? Bool ?? true
-            if hcText == true {
-                UIColor.custom.mainTextColor = .label
-            } else {
-                UIColor.custom.mainTextColor = .secondaryLabel
-            }
-            self.tableView.reloadData()
-            
-            // update various elements
-            self.view.backgroundColor = .custom.backgroundTint
-        }
-    }
-    
-    @objc func overrideTheme() {
-        if GlobalStruct.overrideTheme == 1 {
-            self.navigationController?.overrideUserInterfaceStyle = .light
-        } else if GlobalStruct.overrideTheme == 2 {
-            self.navigationController?.overrideUserInterfaceStyle = .dark
+        let hcText = UserDefaults.standard.value(forKey: "hcText") as? Bool ?? true
+        if hcText == true {
+            UIColor.custom.mainTextColor = .label
         } else {
-            self.navigationController?.overrideUserInterfaceStyle = .unspecified
+            UIColor.custom.mainTextColor = .secondaryLabel
         }
+        self.tableView.reloadData()
+        
+        // update various elements
+        self.view.backgroundColor = .custom.backgroundTint
     }
     
     var tempScrollPosition: CGFloat = 0
@@ -249,15 +247,6 @@ class SettingsViewController: UIViewController {
         self.view.backgroundColor = .custom.backgroundTint
         self.navigationItem.title = "Settings"
         
-        if GlobalStruct.overrideTheme == 1 {
-            self.navigationController?.overrideUserInterfaceStyle = .light
-        } else if GlobalStruct.overrideTheme == 2 {
-            self.navigationController?.overrideUserInterfaceStyle = .dark
-        } else {
-            self.navigationController?.overrideUserInterfaceStyle = .unspecified
-        }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(self.overrideTheme), name: NSNotification.Name(rawValue: "overrideTheme"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadAll), name: NSNotification.Name(rawValue: "reloadAll"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollToTop), name: NSNotification.Name(rawValue: "scrollToTop9"), object: nil)
         
@@ -307,6 +296,16 @@ class SettingsViewController: UIViewController {
     @objc func dismissTap() {
         triggerHapticImpact(style: .light)
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func switchOpenLinks(_ sender: UISwitch) {
+        if sender.isOn {
+            GlobalStruct.openLinksInBrowser = true
+            UserDefaults.standard.set(true, forKey: "openLinksInBrowser")
+        } else {
+            GlobalStruct.openLinksInBrowser = false
+            UserDefaults.standard.set(false, forKey: "openLinksInBrowser")
+        }
     }
     
     @objc func switchAppLock(_ sender: UISwitch) {
@@ -362,7 +361,25 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.imageView?.image = nil
         }
         
-        if item == .appLock {
+        if item == .openLinks {
+            let switchView = UISwitch(frame: .zero)
+            if UserDefaults.standard.value(forKey: "openLinksInBrowser") as? Bool != nil {
+                if UserDefaults.standard.value(forKey: "openLinksInBrowser") as? Bool == false {
+                    switchView.setOn(false, animated: false)
+                } else {
+                    switchView.setOn(true, animated: false)
+                }
+            } else {
+                switchView.setOn(false, animated: false)
+            }
+            switchView.onTintColor = .custom.gold
+
+            switchView.addTarget(self, action: #selector(switchOpenLinks), for: .valueChanged)
+            cell.accessoryView = switchView
+            cell.accessoryType = .none
+            cell.selectionStyle = .none
+            cell.textLabel?.textAlignment = .left
+        } else if item == .appLock {
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "appLock") as? Bool != nil {
                 if UserDefaults.standard.value(forKey: "appLock") as? Bool == false {
@@ -532,9 +549,10 @@ internal extension SettingsViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         
          if #available(iOS 13.0, *) {
-             if (traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection)) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                  configureNavigationBarLayout(navigationController: self.navigationController, userInterfaceStyle: self.traitCollection.userInterfaceStyle)
              }
          }
+         self.reloadAll()
     }
 }

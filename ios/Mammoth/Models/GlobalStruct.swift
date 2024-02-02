@@ -106,6 +106,7 @@ public struct GlobalStruct {
     
     // app settings
     static var overrideTheme: Int = 0
+    static var overrideThemeHighContrast = false
     static var soundsEnabled: Bool = true
     static var hapticsEnabled: Bool = true
     static var actionAnimations: Bool = true
@@ -143,6 +144,7 @@ public struct GlobalStruct {
     static var hideNavBars: Bool = false
     static var hideNavBars2: Bool = false
     static var scrollDirectionDown: Bool = true
+    static var openLinksInBrowser: Bool = false
     static var appLock: Bool = false
     
     // composer

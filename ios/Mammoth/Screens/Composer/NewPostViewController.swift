@@ -1638,9 +1638,39 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        dismiss(animated: true, completion: nil)
-        guard !results.isEmpty else { return }
         
+        
+        // Only allow a single video, or multiple images;
+        // note that the 'if / else' structure here mirrors
+        // the code below.
+        var videoCount = 0
+        var imageCount = 0
+        for result in results {
+            if result.itemProvider.hasItemConformingToTypeIdentifier(kUTTypeGIF as String) {
+                videoCount = videoCount + 1
+            } else {
+                if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
+                    imageCount = imageCount + 1
+                }
+                if result.itemProvider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
+                    videoCount = videoCount + 1
+                }
+            }
+        }
+        let completion: (() -> Void)?
+        if (videoCount == 1 && imageCount == 0) || (videoCount == 0) {
+            // Valid selection
+            completion = nil
+        } else {
+            // Invalid selection
+            completion = {
+                self.mediaFailure(title: "Please try again", message: "You can upload 1 video or up to 4 images per post")
+            }
+        }
+        
+        dismiss(animated: true, completion: completion)
+        guard completion == nil else { return }
+
         // disable posting
         self.updatePostButton()
         
@@ -1841,7 +1871,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     @objc func customEmojiTapped() {
-        let vc = EmoticonPickerViewController()
+        let vc = EmoticonPickerViewController(emoticons: (self.currentAcct as? MastodonAcctData)?.emoticons)
         self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
     }
     
@@ -2065,7 +2095,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                         self.uploaded[index] = false
                         self.visibleImages -= 1
                         self.updatePostButton()
-                        self.mediaFailure(err.localizedDescription)
+                        self.mediaFailure(message: err.localizedDescription)
                     }
                 }
                 if let stat = (statuses.value) {
@@ -2122,7 +2152,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                     self.imageButton[0].setImage(UIImage(), for: .normal)
                     self.visibleImages -= 1
                     self.updatePostButton()
-                    self.mediaFailure(err.localizedDescription)
+                    self.mediaFailure(message: err.localizedDescription)
                 }
             }
             if let stat = (statuses.value) {
@@ -2190,7 +2220,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                         self.imageButton[0].setImage(UIImage(), for: .normal)
                         self.visibleImages = 0
                         self.updatePostButton()
-                        self.mediaFailure(err.localizedDescription)
+                        self.mediaFailure(message: err.localizedDescription)
                     }
                 }
                 if let stat = (statuses.value) {
@@ -2226,10 +2256,9 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    func mediaFailure(_ desc: String) {
-        let alert = UIAlertController(title: "Media failed to upload", message: "\(desc)", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
-            
+    func mediaFailure(title: String = "Media failed to upload", message: String) {
+        let alert = UIAlertController(title: title, message: "\(message)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Done", style: .cancel , handler:{ (UIAlertAction) in
         }))
         if let presenter = alert.popoverPresentationController {
             presenter.sourceView = getTopMostViewController()?.view

@@ -111,6 +111,14 @@ class Carousel: UIView {
             stackView.addArrangedSubview(contextButton)
         }
     }
+    
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Set everything that is using a custom color
+        collectionView.reloadData()
+    }
+
         
     override var intrinsicContentSize: CGSize {
         return UIView.layoutFittingExpandedSize

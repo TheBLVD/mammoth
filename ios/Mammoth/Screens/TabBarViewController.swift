@@ -305,9 +305,7 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
                                         if let error = statuses.error {
                                             log.error("Failed to search: \(error)")
                                             DispatchQueue.main.async {
-                                                if let y = URL(string: x) {
-                                                    PostActions.openLinks2(y, url2: x)
-                                                }
+                                                PostActions.openLinks2(x)
                                             }
                                         }
                                         if let stat = (statuses.value) {
@@ -331,9 +329,7 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
                                 if let error = statuses.error {
                                     log.error("Failed to search: \(error)")
                                     DispatchQueue.main.async {
-                                        if let y = URL(string: x) {
-                                            PostActions.openLinks2(y, url2: x)
-                                        }
+                                        PostActions.openLinks2(x)
                                     }
                                 }
                                 if let stat = (statuses.value) {
@@ -699,4 +695,21 @@ extension TabBarViewController: NewPostButtonDelegate {
         return !self.isOnDiscoverTab()
     }
     
+}
+
+// MARK: Appearance changes
+internal extension TabBarViewController {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.view.backgroundColor = .custom.background
+                 self.newContent1.backgroundColor = .custom.baseTint
+                 self.newContent2.backgroundColor = .custom.baseTint
+                 self.indActivity.backgroundColor = .custom.baseTint
+                 self.indActivity2.backgroundColor = .custom.baseTint
+             }
+         }
+    }
 }

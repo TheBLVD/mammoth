@@ -148,7 +148,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     func registerAccount(_ newInstance: InstanceData) {
         // test account stuff
-        let request = Accounts.registerAccount(username: self.usernameText, email: self.emailText, password: self.passwordText, agreement: true, locale: Locale.current.languageCode ?? "en")
+        let request = Accounts.registerAccount(username: self.usernameText, email: self.emailText, password: self.passwordText, agreement: true, locale: "en")
         GlobalStruct.newClient.run(request) { (statuses) in
             if let error = statuses.error {
                 DispatchQueue.main.async {

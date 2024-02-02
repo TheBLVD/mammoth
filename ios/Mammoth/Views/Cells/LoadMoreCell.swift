@@ -96,6 +96,19 @@ class LoadMoreCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+       super.traitCollectionDidChange(previousTraitCollection)
+       
+        if #available(iOS 13.0, *) {
+            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                self.contentView.backgroundColor = .custom.background
+                self.backgroundColor = .custom.background
+                titleLabel.textColor = .custom.mediumContrast
+                titleLabel.backgroundColor = .custom.background
+            }
+        }
+   }
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         

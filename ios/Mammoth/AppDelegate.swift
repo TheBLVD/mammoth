@@ -15,9 +15,9 @@ import AVFoundation
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
+    var window: UIWindow?
     var restrictRotation: UIInterfaceOrientationMask = .all
     var restrictRotationPhone: UIInterfaceOrientationMask = .portrait
-    var window: UIWindow?
     
     static let shared = AppDelegate()
     
@@ -160,6 +160,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.padColWidth = UserDefaults.standard.value(forKey: "padColWidth") as? Int ?? 412
         
         GlobalStruct.overrideTheme = UserDefaults.standard.value(forKey: "overrideTheme") as? Int ?? 0
+        GlobalStruct.overrideThemeHighContrast = UserDefaults.standard.value(forKey: "overrideThemeHighContrast") as? Bool ?? false
         GlobalStruct.customTextSize = UserDefaults.standard.value(forKey: "customTextSize") as? CGFloat ?? 0
         GlobalStruct.customLineSize = UserDefaults.standard.value(forKey: "customLineSize") as? CGFloat ?? 0
         GlobalStruct.timeStampStyle = UserDefaults.standard.value(forKey: "timeStampStyle") as? Int ?? 0
@@ -215,6 +216,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.hideNavBars = UserDefaults.standard.value(forKey: "hideNavBars") as? Bool ?? false
         GlobalStruct.hideNavBars2 = UserDefaults.standard.value(forKey: "hideNavBars2") as? Bool ?? false
         GlobalStruct.scrollDirectionDown = UserDefaults.standard.value(forKey: "scrollDirectionDown") as? Bool ?? true
+        GlobalStruct.openLinksInBrowser = UserDefaults.standard.value(forKey: "openLinksInBrowser") as? Bool ?? false
         GlobalStruct.appLock = UserDefaults.standard.value(forKey: "appLock") as? Bool ?? false
         
         GlobalStruct.tab2 = UserDefaults.standard.value(forKey: "tab2") as? Bool ?? true

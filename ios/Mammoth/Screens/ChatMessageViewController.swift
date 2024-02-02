@@ -103,8 +103,9 @@ class ChatMessagesViewController: MessagesViewController, MessagesDataSource, Me
     }
     
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
        if #available(iOS 13.0, *) {
-           if (traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection)) {
+           if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                messagesCollectionView.reloadData()
                scrollDownButton.backgroundColor = .custom.quoteTint
                scrollDownButton.layer.borderColor = UIColor.systemGray3.cgColor

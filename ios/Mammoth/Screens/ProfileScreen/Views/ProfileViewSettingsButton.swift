@@ -120,7 +120,7 @@ internal extension ProfileViewSettingsButton {
         super.traitCollectionDidChange(previousTraitCollection)
         
          if #available(iOS 13.0, *) {
-             if (traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection)) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                  self.onThemeChange()
                  self.menu = self.createContextMenu()
             }

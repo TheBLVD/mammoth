@@ -2,6 +2,33 @@
 
 ---
 
+### Version: 2.5.2 (build 393)
+Tag: Version-2.5.2, App Store Release Date: January 31, 2024
+
+* Fix an issue related to login
+
+---
+
+### Version: 2.5.1 (build 390)
+Tag: Version-2.5.1, App Store Release Date: January 26, 2024
+
+* Fix bug where smart lists don't appear in carousel after subscribing
+* Open the target post when tapping on an iOS notification
+* Make real-time activity/mentions updates more reliable
+
+---
+
+### Version: 2.5 (build 387)
+Tag: Version-2.5, App Store Release Date: January 25, 2024
+
+* All new way of displaying posts with multiple images
+* Show smaller images, or none at all, in your feeds (Settings > Appearance > Media size)
+* Activity tab layout is more compact
+* Added a custom emoji button in the post composer
+* Added an Account Settings option in the account switcher menu
+
+---
+
 ### Version: 2.4.2 (build 377)
 Tag: Version-2.4.2, App Store Release Date: January 16, 2024
 

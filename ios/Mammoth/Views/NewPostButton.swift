@@ -44,7 +44,7 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
     private let extremeLeadingOffset = -73.0
     
     private var areColorsInverted = DeviceHelpers.isiOSAppOnMac()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = areColorsInverted ? .custom.active : .custom.blurredOVRLYHigh
@@ -221,6 +221,7 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
     }
     
     @objc func longPressedNB(sender: UILongPressGestureRecognizer) {
+#if DEBUG
         guard sender.state == .began else { return }
         
         triggerHaptic3Impact()
@@ -234,20 +235,20 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
             composerNav.modalPresentationStyle = .automatic
             getTopMostViewController()?.present(composerNav, animated: true, completion: nil)
         }
+#else
+        guard sender.state == .began else {
+            return
+        }
         
-        
-        
-//        guard sender.state == .began else {
-//            return
-//        }
-//        if GlobalStruct.drafts.isEmpty {} else {
-//            triggerHaptic3Impact()
-//            let vc = ScheduledPostsViewController()
-//            vc.drafts = GlobalStruct.drafts
-//            vc.fromComposeButton = true
-//            let nvc = UINavigationController(rootViewController: vc)
-//            getTopMostViewController()?.present(nvc, animated: true, completion: nil)
-//        }
+        if GlobalStruct.drafts.isEmpty {} else {
+            triggerHaptic3Impact()
+            let vc = ScheduledPostsViewController()
+            vc.drafts = GlobalStruct.drafts
+            vc.fromComposeButton = true
+            let nvc = UINavigationController(rootViewController: vc)
+            getTopMostViewController()?.present(nvc, animated: true, completion: nil)
+        }
+#endif
     }
     
     @objc func newPostTap() {
@@ -263,4 +264,18 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
         getTopMostViewController()?.present(vc, animated: true, completion: nil)
     }
 
+}
+
+// MARK: Appearance changes
+internal extension NewPostButton {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.backgroundColor = areColorsInverted ? .custom.active : .custom.blurredOVRLYHigh
+                 updateNewPostButtonImage()
+             }
+         }
+    }
 }
