@@ -79,9 +79,9 @@ extension PostCardFooter {
             self.backgroundColor = .custom.background
         }
         
-        replyButton.configure(buttonText: includeMetrics ? postCard.replyCount : nil)
+        replyButton.configure(buttonText: includeMetrics ? postCard.replyCount : nil, postCard: postCard)
         repostButton.configure(buttonText: includeMetrics ? postCard.repostCount : nil, isActive: postCard.isReposted, postCard: postCard)
-        likeButton.configure(buttonText: includeMetrics ? postCard.likeCount : nil, isActive: postCard.isLiked)
+        likeButton.configure(buttonText: includeMetrics ? postCard.likeCount : nil, isActive: postCard.isLiked, postCard: postCard)
         moreButton.configure(buttonText: nil, isActive: postCard.isBookmarked, postCard: postCard)
     }
     
@@ -131,6 +131,7 @@ fileprivate class PostFooterButton: UIButton {
     private let symbolConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .regular)
     private let postButtonType: PostCardButtonType
     private var isActive = false
+    private var isPrivateMention = false
     
     public var onPress: PostCardButtonCallback?
     
@@ -180,6 +181,7 @@ fileprivate class PostFooterButton: UIButton {
 extension PostFooterButton {
     func configure(buttonText: String?, isActive: Bool = false, postCard: PostCardModel? = nil) {
         self.isActive = isActive
+        self.isPrivateMention = postCard?.isPrivateMention ?? false
         
         if let buttonText = buttonText {
             label.text = buttonText
@@ -226,11 +228,12 @@ extension PostFooterButton {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         // Update all items that use .custom colors
-        self.backgroundColor = .custom.background
-        container.backgroundColor = .custom.background
+        let backgroundColor: UIColor = self.isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
+        self.backgroundColor = backgroundColor
+        container.backgroundColor = backgroundColor
         label.textColor = .custom.actionButtons
-        label.backgroundColor = .custom.background
-        icon.backgroundColor = .custom.background
+        label.backgroundColor = backgroundColor
+        icon.backgroundColor = backgroundColor
         icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons,
                              renderingMode: .alwaysOriginal)
     }

@@ -695,7 +695,7 @@ extension PostCardCell {
         
         if let user = postCard.user, !postCard.isDeleted, !postCard.isMuted, !postCard.isBlocked {
             if case .hide(_) = postCard.filterType {} else {
-                self.profilePic.configure(user: user)
+                self.profilePic.configure(user: user, isPrivateMention: postCard.isPrivateMention)
                 self.profilePic.onPress = onButtonPress
             }
         }
