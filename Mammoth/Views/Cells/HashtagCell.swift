@@ -183,6 +183,9 @@ extension HashtagCell {
         self.addButton.backgroundColor = .custom.followButtonBG
         self.titleLabel.textColor = .custom.highContrast
         self.userTagLabel.textColor = UIColor.custom.feintContrast
+        if let hashtag {
+            self.titleLabel.attributedText = NewsFeedTypes.hashtag(hashtag).attributedTitle()
+        }
     }
 }
 
