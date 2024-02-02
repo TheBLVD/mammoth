@@ -3494,7 +3494,16 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 let tag = substring?.components(separatedBy: "#").last
                 return tag
             } else {
-                let user = substring?.components(separatedBy: "@").last
+                var user = substring?.components(separatedBy: "@").last
+                // Handle the case where the user has typed '@aaa@bbb' before tapping the button
+                if user != nil {
+                    if let lastWord = substring?.components(separatedBy: " ").last,
+                       lastWord.hasPrefix("@"),
+                       lastWord.contains(user!) {
+                        let index = lastWord.index(lastWord.startIndex, offsetBy: 1)
+                        user = String(lastWord[index...])
+                    }
+                }
                 return user
             }
         } else {
