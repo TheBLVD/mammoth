@@ -38,6 +38,7 @@ final class PostCardFooter: UIView {
             moreButton.onPress = onButtonPress
         }
     }
+    private var isPrivateMention = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,7 +74,8 @@ private extension PostCardFooter {
 // MARK: - Configuration
 extension PostCardFooter {
     func configure(postCard: PostCardModel, includeMetrics: Bool = true) {
-        if postCard.isPrivateMention {
+        self.isPrivateMention = postCard.isPrivateMention
+        if self.isPrivateMention {
             self.backgroundColor = .custom.OVRLYSoftContrast
         } else {
             self.backgroundColor = .custom.background
@@ -92,6 +94,24 @@ extension PostCardFooter {
         moreButton.onThemeChange()
     }
 }
+
+// MARK: Appearance changes
+internal extension PostCardFooter {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 if self.isPrivateMention {
+                     self.backgroundColor = .custom.OVRLYSoftContrast
+                 } else {
+                     self.backgroundColor = .custom.background
+                 }
+             }
+         }
+    }
+}
+
 
 
 
@@ -219,15 +239,11 @@ extension PostFooterButton {
                 break;
             }
         }
+        onThemeChange()
     }
     
     func onThemeChange() {
         self.label.textColor = .custom.actionButtons
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        // Update all items that use .custom colors
         let backgroundColor: UIColor = self.isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
         self.backgroundColor = backgroundColor
         container.backgroundColor = backgroundColor
@@ -236,6 +252,11 @@ extension PostFooterButton {
         icon.backgroundColor = backgroundColor
         icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons,
                              renderingMode: .alwaysOriginal)
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        onThemeChange()
     }
 
 }
