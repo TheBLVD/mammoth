@@ -60,10 +60,4 @@ import React
         
         return self.metaText.textView
     }
-    
-    func setOnChange(callback: RCTDirectEventBlock) {
-        print("set on change")
-        let dict = ["hello": "world"]
-        callback(dict)
-      }
 }
