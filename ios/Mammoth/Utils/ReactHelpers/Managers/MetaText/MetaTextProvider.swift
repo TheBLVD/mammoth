@@ -20,12 +20,27 @@ import React
         guard metaText === self.metaText else { return nil }
 
         let string = metaText.textStorage.string
-        let content = MastodonContent(content: string, emojis: [:])
+        let content = MastodonContent(content: string, emojis: self.emojiDic)
         let metaContent = MastodonMetaContent.convert(text: content)
         
         EventEmitter.shared.dispatch(name: "onMetaTextChange", body: nil)
 
         return metaContent
+    }
+    
+    @objc var emojis: NSArray = []
+    
+    private var emojiDic: MastodonContent.Emojis {
+        var emojisDic: MastodonContent.Emojis = [:]
+        self.emojis.forEach({
+            if let emoji = $0 as? Dictionary<String, String>,
+                let shortCode = emoji["shortcode"],
+               let url = emoji["url"] {
+                emojisDic[shortCode] = url
+            }
+        })
+        
+        return emojisDic
     }
     
     @objc func createMetaLabel() -> UITextView {
@@ -53,7 +68,7 @@ import React
         
         self.metaText.delegate = self
         
-        let content = MastodonMetaContent.convert(text: MastodonContent(content: "Hello world from @mammoth #mastodon", emojis: [:]))
+        let content = MastodonMetaContent.convert(text: MastodonContent(content: "Hello world from @mammoth #mastodon", emojis: self.emojiDic))
         self.metaText.configure(content: content, isRedactedModeEnabled: false)
         
         return self.metaText.textView

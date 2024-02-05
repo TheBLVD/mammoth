@@ -36,7 +36,6 @@ export const Composer = ({rootTag, current}: Props) => {
   }, [richText]);
 
   useEffect(() => {
-    console.log(postCardRef);
     (postCardRef.current as any)?.configure('');
   }, [postCardRef]);
 
@@ -73,17 +72,10 @@ export const Composer = ({rootTag, current}: Props) => {
                 <Text style={styles.reach}>Anyone ▾</Text>
               </MenuView>
             </View>
-            {/* <RichEditor
-              initialFocus={true}
-              placeholder="What's happening?"
-              editorStyle={styles.richEditor}
-              ref={richText}
+            <MetaTextView
               style={styles.richEditorContainer}
-              onChange={descriptionText => {
-                // console.log('descriptionText:', descriptionText);
-              }}
-            /> */}
-            <MetaTextView style={styles.richEditorContainer} />
+              emojis={currentAccount?.account?.emojis}
+            />
             <PostCardView style={styles.postCard} ref={postCardRef} />
           </View>
         </KeyboardAvoidingView>

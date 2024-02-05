@@ -21,7 +21,6 @@
 @synthesize provider;
 
 RCT_EXPORT_MODULE(NativeMetaText)
-RCT_EXPORT_VIEW_PROPERTY(onChange, RCTBubblingEventBlock)
 
 - (instancetype) init {
     self = [super init];
@@ -35,6 +34,10 @@ RCT_EXPORT_VIEW_PROPERTY(onChange, RCTBubblingEventBlock)
 
 - (dispatch_queue_t)methodQueue {
     return dispatch_get_main_queue();
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(emojis, NSArray, MetaTextProvider) {
+    [provider setEmojis: json];
 }
 
 RCT_EXPORT_METHOD(onTextChange:(nonnull NSNumber*) reactTag) {

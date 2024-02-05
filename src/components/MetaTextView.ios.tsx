@@ -12,8 +12,13 @@ const eventEmitter = new NativeEventEmitter(
   NativeModules.ReactNativeEventEmitter,
 );
 
+type Props = {
+  emojis: any[];
+  style: any;
+};
+
 export const MetaTextView = React.forwardRef(
-  (props: any, _ref: React.ForwardedRef<any>) => {
+  (props: Props, _ref: React.ForwardedRef<any>) => {
     const reactTag = useRef<number | null>();
 
     const onTextChange = useCallback(() => {
