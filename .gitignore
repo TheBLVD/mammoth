@@ -8,6 +8,10 @@ ArkanaKeys
 .env
 node_modules
 
+.yarn/*
+!.yarn/releases/*
+!.yarn/plugins/*
+
 # OSX
 #
 .DS_Store

@@ -731,7 +731,7 @@
 		C382D2CA2AA617ED00688A83 /* BlurredBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = C382D2C92AA617ED00688A83 /* BlurredBackground.swift */; };
 		C382D2CC2AA6398F00688A83 /* ProfileBackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C382D2CB2AA6398F00688A83 /* ProfileBackButton.swift */; };
 		C38B11142AAF1ED60077E053 /* ScrollUpIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38B11132AAF1ED60077E053 /* ScrollUpIndicator.swift */; };
-		C3A3DAC52A37592F00D275B6 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		C3A3DAC52A37592F00D275B6 /* BuildFile in Sources */ = {isa = PBXBuildFile; };
 		C3A521F129FFCCD5008AA5D1 /* VideoProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A521F029FFCCD5008AA5D1 /* VideoProcessor.swift */; };
 		C3A834C52AB30BFF007E4A12 /* FeedEditorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3A834C42AB30BFF007E4A12 /* FeedEditorCell.swift */; };
 		C3B5A5D82A30B9AD00427C73 /* PostCardQuotePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B5A5D72A30B9AD00427C73 /* PostCardQuotePost.swift */; };
@@ -3254,6 +3254,7 @@
 				533993DC29141F4600560F83 /* Frameworks */,
 				533993DD29141F4600560F83 /* Resources */,
 				53B1584F293F623F0026E90B /* Embed Foundation Extensions */,
+				1493DE7C2B70E6A000CB1611 /* Bundle React Native code and images */,
 				715C8827A72FD7552ECF653A /* [CP] Embed Pods Frameworks */,
 				77FA2A0EF766A493DBC1E1EC /* [CP] Copy Pods Resources */,
 			);
@@ -3409,9 +3410,9 @@
 				539F3A2A292282FE0090CD00 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				532F291329476916003C9FAD /* XCRemoteSwiftPackageReference "MessageKit" */,
 				532F291629476B29003C9FAD /* XCRemoteSwiftPackageReference "InputBarAccessoryView" */,
-				662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode" */,
+				662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode.swift" */,
 				88EFEB2B2AC23A3C0040228B /* XCRemoteSwiftPackageReference "Swift-JWT" */,
-				14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */,
+				14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability.swift" */,
 				144DC74E2B17698200F4EE98 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				144DC7E02B1773E400F4EE98 /* XCRemoteSwiftPackageReference "OpenSSL" */,
 				146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */,
@@ -3687,6 +3688,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1493DE7C2B70E6A000CB1611 /* Bundle React Native code and images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/.xcode.env.local",
+				"$(SRCROOT)/.xcode.env",
+			);
+			name = "Bundle React Native code and images";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
+		};
 		276E4E9063F5234C455CC033 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3911,7 +3932,7 @@
 				BF57C4052AE9C64000D11485 /* StatusSource.swift in Sources */,
 				53399A4F291526B900560F83 /* Results.swift in Sources */,
 				BF492DAE29F1E04C004100B8 /* QuotePostMutedView.swift in Sources */,
-				C3A3DAC52A37592F00D275B6 /* (null) in Sources */,
+				C3A3DAC52A37592F00D275B6 /* BuildFile in Sources */,
 				C3BBEEE72A978E320027C761 /* CarouselFlowLayout.swift in Sources */,
 				5339963E2914227A00560F83 /* MultilineTextField.swift in Sources */,
 				5339947F2914214A00560F83 /* IconSettingsViewController.swift in Sources */,
@@ -4600,7 +4621,10 @@
 					"$(inherited)",
 					"-DRN_FABRIC_ENABLED",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -4676,7 +4700,10 @@
 					"$(inherited)",
 					"-DRN_FABRIC_ENABLED",
 				);
-				OTHER_LDFLAGS = "$(inherited)  ";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "";
@@ -5013,7 +5040,7 @@
 				minimumVersion = 1.0.3;
 			};
 		};
-		14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */ = {
+		14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ashleymills/Reachability.swift";
 			requirement = {
@@ -5061,7 +5088,7 @@
 				minimumVersion = 7.0.0;
 			};
 		};
-		662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode" */ = {
+		662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/auth0/JWTDecode.swift";
 			requirement = {
@@ -5087,7 +5114,7 @@
 		};
 		14780F802AFCEA7000A7ECD9 /* Reachability */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */;
+			package = 14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability.swift" */;
 			productName = Reachability;
 		};
 		14A849FE2B4D75F20027C689 /* MetaTextKit */ = {
@@ -5121,7 +5148,7 @@
 		};
 		662B60EE2A4A1F6D00CB331F /* JWTDecode */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode" */;
+			package = 662B60ED2A4A1F6D00CB331F /* XCRemoteSwiftPackageReference "JWTDecode.swift" */;
 			productName = JWTDecode;
 		};
 		887B32952A0AC72A00EE7EE3 /* ArkanaKeys */ = {

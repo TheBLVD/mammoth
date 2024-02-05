@@ -15,11 +15,11 @@ The Mammoth Team
 - Node.js 20.10.+
 - Xcode 13+
 - Swift 5+
-- Yarn 1.22+
+- Yarn 4.1.0+
 
 1. Clone the repo
 1. Copy the `sample.env` to `.env`
-1. Run `yarn` to install dependencies
+1. From the root directory run `yarn` to install dependencies
 1. From the [ios](./ios) directory run `bundle install` to get the needed gems
 1. From the [ios](./ios) directory run `bin/arkana` This will generated
    the needed 'ArkanaKeys' package that is a local swift package dependency.
