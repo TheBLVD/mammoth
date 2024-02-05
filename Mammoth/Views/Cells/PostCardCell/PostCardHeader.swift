@@ -349,14 +349,14 @@ extension PostCardHeader {
     
     func configureMetaTextContent() {
         if GlobalStruct.displayName == .usertagOnly {
-            let text = headerType == .detail ? postCard!.fullUserTag.lowercased() : postCard!.userTag.lowercased()
+            let text = headerType == .detail ? postCard?.fullUserTag.lowercased() ?? "" : postCard?.userTag.lowercased() ?? ""
             let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
             self.titleLabel.configure(content: content)
         } else {
-            if let metaContent = postCard!.user?.metaName {
+            if let metaContent = postCard?.user?.metaName {
                 self.titleLabel.configure(content: metaContent)
             } else {
-                let text = postCard!.user?.name ?? ""
+                let text = postCard?.user?.name ?? ""
                 let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
                 self.titleLabel.configure(content: content)
             }
