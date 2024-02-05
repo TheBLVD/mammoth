@@ -191,7 +191,7 @@ final class PostCardMetadata: UIView {
         repliesLabel.backgroundColor = backgroundColor
         applicationLabel.textColor = .custom.feintContrast
         applicationLabel.backgroundColor = backgroundColor
-        viewDetailsLabel.textColor = .custom.feintContrast
+        viewDetailsLabel.textColor = .custom.actionButtons
         viewDetailsLabel.backgroundColor = backgroundColor
     }
     
