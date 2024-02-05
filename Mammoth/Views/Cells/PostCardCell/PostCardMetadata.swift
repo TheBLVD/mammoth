@@ -183,11 +183,11 @@ final class PostCardMetadata: UIView {
     
     private func onThemeChange() {
         let backgroundColor: UIColor = isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
-        likesLabel.textColor = .custom.feintContrast
+        likesLabel.textColor = .custom.actionButtons
         likesLabel.backgroundColor = backgroundColor
-        repostsLabel.textColor = .custom.feintContrast
+        repostsLabel.textColor = .custom.actionButtons
         repostsLabel.backgroundColor = backgroundColor
-        repliesLabel.textColor = .custom.feintContrast
+        repliesLabel.textColor = .custom.actionButtons
         repliesLabel.backgroundColor = backgroundColor
         applicationLabel.textColor = .custom.feintContrast
         applicationLabel.backgroundColor = backgroundColor
