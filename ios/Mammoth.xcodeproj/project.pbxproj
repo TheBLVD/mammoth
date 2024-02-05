@@ -36,8 +36,11 @@
 		1493DE752B6D4F8B00CB1611 /* ReactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493DE682B6D4F8B00CB1611 /* ReactViewController.swift */; };
 		1493DE762B6D4F8B00CB1611 /* PostCardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493DE6A2B6D4F8B00CB1611 /* PostCardManager.m */; };
 		1493DE772B6D4F8B00CB1611 /* MetaTextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493DE6C2B6D4F8B00CB1611 /* MetaTextManager.m */; };
-		1493DE782B6D4F8B00CB1611 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493DE6D2B6D4F8B00CB1611 /* Helpers.swift */; };
+		1493DE782B6D4F8B00CB1611 /* MetaTextProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493DE6D2B6D4F8B00CB1611 /* MetaTextProvider.swift */; };
 		1493DE7B2B6D501100CB1611 /* PostCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493DE7A2B6D501100CB1611 /* PostCardView.swift */; };
+		1493DE7E2B70FBD400CB1611 /* EventEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493DE7D2B70FBD400CB1611 /* EventEmitter.swift */; };
+		1493DE812B70FC1400CB1611 /* ReactNativeEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493DE802B70FC1400CB1611 /* ReactNativeEventEmitter.m */; };
+		1493DE832B70FC2E00CB1611 /* ReactNativeEventEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1493DE822B70FC2E00CB1611 /* ReactNativeEventEmitter.swift */; };
 		149A682D2AD6A4E200E72A83 /* Mute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68282AD6A4E200E72A83 /* Mute.swift */; };
 		149A682F2AD6A4E200E72A83 /* mute.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 149A682B2AD6A4E200E72A83 /* mute.aiff */; };
 		149A68312AD6CE3700E72A83 /* AVManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68302AD6CE3700E72A83 /* AVManager.swift */; };
@@ -866,8 +869,11 @@
 		1493DE682B6D4F8B00CB1611 /* ReactViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReactViewController.swift; sourceTree = "<group>"; };
 		1493DE6A2B6D4F8B00CB1611 /* PostCardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostCardManager.m; sourceTree = "<group>"; };
 		1493DE6C2B6D4F8B00CB1611 /* MetaTextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetaTextManager.m; sourceTree = "<group>"; };
-		1493DE6D2B6D4F8B00CB1611 /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		1493DE6D2B6D4F8B00CB1611 /* MetaTextProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetaTextProvider.swift; sourceTree = "<group>"; };
 		1493DE7A2B6D501100CB1611 /* PostCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCardView.swift; sourceTree = "<group>"; };
+		1493DE7D2B70FBD400CB1611 /* EventEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEmitter.swift; sourceTree = "<group>"; };
+		1493DE802B70FC1400CB1611 /* ReactNativeEventEmitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReactNativeEventEmitter.m; sourceTree = "<group>"; };
+		1493DE822B70FC2E00CB1611 /* ReactNativeEventEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactNativeEventEmitter.swift; sourceTree = "<group>"; };
 		149A68232AD6A1FE00E72A83 /* Mute-master */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "Mute-master"; path = "../Mute-master"; sourceTree = "<group>"; };
 		149A68282AD6A4E200E72A83 /* Mute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mute.swift; sourceTree = "<group>"; };
 		149A682B2AD6A4E200E72A83 /* mute.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = mute.aiff; sourceTree = "<group>"; };
@@ -1723,6 +1729,7 @@
 		1493DE5D2B6D4F8B00CB1611 /* ReactHelpers */ = {
 			isa = PBXGroup;
 			children = (
+				1493DE7F2B70FBFA00CB1611 /* EventEmitter */,
 				1493DE5E2B6D4F8B00CB1611 /* NativeNavigationLibrary */,
 				1493DE692B6D4F8B00CB1611 /* Managers */,
 			);
@@ -1759,9 +1766,19 @@
 			isa = PBXGroup;
 			children = (
 				1493DE6C2B6D4F8B00CB1611 /* MetaTextManager.m */,
-				1493DE6D2B6D4F8B00CB1611 /* Helpers.swift */,
+				1493DE6D2B6D4F8B00CB1611 /* MetaTextProvider.swift */,
 			);
 			path = MetaText;
+			sourceTree = "<group>";
+		};
+		1493DE7F2B70FBFA00CB1611 /* EventEmitter */ = {
+			isa = PBXGroup;
+			children = (
+				1493DE7D2B70FBD400CB1611 /* EventEmitter.swift */,
+				1493DE802B70FC1400CB1611 /* ReactNativeEventEmitter.m */,
+				1493DE822B70FC2E00CB1611 /* ReactNativeEventEmitter.swift */,
+			);
+			path = EventEmitter;
 			sourceTree = "<group>";
 		};
 		149A68242AD6A4BF00E72A83 /* Sound */ = {
@@ -3882,6 +3899,7 @@
 				533996E12914227A00560F83 /* ALProgressBar.swift in Sources */,
 				53399A4C291526B900560F83 /* LoginSettings.swift in Sources */,
 				1493DE752B6D4F8B00CB1611 /* ReactViewController.swift in Sources */,
+				1493DE832B70FC2E00CB1611 /* ReactNativeEventEmitter.swift in Sources */,
 				BF48B9322A8FE54F00DE6BFC /* ToastNotification.swift in Sources */,
 				532567AC2971C512004E7636 /* Timelines.swift in Sources */,
 				662B60E62A4A1EFC00CB331F /* BlueskyAPI+Graph.swift in Sources */,
@@ -4042,6 +4060,7 @@
 				53399A67291526B900560F83 /* Favourites.swift in Sources */,
 				662B60E92A4A1EFC00CB331F /* BlueskyAPI+Feed.swift in Sources */,
 				533994A62914214A00560F83 /* HapticsSettingsViewController.swift in Sources */,
+				1493DE7E2B70FBD400CB1611 /* EventEmitter.swift in Sources */,
 				533994B92914214A00560F83 /* UndoWidget.swift in Sources */,
 				BF0F3BB52A855A310055BB81 /* FloatLabelTextField.swift in Sources */,
 				1493DE712B6D4F8B00CB1611 /* NavigatorRegistry.swift in Sources */,
@@ -4118,6 +4137,7 @@
 				BF57C4032AE7130E00D11485 /* ServerUpdatedCell.swift in Sources */,
 				1493DE772B6D4F8B00CB1611 /* MetaTextManager.m in Sources */,
 				BF5F97F22A23E0C500014DF3 /* PostCardImageCollectionCell.swift in Sources */,
+				1493DE812B70FC1400CB1611 /* ReactNativeEventEmitter.m in Sources */,
 				144DC6CD2B174C2500F4EE98 /* IAPManager.swift in Sources */,
 				D8CA77612AB90D4000F49ECC /* ShareableViewController.swift in Sources */,
 				BF57C4012AE7130300D11485 /* ServerUpdatingCell.swift in Sources */,
@@ -4203,7 +4223,7 @@
 				533996752914227A00560F83 /* SKMesurement.swift in Sources */,
 				C354D60A2A0D271200F8AC04 /* UserCardCell.swift in Sources */,
 				66D091E32A5360FB00291B8D /* BlueskySignInViewController.swift in Sources */,
-				1493DE782B6D4F8B00CB1611 /* Helpers.swift in Sources */,
+				1493DE782B6D4F8B00CB1611 /* MetaTextProvider.swift in Sources */,
 				533996712914227A00560F83 /* ActiveType.swift in Sources */,
 				14E08C6A2B20BF9C00EF5A55 /* DeviceHelpers.swift in Sources */,
 				BF92CE022AABED0200EB25FA /* ChannelManager.swift in Sources */,

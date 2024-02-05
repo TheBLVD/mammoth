@@ -11,28 +11,47 @@
 #import <React/RCTUIManager.h>
 #import <React/RCTLog.h>
 #import "Mammoth-Swift.h"
-
 @import MetaTextKit;
 
 @interface MetaTextManager : RCTViewManager
-
-@property (strong, nonatomic) Helpers *helper;
-
+@property (strong, nonatomic) MetaTextProvider *provider;
 @end
 
 @implementation MetaTextManager
-
-@synthesize helper;
+@synthesize provider;
 
 RCT_EXPORT_MODULE(NativeMetaText)
+RCT_EXPORT_VIEW_PROPERTY(onChange, RCTBubblingEventBlock)
+
+- (instancetype) init {
+    self = [super init];
+    provider = [MetaTextProvider new];
+    return self;
+}
 
 - (UIView *)view {
-    helper = [Helpers new];
-    return [helper createMetaLabel];
+    return [provider createMetaLabel];
 }
 
 - (dispatch_queue_t)methodQueue {
     return dispatch_get_main_queue();
 }
+
+RCT_EXPORT_METHOD(onTextChange:(nonnull NSNumber*) reactTag) {
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+        UITextView * view = (UITextView *)viewRegistry[reactTag];
+        if (!view || ![view isKindOfClass:[UITextView class]]) {
+            RCTLogError(@"Cannot find UITextView with tag #%@", reactTag);
+            return;
+        }
+        
+        CGFloat width = CGRectGetWidth(view.frame);
+        CGSize fittingSize = UILayoutFittingCompressedSize;
+        fittingSize.width = width;
+        
+        CGFloat height = [view systemLayoutSizeFittingSize: fittingSize].height;
+        [self.bridge.uiManager setIntrinsicContentSize: CGSizeMake(UIViewNoIntrinsicMetric, height) forView: view];
+    }];
+};
 
 @end

@@ -1,5 +1,6 @@
 import React, {useCallback, useEffect, useRef} from 'react';
-import {UIManager, findNodeHandle, requireNativeComponent} from 'react-native';
+import {findNodeHandle, requireNativeComponent} from 'react-native';
+import {callNativeFunction} from '../utils/UIManagerHelpers';
 const NativeComponent = requireNativeComponent('NativePostCardView');
 
 export const PostCardView = React.forwardRef(
@@ -8,10 +9,10 @@ export const PostCardView = React.forwardRef(
 
     const configure = useCallback(
       (text: string) => {
-        UIManager.dispatchViewManagerCommand(
-          reactTag.current as number | null,
-          UIManager.getViewManagerConfig('NativePostCardView').Commands
-            .configure,
+        callNativeFunction(
+          'configure',
+          'NativePostCardView',
+          reactTag.current,
           [text],
         );
       },

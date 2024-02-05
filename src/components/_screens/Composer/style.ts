@@ -56,11 +56,11 @@ export const styles = StyleSheet.create({
     placeholderColor: '#595959',
   },
   richEditorContainer: {
+    flex: 1,
     margin: 0,
     padding: 0,
     marginLeft: 38,
     fontSize: 14,
-    height: 200,
   },
   avatar: {
     width: 36,
