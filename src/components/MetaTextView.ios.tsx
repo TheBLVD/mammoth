@@ -5,7 +5,7 @@ import {
   NativeModules,
   NativeEventEmitter,
 } from 'react-native';
-import {callNativeFunction} from '../utils/UIManagerHelpers';
+import {callNativeViewMethod} from '../utils/UIManagerHelpers';
 
 const NativeComponent = requireNativeComponent('NativeMetaText');
 const eventEmitter = new NativeEventEmitter(
@@ -17,17 +17,20 @@ export const MetaTextView = React.forwardRef(
     const reactTag = useRef<number | null>();
 
     const onTextChange = useCallback(() => {
-      callNativeFunction('onTextChange', 'NativeMetaText', reactTag.current);
+      callNativeViewMethod('onTextChange', 'NativeMetaText', reactTag.current);
     }, [reactTag]);
 
     useEffect(() => {
-      eventEmitter.addListener('onMetaTextChange', onTextChange);
+      const subscription = eventEmitter.addListener(
+        'onMetaTextChange',
+        onTextChange,
+      );
       setTimeout(() => {
         onTextChange();
       });
 
       return () => {
-        eventEmitter.removeAllListeners;
+        subscription.remove();
       };
     }, [onTextChange]);
 

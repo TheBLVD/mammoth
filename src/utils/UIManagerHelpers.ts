@@ -1,7 +1,7 @@
 import {UIManager} from 'react-native';
 
-export const callNativeFunction = (
-  functionName: string,
+export const callNativeViewMethod = (
+  methodName: string,
   nativeView: string,
   reactTag: number | null | undefined,
   props?: any[],
@@ -11,7 +11,7 @@ export const callNativeFunction = (
   }
   UIManager.dispatchViewManagerCommand(
     reactTag,
-    UIManager.getViewManagerConfig(nativeView).Commands[functionName],
+    UIManager.getViewManagerConfig(nativeView).Commands[methodName],
     props,
   );
 };
