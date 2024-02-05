@@ -23,9 +23,7 @@ import React
         let content = MastodonContent(content: string, emojis: [:])
         let metaContent = MastodonMetaContent.convert(text: content)
         
-        DispatchQueue.main.async { // dispatch on next runloop
-            EventEmitter.shared.dispatch(name: "onMetaTextChange", body: nil)
-        }
+        EventEmitter.shared.dispatch(name: "onMetaTextChange", body: nil)
 
         return metaContent
     }
