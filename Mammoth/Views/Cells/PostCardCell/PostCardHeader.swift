@@ -371,16 +371,23 @@ extension PostCardHeader {
         super.traitCollectionDidChange(previousTraitCollection)
         // Update all items that use .custom colors
         configureMetaTextContent()
-        self.backgroundColor = .custom.background
         titleLabel.textColor = .custom.displayNames
-        titleLabel.backgroundColor = .custom.background
         let config = UIImage.SymbolConfiguration(pointSize: GlobalStruct.smallerFontSize, weight: .light)
         pinIcon.image = UIImage(systemName: "pin.fill", withConfiguration: config)?.withTintColor(.custom.feintContrast, renderingMode: .alwaysTemplate)
         pinIcon.tintColor = .custom.feintContrast
         userTagLabel.textColor = .custom.feintContrast
-        userTagLabel.backgroundColor = .custom.background
         dateLabel.textColor = .custom.feintContrast
-        dateLabel.backgroundColor = .custom.background
+        if let postCard = self.postCard, postCard.isPrivateMention {
+            self.backgroundColor = .custom.OVRLYSoftContrast
+            titleLabel.backgroundColor = .custom.OVRLYSoftContrast
+            userTagLabel.backgroundColor = .custom.OVRLYSoftContrast
+            dateLabel.backgroundColor = .custom.OVRLYSoftContrast
+        } else {
+            self.backgroundColor = .custom.background
+            titleLabel.backgroundColor = .custom.background
+            userTagLabel.backgroundColor = .custom.background
+            dateLabel.backgroundColor = .custom.background
+        }
         setupUIFromSettings()
     }
     
