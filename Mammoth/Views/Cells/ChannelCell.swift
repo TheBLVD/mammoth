@@ -221,6 +221,7 @@ extension ChannelCell {
         self.descriptionLabel.URLColor = .custom.highContrast
         self.descriptionLabel.emailColor = .custom.highContrast
         if let channel {
+            self.titleLabel.attributedText = NewsFeedTypes.channel(channel).attributedTitle()
             self.channelPic.configure(channel: channel)
         }
     }
