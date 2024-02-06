@@ -126,7 +126,7 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
         } else {
             let isPrivateMessage = delegate?.newPostTypeForCurrentViewController() == .newMessage
             let imageChar = isPrivateMessage ? "@" : "\u{2b}"
-            self.setImage(FontAwesome.image(fromChar: imageChar, size: 19, weight: .bold).withTintColor(.custom.FABForeground, renderingMode: .alwaysOriginal), for: .normal)
+            self.setImage(FontAwesome.image(fromChar: imageChar, size: 19, weight: .bold).withTintColor(.custom.FABForeground, renderingMode: .alwaysTemplate), for: .normal)
             self.imageEdgeInsets = .init(top: 1.5, left: 0, bottom: 0, right: 0)
             self.isHidden = false
             UIView.animate(withDuration: 0.2, animations: {
