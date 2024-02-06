@@ -14,6 +14,7 @@ final class PostCardFooter: UIView {
     // MARK: - Properties
     private var mainStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.distribution = .equalSpacing
@@ -88,6 +89,12 @@ extension PostCardFooter {
     }
     
     func onThemeChange() {
+        if self.isPrivateMention {
+            self.backgroundColor = .custom.OVRLYSoftContrast
+        } else {
+            self.backgroundColor = .custom.background
+        }
+        
         replyButton.onThemeChange()
         repostButton.onThemeChange()
         likeButton.onThemeChange()
@@ -201,6 +208,8 @@ fileprivate class PostFooterButton: UIButton {
 extension PostFooterButton {
     func configure(buttonText: String?, isActive: Bool = false, postCard: PostCardModel? = nil) {
         self.isActive = isActive
+        
+        let shouldChangeTheme = self.isPrivateMention != (postCard?.isPrivateMention ?? false)
         self.isPrivateMention = postCard?.isPrivateMention ?? false
         
         if let buttonText = buttonText {
@@ -239,7 +248,10 @@ extension PostFooterButton {
                 break;
             }
         }
-        onThemeChange()
+        
+        if shouldChangeTheme {
+            self.onThemeChange()
+        }
     }
     
     func onThemeChange() {
@@ -250,8 +262,12 @@ extension PostFooterButton {
         label.textColor = .custom.actionButtons
         label.backgroundColor = backgroundColor
         icon.backgroundColor = backgroundColor
-        icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons,
-                             renderingMode: .alwaysOriginal)
+        if !isActive {
+            self.icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(self.postButtonType.tintColor(isActive: isActive), renderingMode: .alwaysOriginal)
+            
+        } else {
+            self.icon.image = self.postButtonType.activeIcon(symbolConfig: symbolConfig)?.withTintColor(self.postButtonType.tintColor(isActive: isActive), renderingMode: .alwaysOriginal)
+        }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
