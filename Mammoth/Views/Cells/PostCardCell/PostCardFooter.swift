@@ -239,7 +239,6 @@ extension PostFooterButton {
                 break;
             }
         }
-        onThemeChange()
     }
     
     func onThemeChange() {
@@ -250,8 +249,12 @@ extension PostFooterButton {
         label.textColor = .custom.actionButtons
         label.backgroundColor = backgroundColor
         icon.backgroundColor = backgroundColor
-        icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons,
-                             renderingMode: .alwaysOriginal)
+        if !isActive {
+            self.icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(self.postButtonType.tintColor(isActive: isActive), renderingMode: .alwaysOriginal)
+            
+        } else {
+            self.icon.image = self.postButtonType.activeIcon(symbolConfig: symbolConfig)?.withTintColor(self.postButtonType.tintColor(isActive: isActive), renderingMode: .alwaysOriginal)
+        }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
