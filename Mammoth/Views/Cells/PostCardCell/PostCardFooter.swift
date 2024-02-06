@@ -14,6 +14,7 @@ final class PostCardFooter: UIView {
     // MARK: - Properties
     private var mainStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.distribution = .equalSpacing
@@ -88,6 +89,12 @@ extension PostCardFooter {
     }
     
     func onThemeChange() {
+        if self.isPrivateMention {
+            self.backgroundColor = .custom.OVRLYSoftContrast
+        } else {
+            self.backgroundColor = .custom.background
+        }
+        
         replyButton.onThemeChange()
         repostButton.onThemeChange()
         likeButton.onThemeChange()
@@ -201,6 +208,8 @@ fileprivate class PostFooterButton: UIButton {
 extension PostFooterButton {
     func configure(buttonText: String?, isActive: Bool = false, postCard: PostCardModel? = nil) {
         self.isActive = isActive
+        
+        let shouldChangeTheme = self.isPrivateMention != postCard?.isPrivateMention
         self.isPrivateMention = postCard?.isPrivateMention ?? false
         
         if let buttonText = buttonText {
@@ -238,6 +247,10 @@ extension PostFooterButton {
                 self.showsMenuAsPrimaryAction = false
                 break;
             }
+        }
+        
+        if shouldChangeTheme {
+            self.onThemeChange()
         }
     }
     
