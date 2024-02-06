@@ -108,10 +108,12 @@ final class PostCardMetadata: UIView {
         metricsStackView.addArrangedSubview(viewDetailsLabel)
         
         self.setupUIFromSettings()
+        self.onThemeChange()
     }
     
     func configure(postCard: PostCardModel, type: PostCardCell.PostCardCellType = .regular, onButtonPress: @escaping PostCardButtonCallback) {
         self.onButtonPress = onButtonPress
+        let shouldUpdateTheme = self.isPrivateMention != postCard.isPrivateMention
         self.isPrivateMention = postCard.isPrivateMention
         
         if type.shouldShowSourceAndApplicationName {
@@ -164,7 +166,9 @@ final class PostCardMetadata: UIView {
             viewDetailsLabel.isHidden = true
         }
         
-        self.onThemeChange()
+        if shouldUpdateTheme {
+            self.onThemeChange()
+        }
     }
     
     @objc private func onMetricPress(recognizer: UIGestureRecognizer) {
@@ -181,7 +185,7 @@ final class PostCardMetadata: UIView {
         }
     }
     
-    private func onThemeChange() {
+    public func onThemeChange() {
         let backgroundColor: UIColor = isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
         likesLabel.textColor = .custom.feintContrast
         likesLabel.backgroundColor = backgroundColor
@@ -193,6 +197,9 @@ final class PostCardMetadata: UIView {
         applicationLabel.backgroundColor = backgroundColor
         viewDetailsLabel.textColor = .custom.actionButtons
         viewDetailsLabel.backgroundColor = backgroundColor
+        mainStackView.backgroundColor = backgroundColor
+        metricsStackView.backgroundColor = backgroundColor
+        self.backgroundColor = backgroundColor
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
