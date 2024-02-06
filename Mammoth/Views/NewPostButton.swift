@@ -32,9 +32,7 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
             updateNewPostButtonImage()
         }
     }
-    
-    var blurEffectView = BlurredBackground()
-    
+        
     public var allowsExtremeLeft = false
     private var leadingConstraint: NSLayoutConstraint?
     private var trailingConstraint: NSLayoutConstraint?
@@ -43,26 +41,12 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
     private let normalHorizontalOffset = 20.0
     private let extremeLeadingOffset = -73.0
     
-    private var areColorsInverted = DeviceHelpers.isiOSAppOnMac()
-
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = areColorsInverted ? .custom.active : .custom.blurredOVRLYHigh
+        self.backgroundColor = .custom.FABBackground
         self.clipsToBounds = true
-        
-        self.addSubview(blurEffectView)
-        self.blurEffectView.translatesAutoresizingMaskIntoConstraints = false
-        self.blurEffectView.isUserInteractionEnabled = false
-        NSLayoutConstraint.activate([
-            blurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
-            blurEffectView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            blurEffectView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            blurEffectView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            ])
-        self.sendSubviewToBack(blurEffectView)
-        
-        self.bringSubviewToFront(self.imageView!)
 
+        self.bringSubviewToFront(self.imageView!)
 
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.longPressedNB))
         longPressRecognizer.minimumPressDuration = 0.5
@@ -142,7 +126,7 @@ class NewPostButton: UIButton, UIGestureRecognizerDelegate {
         } else {
             let isPrivateMessage = delegate?.newPostTypeForCurrentViewController() == .newMessage
             let imageChar = isPrivateMessage ? "@" : "\u{2b}"
-            self.setImage(FontAwesome.image(fromChar: imageChar, size: 19, weight: .bold).withTintColor(areColorsInverted ? .custom.background : .custom.active, renderingMode: .alwaysOriginal), for: .normal)
+            self.setImage(FontAwesome.image(fromChar: imageChar, size: 19, weight: .bold).withTintColor(.custom.FABForeground, renderingMode: .alwaysOriginal), for: .normal)
             self.imageEdgeInsets = .init(top: 1.5, left: 0, bottom: 0, right: 0)
             self.isHidden = false
             UIView.animate(withDuration: 0.2, animations: {
@@ -256,7 +240,7 @@ internal extension NewPostButton {
         
          if #available(iOS 13.0, *) {
              if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                 self.backgroundColor = areColorsInverted ? .custom.active : .custom.blurredOVRLYHigh
+                 self.backgroundColor = .custom.FABBackground
                  updateNewPostButtonImage()
              }
          }

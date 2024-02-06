@@ -49,6 +49,10 @@ extension UIColor {
         static var softContrast: UIColor { return appColorNamed("Soft Contrast") }
         static var statusBar: UIColor { return appColorNamed("Status Bar") }
         static var gold: UIColor { return appColorNamed("Gold") }
+        static var FABBackground: UIColor { return appColorNamed("FAB Background") }
+        static var FABForeground: UIColor { return appColorNamed("FAB Foreground") }
+        static var pollBarText: UIColor { return appColorNamed("Poll Bar Text") }
+        static var pollBars: UIColor { return appColorNamed("Poll Bars") }
     }
     
     func greenTintedColor() -> UIColor {
