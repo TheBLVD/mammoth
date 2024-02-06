@@ -75,24 +75,26 @@ private extension PostCardFooter {
 // MARK: - Configuration
 extension PostCardFooter {
     func configure(postCard: PostCardModel, includeMetrics: Bool = true) {
+        let shouldUpdateTheme = self.isPrivateMention != postCard.isPrivateMention
         self.isPrivateMention = postCard.isPrivateMention
-        if self.isPrivateMention {
-            self.backgroundColor = .custom.OVRLYSoftContrast
-        } else {
-            self.backgroundColor = .custom.background
-        }
         
         replyButton.configure(buttonText: includeMetrics ? postCard.replyCount : nil, postCard: postCard)
         repostButton.configure(buttonText: includeMetrics ? postCard.repostCount : nil, isActive: postCard.isReposted, postCard: postCard)
         likeButton.configure(buttonText: includeMetrics ? postCard.likeCount : nil, isActive: postCard.isLiked, postCard: postCard)
         moreButton.configure(buttonText: nil, isActive: postCard.isBookmarked, postCard: postCard)
+        
+        if shouldUpdateTheme {
+            self.onThemeChange()
+        }
     }
     
     func onThemeChange() {
         if self.isPrivateMention {
             self.backgroundColor = .custom.OVRLYSoftContrast
+            mainStackView.backgroundColor = .custom.OVRLYSoftContrast
         } else {
             self.backgroundColor = .custom.background
+            mainStackView.backgroundColor = .custom.background
         }
         
         replyButton.onThemeChange()

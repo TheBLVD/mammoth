@@ -247,7 +247,13 @@ extension ActivityCardHeader {
         }
     }
     
-    func onThemeChange() {}
+    func onThemeChange() {
+        self.backgroundColor = .custom.background
+        titleLabel.backgroundColor = .custom.background
+        dateLabel.backgroundColor = .custom.background
+        actionLabel.backgroundColor = .custom.background
+        pinIcon.backgroundColor = .custom.background
+    }
     
     func startTimeUpdates() {
         if let createdAt = self.activity?.createdAt {
