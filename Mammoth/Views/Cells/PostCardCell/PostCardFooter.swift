@@ -209,7 +209,7 @@ extension PostFooterButton {
     func configure(buttonText: String?, isActive: Bool = false, postCard: PostCardModel? = nil) {
         self.isActive = isActive
         
-        let shouldChangeTheme = self.isPrivateMention != postCard?.isPrivateMention
+        let shouldChangeTheme = self.isPrivateMention != (postCard?.isPrivateMention ?? false)
         self.isPrivateMention = postCard?.isPrivateMention ?? false
         
         if let buttonText = buttonText {
