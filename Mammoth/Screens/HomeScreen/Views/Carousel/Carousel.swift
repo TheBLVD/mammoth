@@ -142,7 +142,7 @@ class Carousel: UIView {
     private func selectCell(atIndexPath indexPath: IndexPath) {
         collectionView.visibleCells.forEach({
             let cell = $0 as! CarouselItem
-            cell.titleLabel.textColor = .custom.softContrast
+            cell.titleLabel.textColor = .custom.softContrast.withAlphaComponent(GlobalStruct.overrideThemeHighContrast ? 0.65 : 1)
         })
         
         if let cell = collectionView.cellForItem(at: indexPath) as? CarouselItem {
@@ -269,7 +269,7 @@ extension Carousel: UICollectionViewDataSource {
                 cell.titleLabel.attributedText = richContent
             }
         } else {
-            cell.titleLabel.textColor = .custom.softContrast
+            cell.titleLabel.textColor = .custom.softContrast.withAlphaComponent(GlobalStruct.overrideThemeHighContrast ? 0.65 : 1)
         }
                 
         return cell
