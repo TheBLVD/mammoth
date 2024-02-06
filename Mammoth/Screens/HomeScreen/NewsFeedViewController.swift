@@ -712,14 +712,14 @@ extension NewsFeedViewController {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
-        
-        let tasks = self.deferredSnapshotUpdates
-        self.deferredSnapshotUpdates = []
-        tasks.forEach({ $0() })
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+        
+        let tasks = self.deferredSnapshotUpdates
+        self.deferredSnapshotUpdates = []
+        tasks.forEach({ $0() })
     }
 }
 
@@ -735,7 +735,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         
         let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || self.isInWindowHierarchy()
         
-        guard !self.tableView.isTracking, updateDisplay else {
+        guard !self.tableView.isTracking, !self.tableView.isDecelerating, updateDisplay else {
             let deferredJob = {  [weak self] in
                 guard let self else { return }
                 self.didUpdateSnapshot(snapshot, feedType: feedType, updateType: updateType, onCompleted: onCompleted)
