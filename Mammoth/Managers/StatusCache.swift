@@ -79,11 +79,9 @@ class StatusCache {
         self.localReposts = [:]
         self.localBookmarks = [:]
         
-        if let userId = AccountsManager.shared.currentUser()?.fullAcct {
-            GlobalStruct.allLikes = []
-            GlobalStruct.allReposts = []
-            GlobalStruct.allBookmarks = []
-        }
+        GlobalStruct.allLikes = []
+        GlobalStruct.allReposts = []
+        GlobalStruct.allBookmarks = []
     }
     
     public func cachedStatusForURL(url: URL) -> Status? {
