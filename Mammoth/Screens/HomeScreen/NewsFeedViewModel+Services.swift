@@ -351,9 +351,20 @@ extension NewsFeedViewModel {
             
             let requestingUser = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID
             
-            let (item, cursorId) = try await feedType.fetchAll(range: .limit(60), batchName: "latest_batch")
-            let newItems = item.removeMutesAndBlocks().removeFiltered()
-            
+            let items: [NewsFeedListItem]
+
+            if (feedType == .bookmarks) {
+                let (requestItems, pagination) = try await feedType.fetchAllPaginated(range: .default, batchName: "latest_batch")
+                items = requestItems
+                self.nextPageRange = pagination?.next
+            } else {
+                let (requestItems, cursorId) = try await feedType.fetchAll(range: .limit(60), batchName: "latest_batch")
+                items = requestItems
+                self.cursorId = cursorId
+            }
+
+            let newItems = items.removeMutesAndBlocks().removeFiltered()
+
             // Abort if user changed in the meantime
             guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
             guard !Task.isCancelled else { return }
