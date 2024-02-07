@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum NewsFeedViewModelError: Error {
+    case invalidPaginatedFeedType
+}
+
 enum NewsFeedSnapshotUpdateType {
     case hydrate        // loading items from cache
     case replaceAll     // replacing all items
