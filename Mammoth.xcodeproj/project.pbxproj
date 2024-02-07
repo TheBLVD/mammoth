@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		141F65632B73EB2A004AE3B5 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141F65622B73EB2A004AE3B5 /* Types.swift */; };
 		144173572B21E0480058AFCC /* TutorialOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144173562B21E0480058AFCC /* TutorialOverlay.swift */; };
 		1441735A2B21E4490058AFCC /* TextBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144173592B21E4490058AFCC /* TextBubbleView.swift */; };
 		1441736D2B2B1FDA0058AFCC /* SDImageTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */; };
@@ -821,6 +822,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		141F65622B73EB2A004AE3B5 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		144173562B21E0480058AFCC /* TutorialOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialOverlay.swift; sourceTree = "<group>"; };
 		144173592B21E4490058AFCC /* TextBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBubbleView.swift; sourceTree = "<group>"; };
 		1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDImageTransformers.swift; sourceTree = "<group>"; };
@@ -1697,8 +1699,9 @@
 		14E08C6B2B20C9B100EF5A55 /* TutorialOverlay */ = {
 			isa = PBXGroup;
 			children = (
-				144173582B21E43B0058AFCC /* Views */,
 				144173562B21E0480058AFCC /* TutorialOverlay.swift */,
+				141F65622B73EB2A004AE3B5 /* Types.swift */,
+				144173582B21E43B0058AFCC /* Views */,
 			);
 			path = TutorialOverlay;
 			sourceTree = "<group>";
@@ -3937,6 +3940,7 @@
 				5339968E2914227A00560F83 /* Disk+Data.swift in Sources */,
 				BF93257E2A4262C80034CAE7 /* ExtendedTouchView.swift in Sources */,
 				BFBD41EE2ACB3A58009BA818 /* ForYouCustomizationCell.swift in Sources */,
+				141F65632B73EB2A004AE3B5 /* Types.swift in Sources */,
 				53450E6D2936127C00D720EA /* EnumTransform.swift in Sources */,
 				C3C22E7C2A3A0DF400C7CB0A /* ProfileViewSettingsButton.swift in Sources */,
 				53399A49291526B900560F83 /* ClientApplication.swift in Sources */,
