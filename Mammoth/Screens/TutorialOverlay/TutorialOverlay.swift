@@ -25,7 +25,7 @@ class TutorialOverlay: UIViewController {
             case .smartList:
                 return "Smart lists marked with a /slash are community curated lists."
             case .quickFeedSwitcher:
-                return "Long press the Home tab to quickly jump to other feeds"
+                return "Long press the Home tab to quickly jump to other feeds."
             }
         }
         
