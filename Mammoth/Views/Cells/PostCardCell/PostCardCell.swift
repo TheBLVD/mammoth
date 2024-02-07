@@ -199,6 +199,7 @@ final class PostCardCell: UITableViewCell {
     // Includes the header extension and the rest of the cell
     private var wrapperStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.distribution = .fill
@@ -211,6 +212,7 @@ final class PostCardCell: UITableViewCell {
     // Basic cell columns: profile pic, and cell content
     private var mainStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.distribution = .fillProportionally
@@ -223,6 +225,7 @@ final class PostCardCell: UITableViewCell {
     // Includes header, text, media and footer
     private var contentStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .leading
         stackView.distribution = .fill
@@ -237,6 +240,7 @@ final class PostCardCell: UITableViewCell {
     // Includes text, small media
     private var textAndSmallMediaStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.distribution = .fill
@@ -306,6 +310,7 @@ final class PostCardCell: UITableViewCell {
     // Contains image attachment, poll, and/or link preview if needed
     private var mediaContainer: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.distribution = .fill
@@ -355,6 +360,8 @@ final class PostCardCell: UITableViewCell {
     
     private let parentThread: UIView = {
         let view = UIView()
+        view.isOpaque = true
+        view.layer.shouldRasterize = true
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .custom.feintContrast
         view.isHidden = true
@@ -363,6 +370,8 @@ final class PostCardCell: UITableViewCell {
     
     private let childThread: UIView = {
         let view = UIView()
+        view.isOpaque = true
+        view.layer.shouldRasterize = true
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .custom.feintContrast
         view.isHidden = true
@@ -370,6 +379,7 @@ final class PostCardCell: UITableViewCell {
     }()
     
     private var textLongPressGesture: UILongPressGestureRecognizer?
+    private var isPrivateMention: Bool = false
     
     private enum MetricButtons: Int {
         case likes
@@ -636,6 +646,7 @@ private extension PostCardCell {
         self.contentStackView.insertArrangedSubview(self.metadata!, at: self.contentStackView.arrangedSubviews.firstIndex(of: self.footer) ?? 0)
         
         setupUIFromSettings()
+        onThemeChange()
     }
     
     @objc func setupUIFromSettings() {
@@ -670,8 +681,6 @@ private extension PostCardCell {
         self.quotePost?.setupUIFromSettings()
         self.headerExtension?.setupUIFromSettings()
         self.metadata?.setupUIFromSettings()
-        
-        self.onThemeChange()
     }
 }
 
@@ -679,6 +688,9 @@ private extension PostCardCell {
 extension PostCardCell {
     func configure(postCard: PostCardModel, type: PostCardCellType = .regular, hasParent: Bool = false, hasChild: Bool = false, onButtonPress: @escaping PostCardButtonCallback) {        
         let mediaHasChanged = postCard.mediaAttachments != self.postCard?.mediaAttachments
+        
+        let shouldUpdateTheme = self.isPrivateMention != postCard.isPrivateMention
+        self.isPrivateMention = postCard.isPrivateMention
         
         self.postCard = postCard
         self.type = type
@@ -695,7 +707,7 @@ extension PostCardCell {
         
         if let user = postCard.user, !postCard.isDeleted, !postCard.isMuted, !postCard.isBlocked {
             if case .hide(_) = postCard.filterType {} else {
-                self.profilePic.configure(user: user)
+                self.profilePic.configure(user: user, isPrivateMention: postCard.isPrivateMention)
                 self.profilePic.onPress = onButtonPress
             }
         }
@@ -707,16 +719,6 @@ extension PostCardCell {
         
         self.header.configure(postCard: postCard, headerType: type.headerType, isVerticallyCentered: isVerticallyCentered)
         self.header.onPress = onButtonPress
-        
-        if let postCard = self.postCard, postCard.isPrivateMention {
-            self.backgroundColor = .custom.OVRLYSoftContrast
-            self.contentView.backgroundColor = .custom.OVRLYSoftContrast
-            self.postTextView.backgroundColor = .custom.OVRLYSoftContrast
-        } else {
-            self.backgroundColor = .custom.background
-            self.contentView.backgroundColor = .custom.background
-            self.postTextView.backgroundColor = .custom.background
-        }
         
         self.configureMetaTextContent()
         
@@ -843,7 +845,7 @@ extension PostCardCell {
         // Hide media gallery (carousel) if covered with content warning / deleted overlay
         if self.contentWarningButton.isHidden == false || self.deletedWarningButton.isHidden == false {
             self.mediaGallery?.alpha = 0
-        } else {
+        } else if self.mediaGallery?.alpha == 0 && postCard.mediaDisplayType == .carousel {
             self.mediaGallery?.alpha = 1
         }
         
@@ -865,7 +867,9 @@ extension PostCardCell {
             }
         } else {
             // remove the detailStack when not needed
-            self.metadata?.isHidden = true
+            if self.metadata?.isHidden == false {
+                self.metadata?.isHidden = true
+            }
         }
         
         // set detail-specific UI
@@ -882,8 +886,12 @@ extension PostCardCell {
         }
         
         // Make sure all views are underneath the contentWarningButton and the deletedWarningButton
-        self.contentStackView.bringSubviewToFront(self.contentWarningButton)
-        self.contentStackView.bringSubviewToFront(self.deletedWarningButton)
+        if self.contentWarningButton.isHidden == false {
+            self.contentStackView.bringSubviewToFront(self.contentWarningButton)
+        }
+        if self.deletedWarningButton.isHidden == false {
+            self.contentStackView.bringSubviewToFront(self.deletedWarningButton)
+        }
         
         if CommandLine.arguments.contains("-M_DEBUG_TIMELINES") {
             // Configure for debugging
@@ -891,6 +899,10 @@ extension PostCardCell {
         }
         
         self.configureContraints()
+        
+        if shouldUpdateTheme {
+            self.onThemeChange()
+        }
     }
     
     func configureMetaTextContent() {
@@ -1113,38 +1125,44 @@ extension PostCardCell {
     }
     
     func onThemeChange() {
+        var backgroundColor = UIColor.custom.background
         if let postCard = self.postCard, postCard.isPrivateMention {
-            self.backgroundColor = .custom.OVRLYSoftContrast
-            self.contentView.backgroundColor = .custom.OVRLYSoftContrast
-            self.postTextView.backgroundColor = .custom.OVRLYSoftContrast
-        } else {
-            self.backgroundColor = .custom.background
-            self.contentView.backgroundColor = .custom.background
-            self.postTextView.backgroundColor = .custom.background
+            backgroundColor = .custom.OVRLYSoftContrast
         }
-
-        self.postTextView.backgroundColor = self.contentView.backgroundColor
+        
+        self.backgroundColor = backgroundColor
+        self.contentView.backgroundColor = backgroundColor
+        self.postTextView.backgroundColor = backgroundColor
+        self.wrapperStackView.backgroundColor = backgroundColor
+        self.mainStackView.backgroundColor = backgroundColor
+        self.contentStackView.backgroundColor = backgroundColor
+        self.mediaStack?.backgroundColor = backgroundColor
+        self.mediaContainer.backgroundColor = backgroundColor
+        self.textAndSmallMediaStackView.backgroundColor = backgroundColor
         
         self.profilePic.onThemeChange()
         self.header.onThemeChange()
         self.poll?.onThemeChange()
         self.linkPreview?.onThemeChange()
         self.quotePost?.onThemeChange()
+        self.image?.onThemeChange()
+        self.metadata?.onThemeChange()
         self.footer.onThemeChange()
         self.footer.backgroundColor = self.contentView.backgroundColor
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
+        
         // Update all items that use .custom colors
         contentWarningButton.backgroundColor = .custom.OVRLYSoftContrast
         deletedWarningButton.backgroundColor = .custom.OVRLYSoftContrast
         postTextView.textColor = .custom.mediumContrast
-        postTextView.backgroundColor = .custom.background
         parentThread.backgroundColor = .custom.feintContrast
         childThread.backgroundColor = .custom.feintContrast
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
         setupUIFromSettings()
         configureMetaTextContent()
+        onThemeChange()
     }
 }
 

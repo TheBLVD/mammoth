@@ -220,7 +220,7 @@ fileprivate class PostCardPollOption: UIStackView {
     private var optionButton: UIButton = {
         let button = UIButton(type: .custom)
         button.backgroundColor = .clear
-        button.setTitleColor(.custom.softContrast, for: .normal)
+        button.setTitleColor( .custom.pollBarText, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         button.titleLabel?.textAlignment = .left
         button.contentHorizontalAlignment = .left
@@ -245,7 +245,7 @@ fileprivate class PostCardPollOption: UIStackView {
     
     private var optionBar: UIView = {
         let bar = UIView()
-        bar.backgroundColor = .custom.highContrast
+        bar.backgroundColor = .custom.pollBars
         bar.translatesAutoresizingMaskIntoConstraints = false
         bar.isUserInteractionEnabled = false
         bar.layer.cornerRadius = 6

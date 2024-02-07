@@ -177,7 +177,16 @@ extension HashtagCell {
         self.onThemeChange()
     }
     
-    func onThemeChange() {}
+    func onThemeChange() {
+        self.contentView.backgroundColor = .custom.background
+        self.addButton.setTitleColor(.custom.highContrast, for: .normal)
+        self.addButton.backgroundColor = .custom.followButtonBG
+        self.titleLabel.textColor = .custom.highContrast
+        self.userTagLabel.textColor = UIColor.custom.feintContrast
+        if let hashtag {
+            self.titleLabel.attributedText = NewsFeedTypes.hashtag(hashtag).attributedTitle()
+        }
+    }
 }
 
 // MARK: Actions

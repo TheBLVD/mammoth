@@ -22,7 +22,7 @@ extension UIColor {
         static var actionButtons: UIColor { return UIColor.secondaryLabel.withAlphaComponent(0.4) }
         
         // Previously used around the app
-        static var appCol: UIColor { return appColorNamed("AppCol") }
+        static var appCol: UIColor { return UIColor(named: "AppCol")! }
         static var selectedCell: UIColor { return appColorNamed("selectedCell") }
         static var selectedFollowing: UIColor { return appColorNamed("selectedFollowing") }
         static var spinnerBG: UIColor { return appColorNamed("spinnerBG") }
@@ -49,6 +49,10 @@ extension UIColor {
         static var softContrast: UIColor { return appColorNamed("Soft Contrast") }
         static var statusBar: UIColor { return appColorNamed("Status Bar") }
         static var gold: UIColor { return appColorNamed("Gold") }
+        static var FABBackground: UIColor { return appColorNamed("FAB Background") }
+        static var FABForeground: UIColor { return appColorNamed("FAB Foreground") }
+        static var pollBarText: UIColor { return appColorNamed("Poll Bar Text") }
+        static var pollBars: UIColor { return appColorNamed("Poll Bars") }
     }
     
     func greenTintedColor() -> UIColor {

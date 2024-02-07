@@ -76,15 +76,11 @@ final class FollowButton: UIButton {
         self.layer.cornerRadius = type.cornerRadius
         self.layer.cornerCurve = .continuous
         self.layer.isOpaque = true
-        self.layer.backgroundColor = UIColor.custom.followButtonBG.cgColor
         self.isOpaque = true
-        self.backgroundColor = .custom.followButtonBG
-        self.setTitleColor(.custom.active, for: .normal)
         self.contentEdgeInsets = UIEdgeInsets(top: 4.5, left: 11, bottom: 3.5, right: 11)
         self.titleLabel?.font = UIFont.systemFont(ofSize: type.fontSize, weight: .semibold)
         self.setTitle(self.user?.followStatus?.title, for: .normal)
         self.titleLabel?.isOpaque = true
-        self.titleLabel?.backgroundColor = .custom.followButtonBG
         
         self.setContentCompressionResistancePriority(.required, for: .horizontal)
         self.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -93,7 +89,14 @@ final class FollowButton: UIButton {
         self.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
         self.addTarget(self, action: #selector(self.onTapped), for: .touchUpInside)
-        
+        onThemeChange()
+    }
+    
+    func onThemeChange() {
+        self.layer.backgroundColor = UIColor.custom.followButtonBG.cgColor
+        self.backgroundColor = .custom.followButtonBG
+        self.setTitleColor(.custom.active, for: .normal)
+        self.titleLabel?.backgroundColor = .custom.followButtonBG
         if #available(iOS 15.0, *) {
             self.tintColor = .custom.baseTint
         }
@@ -164,5 +167,18 @@ internal extension FollowButton {
                 }
             }
         }
+    }
+}
+
+// MARK: Appearance changes
+internal extension FollowButton {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.onThemeChange()
+             }
+         }
     }
 }

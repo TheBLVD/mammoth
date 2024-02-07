@@ -16,6 +16,7 @@ class PostCardQuotePost: UIView {
     // MARK: - Properties
     private var mainStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.distribution = .fill
@@ -37,6 +38,7 @@ class PostCardQuotePost: UIView {
     
     private var contentStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.distribution = .fill
@@ -52,6 +54,7 @@ class PostCardQuotePost: UIView {
     // Includes text, small media
     private var textAndSmallMediaStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.distribution = .fill
@@ -84,6 +87,7 @@ class PostCardQuotePost: UIView {
     // Contains image attachment, poll, and/or link preview if needed
     private var mediaContainer: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.distribution = .fill
@@ -507,6 +511,11 @@ extension PostCardQuotePost {
         self.linkPreview?.onThemeChange()
         self.poll?.onThemeChange()
         self.postNotFound?.onThemeChange()
+        
+        self.setupUIFromSettings()
+        
+        self.postTextLabel.backgroundColor = .custom.background
+        self.mainStackView.backgroundColor = .custom.background
     }
 }
 

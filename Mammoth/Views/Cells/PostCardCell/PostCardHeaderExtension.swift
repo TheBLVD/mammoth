@@ -106,7 +106,11 @@ extension PostCardHeaderExtension {
     
     func onThemeChange() {
         self.titleLabel.textColor = .custom.feintContrast
-        self.titleLabel.backgroundColor = .custom.background
+        if let postCard = self.postCard, postCard.isPrivateMention {
+            titleLabel.backgroundColor = .custom.OVRLYSoftContrast
+        } else {
+            titleLabel.backgroundColor = .custom.background
+        }
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

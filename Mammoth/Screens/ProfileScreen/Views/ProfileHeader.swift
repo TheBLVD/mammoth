@@ -479,19 +479,21 @@ extension ProfileHeader {
             return style
         }()
                 
+        self.nameLabel.textColor = .custom.displayNames
         self.nameLabel.textAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 4, weight: .bold),
             .foregroundColor: UIColor.custom.highContrast,
         ]
-        
         self.nameLabel.linkAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 4, weight: .bold),
             .foregroundColor: UIColor.custom.highContrast,
         ]
         
         self.userTagLabel.textColor = .custom.softContrast
-        
+        self.actionButton.setTitleColor(.custom.highContrast, for: .normal)
         self.actionButton.layer.borderColor = UIColor.custom.outlines.cgColor
+        self.followersButton.setTitleColor(.custom.softContrast, for: .normal)
+        self.statsLabel.textColor = .custom.softContrast
         
         if let screenType = self.screenType, screenType == .own {
             let buttonLabel = NSMutableAttributedString(string: "Edit Profile")
@@ -514,6 +516,10 @@ extension ProfileHeader {
         
         if screenType == .own {
             self.actionButton.menu = self.createContextMenu()
+        }
+        
+        if let user, let screenType {
+            self.configure(user: user, screenType: screenType)
         }
     }
     
@@ -765,25 +771,31 @@ final class ProfileField: UIStackView, MetaLabelDelegate {
     }
     
     func onThemeChange() {
+        verifiedImage.tintColor = .custom.mediumContrast
+        
         self.titleLabel.textAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular),
             .foregroundColor: UIColor.custom.feintContrast,
         ]
-        
         self.titleLabel.linkAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular),
             .foregroundColor: UIColor.custom.feintContrast,
         ]
-        
+        if let name = field.metaName {
+            titleLabel.configure(content: name)
+        }
+
         self.descriptionLabel.textAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular),
             .foregroundColor: UIColor.custom.mediumContrast,
         ]
-        
         self.descriptionLabel.linkAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .regular),
             .foregroundColor: UIColor.custom.mediumContrast,
         ]
+        if let description = field.metaValue {
+            descriptionLabel.configure(content: description)
+        }
     }
     
     func metaLabel(_ metaLabel: MetaTextKit.MetaLabel, didSelectMeta meta: Meta) {
@@ -812,6 +824,15 @@ final class ProfileField: UIStackView, MetaLabelDelegate {
     }
     
 }
+
+// MARK: Appearance changes
+internal extension ProfileField {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+         self.onThemeChange()
+    }
+}
+
 
 final class ProfileFieldSeperator: UIView {
     override init(frame: CGRect) {

@@ -18,6 +18,7 @@ final class ActivityCardCell: UITableViewCell {
     // Includes the header extension and the rest of the cell
     private var wrapperStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.distribution = .fill
@@ -29,6 +30,7 @@ final class ActivityCardCell: UITableViewCell {
     // Basic cell columns: profile pic, and cell content
     private var mainStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.distribution = .fillProportionally
@@ -41,6 +43,7 @@ final class ActivityCardCell: UITableViewCell {
     // Includes header, text, media
     private var contentStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .leading
         stackView.distribution = .fill
@@ -53,6 +56,7 @@ final class ActivityCardCell: UITableViewCell {
     // Includes text, small media
     private var textAndSmallMediaStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.distribution = .fill
@@ -100,6 +104,7 @@ final class ActivityCardCell: UITableViewCell {
     // Contains image attachment, poll, and/or link preview if needed
     private var mediaContainer: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.distribution = .fill
@@ -768,5 +773,18 @@ extension ActivityCardCell: MetaLabelDelegate {
                 self.onButtonPress?(.postDetails, true, .post(postCard))
             }
         }
+    }
+}
+
+// MARK: Appearance changes
+internal extension ActivityCardCell {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.setupUIFromSettings()
+             }
+         }
     }
 }

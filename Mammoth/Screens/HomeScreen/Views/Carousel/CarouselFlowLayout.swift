@@ -6,7 +6,7 @@
 //  Copyright © 2023 The BLVD. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class CarouselFlowLayout: UICollectionViewFlowLayout {
     

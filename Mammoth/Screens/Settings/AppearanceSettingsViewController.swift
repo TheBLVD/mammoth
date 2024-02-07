@@ -13,7 +13,32 @@ import SDWebImage
 class AppearanceSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIColorPickerViewControllerDelegate {
     
     private enum AppearanceOptions: Int, CaseIterable {
+        static var allCases: [AppearanceSettingsViewController.AppearanceOptions] {
+            // Only include the High Contrast option for iOS 17+
+            let allItems: [AppearanceSettingsViewController.AppearanceOptions?] = [
+                AppearanceOptions.theme,
+                {
+                    if #available(iOS 17.0, *) {
+                        return AppearanceOptions.highContrast
+                    } else {
+                        return nil
+                    }
+                }(),
+                AppearanceOptions.names,
+                AppearanceOptions.maximumLines,
+                AppearanceOptions.mediaSize,
+                AppearanceOptions.profileIcon,
+                AppearanceOptions.contentWarning,
+                AppearanceOptions.sensitiveContent,
+                AppearanceOptions.autoplay,
+                AppearanceOptions.translation
+            ]
+            return allItems.compactMap({$0})
+        }
+        
         case theme
+        @available(iOS 17.0, *)
+        case highContrast
         case names
         case maximumLines
         case mediaSize
@@ -22,7 +47,10 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         case sensitiveContent
         case autoplay
         case translation
-        
+
+        @available(*, unavailable)
+        case all
+
         var index: Int {
             self.rawValue
         }
@@ -254,10 +282,11 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             }
             
         case 2: // remaining cells
-            guard let option = AppearanceOptions(rawValue: indexPath.row) else {
+            guard indexPath.row < AppearanceOptions.allCases.count else {
                 log.error("Unsupported Appearance option")
                 return UITableViewCell()
             }
+            let option = AppearanceOptions.allCases[indexPath.row]
             
             switch option {
             case AppearanceOptions.theme:
@@ -266,88 +295,67 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f1fc}")
                 switch GlobalStruct.overrideTheme {
                 case 1:
-                    cell.detailTextLabel?.text = GlobalStruct.overrideThemeHighContrast ? "Light (high contrast)" : "Light"
+                    cell.detailTextLabel?.text = "Light"
                 case 2:
-                    cell.detailTextLabel?.text = GlobalStruct.overrideThemeHighContrast ? "Dark (high contrast)" : "Dark"
+                    cell.detailTextLabel?.text = "Dark"
                 default:
                     cell.detailTextLabel?.text = "System"
                 }
 
                 var gestureActions: [UIAction] = []
                 let op1 = UIAction(title: "System", image: settingsFontAwesomeImage("\u{f042}"), identifier: nil) { action in
-                    GlobalStruct.overrideThemeHighContrast = false
                     GlobalStruct.overrideTheme = 0
-                    UserDefaults.standard.set(GlobalStruct.overrideThemeHighContrast, forKey: "overrideThemeHighContrast")
                     UserDefaults.standard.set(GlobalStruct.overrideTheme, forKey: "overrideTheme")
                     FontAwesome.setColorTheme(theme: ColorTheme.systemDefault)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "overrideTheme"), object: nil)
                     self.tableView.reloadRows(at: [indexPath], with: .none)
-
                 }
                 if GlobalStruct.overrideTheme == 0 {
                     op1.state = .on
                 }
                 gestureActions.append(op1)
                 let op2 = UIAction(title: "Light", image: settingsFontAwesomeImage("\u{e0c9}"), identifier: nil) { action in
-                    GlobalStruct.overrideThemeHighContrast = false
                     GlobalStruct.overrideTheme = 1
-                    UserDefaults.standard.set(GlobalStruct.overrideThemeHighContrast, forKey: "overrideThemeHighContrast")
                     UserDefaults.standard.set(GlobalStruct.overrideTheme, forKey: "overrideTheme")
                     FontAwesome.setColorTheme(theme: ColorTheme.light)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "overrideTheme"), object: nil)
                     self.tableView.reloadRows(at: [indexPath], with: .none)
-
                 }
-                if GlobalStruct.overrideTheme == 1 && GlobalStruct.overrideThemeHighContrast == false {
+                if GlobalStruct.overrideTheme == 1 {
                     op2.state = .on
                 }
                 gestureActions.append(op2)
                 let op3 = UIAction(title: "Dark", image: settingsFontAwesomeImage("\u{f186}"), identifier: nil) { action in
-                    GlobalStruct.overrideThemeHighContrast = false
                     GlobalStruct.overrideTheme = 2
-                    UserDefaults.standard.set(GlobalStruct.overrideThemeHighContrast, forKey: "overrideThemeHighContrast")
                     UserDefaults.standard.set(GlobalStruct.overrideTheme, forKey: "overrideTheme")
                     FontAwesome.setColorTheme(theme: ColorTheme.dark)
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "overrideTheme"), object: nil)
                     self.tableView.reloadRows(at: [indexPath], with: .none)
-
                 }
-                if GlobalStruct.overrideTheme == 2 && GlobalStruct.overrideThemeHighContrast == false {
+                if GlobalStruct.overrideTheme == 2 {
                     op3.state = .on
                 }
                 gestureActions.append(op3)
 
-                if #available(iOS 17.0, *) {
-                    let op4 = UIAction(title: "Light (high contrast)", image: settingsFontAwesomeImage("\u{e0c9}"), identifier: nil) { action in
-                        GlobalStruct.overrideThemeHighContrast = true
-                        GlobalStruct.overrideTheme = 1
-                        UserDefaults.standard.set(GlobalStruct.overrideThemeHighContrast, forKey: "overrideThemeHighContrast")
-                        UserDefaults.standard.set(GlobalStruct.overrideTheme, forKey: "overrideTheme")
-                        FontAwesome.setColorTheme(theme: ColorTheme.light)
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "overrideTheme"), object: nil)
-                        self.tableView.reloadRows(at: [indexPath], with: .none)
-                        
-                    }
-                    if GlobalStruct.overrideTheme == 1 && GlobalStruct.overrideThemeHighContrast == true {
-                        op4.state = .on
-                    }
-                    gestureActions.append(op4)
-                    let op5 = UIAction(title: "Dark (high contrast)", image: settingsFontAwesomeImage("\u{f186}"), identifier: nil) { action in
-                        GlobalStruct.overrideThemeHighContrast = true
-                        GlobalStruct.overrideTheme = 2
-                        UserDefaults.standard.set(GlobalStruct.overrideThemeHighContrast, forKey: "overrideThemeHighContrast")
-                        UserDefaults.standard.set(GlobalStruct.overrideTheme, forKey: "overrideTheme")
-                        FontAwesome.setColorTheme(theme: ColorTheme.dark)
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "overrideTheme"), object: nil)
-                        self.tableView.reloadRows(at: [indexPath], with: .none)
-                        
-                    }
-                    if GlobalStruct.overrideTheme == 2 && GlobalStruct.overrideThemeHighContrast == true {
-                        op5.state = .on
-                    }
-                    gestureActions.append(op5)
-                }
                 cell.backgroundButton.menu = UIMenu(title: "", image: UIImage(systemName: "sun.max"), options: [.displayInline], children: gestureActions)
+                return cell
+
+            case AppearanceOptions.highContrast:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+                cell.textLabel?.numberOfLines = 0
+                cell.textLabel?.text = "High-contrast mode"
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f042}")
+                let switchView = UISwitch(frame: .zero)
+                switchView.setOn(GlobalStruct.overrideThemeHighContrast, animated: false)
+                switchView.onTintColor = .custom.gold
+                switchView.tag = indexPath.row
+                switchView.addTarget(self, action: #selector(self.switchHighContrast(_:)), for: .valueChanged)
+                cell.accessoryView = switchView
+                cell.selectionStyle = .none
+                cell.backgroundColor = .custom.OVRLYSoftContrast
+                if #available(iOS 15.0, *) {
+                    cell.focusEffect = UIFocusHaloEffect()
+                }
                 return cell
 
             case AppearanceOptions.names:
@@ -605,12 +613,9 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         
         switch indexPath.section {
         case 2:
-            switch indexPath.row {
-            case AppearanceOptions.translation.index:
+            if AppearanceOptions.allCases[indexPath.row] == AppearanceOptions.translation {
                 let vc = TranslationSettingsViewController()
                 navigationController?.pushViewController(vc, animated: true)
-            default:
-                break
             }
         default:
             break
@@ -691,4 +696,10 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         }
     }
     
+    @objc func switchHighContrast(_ sender: UISwitch!) {
+        GlobalStruct.overrideThemeHighContrast = sender.isOn
+        UserDefaults.standard.set(GlobalStruct.overrideThemeHighContrast, forKey: "overrideThemeHighContrast")
+        NotificationCenter.default.post(name: Notification.Name(rawValue: "overrideTheme"), object: nil)
+    }
+        
 }
