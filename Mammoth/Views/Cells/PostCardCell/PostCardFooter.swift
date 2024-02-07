@@ -14,6 +14,7 @@ final class PostCardFooter: UIView {
     // MARK: - Properties
     private var mainStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.distribution = .equalSpacing
@@ -38,6 +39,7 @@ final class PostCardFooter: UIView {
             moreButton.onPress = onButtonPress
         }
     }
+    private var isPrivateMention = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,25 +75,52 @@ private extension PostCardFooter {
 // MARK: - Configuration
 extension PostCardFooter {
     func configure(postCard: PostCardModel, includeMetrics: Bool = true) {
-        if postCard.isPrivateMention {
-            self.backgroundColor = .custom.OVRLYSoftContrast
-        } else {
-            self.backgroundColor = .custom.background
-        }
+        let shouldUpdateTheme = self.isPrivateMention != postCard.isPrivateMention
+        self.isPrivateMention = postCard.isPrivateMention
         
-        replyButton.configure(buttonText: includeMetrics ? postCard.replyCount : nil)
+        replyButton.configure(buttonText: includeMetrics ? postCard.replyCount : nil, postCard: postCard)
         repostButton.configure(buttonText: includeMetrics ? postCard.repostCount : nil, isActive: postCard.isReposted, postCard: postCard)
-        likeButton.configure(buttonText: includeMetrics ? postCard.likeCount : nil, isActive: postCard.isLiked)
+        likeButton.configure(buttonText: includeMetrics ? postCard.likeCount : nil, isActive: postCard.isLiked, postCard: postCard)
         moreButton.configure(buttonText: nil, isActive: postCard.isBookmarked, postCard: postCard)
+        
+        if shouldUpdateTheme {
+            self.onThemeChange()
+        }
     }
     
     func onThemeChange() {
+        if self.isPrivateMention {
+            self.backgroundColor = .custom.OVRLYSoftContrast
+            mainStackView.backgroundColor = .custom.OVRLYSoftContrast
+        } else {
+            self.backgroundColor = .custom.background
+            mainStackView.backgroundColor = .custom.background
+        }
+        
         replyButton.onThemeChange()
         repostButton.onThemeChange()
         likeButton.onThemeChange()
         moreButton.onThemeChange()
     }
 }
+
+// MARK: Appearance changes
+internal extension PostCardFooter {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 if self.isPrivateMention {
+                     self.backgroundColor = .custom.OVRLYSoftContrast
+                 } else {
+                     self.backgroundColor = .custom.background
+                 }
+             }
+         }
+    }
+}
+
 
 
 
@@ -131,6 +160,7 @@ fileprivate class PostFooterButton: UIButton {
     private let symbolConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .regular)
     private let postButtonType: PostCardButtonType
     private var isActive = false
+    private var isPrivateMention = false
     
     public var onPress: PostCardButtonCallback?
     
@@ -181,6 +211,9 @@ extension PostFooterButton {
     func configure(buttonText: String?, isActive: Bool = false, postCard: PostCardModel? = nil) {
         self.isActive = isActive
         
+        let shouldChangeTheme = self.isPrivateMention != (postCard?.isPrivateMention ?? false)
+        self.isPrivateMention = postCard?.isPrivateMention ?? false
+        
         if let buttonText = buttonText {
             label.text = buttonText
             
@@ -217,22 +250,31 @@ extension PostFooterButton {
                 break;
             }
         }
+        
+        if shouldChangeTheme {
+            self.onThemeChange()
+        }
     }
     
     func onThemeChange() {
         self.label.textColor = .custom.actionButtons
+        let backgroundColor: UIColor = self.isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
+        self.backgroundColor = backgroundColor
+        container.backgroundColor = backgroundColor
+        label.textColor = .custom.actionButtons
+        label.backgroundColor = backgroundColor
+        icon.backgroundColor = backgroundColor
+        if !isActive {
+            self.icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(self.postButtonType.tintColor(isActive: isActive), renderingMode: .alwaysOriginal)
+            
+        } else {
+            self.icon.image = self.postButtonType.activeIcon(symbolConfig: symbolConfig)?.withTintColor(self.postButtonType.tintColor(isActive: isActive), renderingMode: .alwaysOriginal)
+        }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        // Update all items that use .custom colors
-        self.backgroundColor = .custom.background
-        container.backgroundColor = .custom.background
-        label.textColor = .custom.actionButtons
-        label.backgroundColor = .custom.background
-        icon.backgroundColor = .custom.background
-        icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons,
-                             renderingMode: .alwaysOriginal)
+        onThemeChange()
     }
 
 }

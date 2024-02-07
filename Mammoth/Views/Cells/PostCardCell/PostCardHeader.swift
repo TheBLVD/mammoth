@@ -141,6 +141,7 @@ class PostCardHeader: UIView {
     private var postCard: PostCardModel?
     private var headerType: PostCardHeaderTypes = .regular
     public var onPress: PostCardButtonCallback?
+    private var isPrivateMention: Bool = false
     
     private var subscription: Cancellable?
 
@@ -244,6 +245,9 @@ extension PostCardHeader {
             self.status = status
         }
         
+        let shouldChangeTheme = self.isPrivateMention != postCard.isPrivateMention
+        self.isPrivateMention = postCard.isPrivateMention
+        
         if headerType == .mentions {
             self.titleLabel.isHidden = false
             self.userTagLabel.isHidden = false
@@ -329,34 +333,26 @@ extension PostCardHeader {
             self.pinIcon.isHidden = true
         }
         
-        if let postCard = self.postCard, postCard.isPrivateMention {
-            self.backgroundColor = .custom.OVRLYSoftContrast
-            titleLabel.backgroundColor = .custom.OVRLYSoftContrast
-            userTagLabel.backgroundColor = .custom.OVRLYSoftContrast
-            dateLabel.backgroundColor = .custom.OVRLYSoftContrast
-        } else {
-            self.backgroundColor = .custom.background
-            titleLabel.backgroundColor = .custom.background
-            userTagLabel.backgroundColor = .custom.background
-            dateLabel.backgroundColor = .custom.background
-        }
-        
         // center header content vertically when the post has a carousel and no post text
         if isVerticallyCentered && self.userTagLabel.isHidden {
             self.directionalLayoutMargins = .init(top: 10, leading: 0, bottom: 12, trailing: 0)
+        }
+        
+        if shouldChangeTheme {
+            self.onThemeChange()
         }
     }
     
     func configureMetaTextContent() {
         if GlobalStruct.displayName == .usertagOnly {
-            let text = headerType == .detail ? postCard!.fullUserTag.lowercased() : postCard!.userTag.lowercased()
+            let text = headerType == .detail ? postCard?.fullUserTag.lowercased() ?? "" : postCard?.userTag.lowercased() ?? ""
             let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
             self.titleLabel.configure(content: content)
         } else {
-            if let metaContent = postCard!.user?.metaName {
+            if let metaContent = postCard?.user?.metaName {
                 self.titleLabel.configure(content: metaContent)
             } else {
-                let text = postCard!.user?.name ?? ""
+                let text = postCard?.user?.name ?? ""
                 let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
                 self.titleLabel.configure(content: content)
             }
@@ -365,22 +361,34 @@ extension PostCardHeader {
     
     func onThemeChange() {
         self.profilePic?.onThemeChange()
+        var backgroundColor = UIColor.custom.background
+        
+        if let postCard = self.postCard, postCard.isPrivateMention {
+            backgroundColor = .custom.OVRLYSoftContrast
+        }
+        
+        self.backgroundColor = backgroundColor
+        titleLabel.backgroundColor = backgroundColor
+        userTagLabel.backgroundColor = backgroundColor
+        dateLabel.backgroundColor = backgroundColor
+        mainStackView.backgroundColor = backgroundColor
+        headerTitleStackView.backgroundColor = backgroundColor
+        rightAttributesStack.backgroundColor = backgroundColor
+        headerMainTitleStackView.backgroundColor = backgroundColor
+        headerTitleStackView.backgroundColor = backgroundColor
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         // Update all items that use .custom colors
         configureMetaTextContent()
-        self.backgroundColor = .custom.background
         titleLabel.textColor = .custom.displayNames
-        titleLabel.backgroundColor = .custom.background
         let config = UIImage.SymbolConfiguration(pointSize: GlobalStruct.smallerFontSize, weight: .light)
         pinIcon.image = UIImage(systemName: "pin.fill", withConfiguration: config)?.withTintColor(.custom.feintContrast, renderingMode: .alwaysTemplate)
         pinIcon.tintColor = .custom.feintContrast
         userTagLabel.textColor = .custom.feintContrast
-        userTagLabel.backgroundColor = .custom.background
         dateLabel.textColor = .custom.feintContrast
-        dateLabel.backgroundColor = .custom.background
+        
         setupUIFromSettings()
     }
     

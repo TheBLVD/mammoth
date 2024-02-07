@@ -18,6 +18,7 @@ class PostCardLinkPreview: UIView {
     // MARK: - Properties
     private var mainStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.distribution = .fill
@@ -34,6 +35,7 @@ class PostCardLinkPreview: UIView {
     
     private var imageStack: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.distribution = .fill
@@ -45,6 +47,7 @@ class PostCardLinkPreview: UIView {
     
     private var textStack: UIStackView = {
         let stackView = UIStackView()
+        stackView.isOpaque = true
         stackView.axis = .vertical
         stackView.alignment = .top
         stackView.distribution = .fill
@@ -57,6 +60,7 @@ class PostCardLinkPreview: UIView {
     
     private var imageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.isOpaque = true
         imageView.contentMode = .scaleAspectFill
         imageView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         imageView.backgroundColor = .custom.background
@@ -68,6 +72,7 @@ class PostCardLinkPreview: UIView {
     
     private var urlLabel: UILabel = {
         let label = UILabel()
+        label.isOpaque = true
         label.textColor = .custom.actionButtons
         label.numberOfLines = 1
         label.isOpaque = true
@@ -78,6 +83,7 @@ class PostCardLinkPreview: UIView {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
+        label.isOpaque = true
         label.textColor = UIColor.label
         label.numberOfLines = 3
         label.isOpaque = true
@@ -88,6 +94,7 @@ class PostCardLinkPreview: UIView {
     
     private var status: Status?
     public var onPress: PostCardButtonCallback?
+    private var isPrivateMention = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -155,6 +162,7 @@ private extension PostCardLinkPreview {
         ])
         
         setupUIFromSettings()
+        onThemeChange()
     }
 }
 
@@ -165,6 +173,9 @@ extension PostCardLinkPreview {
         else { return }
         
         self.status = status
+        
+        let shouldChangeTheme = self.isPrivateMention != postCard.isPrivateMention
+        self.isPrivateMention = postCard.isPrivateMention
         
         if let urlString = postCard.formattedCardUrlStr {
             self.urlLabel.text = urlString
@@ -193,13 +204,22 @@ extension PostCardLinkPreview {
         } else {
             self.imageView.isHidden = true
         }
+        
+        if shouldChangeTheme {
+            self.onThemeChange()
+        }
     }
     
     func onThemeChange() {
         self.mainStackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
         self.urlLabel.textColor = .custom.actionButtons
-        self.urlLabel.backgroundColor = .custom.background
-        self.titleLabel.backgroundColor = .custom.background
+        let backgroundColor: UIColor = self.isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
+        self.urlLabel.backgroundColor = backgroundColor
+        self.titleLabel.backgroundColor = backgroundColor
+        self.backgroundColor = backgroundColor
+        mainStackView.backgroundColor = backgroundColor
+        imageStack.backgroundColor = backgroundColor
+        textStack.backgroundColor = backgroundColor
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

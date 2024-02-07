@@ -209,7 +209,22 @@ extension ChannelCell {
         self.onThemeChange()
     }
     
-    func onThemeChange() {}
+    func onThemeChange() {
+        self.contentView.backgroundColor = .custom.background
+        self.addButton.setTitleColor(.custom.highContrast, for: .normal)
+        self.addButton.backgroundColor = .custom.followButtonBG
+        self.titleLabel.textColor = .custom.highContrast
+        self.ownerButton.setTitleColor(.custom.feintContrast, for: .normal)
+        self.descriptionLabel.textColor = .custom.mediumContrast
+        self.descriptionLabel.mentionColor = .custom.highContrast
+        self.descriptionLabel.hashtagColor = .custom.highContrast
+        self.descriptionLabel.URLColor = .custom.highContrast
+        self.descriptionLabel.emailColor = .custom.highContrast
+        if let channel {
+            self.titleLabel.attributedText = NewsFeedTypes.channel(channel).attributedTitle()
+            self.channelPic.configure(channel: channel)
+        }
+    }
 }
 
 // MARK: Actions

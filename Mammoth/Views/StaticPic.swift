@@ -96,8 +96,23 @@ extension StaticPic {
     }
     
     func onThemeChange() {
+        self.backgroundColor = .custom.OVRLYSoftContrast
+        self.layer.borderColor = UIColor.custom.outlines.cgColor
         self.glyphView.backgroundColor = .custom.OVRLYSoftContrast
         self.glyphView.layer.cornerRadius = self.size.cornerRadius()
+    }
+}
+
+// MARK: Appearance changes
+internal extension StaticPic {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.onThemeChange()
+             }
+         }
     }
 }
 

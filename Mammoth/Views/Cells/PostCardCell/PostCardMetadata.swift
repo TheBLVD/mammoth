@@ -55,6 +55,7 @@ final class PostCardMetadata: UIView {
     private var viewDetailsLabel: UILabel = createLabel()
     
     private var onButtonPress: PostCardButtonCallback?
+    private var isPrivateMention = false
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -107,10 +108,13 @@ final class PostCardMetadata: UIView {
         metricsStackView.addArrangedSubview(viewDetailsLabel)
         
         self.setupUIFromSettings()
+        self.onThemeChange()
     }
     
     func configure(postCard: PostCardModel, type: PostCardCell.PostCardCellType = .regular, onButtonPress: @escaping PostCardButtonCallback) {
         self.onButtonPress = onButtonPress
+        let shouldUpdateTheme = self.isPrivateMention != postCard.isPrivateMention
+        self.isPrivateMention = postCard.isPrivateMention
         
         if type.shouldShowSourceAndApplicationName {
             var description = postCard.source
@@ -161,6 +165,10 @@ final class PostCardMetadata: UIView {
         } else {
             viewDetailsLabel.isHidden = true
         }
+        
+        if shouldUpdateTheme {
+            self.onThemeChange()
+        }
     }
     
     @objc private func onMetricPress(recognizer: UIGestureRecognizer) {
@@ -177,19 +185,27 @@ final class PostCardMetadata: UIView {
         }
     }
     
+    public func onThemeChange() {
+        let backgroundColor: UIColor = isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
+        likesLabel.textColor = .custom.actionButtons
+        likesLabel.backgroundColor = backgroundColor
+        repostsLabel.textColor = .custom.actionButtons
+        repostsLabel.backgroundColor = backgroundColor
+        repliesLabel.textColor = .custom.actionButtons
+        repliesLabel.backgroundColor = backgroundColor
+        applicationLabel.textColor = .custom.feintContrast
+        applicationLabel.backgroundColor = backgroundColor
+        viewDetailsLabel.textColor = .custom.actionButtons
+        viewDetailsLabel.backgroundColor = backgroundColor
+        mainStackView.backgroundColor = backgroundColor
+        metricsStackView.backgroundColor = backgroundColor
+        self.backgroundColor = backgroundColor
+    }
+    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         // Update all items that use .custom colors
-        likesLabel.textColor = UIColor.custom.feintContrast
-        likesLabel.backgroundColor = .custom.background
-        repostsLabel.textColor = UIColor.custom.feintContrast
-        repostsLabel.backgroundColor = .custom.background
-        repliesLabel.textColor = UIColor.custom.feintContrast
-        repliesLabel.backgroundColor = .custom.background
-        applicationLabel.textColor = UIColor.custom.feintContrast
-        applicationLabel.backgroundColor = .custom.background
-        viewDetailsLabel.textColor = UIColor.custom.feintContrast
-        viewDetailsLabel.backgroundColor = .custom.background
+        self.onThemeChange()
     }
 
 }

@@ -237,7 +237,6 @@ final class PostCardImage: UIView {
         
         self.sensitiveContentOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.sensitiveContentOverlay.alpha = 1
-        
     }
     
     public func configure(image: Attachment?, postCard: PostCardModel) {
@@ -339,6 +338,8 @@ final class PostCardImage: UIView {
                     }
                 }
             }
+            
+            self.onThemeChange()
         }
     }
     
@@ -346,6 +347,11 @@ final class PostCardImage: UIView {
         if let firstImage = postCard.mediaAttachments.first {
             self.configure(image: firstImage, postCard: postCard)
         }
+    }
+    
+    public func onThemeChange() {
+        let backgroundColor: UIColor = (self.postCard?.isPrivateMention ?? false) ? .custom.OVRLYSoftContrast : .custom.background
+        self.backgroundColor = backgroundColor
     }
     
     private func deactivateAllImageConstraints() {

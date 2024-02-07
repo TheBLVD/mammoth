@@ -15,7 +15,7 @@ class ThinSlider: UISlider {
         self.tintColor = .custom.baseTint
         self.minimumTrackTintColor = .custom.feintContrast
         self.maximumTrackTintColor = .custom.feintContrast
-        self.setThumbImage(UIImage(named: "ThinSliderThumb"), for: .normal)
+        self.setThumbImage(UIImage(named: "ThinSliderThumb")?.withTintColor(.custom.mediumContrast), for: .normal)
     }
     
     required init?(coder: NSCoder) {
