@@ -16,3 +16,7 @@ func getTopMostViewController() -> UIViewController? {
     }
     return topMostViewController
 }
+
+func getTabBarController() -> AnimateTabController? {
+    return UIApplication.shared.preferredApplicationWindow?.rootViewController as? AnimateTabController
+}

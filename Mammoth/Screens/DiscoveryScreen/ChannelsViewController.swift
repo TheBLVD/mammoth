@@ -38,9 +38,11 @@ class ChannelsViewController: UIViewController {
     }()
 
     private var viewModel: ChannelsViewModel
+    private let onClose: (() -> Void)?
 
-    required init(viewModel: ChannelsViewModel) {
+    required init(viewModel: ChannelsViewModel, onClose: (() -> Void)? = nil) {
         self.viewModel = viewModel
+        self.onClose = onClose
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
         self.title = "Smart Lists"
@@ -85,6 +87,11 @@ class ChannelsViewController: UIViewController {
                 self.navigationItem.setRightBarButton(closeBtn, animated: false)
             }
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.onClose?()
     }
     
     @objc func onClosePressed() {
