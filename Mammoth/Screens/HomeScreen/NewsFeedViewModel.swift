@@ -83,6 +83,21 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
             return channel.title
         }
     }
+    
+    func fetchAllPaginated(range: RequestRange = .default, batchName: String, retryCount: Int = 0) async throws -> ([NewsFeedListItem], Pagination?) {
+        let batchName = "\(batchName)_\(Int.random(in: 0 ... 10000))"
+        
+        switch(self) {
+        case .bookmarks:
+            let (result, pagination) = try await TimelineService.bookmarks(range: range)
+            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), pagination)
+        default:
+            // fetchAllPaginated() only applies to bookmarks
+            throw NewsFeedViewModelError.invalidPaginatedFeedType
+        }
+        
+        // There is no catch block here as bookmarks should not rate limit like news feeds might
+    }
         
     func fetchAll(range: RequestRange = .default, batchName: String, retryCount: Int = 0) async throws -> ([NewsFeedListItem], cursorId: String?) {
         let batchName = "\(batchName)_\(Int.random(in: 0 ... 10000))"
@@ -123,8 +138,8 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
                 return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
                 
             case .bookmarks:
-                let (result, cursorId) = try await TimelineService.bookmarks(range: range)
-                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                // Moved to fetchAllPaginated()
+                throw NewsFeedViewModelError.invalidPaginatedFeedType
                 
             case .mentionsIn:
                 let (result, cursorId) = try await TimelineService.mentions(range: range)
@@ -358,6 +373,10 @@ class NewsFeedViewModel {
     internal var forYouStatus: ForYouStatus? = nil
     internal var cursorId: String?
     
+    // pagination is used in bookmark requests
+    internal var nextPageRange: RequestRange?
+    internal var previousPageRange: RequestRange?
+
     internal var newestSectionLength: Int = 35
     internal var newItemsThreshold: Int {
         switch self.type {
@@ -465,7 +484,9 @@ class NewsFeedViewModel {
                 }
             }
             
-            self.startPollingListData(forFeed: type)
+            if (self.type.shouldPollForListData) {
+                self.startPollingListData(forFeed: type)
+            }
         }
     }
     

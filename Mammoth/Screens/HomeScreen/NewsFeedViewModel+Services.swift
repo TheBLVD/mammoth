@@ -35,73 +35,97 @@ extension NewsFeedViewModel {
                 self.state = .loading
                 self.displayLoader(forType: currentType)
 
-                if let lastId = self.oldestItemId(forType: currentType) {
-                    let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.max(id: lastId, limit: 20), batchName: "next-page_batch")
-  
-                    let newItems = items.removeMutesAndBlocks().removeFiltered()
-                    
-                    DispatchQueue.main.async { [weak self] in
-                        guard let self else { return }
-
-                        // Abort if user changed in the meantime
-                        guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
-
-                        self.cursorId = cursorId
-                        
-                        if let current = self.listData.forType(type: currentType) {
-                            let currentIds = current.compactMap({ $0.extractUniqueId() })
-                            let uniqueNewItems = newItems.filter({ !currentIds.contains($0.extractUniqueId() ?? "") }).removingDuplicates()
-                            if !uniqueNewItems.isEmpty {
-                                self.append(items: uniqueNewItems, forType: currentType)
-                                self.hideEmpty(forType: currentType)
-                            }
-                            
-                            self.state = .success
-                            self.hideLoader(forType: currentType)
-                            
-                            // Preload quote posts
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                uniqueNewItems.forEach({
-                                    $0.extractPostCard()?.preloadQuotePost()
-                               })
-                            }
-                            
-                            // Clear cached video players of items higher up
-                            if self.snapshot.itemIdentifiers.count > 60 {
-                                let firstSection = Array(self.snapshot.itemIdentifiers[0...self.snapshot.itemIdentifiers.count-40])
-                                firstSection.forEach({
-                                    if case .postCard(let postCard) = $0 {
-                                        postCard.clearCache()
-                                    }
-                                })
-                            }
-                        } else {
-                            self.set(withItems: newItems, forType: currentType)
-                            self.state = .success
-                            self.hideLoader(forType: currentType)
-                            
-                            // Preload quote posts
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                newItems.forEach({
-                                    $0.extractPostCard()?.preloadQuotePost()
-                                })
-                            }
-                        }
-                        
-                        if cursorId == nil {
-                            self.isLoadMoreEnabled = false
-                        }
-                    }
-                } else {
+                guard let lastId = self.oldestItemId(forType: currentType) else {
                     self.state = .success
                     self.hideLoader(forType: currentType)
+                    return
+                }
+                
+                let items: [NewsFeedListItem]
+                
+                // Bookmarks require a paginated request
+                if (currentType == .bookmarks) {
+                    let (requestItems, pagination) = try await currentType.fetchAllPaginated(range: self.nextPageRange ?? .default, batchName: "next-page_batch")
+                    items = requestItems
+                    self.nextPageRange = pagination?.next // nextPageRange must be reassigned each time we load 'next'
+                } else {
+                    let (requestItems, cursorId) = try await currentType.fetchAll(range: RequestRange.max(id: lastId, limit: 20), batchName: "next-page_batch")
+                    items = requestItems
+                    self.cursorId = cursorId
+                }
+                
+                let newItems = items.removeMutesAndBlocks().removeFiltered()
+                
+                DispatchQueue.main.async { [weak self] in
+                    guard let self else { return }
+
+                    // Abort if user changed in the meantime
+                    guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
+
+                    self.cursorId = cursorId
+                    
+                    if let current = self.listData.forType(type: currentType) {
+                        let currentIds = current.compactMap({ $0.extractUniqueId() })
+                        let uniqueNewItems = newItems.filter({ !currentIds.contains($0.extractUniqueId() ?? "") }).removingDuplicates()
+                        if !uniqueNewItems.isEmpty {
+                            self.append(items: uniqueNewItems, forType: currentType)
+                            self.hideEmpty(forType: currentType)
+                        }
+                        
+                        self.state = .success
+                        self.hideLoader(forType: currentType)
+                        
+                        // Preload quote posts
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            uniqueNewItems.forEach({
+                                $0.extractPostCard()?.preloadQuotePost()
+                           })
+                        }
+                        
+                        // Clear cached video players of items higher up
+                        if self.snapshot.itemIdentifiers.count > 60 {
+                            let firstSection = Array(self.snapshot.itemIdentifiers[0...self.snapshot.itemIdentifiers.count-40])
+                            firstSection.forEach({
+                                if case .postCard(let postCard) = $0 {
+                                    postCard.clearCache()
+                                }
+                            })
+                        }
+                    } else {
+                        self.set(withItems: items, forType: currentType)
+                        self.state = .success
+                        self.hideLoader(forType: currentType)
+                        
+                        // Preload quote posts
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            newItems.forEach({
+                                $0.extractPostCard()?.preloadQuotePost()
+                            })
+                        }
+                    }
+                    
+                    if cursorId == nil {
+                        self.isLoadMoreEnabled = false
+                    }
                 }
                 
             // Fetch newer posts
             case .previousPage:
                 
                 if let firstId = self.newestItemId(forType: currentType) {
-                    let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.min(id: firstId, limit: 20), batchName: "previous-page_batch")
+
+                    let items: [NewsFeedListItem]
+                    
+                    // Bookmarks require a paginated request
+                    if (currentType == .bookmarks) {
+                        let (requestItems, pagination) = try await currentType.fetchAllPaginated(range: self.previousPageRange ?? .default, batchName: "previous-page_batch")
+                        items = requestItems
+                        self.previousPageRange = pagination?.previous
+                    } else {
+                        let (requestItems, cursorId) = try await currentType.fetchAll(range: RequestRange.min(id: firstId, limit: 20), batchName: "previous-page_batch")
+                        items = requestItems
+                        self.cursorId = cursorId
+                    }
                     
                     let newItems = items.removeMutesAndBlocks().removeFiltered()
 
@@ -319,7 +343,7 @@ extension NewsFeedViewModel {
         do {
             if case .error(_) = self.state { return }
             
-            // Abord if the load-more button is in the viewport.
+            // Abort if the load-more button is in the viewport.
             // When appending the latest posts we might also clean older posts and remove the load-more button.
             // We don't want this to happen when the load-more button is visible. So we don't load any new posts 
             // in that case, but will try again a few seconds later.

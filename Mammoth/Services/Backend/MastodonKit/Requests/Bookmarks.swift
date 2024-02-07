@@ -9,7 +9,7 @@
 import Foundation
 
 public struct Bookmarks {
-    public static func bookmarks(range: RequestRange = .default) -> Request<[Status]> {
+    public static func all(range: RequestRange = .default) -> Request<[Status]> {
         let rangeParameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
         let method = HTTPMethod.get(.parameters(rangeParameters))
         

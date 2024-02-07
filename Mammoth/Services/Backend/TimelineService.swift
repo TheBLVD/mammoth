@@ -103,10 +103,10 @@ struct TimelineService {
         return (result, cursorId: result.last?.id)
     }
 
-    static func bookmarks(range: RequestRange = .default) async throws -> ([Status], cursorId: String?) {
-        let request = Bookmarks.bookmarks(range: range)
-        let result = try await ClientService.runRequest(request: request)
-        return (result, cursorId: result.last?.id)
+    static func bookmarks(range: RequestRange = .default) async throws -> ([Status], Pagination?) {
+        let request = Bookmarks.all(range: range)
+        let (result, pagination) = try await ClientService.runPaginatedRequest(request: request)
+        return (result, pagination)
     }
     
     static func mentions(range: RequestRange = .default) async throws -> ([Status], cursorId: String?) {
