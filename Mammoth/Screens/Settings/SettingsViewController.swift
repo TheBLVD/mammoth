@@ -523,6 +523,7 @@ extension SettingsViewController {
         FeedsManager.shared.clearCache()
         ModerationManager.shared.clearCache()
         TutorialOverlay.resetTutorials()
+        StatusCache.shared.clearCache()
 
         // Clear News Carousel Cache
         do {
