@@ -4749,7 +4749,7 @@
 			repositoryURL = "https://github.com/TheBLVD/MetaTextKit";
 			requirement = {
 				kind = exactVersion;
-				version = 2.3.6;
+				version = 2.3.7;
 			};
 		};
 		532F291329476916003C9FAD /* XCRemoteSwiftPackageReference "MessageKit" */ = {
