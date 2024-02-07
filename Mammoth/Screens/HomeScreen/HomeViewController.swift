@@ -26,6 +26,7 @@ class HomeViewController : UIViewController {
     private var currentFeedType: NewsFeedTypes = .following {
         didSet {
             self.updateNavBarButtons()
+            self.updateQuickJumpMenu()
             self.updateForYouFeedType()
             self.showTutorialIfNeeded()
         }
@@ -75,6 +76,11 @@ class HomeViewController : UIViewController {
     override func viewDidLoad() {
         let initialViewController = self.pageForType(type: self.currentFeedType)
         pageViewController.setViewControllers([initialViewController], direction: .forward, animated: false)
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            self.updateQuickJumpMenu()
+        }
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -97,52 +103,69 @@ class HomeViewController : UIViewController {
         self.navigationController?.additionalSafeAreaInsets.top = 5
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.showTutorialIfNeeded()
+    }
+    
     func showTutorialIfNeeded() {
         
-        switch self.currentFeedType {
-        case .forYou:
-            if let itemIndex = self.indexOfCarouselItem(item: .forYou),
-                let item = self.feedCarousel.cellAtIndexPath(indexPath: IndexPath(item: itemIndex, section: 0)) {
-                // The delay is needed to let the carousel animation finish before
-                // taking a snapshot of the reference and positioning on the scrim
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
-                    guard let self else { return }
-                    guard self.currentFeedType == .forYou else { return }
-                    guard self.isInWindowHierarchy() else { return }
-                    
-                    // Display tutorial overlay
-                    if TutorialOverlay.shouldShowOverlay(forType: .forYou) {
-                        TutorialOverlay.showOverlay(type: .forYou, onRef: item) { [weak self] in
-                            guard let self else { return }
-                            guard self.currentFeedType == .forYou else { return }
-                            guard self.isInWindowHierarchy() else { return }
-                            
-                            if TutorialOverlay.shouldShowOverlay(forType: .customizeFeed) {
-                                TutorialOverlay.showOverlay(type: .customizeFeed, onRef: self.feedCarousel.contextButton)
+        if FeedsManager.shared.feeds.count >= 5 && TutorialOverlay.shouldShowOverlay(forType: .quickFeedSwitcher) {
+            // Force this on the next runloop to make sure rootViewController is set
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if let currentTabBarController = getTabBarController(),
+                   let item = currentTabBarController.animatedTabBar.tabBarItems.first {
+                    currentTabBarController.selectedIndex = 0
+                    TutorialOverlay.showOverlay(type: .quickFeedSwitcher, onRef: item)
+                }
+            }
+        } else {
+            
+            switch self.currentFeedType {
+            case .forYou:
+                if let itemIndex = self.indexOfCarouselItem(item: .forYou),
+                   let item = self.feedCarousel.cellAtIndexPath(indexPath: IndexPath(item: itemIndex, section: 0)) {
+                    // The delay is needed to let the carousel animation finish before
+                    // taking a snapshot of the reference and positioning on the scrim
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+                        guard let self else { return }
+                        guard self.currentFeedType == .forYou else { return }
+                        guard self.isInWindowHierarchy() else { return }
+                        
+                        // Display tutorial overlay
+                        if TutorialOverlay.shouldShowOverlay(forType: .forYou) {
+                            TutorialOverlay.showOverlay(type: .forYou, onRef: item) { [weak self] in
+                                guard let self else { return }
+                                guard self.currentFeedType == .forYou else { return }
+                                guard self.isInWindowHierarchy() else { return }
+                                
+                                if TutorialOverlay.shouldShowOverlay(forType: .customizeFeed) {
+                                    TutorialOverlay.showOverlay(type: .customizeFeed, onRef: self.feedCarousel.contextButton)
+                                }
                             }
+                        } else if TutorialOverlay.shouldShowOverlay(forType: .customizeFeed) {
+                            TutorialOverlay.showOverlay(type: .customizeFeed, onRef: self.feedCarousel.contextButton)
                         }
-                    } else if TutorialOverlay.shouldShowOverlay(forType: .customizeFeed) {
-                        TutorialOverlay.showOverlay(type: .customizeFeed, onRef: self.feedCarousel.contextButton)
                     }
                 }
-            }
-        case .channel:
-            if let itemIndex = self.indexOfCarouselItem(item: self.currentFeedType),
-                let item = self.feedCarousel.cellAtIndexPath(indexPath: IndexPath(item: itemIndex, section: 0)) {
-                let selectedFeed = self.currentFeedType
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
-                    guard let self else { return }
-                    guard self.currentFeedType == selectedFeed else { return }
-                    guard self.isInWindowHierarchy() else { return }
-                    
-                    // Display tutorial overlay
-                    if TutorialOverlay.shouldShowOverlay(forType: .smartList) {
-                        TutorialOverlay.showOverlay(type: .smartList, onRef: item)
+            case .channel:
+                if let itemIndex = self.indexOfCarouselItem(item: self.currentFeedType),
+                   let item = self.feedCarousel.cellAtIndexPath(indexPath: IndexPath(item: itemIndex, section: 0)) {
+                    let selectedFeed = self.currentFeedType
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) { [weak self] in
+                        guard let self else { return }
+                        guard self.currentFeedType == selectedFeed else { return }
+                        guard self.isInWindowHierarchy() else { return }
+                        
+                        // Display tutorial overlay
+                        if TutorialOverlay.shouldShowOverlay(forType: .smartList) {
+                            TutorialOverlay.showOverlay(type: .smartList, onRef: item)
+                        }
                     }
                 }
+            default:
+                break
             }
-        default:
-            break
         }
     }
 }
@@ -241,9 +264,15 @@ extension HomeViewController {
         
         let generalOptions = self.generalContextMenu()
         let feedOptions = self.currentPage().contextMenu()
-        let jumpToOptions = self.jumpToContextMenu()
-        let menu = UIMenu(title: "", options: [], children: [generalOptions] + [feedOptions] + [jumpToOptions])
+        let menu = UIMenu(title: "", options: [], children: [generalOptions] + [feedOptions])
         self.feedCarousel.contextButton.menu = menu
+    }
+    
+    private func updateQuickJumpMenu() {
+        if let currentTabBarController = getTabBarController(), 
+            let item = currentTabBarController.animatedTabBar.tabBarItems.first {
+            item.menu = UIMenu(title: "", options: [], children: [self.jumpToContextMenu()])
+        }
     }
     
     private func generalContextMenu() -> UIMenu {
@@ -252,11 +281,15 @@ extension HomeViewController {
             DispatchQueue.main.async {
                 let alert = UIAlertController(title: "Add list", message: "Browse community created Smart Lists or create a regular list?", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Browse Smart Lists", style: .default, handler: { _ in
-                    let vc = ChannelsViewController(viewModel: ChannelsViewModel(singleSection: true))
+                    let vc = ChannelsViewController(viewModel: ChannelsViewModel(singleSection: true)) { [weak self] in
+                        self?.showTutorialIfNeeded()
+                    }
                     self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
                 }))
                 alert.addAction(UIAlertAction(title: "Create List", style: .default, handler: { _ in
-                    let vc = AltTextViewController()
+                    let vc = AltTextViewController() { [weak self] in
+                        self?.showTutorialIfNeeded()
+                    }
                     vc.newList = true
                     self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
                 }))
@@ -265,10 +298,12 @@ extension HomeViewController {
             }
         }
         
-        let organize = UIAction(title: "Manage feeds", image: FontAwesome.image(fromChar: "\u{e1d0}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
+        let organize = UIAction(title: "Manage feeds", image: FontAwesome.image(fromChar: "\u{f03a}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
             guard let self else { return }
             DispatchQueue.main.async {
-                let vc = FeedEditorViewController()
+                let vc = FeedEditorViewController { [weak self] in
+                    self?.showTutorialIfNeeded()
+                }
                 if !vc.isBeingPresented {
                     self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
                 }
@@ -295,17 +330,22 @@ extension HomeViewController {
         }
         forYou.accessibilityLabel = "Settings"
 
-        return UIMenu(title: "", options: [.displayInline], children: [addList, organize, forYou, settings])
+        return UIMenu(title: "", options: [.displayInline], children: [forYou, organize, addList, settings])
     }
     
     private func jumpToContextMenu() -> UIMenu {
         let jumpToMenu = UIMenu(title: "Jump to a list", options: [.displayInline], children: FeedsManager.shared.feeds.filter({ $0.isEnabled }).map { item in
-            return UIAction(title: item.type.title(), image: item.type.icon, identifier: nil) { [weak self] _ in
+            return UIAction(title: item.type.plainTitle(), image: item.type.icon, identifier: nil) { [weak self] _ in
                 guard let self else { return }
                 
                 if let index = self.indexOfCarouselItem(item: item.type) {
                     self.feedCarousel.scrollTo(index: index)
                     self.carouselItemPressed(withIndex: index)
+                }
+                
+                // Navigate to home if needed
+                if let currentTabBarController = getTabBarController(), currentTabBarController.selectedIndex != 0 {
+                    currentTabBarController.selectedIndex = 0
                 }
             }
         })
@@ -341,6 +381,7 @@ extension HomeViewController: CarouselDelegate {
         self.pageViewController.setViewControllers([vc], direction: .forward, animated: false)
         
         self.updateNavBarButtons()
+        self.updateQuickJumpMenu()
     }
     
     func indexOfCarouselItem(item: NewsFeedTypes) -> Int? {

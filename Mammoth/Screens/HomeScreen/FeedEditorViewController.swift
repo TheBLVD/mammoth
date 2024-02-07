@@ -33,9 +33,11 @@ class FeedEditorViewController: UIViewController {
     }()
     
     private var viewModel: FeedEditorViewModel
+    private var onClose: (() -> Void)?
     
-    required init(viewModel: FeedEditorViewModel) {
+    required init(viewModel: FeedEditorViewModel, onClose: (() -> Void)? = nil) {
         self.viewModel = viewModel
+        self.onClose = onClose
         super.init(nibName: nil, bundle: nil)
         self.navigationItem.backButtonTitle = nil
         
@@ -45,6 +47,11 @@ class FeedEditorViewController: UIViewController {
     convenience init() {
         let viewModel = FeedEditorViewModel()
         self.init(viewModel: viewModel)
+    }
+    
+    convenience init(onClose: (() -> Void)? = nil) {
+        let viewModel = FeedEditorViewModel()
+        self.init(viewModel: viewModel, onClose: onClose)
     }
     
     required init?(coder: NSCoder) {
@@ -87,6 +94,11 @@ class FeedEditorViewController: UIViewController {
         FeedsManager.shared.consolidate()
         ListManager.shared.fetchLists()
         HashtagManager.shared.fetchFollowingTags()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.onClose?()
     }
     
     @objc func onClosePressed() {

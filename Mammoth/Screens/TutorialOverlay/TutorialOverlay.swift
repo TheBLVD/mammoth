@@ -14,6 +14,7 @@ class TutorialOverlay: UIViewController {
         case customizeFeed
         case forYou
         case smartList
+        case quickFeedSwitcher
         
         var description: String {
             switch self {
@@ -23,6 +24,8 @@ class TutorialOverlay: UIViewController {
                 return "For You shows the top posts from all of your \n/smart lists."
             case .smartList:
                 return "Smart lists marked with a /slash are community curated lists."
+            case .quickFeedSwitcher:
+                return "Long press the Home tab to quickly jump to other feeds."
             }
         }
         
@@ -34,17 +37,21 @@ class TutorialOverlay: UIViewController {
                 return 218
             case .smartList:
                 return 216
+            case .quickFeedSwitcher:
+                return 157
             }
         }
         
-        var arrowAlignment: NSTextAlignment {
+        var arrowAlignment: ArrowAlignment {
             switch self {
             case .customizeFeed:
-                return .right
+                return .topRight
             case .forYou:
-                return .center
+                return .topCenter
             case .smartList:
-                return .center
+                return .topCenter
+            case .quickFeedSwitcher:
+                return .bottomLeft
             }
         }
     }
@@ -124,12 +131,11 @@ class TutorialOverlay: UIViewController {
             
             // Update arrow location on orientation change and window resize
             switch self.type.arrowAlignment {
-            case .left:
-                log.error("ARROW LEFT ALIGNEMENT NOT YET IMPLEMENTED")
-                break
-            case .center:
+            case .topLeft:
+                self.leadingConstraint?.constant = refOrigin.x - self.bubble.rightArrowOffset
+            case .topCenter:
                 self.leadingConstraint?.constant = refOrigin.x + (ref.frame.width / 2) - (self.type.width / 2)
-            case .right:
+            case .topRight:
                 self.leadingConstraint?.constant = refOrigin.x - 218 + 30 + self.bubble.rightArrowOffset
             default:
                 break
@@ -147,28 +153,33 @@ class TutorialOverlay: UIViewController {
         
         let refOrigin = ref.convert(CGPoint.zero, to: self.view)
         
-        self.bubble.layoutMargins = .init(top: 22, left: 16, bottom: 13, right: 16)
+        self.bubble.layoutMargins = .init(top: 22, left: 16, bottom: 24, right: 16)
         self.view.addSubview(self.bubble)
         
         self.bubbleText.text = self.type.description
         self.bubble.addSubview(self.bubbleText)
         
         switch self.type.arrowAlignment {
-        case .left:
-            log.error("ARROW LEFT ALIGNEMENT NOT YET IMPLEMENTED")
-            break
-        case .center:
+        case .topLeft, .bottomLeft:
+            self.leadingConstraint = bubble.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: refOrigin.x - self.bubble.rightArrowOffset - (self.bubble.arrowWidth / 2) + (ref.frame.width / 2))
+        case .topCenter, .bottomCenter:
             self.leadingConstraint = bubble.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: refOrigin.x + (ref.frame.width / 2) - (self.type.width / 2))
-        case .right:
+        case .topRight, .bottomRight:
             self.leadingConstraint = bubble.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: refOrigin.x - self.type.width + 30 + self.bubble.rightArrowOffset)
-        default:
+        }
+        
+        switch self.type.arrowAlignment {
+        case .topLeft, .topCenter, .topRight:
+            bubble.topAnchor.constraint(equalTo: self.view.topAnchor, constant: refOrigin.y + ref.frame.size.height - 8).isActive = true
+            break
+        case .bottomLeft, .bottomCenter, .bottomRight:
+            bubble.bottomAnchor.constraint(equalTo: self.view.topAnchor, constant: refOrigin.y).isActive = true
             break
         }
         
         
         NSLayoutConstraint.activate([
             bubble.widthAnchor.constraint(lessThanOrEqualToConstant: 218),
-            bubble.topAnchor.constraint(equalTo: self.view.topAnchor, constant: refOrigin.y + ref.frame.size.height - 8),
             leadingConstraint!,
             
             bubbleText.topAnchor.constraint(equalTo: bubble.layoutMarginsGuide.topAnchor),
@@ -244,6 +255,10 @@ extension TutorialOverlay {
         TutorialOverlayTypes.allCases.forEach({
             UserDefaults.standard.removeObject(forKey: $0.rawValue)
         })
+    }
+    
+    public override var isBeingPresented: Bool {
+        return (getTopMostViewController() as? TutorialOverlay) != nil
     }
     
     static public func showOverlay(type: TutorialOverlayTypes, onRef ref: UIView, onComplete: (() -> Void)? = nil) {

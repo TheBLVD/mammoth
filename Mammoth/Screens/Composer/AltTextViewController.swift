@@ -39,7 +39,17 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
     var whichImagesAltText: Int? = nil
     var theAltText: String = ""
     weak var delegate: AltTextViewControllerDelegate? = nil
-
+    private let onClose: (() -> Void)?
+    
+    init(onClose: (() -> Void)? = nil) {
+        self.onClose = onClose
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height)
@@ -70,6 +80,8 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             }
         }
+        
+        self.onClose?()
     }
 
     @objc func keyboardWillChange(notification: Notification) {

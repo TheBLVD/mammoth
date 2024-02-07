@@ -144,6 +144,7 @@
 		14C45DF02B1A4266000171A9 /* Pride.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DED2B1A4266000171A9 /* Pride.png */; };
 		14C45DF12B1A4266000171A9 /* Pride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEE2B1A4266000171A9 /* Pride@2x.png */; };
 		14E08C6A2B20BF9C00EF5A55 /* DeviceHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E08C692B20BF9C00EF5A55 /* DeviceHelpers.swift */; };
+		14E4CAC32B74076700E4D499 /* ArrowAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4CAC22B74076700E4D499 /* ArrowAlignment.swift */; };
 		14F47F452B517DAB008F45CE /* PostCardMediaStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F47F442B517DAB008F45CE /* PostCardMediaStack.swift */; };
 		14F47F472B57F48B008F45CE /* PostCardMediaGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F47F462B57F48B008F45CE /* PostCardMediaGallery.swift */; };
 		532567AC2971C512004E7636 /* Timelines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53399A2B291526B900560F83 /* Timelines.swift */; };
@@ -956,6 +957,7 @@
 		14C45DED2B1A4266000171A9 /* Pride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pride.png; sourceTree = "<group>"; };
 		14C45DEE2B1A4266000171A9 /* Pride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@2x.png"; sourceTree = "<group>"; };
 		14E08C692B20BF9C00EF5A55 /* DeviceHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceHelpers.swift; sourceTree = "<group>"; };
+		14E4CAC22B74076700E4D499 /* ArrowAlignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowAlignment.swift; sourceTree = "<group>"; };
 		14F47F442B517DAB008F45CE /* PostCardMediaStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardMediaStack.swift; sourceTree = "<group>"; };
 		14F47F462B57F48B008F45CE /* PostCardMediaGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardMediaGallery.swift; sourceTree = "<group>"; };
 		532567F22971D250004E7636 /* OtherStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherStruct.swift; sourceTree = "<group>"; };
@@ -1697,8 +1699,9 @@
 		14E08C6B2B20C9B100EF5A55 /* TutorialOverlay */ = {
 			isa = PBXGroup;
 			children = (
-				144173582B21E43B0058AFCC /* Views */,
 				144173562B21E0480058AFCC /* TutorialOverlay.swift */,
+				14E4CAC22B74076700E4D499 /* ArrowAlignment.swift */,
+				144173582B21E43B0058AFCC /* Views */,
 			);
 			path = TutorialOverlay;
 			sourceTree = "<group>";
@@ -4051,6 +4054,7 @@
 				88EFEB2A2AC236E10040228B /* MothSocialJWT.swift in Sources */,
 				533994BE2914214A00560F83 /* PollViewController.swift in Sources */,
 				662B60E72A4A1EFC00CB331F /* BlueskyAPI+Repo.swift in Sources */,
+				14E4CAC32B74076700E4D499 /* ArrowAlignment.swift in Sources */,
 				BF492DB829F99523004100B8 /* QuotePostHostView.swift in Sources */,
 				C3D8AFA12A308AA9008F999D /* PollService.swift in Sources */,
 				BFBD41F22ACC70EA009BA818 /* ForYouChannelCell.swift in Sources */,

@@ -83,6 +83,15 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
             return channel.title
         }
     }
+    
+    func plainTitle() -> String {
+        switch self {
+        case .channel(let channel):
+            return "/\(channel.title)"
+        default:
+            return self.title()
+        }
+    }
         
     func fetchAll(range: RequestRange = .default, batchName: String, retryCount: Int = 0) async throws -> ([NewsFeedListItem], cursorId: String?) {
         let batchName = "\(batchName)_\(Int.random(in: 0 ... 10000))"
@@ -258,13 +267,13 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
         case .federated:
             return FontAwesome.image(fromChar: "\u{f0ac}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate)
         case .channel:
-            return "/".image(withAttributes: [.font: UIFont.systemFont(ofSize: 16, weight: .heavy)])?.withRenderingMode(.alwaysTemplate)
+            return "/".image(withAttributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16, weight: .heavy)])?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
         case .forYou:
             return FontAwesome.image(fromChar: "\u{f890}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate)
         case .hashtag:
             return FontAwesome.image(fromChar: "\u{23}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate)
         case .list:
-            return FontAwesome.image(fromChar: "\u{e1d0}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate)
+            return FontAwesome.image(fromChar: "\u{f0ca}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate)
         case .community:
             return FontAwesome.image(fromChar: "\u{e594}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate)
         default:
