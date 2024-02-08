@@ -15,6 +15,7 @@ class TutorialOverlay: UIViewController {
         case forYou
         case smartList
         case quickFeedSwitcher
+        case quickAccountSwitcher
         
         var description: String {
             switch self {
@@ -26,6 +27,30 @@ class TutorialOverlay: UIViewController {
                 return "Smart lists marked with a /slash are community curated lists."
             case .quickFeedSwitcher:
                 return "Long press the Home tab to quickly jump to other feeds."
+            case .quickAccountSwitcher:
+                return "Long press the profile tap to quickly switch between accounts."
+            }
+        }
+        
+        var header: UIView? {
+            switch self {
+            case .quickAccountSwitcher:
+                return {
+                    let view = UIStackView()
+                    view.axis = .horizontal
+                    view.spacing = 6
+                    view.isLayoutMarginsRelativeArrangement = true
+                    view.layoutMargins = .init(top: 3, left: 0, bottom: 0, right: 0)
+                    ["\u{f2bd}", "\u{f356}", "\u{f2bd}"].map({
+                        UIImageView(image: FontAwesome.image(fromChar: $0, size: 16, weight: .bold).withRenderingMode(.alwaysTemplate))
+                    })
+                    .forEach({
+                        view.addArrangedSubview($0)
+                    })
+                    return view
+                }()
+            default:
+                return nil
             }
         }
         
@@ -38,6 +63,8 @@ class TutorialOverlay: UIViewController {
             case .smartList:
                 return 216
             case .quickFeedSwitcher:
+                return 157
+            case .quickAccountSwitcher:
                 return 157
             }
         }
@@ -52,6 +79,8 @@ class TutorialOverlay: UIViewController {
                 return .topCenter
             case .quickFeedSwitcher:
                 return .bottomLeft
+            case .quickAccountSwitcher:
+                return .bottomRight
             }
         }
     }
@@ -66,6 +95,15 @@ class TutorialOverlay: UIViewController {
     private let bubble: TextBubbleView!
     private var refSnapshot: UIView?
     private let onComplete: (() -> Void)?
+    
+    private let bubbleStack = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.spacing = 6
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     
     private let bubbleText: UILabel = {
         let label = UILabel()
@@ -153,11 +191,16 @@ class TutorialOverlay: UIViewController {
         
         let refOrigin = ref.convert(CGPoint.zero, to: self.view)
         
-        self.bubble.layoutMargins = .init(top: 22, left: 16, bottom: 24, right: 16)
+        self.bubble.layoutMargins = .init(top: 22, left: 16, bottom: 23, right: 16)
         self.view.addSubview(self.bubble)
         
+        if let header = self.type.header {
+            self.bubbleStack.addArrangedSubview(header)
+        }
+        
         self.bubbleText.text = self.type.description
-        self.bubble.addSubview(self.bubbleText)
+        self.bubbleStack.addArrangedSubview(self.bubbleText)
+        self.bubble.addSubview(self.bubbleStack)
         
         switch self.type.arrowAlignment {
         case .topLeft, .bottomLeft:
@@ -182,10 +225,10 @@ class TutorialOverlay: UIViewController {
             bubble.widthAnchor.constraint(lessThanOrEqualToConstant: 218),
             leadingConstraint!,
             
-            bubbleText.topAnchor.constraint(equalTo: bubble.layoutMarginsGuide.topAnchor),
-            bubbleText.bottomAnchor.constraint(equalTo: bubble.layoutMarginsGuide.bottomAnchor),
-            bubbleText.leadingAnchor.constraint(equalTo: bubble.layoutMarginsGuide.leadingAnchor),
-            bubbleText.trailingAnchor.constraint(equalTo: bubble.layoutMarginsGuide.trailingAnchor)
+            bubbleStack.topAnchor.constraint(equalTo: bubble.layoutMarginsGuide.topAnchor),
+            bubbleStack.bottomAnchor.constraint(equalTo: bubble.layoutMarginsGuide.bottomAnchor),
+            bubbleStack.leadingAnchor.constraint(equalTo: bubble.layoutMarginsGuide.leadingAnchor),
+            bubbleStack.trailingAnchor.constraint(equalTo: bubble.layoutMarginsGuide.trailingAnchor)
         ])
         
         if let refSnapshot = self.ref.snapshotView(afterScreenUpdates: true) {
@@ -200,15 +243,23 @@ class TutorialOverlay: UIViewController {
         }
         
         if #available(iOS 17.0, *) {
-            UIView.animate(springDuration: 0.5, bounce: 0.4, initialSpringVelocity: 0.9, delay: 0.3) { [weak self] in
+            UIView.animate(springDuration: 0.5, bounce: 0.4, initialSpringVelocity: 0.9, delay: 0.3, animations: { [weak self] in
                 guard let self else { return }
                 self.bubble.alpha = 1
                 self.bubble.transform = .init(translationX: 0, y: 0)
+            }) { [weak self] _ in
+                if let delegatingView = self?.view as? TouchDelegatingView {
+                    delegatingView.isAnimating = false
+                }
             }
         } else {
-            UIView.animate(withDuration: 0.3, delay: 0.3) { [weak self] in
+            UIView.animate(withDuration: 0.3, delay: 0.3, animations: { [weak self] in
                 guard let self else { return }
                 self.bubble.transform = .init(translationX: 0, y: 0)
+            }) { [weak self] _ in
+                if let delegatingView = self?.view as? TouchDelegatingView {
+                    delegatingView.isAnimating = false
+                }
             }
         }
     }
@@ -217,10 +268,12 @@ class TutorialOverlay: UIViewController {
 class TouchDelegatingView: UIView {
     weak var touchDelegate: UIView? = nil
     weak var ref: UIView? = nil
+    var isAnimating: Bool = true
     var dismissCallback: (_ animated: Bool) -> Void = {animated in }
 
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        guard  ![.hover].contains(event?.type) else { return nil}
+        guard ![.hover].contains(event?.type) else { return nil}
+        guard !isAnimating else { return nil }
         
         guard let view = super.hitTest(point, with: event) else {
             return touchDelegate?.hitTest(point, with: event)
@@ -248,7 +301,7 @@ extension TutorialOverlay {
     }
     
     static private func didSeeOverlay(forType type: TutorialOverlayTypes) {
-        UserDefaults.standard.setValue(true, forKey: type.rawValue)
+//        UserDefaults.standard.setValue(true, forKey: type.rawValue)
     }
     
     static public func resetTutorials() {

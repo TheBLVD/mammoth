@@ -71,6 +71,13 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
                                                selector: #selector(self.reloadAll),
                                                name: NSNotification.Name(rawValue: "reloadAll"),
                                                object: nil)
+        
+        if self.viewModel.screenType == .own {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                guard let self else { return }
+                self.updateQuickAccountSwitcher()
+            }
+        }
     }
 
     convenience init(user: UserCardModel? = nil, screenType: ProfileViewModel.ProfileScreenType = .own) {
@@ -149,6 +156,14 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if self.viewModel.screenType == .own {
+            self.showTutorialIfNeeded()
+        }
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.viewModel.stopAllVideos()
@@ -172,6 +187,13 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
         self.header.onThemeChange()
         self.coverImage.onThemeChange()
         self.settingsButton?.onThemeChange()
+    }
+    
+    private func updateQuickAccountSwitcher() {
+        if let currentTabBarController = getTabBarController(),
+            let item = currentTabBarController.animatedTabBar.tabBarItems.last {
+            item.menu = UIMenu(title: "", options: [], children: [self.accountSwitcherContextMenu()])
+        }
     }
 }
 
@@ -240,6 +262,20 @@ private extension ProfileViewController {
         
         if #available(iOS 15.0, *) {
             self.navigationController?.navigationBar.compactScrollEdgeAppearance = navApp
+        }
+    }
+    
+    func showTutorialIfNeeded() {
+        
+        if AccountsManager.shared.allAccounts.count > 1 && TutorialOverlay.shouldShowOverlay(forType: .quickAccountSwitcher) {
+            // Force this on the next runloop to make sure rootViewController is set
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if let currentTabBarController = getTabBarController(),
+                   let item = currentTabBarController.animatedTabBar.tabBarItems.last {
+                    currentTabBarController.selectedIndex = 4
+                    TutorialOverlay.showOverlay(type: .quickAccountSwitcher, onRef: item)
+                }
+            }
         }
     }
 }
@@ -575,6 +611,51 @@ extension ProfileViewController: UIContextMenuInteractionDelegate {
         }
         
         return nil
+    }
+    
+    private func accountSwitcherContextMenu() -> UIMenu {
+        let accountsMenu = UIMenu(title: "", options: [.displayInline], children: AccountsManager.shared.allAccounts.map({ item in
+            let isSelected = AccountsManager.shared.currentAccount?.uniqueID == item.uniqueID
+            let accountAction = UIAction(title: "@\(item.fullAcct)", image: isSelected ? FontAwesome.image(fromChar: "\u{f00c}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate) : nil, identifier: nil) { action in
+                // switch account
+                DispatchQueue.main.async {
+                    let account = item
+                    // Only switch if not already the current account
+                    if account.uniqueID != AccountsManager.shared.currentAccount?.uniqueID {
+                        AccountsManager.shared.switchToAccount(account)
+                    }
+                }
+            }
+            return accountAction
+        }))
+        
+        let addAccount = UIAction(title: "Add account", image: FontAwesome.image(fromChar: "\u{2b}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { _ in
+            DispatchQueue.main.async {
+                triggerHapticImpact(style: .light)
+                let vc = IntroViewController()
+                vc.fromPlus = true
+                if vc.isBeingPresented {} else {
+                    getTopMostViewController()?.present(UINavigationController(rootViewController: vc), animated: true)
+                }
+            }
+        }
+        
+        let accountSettings = UIAction(title: "Account settings", image: FontAwesome.image(fromChar: "\u{f013}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { _ in
+            DispatchQueue.main.async {
+                triggerHapticImpact(style: .light)
+                let vc = AccountsSettingsViewController()
+                if vc.isBeingPresented {} else {
+                    getTopMostViewController()?.present(UINavigationController(rootViewController: vc), animated: true)
+                }
+            }
+        }
+        
+        let settingsMenu = UIMenu(title: "", options: [.displayInline], children: [
+            AccountsManager.shared.allAccounts.count > 1 ? accountSettings : nil,
+            addAccount
+        ].compactMap({$0}))
+        
+        return UIMenu(title: "", options: [.displayInline], children: [settingsMenu, accountsMenu])
     }
 }
 

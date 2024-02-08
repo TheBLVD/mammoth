@@ -114,6 +114,19 @@ class TextBubbleView: UIView {
                           controlPoint2: CGPoint(x: curveEndX - arrowRadius/2, y: curveEndY + arrowRadius/2))
             path.addLine(to: CGPoint(x: bubbleRect.minX + arrowWidth + leftArrowOffset, y: bubbleRect.maxY))
             path.addLine(to: CGPoint(x: bubbleRect.minX + leftArrowOffset, y: bubbleRect.maxY))
+        case .bottomRight:
+            let curveStartX = bubbleRect.maxX - (arrowWidth / 2) - arrowRadius - rightArrowOffset
+            let curveStartY = bubbleRect.maxY + arrowHeight - arrowRadius
+            let curveEndX = bubbleRect.maxX - (arrowWidth / 2) + arrowRadius - rightArrowOffset
+            let curveEndY = bubbleRect.maxY + arrowHeight - arrowRadius
+            
+            path.move(to: CGPoint(x: bubbleRect.maxX - arrowWidth - rightArrowOffset, y: bubbleRect.maxY))
+            path.addLine(to: CGPoint(x: curveStartX, y: curveStartY))
+            path.addCurve(to: CGPoint(x: curveEndX, y: curveEndY),
+                          controlPoint1: CGPoint(x: curveStartX + arrowRadius/2, y: curveStartY + arrowRadius/2),
+                          controlPoint2: CGPoint(x: curveEndX - arrowRadius/2, y: curveEndY + arrowRadius/2))
+            path.addLine(to: CGPoint(x: bubbleRect.maxX - rightArrowOffset, y: bubbleRect.maxY))
+            path.addLine(to: CGPoint(x: bubbleRect.maxX - arrowWidth - rightArrowOffset, y: bubbleRect.maxY))
         default:
             break
         }
