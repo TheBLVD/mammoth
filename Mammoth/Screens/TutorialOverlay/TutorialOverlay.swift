@@ -301,7 +301,7 @@ extension TutorialOverlay {
     }
     
     static private func didSeeOverlay(forType type: TutorialOverlayTypes) {
-//        UserDefaults.standard.setValue(true, forKey: type.rawValue)
+        UserDefaults.standard.setValue(true, forKey: type.rawValue)
     }
     
     static public func resetTutorials() {
