@@ -192,6 +192,10 @@ extension MentionsViewController: CarouselDelegate {
     func carouselActiveItemDoublePressed() {
         self.jumpToNewest()
     }
+    
+    func contextMenuForItem(withIndex index: Int) -> UIMenu? {
+        return nil
+    }
 }
 
 extension MentionsViewController: NewsFeedViewControllerDelegate {
