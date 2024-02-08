@@ -66,6 +66,24 @@ class StatusCache {
         }
     }
     
+    public func clearCache() {
+        StatusCache.cachedStatusesLock.lock()
+        StatusCache.cachedStatuses.removeAll()
+        StatusCache.cachedStatusesLock.unlock()
+        
+        StatusCache.nilValuesURLsLock.lock()
+        StatusCache.nilValueURLs.removeAll()
+        StatusCache.nilValuesURLsLock.unlock()
+        
+        self.localLikes = [:]
+        self.localReposts = [:]
+        self.localBookmarks = [:]
+        
+        GlobalStruct.allLikes = []
+        GlobalStruct.allReposts = []
+        GlobalStruct.allBookmarks = []
+    }
+    
     public func cachedStatusForURL(url: URL) -> Status? {
         // Return immedidately if we've cached this
         StatusCache.cachedStatusesLock.lock()
