@@ -35,12 +35,6 @@ class HomeViewController : UIViewController {
     required init() {
 
         pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            let accountSwitcherButton = AccountSwitcherButton()
-            accountsBarButton = UIBarButtonItem(customView: accountSwitcherButton)
-            accountsBarButton?.customView?.transform = CGAffineTransform(translationX: 2, y: -6)
-        }
 
         super.init(nibName: nil, bundle: nil)
         

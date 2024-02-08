@@ -60,7 +60,7 @@ final class ProfileViewSettingsButton: UIButton {
         self.blurEffectView!.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(self.blurEffectView!)
         
-        self.icon = UIImageView(image: UserCardButtonType.settings.icon()?.withRenderingMode(.alwaysTemplate))
+        self.icon = UIImageView(image: FontAwesome.image(fromChar: "\u{f0c9}", size: 18, weight: .bold).withRenderingMode(.alwaysTemplate))
         self.icon!.tintColor = .custom.highContrast
         icon!.translatesAutoresizingMaskIntoConstraints = false
         icon!.isUserInteractionEnabled = false
@@ -72,8 +72,8 @@ final class ProfileViewSettingsButton: UIButton {
             blurEffectView!.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             blurEffectView!.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            blurEffectView!.widthAnchor.constraint(equalToConstant: 37.0),
-            blurEffectView!.heightAnchor.constraint(equalToConstant: 37.0),
+            blurEffectView!.widthAnchor.constraint(equalToConstant: 36.0),
+            blurEffectView!.heightAnchor.constraint(equalToConstant: 36.0),
             
             icon!.centerXAnchor.constraint(equalTo: blurEffectView!.centerXAnchor),
             icon!.centerYAnchor.constraint(equalTo: blurEffectView!.centerYAnchor, constant: 1)
@@ -229,7 +229,7 @@ extension ProfileViewSettingsButton {
         }
         
         let action = UIAction(title: title,
-                              image: buttonType.icon(symbolConfig: postCardSymbolConfig)?.withTintColor(color),
+                              image: buttonType.icon(symbolConfig: postCardSymbolConfig, weight: .bold)?.withTintColor(color),
                               identifier: nil, attributes: buttonType == .block ? .destructive : UIMenuElement.Attributes()) { [weak self] _ in
             guard let self else { return }
             self.onButtonPress?(buttonType, data)
