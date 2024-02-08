@@ -61,9 +61,6 @@ private extension CarouselNavigationHeader {
         
         if UIDevice.current.userInterfaceIdiom == .phone {
             self.layoutMargins = .init(top: 0, left: 16, bottom: 0, right: 16)
-            let accountSwitch = AccountSwitcherButton()
-            accountSwitch.transform = CGAffineTransform(translationX: 2, y: -5.5)
-            titleStackView.addArrangedSubview(accountSwitch)
         } else {
             self.layoutMargins = .init(top: 9, left: 16, bottom: 0, right: 16)
         }

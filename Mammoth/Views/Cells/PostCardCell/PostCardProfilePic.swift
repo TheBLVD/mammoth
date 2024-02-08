@@ -67,6 +67,7 @@ final class PostCardProfilePic: UIButton {
         imageView.isOpaque = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
+        imageView.layer.cornerCurve = .continuous
         imageView.layer.isOpaque = true
         imageView.layer.masksToBounds = true
         return imageView
@@ -121,6 +122,7 @@ private extension PostCardProfilePic {
         self.isOpaque = true
         self.addSubview(profileImageView)
         self.translatesAutoresizingMaskIntoConstraints = false
+        self.clipsToBounds = false
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.profileTapped))
         self.profileImageView.addGestureRecognizer(tapGesture)
@@ -200,7 +202,7 @@ extension PostCardProfilePic {
     func onThemeChange() {
         let backgroundColor: UIColor = isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
         self.profileImageView.backgroundColor = backgroundColor
-        self.backgroundColor = backgroundColor
+//        self.backgroundColor = backgroundColor
         profileImageView.layer.backgroundColor = backgroundColor.cgColor
         badgeIconView.tintColor = .custom.linkText
     }

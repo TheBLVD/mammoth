@@ -211,6 +211,11 @@ private extension ProfileViewController {
                 self.onUserActionPress(type: type, data: data)
             })
             navigationItem.setRightBarButton(UIBarButtonItem(customView: self.settingsButton!), animated: false)
+            
+            if self.viewModel.screenType == .own {
+                let accountSwitch = AccountSwitcherButton()
+                navigationItem.setLeftBarButton(UIBarButtonItem(customView: accountSwitch), animated: false)
+            }
         }
         
 

@@ -22,10 +22,19 @@ class AccountSwitcherButton: UIButton {
         updateButtonMenu()
         self.showsMenuAsPrimaryAction = true
         
-        self.layer.borderWidth = 0.5
-        self.layer.borderColor = UIColor.custom.outlines.cgColor
+        self.layer.borderWidth = (UIDevice.current.userInterfaceIdiom == .phone) ? 3.0 : 0.5
+        self.layer.borderColor = (UIDevice.current.userInterfaceIdiom == .phone)
+        ? UIColor.clear.cgColor
+        : UIColor.custom.outlines.cgColor
         
-        let buttonSize = (UIDevice.current.userInterfaceIdiom == .phone) ? 24.0 : 48.0
+        let blurredBG = BlurredBackground()
+        blurredBG.translatesAutoresizingMaskIntoConstraints = false
+        self.insertSubview(blurredBG, belowSubview: self.imageView!)
+        blurredBG.pinEdges()
+        
+        self.contentEdgeInsets = (UIDevice.current.userInterfaceIdiom == .phone) ? .init(top: 3, left: 3, bottom: 3, right: 3) : .zero
+        
+        let buttonSize = (UIDevice.current.userInterfaceIdiom == .phone) ? 36.0 : 48.0
         NSLayoutConstraint.activate([
             self.widthAnchor.constraint(equalToConstant: buttonSize),
             self.heightAnchor.constraint(equalToConstant: buttonSize)
@@ -43,6 +52,12 @@ class AccountSwitcherButton: UIButton {
         self.layer.cornerRadius = self.frame.height / 2.0
     }
     
+    private func onThemeChange() {
+        self.layer.borderColor = (UIDevice.current.userInterfaceIdiom == .phone)
+        ? UIColor.custom.OVRLYMedContrast.withAlphaComponent(0.7).cgColor
+        : UIColor.custom.outlines.cgColor
+    }
+    
     
     @objc func updateImageAndMenu(notification: Notification) {
         let image = notification.userInfo?["image"] as? UIImage
@@ -50,7 +65,7 @@ class AccountSwitcherButton: UIButton {
 
         DispatchQueue.main.async {
             self.updateButtonImage(updatedImage: image, updatedAcctData: acctData)
-            self.updateButtonMenu(updatedImage: image, updatedAcctData: acctData)
+            self.updateButtonMenu()
         }
     }
     
@@ -84,53 +99,39 @@ class AccountSwitcherButton: UIButton {
     }
     
     
-    private func updateButtonMenu(updatedImage: UIImage? = nil, updatedAcctData: (any AcctDataType)? = nil) {
-        self.menu = accountSwitcherMenu(updatedImage: updatedImage, updatedAcctData: updatedAcctData)
+    private func updateButtonMenu() {
+        self.menu = accountSwitcherMenu()
     }
     
     
-    private func accountSwitcherMenu(updatedImage: UIImage? = nil, updatedAcctData: (any AcctDataType)? = nil) -> UIMenu {
-        let acctForNewImage = updatedAcctData ?? AccountsManager.shared.currentAccount
-        var allActions: [UIAction] = []
-        for index in 0..<AccountsManager.shared.allAccounts.count {
-            let im = UIImage(systemName: "person.crop.circle")
-            let imV = UIImageView()
-            imV.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
-            imV.layer.cornerRadius = 10
-            imV.layer.masksToBounds = true
-            let acctData = AccountsManager.shared.allAccounts[index]
-            
-            // Use the passed in image for the current account if possible
-            let useUpdatedImage = (acctData.uniqueID == acctForNewImage?.uniqueID) && updatedImage != nil
-            if useUpdatedImage {
-                imV.image = updatedImage
-            } else {
-                // Use the image from the cache if possible
-                if let cachedImage = SDImageCache.shared.imageFromCache(forKey: acctData.avatar) {
-                    imV.image = cachedImage
-                }
-                // Regardless, request an update
-                let a = acctData.avatar
-                if let ur = URL(string: a) {
-                    imV.sd_setImage(with: ur)
-                }
-            }
-            let accountAction = UIAction(title: "@\(AccountsManager.shared.allAccounts[index].fullAcct)", image: imV.image?.withRoundedCorners()?.resize(targetSize: CGSize(width: 20, height: 20)) ?? im, identifier: nil) { action in
+    private func accountSwitcherMenu() -> UIMenu {
+        let accountsMenu = UIMenu(title: "", options: [.displayInline], children: AccountsManager.shared.allAccounts.map({ item in
+            let isSelected = AccountsManager.shared.currentAccount?.uniqueID == item.uniqueID
+            let accountAction = UIAction(title: "@\(item.fullAcct)", image: isSelected ? FontAwesome.image(fromChar: "\u{f00c}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate) : nil, identifier: nil) { action in
                 // switch account
                 DispatchQueue.main.async {
-                    let account = AccountsManager.shared.allAccounts[index]
+                    let account = item
                     // Only switch if not already the current account
                     if account.uniqueID != AccountsManager.shared.currentAccount?.uniqueID {
                         AccountsManager.shared.switchToAccount(account)
                     }
                 }
             }
-            accountAction.state = (AccountsManager.shared.currentAccount?.uniqueID == acctData.uniqueID) ? .on : .off
-            allActions.append(accountAction)
+            return accountAction
+        }))
+        
+        let addAccount = UIAction(title: "Add account", image: FontAwesome.image(fromChar: "\u{2b}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { _ in
+            DispatchQueue.main.async {
+                triggerHapticImpact(style: .light)
+                let vc = IntroViewController()
+                vc.fromPlus = true
+                if vc.isBeingPresented {} else {
+                    getTopMostViewController()?.present(UINavigationController(rootViewController: vc), animated: true)
+                }
+            }
         }
         
-        let addAccountAction = UIAction(title: "Account settings", image: FontAwesome.image(fromChar: "\u{f2bd}").withRenderingMode(.alwaysTemplate), identifier: nil) { action in
-            // Account settings
+        let accountSettings = UIAction(title: "Account settings", image: FontAwesome.image(fromChar: "\u{f013}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { _ in
             DispatchQueue.main.async {
                 triggerHapticImpact(style: .light)
                 let vc = AccountsSettingsViewController()
@@ -140,10 +141,25 @@ class AccountSwitcherButton: UIButton {
             }
         }
         
-        allActions.append(addAccountAction)
+        let settingsMenu = UIMenu(title: "", options: [.displayInline], children: [
+            addAccount,
+            AccountsManager.shared.allAccounts.count > 1 ? accountSettings : nil
+        ].compactMap({$0}))
         
-        return UIMenu(title: "", options: [], children: allActions)
+        return UIMenu(title: "", options: [.displayInline], children: [accountsMenu, settingsMenu])
     }
     
     
+}
+
+internal extension AccountSwitcherButton {
+     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+         if #available(iOS 13.0, *) {
+             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
+                 self.onThemeChange()
+            }
+         }
+    }
 }

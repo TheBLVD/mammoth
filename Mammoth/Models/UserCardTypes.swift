@@ -44,54 +44,54 @@ enum UserCardButtonType: Int {
     case enableReposts
     case disableReposts
 
-    func icon(symbolConfig: UIImage.SymbolConfiguration? = nil) -> UIImage? {
+    func icon(symbolConfig: UIImage.SymbolConfiguration? = nil, weight: UIFont.Weight = .regular ) -> UIImage? {
         switch(self) {
         case .editAvatar:
-            return MAMenu.editAvatar.image
+            return FontAwesome.image(fromChar: "\u{f2bd}", weight: weight)
         case .editHeader:
-            return MAMenu.editHeader.image
+            return FontAwesome.image(fromChar: "\u{f03e}", weight: weight)
         case .editDetails:
-            return MAMenu.editDetails.image
+            return FontAwesome.image(fromChar: "\u{f866}", weight: weight)
         case .editInfoAndLink:
-            return MAMenu.editInfoAndLinks.image
+            return FontAwesome.image(fromChar: "\u{f0c1}", weight: weight)
         case .settings:
-            return FontAwesome.image(fromChar: "\u{f013}")
+            return FontAwesome.image(fromChar: "\u{f013}", weight: weight)
         case .share:
-            return FontAwesome.image(fromChar: "\u{e09a}")
+            return FontAwesome.image(fromChar: "\u{e590}", weight: weight)
         case .filters:
-            return MAMenu.filters.image
+            return FontAwesome.image(fromChar: "\u{f0b0}", weight: weight)
         case .muted:
-            return MAMenu.muted.image
+            return FontAwesome.image(fromChar: "\u{f4a9}", weight: weight)
         case .blocked:
-            return MAMenu.blocked.image
+            return FontAwesome.image(fromChar: "\u{f05e}", weight: weight)
         case .bookmarks:
-            return MAMenu.bookmarks.image
+            return FontAwesome.image(fromChar: "\u{f02e}", weight: weight)
         case .likes:
-            return MAMenu.likes.image
+            return FontAwesome.image(fromChar: "\u{f004}", weight: weight)
         case .recentMedia:
-            return MAMenu.recentMedia.image
+            return FontAwesome.image(fromChar: "\u{f2bd}", weight: weight)
         case .message:
-            return MAMenu.message.image
+            return FontAwesome.image(fromChar: "\u{f0e0}", weight: weight)
         case .mention:
-            return MAMenu.mention.image
+            return FontAwesome.image(fromChar: "\u{40}", weight: weight)
         case .muteOneDay:
-            return MAMenu.muteOneDay.image
+            return FontAwesome.image(fromChar: "\u{f2e2}", weight: weight)
         case .muteForever:
-            return MAMenu.muteForever.image
+            return FontAwesome.image(fromChar: "\u{f4a9}", weight: weight)
         case .block:
-            return MAMenu.block.image
+            return FontAwesome.image(fromChar: "\u{f05e}", weight: weight)
         case .addToList:
-            return MAMenu.addToList.image.withRenderingMode(.alwaysTemplate)
+            return FontAwesome.image(fromChar: "\u{2b}", weight: weight)
         case .removeFromList:
-            return MAMenu.removeFromList.image.withRenderingMode(.alwaysTemplate)
+            return FontAwesome.image(fromChar: "\u{f068}", weight: weight)
         case .enableReposts:
-            return MAMenu.enableReposts.image.withRenderingMode(.alwaysTemplate)
+            return FontAwesome.image(fromChar: "\u{f361}", weight: weight)
         case .disableReposts:
-            return MAMenu.disableReposts.image.withRenderingMode(.alwaysTemplate)
+            return FontAwesome.image(fromChar: "\u{f361}", weight: weight)
         case .enableNotifications:
-            return MAMenu.enableNotifications.image.withRenderingMode(.alwaysTemplate)
+            return FontAwesome.image(fromChar: "\u{f0f3}", weight: weight)
         case .disableNotifications:
-            return MAMenu.disableNotifications.image.withRenderingMode(.alwaysTemplate)
+            return FontAwesome.image(fromChar: "\u{f1f6}", weight: weight)
         default:
             return nil
         }

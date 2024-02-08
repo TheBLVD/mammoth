@@ -69,8 +69,8 @@ class ProfileHeader: UIView {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
-        view.layer.cornerRadius = PostCardProfilePic.ProfilePicSize.big.cornerRadius()
-        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.layer.cornerRadius = PostCardProfilePic.ProfilePicSize.big.cornerRadius() + 3
+        view.layer.cornerCurve = .continuous
         return view
     }()
     
@@ -454,7 +454,7 @@ extension ProfileHeader {
     
     func onThemeChange() {
         profilePicBackground.backgroundColor = .custom.blurredOVRLYNeut
-        self.profilePicBackground.layer.cornerRadius = PostCardProfilePic.ProfilePicSize.big.cornerRadius()
+        self.profilePicBackground.layer.cornerRadius = PostCardProfilePic.ProfilePicSize.big.cornerRadius() + 3
         self.profilePic.onThemeChange()
         
         if let user = self.user {
@@ -654,7 +654,7 @@ extension ProfileHeader {
         }
         
         let action = UIAction(title: title,
-                              image: buttonType.icon(symbolConfig: userCardSymbolConfig)?.withTintColor(color),
+                              image: buttonType.icon(symbolConfig: userCardSymbolConfig, weight: .bold)?.withTintColor(color),
                               identifier: nil) { [weak self] _ in
             guard let self else { return }
             if let user = self.user {
