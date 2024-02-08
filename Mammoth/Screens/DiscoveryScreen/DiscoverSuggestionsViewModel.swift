@@ -254,7 +254,13 @@ extension DiscoverSuggestionsViewModel {
                     guard let self else { return }
                     do {
                         let accounts = try await AccountService.getFollowRecommentations(fullAcct: fullAcct)
-                        let userCards = accounts.map({ account in
+                        // Filter out accounts that the user is already following,
+                        // and randomize the results
+                        let unfollowedAccounts = accounts.filter { account in
+                            return FollowManager.shared.followStatusForAccount(account, requestUpdate: .none) != .following
+                        }.shuffled()
+                        
+                        let userCards = unfollowedAccounts.map({ account in
                             UserCardModel.fromAccount(account: account, instanceName: GlobalHostServer())
                         })
                         
