@@ -17,7 +17,8 @@ class CarouselFlowLayout: UICollectionViewFlowLayout {
         minimumLineSpacing = 8
         minimumInteritemSpacing = 8
         estimatedItemSize = CGSize(width: 120, height: 40)
-        sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        sectionInset = UIEdgeInsets(top: -9, left: 0, bottom: 0, right: 0)
+        
     }
     
     required init?(coder: NSCoder) {

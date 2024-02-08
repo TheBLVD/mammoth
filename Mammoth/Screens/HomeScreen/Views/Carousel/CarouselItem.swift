@@ -19,7 +19,7 @@ class CarouselItem: UICollectionViewCell {
         self.layer.cornerRadius = 10
         
         if UIDevice.current.userInterfaceIdiom == .phone {
-            self.contentView.layoutMargins = UIEdgeInsets(top: 0, left: 2, bottom: 9, right: 2)
+            self.contentView.layoutMargins = UIEdgeInsets(top: 9, left: 2, bottom: 9, right: 2)
         } else {
             self.contentView.layoutMargins = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
         }
