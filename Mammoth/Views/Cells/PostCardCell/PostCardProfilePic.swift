@@ -202,7 +202,6 @@ extension PostCardProfilePic {
     func onThemeChange() {
         let backgroundColor: UIColor = isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
         self.profileImageView.backgroundColor = backgroundColor
-//        self.backgroundColor = backgroundColor
         profileImageView.layer.backgroundColor = backgroundColor.cgColor
         badgeIconView.tintColor = .custom.linkText
     }
