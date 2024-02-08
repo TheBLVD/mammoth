@@ -257,8 +257,7 @@ extension HomeViewController {
         }
         
         let generalOptions = self.generalContextMenu()
-        let feedOptions = self.currentPage().contextMenu()
-        let menu = UIMenu(title: "", options: [], children: [generalOptions] + [feedOptions])
+        let menu = UIMenu(title: "", options: [], children: [generalOptions])
         self.feedCarousel.contextButton.menu = menu
     }
     
@@ -430,6 +429,19 @@ extension HomeViewController: CarouselDelegate {
     
     func carouselActiveItemDoublePressed() {
         self.currentPage().jumpToNewest()
+    }
+    
+    func contextMenuForItem(withIndex index: Int) -> UIMenu? {
+        let items = self.carouselMenu()
+        let type = items[index]
+        let page = self.pageForType(type: type)
+        let feedOptions = page.contextMenu()
+        
+        if !feedOptions.children.isEmpty {
+            return UIMenu(title: "", options: [], children: [feedOptions])
+        }
+        
+        return nil
     }
 }
 

@@ -312,6 +312,10 @@ extension UserListViewController: CarouselDelegate {
     func carouselActiveItemDoublePressed() {
         self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
+    
+    func contextMenuForItem(withIndex index: Int) -> UIMenu? {
+        return nil
+    }
 }
 
 // MARK: Appearance changes

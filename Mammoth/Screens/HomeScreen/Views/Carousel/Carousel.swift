@@ -11,6 +11,7 @@ import UIKit
 protocol CarouselDelegate: AnyObject {
     func carouselItemPressed(withIndex index: Int)
     func carouselActiveItemDoublePressed()
+    func contextMenuForItem(withIndex index: Int) -> UIMenu?
 }
 
 class Carousel: UIView {
@@ -57,6 +58,7 @@ class Carousel: UIView {
     
     func setupUI(withContextButton: Bool) {
         self.layoutMargins = .zero
+        self.clipsToBounds = false
         
         stackView.addArrangedSubview(collectionView)
         self.addSubview(stackView)
@@ -66,6 +68,7 @@ class Carousel: UIView {
         collectionView.contentInset = .zero
         collectionView.decelerationRate = .fast
         collectionView.contentInset.right = 18
+        collectionView.clipsToBounds = false
         
         collectionView.register(CarouselItem.self, forCellWithReuseIdentifier: CarouselItem.reuseIdentifier)
         collectionView.showsVerticalScrollIndicator = false
@@ -143,6 +146,7 @@ class Carousel: UIView {
         collectionView.visibleCells.forEach({
             let cell = $0 as! CarouselItem
             cell.titleLabel.textColor = .custom.softContrast.withAlphaComponent(GlobalStruct.overrideThemeHighContrast ? 0.65 : 1)
+            cell.isSelected = false
         })
         
         if let cell = collectionView.cellForItem(at: indexPath) as? CarouselItem {
@@ -155,6 +159,8 @@ class Carousel: UIView {
                 cell.titleLabel.textColor = nil
                 cell.titleLabel.attributedText = richContent
             }  
+            
+            cell.isSelected = true
         }
     }
     
@@ -273,5 +279,20 @@ extension Carousel: UICollectionViewDataSource {
         }
                 
         return cell
+    }
+}
+
+// MARK: UIContextMenuInteractionDelegate
+extension Carousel: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return nil
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let cell = collectionView.cellForItem(at: indexPath), cell.isSelected else { return nil }
+        guard let menu = self.delegate?.contextMenuForItem(withIndex: indexPath.item) else { return nil }
+        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: nil, actionProvider: { suggestedActions in
+            return menu
+        })
     }
 }

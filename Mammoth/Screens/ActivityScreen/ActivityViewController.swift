@@ -192,6 +192,10 @@ extension ActivityViewController: CarouselDelegate {
     func carouselActiveItemDoublePressed() {
         self.jumpToNewest()
     }
+    
+    func contextMenuForItem(withIndex index: Int) -> UIMenu? {
+        return nil
+    }
 }
 
 extension ActivityViewController: NewsFeedViewControllerDelegate {

@@ -116,7 +116,6 @@ extension SearchHostViewController: JumpToNewest {
 
 // MARK: Carousel delegate and helpers
 extension SearchHostViewController: CarouselDelegate {
-    
     func carouselItemPressed(withIndex carouselIndex: Int) {
         DispatchQueue.main.async {
             let viewModelIndex = carouselIndex+1
@@ -126,6 +125,10 @@ extension SearchHostViewController: CarouselDelegate {
     
     func carouselActiveItemDoublePressed() {
         self.jumpToNewest()
+    }
+    
+    func contextMenuForItem(withIndex index: Int) -> UIMenu? {
+        return nil
     }
 }
 
