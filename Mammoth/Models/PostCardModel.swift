@@ -668,7 +668,18 @@ final class PostCardModel {
         if self.preSyncData == nil {
             self.preSyncData = self.data
         }
-        // updating the data object so that computed properties 
+        
+        // bookmarked status is local authoritative only, so remote fetched data will always be wrong
+        if (self.isBookmarked) {
+            newStatus.bookmarked = true
+        }
+        
+        // Same with if a toot has been liked outside the app, and hasLocalMetric() cannot override it
+        if (self.isLiked) {
+            newStatus.favourited = true
+        }
+
+        // updating the data object so that computed properties
         // e.g. likesCount is getting updated
         if self.isReblogged {
             if case .mastodon(let status) = data {
