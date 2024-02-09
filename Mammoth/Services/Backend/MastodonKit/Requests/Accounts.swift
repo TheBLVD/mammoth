@@ -365,12 +365,12 @@ public struct Accounts {
     ///
     /// - Parameter fullAcct: The fully qualified account name (e.g. "mammoth@moth.social")
     /// - Returns: Accounts from the users followers using fedi-graph
-    public static func followRecommendationsV2(_ fullAcct: String) -> Request<[Account]> {
+    public static func followRecommendationsV3(_ fullAcct: String) -> Request<[Account]> {
         let parameters = [
             Parameter(name: "acct", value: fullAcct),
         ]
         let method = HTTPMethod.get(.parameters(parameters))
-        return Request<[Account]>(path: "/api/v2/follow_recommendations", method: method)
+        return Request<[Account]>(path: "/api/v1/followgraph", method: method)
     }
 
     public static func onboardingFollowRecommendations() -> Request<[Category]> {

@@ -89,8 +89,8 @@ struct AccountService {
     // fallback to suggested recommendations from current instance
     static func getFollowRecommentations(fullAcct: String) async throws -> [Account] {
         do {
-            let request = Accounts.followRecommendationsV2(fullAcct)
-            let result = try await ClientService.runMothRequest(request: request)
+            let request = Accounts.followRecommendationsV3(fullAcct)
+            let result = try await ClientService.runFeatureRequest(request: request)
             return result
         } catch let error {
             log.debug("FollowRecommentations failed to Moth.social: \(error)")

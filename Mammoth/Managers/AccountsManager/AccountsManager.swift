@@ -463,6 +463,16 @@ extension AccountsManager {
         }
     }
 
+    var currentAccountFeatureClient: Client {
+        if let currentAccount = self.currentAccount as? MastodonAcctData {
+            return currentAccount.featureClient
+        } else {
+            log.error("currentAccountFeatureClient called with no active account")
+            // Not really a valid client
+            return Client(baseURL: "https://feature.moth.social")
+        }
+    }
+
     var currentAccountBlueskyAPI: BlueskyAPI? {
         let account = currentAccount as? BlueskyAcctData
         return account?.api
