@@ -300,6 +300,7 @@ final class PostCardCell: UITableViewCell {
         metaText.translatesAutoresizingMaskIntoConstraints = false
         metaText.textContainer.lineFragmentPadding = 0
         metaText.numberOfLines = 0
+        metaText.textContainer.maximumNumberOfLines = 0
         metaText.textContainer.lineBreakMode = .byTruncatingTail
 
         return metaText
@@ -590,13 +591,6 @@ private extension PostCardCell {
             default: break
             }
             
-            
-            // Setup Link Preview
-            self.linkPreview = PostCardLinkPreview()
-            self.linkPreview?.translatesAutoresizingMaskIntoConstraints = false
-            mediaContainer.addArrangedSubview(self.linkPreview!)
-            linkPreviewTrailingConstraint = self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
-            
             // Setup Poll
             self.poll = PostCardPoll()
             self.poll?.translatesAutoresizingMaskIntoConstraints = false
@@ -609,6 +603,12 @@ private extension PostCardCell {
             self.quotePost?.translatesAutoresizingMaskIntoConstraints = false
             mediaContainer.addArrangedSubview(self.quotePost!)
             quotePostTrailingConstraint = self.quotePost!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+            
+            // Setup Link Preview
+            self.linkPreview = PostCardLinkPreview()
+            self.linkPreview?.translatesAutoresizingMaskIntoConstraints = false
+            mediaContainer.addArrangedSubview(self.linkPreview!)
+            linkPreviewTrailingConstraint = self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
             
         }
         
@@ -795,13 +795,6 @@ extension PostCardCell {
                 self.mediaGallery?.isHidden = true
                 self.mediaStack?.isHidden = true
             }
-            
-            // If we are hiding the link image, move the link view
-            // so it's below any possible media.
-            if let linkPreview = self.linkPreview, let index = mediaContainer.arrangedSubviews.firstIndex(of: linkPreview), postCard.hideLinkImage && index > -1 && index != mediaContainer.arrangedSubviews.count - 1 {
-                mediaContainer.insertArrangedSubview(linkPreview, at: mediaContainer.arrangedSubviews.count - 1)
-            }
-            
         }
 
         // Enable the content warning button if needed
@@ -909,6 +902,7 @@ extension PostCardCell {
         if self.cellVariant.hasText {
             if self.postTextView.textContainer.maximumNumberOfLines != type!.numberOfLines {
                 self.postTextView.textContainer.maximumNumberOfLines = type!.numberOfLines
+                self.postTextView.numberOfLines = type!.numberOfLines
             }
             
             if let postTextContent = postCard?.metaPostText, !postTextContent.original.isEmpty {

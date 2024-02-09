@@ -105,8 +105,14 @@ class PostCardQuotePost: UIView {
     private var poll: PostCardPoll?
     private var pollTrailingConstraint: NSLayoutConstraint? = nil
     
+    private var thumbnailImage: PostCardImage?
+    private var thumbnailImageTrailingConstraint: NSLayoutConstraint? = nil
+    
     private var image: PostCardImage?
     private var imageTrailingConstraint: NSLayoutConstraint? = nil
+    
+    private var thumbnailVideo: PostCardVideo?
+    private var thumbnailVideoTrailingConstraint: NSLayoutConstraint? = nil
     
     private var video: PostCardVideo?
     private var videoTrailingConstraint: NSLayoutConstraint? = nil
@@ -149,92 +155,72 @@ class PostCardQuotePost: UIView {
         self.onPress = nil
         self.isUserInteractionEnabled = true
         
-        if self.headerTrailingConstraint?.isActive == true {
-            self.headerTrailingConstraint?.isActive = false
-            self.contentStackView.removeArrangedSubview(header)
-            header.removeFromSuperview()
-            header.prepareForReuse()
-        }
+        header.prepareForReuse()
+        header.isHidden = true
+        headerTrailingConstraint?.isActive = false
         
         mainStackView.directionalLayoutMargins.bottom = 13
         mediaContainer.directionalLayoutMargins.leading = 12
         mediaContainer.directionalLayoutMargins.trailing = 12
         
         self.postTextLabel.reset()
-        textAndSmallMediaStackView.removeArrangedSubview(self.postTextLabel)
-        self.postTextLabel.removeFromSuperview()
+        self.postTextLabel.isHidden = true
         
         if let poll = self.poll {
-            self.pollTrailingConstraint?.isActive = false
-            self.mediaContainer.removeArrangedSubview(poll)
-            poll.removeFromSuperview()
             poll.prepareForReuse()
+            poll.isHidden = true
+            self.pollTrailingConstraint?.isActive = false
         }
         
         if let image = self.image, self.mediaContainer.arrangedSubviews.contains(image) {
-            self.image?.prepareForReuse()
+            image.prepareForReuse()
+            image.isHidden = true
             self.imageTrailingConstraint?.isActive = false
-            self.imageTrailingConstraint = nil
-            self.mediaContainer.removeArrangedSubview(image)
-            image.removeFromSuperview()
-            self.image = nil
         }
         
-        if let image = self.image, self.textAndSmallMediaStackView.arrangedSubviews.contains(image) {
-            self.image?.prepareForReuse()
-            self.imageTrailingConstraint?.isActive = false
-            self.imageTrailingConstraint = nil
-            self.textAndSmallMediaStackView.removeArrangedSubview(image)
-            image.removeFromSuperview()
-            self.image = nil
+        if let image = self.thumbnailImage {
+            image.prepareForReuse()
+            image.isHidden = true
+            self.thumbnailImageTrailingConstraint?.isActive = false
         }
         
-        if let video = self.video, self.mediaContainer.arrangedSubviews.contains(video) {
-            self.video?.prepareForReuse()
+        if let video = self.thumbnailVideo {
+            video.prepareForReuse()
+            video.isHidden = true
+            self.thumbnailVideoTrailingConstraint?.isActive = false
+        }
+        
+        if let video = self.video {
+            video.prepareForReuse()
+            video.isHidden = true
             self.videoTrailingConstraint?.isActive = false
-            self.videoTrailingConstraint = nil
-            self.mediaContainer.removeArrangedSubview(video)
-            video.removeFromSuperview()
-            self.video = nil
-        }
-        
-        if let video = self.video, self.textAndSmallMediaStackView.arrangedSubviews.contains(video) {
-            self.video?.prepareForReuse()
-            self.videoTrailingConstraint?.isActive = false
-            self.videoTrailingConstraint = nil
-            self.textAndSmallMediaStackView.removeArrangedSubview(video)
-            video.removeFromSuperview()
-            self.video = nil
         }
         
         if let mediaStack = self.mediaStack {
+            mediaStack.prepareForReuse()
+            mediaStack.isHidden = true
             self.mediaStackTrailingConstraint?.isActive = false
-            self.textAndSmallMediaStackView.removeArrangedSubview(mediaStack)
-            mediaStack.removeFromSuperview()
         }
         
         if let mediaGallery = self.mediaGallery {
+            mediaGallery.prepareForReuse()
+            mediaGallery.isHidden = true
             self.mediaGalleryTrailingConstraint?.isActive = false
-            self.mediaContainer.removeArrangedSubview(mediaGallery)
-            mediaGallery.removeFromSuperview()
         }
         
         if let linkPreview = self.linkPreview {
-            self.linkPreviewTrailingConstraint?.isActive = false
-            self.mediaContainer.removeArrangedSubview(linkPreview)
-            linkPreview.removeFromSuperview()
             linkPreview.prepareForReuse()
+            linkPreview.isHidden = true
+            self.linkPreviewTrailingConstraint?.isActive = false
         }
         
         if let postNotFound = self.postNotFound {
-            contentStackView.removeArrangedSubview(postNotFound)
-            postNotFound.removeFromSuperview()
+            postNotFound.isHidden = true
             self.postNotFoundTrailingConstraint?.isActive = false
         }
         
         if let postLoader = self.postLoader {
-            contentStackView.removeArrangedSubview(postLoader)
-            postLoader.removeFromSuperview()
+            postLoader.isHidden = true
             self.postLoaderTrailingConstraint?.isActive = false
         }
     }
@@ -267,8 +253,88 @@ private extension PostCardQuotePost {
         self.addSubview(mainStackView)
         
         mainStackView.addArrangedSubview(contentStackView)
+        
+        self.header.isUserInteractionEnabled = false
+        contentStackView.insertArrangedSubview(self.header, at: 0)
+        headerTrailingConstraint = self.header.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
+        
         contentStackView.addArrangedSubview(textAndSmallMediaStackView)
+        
+        self.postTextLabel.isUserInteractionEnabled = false
+        self.postTextLabel.isHidden = true
+        textAndSmallMediaStackView.addArrangedSubview(self.postTextLabel)
+        
         mainStackView.addArrangedSubview(mediaContainer)
+        
+        // Poll
+        self.poll = PostCardPoll()
+        self.poll!.isUserInteractionEnabled = false
+        self.poll!.isHidden = true
+        mediaContainer.addArrangedSubview(self.poll!)
+        pollTrailingConstraint = self.poll!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+        
+        // Thumbnail image
+        self.thumbnailImage = PostCardImage(variant: .thumbnail)
+        self.thumbnailImage!.translatesAutoresizingMaskIntoConstraints = false
+        self.thumbnailImage!.isHidden = true
+        textAndSmallMediaStackView.addArrangedSubview(self.thumbnailImage!)
+        thumbnailImageTrailingConstraint = self.thumbnailImage!.widthAnchor.constraint(equalToConstant: 60)
+        
+        // Fullsize image
+        self.image = PostCardImage(variant: .fullSize)
+        self.image!.translatesAutoresizingMaskIntoConstraints = false
+        self.image!.isHidden = true
+        mediaContainer.addArrangedSubview(self.image!)
+        imageTrailingConstraint = self.image!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+        
+        // Thumbnail video
+        self.thumbnailVideo = PostCardVideo(variant: .thumbnail)
+        self.thumbnailVideo!.translatesAutoresizingMaskIntoConstraints = false
+        self.thumbnailVideo!.isHidden = true
+        textAndSmallMediaStackView.addArrangedSubview(self.thumbnailVideo!)
+        thumbnailVideoTrailingConstraint = self.thumbnailVideo!.widthAnchor.constraint(equalToConstant: 60)
+        
+        // Fullsize video
+        self.video = PostCardVideo(variant: .fullSize)
+        self.video!.translatesAutoresizingMaskIntoConstraints = false
+        self.video!.isHidden = true
+        mediaContainer.addArrangedSubview(self.video!)
+        videoTrailingConstraint = self.video!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+        
+        // Media stack
+        self.mediaStack = PostCardMediaStack(variant: .thumbnail)
+        self.mediaStack?.translatesAutoresizingMaskIntoConstraints = false
+        self.mediaStack?.isHidden = true
+        textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
+        mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
+        
+        // Media gallery
+        self.mediaGallery = PostCardMediaGallery()
+        self.mediaGallery?.isHidden = true
+        self.mediaGallery?.translatesAutoresizingMaskIntoConstraints = false
+        mediaContainer.addArrangedSubview(self.mediaGallery!)
+        mediaGalleryTrailingConstraint = self.mediaGallery!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+        
+        // Link
+        self.linkPreview = PostCardLinkPreview()
+        self.linkPreview!.isUserInteractionEnabled = false
+        self.linkPreview!.isHidden = true
+        mediaContainer.addArrangedSubview(self.linkPreview!)
+        linkPreviewTrailingConstraint = self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+        
+        // Post loader
+        self.postLoader = PostCardQuoteActivityIndicator()
+        self.postLoader!.isUserInteractionEnabled = false
+        self.postLoader!.isHidden = true
+        contentStackView.addArrangedSubview(self.postLoader!)
+        postLoaderTrailingConstraint = self.postLoader!.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
+        
+        // Post not found
+        self.postNotFound = PostCardQuoteNotFound()
+        self.postNotFound!.isHidden = true
+        self.postNotFound!.isUserInteractionEnabled = false
+        self.postNotFound!.translatesAutoresizingMaskIntoConstraints = false
+        postNotFoundTrailingConstraint = self.postNotFound!.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
@@ -299,19 +365,11 @@ extension PostCardQuotePost {
         // If a quote post status is found and loaded
         if let quotePostCard = postCard.quotePostData {
             
-            if let postLoader = self.postLoader {
-                contentStackView.removeArrangedSubview(postLoader)
-                postLoader.removeFromSuperview()
-                self.postLoaderTrailingConstraint?.isActive = false
-            }
-            
             // Display header
             self.header.configure(postCard: quotePostCard, headerType: .quotePost)
-            self.header.isUserInteractionEnabled = false
-            contentStackView.insertArrangedSubview(self.header, at: 0)
-            headerTrailingConstraint = headerTrailingConstraint ?? self.header.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
+            self.header.isHidden = false
             headerTrailingConstraint?.isActive = true
-            
+
             // Display post text
             if let postTextContent = quotePostCard.metaPostText, !postTextContent.original.isEmpty {
                 self.postTextLabel.configure(content: postTextContent)
@@ -337,98 +395,66 @@ extension PostCardQuotePost {
             } else {
                 self.postTextLabel.isHidden = true
             }
-            
-            self.postTextLabel.isUserInteractionEnabled = false
-            textAndSmallMediaStackView.addArrangedSubview(self.postTextLabel)
 
             // Display poll if needed
             if quotePostCard.containsPoll {
-                if self.poll == nil {
-                    self.poll = PostCardPoll()
-                }
-
                 self.poll!.configure(postCard: quotePostCard)
-                self.poll!.isUserInteractionEnabled = false
-                mediaContainer.addArrangedSubview(self.poll!)
-                pollTrailingConstraint = pollTrailingConstraint ?? self.poll!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+                self.poll!.isHidden = false
                 pollTrailingConstraint?.isActive = true
             }
 
             // Display the link preview if needed
             if quotePostCard.hasLink {
-                if self.linkPreview == nil {
-                    self.linkPreview = PostCardLinkPreview()
-                }
-
                 self.linkPreview!.configure(postCard: quotePostCard)
-                self.linkPreview!.isUserInteractionEnabled = false
-                mediaContainer.addArrangedSubview(self.linkPreview!)
-                linkPreviewTrailingConstraint = linkPreviewTrailingConstraint ?? self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+                self.linkPreview!.isHidden = false
                 linkPreviewTrailingConstraint?.isActive = true
-
                 self.linkPreview!.onPress = onPress
             }
             
             // Display single image if needed
             if quotePostCard.hasMediaAttachment && quotePostCard.mediaDisplayType == .singleImage {
-                if self.image == nil {
-                    switch self.mediaVariant {
-                    case .small:
-                        self.image = PostCardImage(variant: .thumbnail)
-                        self.image!.translatesAutoresizingMaskIntoConstraints = false
-                    case .large:
-                        self.image = PostCardImage(variant: .fullSize)
-                        self.image!.translatesAutoresizingMaskIntoConstraints = false
-                    default: break
-                    }
-                }
-                
-                self.image?.configure(postCard: quotePostCard)
-                
                 switch self.mediaVariant {
                 case .small:
-                    textAndSmallMediaStackView.addArrangedSubview(self.image!)
-                    imageTrailingConstraint = imageTrailingConstraint ?? self.image!.widthAnchor.constraint(equalToConstant: 60)
-                    imageTrailingConstraint?.isActive = true
+                    self.thumbnailImage?.configure(postCard: quotePostCard)
+                    self.thumbnailImage?.isHidden = false
+                    self.thumbnailImageTrailingConstraint?.isActive = true
+                    
+                    self.image?.isHidden = true
+                    self.imageTrailingConstraint?.isActive = false
                 case .large:
-                    mediaContainer.addArrangedSubview(self.image!)
-                    imageTrailingConstraint = imageTrailingConstraint ?? self.image!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
-                    imageTrailingConstraint?.isActive = true
+                    self.image?.configure(postCard: quotePostCard)
+                    self.image?.isHidden = false
+                    self.imageTrailingConstraint?.isActive = true
+                    
+                    self.thumbnailImage?.isHidden = true
+                    self.thumbnailImageTrailingConstraint?.isActive = false
                 default: break
                 }
             }
             
             // Display single video/gif if needed
             if quotePostCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(quotePostCard.mediaDisplayType) {
-                if self.video == nil {
-                    switch self.mediaVariant {
-                    case .small:
-                        self.video = PostCardVideo(variant: .thumbnail)
-                        self.video!.translatesAutoresizingMaskIntoConstraints = false
-                    case .large:
-                        self.video = PostCardVideo(variant: .fullSize)
-                        self.video!.translatesAutoresizingMaskIntoConstraints = false
-                    default: break
-                    }
-                }
-                
-                self.video?.configure(postCard: quotePostCard)
-                
-                // Do not auto-play videos in thumbnail-mode
-                if [.small, .hidden].contains(self.mediaVariant) {
-                    self.video?.pause()
-                }
-                
                 switch self.mediaVariant {
                 case .small:
-                    textAndSmallMediaStackView.addArrangedSubview(self.video!)
-                    videoTrailingConstraint = videoTrailingConstraint ?? self.video!.widthAnchor.constraint(equalToConstant: 60)
-                    videoTrailingConstraint?.isActive = true
+                    self.thumbnailVideo?.isHidden = false
+                    self.thumbnailVideo?.configure(postCard: quotePostCard)
+                    self.thumbnailVideo?.pause()
+                    thumbnailVideoTrailingConstraint?.isActive = true
+                    
+                    self.video?.isHidden = true
+                    videoTrailingConstraint?.isActive = false
                 case .large:
-                    mediaContainer.addArrangedSubview(self.video!)
-                    videoTrailingConstraint = videoTrailingConstraint ?? self.video!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+                    self.video?.isHidden = false
+                    self.video?.configure(postCard: quotePostCard)
                     videoTrailingConstraint?.isActive = true
-                default: break
+                    
+                    self.thumbnailVideo?.isHidden = true
+                    thumbnailVideoTrailingConstraint?.isActive = false
+                default:
+                    self.video?.isHidden = true
+                    videoTrailingConstraint?.isActive = false
+                    self.thumbnailVideo?.isHidden = true
+                    thumbnailVideoTrailingConstraint?.isActive = false
                 }
             }
             
@@ -436,71 +462,56 @@ extension PostCardQuotePost {
             if quotePostCard.hasMediaAttachment && quotePostCard.mediaDisplayType == .carousel {
                 switch self.mediaVariant {
                 case .small:
-                    self.mediaStack = PostCardMediaStack(variant: .thumbnail)
-                    self.mediaStack?.translatesAutoresizingMaskIntoConstraints = false
-                    self.mediaStack?.configure(postCard: quotePostCard)
-
-                    textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
-                    mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
-                    mediaStackTrailingConstraint?.isActive = true
                     self.mediaStack?.isHidden = false
+                    self.mediaStack?.configure(postCard: quotePostCard)
+                    mediaStackTrailingConstraint?.isActive = true
+                    
                     self.mediaGallery?.isHidden = true
+                    mediaGalleryTrailingConstraint?.isActive = false
                 case .large:
-                    self.mediaGallery = PostCardMediaGallery()
-                    self.mediaGallery?.translatesAutoresizingMaskIntoConstraints = false
-                    self.mediaGallery?.configure(postCard: quotePostCard)
-
-                    mediaContainer.addArrangedSubview(self.mediaGallery!)
-                    mediaGalleryTrailingConstraint = self.mediaGallery!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
-                    mediaGalleryTrailingConstraint?.isActive = true
                     self.mediaGallery?.isHidden = false
+                    self.mediaGallery?.configure(postCard: quotePostCard)
+                    mediaGalleryTrailingConstraint?.isActive = true
+                    
                     self.mediaStack?.isHidden = true
-                default: break
+                    mediaStackTrailingConstraint?.isActive = false
+                default:
+                    self.mediaGallery?.isHidden = true
+                    mediaGalleryTrailingConstraint?.isActive = false
+                    self.mediaStack?.isHidden = true
+                    mediaStackTrailingConstraint?.isActive = false
                 }
             }
-
-            // If we are hiding the link image, move the link view
-            // so it's below any possible media.
-            if let linkPreview = self.linkPreview, quotePostCard.hideLinkImage && mediaContainer.arrangedSubviews.contains(linkPreview) {
-                mediaContainer.insertArrangedSubview(linkPreview, at: mediaContainer.arrangedSubviews.count - 1)
-            }
-            
         }
-        
+
         if postCard.quotePostStatus == .notFound {
-            if let postLoader = self.postLoader {
-                contentStackView.removeArrangedSubview(postLoader)
-                postLoader.removeFromSuperview()
-                self.postLoaderTrailingConstraint?.isActive = false
-            }
+            self.postLoader?.isHidden = true
+            self.postLoader?.stopAnimation()
             
             // Quote post can't be found
-            if self.postNotFound == nil {
-                self.postNotFound = PostCardQuoteNotFound()
-            }
-            
-            contentStackView.addArrangedSubview(self.postNotFound!)
-            self.postNotFound!.isUserInteractionEnabled = false
+            self.postNotFound?.isHidden = false
             self.isUserInteractionEnabled = false
-            postNotFoundTrailingConstraint = postNotFoundTrailingConstraint ?? self.postNotFound!.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
             postNotFoundTrailingConstraint?.isActive = true
-            
             mainStackView.directionalLayoutMargins.bottom = 10
+            
+            header.isHidden = true
+            headerTrailingConstraint?.isActive = false
+            self.postTextLabel.isHidden = true
         }
         
         if postCard.quotePostStatus == .loading  {
             // Quote post is being loaded
-            if self.postLoader == nil {
-                self.postLoader = PostCardQuoteActivityIndicator()
-            }
-            
+            self.postLoader?.isHidden = false
             self.postLoader!.startAnimation()
-            self.postLoader!.isUserInteractionEnabled = false
-            contentStackView.addArrangedSubview(self.postLoader!)
-            postLoaderTrailingConstraint = postLoaderTrailingConstraint ?? self.postLoader!.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
             postLoaderTrailingConstraint?.isActive = true
-            
             mainStackView.directionalLayoutMargins.bottom = 10
+            
+            self.postNotFound?.isHidden = true
+            postNotFoundTrailingConstraint?.isActive = false
+            
+            header.isHidden = true
+            headerTrailingConstraint?.isActive = false
+            self.postTextLabel.isHidden = true
         }
     }
     
@@ -653,6 +664,12 @@ fileprivate class PostCardQuoteActivityIndicator: UIStackView {
     
     func startAnimation() {
         self.activityIndicator.startAnimating()
+    }
+    
+    func stopAnimation() {
+        if self.activityIndicator.isAnimating {
+            self.activityIndicator.stopAnimating()
+        }
     }
     
     func onThemeChange() {
