@@ -350,6 +350,8 @@ final class PostCardCell: UITableViewCell {
     private var headerExtension: PostCardHeaderExtension?
     private var metadata: PostCardMetadata?
     
+    private var readMoreButton: ReadMoreButton?
+    
     private var cellVariant: PostCardVariant {
         if let reuseIdentifier = self.reuseIdentifier {
             return Self.variant(for: reuseIdentifier)
@@ -413,6 +415,8 @@ final class PostCardCell: UITableViewCell {
         self.profilePic.prepareForReuse()
         self.footer.onButtonPress = nil
         self.separatorInset = .zero
+        
+        self.readMoreButton?.isHidden = true
         
         self.contentStackView.setCustomSpacing(self.contentStackView.spacing, after: self.header)
         
@@ -530,6 +534,17 @@ private extension PostCardCell {
             self.postTextTrailingConstraint = postTextView.trailingAnchor.constraint(equalTo: textAndSmallMediaStackView.layoutMarginsGuide.trailingAnchor)
             postTextTrailingConstraint!.priority = .defaultHigh
             postTextTrailingConstraint!.isActive = true
+            
+            self.readMoreButton = ReadMoreButton()
+            self.readMoreButton?.translatesAutoresizingMaskIntoConstraints = false
+            self.readMoreButton?.isHidden = true
+            self.postTextView.addSubview(readMoreButton!)
+            self.readMoreButton?.addTarget(self, action: #selector(self.onReadMorePress), for: .touchUpInside)
+            
+            NSLayoutConstraint.activate([
+                self.readMoreButton!.trailingAnchor.constraint(equalTo: self.postTextView.trailingAnchor),
+                self.readMoreButton!.bottomAnchor.constraint(equalTo: self.postTextView.bottomAnchor),
+            ])
         }
         
         if self.cellVariant.hasMedia {
@@ -934,6 +949,16 @@ extension PostCardCell {
                     self.postTextView.isHidden = true
                 }
             }
+            
+            self.readMoreButton?.isHidden = true
+            DispatchQueue.main.async {
+                if self.postTextView.isTruncated && self.type != .detail {
+                    self.readMoreButton?.isHidden = false
+                    self.postTextView.bringSubviewToFront(self.readMoreButton!)
+                } else if self.readMoreButton?.isHidden == false {
+                    self.readMoreButton?.isHidden = true
+                }
+            }
         }
     }
     
@@ -1150,6 +1175,8 @@ extension PostCardCell {
         self.footer.onThemeChange()
         self.footer.backgroundColor = self.contentView.backgroundColor
         
+        self.readMoreButton?.configure(backgroundColor: backgroundColor)
+        
         // Update all items that use .custom colors
         contentWarningButton.backgroundColor = .custom.OVRLYSoftContrast
         deletedWarningButton.backgroundColor = .custom.OVRLYSoftContrast
@@ -1175,6 +1202,12 @@ extension PostCardCell {
         GlobalStruct.allCW.append(self.postCard?.id ?? "")
         self.postCard?.filterType = .none
         self.mediaGallery?.alpha = 1
+    }
+    
+    @objc func onReadMorePress() {
+        if let postCard = self.postCard {
+            self.onButtonPress?(.postDetails, true, .post(postCard))
+        }
     }
 }
 

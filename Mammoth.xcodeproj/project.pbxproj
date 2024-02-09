@@ -145,6 +145,8 @@
 		14C45DF12B1A4266000171A9 /* Pride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEE2B1A4266000171A9 /* Pride@2x.png */; };
 		14E08C6A2B20BF9C00EF5A55 /* DeviceHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E08C692B20BF9C00EF5A55 /* DeviceHelpers.swift */; };
 		14E4CAC32B74076700E4D499 /* ArrowAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4CAC22B74076700E4D499 /* ArrowAlignment.swift */; };
+		14E4CAC52B76428200E4D499 /* UILabel+IsTruncated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4CAC42B76428200E4D499 /* UILabel+IsTruncated.swift */; };
+		14E4CAC82B76435C00E4D499 /* ReadMoreButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4CAC72B76435C00E4D499 /* ReadMoreButton.swift */; };
 		14F47F452B517DAB008F45CE /* PostCardMediaStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F47F442B517DAB008F45CE /* PostCardMediaStack.swift */; };
 		14F47F472B57F48B008F45CE /* PostCardMediaGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F47F462B57F48B008F45CE /* PostCardMediaGallery.swift */; };
 		532567AC2971C512004E7636 /* Timelines.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53399A2B291526B900560F83 /* Timelines.swift */; };
@@ -958,6 +960,8 @@
 		14C45DEE2B1A4266000171A9 /* Pride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@2x.png"; sourceTree = "<group>"; };
 		14E08C692B20BF9C00EF5A55 /* DeviceHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceHelpers.swift; sourceTree = "<group>"; };
 		14E4CAC22B74076700E4D499 /* ArrowAlignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowAlignment.swift; sourceTree = "<group>"; };
+		14E4CAC42B76428200E4D499 /* UILabel+IsTruncated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+IsTruncated.swift"; sourceTree = "<group>"; };
+		14E4CAC72B76435C00E4D499 /* ReadMoreButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadMoreButton.swift; sourceTree = "<group>"; };
 		14F47F442B517DAB008F45CE /* PostCardMediaStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardMediaStack.swift; sourceTree = "<group>"; };
 		14F47F462B57F48B008F45CE /* PostCardMediaGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardMediaGallery.swift; sourceTree = "<group>"; };
 		532567F22971D250004E7636 /* OtherStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherStruct.swift; sourceTree = "<group>"; };
@@ -1795,6 +1799,7 @@
 				533995022914227800560F83 /* TableOfContentsSelector.swift */,
 				BF33A0F32AA946AF0008D9DF /* ThinSlider.swift */,
 				146C6A442B456EFB00A002D7 /* CarouselNavigationHeader.swift */,
+				14E4CAC72B76435C00E4D499 /* ReadMoreButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3087,6 +3092,7 @@
 				1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */,
 				BFBD97AB2B44ECDA00A0645B /* Bundle+decode.swift */,
 				146C6A462B48113500A002D7 /* String+StripEmojis.swift */,
+				14E4CAC42B76428200E4D499 /* UILabel+IsTruncated.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -4007,6 +4013,7 @@
 				5339968D2914227A00560F83 /* Disk+[Data].swift in Sources */,
 				53399A38291526B900560F83 /* URLComponents.swift in Sources */,
 				53450E702936127C00D720EA /* Map.swift in Sources */,
+				14E4CAC52B76428200E4D499 /* UILabel+IsTruncated.swift in Sources */,
 				5339966E2914227A00560F83 /* RegexParser.swift in Sources */,
 				53399A6F291526B900560F83 /* Reports.swift in Sources */,
 				BFB396572A325C580014D0DA /* AuxFeedViewController.swift in Sources */,
@@ -4050,6 +4057,7 @@
 				533996F02914227A00560F83 /* ProfileNoteCell.swift in Sources */,
 				C316428D2A27584D00DCB4A3 /* PostCardLinkPreview.swift in Sources */,
 				BFB396552A3243890014D0DA /* AuxColumnViewController.swift in Sources */,
+				14E4CAC82B76435C00E4D499 /* ReadMoreButton.swift in Sources */,
 				53450E772936127C00D720EA /* TransformType.swift in Sources */,
 				88EFEB2A2AC236E10040228B /* MothSocialJWT.swift in Sources */,
 				533994BE2914214A00560F83 /* PollViewController.swift in Sources */,
