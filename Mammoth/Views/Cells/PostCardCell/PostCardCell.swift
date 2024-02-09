@@ -951,7 +951,8 @@ extension PostCardCell {
             }
             
             self.readMoreButton?.isHidden = true
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
                 if self.postTextView.isTruncated && self.type != .detail {
                     self.readMoreButton?.isHidden = false
                     self.postTextView.bringSubviewToFront(self.readMoreButton!)
