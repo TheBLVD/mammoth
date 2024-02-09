@@ -12,6 +12,19 @@ class CarouselItem: UICollectionViewCell {
     static let reuseIdentifier = "CarouselItem"
 
     let titleLabel = UILabel()
+    let menuButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.showsMenuAsPrimaryAction = false
+        button.isEnabled = false
+        return button
+    }()
+    
+    override var isSelected: Bool {
+        didSet {
+            self.menuButton.isEnabled = isSelected
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,6 +42,10 @@ class CarouselItem: UICollectionViewCell {
         titleLabel.textColor = .custom.highContrast
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel)
+        
+        contentView.addSubview(menuButton)
+        
+        menuButton.pinEdges()
 
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),

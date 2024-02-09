@@ -277,22 +277,10 @@ extension Carousel: UICollectionViewDataSource {
         } else {
             cell.titleLabel.textColor = .custom.softContrast.withAlphaComponent(GlobalStruct.overrideThemeHighContrast ? 0.65 : 1)
         }
+        
+        let menu = self.delegate?.contextMenuForItem(withIndex: indexPath.item)
+        cell.menuButton.menu = menu
                 
         return cell
-    }
-}
-
-// MARK: UIContextMenuInteractionDelegate
-extension Carousel: UIContextMenuInteractionDelegate {
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        return nil
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        guard let cell = collectionView.cellForItem(at: indexPath), cell.isSelected else { return nil }
-        guard let menu = self.delegate?.contextMenuForItem(withIndex: indexPath.item) else { return nil }
-        return UIContextMenuConfiguration(identifier: indexPath as NSIndexPath, previewProvider: nil, actionProvider: { suggestedActions in
-            return menu
-        })
     }
 }
