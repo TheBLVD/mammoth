@@ -25,6 +25,7 @@ final class PostCardMetadata: UIView {
         stackView.isOpaque = true
         stackView.layoutMargins = .zero
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return stackView
     }()
     
@@ -50,6 +51,7 @@ final class PostCardMetadata: UIView {
     private var applicationLabel: UILabel = {
         let label = PostCardMetadata.createLabel()
         label.numberOfLines = 0
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return label
     }()
     private var viewDetailsLabel: UILabel = createLabel()
