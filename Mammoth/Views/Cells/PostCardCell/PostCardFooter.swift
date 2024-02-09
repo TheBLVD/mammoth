@@ -28,6 +28,7 @@ final class PostCardFooter: UIView {
     
     private let replyButton = PostFooterButton(type: .reply)
     private let repostButton = PostFooterButton(type: .repost)
+    private let quoteButton = PostFooterButton(type: .quote)
     private let likeButton = PostFooterButton(type: .like)
     private let moreButton = PostFooterButton(type: .more)
     
@@ -35,6 +36,7 @@ final class PostCardFooter: UIView {
         didSet {
             replyButton.onPress = onButtonPress
             repostButton.onPress = onButtonPress
+            quoteButton.onPress = onButtonPress
             likeButton.onPress = onButtonPress
             moreButton.onPress = onButtonPress
         }
@@ -68,6 +70,7 @@ private extension PostCardFooter {
         mainStackView.addArrangedSubview(likeButton)
         mainStackView.addArrangedSubview(replyButton)
         mainStackView.addArrangedSubview(repostButton)
+        mainStackView.addArrangedSubview(quoteButton)
         mainStackView.addArrangedSubview(moreButton)
     }
 }
@@ -80,6 +83,7 @@ extension PostCardFooter {
         
         replyButton.configure(buttonText: includeMetrics ? postCard.replyCount : nil, postCard: postCard)
         repostButton.configure(buttonText: includeMetrics ? postCard.repostCount : nil, isActive: postCard.isReposted, postCard: postCard)
+        quoteButton.configure(buttonText: nil, isActive: false, postCard: postCard)
         likeButton.configure(buttonText: includeMetrics ? postCard.likeCount : nil, isActive: postCard.isLiked, postCard: postCard)
         moreButton.configure(buttonText: nil, isActive: postCard.isBookmarked, postCard: postCard)
         
@@ -99,6 +103,7 @@ extension PostCardFooter {
         
         replyButton.onThemeChange()
         repostButton.onThemeChange()
+        quoteButton.onThemeChange()
         likeButton.onThemeChange()
         moreButton.onThemeChange()
     }
@@ -171,7 +176,7 @@ fileprivate class PostFooterButton: UIButton {
         super.init(frame: .zero)
         self.setupUI()
 
-        if [.like, .reply].contains(where: { $0 == type }) {
+        if [.like, .reply, .repost, .quote].contains(where: { $0 == type }) {
             let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
             self.addGestureRecognizer(tap)
         }
@@ -239,9 +244,6 @@ extension PostFooterButton {
         // Create context menus
         if let postCard = postCard {
             switch (self.postButtonType) {
-            case .repost:
-                self.menu = self.createRepostMenu(postCard: postCard)
-                self.showsMenuAsPrimaryAction = true
             case .more:
                 self.menu = self.createMoreMenu(postCard: postCard)
                 self.showsMenuAsPrimaryAction = true
@@ -336,12 +338,6 @@ private extension PostFooterButton {
         action.attributes = attributes
         action.accessibilityLabel = title
         return action
-    }
-    
-    func createRepostMenu(postCard: PostCardModel) -> UIMenu {
-        let repostItem =  createContextMenuAction("Repost", .repost, isActive: false)
-        let quotePostItem =  createContextMenuAction("Quote Post", .quote, isActive: false)
-        return UIMenu(title: "", options: [.displayInline], children: [repostItem, quotePostItem])
     }
     
     func createMoreMenu(postCard: PostCardModel) -> UIMenu {
