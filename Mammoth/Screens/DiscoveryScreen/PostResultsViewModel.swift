@@ -227,12 +227,12 @@ private extension PostResultsViewModel {
                         // Delete post card data in list data
                         self.listData.remove(at: cardIndex)
                         // Request a table view cell refresh
-                        self.delegate?.didDeleteCard(at: IndexPath(row: cardIndex, section: 1))
+                        self.delegate?.didDeleteCard(at: IndexPath(row: cardIndex, section: 0))
                     } else {
                         // Replace post card data in list data
                         self.listData[cardIndex] = postCard
                         // Request a table view cell refresh
-                        self.delegate?.didUpdateCard(at: IndexPath(row: cardIndex, section: 1))
+                        self.delegate?.didUpdateCard(at: IndexPath(row: cardIndex, section: 0))
                     }
                 }
             }
