@@ -271,7 +271,6 @@ private extension ProfileViewController {
     }
     
     func showTutorialIfNeeded() {
-        
         if AccountsManager.shared.allAccounts.count > 1 && TutorialOverlay.shouldShowOverlay(forType: .quickAccountSwitcher) {
             // Force this on the next runloop to make sure rootViewController is set
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {

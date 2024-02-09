@@ -73,7 +73,7 @@ class PostCardLinkPreview: UIView {
     private var urlLabel: UILabel = {
         let label = UILabel()
         label.isOpaque = true
-        label.textColor = .custom.actionButtons
+        label.textColor = .custom.feintContrast
         label.numberOfLines = 1
         label.isOpaque = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -212,7 +212,7 @@ extension PostCardLinkPreview {
     
     func onThemeChange() {
         self.mainStackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
-        self.urlLabel.textColor = .custom.actionButtons
+        self.urlLabel.textColor = .custom.feintContrast
         let backgroundColor: UIColor = self.isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
         self.urlLabel.backgroundColor = backgroundColor
         self.titleLabel.backgroundColor = backgroundColor
