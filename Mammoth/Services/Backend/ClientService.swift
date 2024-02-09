@@ -22,7 +22,17 @@ struct ClientService {
         }
         return mothClient
     }
-    
+
+    static var featureClient: Client? {
+        var featureClient: Client? = nil
+        if AccountsManager.shared.currentAccount != nil {
+            featureClient = AccountsManager.shared.currentAccountFeatureClient
+        } else {
+            log.error("featureClient called with no current account")
+        }
+        return featureClient
+    }
+
    static func runRequest<Model>(request: Request<Model>) async throws -> Model {
        guard AccountsManager.shared.currentAccount != nil else {
            let error = NSError(domain: "runRequest called with no current account", code: 401)
@@ -53,6 +63,16 @@ struct ClientService {
         }
     }
     
+    static func runFeatureRequest<Model>(request: Request<Model>) async throws -> Model {
+        if let featureClient = featureClient {
+            return try await self.runRequest(client: featureClient, request: request)
+        } else {
+            let error = NSError(domain: "runRequest called with no current account", code: 401)
+            log.error("\(error)")
+            throw error
+        }
+    }
+
     static func runRequest<Model>(client: Client, request: Request<Model>) async throws -> Model {
          return try await withCheckedThrowingContinuation { continuation in
              client.run(request) { (result) in

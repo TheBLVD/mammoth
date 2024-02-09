@@ -176,30 +176,6 @@ extension DiscoveryViewModel {
 extension DiscoveryViewModel {
     func loadRecommendations() async {
         self.state = .loading
-        if let fullAcct = AccountsManager.shared.currentUser()?.fullAcct {
-            do {
-                let accounts = try await AccountService.getFollowRecommentations(fullAcct: fullAcct)
-
-                let userCards = accounts.map({ account in
-                    UserCardModel.fromAccount(account: account, instanceName: GlobalHostServer())
-                })
-                
-                UserCardModel.preload(userCards: userCards)
-                
-                DispatchQueue.main.async { [weak self] in
-                    guard let self else { return }
-                    self.suggested = userCards
-                    self.listData = userCards
-                    self.state = .success
-                }
-                
-            } catch let error {
-                DispatchQueue.main.async { [weak self] in
-                    guard let self else { return }
-                    self.state = .error(error)
-                }
-            }
-        }
     }
     
     func search(query: String, fullSearch: Bool = false) {
