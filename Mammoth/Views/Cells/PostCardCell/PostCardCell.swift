@@ -539,13 +539,8 @@ private extension PostCardCell {
             self.readMoreButton = ReadMoreButton()
             self.readMoreButton?.translatesAutoresizingMaskIntoConstraints = false
             self.readMoreButton?.isHidden = true
-            self.postTextView.addSubview(readMoreButton!)
+            contentStackView.addArrangedSubview(readMoreButton!)
             self.readMoreButton?.addTarget(self, action: #selector(self.onReadMorePress), for: .touchUpInside)
-            
-            NSLayoutConstraint.activate([
-                self.readMoreButton!.trailingAnchor.constraint(equalTo: self.postTextView.trailingAnchor),
-                self.readMoreButton!.bottomAnchor.constraint(equalTo: self.postTextView.bottomAnchor),
-            ])
         }
         
         if self.cellVariant.hasMedia {
@@ -945,6 +940,7 @@ extension PostCardCell {
             }
             
             self.readMoreButton?.isHidden = true
+            contentStackView.setCustomSpacing(2, after: textAndSmallMediaStackView)
             let processingPostUniqueId = postCard?.uniqueId
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
@@ -952,8 +948,11 @@ extension PostCardCell {
                 if self.postTextView.isTruncated && self.type != .detail {
                     self.readMoreButton?.isHidden = false
                     self.postTextView.bringSubviewToFront(self.readMoreButton!)
+                    contentStackView.setCustomSpacing(0, after: textAndSmallMediaStackView)
+                    contentStackView.setCustomSpacing(4, after: readMoreButton!)
                 } else if self.readMoreButton?.isHidden == false {
                     self.readMoreButton?.isHidden = true
+                    contentStackView.setCustomSpacing(2, after: textAndSmallMediaStackView)
                 }
             }
         }
