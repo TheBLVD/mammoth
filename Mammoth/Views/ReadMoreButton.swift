@@ -20,9 +20,9 @@ class ReadMoreButton: UIButton {
     }
     
     private func setupUI() {
-        self.setTitle("...more", for: .normal)
-        self.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 2, weight: .semibold)
-        self.setTitleColor(.custom.mediumContrast, for: .normal)
+        self.setTitle("Read more", for: .normal)
+        self.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
+        self.setTitleColor(.custom.highContrast, for: .normal)
         self.contentEdgeInsets = .init(top: 2, left: 0, bottom: 0, right: 3)
     }
     

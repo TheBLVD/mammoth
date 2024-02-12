@@ -351,7 +351,7 @@ final class PostCardCell: UITableViewCell {
     private var headerExtension: PostCardHeaderExtension?
     private var metadata: PostCardMetadata?
     
-    private var readMoreButton: ReadMoreButton?
+//    private var readMoreButton: ReadMoreButton?
     
     private var cellVariant: PostCardVariant {
         if let reuseIdentifier = self.reuseIdentifier {
@@ -417,7 +417,7 @@ final class PostCardCell: UITableViewCell {
         self.footer.onButtonPress = nil
         self.separatorInset = .zero
         
-        self.readMoreButton?.isHidden = true
+//        self.readMoreButton?.isHidden = true
         
         self.contentStackView.setCustomSpacing(self.contentStackView.spacing, after: self.header)
         
@@ -536,11 +536,10 @@ private extension PostCardCell {
             postTextTrailingConstraint!.priority = .defaultHigh
             postTextTrailingConstraint!.isActive = true
             
-            self.readMoreButton = ReadMoreButton()
-            self.readMoreButton?.translatesAutoresizingMaskIntoConstraints = false
-            self.readMoreButton?.isHidden = true
-            contentStackView.addArrangedSubview(readMoreButton!)
-            self.readMoreButton?.addTarget(self, action: #selector(self.onReadMorePress), for: .touchUpInside)
+//            self.readMoreButton = ReadMoreButton()
+//            self.readMoreButton?.isHidden = true
+//            contentStackView.addArrangedSubview(readMoreButton!)
+//            self.readMoreButton?.addTarget(self, action: #selector(self.onReadMorePress), for: .touchUpInside)
         }
         
         if self.cellVariant.hasMedia {
@@ -939,22 +938,18 @@ extension PostCardCell {
                 }
             }
             
-            self.readMoreButton?.isHidden = true
-            contentStackView.setCustomSpacing(2, after: textAndSmallMediaStackView)
-            let processingPostUniqueId = postCard?.uniqueId
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                guard self.postCard?.uniqueId == processingPostUniqueId else { return }
-                if self.postTextView.isTruncated && self.type != .detail {
-                    self.readMoreButton?.isHidden = false
-                    self.postTextView.bringSubviewToFront(self.readMoreButton!)
-                    contentStackView.setCustomSpacing(0, after: textAndSmallMediaStackView)
-                    contentStackView.setCustomSpacing(4, after: readMoreButton!)
-                } else if self.readMoreButton?.isHidden == false {
-                    self.readMoreButton?.isHidden = true
-                    contentStackView.setCustomSpacing(2, after: textAndSmallMediaStackView)
-                }
-            }
+//            self.readMoreButton?.isHidden = true
+//            contentStackView.setCustomSpacing(2, after: textAndSmallMediaStackView)
+//            let processingPostUniqueId = postCard?.uniqueId
+//            DispatchQueue.main.async { [weak self] in
+//                guard let self else { return }
+//                guard self.postCard?.uniqueId == processingPostUniqueId else { return }
+//                if self.postTextView.isTruncated && self.type != .detail {
+//                    self.readMoreButton?.isHidden = false
+//                } else if self.readMoreButton?.isHidden == false {
+//                    self.readMoreButton?.isHidden = true
+//                }
+//            }
         }
     }
     
@@ -1171,7 +1166,7 @@ extension PostCardCell {
         self.footer.onThemeChange()
         self.footer.backgroundColor = self.contentView.backgroundColor
         
-        self.readMoreButton?.configure(backgroundColor: backgroundColor)
+//        self.readMoreButton?.configure(backgroundColor: backgroundColor)
         
         // Update all items that use .custom colors
         contentWarningButton.backgroundColor = .custom.OVRLYSoftContrast
