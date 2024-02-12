@@ -334,6 +334,7 @@ private extension PostCardQuotePost {
         self.postNotFound!.isHidden = true
         self.postNotFound!.isUserInteractionEnabled = false
         self.postNotFound!.translatesAutoresizingMaskIntoConstraints = false
+        contentStackView.addArrangedSubview(self.postNotFound!)
         postNotFoundTrailingConstraint = self.postNotFound!.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
         
         NSLayoutConstraint.activate([
