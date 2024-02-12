@@ -142,16 +142,16 @@ enum PostCardButtonType: Int {
             if isActive {
                 return UIColor.systemPink
             } else {
-                return .custom.actionButtons
+                return .custom.feintContrast
             }
         case .repost:
             if isActive {
                 return UIColor.systemGreen
             } else {
-                return .custom.actionButtons
+                return .custom.feintContrast
             }
         default:
-            return .custom.actionButtons
+            return .custom.feintContrast
         }
     }
 }
