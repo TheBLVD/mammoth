@@ -8,6 +8,7 @@ import ArkanaKeys
 struct MammothClaims: Claims {
     let iss: String
     let sub: String
+    let gold: Bool
 }
 
 private func mothSocialSecretKey() -> Data {
@@ -23,7 +24,7 @@ private func mothSocialSecretKey() -> Data {
 /// This is NOT the account's instance generated token. Only used with MothClient.
 func MothSocialJWT(acct: String) -> String {
     /// Make the JWT
-    let jwt = JWT(claims: MammothClaims(iss: "Mammoth", sub: acct))
+    let jwt = JWT(claims: MammothClaims(iss: "Mammoth", sub: acct, gold: IAPManager.isGoldMember))
     /// Create the signer
     let hsJWTEncoder = JWTEncoder(jwtSigner: JWTSigner.hs256(key: mothSocialSecretKey()))
     do {
