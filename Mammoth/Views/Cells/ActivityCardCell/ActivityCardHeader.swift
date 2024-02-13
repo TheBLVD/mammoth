@@ -249,9 +249,14 @@ extension ActivityCardHeader {
     
     func onThemeChange() {
         self.backgroundColor = .custom.background
+        titleLabel.textColor = .custom.displayNames
         titleLabel.backgroundColor = .custom.background
+        dateLabel.textColor = .custom.feintContrast
         dateLabel.backgroundColor = .custom.background
+        actionLabel.textColor = .custom.feintContrast
         actionLabel.backgroundColor = .custom.background
+        let config = UIImage.SymbolConfiguration(pointSize: GlobalStruct.smallerFontSize, weight: .light)
+        pinIcon.image = UIImage(systemName: "pin.fill", withConfiguration: config)?.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
         pinIcon.backgroundColor = .custom.background
     }
     
