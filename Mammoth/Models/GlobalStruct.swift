@@ -30,7 +30,6 @@ public struct GlobalStruct {
     static var redirect = ""
     static var newClient = Client(baseURL: "")
     static var newInstance: InstanceData?
-    static var currentInstanceDetails: [Instance] = []
     static var maxChars: Int = 500
     static var newPollPost: [Any]? = nil
     static var savedPostSearch: [String] = []

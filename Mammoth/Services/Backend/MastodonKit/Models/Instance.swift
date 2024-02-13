@@ -39,6 +39,7 @@ public class Rules: Codable {
 
 public class PostConfiguration: Codable {
     public let statuses: PostConfigurationStatuses?
+    public let urls: ConfigurationURLs?
 }
 
 public class PostConfigurationStatuses: Codable {
@@ -47,6 +48,10 @@ public class PostConfigurationStatuses: Codable {
     private enum CodingKeys: String, CodingKey {
         case maxCharacters = "max_characters"
     }
+}
+
+public class ConfigurationURLs: Codable {
+    public let streaming: String?
 }
 
 public class Usage: Codable {
