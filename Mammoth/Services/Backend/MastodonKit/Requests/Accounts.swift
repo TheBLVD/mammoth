@@ -319,25 +319,6 @@ public struct Accounts {
         return Request<[Relationship]>(path: "/api/v1/accounts/relationships", method: method)
     }
 
-    /// Searches for accounts.
-    ///
-    /// - Parameters:
-    ///   - query: What to search for.
-    ///   - limit: Maximum number of matching accounts to return (default: 40).
-    ///   - following: Limit the search to following (default: false).
-    /// - Returns: Request for `[Account]`.
-    public static func search(query: String, limit: Int? = nil, following: Bool? = nil) -> Request<[Account]> {
-        let toLimitBounds = between(1, and: 80, default: 40)
-        let parameters = [
-            Parameter(name: "q", value: query),
-            Parameter(name: "limit", value: limit.map(toLimitBounds).flatMap(toOptionalString)),
-            Parameter(name: "following", value: following.flatMap(trueOrNil))
-        ]
-
-        let method = HTTPMethod.get(.parameters(parameters))
-        return Request<[Account]>(path: "/api/v1/accounts/search", method: method)
-    }
-    
     public static func registerAccount(username: String, email: String, password: String, agreement: Bool, locale: String) -> Request<LoginSettings> {
         var agreementText = "false"
         if agreement == true {

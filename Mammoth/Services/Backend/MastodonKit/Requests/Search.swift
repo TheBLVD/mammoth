@@ -25,22 +25,17 @@ public struct Search {
         return Request<Results>(path: "/api/v2/search", method: method)
     }
 
-    // Use Accounts.search instead
-//    public static func searchAccounts(query: String) -> Request<Results> {
-//        let parameters = [
-//            Parameter(name: "q", value: query),
-//            Parameter(name: "limit", value: "50"),
-//        ]
-//        let method = HTTPMethod.get(.parameters(parameters))
-//        return Request<Results>(path: "/api/v1/accounts/search", method: method)
-//    }
-    
-    public static func searchAccount(query: String) -> Request<Results> {
+    public static func searchAccounts(query: String, limit: Int? = nil, following: Bool? = nil) -> Request<Results
+    > {
+        let toLimitBounds = between(1, and: 80, default: 40)
         let parameters = [
             Parameter(name: "q", value: query),
+            Parameter(name: "resolve", value: "true"),
             Parameter(name: "type", value: "accounts"),
-            Parameter(name: "limit", value: "1"),
+            Parameter(name: "limit", value: limit.map(toLimitBounds).flatMap(toOptionalString)),
+            Parameter(name: "following", value: following.flatMap(trueOrNil))
         ]
+
         let method = HTTPMethod.get(.parameters(parameters))
         return Request<Results>(path: "/api/v2/search", method: method)
     }
@@ -48,6 +43,7 @@ public struct Search {
     public static func searchPosts(query: String) -> Request<Results> {
         let parameters = [
             Parameter(name: "q", value: query),
+            Parameter(name: "resolve", value: "true"),
             Parameter(name: "type", value: "statuses"),
             Parameter(name: "limit", value: "50"),
         ]
