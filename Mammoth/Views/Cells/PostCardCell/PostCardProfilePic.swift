@@ -58,6 +58,18 @@ final class PostCardProfilePic: UIButton {
         return SDImagePipelineTransformer(transformers: [resizeTransformer, roundTransformer])
     }
     
+    static var transformerAlwaysCircle: SDImagePipelineTransformer {
+        let scale = UIScreen.main.scale
+        let thumbnailSize = CGSize(width: PostCardProfilePic.ProfilePicSize.regular.width() * scale, height: PostCardProfilePic.ProfilePicSize.regular.width() * scale)
+        let resizeTransformer = SDImageResizingTransformer(size: thumbnailSize, scaleMode: .aspectFit)
+        let roundTransformer = SDImageRoundCornerTransformer(
+            radius: .greatestFiniteMagnitude,
+            corners: .allCorners,
+            borderWidth: 0,
+            borderColor: nil)
+        return SDImagePipelineTransformer(transformers: [resizeTransformer, roundTransformer])
+    }
+    
     // MARK: - Properties
     
     private(set) var profileImageView: UIImageView = {
@@ -200,6 +212,15 @@ extension PostCardProfilePic {
     }
     
     func onThemeChange() {
+        // This is also called when the avatar changes from round/square
+        self.profileImageView.layer.cornerRadius = self.size.cornerRadius()
+        if let profileStr = self.user?.imageURL, let profileURL = URL(string: profileStr) {
+            self.profileImageView.ma_setImage(with: profileURL,
+                                              cachedImage: nil,
+                                              imageTransformer: PostCardProfilePic.transformer) { image in
+            }
+        }
+        
         let backgroundColor: UIColor = isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
         self.profileImageView.backgroundColor = backgroundColor
         profileImageView.layer.backgroundColor = backgroundColor.cgColor
