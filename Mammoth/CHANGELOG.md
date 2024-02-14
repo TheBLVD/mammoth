@@ -2,6 +2,36 @@
 
 ---
 
+### Version: 2.7 (build 406)
+Tag: Version-2.7, App Store Release Date: February 13, 2024
+
+* Simplified the “feed carousel” at the top of the screen
+* Improved follow suggestions in the Discover tab
+* Tap and hold the Home button to see all your feeds
+* Tap and hold the Profile button to switch accounts
+* Tap and hold your local instance feed to view Trending
+* Tap and hold on lists to view members, edit or delete the list
+* Added a ‘quote post’ button
+
+---
+
+### Version: 2.6.1 (build 402)
+Tag: Version-2.6.1, App Store Release Date: February 8, 2024
+
+* Fix a crash when parsing some posts v2
+
+---
+
+### Version: 2.6 (build 400)
+Tag: Version-2.6, App Store Release Date: February 7, 2024
+
+* High-contrast option for both dark and light themes
+* New setting to open links in the default browser
+* Fixed drawing issues related to private mentions
+* Fixed an intermittent crash
+
+---
+
 ### Version: 2.5.2 (build 393)
 Tag: Version-2.5.2, App Store Release Date: January 31, 2024
 
