@@ -146,7 +146,13 @@ class AccountSwitcherButton: UIButton {
             AccountsManager.shared.allAccounts.count > 1 ? accountSettings : nil
         ].compactMap({$0}))
         
-        return UIMenu(title: "", options: [.displayInline], children: [accountsMenu, settingsMenu])
+        if DeviceHelpers.isiOSAppOnMac() {
+            var menuItems: [UIMenuElement] = accountsMenu.children
+            menuItems.append(settingsMenu)
+            return UIMenu(title: "", children: menuItems)
+        } else {
+            return UIMenu(title: "", options: [.displayInline], children: [accountsMenu, settingsMenu])
+        }
     }
     
     
