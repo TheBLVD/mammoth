@@ -260,18 +260,7 @@ class SettingsViewController: UIViewController {
         btn0.accessibilityLabel = "Dismiss"
         let moreButton0 = UIBarButtonItem(customView: btn0)
         self.navigationItem.setLeftBarButton(moreButton0, animated: true)
-        
-        let request3 = Instances.current()
-        AccountsManager.shared.currentAccountClient.run(request3) { (statuses) in
-            if let error = statuses.error {
-                log.error("Error checking instance information: \(error)")
-                GlobalStruct.currentInstanceDetails = []
-            }
-            if let stat = statuses.value {
-                GlobalStruct.currentInstanceDetails = [stat]
-            }
-        }
-        
+                
         if #available(iOS 15.0, *) {
             self.tableView.allowsFocus = true
         }

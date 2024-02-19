@@ -6,7 +6,7 @@
 //  Copyright © 2023 The BLVD. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Reachability
 
 class RealtimeManager {
@@ -89,15 +89,22 @@ class RealtimeManager {
             throw error
         }
         
-        var request = URLRequest(url: URL(string: "wss://\(client.baseHost)/api/v1/streaming?type=subscribe&stream=user:notification&access_token=\(accessToken)")!)
-        request.timeoutInterval = 5
-        
-        session = URLSession(configuration: .default, delegate: nil, delegateQueue: nil)
-        webSocket = session?.webSocketTask(with: request)
-        self.setListener()
-        webSocket?.resume()
-        
-        self.startPinging()
+        // Get the streaming URL, if any specified
+        Task {
+            let currentInstanceDetails = try await InstanceService.instanceDetails()
+            let baseURLString = currentInstanceDetails.configuration?.urls?.streaming ?? "wss://\(client.baseHost)"
+            log.debug("Streaming URL: \(baseURLString)")
+            DispatchQueue.main.async {
+                var request = URLRequest(url: URL(string: "\(baseURLString)/api/v1/streaming?type=subscribe&stream=user:notification&access_token=\(accessToken)")!)
+                request.timeoutInterval = 5
+                self.session = URLSession(configuration: .default, delegate: nil, delegateQueue: nil)
+                self.webSocket = self.session?.webSocketTask(with: request)
+                self.setListener()
+                self.webSocket?.resume()
+                
+                self.startPinging()
+            }
+        }
     }
     
     public func disconnect() {
