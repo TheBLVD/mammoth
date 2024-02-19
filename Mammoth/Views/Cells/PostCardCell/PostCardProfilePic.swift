@@ -204,7 +204,7 @@ extension PostCardProfilePic {
             self.badge.isHidden = true
         }
         
-        self.onThemeChange()
+        updateColors()
     }
     
     func optimisticUpdate(image: UIImage) {
@@ -221,6 +221,10 @@ extension PostCardProfilePic {
             }
         }
         
+        updateColors()
+    }
+     
+    func updateColors() {
         let backgroundColor: UIColor = isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
         self.profileImageView.backgroundColor = backgroundColor
         profileImageView.layer.backgroundColor = backgroundColor.cgColor
