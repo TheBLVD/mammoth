@@ -50,6 +50,7 @@ class AccountSwitcherButton: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.layer.cornerRadius = self.frame.height / 2.0
+        self.imageView?.layer.cornerRadius = self.frame.height / 2.0 - self.layer.borderWidth
     }
     
     private func onThemeChange() {
@@ -89,7 +90,6 @@ class AccountSwitcherButton: UIButton {
                     with: avatarURL,
                     for: .normal,
                     placeholderImage: nil,
-                    context: [.imageTransformer: PostCardProfilePic.transformerAlwaysCircle],
                     progress: nil
                 )
             } else {
