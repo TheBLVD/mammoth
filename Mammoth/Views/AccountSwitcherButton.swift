@@ -54,7 +54,7 @@ class AccountSwitcherButton: UIButton {
     
     private func onThemeChange() {
         self.layer.borderColor = (UIDevice.current.userInterfaceIdiom == .phone)
-        ? UIColor.custom.OVRLYMedContrast.withAlphaComponent(0.7).cgColor
+        ? UIColor.clear.cgColor
         : UIColor.custom.outlines.cgColor
     }
     
@@ -89,7 +89,7 @@ class AccountSwitcherButton: UIButton {
                     with: avatarURL,
                     for: .normal,
                     placeholderImage: nil,
-                    context: [.imageTransformer: PostCardProfilePic.transformer],
+                    context: [.imageTransformer: PostCardProfilePic.transformerAlwaysCircle],
                     progress: nil
                 )
             } else {
