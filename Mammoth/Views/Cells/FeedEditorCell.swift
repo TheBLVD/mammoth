@@ -49,8 +49,9 @@ final class FeedEditorCell: UITableViewCell {
         stackView.isBaselineRelativeArrangement = true
         stackView.distribution = .fill
         stackView.semanticContentAttribute = .forceRightToLeft
-        stackView.spacing = 3.0
+        stackView.spacing = 12.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.clipsToBounds = false
         return stackView
     }()
 
@@ -91,6 +92,7 @@ final class FeedEditorCell: UITableViewCell {
 // MARK: - Setup UI
 private extension FeedEditorCell {
     func setupUI() {
+        self.clipsToBounds = false
         self.selectionStyle = .none
         self.separatorInset = .zero
         self.layoutMargins = .zero
@@ -150,10 +152,7 @@ extension FeedEditorCell {
             
             if feedTypeItem.isDraggable {
                 // only draggable items can be disabled
-                let button = UIButton(type: .custom)
-                button.contentEdgeInsets = .init(top: 0, left: 6, bottom: 0, right: 6)
-                button.contentMode = .center
-                button.setImage(FontAwesome.image(fromChar: "\u{f056}", size: 21, weight: .regular).withRenderingMode(.alwaysTemplate), for: .normal)
+                let button = self.button(with: "\u{f056}", weight: .regular)
                 button.tintColor = .custom.highContrast
                 rightAccessories.addArrangedSubview(button)
 
@@ -166,10 +165,7 @@ extension FeedEditorCell {
             self.titleLabel.attributedText = feedTypeItem.type.attributedTitle()
             self.titleLabel.textColor = .custom.softContrast
             
-            let button = UIButton(type: .custom)
-            button.contentEdgeInsets = .init(top: 0, left: 6, bottom: 0, right: 6)
-            button.contentMode = .center
-            button.setImage(FontAwesome.image(fromChar: "\u{f055}", size: 21, weight: .bold).withRenderingMode(.alwaysTemplate), for: .normal)
+            let button = self.button(with: "\u{f055}", weight: .bold)
             button.tintColor = .custom.highContrast
             rightAccessories.addArrangedSubview(button)
 
@@ -184,10 +180,7 @@ extension FeedEditorCell {
                     fallthrough
                 }
             case .hashtag, .list, .channel:
-                let button = UIButton(type: .custom)
-                button.contentEdgeInsets = .init(top: 0, left: 6, bottom: 0, right: 6)
-                button.contentMode = .center
-                button.setImage(FontAwesome.image(fromChar: "\u{e12e}", size: 21, weight: .bold).withRenderingMode(.alwaysTemplate), for: .normal)
+                let button = self.button(with: "\u{e12e}", weight: .bold)
                 button.tintColor = .custom.destructive
                 rightAccessories.addArrangedSubview(button)
                 
@@ -204,6 +197,32 @@ extension FeedEditorCell {
         self.onThemeChange()
     }
     
+    func button(with char: String, weight: UIFont.Weight) -> UIButton {
+        let imageSize = 21.0
+        var imageSizeMultiplier: Double
+        var imageContentMode: UIView.ContentMode
+        
+        if DeviceHelpers.isiOSAppOnMac() {
+            imageSizeMultiplier = 4.0
+            imageContentMode = .scaleAspectFit
+        } else {
+            imageSizeMultiplier = 1.0
+            imageContentMode = .center
+        }
+        
+        let button = UIButton(type: .custom)
+        button.clipsToBounds = false
+        button.contentEdgeInsets = .init(top: 0, left: -6, bottom: 0, right: 6)
+        button.contentMode = imageContentMode
+        let circleLineImage = FontAwesome.image(fromChar: char, size: imageSize*imageSizeMultiplier, weight: weight)
+        button.setImage(circleLineImage.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            button.widthAnchor.constraint(equalToConstant: circleLineImage.size.width / imageSizeMultiplier),
+            button.heightAnchor.constraint(equalToConstant: circleLineImage.size.height / imageSizeMultiplier)
+        ])
+        return button
+    }
     
     func onThemeChange() {
         self.contentView.backgroundColor = .custom.background
