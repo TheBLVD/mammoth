@@ -57,19 +57,7 @@ final class PostCardProfilePic: UIButton {
             borderColor: nil)
         return SDImagePipelineTransformer(transformers: [resizeTransformer, roundTransformer])
     }
-    
-    static var transformerAlwaysCircle: SDImagePipelineTransformer {
-        let scale = UIScreen.main.scale
-        let thumbnailSize = CGSize(width: PostCardProfilePic.ProfilePicSize.regular.width() * scale, height: PostCardProfilePic.ProfilePicSize.regular.width() * scale)
-        let resizeTransformer = SDImageResizingTransformer(size: thumbnailSize, scaleMode: .aspectFit)
-        let roundTransformer = SDImageRoundCornerTransformer(
-            radius: .greatestFiniteMagnitude,
-            corners: .allCorners,
-            borderWidth: 0,
-            borderColor: nil)
-        return SDImagePipelineTransformer(transformers: [resizeTransformer, roundTransformer])
-    }
-    
+        
     // MARK: - Properties
     
     private(set) var profileImageView: UIImageView = {
