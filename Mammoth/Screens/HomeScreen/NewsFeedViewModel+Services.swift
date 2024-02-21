@@ -37,8 +37,16 @@ extension NewsFeedViewModel {
 
                 if let lastId = self.oldestItemId(forType: currentType) {
                     let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.max(id: lastId, limit: 20), batchName: "next-page_batch")
-  
-                    let newItems = items.removeMutesAndBlocks().removeFiltered()
+                    
+                    // only remove mutes and blocks in remote feeds.
+                    let newItems: [NewsFeedListItem]
+                    if case .community = type {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else if case .forYou = currentType {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else {
+                        newItems = items
+                    }
                     
                     DispatchQueue.main.async { [weak self] in
                         guard let self else { return }
@@ -103,7 +111,15 @@ extension NewsFeedViewModel {
                 if let firstId = self.newestItemId(forType: currentType) {
                     let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.min(id: firstId, limit: 20), batchName: "previous-page_batch")
                     
-                    let newItems = items.removeMutesAndBlocks().removeFiltered()
+                    // only remove mutes and blocks in remote feeds.
+                    let newItems: [NewsFeedListItem]
+                    if case .community = type {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else if case .forYou = currentType {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else {
+                        newItems = items
+                    }
 
                     DispatchQueue.main.async { [weak self] in
                         guard let self else { return }
@@ -144,8 +160,17 @@ extension NewsFeedViewModel {
                 self.state = .loading
                 self.isLoadMoreEnabled = true
                 
-                let (item, cursorId) = try await currentType.fetchAll(batchName: "refresh_batch")
-                let newItems = item.removeMutesAndBlocks().removeFiltered()
+                let (items, cursorId) = try await currentType.fetchAll(batchName: "refresh_batch")
+                
+                // only remove mutes and blocks in remote feeds.
+                let newItems: [NewsFeedListItem]
+                if case .community = type {
+                    newItems = items.removeMutesAndBlocks().removeFiltered()
+                } else if case .forYou = currentType {
+                    newItems = items.removeMutesAndBlocks().removeFiltered()
+                } else {
+                    newItems = items
+                }
                 
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
@@ -327,8 +352,17 @@ extension NewsFeedViewModel {
             
             let requestingUser = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID
             
-            let (item, cursorId) = try await feedType.fetchAll(range: .limit(60), batchName: "latest_batch")
-            let newItems = item.removeMutesAndBlocks().removeFiltered()
+            let (items, cursorId) = try await feedType.fetchAll(range: .limit(60), batchName: "latest_batch")
+            
+            // only remove mutes and blocks in remote feeds.
+            let newItems: [NewsFeedListItem]
+            if case .community = type {
+                newItems = items.removeMutesAndBlocks().removeFiltered()
+            } else if case .forYou = feedType {
+                newItems = items.removeMutesAndBlocks().removeFiltered()
+            } else {
+                newItems = items
+            }
             
             // Abort if user changed in the meantime
             guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
@@ -455,9 +489,17 @@ extension NewsFeedViewModel {
             if let lastId = self.firstOfTheOlderItemsId(forType: feedType) {
                 let (newItems, _) = try await feedType.fetchAll(range: RequestRange.min(id: lastId, limit: loadMoreLimit), batchName: "load-more_batch")
                 
-                // only keep older posts - trim away what's already in the feed
-                var newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered().removeMutesAndBlocks()
+                // only remove mutes and blocks in remote feeds.
+                var newItemsSlice: [NewsFeedListItem]
+                if case .community = type {
+                    newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered()
+                } else if case .forYou = feedType {
+                    newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered()
+                } else {
+                    newItemsSlice = newItems
+                }
                 
+                // only keep older posts - trim away what's already in the feed
                 if let currentFirstItem = self.lastItemOfTheNewestItems(forType: feedType),
                     let currentFirstId = currentFirstItem.extractUniqueId(),
                     let currentFirstIndex = newItems.firstIndex(where: {$0.extractUniqueId() == currentFirstId}) {
