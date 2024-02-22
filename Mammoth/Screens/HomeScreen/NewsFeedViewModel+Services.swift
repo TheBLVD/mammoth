@@ -315,181 +315,53 @@ extension NewsFeedViewModel {
         return showingUpdateRow
     }
 
-    func loadLatest(feedType: NewsFeedTypes, threshold: Int? = nil) async throws {
+    func loadPosts(feedType: NewsFeedTypes) async throws {
         do {
-            if case .error(_) = self.state { return }
-            
-            // Abord if the load-more button is in the viewport.
-            // When appending the latest posts we might also clean older posts and remove the load-more button.
-            // We don't want this to happen when the load-more button is visible. So we don't load any new posts 
-            // in that case, but will try again a few seconds later.
-            guard !(await self.isLoadMoreButtonInView(forType: feedType)) else { return }
-            
             let requestingUser = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID
+            var items: [NewsFeedListItem] = []
             
-            let (item, cursorId) = try await feedType.fetchAll(range: .limit(60), batchName: "latest_batch")
-            let newItems = item.removeMutesAndBlocks().removeFiltered()
-            
-            // Abort if user changed in the meantime
-            guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
-            guard !Task.isCancelled else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                
-                self.cursorId = cursorId
-                
-                if let current = self.listData.forType(type: feedType) {
-                    
-                    // only keep newer posts - trim away what's already in the feed
-                    var newItemsSlice = newItems
-                    if self.isReadingNewest(forType: feedType) == nil || self.isReadingNewest(forType: feedType) == true {
-                        // if reading newest, take the top item of the feed as the reference
-                        let currentFirstUniqueId = current.first?.extractUniqueId()
-                        if let currentFirstIndex = newItems.firstIndex(where: {$0.extractUniqueId() == currentFirstUniqueId}) {
-                            newItemsSlice = Array(newItems[0...max(currentFirstIndex-1, 0)])
-                            // if only one item new item is available and it's the same as the currentFirst
-                            if newItems.count == 1 && currentFirstUniqueId == newItems[0].extractUniqueId() {
-                                newItemsSlice = []
-                            }
-                        }
-                    } else {
-                        // if not yet reading the newest, take the one after the "read more" button as reference
-                        if let currentFirstItem = self.firstOfTheOlderItems(forType: feedType),
-                           let currentFirstUniqueId = currentFirstItem.extractUniqueId(),
-                           let currentFirstIndex = newItems.firstIndex(where: {$0.extractUniqueId() == currentFirstUniqueId}) {
-                            newItemsSlice = Array(newItems[0...max(currentFirstIndex-1, 0)])
-                        
-                            // if only one item new item is available and it's the same as the currentFirst
-                            if newItems.count == 1 && currentFirstUniqueId == newItems[0].extractUniqueId() {
-                                newItemsSlice = []
-                            }
-                        }
+            if var id = self.firstOfTheOlderItemsId(forType: feedType) {
+                // try to get 200 posts
+                for _ in 1...5 {
+                    let (temp_items, _) = try await feedType.fetchAll(range: RequestRange.since(id: id, limit: 40), batchName: "load-timeline")
+                    // add to list
+                    items.insert(contentsOf: temp_items, at: 0)
+                    // update id
+                    if let x = temp_items.first {
+                        id = x.uniqueId()
                     }
-                    
-                    
-                    let currentIds = current.compactMap({ $0.extractUniqueId() })
-                    let newUniqueItems = newItemsSlice.filter({
-                        !currentIds.contains($0.extractUniqueId() ?? "")
-                    }).removingDuplicates()
-                    
-                    if !newUniqueItems.isEmpty {
-                        self.hideEmpty(forType: feedType)
+                    // if we have less than 40, we got every post!
+                    if temp_items.count != 40 {
+                        break
                     }
-                    
-                    // Abort if user changed in the meantime
-                    guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
-                    guard !Task.isCancelled else { return }
-                    
-                    if newUniqueItems.count >= (threshold ?? self.newItemsThreshold) {
-                        if feedType != .mentionsIn && feedType != .mentionsOut && NewsFeedTypes.allActivityTypes.contains(feedType) {
-                            self.stopPollingListData()
-                        }
-                        
-                        let picUrls = newUniqueItems
-                            .compactMap({ $0.extractPostCard()?.account })
-                            .removingDuplicates()
-                            .sorted { $0.followersCount > $1.followersCount }
-                            .compactMap({ URL(string: $0.avatar) })
-                        
-                        if !picUrls.isEmpty {
-                            self.setUnreadPics(urls: Array(picUrls[0...min(3, picUrls.count-1)]), forFeed: feedType)
-                            SDWebImagePrefetcher.shared.prefetchURLs(picUrls, context: [.imageTransformer: LatestPill.transformer], progress: nil)
-                        }
-                        
-                        if newUniqueItems.count >= self.newestSectionLength {
-                            let items = Array(newUniqueItems[0...self.newestSectionLength-1])
-                            self.insertNewest(items: items,
-                                              includeLoadMore: true,
-                                              forType: feedType)
-                        } else if newUniqueItems.count > 15 {
-                            // The server might return less posts than requested, even if there are more posts available.
-                            // To cover this case we optimistically display the "load more" button if > 15 posts are returned
-                            self.insertNewest(items: newUniqueItems, includeLoadMore: true, forType: feedType)
-                        } else {
-                            self.insertNewest(items: newUniqueItems, includeLoadMore: false, forType: feedType)
-                        }
-                        
-                        // Preload quote posts
-                        newUniqueItems.forEach({
-                            $0.extractPostCard()?.preloadQuotePost()
-                        })
-                        
-                        // display a tab bar badge when new items are fetched
-                        if feedType == .mentionsIn {
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity2"), object: nil)
-                        } else if feedType == .activity(nil) {
-                            NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: nil)
-                        }
-                    }
+                }
+            } else {
+                // try to get last 40 posts
+                let (temp_items, _) = try await feedType.fetchAll(batchName: "load-timeline")
+                items.insert(contentsOf: temp_items, at: 0)
+            }
+                let newItems: [NewsFeedListItem]
+                if case .community(let string) = feedType {
+                    newItems = items.removeMutesAndBlocks().removeFiltered()
+                } else if case .forYou = feedType {
+                    newItems = items.removeMutesAndBlocks().removeFiltered()
                 } else {
-                    guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
-                    guard !Task.isCancelled else { return }
-                    
-                    if newItems.isEmpty {
-                        self.hideLoader(forType: feedType)
-                        self.showEmpty(forType: feedType)
-                    } else {
-                        self.set(withItems: newItems, forType: feedType)
-                    }
+                    newItems = items
                 }
-            }
-        } catch {
-            guard !Task.isCancelled else { return }
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.state = .error(error)
-                self.displayError(feedType: self.type)
-                log.error("error fetching newest posts: \(error)")
-            }
-            
-            throw error
-        }
-    }
-    
-    func loadOlderPosts(feedType: NewsFeedTypes) async throws {
-        do {
-            let loadMoreLimit = 20
-            let requestingUser = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID
-            
-            if let lastId = self.firstOfTheOlderItemsId(forType: feedType) {
-                let (newItems, _) = try await feedType.fetchAll(range: RequestRange.min(id: lastId, limit: loadMoreLimit), batchName: "load-more_batch")
-                
-                // only keep older posts - trim away what's already in the feed
-                var newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered().removeMutesAndBlocks()
-                
-                if let currentFirstItem = self.lastItemOfTheNewestItems(forType: feedType),
-                    let currentFirstId = currentFirstItem.extractUniqueId(),
-                    let currentFirstIndex = newItems.firstIndex(where: {$0.extractUniqueId() == currentFirstId}) {
-                    
-                    if currentFirstIndex <= newItems.count-1 {
-                        newItemsSlice = Array(newItems[(currentFirstIndex+1)...])
-                    }
-                    
-                    // if only one new item is available and it's the same as the currentFirst
-                    if newItems.count == 1 && currentFirstId == newItems[0].extractUniqueId() {
-                        newItemsSlice = []
-                    }
-                }
-
-                let newUniqueItems = newItemsSlice
-                
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
 
                     // Abort if user changed in the meantime
                     guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
                     
-                    if !newUniqueItems.isEmpty {
+                    if !newItems.isEmpty {
                         self.hideEmpty(forType: feedType)
                     }
                                         
                     // Abort if user changed in the meantime
                     guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
-                    
-                    self.append(items: newUniqueItems, forType: feedType, after: .loadMore)
-                    
-                    if newUniqueItems.count == 0 {
+                    self.insert(items: newItems, forType: feedType)
+                    if newItems.count == 0 {
                         self.hideLoadMore(feedType: feedType)
                         self.hideLoader(forType: feedType)
                         self.delegate?.didUpdateSnapshot(self.snapshot,
@@ -498,8 +370,6 @@ extension NewsFeedViewModel {
                                                          onCompleted: nil)
                     }
                 }
-            }
-            
         } catch {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
@@ -584,7 +454,7 @@ extension NewsFeedViewModel {
                     let showingUpdateRow = try await self.loadForYouStatus(feedType:type, forceFYCheck: forceFYCheck)
                     if !showingUpdateRow || (showingUpdateRow && self.forYouStatus == .overloaded) {
                         log.debug("Calling loadLatest for feedType: \(type)")
-                        try await self.loadLatest(feedType: type)
+                        try await self.loadPosts(feedType: type)
                     }
                 }
             }

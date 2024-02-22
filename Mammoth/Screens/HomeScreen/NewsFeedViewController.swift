@@ -181,7 +181,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                         if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
                             try await self.viewModel.loadListData(type: type, fetchType: .refresh)
                         } else {
-                            try await self.viewModel.loadLatest(feedType: type, threshold: 1)
+                            try await self.viewModel.loadPosts(feedType: type)
                         }
                     }
                 }
@@ -211,7 +211,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                             if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
                                 try await self.viewModel.loadListData(type: type, fetchType: .refresh)
                             } else {
-                                try await self.viewModel.loadLatest(feedType: type, threshold: 1)
+                                try await self.viewModel.loadPosts(feedType: type)
                             }
                         }
                     } else {
@@ -312,7 +312,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                 if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
                     try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
                 } else {
-                    try await self.viewModel.loadLatest(feedType: self.viewModel.type, threshold: 1)
+                    try await self.viewModel.loadPosts(feedType: self.viewModel.type)
                 }
                 
                 DispatchQueue.main.async { [weak self] in
@@ -611,12 +611,12 @@ extension NewsFeedViewController {
                 Task { [weak self] in
                     guard let self else { return }
                     do {
-                        try await self.viewModel.loadOlderPosts(feedType: self.viewModel.type)
-                        await MainActor.run {
-                            if let loadMoreIndexPath = self.viewModel.getIndexPathForItem(item: .loadMore) {
-                                tableView.deselectRow(at: loadMoreIndexPath, animated: true)
-                            }
-                        }
+                        //try await self.viewModel.loadOlderPosts(feedType: self.viewModel.type)
+                        //await MainActor.run {
+                        //    if let loadMoreIndexPath = self.viewModel.getIndexPathForItem(item: .loadMore) {
+                        //        tableView.deselectRow(at: loadMoreIndexPath, animated: true)
+                        //    }
+                        //}
                     } catch {}
                 }
             }
@@ -1125,7 +1125,7 @@ extension NewsFeedViewController: JumpToNewest {
                 if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
                     try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
                 } else {
-                    try await self.viewModel.loadLatest(feedType: self.viewModel.type, threshold: 1)
+                    try await self.viewModel.loadPosts(feedType: self.viewModel.type)
                 }
             }
         }
