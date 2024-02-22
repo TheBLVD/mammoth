@@ -420,7 +420,7 @@ class NewsFeedViewModel {
                             let newItem = NewsFeedListItem.postCard(newPost)
                             if !self.isItemInSnapshot(newItem) {
                                 newPost.preloadQuotePost()
-                                self.insertNewest(items: [newItem], includeLoadMore: false, forType: .mentionsIn)
+                                self.insertNewest(items: [newItem], forType: .mentionsIn)
                             }
                         }
                     } else {
@@ -429,14 +429,14 @@ class NewsFeedViewModel {
                             self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity(activityType))
                             let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
                             if !self.isItemInSnapshot(newItem) {
-                                self.insertNewest(items: [newItem], includeLoadMore: false, forType: .activity(activityType))
+                                self.insertNewest(items: [newItem], forType: .activity(activityType))
                             }
                         } else if case .activity(let activityType) = type, activityType == nil { // activityType == nil means All activity
                             let currentUnreadCount = self.getUnreadCount(forFeed: .activity(nil))
                             self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity(nil))
                             let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
                             if !self.isItemInSnapshot(newItem) {
-                                self.insertNewest(items: [newItem], includeLoadMore: false, forType: .activity(nil))
+                                self.insertNewest(items: [newItem], forType: .activity(nil))
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: self)
                             }
                         }

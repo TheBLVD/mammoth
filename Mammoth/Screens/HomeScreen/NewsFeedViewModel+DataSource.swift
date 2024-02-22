@@ -672,7 +672,7 @@ extension NewsFeedViewModel {
         return snapshot
     }
     
-    func insertNewest(items: [NewsFeedListItem], includeLoadMore: Bool, forType type: NewsFeedTypes) {
+    func insertNewest(items: [NewsFeedListItem], forType type: NewsFeedTypes) {
         // don't update data source if this feed is not currently viewed
         guard type == self.type else { return }
         
@@ -695,11 +695,6 @@ extension NewsFeedViewModel {
             self.snapshot.insertItems(items.removingDuplicates(), beforeItem: firstItem)
         } else {
             self.snapshot.appendItems(items.removingDuplicates(), toSection: .main)
-        }
-        
-        // optionally add a "read more" button
-        if includeLoadMore, let lastItem = items.last {
-            self.displayLoadMore(after: lastItem, feedType: type)
         }
 
         // update in-memory cache

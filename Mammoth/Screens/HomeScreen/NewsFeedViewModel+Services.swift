@@ -319,7 +319,6 @@ extension NewsFeedViewModel {
         do {
             let requestingUser = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID
             var items: [NewsFeedListItem] = []
-            
             if var id = self.firstOfTheOlderItemsId(forType: feedType) {
                 // try to get 200 posts
                 for _ in 1...5 {
@@ -340,36 +339,58 @@ extension NewsFeedViewModel {
                 let (temp_items, _) = try await feedType.fetchAll(batchName: "load-timeline")
                 items.insert(contentsOf: temp_items, at: 0)
             }
-                let newItems: [NewsFeedListItem]
-                if case .community(let string) = feedType {
-                    newItems = items.removeMutesAndBlocks().removeFiltered()
-                } else if case .forYou = feedType {
-                    newItems = items.removeMutesAndBlocks().removeFiltered()
-                } else {
-                    newItems = items
+            let newItems: [NewsFeedListItem]
+            if case .community(_) = feedType {
+                newItems = items.removeMutesAndBlocks().removeFiltered()
+            } else if case .forYou = feedType {
+                newItems = items.removeMutesAndBlocks().removeFiltered()
+            } else {
+                newItems = items
+            }
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                // Abort if user changed in the meantime
+                guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
+                
+                if !newItems.isEmpty {
+                    self.hideEmpty(forType: feedType)
                 }
-                DispatchQueue.main.async { [weak self] in
-                    guard let self else { return }
-
-                    // Abort if user changed in the meantime
-                    guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
-                    
-                    if !newItems.isEmpty {
-                        self.hideEmpty(forType: feedType)
-                    }
-                                        
-                    // Abort if user changed in the meantime
-                    guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
-                    self.insert(items: newItems, forType: feedType)
-                    if newItems.count == 0 {
-                        self.hideLoadMore(feedType: feedType)
-                        self.hideLoader(forType: feedType)
-                        self.delegate?.didUpdateSnapshot(self.snapshot,
-                                                         feedType: feedType,
-                                                         updateType: .remove,
-                                                         onCompleted: nil)
-                    }
+                                    
+                // Abort if user changed in the meantime
+                guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
+                self.insertNewest(items: newItems, forType: feedType)
+                if newItems.count == 0 {
+                    self.hideLoadMore(feedType: feedType)
+                    self.hideLoader(forType: feedType)
+                    self.delegate?.didUpdateSnapshot(self.snapshot,
+                                                     feedType: feedType,
+                                                     updateType: .remove,
+                                                     onCompleted: nil)
                 }
+                if feedType != .mentionsIn && feedType != .mentionsOut && NewsFeedTypes.allActivityTypes.contains(feedType) {
+                    self.stopPollingListData()
+                }
+                let picUrls = newItems
+                    .compactMap({ $0.extractPostCard()?.account })
+                    .removingDuplicates()
+                    .sorted { $0.followersCount > $1.followersCount }
+                    .compactMap({ URL(string: $0.avatar) })
+                
+                if !picUrls.isEmpty {
+                    self.setUnreadPics(urls: Array(picUrls[0...min(3, picUrls.count-1)]), forFeed: feedType)
+                    SDWebImagePrefetcher.shared.prefetchURLs(picUrls, context: [.imageTransformer: LatestPill.transformer], progress: nil)
+                }
+                // Preload quote posts
+                newItems.forEach({
+                    $0.extractPostCard()?.preloadQuotePost()
+                })
+                // display a tab bar badge when new items are fetched
+                if feedType == .mentionsIn {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity2"), object: nil)
+                } else if feedType == .activity(nil) {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: nil)
+                }
+            }
         } catch {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
