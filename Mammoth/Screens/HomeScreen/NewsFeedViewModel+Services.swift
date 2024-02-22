@@ -94,7 +94,7 @@ extension NewsFeedViewModel {
             case .previousPage:
                 
                 if let firstId = await MainActor.run(body: { [weak self] in return self?.newestItemId(forType: currentType) }) {
-                    let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.min(id: firstId, limit: 120), batchName: "previous-page_batch")
+                    let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.min(id: firstId, limit: 40), batchName: "previous-page_batch")
                     
                     let newItems = items.removeMutesAndBlocks().removeFiltered()
 
