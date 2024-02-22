@@ -498,58 +498,54 @@ extension NewsFeedViewModel {
     }
     
     func set(withItems items: [NewsFeedListItem], forType type: NewsFeedTypes) {
-        DispatchQueue.main.async {
-            self.listData.set(items: items.removingDuplicates(), forType: type)
+        self.listData.set(items: items.removingDuplicates(), forType: type)
 
-            // Don't update data source if this feed is not currently viewed
-            guard type == self.type else { return }
-            
-            // Save cards to disk
-            let scrollPosition = self.getScrollPosition(forFeed: type)
-            self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-            
-            self.snapshot.deleteSections([.main])
-            self.snapshot.appendSections([.main])
-            
-            self.snapshot.appendItems(items.removingDuplicates(), toSection: .main)
-            self.delegate?.didUpdateSnapshot(self.snapshot,
-                                             feedType: type,
-                                             updateType: .replaceAll,
-                                             onCompleted: nil)
-        }
+        // Don't update data source if this feed is not currently viewed
+        guard type == self.type else { return }
+        
+        // Save cards to disk
+        let scrollPosition = self.getScrollPosition(forFeed: type)
+        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
+        
+        self.snapshot.deleteSections([.main])
+        self.snapshot.appendSections([.main])
+        
+        self.snapshot.appendItems(items.removingDuplicates(), toSection: .main)
+        self.delegate?.didUpdateSnapshot(self.snapshot,
+                                            feedType: type,
+                                            updateType: .replaceAll,
+                                            onCompleted: nil)
     }
     
     // MARK: - Update
     
     func update(with item: NewsFeedListItem, forType type: NewsFeedTypes) {
-        DispatchQueue.main.async {
-            self.listData.update(item: item)
-            
-            // Don't update data source if this feed is not currently viewed
-            guard type == self.type else { return }
-            guard let _ = self.listData.forType(type: type)?.first(where: { $0.uniqueId() == item.uniqueId() }) else { return }
-            
-            // Save cards to disk
-            let scrollPosition = self.getScrollPosition(forFeed: type)
-            self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
+        self.listData.update(item: item)
+        
+        // Don't update data source if this feed is not currently viewed
+        guard type == self.type else { return }
+        guard let _ = self.listData.forType(type: type)?.first(where: { $0.uniqueId() == item.uniqueId() }) else { return }
+        
+        // Save cards to disk
+        let scrollPosition = self.getScrollPosition(forFeed: type)
+        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
 
-            if self.snapshot.indexOfItem(item) != nil {
-                if #available(iOS 15.0, *) {
-                    self.snapshot.reconfigureItems([item])
-                } else {
-                    self.snapshot.reloadItems([item])
-                }
-                
-                self.delegate?.didUpdateSnapshot(self.snapshot,
-                                                 feedType: type,
-                                                 updateType: .update,
-                                                 onCompleted: nil)
+        if self.snapshot.indexOfItem(item) != nil {
+            if #available(iOS 15.0, *) {
+                self.snapshot.reconfigureItems([item])
             } else {
-                // This might happen when the view is not in the view hierarchy
-                log.debug("updating 1 item but can not find it (replaceAll instead)")
-                let allItems = self.listData.forType(type: type)?.removingDuplicates()
-                self.set(withItems: allItems ?? [], forType: type)
+                self.snapshot.reloadItems([item])
             }
+            
+            self.delegate?.didUpdateSnapshot(self.snapshot,
+                                                feedType: type,
+                                                updateType: .update,
+                                                onCompleted: nil)
+        } else {
+            // This might happen when the view is not in the view hierarchy
+            log.debug("updating 1 item but can not find it (replaceAll instead)")
+            let allItems = self.listData.forType(type: type)?.removingDuplicates()
+            self.set(withItems: allItems ?? [], forType: type)
         }
     }
     
@@ -585,81 +581,79 @@ extension NewsFeedViewModel {
     // MARK: - Insert
     
     func append(items: [NewsFeedListItem], forType type: NewsFeedTypes, after: NewsFeedListItem? = nil) {
-        DispatchQueue.main.async {
-            
-            guard let _ = self.snapshot.indexOfSection(.main) else { return }
-                        
-            let current = self.snapshot.itemIdentifiers(inSection: .main)
-            
-            if let after {
-                self.listData.insert(items: items, forType: type, after: after)
+        guard let _ = self.snapshot.indexOfSection(.main) else { return }
+                    
+        let current = self.snapshot.itemIdentifiers(inSection: .main)
+        
+        if let after {
+            self.listData.insert(items: items, forType: type, after: after)
+        } else {
+            self.listData.set(items: current + items, forType: type)
+        }
+        
+        // Don't update data source if this feed is not currently viewed
+        guard type == self.type else { return }
+        
+        // Save cards to disk
+        let scrollPosition = self.getScrollPosition(forFeed: type)
+        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
+        
+        self.snapshot = self.appendMainSectionToSnapshot(snapshot: self.snapshot)
+        
+        let uniques = items.filter({ !self.snapshot.itemIdentifiers(inSection: .main).contains($0)})
+        if !uniques.isEmpty {
+            if let after, self.snapshot.itemIdentifiers.contains(after) {
+                self.snapshot.insertItems(uniques, afterItem: after)
+                self.delegate?.didUpdateSnapshot(self.snapshot,
+                                                    feedType: type,
+                                                    updateType: .inject,
+                                                    onCompleted: nil)
             } else {
-                self.listData.set(items: current + items, forType: type)
+                self.snapshot.appendItems(uniques, toSection: .main)
+                self.delegate?.didUpdateSnapshot(self.snapshot,
+                                                    feedType: type,
+                                                    updateType: .append,
+                                                    onCompleted: nil)
             }
-            
-            // Don't update data source if this feed is not currently viewed
-            guard type == self.type else { return }
-            
-            // Save cards to disk
-            let scrollPosition = self.getScrollPosition(forFeed: type)
-            self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-            
-            self.snapshot = self.appendMainSectionToSnapshot(snapshot: self.snapshot)
-            
-            let uniques = items.filter({ !self.snapshot.itemIdentifiers(inSection: .main).contains($0)})
-            if !uniques.isEmpty {
-                if let after, self.snapshot.itemIdentifiers.contains(after) {
-                    self.snapshot.insertItems(uniques, afterItem: after)
-                    self.delegate?.didUpdateSnapshot(self.snapshot,
-                                                     feedType: type,
-                                                     updateType: .inject,
-                                                     onCompleted: nil)
-                } else {
-                    self.snapshot.appendItems(uniques, toSection: .main)
-                    self.delegate?.didUpdateSnapshot(self.snapshot,
-                                                     feedType: type,
-                                                     updateType: .append,
-                                                     onCompleted: nil)
-                }
-            } else {
-                // Trying to append 0 items after another element means we need to remove the "load more" button
-                if let _ = after {
-                    self.hideLoadMore(feedType: type)
-                    self.delegate?.didUpdateSnapshot(self.snapshot,
-                                                     feedType: type,
-                                                     updateType: .remove,
-                                                     onCompleted: nil)
-                }
+        } else {
+            // Trying to append 0 items after another element means we need to remove the "load more" button
+            if let _ = after {
+                self.hideLoadMore(feedType: type)
+                self.delegate?.didUpdateSnapshot(self.snapshot,
+                                                    feedType: type,
+                                                    updateType: .remove,
+                                                    onCompleted: nil)
             }
         }
     }
     
     func insert(items: [NewsFeedListItem], forType type: NewsFeedTypes) {
-        DispatchQueue.main.async {
-            let current = self.listData.forType(type: type) ?? []
-            self.listData.set(items: items + current, forType: type)
+        let current = self.listData.forType(type: type) ?? []
+        self.listData.set(items: items + current, forType: type)
 
-            // Don't update data source if this feed is not currently viewed
-            guard type == self.type else { return }
-            
-            // Save cards to disk
-            let scrollPosition = self.getScrollPosition(forFeed: type)
-            self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-            
-            if !self.snapshot.sectionIdentifiers.contains(.main) {
-                self.snapshot.appendSections([.main])
-            }
-            
-            if let firstItem = self.snapshot.itemIdentifiers(inSection: .main).first {
-                self.snapshot.insertItems(items, beforeItem: firstItem)
-            } else {
-                self.snapshot.appendItems(items, toSection: .main)
-            }
+        // Don't update data source if this feed is not currently viewed
+        guard type == self.type else { return }
+        
+        // Save cards to disk
+        let scrollPosition = self.getScrollPosition(forFeed: type)
+        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
+        
+        if !self.snapshot.sectionIdentifiers.contains(.main) {
+            self.snapshot.appendSections([.main])
+        }
+        
+        if let firstItem = self.snapshot.itemIdentifiers(inSection: .main).first {
+            self.snapshot.insertItems(items, beforeItem: firstItem)
+        } else {
+            self.snapshot.appendItems(items, toSection: .main)
+        }
 
-            self.delegate?.didUpdateSnapshot(self.snapshot,
-                                             feedType: type,
-                                             updateType: .insert,
-                                             onCompleted: nil)
+        self.delegate?.didUpdateSnapshot(self.snapshot,
+                                            feedType: type,
+                                            updateType: .insert) { [weak self] in
+            guard let self else { return }
+            let currentCount = self.getUnreadCount(forFeed: type)
+            self.setUnreadState(count: currentCount + items.count, enabled: true, forFeed: type)
         }
     }
     
@@ -723,17 +717,20 @@ extension NewsFeedViewModel {
                 
                 // Set the unread state after updating the data source.
                 // This will show the unread pill/indicator
-                if NewsFeedTypes.allActivityTypes.contains(type) || [.mentionsIn, .mentionsOut].contains(type) {
-                    self.setUnreadState(count: items.count, enabled: true, forFeed: type)
-                } else {
-                    if items.count >= 5 && numberOfItemsPreUpdate > 0 {
+                if GlobalStruct.feedReadDirection == .topDown {
+                    if NewsFeedTypes.allActivityTypes.contains(type) || [.mentionsIn, .mentionsOut].contains(type) {
                         self.setUnreadState(count: items.count, enabled: true, forFeed: type)
                     } else {
-                        self.setUnreadEnabled(enabled: false, forFeed: type)
+                        if items.count >= 5 && numberOfItemsPreUpdate > 0 {
+                            self.setUnreadState(count: items.count, enabled: true, forFeed: type)
+                        } else {
+                            self.setUnreadEnabled(enabled: false, forFeed: type)
+                        }
                     }
+                } else {
+                    self.setUnreadState(count: items.count, enabled: true, forFeed: type)
+                    self.delegate?.didUpdateUnreadState(type: type)
                 }
-                
-                self.delegate?.didUpdateUnreadState(type: type)
             }
         }
     }
@@ -1130,7 +1127,7 @@ extension NewsFeedViewModel {
     // First item id in the feed
     func newestItemId(forType type: NewsFeedTypes) -> String? {
         guard let _ = self.snapshot.indexOfSection(.main) else { return nil }
-        if case .postCard(let postCard) = self.snapshot.itemIdentifiers(inSection: .main).first {
+        if case .postCard(let postCard) = self.snapshot.itemIdentifiers(inSection: .main).filter({ $0.extractPostCard() != nil }).first {
             return postCard.cursorId
         }
         

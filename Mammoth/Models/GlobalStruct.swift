@@ -130,6 +130,8 @@ public struct GlobalStruct {
     
     static var mediaSize: PostCardCell.PostCardMediaVariant = PostCardCell.PostCardMediaVariant.large
     
+    static var feedReadDirection: NewsFeedReadDirection = .bottomUp
+    
     static var shareAsImageText: Bool = false
     static var shareAsImageTextCaption: String = "Check this out!"
     
