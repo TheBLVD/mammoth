@@ -171,18 +171,6 @@ extension PostCardProfilePic {
             self.profileImageView.sd_cancelCurrentImageLoad()
         }
         
-        if let profileStr = user.imageURL, let profileURL = URL(string: profileStr) {
-            let userForImage = user
-            
-            self.profileImageView.ma_setImage(with: profileURL,
-                                              cachedImage: self.user?.decodedProfilePic,
-                                              imageTransformer: PostCardProfilePic.transformer) { image in
-                if userForImage == self.user {
-                    user.decodedProfilePic = image
-                }
-            }
-        }
-        
         self.profileImageView.layer.cornerRadius = self.size.cornerRadius()
                 
         if let badgeIcon {
@@ -192,7 +180,7 @@ extension PostCardProfilePic {
             self.badge.isHidden = true
         }
         
-        updateColors()
+        self.updateColors()
     }
     
     func optimisticUpdate(image: UIImage) {
@@ -200,20 +188,21 @@ extension PostCardProfilePic {
     }
     
     func onThemeChange() {
-        // This is also called when the avatar changes from round/square
-        self.profileImageView.layer.cornerRadius = self.size.cornerRadius()
         if let profileStr = self.user?.imageURL, let profileURL = URL(string: profileStr) {
+            // This is also called when the avatar changes from round/square
+            self.profileImageView.layer.cornerRadius = self.size.cornerRadius()
+            
             self.profileImageView.ma_setImage(with: profileURL,
                                               cachedImage: nil,
                                               imageTransformer: PostCardProfilePic.transformer) { image in
             }
+            
+            self.updateColors()
         }
-        
-        updateColors()
     }
      
     func updateColors() {
-        let backgroundColor: UIColor = isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
+        let backgroundColor: UIColor = isPrivateMention ? .custom.OVRLYSoftContrast : .custom.OVRLYSoftContrast
         self.profileImageView.backgroundColor = backgroundColor
         profileImageView.layer.backgroundColor = backgroundColor.cgColor
         badgeIconView.tintColor = .custom.linkText
@@ -233,11 +222,17 @@ extension PostCardProfilePic {
     func willDisplay() {
         if self.profileImageView.sd_currentImageURL?.absoluteString != self.user?.imageURL {
             self.profileImageView.sd_cancelCurrentImageLoad()
-            
-            if let profileStr = self.user?.imageURL, let profileURL = URL(string: profileStr) {
-                self.profileImageView.ma_setImage(with: profileURL,
-                                                  cachedImage: self.user?.decodedProfilePic,
-                                                  imageTransformer: PostCardProfilePic.transformer) { image in }
+        }
+        
+        if let profileStr = self.user?.imageURL, let profileURL = URL(string: profileStr) {
+            let userForImage = user
+            self.profileImageView.ma_setImage(with: profileURL,
+                                              cachedImage: self.user?.decodedProfilePic,
+                                              imageTransformer: PostCardProfilePic.transformer) { [weak self] image in
+                guard let self else { return }
+                if userForImage == self.user {
+                    self.user?.decodedProfilePic = image
+                }
             }
         }
     }

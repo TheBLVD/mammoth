@@ -141,8 +141,10 @@ extension NewsFeedViewModel {
                             return newItems
                         }
                     }
+                } else {
+                    // No content yet
+                    return try await self.loadListData(type: type, fetchType: .refresh)
                 }
-                break
                 
             // Refresh list
             case .refresh:
@@ -202,8 +204,6 @@ extension NewsFeedViewModel {
             
             throw error
         }
-        
-        return []
     }
     
     func loadListDataBluesky(account: BlueskyAcctData, type: NewsFeedTypes? = nil, fetchType: NewsFeedFetchType = .refresh) async throws {
@@ -596,6 +596,10 @@ extension NewsFeedViewModel {
         }
     }
     
+    public var isPollingEnabled: Bool {
+        return self.pollingTask != nil && !self.pollingTask!.isCancelled
+    }
+    
     func startPollingListData(forFeed type: NewsFeedTypes, delay: Double = 0) {
         // In the For You case, we want to force a check of the ForYou status
         // the first time through this loop.
@@ -628,10 +632,11 @@ extension NewsFeedViewModel {
 
                         if GlobalStruct.feedReadDirection == .topDown {
                             fetchingNewItems = true
-                            try await self.loadListData(type: type, fetchType: .previousPage)
+                            log.debug("Calling loadLatest for feedType: \(type)")
+                            try await self.loadLatest(feedType: type)
                             fetchingNewItems = false
                         } else {
-                            var pageToFetchLimit = 40
+                            var pageToFetchLimit = 10
                             fetchingNewItems = true
                             while fetchingNewItems && pageToFetchLimit > 0 {
                                 log.debug("Calling loadListData(previousPage) for feedType: \(type)")
@@ -641,6 +646,10 @@ extension NewsFeedViewModel {
                                 } else {
                                     pageToFetchLimit -= 1
                                 }
+                            }
+                            
+                            if pageToFetchLimit == 0 {
+                                self.stopPollingListData()
                             }
 
                             fetchingNewItems = false
@@ -702,6 +711,11 @@ extension NewsFeedViewModel {
                 
                 postCard.isSyncedWithOriginal = true
                 
+                await MainActor.run {
+                    postCard.isSyncedWithOriginal = true
+                    self.update(with: .postCard(postCard), forType: self.type)
+                }
+                
                 switch error as? ClientError {
                 case .mastodonError(let message):
                     if message == "Record not found" {
@@ -721,7 +735,6 @@ extension NewsFeedViewModel {
                         }
                     }
                 default:
-                    NotificationCenter.default.post(name: PostActions.didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
                     break
                 }
             }

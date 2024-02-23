@@ -76,10 +76,10 @@ final class PostCardImage: UIView {
     
     private lazy var squareConstraints: [NSLayoutConstraint] = {
         let c1 = imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
-        c1.priority = .required
+        c1.priority = .defaultHigh
 
         let c2 = imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
-        c2.priority = .required
+        c2.priority = .defaultHigh
         
         let c3 = imageView.heightAnchor.constraint(equalTo: self.heightAnchor)
         c3.priority = .required
