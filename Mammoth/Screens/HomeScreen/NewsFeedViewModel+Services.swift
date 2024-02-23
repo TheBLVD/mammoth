@@ -44,6 +44,8 @@ extension NewsFeedViewModel {
                         newItems = items.removeMutesAndBlocks().removeFiltered()
                     } else if case .forYou = currentType {
                         newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else if case .channel = currentType {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
                     } else {
                         newItems = items
                     }
@@ -117,6 +119,8 @@ extension NewsFeedViewModel {
                         newItems = items.removeMutesAndBlocks().removeFiltered()
                     } else if case .forYou = currentType {
                         newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else if case .channel = currentType {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
                     } else {
                         newItems = items
                     }
@@ -167,6 +171,8 @@ extension NewsFeedViewModel {
                 if case .community = type {
                     newItems = items.removeMutesAndBlocks().removeFiltered()
                 } else if case .forYou = currentType {
+                    newItems = items.removeMutesAndBlocks().removeFiltered()
+                } else if case .channel = currentType {
                     newItems = items.removeMutesAndBlocks().removeFiltered()
                 } else {
                     newItems = items
@@ -360,6 +366,8 @@ extension NewsFeedViewModel {
                 newItems = items.removeMutesAndBlocks().removeFiltered()
             } else if case .forYou = feedType {
                 newItems = items.removeMutesAndBlocks().removeFiltered()
+            } else if case .channel = feedType {
+                newItems = items.removeMutesAndBlocks().removeFiltered()
             } else {
                 newItems = items
             }
@@ -494,6 +502,8 @@ extension NewsFeedViewModel {
                 if case .community = type {
                     newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered()
                 } else if case .forYou = feedType {
+                    newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered()
+                } else if case .channel = feedType {
                     newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered()
                 } else {
                     newItemsSlice = newItems
