@@ -366,8 +366,12 @@ extension PostCardQuotePost {
         // If a quote post status is found and loaded
         if let quotePostCard = postCard.quotePostData {
             
+            self.postLoader?.isHidden = true
+            self.postLoader?.stopAnimation()
+            
             // Display header
             self.header.configure(postCard: quotePostCard, headerType: .quotePost)
+            self.header.willDisplay()
             self.header.isHidden = false
             headerTrailingConstraint?.isActive = true
 
@@ -528,6 +532,10 @@ extension PostCardQuotePost {
         
         self.postTextLabel.backgroundColor = .custom.background
         self.mainStackView.backgroundColor = .custom.background
+    }
+    
+    func willDisplay() {
+        self.header.willDisplay()
     }
 }
 

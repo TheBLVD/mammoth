@@ -278,7 +278,7 @@ internal struct NewsFeedListData {
                         self.update(item: item, atIndex: index, forType: .activity(activityType))
                     } else if let index = activities.firstIndex(where: {$0.extractPostCard()?.uniqueId == item.uniqueId()}){
                         // update the postcard in the activity
-                        if case .activity(var activity) = activities[index] {
+                        if case .activity(let activity) = activities[index] {
                             activity.postCard = item.extractPostCard()
                             self.update(item: .activity(activity), atIndex: index, forType: .activity(activityType))
                         }
@@ -415,7 +415,7 @@ internal struct NewsFeedListData {
                     self.remove(atIndex: index, forType: feedType)
                 }
                 
-            case .activity(let type):
+            case .activity(_):
                 self.activity.forEach { (key, activities) in
                     if let index = activities.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
                         let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
@@ -468,10 +468,6 @@ extension NewsFeedViewModel {
                                                  feedType: feedType,
                                                  updateType: .hydrate,
                                                  onCompleted: completed)
-                
-                retrievedItems?.forEach({
-                    $0.extractPostCard()?.preloadQuotePost()
-               })
             }
         } else {
             // Retrieve cards and scroll position from memory
@@ -654,6 +650,7 @@ extension NewsFeedViewModel {
             guard let self else { return }
             let currentCount = self.getUnreadCount(forFeed: type)
             self.setUnreadState(count: currentCount + items.count, enabled: true, forFeed: type)
+            self.delegate?.didUpdateUnreadState(type: type)
         }
     }
     

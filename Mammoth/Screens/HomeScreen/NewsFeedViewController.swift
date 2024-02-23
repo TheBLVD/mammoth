@@ -72,7 +72,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     private var switchingAccounts = false
     
     weak var delegate: NewsFeedViewControllerDelegate?
-    private var deferredSnapshotUpdates: [() -> Void] = []
+    private var deferredSnapshotUpdates: [NewsFeedSnapshotUpdateType: () -> Void] = [:]
     
     public var type: NewsFeedTypes {
         return self.viewModel.type
@@ -174,6 +174,14 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                     if self.viewModel.snapshot.itemIdentifiers(inSection: .main).isEmpty {
                         let type = self.viewModel.type
                         self.viewModel.displayLoader(forType: type)
+                    } else {
+                        self.tableView.visibleCells.forEach({
+                            if let cell = $0 as? PostCardCell {
+                                cell.willDisplay()
+                            } else if let cell = $0 as? ActivityCardCell {
+                                cell.willDisplay()
+                            }
+                        })
                     }
                     
                     Task { [weak self] in
@@ -224,11 +232,19 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                         }
                     } else {
                         self.showLoader(enabled: false)
+                        
+                        self.tableView.visibleCells.forEach({
+                            if let cell = $0 as? PostCardCell {
+                                cell.willDisplay()
+                            } else if let cell = $0 as? ActivityCardCell {
+                                cell.willDisplay()
+                            }
+                        })
                     }
                 }
             }
         }
-        
+                
         if self.viewModel.type.shouldPollForListData {
             self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
         }
@@ -291,7 +307,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     }
     
     @objc private func willSwitchAccount() {
-        self.deferredSnapshotUpdates = []
+        self.deferredSnapshotUpdates = [:]
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         self.viewModel.removeAll(type: self.viewModel.type, clearScrollPosition: false)
         
@@ -344,6 +360,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     }
     
     @objc func onUnreadTapped() {
+        self.viewModel.cancelAllItemSyncs()
         self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         self.viewModel.setUnreadEnabled(enabled: false, forFeed: self.viewModel.type)
         self.latestPill.isEnabled = false
@@ -684,7 +701,7 @@ extension NewsFeedViewController {
         }
         
         // Clean unread indicator when close to top
-        if scrollView.contentOffset.y < 0 - self.view.safeAreaInsets.top + 20 {
+        if scrollView.contentOffset.y < 0 - self.view.safeAreaInsets.top + 60 {
             self.viewModel.setUnreadState(count: 0, enabled: true, forFeed: self.viewModel.type)
             
             if GlobalStruct.feedReadDirection == .topDown {
@@ -703,20 +720,24 @@ extension NewsFeedViewController {
             self.delegate?.didScrollToTop()
         }
         
-        // When scrollview surpass the top
+        // When scrollview reaches the top
         // We need to include an inset when the background is translucent
-        if scrollView.contentOffset.y <= 0 - self.view.safeAreaInsets.top {
+        if scrollView.contentOffset.y <= 0 - self.view.safeAreaInsets.top + 3000 {
             // For feeds with many new posts a second we don't want to
             // nag the user with the unread pill right after they reached the top.
             if self.viewModel.type.shouldPollForListData && self.viewModel.snapshot.numberOfItems > 0 {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                    self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
+                if !self.viewModel.isPollingEnabled {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                        guard let self else { return }
+                        self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
+                    }
                 }
             }
         }
     }
     
     func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        self.viewModel.cancelAllItemSyncs()
         self.viewModel.setUnreadState(count: 0, enabled: true, forFeed: self.viewModel.type)
         
         if GlobalStruct.feedReadDirection == .topDown {
@@ -743,8 +764,8 @@ extension NewsFeedViewController {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         
-        let tasks = self.deferredSnapshotUpdates
-        self.deferredSnapshotUpdates = []
+        let tasks = Array(self.deferredSnapshotUpdates.values)
+        self.deferredSnapshotUpdates = [:]
         tasks.forEach({ $0() })
     }
 }
@@ -766,12 +787,12 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                 guard let self else { return }
                 self.didUpdateSnapshot(snapshot, feedType: feedType, updateType: updateType, onCompleted: onCompleted)
             }
-            self.deferredSnapshotUpdates.append(deferredJob)
+            self.deferredSnapshotUpdates[updateType] = deferredJob
             return
         }
         
-        let tasks = self.deferredSnapshotUpdates
-        self.deferredSnapshotUpdates = []
+        let tasks = Array(self.deferredSnapshotUpdates.values)
+        self.deferredSnapshotUpdates = [:]
         tasks.forEach({ $0() })
         
         switch updateType {
