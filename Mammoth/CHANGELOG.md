@@ -2,6 +2,16 @@
 
 ---
 
+### Version: 2.8 (build 409)
+Tag: Version-2.8, App Store Release Date: February 23, 2024
+
+* Fixed an issue where @mentions and #hashtags were not always tappable
+* Adjustments to the account picker in the Profile view
+* Fix to show suggested follows at launch for iPad / macOS
+* Use the instance-specified streaming URL for Activity
+
+---
+
 ### Version: 2.7 (build 406)
 Tag: Version-2.7, App Store Release Date: February 13, 2024
 
