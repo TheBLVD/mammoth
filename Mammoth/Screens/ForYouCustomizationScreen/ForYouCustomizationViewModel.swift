@@ -123,7 +123,7 @@ extension ForYouCustomizationViewModel {
         //      - Mammoth Picks
         //      - Smart Lists
         //      - Beta
-        return 3
+        return 2 // Was 3; we no longer show the beta features
     }
     
     func hasHeader(forSection sectionIndex: Int) -> Bool {
