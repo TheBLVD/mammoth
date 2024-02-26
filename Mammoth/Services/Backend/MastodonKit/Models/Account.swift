@@ -132,7 +132,7 @@ public class Account: Codable, Hashable {
 
 
 public class AccountSource: Codable {
-    public let privacy: String
+    public let privacy: String?
     public let sensitive: Bool
     public let language: String?
     
