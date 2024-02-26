@@ -165,7 +165,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         
         let gestureToNow = UITapGestureRecognizer(target: self, action: #selector(self.onJumpToNow))
         self.jumpToNow.addGestureRecognizer(gestureToNow)
-                
+                        
         if (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(self.viewModel.type) {
             if !self.didInitializeOnce {
                 self.didInitializeOnce = true
@@ -442,6 +442,8 @@ private extension NewsFeedViewController {
         view.addSubview(latestPill)
         view.addSubview(unreadIndicator)
         view.addSubview(jumpToNow)
+        
+        jumpToNow.delegate = self
         
         if ![.mentionsIn, .mentionsOut].contains(self.viewModel.type) && !NewsFeedTypes.allActivityTypes.contains(self.viewModel.type)  {
             self.tableView.tableHeaderView = UIView()
@@ -758,7 +760,9 @@ extension NewsFeedViewController {
                 self.unreadIndicator.isEnabled = true
                 
                 self.jumpToNow.isEnabled = false
+                self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
             }
+            
             self.delegate?.didScrollToTop()
         }
         
@@ -1567,5 +1571,12 @@ extension NewsFeedViewController {
         
         self.navigationItem.setRightBarButtonItems(self.navBarItems(), animated: false)
         self.title = self.viewModel.type.title()
+    }
+}
+
+extension NewsFeedViewController: JumpToLatestDelegate {
+    func onClosePress() {
+        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+        self.jumpToNow.isEnabled = false
     }
 }

@@ -9,13 +9,14 @@
 import UIKit
 import SDWebImage
 
+protocol JumpToLatestDelegate {
+    func onClosePress()
+}
+
 final class JumpToLatest: UIButton {
     // MARK: - Properties
     
-    private var unreadCount: Int = 0
-    private var picUrls: [URL] = []
-    private static let picSize: CGFloat = 21.0
-    private static let picBorderWidth: CGFloat = 1
+    public var delegate: JumpToLatestDelegate?
     
     private var blurEffectView: BlurredBackground
     private var animatedIn: Bool = false
@@ -24,6 +25,7 @@ final class JumpToLatest: UIButton {
         let imageView = UIImageView()
         imageView.contentMode = .center
         imageView.image = UIImage()
+        imageView.isUserInteractionEnabled = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -79,6 +81,9 @@ private extension JumpToLatest {
         self.contentEdgeInsets = .init(top: 0, left: 14, bottom: 0, right: 32)
         
         self.closeIcon.image = FontAwesome.image(fromChar: "\u{f00d}", color: .label, size: 12, weight: .bold)
+        
+        let closeGesture = UITapGestureRecognizer(target: self, action: #selector(self.onClosePress))
+        self.closeIcon.addGestureRecognizer(closeGesture)
 
         NSLayoutConstraint.activate([
             self.blurEffectView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -88,11 +93,15 @@ private extension JumpToLatest {
             
             self.heightAnchor.constraint(equalToConstant: 34),
             
-            self.closeIcon.widthAnchor.constraint(equalToConstant: 9),
-            self.closeIcon.heightAnchor.constraint(equalToConstant: 11),
-            self.closeIcon.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -14),
+            self.closeIcon.widthAnchor.constraint(equalToConstant: 37),
+            self.closeIcon.heightAnchor.constraint(equalToConstant: 34),
+            self.closeIcon.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             self.closeIcon.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
+    }
+    
+    @objc func onClosePress() {
+        self.delegate?.onClosePress()
     }
     
     func animateIn() {
@@ -116,16 +125,7 @@ private extension JumpToLatest {
 
 // MARK: - Configure
 extension JumpToLatest {
-    func configure(unreadCount: Int, picUrls: [URL]) {
-        guard self.unreadCount != unreadCount else { return }
-        self.unreadCount = unreadCount
-        
-        if unreadCount == 0 && self.isEnabled && animatedIn {
-            self.isEnabled = false
-        } else if unreadCount > 0 && !self.isEnabled {
-            self.isEnabled = true
-        }
-    }
+    func configure(readCount: Int) {}
 }
 
 // MARK: Appearance changes
