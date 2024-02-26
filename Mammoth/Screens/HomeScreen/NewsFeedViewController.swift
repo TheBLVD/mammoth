@@ -37,8 +37,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         tableView.delegate = self
         tableView.prefetchDataSource = self
         tableView.backgroundColor = .custom.background
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 310
         tableView.separatorInset = .zero
         tableView.layoutMargins = .zero
         tableView.showsVerticalScrollIndicator = false
@@ -63,6 +61,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     
     private let latestPill = LatestPill()
     private let unreadIndicator = UnreadIndicator()
+    private let jumpToNow = JumpToLatest()
     private var feedMenuItems : [UIMenu] = []
     private var viewModel: NewsFeedViewModel
     private var didInitializeOnce = false
@@ -164,6 +163,9 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         let gestureUnread = UITapGestureRecognizer(target: self, action: #selector(self.onUnreadTapped))
         self.unreadIndicator.addGestureRecognizer(gestureUnread)
         
+        let gestureToNow = UITapGestureRecognizer(target: self, action: #selector(self.onJumpToNow))
+        self.jumpToNow.addGestureRecognizer(gestureToNow)
+                
         if (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(self.viewModel.type) {
             if !self.didInitializeOnce {
                 self.didInitializeOnce = true
@@ -359,26 +361,46 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         self.tableView.reloadData()
     }
     
-    @objc func onUnreadTapped() {
+    @objc func onJumpToNow() {
+        Task { [weak self] in
+            guard let self else { return }
+            try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
+        }
+        
         self.viewModel.cancelAllItemSyncs()
         self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        self.viewModel.setUnreadEnabled(enabled: false, forFeed: self.viewModel.type)
+        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+        self.latestPill.isEnabled = false
+        self.unreadIndicator.isEnabled = false
+        self.jumpToNow.isEnabled = false
+        // Clear LatestPill state after scroll animation
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self else { return }
+            self.latestPill.configure(unreadCount: 0, picUrls: [])
+            self.unreadIndicator.configure(unreadCount: 0)
+        }
+    }
+    
+    @objc func onUnreadTapped() {
         self.viewModel.setUnreadEnabled(enabled: false, forFeed: self.viewModel.type)
         self.latestPill.isEnabled = false
         self.unreadIndicator.isEnabled = false
         // Clear LatestPill state after scroll animation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self else { return }
             self.latestPill.configure(unreadCount: 0, picUrls: [])
             self.unreadIndicator.configure(unreadCount: 0)
-        }
-        
-        if [.mentionsIn].contains(type) {
-            // // Hide the tab bar mentions indicator (dot)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "hideIndActivity2"), object: nil)
-        }
-        
-        if NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
-            // // Hide the tab bar activity indicator (dot)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "hideIndActivity"), object: nil)
+            
+            if [.mentionsIn].contains(self.type) {
+                // // Hide the tab bar mentions indicator (dot)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "hideIndActivity2"), object: nil)
+            }
+            
+            if NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
+                // // Hide the tab bar activity indicator (dot)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: "hideIndActivity"), object: nil)
+            }
         }
     }
     
@@ -419,6 +441,7 @@ private extension NewsFeedViewController {
         view.addSubview(tableView)
         view.addSubview(latestPill)
         view.addSubview(unreadIndicator)
+        view.addSubview(jumpToNow)
         
         if ![.mentionsIn, .mentionsOut].contains(self.viewModel.type) && !NewsFeedTypes.allActivityTypes.contains(self.viewModel.type)  {
             self.tableView.tableHeaderView = UIView()
@@ -436,10 +459,13 @@ private extension NewsFeedViewController {
             self.tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             
             self.latestPill.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
-            self.latestPill.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 13),
+            self.latestPill.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 9),
+            
+            self.jumpToNow.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
+            self.jumpToNow.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 9),
             
             self.unreadIndicator.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -10),
-            self.unreadIndicator.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 13),
+            self.unreadIndicator.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 9),
         ])
     }
 }
@@ -553,6 +579,10 @@ extension NewsFeedViewController {
         }
         
         if self.isActiveFeed && self.viewModel.type.shouldSyncItems {
+            if self.viewModel.postSyncingTasks.count > 15 {
+                self.viewModel.cancelAllItemSyncs()
+            }
+            
             self.viewModel.requestItemSync(forIndexPath: indexPath, afterSeconds: 3.4)
         }
         
@@ -592,6 +622,16 @@ extension NewsFeedViewController {
         } else if let cell = cell as? ActivityCardCell {
             cell.didEndDisplay()
         }
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let item = self.viewModel.getItemForIndexPath(indexPath) {
+            if case .postCard(let postCardModel) = item {
+                return postCardModel.cellHeight ?? UITableView.automaticDimension
+            }
+        }
+        
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -716,6 +756,8 @@ extension NewsFeedViewController {
             } else {
                 self.unreadIndicator.configure(unreadCount: 0)
                 self.unreadIndicator.isEnabled = true
+                
+                self.jumpToNow.isEnabled = false
             }
             self.delegate?.didScrollToTop()
         }
@@ -752,6 +794,8 @@ extension NewsFeedViewController {
         } else {
             self.unreadIndicator.configure(unreadCount: 0)
             self.unreadIndicator.isEnabled = true
+            
+            self.jumpToNow.isEnabled = false
         }
         
         self.delegate?.didScrollToTop()
@@ -913,6 +957,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                 } else {
                     self.unreadIndicator.configure(unreadCount: 0)
                     self.unreadIndicator.isEnabled = true
+                    self.jumpToNow.isEnabled = false
                 }
                 
                 self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType)
@@ -965,41 +1010,45 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
     }
     
     func didUpdateUnreadState(type: NewsFeedTypes) {
-        let unreadState = self.viewModel.getUnreadState(forFeed: type)
-        let currentRow = self.getCurrentCellIndexPath(tableView: self.tableView)?.row ?? 0
-        let count = min(currentRow, unreadState.count)
-        
-        if unreadState.enabled {
-            switch self.viewModel.type {
-            case .mentionsIn, .mentionsOut, .activity:
-                self.unreadIndicator.configure(unreadCount: count)
-                self.unreadIndicator.isEnabled = unreadState.enabled
-            default:
-                if GlobalStruct.feedReadDirection == .topDown {
-                    if unreadState.unreadPics.count < 4 {
-                        self.latestPill.configure(unreadCount: 0, picUrls: [])
-                        self.latestPill.isEnabled = unreadState.enabled
-                    } else {
-                        self.latestPill.configure(unreadCount: count, picUrls: unreadState.unreadPics)
-                        self.latestPill.isEnabled = unreadState.enabled
-                    }
-                } else {
+        DispatchQueue.main.async {
+            let unreadState = self.viewModel.getUnreadState(forFeed: type)
+            let currentRow = self.getCurrentCellIndexPath(tableView: self.tableView)?.row ?? 0
+            let count = min(currentRow, unreadState.count)
+            
+            if unreadState.enabled {
+                switch self.viewModel.type {
+                case .mentionsIn, .mentionsOut, .activity:
                     self.unreadIndicator.configure(unreadCount: count)
                     self.unreadIndicator.isEnabled = unreadState.enabled
+                default:
+                    if GlobalStruct.feedReadDirection == .topDown {
+                        if unreadState.unreadPics.count < 4 {
+                            self.latestPill.configure(unreadCount: 0, picUrls: [])
+                            self.latestPill.isEnabled = unreadState.enabled
+                        } else {
+                            self.latestPill.configure(unreadCount: count, picUrls: unreadState.unreadPics)
+                            self.latestPill.isEnabled = unreadState.enabled
+                        }
+                    } else {
+                        self.unreadIndicator.configure(unreadCount: count)
+                        self.unreadIndicator.isEnabled = unreadState.enabled
+                    }
+                }
+                
+            } else {
+                switch self.viewModel.type {
+                case .mentionsIn, .mentionsOut, .activity:
+                    self.unreadIndicator.isEnabled = false
+                default:
+                    if GlobalStruct.feedReadDirection == .topDown {
+                        self.latestPill.isEnabled = false
+                    } else {
+                        self.unreadIndicator.isEnabled = false
+                    }
                 }
             }
             
-        } else {
-            switch self.viewModel.type {
-            case .mentionsIn, .mentionsOut, .activity:
-                self.unreadIndicator.isEnabled = false
-            default:
-                if GlobalStruct.feedReadDirection == .topDown {
-                    self.latestPill.isEnabled = false
-                } else {
-                    self.unreadIndicator.isEnabled = false
-                }
-            }
+            self.jumpToNow.isEnabled = unreadState.showJumpToNow
         }
     }
     
@@ -1008,6 +1057,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: fromType)
         self.latestPill.isEnabled = false
         self.unreadIndicator.isEnabled = false
+        self.jumpToNow.isEnabled = false
     }
     
     func didChangeFeed(type: NewsFeedTypes) {

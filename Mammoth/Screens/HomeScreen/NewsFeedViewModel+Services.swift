@@ -650,6 +650,8 @@ extension NewsFeedViewModel {
                             
                             if pageToFetchLimit == 0 {
                                 self.stopPollingListData()
+                                self.setShowJumpToNow(enabled: true, forFeed: type)
+                                self.delegate?.didUpdateUnreadState(type: type)
                             }
 
                             fetchingNewItems = false

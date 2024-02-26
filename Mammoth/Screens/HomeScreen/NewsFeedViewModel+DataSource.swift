@@ -649,7 +649,7 @@ extension NewsFeedViewModel {
                                             updateType: .insert) { [weak self] in
             guard let self else { return }
             let currentCount = self.getUnreadCount(forFeed: type)
-            self.setUnreadState(count: currentCount + items.count, enabled: true, forFeed: type)
+            self.setUnreadCount(count: currentCount + items.count, forFeed: type)
             self.delegate?.didUpdateUnreadState(type: type)
         }
     }
