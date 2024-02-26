@@ -56,29 +56,29 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
     func title() -> String {
         switch self {
         case .forYou:
-            return "For You"
+            return NSLocalizedString("title.forYou", comment: "Home carousel's personalized For You page title.")
         case .following:
-            return "Following"
+            return NSLocalizedString("title.following", comment: "Home carousel's home timeline title.")
         case .federated:
-            return "Federated"
+            return NSLocalizedString("title.federated", comment: "Home carousel's federated timeline title.")
         case .community(let name):
             return name
         case .trending:
-            return "Trending"
+            return NSLocalizedString("title.trending", comment: "")
         case .hashtag(let hashtag):
             return "#\(hashtag.name)"
         case .list(let list):
             return list.title
         case .likes:
-            return "Likes"
+            return NSLocalizedString("title.likes", comment: "User's liked posts.")
         case .bookmarks:
-            return "Bookmarks"
+            return NSLocalizedString("title.bookmarks", comment: "User's bookmarked posts.")
         case .mentionsIn:
-            return "Received Mentions"
+            return NSLocalizedString("title.mentionsIn", comment: "")
         case .mentionsOut:
-            return "Sent Mentions"
+            return NSLocalizedString("title.mentionsOut", comment: "")
         case .activity:
-            return "Activity"
+            return NSLocalizedString("title.activity", comment: "Activity tab title.")
         case .channel(let channel):
             return channel.title
         }

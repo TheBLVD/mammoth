@@ -1,0 +1,639 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@" : {
+
+    },
+    "App Layout" : {
+
+    },
+    "composer.giphy.noMatches" : {
+      "comment" : "No GIFs match this search."
+    },
+    "composer.giphy.searchGifs" : {
+      "comment" : "The placeholder string for the Giphy search field"
+    },
+    "date.futureDays" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "tomorrow"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "in %d days"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "date.futureHours" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "next hour"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "in %d hours"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "date.futureMinutes" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "in %d minute"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "in %d minutes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "date.futureMonths" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "next month %d"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "in %d months"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "date.futureWeeks" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "next week"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "in %d weeks"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "date.futureYears" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "next year"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "in %d years"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "date.now" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "now"
+          }
+        }
+      }
+    },
+    "date.pastDays" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dd"
+          }
+        }
+      }
+    },
+    "date.pastHours" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dh"
+          }
+        }
+      }
+    },
+    "date.pastMinutes" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dm"
+          }
+        }
+      }
+    },
+    "date.pastMonths" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dM"
+          }
+        }
+      }
+    },
+    "date.pastWeeks" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dw"
+          }
+        }
+      }
+    },
+    "date.pastYears" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%dy"
+          }
+        }
+      }
+    },
+    "date.seconds" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%ds"
+          }
+        }
+      }
+    },
+    "Display a streamlined view that focuses on the feed timeline" : {
+
+    },
+    "feed.customize" : {
+      "comment" : "Button for customizing the 'for you' page.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Customize For You"
+          }
+        }
+      }
+    },
+    "Focus" : {
+
+    },
+    "home.jumpToAList" : {
+      "comment" : "Appears when holding in the 'home' button, before a list of feeds.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jump to a list"
+          }
+        }
+      }
+    },
+    "post.likeCount" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d Like"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d Likes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post.privateMention" : {
+      "comment" : "Shows up over a post in the timeline indicating that it's been sent privately.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "private mention"
+          }
+        }
+      }
+    },
+    "post.replyCount" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d Reply"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d Replies"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post.repostCount" : {
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d Repost"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%d Reposts"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "post.reposted" : {
+      "comment" : "Shows up over a post in the timeline indicating who reposted it.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ reposted"
+          }
+        }
+      }
+    },
+    "post.viewDetails" : {
+      "comment" : "Shows up under a post in the timeline.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View details"
+          }
+        }
+      }
+    },
+    "Posting in" : {
+
+    },
+    "settings.about" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About"
+          }
+        }
+      }
+    },
+    "settings.accounts" : {
+      "comment" : "Button in settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accounts"
+          }
+        }
+      }
+    },
+    "settings.appearance" : {
+      "comment" : "Button in settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance"
+          }
+        }
+      }
+    },
+    "settings.appIcon" : {
+      "comment" : "Button in settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App icon"
+          }
+        }
+      }
+    },
+    "settings.appLock" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App lock"
+          }
+        }
+      }
+    },
+    "settings.clearData" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear cache and data"
+          }
+        }
+      }
+    },
+    "settings.clearData.footer" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clearing cached data may help in freeing up device storage, and may be useful to do if you notice lag or declining performance in the app."
+          }
+        }
+      }
+    },
+    "settings.composer" : {
+      "comment" : "Button in settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Composer"
+          }
+        }
+      }
+    },
+    "settings.getInTouch" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get in touch"
+          }
+        }
+      }
+    },
+    "settings.manageSubscriptions" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage subscriptions"
+          }
+        }
+      }
+    },
+    "settings.notifications" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "settings.openLinks" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open links in browser"
+          }
+        }
+      }
+    },
+    "settings.siriShortcuts" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siri shortcuts"
+          }
+        }
+      }
+    },
+    "settings.soundsAndHaptics" : {
+      "comment" : "Button in settings.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sounds and Haptics"
+          }
+        }
+      }
+    },
+    "settings.version" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version %@\\nBuild %@"
+          }
+        }
+      }
+    },
+    "title.activity" : {
+      "comment" : "Activity tab title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activity"
+          }
+        }
+      }
+    },
+    "title.bookmarks" : {
+      "comment" : "User's bookmarked posts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmarks"
+          }
+        }
+      }
+    },
+    "title.federated" : {
+      "comment" : "Home carousel's federated timeline title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Federated"
+          }
+        }
+      }
+    },
+    "title.following" : {
+      "comment" : "Home carousel's home timeline title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Following"
+          }
+        }
+      }
+    },
+    "title.forYou" : {
+      "comment" : "Home carousel's personalized For You page title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For You"
+          }
+        }
+      }
+    },
+    "title.likes" : {
+      "comment" : "User's liked posts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Likes"
+          }
+        }
+      }
+    },
+    "title.mentionsIn" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Received Mentions"
+          }
+        }
+      }
+    },
+    "title.mentionsOut" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent Mentions"
+          }
+        }
+      }
+    },
+    "title.settings" : {
+      "comment" : "Button for opening the settings menu.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
+    "title.trending" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trensing"
+          }
+        }
+      }
+    },
+    "Undo Post" : {
+
+    }
+  },
+  "version" : "1.0"
+}

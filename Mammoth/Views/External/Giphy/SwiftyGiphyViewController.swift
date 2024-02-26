@@ -82,7 +82,7 @@ public class SwiftyGiphyViewController: UIViewController {
     public override func loadView() {
         super.loadView()
 
-        self.title = NSLocalizedString("Giphy", comment: "Giphy")
+        self.title = "Giphy"
         
         self.navigationItem.titleView = UIImageView(image: UIImage(named: "GiphyLogoEmblem", in: Bundle(for: SwiftyGiphyViewController.self), compatibleWith: nil))
         if #available(iOS 13, *) {
@@ -91,7 +91,7 @@ public class SwiftyGiphyViewController: UIViewController {
             }
         }
 
-        searchController.searchBar.placeholder = NSLocalizedString("Search GIFs", comment: "The placeholder string for the Giphy search field")
+        searchController.searchBar.placeholder = NSLocalizedString("composer.giphy.searchGifs", comment: "The placeholder string for the Giphy search field")
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.definesPresentationContext = false
@@ -358,7 +358,7 @@ public class SwiftyGiphyViewController: UIViewController {
 
                 if self?.currentGifs?.count ?? 0 == 0
                 {
-                    self?.errorLabel.text = NSLocalizedString("No GIFs match this search.", comment: "No GIFs match this search.")
+                    self?.errorLabel.text = NSLocalizedString("composer.giphy.noMatches", comment: "No GIFs match this search.")
                     self?.errorLabel.isHidden = false
                 }
             }

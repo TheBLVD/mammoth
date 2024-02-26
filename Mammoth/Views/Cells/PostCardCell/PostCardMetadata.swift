@@ -106,7 +106,7 @@ final class PostCardMetadata: UIView {
         metricsStackView.addArrangedSubview(repostsLabel)
         metricsStackView.addArrangedSubview(repliesLabel)
         
-        viewDetailsLabel.text = "View details"
+        viewDetailsLabel.text = NSLocalizedString("post.viewDetails", comment: "Shows up under a post in the timeline.")
         metricsStackView.addArrangedSubview(viewDetailsLabel)
         
         self.setupUIFromSettings()
@@ -135,9 +135,9 @@ final class PostCardMetadata: UIView {
             }
         }
         
-        likesLabel.text = Int(postCard.likeCount) == 1 ? "1 Like" : "\(postCard.likeCount) Likes"
-        repliesLabel.text = Int(postCard.replyCount) == 1 ? "1 Reply" : "\(postCard.replyCount) Replies"
-        repostsLabel.text = Int(postCard.repostCount) == 1 ? "1 Repost" : "\(postCard.repostCount) Reposts"
+        likesLabel.text = String.localizedStringWithFormat(NSLocalizedString("post.likeCount", comment: ""), postCard.likeCount)
+        repliesLabel.text = String.localizedStringWithFormat(NSLocalizedString("post.replyCount", comment: ""), postCard.replyCount)
+        repostsLabel.text = String.localizedStringWithFormat(NSLocalizedString("post.repostCount", comment: ""), postCard.repostCount)
         
         if postCard.likeCount == "0" {
             likesLabel.isHidden = true
