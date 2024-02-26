@@ -458,28 +458,32 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
     }
     
     @objc func setupViews() {
+        let home = NSLocalizedString("navigator.home", comment: "Bottom navigator title.")
         let v1 = HomeViewController()
         let vc1 = UINavigationController(rootViewController: v1)
-        vc1.tabBarItem = UITabBarItem(title: "Home", image: FontAwesome.image(fromChar: "\u{f015}", size: 15, weight: .bold), selectedImage: FontAwesome.image(fromChar: "\u{f015}", weight: .bold))
-        vc1.accessibilityLabel = "Home"
+        vc1.tabBarItem = UITabBarItem(title: home, image: FontAwesome.image(fromChar: "\u{f015}", size: 15, weight: .bold), selectedImage: FontAwesome.image(fromChar: "\u{f015}", weight: .bold))
+        vc1.accessibilityLabel = home
         vc1.tabBarItem.tag = 0
         
+        let discover = NSLocalizedString("navigator.discover", comment: "Bottom navigator title.")
         let v2 = SearchHostViewController()
         let vc2 = UINavigationController(rootViewController: v2)
-        vc2.tabBarItem = UITabBarItem(title: "Discover", image: FontAwesome.image(fromChar: "\u{f002}", size: 15, weight: .bold), selectedImage: FontAwesome.image(fromChar: "\u{f002}", weight: .bold))
-        vc2.accessibilityLabel = "Discover"
+        vc2.tabBarItem = UITabBarItem(title: discover, image: FontAwesome.image(fromChar: "\u{f002}", size: 15, weight: .bold), selectedImage: FontAwesome.image(fromChar: "\u{f002}", weight: .bold))
+        vc2.accessibilityLabel = discover
         vc2.tabBarItem.tag = 1
         
+        let activity = NSLocalizedString("navigator.activity", comment: "Bottom navigator title.")
         let v3 = ActivityViewController()
         let vc3 = UINavigationController(rootViewController: v3)
-        vc3.tabBarItem = UITabBarItem(title: "Activity", image: FontAwesome.image(fromChar: "\u{f0f3}", size: 15, weight: .bold), selectedImage: FontAwesome.image(fromChar: "\u{f0f3}", weight: .bold))
-        vc3.accessibilityLabel = "Activity"
+        vc3.tabBarItem = UITabBarItem(title: activity, image: FontAwesome.image(fromChar: "\u{f0f3}", size: 15, weight: .bold), selectedImage: FontAwesome.image(fromChar: "\u{f0f3}", weight: .bold))
+        vc3.accessibilityLabel = activity
         vc3.tabBarItem.tag = 2
         
+        let mentions = NSLocalizedString("navigator.mentions", comment: "Bottom navigator title.")
         let v4 = MentionsViewController()
         let vc4 = UINavigationController(rootViewController: v4)
-        vc4.tabBarItem = UITabBarItem(title: "Mentions", image: FontAwesome.image(fromChar: "\u{40}", size: 15, weight: .bold), selectedImage: FontAwesome.image(fromChar: "\u{40}", weight: .bold))
-        vc4.accessibilityLabel = "Mentions"
+        vc4.tabBarItem = UITabBarItem(title: mentions, image: FontAwesome.image(fromChar: "\u{40}", size: 15, weight: .bold), selectedImage: FontAwesome.image(fromChar: "\u{40}", weight: .bold))
+        vc4.accessibilityLabel = mentions
         vc4.tabBarItem.tag = 3
         
         var userCardModel: UserCardModel? = nil
@@ -490,9 +494,10 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
         let newProfileVC = ProfileViewController(user: userCardModel)
         let v5: UIViewController = newProfileVC
         
+        let profile = NSLocalizedString("navigator.profile", comment: "Bottom navigator title.")
         let vc5 = UINavigationController(rootViewController: v5)
-        vc5.tabBarItem = UITabBarItem(title: "Profile", image: FontAwesome.image(fromChar: "\u{f007}", size: 15, weight: .bold), selectedImage: FontAwesome.image(fromChar: "\u{f007}", weight: .bold))
-        vc5.accessibilityLabel = "Profile"
+        vc5.tabBarItem = UITabBarItem(title: profile, image: FontAwesome.image(fromChar: "\u{f007}", size: 15, weight: .bold), selectedImage: FontAwesome.image(fromChar: "\u{f007}", weight: .bold))
+        vc5.accessibilityLabel = profile
         vc5.tabBarItem.tag = 4
         
         let vcs: [UIViewController] = [vc1, vc2, vc3, vc4, vc5]
