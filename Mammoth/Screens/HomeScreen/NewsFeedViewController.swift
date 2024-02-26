@@ -1375,7 +1375,8 @@ extension NewsFeedViewController {
     private func communityNavBarContextOptions(instanceName: String) -> [UIAction] {
         var contextMenuOptions: [UIAction] = []
         
-        let option = UIAction(title: "View trends", image: UIImage(systemName: "binoculars"), identifier: nil) { [weak self] _ in
+        let view_trends = NSLocalizedString("home.viewTrends", comment: "Button for showing trends of an instance in the carousel.")
+        let option = UIAction(title: view_trends, image: UIImage(systemName: "binoculars"), identifier: nil) { [weak self] _ in
             guard let self else { return }
             let vc = ExploreViewController()
             vc.showingSearch = false
@@ -1385,7 +1386,7 @@ extension NewsFeedViewController {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
-        option.accessibilityLabel = "View Trends"
+        option.accessibilityLabel = view_trends
         contextMenuOptions.append(option)
         
         return contextMenuOptions
@@ -1408,7 +1409,7 @@ extension NewsFeedViewController {
             }
             
             btn.setImage(UIImage(systemName: "minus.circle", withConfiguration: symbolConfig)?.withTintColor(.custom.highContrast, renderingMode: .alwaysTemplate), for: .normal)
-            btn.accessibilityLabel = "Unfollow Tag"
+            btn.accessibilityLabel = NSLocalizedString("accessibility.unfollowTag", comment: "Screen reader only.")
             
         } else {
             btn.addAction {
@@ -1416,7 +1417,7 @@ extension NewsFeedViewController {
                 HashtagManager.shared.followHashtag(hashtag.lowercased(), completion: { _ in })
             }
             btn.setImage(UIImage(systemName: "plus.circle", withConfiguration: symbolConfig)?.withTintColor(.custom.highContrast, renderingMode: .alwaysTemplate), for: .normal)
-            btn.accessibilityLabel = "Follow Tag"
+            btn.accessibilityLabel = NSLocalizedString("accessibility.followTag", comment: "Screen reader only.")
         }
         
         btn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
@@ -1431,19 +1432,22 @@ extension NewsFeedViewController {
         let btn = UIButton(type: .custom)
         btn.setImage(FontAwesome.image(fromChar: "\u{e10a}").withConfiguration(symbolConfig).withTintColor(.custom.highContrast, renderingMode: .alwaysTemplate), for: .normal)
         btn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        btn.accessibilityLabel = "More"
+        btn.accessibilityLabel = NSLocalizedString("generic.more", comment: "")
         btn.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: -1, right: 0)
         
         // Create context menu
-        let viewMembersMenu = UIAction(title: "List members", image: FontAwesome.image(fromChar: "\u{f500}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
+        let list_members = NSLocalizedString("list.members", comment: "")
+        let viewMembersMenu = UIAction(title: list_members, image: FontAwesome.image(fromChar: "\u{f500}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
             guard let self else { return }
             let vc = UserListViewController(listID: list.id)
             if vc.isBeingPresented {} else {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
-        viewMembersMenu.accessibilityLabel = "List members"
-        let editTitleMenu = UIAction(title: "Edit list title", image: FontAwesome.image(fromChar: "\u{f304}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
+        viewMembersMenu.accessibilityLabel = list_members
+        
+        let edit_list_title = NSLocalizedString("list.editTitle", comment: "")
+        let editTitleMenu = UIAction(title: edit_list_title, image: FontAwesome.image(fromChar: "\u{f304}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
             guard let self else { return }
             let vc = AltTextViewController()
             vc.editList = list.title
@@ -1454,12 +1458,13 @@ extension NewsFeedViewController {
         if !ListManager.shared.isTitleEditable(List(id: list.id, title: list.title)) {
             editTitleMenu.attributes = .disabled
         }
-        editTitleMenu.accessibilityLabel = "Edit list title"
+        editTitleMenu.accessibilityLabel = edit_list_title
 
-        let deleteMenu = UIAction(title: "Delete list", image: FontAwesome.image(fromChar: "\u{f1f8}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
+        let delete_list = NSLocalizedString("list.delete", comment: "")
+        let deleteMenu = UIAction(title: delete_list, image: FontAwesome.image(fromChar: "\u{f1f8}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
             guard let self else { return }
-            let alert = UIAlertController(title: nil, message: "Are you sure you want to delete this list?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ (UIAlertAction) in
+            let alert = UIAlertController(title: nil, message: NSLocalizedString("list.delete.confirm", comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.delete", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
                 ListManager.shared.deleteList(list.id) { success in
                     DispatchQueue.main.async {
                         self.delegate?.willChangeFeed(.following)
@@ -1468,7 +1473,7 @@ extension NewsFeedViewController {
                     }
                 }
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
             }))
             if let presenter = alert.popoverPresentationController {
                 presenter.sourceView = getTopMostViewController()?.view
@@ -1476,7 +1481,7 @@ extension NewsFeedViewController {
             }
             getTopMostViewController()?.present(alert, animated: true, completion: nil)
         }
-        deleteMenu.accessibilityLabel = "Delete list"
+        deleteMenu.accessibilityLabel = delete_list
         deleteMenu.attributes = .destructive
         
         let itemMenu = UIMenu(title: "", options: [], children: [viewMembersMenu, editTitleMenu, deleteMenu])
@@ -1490,15 +1495,18 @@ extension NewsFeedViewController {
     
     private func listNavBarContextOptions(list: List) -> [UIAction] {
         // Create context menu
-        let viewMembersMenu = UIAction(title: "List members", image: FontAwesome.image(fromChar: "\u{f500}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
+        let list_members = NSLocalizedString("list.members", comment: "")
+        let viewMembersMenu = UIAction(title: list_members, image: FontAwesome.image(fromChar: "\u{f500}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
             guard let self else { return }
             let vc = UserListViewController(listID: list.id)
             if vc.isBeingPresented {} else {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
-        viewMembersMenu.accessibilityLabel = "List members"
-        let editTitleMenu = UIAction(title: "Edit list title", image: FontAwesome.image(fromChar: "\u{f304}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
+        viewMembersMenu.accessibilityLabel = list_members
+        
+        let edit_list_title = NSLocalizedString("list.editTitle", comment: "")
+        let editTitleMenu = UIAction(title: edit_list_title, image: FontAwesome.image(fromChar: "\u{f304}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
             guard let self else { return }
             let vc = AltTextViewController()
             vc.editList = list.title
@@ -1509,12 +1517,13 @@ extension NewsFeedViewController {
         if !ListManager.shared.isTitleEditable(List(id: list.id, title: list.title)) {
             editTitleMenu.attributes = .disabled
         }
-        editTitleMenu.accessibilityLabel = "Edit list title"
+        editTitleMenu.accessibilityLabel = edit_list_title
 
-        let deleteMenu = UIAction(title: "Delete list", image: FontAwesome.image(fromChar: "\u{f1f8}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
+        let delete_list = NSLocalizedString("list.delete", comment: "")
+        let deleteMenu = UIAction(title: delete_list, image: FontAwesome.image(fromChar: "\u{f1f8}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
             guard let self else { return }
-            let alert = UIAlertController(title: nil, message: "Are you sure you want to delete this list?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ (UIAlertAction) in
+            let alert = UIAlertController(title: nil, message: NSLocalizedString("list.delete.confirm", comment: ""), preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.delete", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
                 ListManager.shared.deleteList(list.id) { success in
                     DispatchQueue.main.async {
                         self.delegate?.willChangeFeed(.following)
@@ -1523,7 +1532,7 @@ extension NewsFeedViewController {
                     }
                 }
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
             }))
             if let presenter = alert.popoverPresentationController {
                 presenter.sourceView = getTopMostViewController()?.view
@@ -1531,7 +1540,7 @@ extension NewsFeedViewController {
             }
             getTopMostViewController()?.present(alert, animated: true, completion: nil)
         }
-        deleteMenu.accessibilityLabel = "Delete list"
+        deleteMenu.accessibilityLabel = delete_list
         deleteMenu.attributes = .destructive
     
         return [viewMembersMenu, editTitleMenu, deleteMenu]
