@@ -309,7 +309,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
             btn0.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
             btn0.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
             btn0.addTarget(self, action: #selector(self.dismissTap), for: .touchUpInside)
-            btn0.accessibilityLabel = "Dismiss"
+            btn0.accessibilityLabel = NSLocalizedString("generic.dismiss", comment: "")
             let moreButton0 = UIBarButtonItem(customView: btn0)
             self.navigationItem.setLeftBarButton(moreButton0, animated: true)
         }
@@ -345,22 +345,24 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
         categoryButton.backgroundColor = .custom.background
         self.view.addSubview(categoryButton)
         
+        let popular = NSLocalizedString("communities.popular", comment: "")
+        // TODO: localize all of these strings...
         let items = ["Academia", "Activism", "Anime", "Art", "Books", "Food", "Games", "Humor", "Journalism", "LGBT", "Music", "Sports", "Tech"]
         let itemsImages = ["books.vertical.fill", "figure.wave.circle.fill", "tv.fill", "paintbrush.pointed.fill", "book.fill", "fork.knife", "gamecontroller.fill", "theatermasks.fill", "newspaper.fill", "sparkles", "music.note", "sportscourt.fill", "desktopcomputer"]
-        let option1 = UIAction(title: "Popular", image: UIImage(systemName: "star.fill"), identifier: nil) { [weak self] _ in
+        let option1 = UIAction(title: popular, image: UIImage(systemName: "star.fill"), identifier: nil) { [weak self] _ in
             guard let self else { return }
             SignInViewController.filteredInstances = SignInViewController.allInstances
             self.tableView.reloadData()
             
             let attStringNewLine000 = NSMutableAttributedString()
-            let attStringNewLine00 = NSMutableAttributedString(string: "Popular Communities ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .semibold), NSAttributedString.Key.foregroundColor : UIColor.custom.highContrast])
+            let attStringNewLine00 = NSMutableAttributedString(string: NSLocalizedString("communities.popular.title", comment: "") + " ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .semibold), NSAttributedString.Key.foregroundColor : UIColor.custom.highContrast])
             attStringNewLine000.append(attStringNewLine00)
             attStringNewLine000.append(attString00)
             attStringNewLine000.append(attStringNewLine002)
             categoryButton.setAttributedTitle(attStringNewLine000, for: .normal)
             categoryButton.sizeToFit()
         }
-        option1.accessibilityLabel = "Popular"
+        option1.accessibilityLabel = popular
         var optionItems: [UIAction] = []
         _ = items.enumerated().map({ (c,z) in
             let option2 = UIAction(title: "\(z)", image: UIImage(systemName: itemsImages[c]), identifier: nil) { [weak self] _ in
@@ -372,7 +374,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
                 self.tableView.reloadData()
                 
                 let attStringNewLine000 = NSMutableAttributedString()
-                let attStringNewLine00 = NSMutableAttributedString(string: "\(z) Communities ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .semibold), NSAttributedString.Key.foregroundColor : UIColor.custom.highContrast])
+                let attStringNewLine00 = NSMutableAttributedString(string: String.localizedStringWithFormat(NSLocalizedString("communities.generic.title", comment: "Example: 'Activism Communities', as in 'Communities of Activism'"), z) + " ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .semibold), NSAttributedString.Key.foregroundColor : UIColor.custom.highContrast])
                 attStringNewLine000.append(attStringNewLine00)
                 attStringNewLine000.append(attString00)
                 attStringNewLine000.append(attStringNewLine002)
@@ -387,6 +389,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
         categoryButton.showsMenuAsPrimaryAction = true
         
         // text field
+        let name_or_url = NSLocalizedString("communities.nameOrUrl", comment: "")
         textField.backgroundColor = .custom.OVRLYSoftContrast
         textField.borderStyle = .none
         textField.layer.cornerRadius = 10
@@ -398,8 +401,8 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
         textField.autocapitalizationType = .none
         textField.keyboardType = .URL
         textField.delegate = self
-        textField.attributedPlaceholder = NSAttributedString(string: "Community Name or URL...", attributes: [NSAttributedString.Key.foregroundColor: UIColor.custom.feintContrast])
-        textField.accessibilityLabel = "Community Name or URL"
+        textField.attributedPlaceholder = NSAttributedString(string: name_or_url + "...", attributes: [NSAttributedString.Key.foregroundColor: UIColor.custom.feintContrast])
+        textField.accessibilityLabel = name_or_url
         textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
         self.view.addSubview(textField)
         
@@ -485,6 +488,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let placeholder = NSLocalizedString("communities.placeholder", comment: "")
         if indexPath.section == 0 && textField.text?.isEmpty as? Bool == true {
             let cell = tableView.dequeueReusableCell(withIdentifier: "InstanceCellDefault", for: indexPath) as! SignInInstanceCell
             
@@ -498,7 +502,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
             if let shortDescription = self.defaultInstance[indexPath.row].info?.shortDescription {
                 cell.bio.text = "\(shortDescription)"
             } else {
-                cell.bio.text = "\(self.defaultInstance[indexPath.row].info?.categories?.first ?? "A Mastodon instance")"
+                cell.bio.text = "\(self.defaultInstance[indexPath.row].info?.categories?.first ?? placeholder)"
             }
             
             let users = Int(self.defaultInstance[indexPath.row].users ?? "0")?.formatUsingAbbrevation() ?? "0"
@@ -552,7 +556,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
             if let shortDescription = SignInViewController.filteredInstances[indexPath.row].info?.shortDescription {
                 cell.bio.text = "\(shortDescription)"
             } else {
-                cell.bio.text = "\(SignInViewController.filteredInstances[indexPath.row].info?.categories?.first ?? "A Mastodon instance")"
+                cell.bio.text = "\(SignInViewController.filteredInstances[indexPath.row].info?.categories?.first ?? placeholder)"
             }
             
             let users = Int(SignInViewController.filteredInstances[indexPath.row].users ?? "0")?.formatUsingAbbrevation() ?? "0"
@@ -651,8 +655,8 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
                             self.navigationController?.pushViewController(vc, animated: true)
                         } else {
                             alert.dismiss(animated: false) {
-                                let alert = UIAlertController(title: "Error signing in", message: "\(error?.localizedDescription ?? "")", preferredStyle: .alert)
-                                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+                                let alert = UIAlertController(title: NSLocalizedString("error.signIn", comment: ""), message: "\(error?.localizedDescription ?? "")", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                                 }))
                                 getTopMostViewController()?.present(alert, animated: true, completion: nil)
                             }
