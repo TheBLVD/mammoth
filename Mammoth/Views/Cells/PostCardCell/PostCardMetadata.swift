@@ -135,9 +135,12 @@ final class PostCardMetadata: UIView {
             }
         }
         
-        likesLabel.text = String.localizedStringWithFormat(NSLocalizedString("post.likeCount", comment: ""), postCard.likeCount)
-        repliesLabel.text = String.localizedStringWithFormat(NSLocalizedString("post.replyCount", comment: ""), postCard.replyCount)
-        repostsLabel.text = String.localizedStringWithFormat(NSLocalizedString("post.repostCount", comment: ""), postCard.repostCount)
+        let like_localized = postCard.likeCount == "1" ? "post.likeCount.singular" : "post.likeCount.plural"
+        likesLabel.text = String.localizedStringWithFormat(NSLocalizedString(like_localized, comment: ""), postCard.likeCount)
+        let reply_localized = postCard.replyCount == "1" ? "post.replyCount.singular" : "post.replyCount.plural"
+        repliesLabel.text = String.localizedStringWithFormat(NSLocalizedString(reply_localized, comment: ""), postCard.replyCount)
+        let repost_localized = postCard.repostCount == "1" ? "post.repostCount.singular" : "post.repostCount.plural"
+        repostsLabel.text = String.localizedStringWithFormat(NSLocalizedString(repost_localized, comment: ""), postCard.repostCount)
         
         if postCard.likeCount == "0" {
             likesLabel.isHidden = true
