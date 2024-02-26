@@ -144,116 +144,49 @@ public extension Date {
         let d:Double = round(hr/24)
         
         if sec < 60 {
-            if sec < 10 {
-                if isPast {
-                    return strings?[.nowPast] ?? NSLocalizedString("1s", comment: "Date format")
-                } else {
-                    return strings?[.nowFuture] ?? NSLocalizedString("now", comment: "Date format")
-                }
+            if isPast {
+                return String.localizedStringWithFormat(NSLocalizedString("date.seconds", comment: "Date format"), Int(sec))
             } else {
-                let string:String
-                if isPast {
-                    string = strings?[.secondsPast] ?? NSLocalizedString("%.fs", comment: "Date format")
-                } else {
-                    string = strings?[.secondsFuture] ?? NSLocalizedString("now", comment: "Date format")
-                }
-                return String(format: string, sec)
+                return NSLocalizedString("date.now", comment: "Date format")
             }
         } else if min < 60 {
-            if min == 1 {
-                if isPast {
-                    return strings?[.oneMinutePast] ?? NSLocalizedString("1m", comment: "Date format")
-                } else {
-                    return strings?[.oneMinuteFuture] ?? NSLocalizedString("in 1 minute", comment: "Date format")
-                }
+            if isPast {
+                return String.localizedStringWithFormat(NSLocalizedString("date.pastMinutes", comment: "Date format"), Int(min))
             } else {
-                let string:String
-                if isPast {
-                    string = strings?[.minutesPast] ?? NSLocalizedString("%.fm", comment: "Date format")
-                } else {
-                    string = strings?[.minutesFuture] ?? NSLocalizedString("in %.f minutes", comment: "Date format")
-                }
-                return String(format: string, min)
+                return String.localizedStringWithFormat(NSLocalizedString("date.futureMinutes", comment: "Date format"), Int(min))
             }
         } else if hr < 24 {
-            if hr == 1 {
-                if isPast {
-                    return strings?[.oneHourPast] ?? NSLocalizedString("1h", comment: "Date format")
-                } else {
-                    return strings?[.oneHourFuture] ?? NSLocalizedString("next hour", comment: "Date format")
-                }
+            if isPast {
+                return String.localizedStringWithFormat(NSLocalizedString("date.pastHours", comment: "Date format"), Int(hr))
             } else {
-                let string:String
-                if isPast {
-                    string = strings?[.hoursPast] ?? NSLocalizedString("%.fh", comment: "Date format")
-                } else {
-                    string = strings?[.hoursFuture] ?? NSLocalizedString("in %.f hours", comment: "Date format")
-                }
-                return String(format: string, hr)
+                return String.localizedStringWithFormat(NSLocalizedString("date.futureHours", comment: "Date format"), Int(hr))
             }
         } else if d < 7 {
-            if d == 1 {
-                if isPast {
-                    return strings?[.oneDayPast] ?? NSLocalizedString("1d", comment: "Date format")
-                } else {
-                    return strings?[.oneDayFuture] ?? NSLocalizedString("tomorrow", comment: "Date format")
-                }
+            if isPast {
+                return String.localizedStringWithFormat(NSLocalizedString("date.pastDays", comment: "Date format"), Int(d))
             } else {
-                let string:String
-                if isPast {
-                    string = strings?[.daysPast] ?? NSLocalizedString("%.fd", comment: "Date format")
-                } else {
-                    string = strings?[.daysFuture] ?? NSLocalizedString("in %.f days", comment: "Date format")
-                }
-                return String(format: string, d)
+                return String.localizedStringWithFormat(NSLocalizedString("date.futureDays", comment: "Date format"), Int(d))
             }
         } else if d < 28 {
+            let weeks = Double(abs(since(Date(), in: .week)))
             if isPast {
-                if compare(.isLastWeek) {
-                    return strings?[.oneWeekPast] ?? NSLocalizedString("1w", comment: "Date format")
-                } else {
-                    let string = strings?[.weeksPast] ?? NSLocalizedString("%.fw", comment: "Date format")
-                    return String(format: string, Double(abs(since(Date(), in: .week))))
-                }
+                return String.localizedStringWithFormat(NSLocalizedString("date.pastWeeks", comment: "Date format"), Int(weeks))
             } else {
-                if compare(.isNextWeek) {
-                    return strings?[.oneWeekFuture] ?? NSLocalizedString("next week", comment: "Date format")
-                } else {
-                    let string = strings?[.weeksFuture] ?? NSLocalizedString("in %.f weeks", comment: "Date format")
-                    return String(format: string, Double(abs(since(Date(), in: .week))))
-                }
+                return String.localizedStringWithFormat(NSLocalizedString("date.futureWeeks", comment: "Date format"), Int(weeks))
             }
         } else if d < 365 {
+            let months = Double(abs(since(Date(), in: .month)))
             if isPast {
-                if compare(.isLastMonth) {
-                    return strings?[.oneMonthPast] ?? NSLocalizedString("1M", comment: "Date format")
-                } else {
-                    let string = strings?[.monthsPast] ?? NSLocalizedString("%.fM", comment: "Date format")
-                    return String(format: string, Double(abs(since(Date(), in: .month))))
-                }
+                return String.localizedStringWithFormat(NSLocalizedString("date.pastMonths", comment: "Date format"), Int(months))
             } else {
-                if compare(.isNextMonth) {
-                    return strings?[.oneMonthFuture] ?? NSLocalizedString("next month", comment: "Date format")
-                } else {
-                    let string = strings?[.monthsFuture] ?? NSLocalizedString("in %.f months", comment: "Date format")
-                    return String(format: string, Double(abs(since(Date(), in: .month))))
-                }
+                return String.localizedStringWithFormat(NSLocalizedString("date.futureMonths", comment: "Date format"), Int(months))
             }
         } else {
+            let yrs = Double(abs(since(Date(), in: .year)))
             if isPast {
-                if compare(.isLastYear) {
-                    return strings?[.oneYearPast] ?? NSLocalizedString("1y", comment: "Date format")
-                } else {
-                    let string = strings?[.yearsPast] ?? NSLocalizedString("%.fy", comment: "Date format")
-                    return String(format: string, Double(abs(since(Date(), in: .year))))
-                }
+                return String.localizedStringWithFormat(NSLocalizedString("date.pastYears", comment: "Date format"), Int(yrs))
             } else {
-                if compare(.isNextYear) {
-                    return strings?[.oneYearFuture] ?? NSLocalizedString("next year", comment: "Date format")
-                } else {
-                    let string = strings?[.yearsFuture] ?? NSLocalizedString("in %.f years", comment: "Date format")
-                    return String(format: string, Double(abs(since(Date(), in: .year))))
-                }
+                return String.localizedStringWithFormat(NSLocalizedString("date.futureYears", comment: "Date format"), Int(yrs))
             }
         }
     }

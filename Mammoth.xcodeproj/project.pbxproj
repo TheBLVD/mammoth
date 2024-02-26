@@ -774,6 +774,7 @@
 		D87449C72A968D39002A0603 /* RotatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87449C62A968D39002A0603 /* RotatingViewController.swift */; };
 		D8CA77612AB90D4000F49ECC /* ShareableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */; };
 		D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DE092E2A3D12D800DD0483 /* Haptics.swift */; };
+		F084802D2B8BBF02005201A7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F084802C2B8BBF02005201A7 /* Localizable.xcstrings */; };
 		F0F6A5DD2ACCA9C1004FD05F /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6A5DC2ACCA9C1004FD05F /* AnalyticsManager.swift */; };
 		F0F6A5DF2ACCB5D1004FD05F /* FeaturesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6A5DE2ACCB5D1004FD05F /* FeaturesService.swift */; };
 /* End PBXBuildFile section */
@@ -1621,6 +1622,7 @@
 		D87449C62A968D39002A0603 /* RotatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotatingViewController.swift; sourceTree = "<group>"; };
 		D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableViewController.swift; sourceTree = "<group>"; };
 		D8DE092E2A3D12D800DD0483 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		F084802C2B8BBF02005201A7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		F0F6A5DC2ACCA9C1004FD05F /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		F0F6A5DE2ACCB5D1004FD05F /* FeaturesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1770,6 +1772,7 @@
 				533993E829141F4700560F83 /* Main.storyboard */,
 				144DC7E42B177A1B00F4EE98 /* IAPConfig.storekit */,
 				144DC7E52B17819C00F4EE98 /* StoreKitTestCertificate.cer */,
+				F084802C2B8BBF02005201A7 /* Localizable.xcstrings */,
 			);
 			path = Mammoth;
 			sourceTree = "<group>";
@@ -3380,6 +3383,7 @@
 				BF14812C2B180D9C008DFA9D /* InstrumentSerif-Regular.ttf in Resources */,
 				14C45DC52B1A1F8C000171A9 /* Stealth@3x.png in Resources */,
 				14C45D852B1A1F8C000171A9 /* Stealth@2x.png in Resources */,
+				F084802D2B8BBF02005201A7 /* Localizable.xcstrings in Resources */,
 				BF0F3BC02A859C2D0055BB81 /* EmailVerificationView.xib in Resources */,
 				BF06077A2A2A66D50032682D /* IconPride@2x.png in Resources */,
 				5383F20829796808005F1B20 /* Icon2.png in Resources */,

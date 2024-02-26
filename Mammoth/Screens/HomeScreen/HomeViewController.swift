@@ -302,8 +302,8 @@ extension HomeViewController {
                 }
             }
         }
-        
-        let forYou = UIAction(title: "Customize For You", image: FontAwesome.image(fromChar: "\u{f890}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
+        let customize_string = NSLocalizedString("feed.customize", comment: "Button for customizing the 'for you' page.")
+        let forYou = UIAction(title: customize_string, image: FontAwesome.image(fromChar: "\u{f890}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
             guard let self else { return }
             
             triggerHapticImpact(style: .light)
@@ -311,9 +311,10 @@ extension HomeViewController {
             vc.isModalInPresentation = true
             self.navigationController?.present(vc, animated: true)
         }
-        forYou.accessibilityLabel = "Customize For You"
+        forYou.accessibilityLabel = customize_string
 
-        let settings = UIAction(title: "Settings", image: FontAwesome.image(fromChar: "\u{f013}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
+        let settings_string = NSLocalizedString("title.settings", comment: "Button for opening the settings menu.")
+        let settings = UIAction(title: settings_string, image: FontAwesome.image(fromChar: "\u{f013}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
             guard self != nil else { return }
             triggerHapticImpact(style: .light)
             DispatchQueue.main.async {
@@ -321,13 +322,13 @@ extension HomeViewController {
                 UIApplication.topViewController()?.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
             }
         }
-        forYou.accessibilityLabel = "Settings"
+        forYou.accessibilityLabel = settings_string
 
         return UIMenu(title: "", options: [.displayInline], children: [forYou, organize, addList, settings])
     }
     
     private func jumpToContextMenu() -> UIMenu {
-        let jumpToMenu = UIMenu(title: "Jump to a list", options: [.displayInline], children: FeedsManager.shared.feeds.filter({ $0.isEnabled }).map { item in
+        let jumpToMenu = UIMenu(title: NSLocalizedString("home.jumpToAList", comment: "Appears when holding in the 'home' button, before a list of feeds."), options: [.displayInline], children: FeedsManager.shared.feeds.filter({ $0.isEnabled }).map { item in
             return UIAction(title: item.type.plainTitle(), image: item.type.icon, identifier: nil) { [weak self] _ in
                 guard let self else { return }
                 
