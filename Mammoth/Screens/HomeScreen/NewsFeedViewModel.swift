@@ -19,6 +19,11 @@ enum NewsFeedSnapshotUpdateType {
     case removeAll      // remove all items
 }
 
+enum NewsFeedReadDirection: String {
+    case bottomUp
+    case topDown
+}
+
 protocol NewsFeedViewModelDelegate: AnyObject {
     func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot,
                            feedType: NewsFeedTypes,
@@ -531,27 +536,30 @@ extension NewsFeedViewModel {
 private extension NewsFeedViewModel {
     
     @objc func onPostCardUpdate(notification: Notification) {
-        if let postCard = notification.userInfo?["postCard"] as? PostCardModel {
-            if let isDeleted = notification.userInfo?["deleted"] as? Bool, isDeleted == true {
-                 // Delete post card data in list data and data source
-                 self.remove(card: postCard, forType: self.type)
-             } else {
-                 // Replace activity data in list that include this post card
-                 if NewsFeedTypes.allActivityTypes.contains(self.type) {
-                     self.listData.activity.forEach { (key, activities) in
-                         if let index = activities.firstIndex(where: {$0.extractPostCard()?.uniqueId == postCard.uniqueId}) {
-                             if case .activity(var activity) = activities[index] {
-                                 activity.postCard = postCard
-                                 let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
-                                 self.update(with: .activity(activity), forType: .activity(activityType))
-                             }
-                         }
-                     }
-                 } else {
-                     // Replace post card data in list data and data source
-                     self.update(with: .postCard(postCard), forType: self.type)
-                 }
-             }
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if let postCard = notification.userInfo?["postCard"] as? PostCardModel {
+                if let isDeleted = notification.userInfo?["deleted"] as? Bool, isDeleted == true {
+                    // Delete post card data in list data and data source
+                    self.remove(card: postCard, forType: self.type)
+                } else {
+                    // Replace activity data in list that include this post card
+                    if NewsFeedTypes.allActivityTypes.contains(self.type) {
+                        self.listData.activity.forEach { (key, activities) in
+                            if let index = activities.firstIndex(where: {$0.extractPostCard()?.uniqueId == postCard.uniqueId}) {
+                                if case .activity(var activity) = activities[index] {
+                                    activity.postCard = postCard
+                                    let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
+                                    self.update(with: .activity(activity), forType: .activity(activityType))
+                                }
+                            }
+                        }
+                    } else {
+                        // Replace post card data in list data and data source
+                        self.update(with: .postCard(postCard), forType: self.type)
+                    }
+                }
+            }
         }
     }
     

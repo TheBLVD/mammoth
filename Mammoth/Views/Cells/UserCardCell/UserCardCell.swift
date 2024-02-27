@@ -205,6 +205,7 @@ extension UserCardCell {
         }
         
         self.profilePic.configure(user: info)
+        self.profilePic.willDisplay()
         self.profilePic.onPress = onButtonPress
                 
         if actionButtonType == .follow, !info.isSelf, (info.followStatus == .notFollowing || info.forceFollowButtonDisplay) {

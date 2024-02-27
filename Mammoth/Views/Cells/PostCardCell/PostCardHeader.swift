@@ -378,6 +378,10 @@ extension PostCardHeader {
         headerTitleStackView.backgroundColor = backgroundColor
     }
     
+    func willDisplay() {
+        self.profilePic?.willDisplay()
+    }
+    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         // Update all items that use .custom colors

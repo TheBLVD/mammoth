@@ -224,10 +224,10 @@ final class PostCardVideo: UIView {
     
     private lazy var squareConstraints: [NSLayoutConstraint] = {
         let c1 = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor)
-        c1.priority = .required
+        c1.priority = .defaultHigh
 
         let c2 = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor)
-        c2.priority = .required
+        c2.priority = .defaultHigh
         
         let c3 = videoView.heightAnchor.constraint(equalTo: self.heightAnchor)
         c3.priority = .required
@@ -815,10 +815,10 @@ final class PostCardVideo: UIView {
     @objc func hideSensitiveOverlay() {
         self.dismissedSensitiveOverlay = true
         triggerHapticImpact(style: .light)
-        UIView.animate(withDuration: 0.13) {
-            self.sensitiveContentOverlay.alpha = 0
-        } completion: { _ in
-            self.sensitiveContentOverlay.removeFromSuperview()
+        UIView.animate(withDuration: 0.13) { [weak self] in
+            self?.sensitiveContentOverlay.alpha = 0
+        } completion: { [weak self] _ in
+            self?.sensitiveContentOverlay.removeFromSuperview()
         }
         
         self.play()

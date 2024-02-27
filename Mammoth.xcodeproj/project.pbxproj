@@ -143,6 +143,7 @@
 		14C45DEF2B1A4266000171A9 /* Pride@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEC2B1A4266000171A9 /* Pride@3x.png */; };
 		14C45DF02B1A4266000171A9 /* Pride.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DED2B1A4266000171A9 /* Pride.png */; };
 		14C45DF12B1A4266000171A9 /* Pride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEE2B1A4266000171A9 /* Pride@2x.png */; };
+		14DA3C542B8CCA66007ECB0C /* JumpToLatest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DA3C532B8CCA66007ECB0C /* JumpToLatest.swift */; };
 		14E08C6A2B20BF9C00EF5A55 /* DeviceHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E08C692B20BF9C00EF5A55 /* DeviceHelpers.swift */; };
 		14E4CAC32B74076700E4D499 /* ArrowAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4CAC22B74076700E4D499 /* ArrowAlignment.swift */; };
 		14E4CAC52B76428200E4D499 /* UILabel+IsTruncated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E4CAC42B76428200E4D499 /* UILabel+IsTruncated.swift */; };
@@ -958,6 +959,7 @@
 		14C45DEC2B1A4266000171A9 /* Pride@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@3x.png"; sourceTree = "<group>"; };
 		14C45DED2B1A4266000171A9 /* Pride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pride.png; sourceTree = "<group>"; };
 		14C45DEE2B1A4266000171A9 /* Pride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@2x.png"; sourceTree = "<group>"; };
+		14DA3C532B8CCA66007ECB0C /* JumpToLatest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpToLatest.swift; sourceTree = "<group>"; };
 		14E08C692B20BF9C00EF5A55 /* DeviceHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceHelpers.swift; sourceTree = "<group>"; };
 		14E4CAC22B74076700E4D499 /* ArrowAlignment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowAlignment.swift; sourceTree = "<group>"; };
 		14E4CAC42B76428200E4D499 /* UILabel+IsTruncated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+IsTruncated.swift"; sourceTree = "<group>"; };
@@ -3103,6 +3105,7 @@
 				C3BBEEE32A978DF20027C761 /* Carousel */,
 				C3DB76602A4EE25300524E8A /* UnreadIndicator.swift */,
 				C3BFC59E2A5F4750006F8153 /* LatestPill.swift */,
+				14DA3C532B8CCA66007ECB0C /* JumpToLatest.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -3931,6 +3934,7 @@
 				C3085A042AC42EEF007E1CFD /* PostCardMetadata.swift in Sources */,
 				BF8D23F22A09BCA300D61419 /* DetailView.swift in Sources */,
 				BF1F9744298CA1980041A666 /* LiveTableViewController.swift in Sources */,
+				14DA3C542B8CCA66007ECB0C /* JumpToLatest.swift in Sources */,
 				BFCC50A12B0D626A0081BFB5 /* ChannelOwner.swift in Sources */,
 				53450E3E2936121600D720EA /* GiphyMeta.swift in Sources */,
 				533996922914227A00560F83 /* Disk+[UIImage].swift in Sources */,
@@ -4436,7 +4440,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 411;
+				CURRENT_PROJECT_VERSION = 412;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
@@ -4483,7 +4487,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 411;
+				CURRENT_PROJECT_VERSION = 412;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;

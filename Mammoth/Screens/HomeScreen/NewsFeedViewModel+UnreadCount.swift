@@ -12,6 +12,7 @@ internal struct NewsFeedUnreadState {
     var count: Int = 0
     var enabled: Bool = true
     var unreadPics: [URL] = []
+    var showJumpToNow: Bool = false
 }
 
 internal struct NewsFeedUnreadStates {
@@ -158,6 +159,49 @@ internal struct NewsFeedUnreadStates {
         }
     }
     
+    mutating func setShowJumpToNow(enabled: Bool, forFeed type: NewsFeedTypes) {
+        switch type {
+        case .forYou:
+            forYou.showJumpToNow = enabled
+        case .following:
+            following.showJumpToNow = enabled
+        case .federated:
+            federated.showJumpToNow = enabled
+        case .community(let name):
+            var model = community[name] ?? NewsFeedUnreadState()
+            model.showJumpToNow = enabled
+            community[name] = model
+        case .trending(let name):
+            var model = trending[name] ?? NewsFeedUnreadState()
+            model.showJumpToNow = enabled
+            trending[name] = model
+        case .hashtag(let data):
+            var model = hashtag[data.name] ?? NewsFeedUnreadState()
+            model.showJumpToNow = enabled
+            hashtag[data.name] = model
+        case .list(let data):
+            var model = list[data.id] ?? NewsFeedUnreadState()
+            model.showJumpToNow = enabled
+            list[data.id] = model
+        case .likes:
+            likes.showJumpToNow = enabled
+        case .bookmarks:
+            bookmarks.showJumpToNow = enabled
+        case .mentionsIn:
+            mentionsIn.showJumpToNow = enabled
+        case .mentionsOut:
+            mentionsOut.showJumpToNow = enabled
+        case .activity(let type):
+            var model = activity[type?.rawValue ?? "all"] ?? NewsFeedUnreadState()
+            model.showJumpToNow = enabled
+            activity[type?.rawValue ?? "all"] = model
+        case .channel(let data):
+            var model = channel[data.id] ?? NewsFeedUnreadState()
+            model.showJumpToNow = enabled
+            channel[data.id] = model
+        }
+    }
+    
     func getState(forType type: NewsFeedTypes) -> NewsFeedUnreadState {
         switch type {
         case .forYou:
@@ -223,5 +267,13 @@ extension NewsFeedViewModel {
     
     func getUnreadState(forFeed type: NewsFeedTypes) -> NewsFeedUnreadState {
         return self.unreadCounts.getState(forType: type)
+    }
+    
+    func setShowJumpToNow(enabled: Bool, forFeed type: NewsFeedTypes) {
+        self.unreadCounts.setShowJumpToNow(enabled: enabled, forFeed: type)
+    }
+    
+    func getShowJumpToNow(forFeed type: NewsFeedTypes) -> Bool {
+        return self.unreadCounts.getState(forType: type).showJumpToNow
     }
 }

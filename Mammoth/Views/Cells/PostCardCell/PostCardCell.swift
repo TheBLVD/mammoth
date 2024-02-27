@@ -805,7 +805,7 @@ extension PostCardCell {
                 self.mediaStack?.isHidden = true
             }
         }
-
+        
         // Enable the content warning button if needed
         if let statID = postCard.id,
            !postCard.contentWarning.isEmpty,
@@ -816,10 +816,10 @@ extension PostCardCell {
             self.contentWarningButton.isHidden = false
             self.contentWarningButton.isUserInteractionEnabled = true
         } else if case .warn(let filterName) = postCard.filterType {
-           NSLayoutConstraint.activate(self.contentWarningConstraints)
-           self.contentWarningButton.setTitle("Content filter: \(filterName)", for: .normal)
-           self.contentWarningButton.isHidden = false
-           self.contentWarningButton.isUserInteractionEnabled = true
+            NSLayoutConstraint.activate(self.contentWarningConstraints)
+            self.contentWarningButton.setTitle("Content filter: \(filterName)", for: .normal)
+            self.contentWarningButton.isHidden = false
+            self.contentWarningButton.isUserInteractionEnabled = true
         }
         
         if postCard.isDeleted {
@@ -847,8 +847,14 @@ extension PostCardCell {
         // Hide media gallery (carousel) if covered with content warning / deleted overlay
         if self.contentWarningButton.isHidden == false || self.deletedWarningButton.isHidden == false {
             self.mediaGallery?.alpha = 0
-        } else if self.mediaGallery?.alpha == 0 && postCard.mediaDisplayType == .carousel {
+            self.textAndSmallMediaStackView.alpha = 0
+            self.mediaStack?.alpha = 0
+            self.metadata?.alpha = 0
+        } else {
             self.mediaGallery?.alpha = 1
+            self.textAndSmallMediaStackView.alpha = 1
+            self.mediaStack?.alpha = 1
+            self.metadata?.alpha = 1
         }
         
         self.footer.configure(postCard: postCard, includeMetrics: false)
@@ -1056,6 +1062,7 @@ extension PostCardCell {
         
         self.header.startTimeUpdates()
         self.profilePic.willDisplay()
+        self.quotePost?.willDisplay()
     }
     
     // the cell will end being displayed in the tableview
@@ -1193,6 +1200,9 @@ extension PostCardCell {
         GlobalStruct.allCW.append(self.postCard?.id ?? "")
         self.postCard?.filterType = .none
         self.mediaGallery?.alpha = 1
+        self.textAndSmallMediaStackView.alpha = 1
+        self.mediaStack?.alpha = 1
+        self.metadata?.alpha = 1
     }
     
     @objc func onReadMorePress() {
