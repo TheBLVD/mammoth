@@ -1598,10 +1598,10 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func itemLastMenu() {
-        var sensitiveText: String = NSLocalizedString("composer.markSensitive", comment: "")
+        var sensitiveText: String = NSLocalizedString("composer.sensitive.add", comment: "")
         var sensitiveImage: String = "exclamationmark.triangle"
         if self.isSensitive {
-            sensitiveText = NSLocalizedString("composer.removeSensitive", comment: "")
+            sensitiveText = NSLocalizedString("composer.sensitive.remove", comment: "")
             sensitiveImage = "exclamationmark.triangle.fill"
         }
         let viewSensitive = UIAction(title: sensitiveText, image: UIImage(systemName: sensitiveImage), identifier: nil) { action in
