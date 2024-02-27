@@ -318,6 +318,7 @@ extension ProfileHeader {
         self.onThemeChange()
         
         self.profilePic.configure(user: user)
+        self.profilePic.willDisplay()
         
         if let content = user.metaName {
             self.nameLabel.configure(content: content)
