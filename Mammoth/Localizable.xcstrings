@@ -4,14 +4,427 @@
     "%@" : {
 
     },
+    "accessibility.followTag" : {
+      "comment" : "Screen reader only.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow Tag"
+          }
+        }
+      }
+    },
+    "accessibility.unfollowTag" : {
+      "comment" : "Screen reader only.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unfollow Tag"
+          }
+        }
+      }
+    },
     "App Layout" : {
 
+    },
+    "communities.generic.title" : {
+      "comment" : "Example: 'Activism Communities', as in 'Communities of Activism'",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Communities"
+          }
+        }
+      }
+    },
+    "communities.nameOrUrl" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Community Name or URL"
+          }
+        }
+      }
+    },
+    "communities.placeholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Mastodon instance"
+          }
+        }
+      }
+    },
+    "communities.popular" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Popular"
+          }
+        }
+      }
+    },
+    "communities.popular.title" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Popular Communities"
+          }
+        }
+      }
+    },
+    "composer.characterCount" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ characters remaining"
+          }
+        }
+      }
+    },
+    "composer.characterCount.thread" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post %@: %@"
+          }
+        }
+      }
+    },
+    "composer.characterCount.thread.description" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post %@: %@ characters remaining"
+          }
+        }
+      }
+    },
+    "composer.chooseLanguage" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose language"
+          }
+        }
+      }
+    },
+    "composer.contentWarning" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content Warning"
+          }
+        }
+      }
+    },
+    "composer.contentWarning.placeholder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content warning..."
+          }
+        }
+      }
+    },
+    "composer.drafts" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drafts"
+          }
+        }
+      }
+    },
+    "composer.drafts.discard" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discard"
+          }
+        }
+      }
+    },
+    "composer.drafts.save" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save as Draft"
+          }
+        }
+      }
+    },
+    "composer.error.mediaLimit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can upload 1 video or up to 4 images per post"
+          }
+        }
+      }
     },
     "composer.giphy.noMatches" : {
       "comment" : "No GIFs match this search."
     },
     "composer.giphy.searchGifs" : {
       "comment" : "The placeholder string for the Giphy search field"
+    },
+    "composer.media.altText" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add %@ Description"
+          }
+        }
+      }
+    },
+    "composer.media.camera" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camera"
+          }
+        }
+      }
+    },
+    "composer.media.customEmoji" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom Emoji"
+          }
+        }
+      }
+    },
+    "composer.media.fromGallery" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Media from Gallery"
+          }
+        }
+      }
+    },
+    "composer.media.gif" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GIF"
+          }
+        }
+      }
+    },
+    "composer.media.image" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image"
+          }
+        }
+      }
+    },
+    "composer.media.progress" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Media upload in progress..."
+          }
+        }
+      }
+    },
+    "composer.media.progress.confirm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to post this without the media?"
+          }
+        }
+      }
+    },
+    "composer.media.progress.giveUp" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post Without Media"
+          }
+        }
+      }
+    },
+    "composer.media.progress.wait" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wait"
+          }
+        }
+      }
+    },
+    "composer.media.video" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Video"
+          }
+        }
+      }
+    },
+    "composer.media.viewMedia" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View %@"
+          }
+        }
+      }
+    },
+    "composer.poll" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poll"
+          }
+        }
+      }
+    },
+    "composer.poll.edit" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Poll"
+          }
+        }
+      }
+    },
+    "composer.poll.remove" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove Poll"
+          }
+        }
+      }
+    },
+    "composer.post" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post"
+          }
+        }
+      }
+    },
+    "composer.retry" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        }
+      }
+    },
+    "composer.sensitive.add" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark as Sensitive"
+          }
+        }
+      }
+    },
+    "composer.sensitive.remove" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove Sensitive Tag"
+          }
+        }
+      }
+    },
+    "composer.visibility" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post Visibility"
+          }
+        }
+      }
+    },
+    "composer.visibility.everyone" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everyone"
+          }
+        }
+      }
+    },
+    "composer.visibility.followers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Followers"
+          }
+        }
+      }
+    },
+    "composer.visibility.private" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Private"
+          }
+        }
+      }
+    },
+    "composer.visibility.unlisted" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlisted"
+          }
+        }
+      }
     },
     "date.futureDays" : {
       "comment" : "Date format",
@@ -242,6 +655,46 @@
     "Display a streamlined view that focuses on the feed timeline" : {
 
     },
+    "error.composer.mediaFailed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Media failed to upload"
+          }
+        }
+      }
+    },
+    "error.composer.postFailed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post failed to upload"
+          }
+        }
+      }
+    },
+    "error.pleaseTryAgain" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please try again"
+          }
+        }
+      }
+    },
+    "error.signIn" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error signing in"
+          }
+        }
+      }
+    },
     "feed.customize" : {
       "comment" : "Button for customizing the 'for you' page.",
       "localizations" : {
@@ -256,6 +709,47 @@
     "Focus" : {
 
     },
+    "generic.delete" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "generic.dismiss" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dismiss"
+          }
+        }
+      }
+    },
+    "generic.more" : {
+      "comment" : "More!!!",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More"
+          }
+        }
+      }
+    },
+    "generic.remove" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
+          }
+        }
+      }
+    },
     "home.jumpToAList" : {
       "comment" : "Appears when holding in the 'home' button, before a list of feeds.",
       "localizations" : {
@@ -267,24 +761,130 @@
         }
       }
     },
-    "post.likeCount" : {
+    "home.viewTrends" : {
+      "comment" : "Button for showing trends of an instance in the carousel.",
       "localizations" : {
         "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d Like"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d Likes"
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View trends"
+          }
+        }
+      }
+    },
+    "list.delete" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete list"
+          }
+        }
+      }
+    },
+    "list.delete.confirm" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Are you sure you want to delete this list?"
+          }
+        }
+      }
+    },
+    "list.editTitle" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit list title"
+          }
+        }
+      }
+    },
+    "list.members" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List members"
+          }
+        }
+      }
+    },
+    "navigator.activity" : {
+      "comment" : "Bottom navigator title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activity"
+          }
+        }
+      }
+    },
+    "navigator.discover" : {
+      "comment" : "Bottom navigator title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discover"
+          }
+        }
+      }
+    },
+    "navigator.home" : {
+      "comment" : "Bottom navigator title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home"
+          }
+        }
+      }
+    },
+    "navigator.mentions" : {
+      "comment" : "Bottom navigator title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mentions"
+          }
+        }
+      }
+    },
+    "navigator.profile" : {
+      "comment" : "Bottom navigator title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile"
+          }
+        }
+      }
+    },
+    "post.likeCount.plural" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Likes"
+          }
+        }
+      }
+    },
+    "post.likeCount.singular" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Like"
           }
         }
       }
@@ -300,46 +900,46 @@
         }
       }
     },
-    "post.replyCount" : {
+    "post.replyCount.plural" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d Reply"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d Replies"
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Replies"
           }
         }
       }
     },
-    "post.repostCount" : {
+    "post.replyCount.singular" : {
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
-          "variations" : {
-            "plural" : {
-              "one" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d Repost"
-                }
-              },
-              "other" : {
-                "stringUnit" : {
-                  "state" : "translated",
-                  "value" : "%d Reposts"
-                }
-              }
-            }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Reply"
+          }
+        }
+      }
+    },
+    "post.repostCount.plural" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Reposts"
+          }
+        }
+      }
+    },
+    "post.repostCount.singular" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Repost"
           }
         }
       }
@@ -355,6 +955,26 @@
         }
       }
     },
+    "post.sharePost" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share Post"
+          }
+        }
+      }
+    },
+    "post.translatePost" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Translate Post"
+          }
+        }
+      }
+    },
     "post.viewDetails" : {
       "comment" : "Shows up under a post in the timeline.",
       "localizations" : {
@@ -362,6 +982,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "View details"
+          }
+        }
+      }
+    },
+    "post.viewInBrowser" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View in Browser"
           }
         }
       }
