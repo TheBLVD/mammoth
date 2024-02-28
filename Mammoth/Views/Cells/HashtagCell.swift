@@ -162,7 +162,7 @@ extension HashtagCell {
         } else {
             numPeopleAsString = numPeopleTalking.formatUsingAbbrevation()
         }
-        self.userTagLabel.text = String.localizedStringWithFormat(NSLocalizedString("discover.peopleTalking", comment: ""), numPeopleTalking)
+        self.userTagLabel.text = String.localizedStringWithFormat(NSLocalizedString("discover.peopleTalking", comment: ""), numPeopleAsString)
                 
         if isSubscribed {
             addButton.setTitle(NSLocalizedString("profile.unfollow", comment: ""), for: .normal)

@@ -213,7 +213,7 @@ extension ActivityCardHeader {
         switch activity.type {
         case .favourite:
             if let text = activity.postCard?.postText, text.isEmpty, let mediaType = activity.postCard?.mediaDisplayType.displayName {
-                return String.localizedStringWithFormat(NSLocalizedString("activity.likedMedia", comment: ""), mediaType)
+                return String.localizedStringWithFormat(NSLocalizedString("activity.likedMedia", comment: "Could be image, video, GIF or carousel."), mediaType)
             }
             if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasQuotePost {
                 return NSLocalizedString("activity.likedQuote", comment: "")
@@ -227,7 +227,7 @@ extension ActivityCardHeader {
             return NSLocalizedString("activity.pollEnded", comment: "")
         case .reblog:
             if let text = activity.postCard?.postText, text.isEmpty, let mediaType = activity.postCard?.mediaDisplayType.displayName {
-                return String.localizedStringWithFormat(NSLocalizedString("activity.repostedMedia", comment: ""), mediaType)
+                return String.localizedStringWithFormat(NSLocalizedString("activity.repostedMedia", comment: "Could be image, video, GIF or carousel."), mediaType)
             }
             if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasQuotePost {
                 return NSLocalizedString("activity.repostedQuote", comment: "")

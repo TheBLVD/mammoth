@@ -125,7 +125,7 @@ final class PostCardModel {
             case .singleImage: return NSLocalizedString("composer.media.image", comment: "").lowercased()
             case .singleVideo: return NSLocalizedString("composer.media.video", comment: "").lowercased()
             case .singleGIF: return NSLocalizedString("composer.media.gif", comment: "")
-            case .carousel: return NSLocalizedString("carousel", comment: "").lowercased()
+            case .carousel: return NSLocalizedString("media.carousel", comment: "").lowercased()
             default: return nil
             }
         }
@@ -135,7 +135,7 @@ final class PostCardModel {
             case .singleImage: return NSLocalizedString("composer.media.image", comment: "")
             case .singleVideo: return NSLocalizedString("composer.media.video", comment: "")
             case .singleGIF: return NSLocalizedString("composer.media.gif", comment: "")
-            case .carousel: return NSLocalizedString("carousel", comment: "")
+            case .carousel: return NSLocalizedString("media.carousel", comment: "")
             default: return nil
             }
         }
