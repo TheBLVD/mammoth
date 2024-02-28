@@ -94,6 +94,7 @@ final class PostCardModel {
 
     var mediaAttachments: [Attachment]
     var hasMediaAttachment: Bool
+    let mediaAttachmentDescription: String
     let mediaDisplayType: MediaDisplayType
     var linkCard: Card?
     var hasLink: Bool
@@ -410,17 +411,42 @@ final class PostCardModel {
 
         if self.mediaAttachments.count > 1 {
             self.mediaDisplayType = .carousel
+            let types = Set(self.mediaAttachments.map({$0.type}))
+            if types.count == 1 {
+                let type = types.first
+                switch type {
+                case .image:
+                    self.mediaAttachmentDescription = "\(self.mediaAttachments.count) Images"
+                case .video:
+                    self.mediaAttachmentDescription = "\(self.mediaAttachments.count) Videos"
+                case .audio:
+                    self.mediaAttachmentDescription = "\(self.mediaAttachments.count) Audio tracks"
+                case .gifv:
+                    self.mediaAttachmentDescription = "\(self.mediaAttachments.count) GIFs"
+                default:
+                    self.mediaAttachmentDescription = ""
+                }
+            } else {
+                self.mediaAttachmentDescription = "\(self.mediaAttachments.count) Media Attachments"
+            }
         } else if self.mediaAttachments.count == 1 {
             switch self.mediaAttachments.first?.type {
             case .image:
                 self.mediaDisplayType = .singleImage
+                self.mediaAttachmentDescription = "1 Image"
             case .video:
                 self.mediaDisplayType = .singleVideo
+                self.mediaAttachmentDescription = "1 Video"
             case .gifv:
                 self.mediaDisplayType = .singleGIF
+                self.mediaAttachmentDescription = "1 GIF"
+            case .audio:
+                self.mediaDisplayType = .carousel
+                self.mediaAttachmentDescription = "1 Audio track"
             default:
                 // TODO: enable single media view for all media types when implementation is done (video, gifs, images and audio)
                 self.mediaDisplayType = .carousel
+                self.mediaAttachmentDescription = ""
             }
         } else {
             // When there's no media attachment, we create one attachment with
@@ -430,8 +456,10 @@ final class PostCardModel {
                 self.mediaDisplayType = .singleImage
                 self.mediaAttachments = [Attachment(card: self.linkCard!)]
                 self.hasMediaAttachment = true
+                self.mediaAttachmentDescription = "1 Image"
             } else {
                 self.mediaDisplayType = .none
+                self.mediaAttachmentDescription = ""
             }
         }
 
@@ -626,6 +654,8 @@ final class PostCardModel {
         
         self.isBlocked = false
         self.isMuted = false
+        
+        self.mediaAttachmentDescription = ""
     }
 
     func copy(with zone: NSZone? = nil) -> PostCardModel {

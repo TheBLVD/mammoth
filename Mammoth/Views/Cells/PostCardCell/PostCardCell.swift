@@ -751,8 +751,8 @@ extension PostCardCell {
         
         if self.cellVariant.hasMedia {
             
-            if type != .detail && postCard.hasMediaAttachment {
-                self.hiddenImageIndicator.text = "(\(postCard.mediaAttachments.count) Images)"
+            if type != .detail && postCard.hasMediaAttachment && !postCard.mediaAttachmentDescription.isEmpty {
+                self.hiddenImageIndicator.text = "(\(postCard.mediaAttachmentDescription))"
                 self.hiddenImageIndicator.isHidden = false
             } else {
                 self.hiddenImageIndicator.isHidden = true
