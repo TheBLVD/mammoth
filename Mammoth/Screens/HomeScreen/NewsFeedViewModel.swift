@@ -547,7 +547,7 @@ private extension NewsFeedViewModel {
                     if NewsFeedTypes.allActivityTypes.contains(self.type) {
                         self.listData.activity.forEach { (key, activities) in
                             if let index = activities.firstIndex(where: {$0.extractPostCard()?.uniqueId == postCard.uniqueId}) {
-                                if case .activity(var activity) = activities[index] {
+                                if case .activity(let activity) = activities[index] {
                                     activity.postCard = postCard
                                     let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
                                     self.update(with: .activity(activity), forType: .activity(activityType))
