@@ -281,7 +281,7 @@ extension PostCardProfilePic {
 
                 ( isFollowing
                   ? createContextMenuAction(NSLocalizedString("profile.unfollow", comment: ""), .follow, isActive: false, data: nil)
-                  : createContextMenuAction(NSLocalizedString("profile.follow", tableName: <#T##String?#>, comment: <#T##String#>), .follow, isActive: true, data: nil)),
+                  : createContextMenuAction(NSLocalizedString("profile.follow", comment: ""), .follow, isActive: true, data: nil)),
                 
                 ( isFollowing
                     ? UIMenu(title: NSLocalizedString("list.manage", comment: ""), image: MAMenu.list.image.withRenderingMode(.alwaysTemplate), options: [], children: [

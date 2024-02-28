@@ -171,7 +171,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "Edit Profile"
+        self.navigationItem.title = NSLocalizedString("profile.edit", comment: "")
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadAll), name: NSNotification.Name(rawValue: "reloadAll"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadThis), name: NSNotification.Name(rawValue: "reloadThis"), object: nil)
@@ -223,7 +223,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
         btn1.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         btn1.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
         btn1.addTarget(self, action: #selector(self.dismissTap), for: .touchUpInside)
-        btn1.accessibilityLabel = "Dismiss"
+        btn1.accessibilityLabel = NSLocalizedString("generic.dismiss", comment: "")
         let moreButton0 = UIBarButtonItem(customView: btn1)
         self.navigationItem.setLeftBarButton(moreButton0, animated: true)
         
@@ -233,7 +233,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
         btn2.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         btn2.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
         btn2.addTarget(self, action: #selector(self.addTap), for: .touchUpInside)
-        btn2.accessibilityLabel = "Edit Profile"
+        btn2.accessibilityLabel = NSLocalizedString("profile.edit", comment: "")
         let moreButton1 = UIBarButtonItem(customView: btn2)
         self.navigationItem.setRightBarButton(moreButton1, animated: true)
     }
@@ -295,7 +295,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
             let lab = UILabel()
             lab.frame = bg.frame
             
-            lab.attributedText = NSAttributedString(string: "Display Name")
+            lab.attributedText = NSAttributedString(string: NSLocalizedString("profile.edit.details.displayName", comment: ""))
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             lab.textColor = UIColor.label
@@ -307,7 +307,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
             let lab = UILabel()
             lab.frame = bg.frame
             
-            lab.attributedText = NSAttributedString(string: "Note")
+            lab.attributedText = NSAttributedString(string: NSLocalizedString("profile.edit.details.note", comment: ""))
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             lab.textColor = UIColor.label
@@ -319,7 +319,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
             let lab = UILabel()
             lab.frame = bg.frame
             
-            lab.attributedText = NSAttributedString(string: "Extras")
+            lab.attributedText = NSAttributedString(string: NSLocalizedString("profile.edit.details.extras", comment: ""))
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             lab.textColor = UIColor.label
@@ -331,7 +331,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
             let lab = UILabel()
             lab.frame = bg.frame
             
-            lab.attributedText = NSAttributedString(string: "Posts")
+            lab.attributedText = NSAttributedString(string: NSLocalizedString("profile.posts", comment: ""))
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             lab.textColor = UIColor.label
@@ -343,7 +343,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AltTextCell", for: indexPath) as! AltTextCell
-            cell.altText.placeholder = "Display name..."
+            cell.altText.placeholder = NSLocalizedString("profile.edit.details.displayName.placeholder", comment: "")
             cell.altText.text = AccountsManager.shared.currentUser()?.displayName.stripHTML() ?? ""
             cell.altText.returnKeyType = .done
             cell.altText.delegate = self
@@ -355,7 +355,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
             return cell
         } else if indexPath.section == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AltTextMultiCell", for: indexPath) as! AltTextMultiCell
-            cell.altText.placeholder = "Note..."
+            cell.altText.placeholder = NSLocalizedString("profile.edit.details.note.placeholder", comment: "")
             cell.altText.text = AccountsManager.shared.currentUser()?.note.stripHTML() ?? ""
             cell.altText.returnKeyType = .done
             cell.altText.delegate = self
@@ -370,7 +370,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell1", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell1")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Locked"
+                cell.textLabel?.text = NSLocalizedString("profile.edit.details.locked", comment: "")
                 cell.imageView?.image = UIImage(systemName: "lock")
                 let switchView = UISwitch(frame: .zero)
                 if self.context1 {
@@ -403,7 +403,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell2", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell2")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Bot"
+                cell.textLabel?.text = NSLocalizedString("profile.edit.details.bot", comment: "")
                 cell.imageView?.image = UIImage(systemName: "cpu")
                 let switchView = UISwitch(frame: .zero)
                 if self.context2 {
@@ -436,7 +436,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell3", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell3")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Discoverable"
+                cell.textLabel?.text = NSLocalizedString("profile.edit", comment: "")
                 cell.imageView?.image = UIImage(systemName: "binoculars")
                 let switchView = UISwitch(frame: .zero)
                 if self.context3 {
@@ -471,7 +471,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell4", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell4")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = " Mark as Sensitive"
+                cell.textLabel?.text = " " + NSLocalizedString("composer.sensitive.add", comment: "")
                 cell.imageView?.image = UIImage(systemName: "exclamationmark.triangle")
                 let switchView = UISwitch(frame: .zero)
                 if self.context4 {
@@ -502,31 +502,31 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
                 return cell
             } else if indexPath.row == 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
-                cell.textLabel?.text = "Default Privacy"
+                cell.textLabel?.text = NSLocalizedString("profile.privacy.default", comment: "")
                 cell.detailTextLabel?.text = self.privacyType
                 cell.imageView?.image = UIImage(systemName: "eye")
                 
-                let view0 = UIAction(title: "Public", image: UIImage(systemName: "person.2"), identifier: nil) { action in
+                let view0 = UIAction(title: NSLocalizedString("profile.privacy.public", comment: ""), image: UIImage(systemName: "person.2"), identifier: nil) { action in
                     self.privacyType = "Public"
                     self.tableView.reloadRows(at: [IndexPath(row: 1, section: 3)], with: .none)
                 }
-                view0.accessibilityLabel = "Public"
+                view0.accessibilityLabel = NSLocalizedString("profile.privacy.public", comment: "")
                 if self.privacyType == "Public" {
                     view0.state = .on
                 }
-                let view1 = UIAction(title: "Unlisted", image: UIImage(systemName: "lock.open"), identifier: nil) { action in
+                let view1 = UIAction(title: NSLocalizedString("profile.privacy.unlisted", comment: ""), image: UIImage(systemName: "lock.open"), identifier: nil) { action in
                     self.privacyType = "Unlisted"
                     self.tableView.reloadRows(at: [IndexPath(row: 1, section: 3)], with: .none)
                 }
-                view1.accessibilityLabel = "Unlisted"
+                view1.accessibilityLabel = NSLocalizedString("profile.privacy.unlisted", comment: "")
                 if self.privacyType == "Unlisted" {
                     view1.state = .on
                 }
-                let view2 = UIAction(title: "Private", image: UIImage(systemName: "lock"), identifier: nil) { action in
+                let view2 = UIAction(title: NSLocalizedString("profile.privacy.private", comment: ""), image: UIImage(systemName: "lock"), identifier: nil) { action in
                     self.privacyType = "Private"
                     self.tableView.reloadRows(at: [IndexPath(row: 1, section: 3)], with: .none)
                 }
-                view2.accessibilityLabel = "Private"
+                view2.accessibilityLabel = NSLocalizedString("profile.privacy.private", comment: "")
                 if self.privacyType == "Private" {
                     view2.state = .on
                 }
@@ -543,7 +543,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCellz", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCellz")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = " Default Language"
+                cell.textLabel?.text = " " + NSLocalizedString("profile.edit.defaultLanguage", comment: "")
                 cell.imageView?.image = UIImage(systemName: "globe")
                 cell.accessoryType = .none
                 let bgColorView = UIView()

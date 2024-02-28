@@ -493,10 +493,10 @@ extension SettingsViewController: UpgradeViewDelegate {
 extension SettingsViewController {
     
     func postClearCacheAlert() {
-        let alert = UIAlertController(title: "Clear Cache?", message: "This will clear all cached information and can't be undone.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler:{ (UIAlertAction) in
+        let alert = UIAlertController(title: NSLocalizedString("settings.clearData.title", comment: ""), message: NSLocalizedString("settings.clearData.info", comment: ""), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
         }))
-        alert.addAction(UIAlertAction(title: "Clear Cache", style: .destructive , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("settings.clearData.confirm", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
             self.clearAllCaches()
         }))
         self.present(alert, animated: true, completion: nil)

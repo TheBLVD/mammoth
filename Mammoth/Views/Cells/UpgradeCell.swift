@@ -219,7 +219,7 @@ final class UpgradeRootView: UIView, UpgradeOptionDelegate {
     
     private let descriptionLabel: UILabel = {
         let label = GradientLabel(colors: UIColor.gradients.goldText, startPoint: .init(x: 1, y: 1), endPoint: .init(x: 0, y: 0))
-        label.text = "Join the supporter community to get access to our discord and vote on new features."
+        label.text = NSLocalizedString("settings.gold.community", comment: "")
         label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 3, weight: .regular)
         label.numberOfLines = 0
         return label
@@ -228,7 +228,7 @@ final class UpgradeRootView: UIView, UpgradeOptionDelegate {
     private let actionButton: GradientButton = {
         let button = GradientButton(colors: UIColor.gradients.goldButtonBackground, startPoint: .init(x: 1, y: 0.5), endPoint: .init(x: 0, y: 1))
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Upgrade to Gold", for: .normal)
+        button.setTitle(NSLocalizedString("settings.gold.upgrade", comment: ""), for: .normal)
         button.setTitleColor(.custom.background, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 1, weight: .bold)
         button.layer.cornerRadius = 6
@@ -243,7 +243,7 @@ final class UpgradeRootView: UIView, UpgradeOptionDelegate {
         label.numberOfLines = 1
         label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 3, weight: .regular)
         label.textAlignment = .center
-        label.text = "Restore previous purchases"
+        label.text = NSLocalizedString("settings.gold.restore", comment: "")
         label.isUserInteractionEnabled = true
         return label
     }()
@@ -308,18 +308,18 @@ final class UpgradeRootView: UIView, UpgradeOptionDelegate {
                 
                 switch type {
                 case .disabled:
-                    let alert = UIAlertController(title: "Purchase Error", message: type.message(), preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                    let alert = UIAlertController(title: NSLocalizedString("error.purchaseError", comment: ""), message: type.message(), preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: UIAlertAction.Style.default, handler: nil))
             
                     if let presentingVC = getTopMostViewController() {
                         presentingVC.present(alert, animated: true, completion: nil)
                     }
                 case .failed(let error):
                     self.state = .unsubscribed
-                    guard (error as? NSError)?.description.range(of: "Payment Sheet Failed") == nil else { return }
+                    guard (error as? NSError)?.description.range(of: NSLocalizedString("error.paymentSheet", comment: "")) == nil else { return }
                     
-                    let alert = UIAlertController(title: "Purchase Error", message: type.message(), preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+                    let alert = UIAlertController(title: NSLocalizedString("error.purchaseError", comment: ""), message: type.message(), preferredStyle: UIAlertController.Style.alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: UIAlertAction.Style.default, handler: nil))
             
                     if let presentingVC = getTopMostViewController() {
                         presentingVC.present(alert, animated: true, completion: nil)
@@ -427,14 +427,14 @@ private extension UpgradeRootView {
         expandedStack.addArrangedSubview(optionsListStack)
         expandedStack.addArrangedSubview(productOptionsStack)
         
-        optionsListStack.addArrangedSubview(createOptionLabel("early access to new features"))
-        var appIconBenefit = "supporter only app icons"
+        optionsListStack.addArrangedSubview(createOptionLabel(NSLocalizedString("settings.gold.earlyAccess", comment: "")))
+        var appIconBenefit = NSLocalizedString("settings.gold.icons", comment: "")
         if !UIApplication.shared.supportsAlternateIcons {
             appIconBenefit += " (iOS)"
         }
         optionsListStack.addArrangedSubview(createOptionLabel(appIconBenefit))
-        optionsListStack.addArrangedSubview(createOptionLabel("support an open and free web"))
-        optionsListStack.addArrangedSubview(createOptionLabel("vote on new features"))
+        optionsListStack.addArrangedSubview(createOptionLabel(NSLocalizedString("settings.gold.support", comment: "")))
+        optionsListStack.addArrangedSubview(createOptionLabel(NSLocalizedString("settings.gold.vote", comment: "")))
         
         mainStack.addArrangedSubview(expandedStack)
         expandedStack.isHidden = true
@@ -476,7 +476,7 @@ private extension UpgradeRootView {
                                        price: priceString ?? "",
                                        selected: isYearly,
                                        planId: product.productIdentifier,
-                                       badge: isYearly ? "Best deal" : nil)
+                                       badge: isYearly ? NSLocalizedString("settings.gold.bestDeal", comment: "") : nil)
             
             option.delegate = self
             
@@ -570,10 +570,10 @@ extension UpgradeRootView {
             self.expandIcon.isHidden = false
             self.productOptionsStack.isHidden = true
             self.expandedStack.isHidden = !self.expanded
-            self.titleLabel.text = "Mammoth Gold Active!"
+            self.titleLabel.text = NSLocalizedString("settings.gold.active", comment: "")
             self.descriptionLabel.isHidden = false
             self.optionsListStack.isHidden = true
-            self.actionButton.setTitle("Join community", for: .normal)
+            self.actionButton.setTitle(NSLocalizedString("settings.gold.join", comment: ""), for: .normal)
             self.restoreButton.isHidden = true
         case .unsubscribed:
             self.loader.stopAnimating()
@@ -583,17 +583,17 @@ extension UpgradeRootView {
             self.productOptionsStack.isHidden = false
             self.descriptionLabel.isHidden = true
             self.optionsListStack.isHidden = false
-            self.actionButton.setTitle("Upgrade to Gold", for: .normal)
+            self.actionButton.setTitle(NSLocalizedString("settings.gold.upgrade", comment: ""), for: .normal)
             self.restoreButton.isHidden = false
         case .thanks:
             self.loader.stopAnimating()
             self.expandIcon.isHidden = false
-            self.titleLabel.text = "Mammoth Gold Active!"
+            self.titleLabel.text = NSLocalizedString("settings.gold.active", comment: "")
             self.productOptionsStack.isHidden = true
             self.expandedStack.isHidden = !self.expanded
             self.descriptionLabel.isHidden = false
             self.optionsListStack.isHidden = true
-            self.actionButton.setTitle("Join community", for: .normal)
+            self.actionButton.setTitle(NSLocalizedString("settings.gold.join", comment: ""), for: .normal)
             self.restoreButton.isHidden = true
         }
     }

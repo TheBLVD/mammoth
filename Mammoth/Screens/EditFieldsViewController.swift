@@ -184,7 +184,7 @@ class EditFieldsViewController: UIViewController, UITableViewDataSource, UITable
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "Edit Info and Links"
+        self.navigationItem.title = NSLocalizedString("profile.edit.infoAndLinks", comment: "")
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadAll), name: NSNotification.Name(rawValue: "reloadAll"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadThis), name: NSNotification.Name(rawValue: "reloadThis"), object: nil)
@@ -230,7 +230,7 @@ class EditFieldsViewController: UIViewController, UITableViewDataSource, UITable
         btn1.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         btn1.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
         btn1.addTarget(self, action: #selector(self.dismissTap), for: .touchUpInside)
-        btn1.accessibilityLabel = "Dismiss"
+        btn1.accessibilityLabel = NSLocalizedString("generic.dismiss", comment: "")
         let moreButton0 = UIBarButtonItem(customView: btn1)
         self.navigationItem.setLeftBarButton(moreButton0, animated: true)
         
@@ -240,7 +240,7 @@ class EditFieldsViewController: UIViewController, UITableViewDataSource, UITable
         btn2.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         btn2.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
         btn2.addTarget(self, action: #selector(self.addTap), for: .touchUpInside)
-        btn2.accessibilityLabel = "Edit Fields"
+        btn2.accessibilityLabel = NSLocalizedString("profile.edit.fields", comment: "")
         let moreButton1 = UIBarButtonItem(customView: btn2)
         self.navigationItem.setRightBarButton(moreButton1, animated: true)
     }
@@ -285,7 +285,7 @@ class EditFieldsViewController: UIViewController, UITableViewDataSource, UITable
         let lab = UILabel()
         lab.frame = bg.frame
         
-        lab.attributedText = NSAttributedString(string: "Field \(section+1)")
+        lab.attributedText = NSAttributedString(string: String.localizedStringWithFormat(NSLocalizedString("profile.edit.field", comment: ""), section + 1))
         
         lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         lab.textColor = UIColor.label
@@ -296,12 +296,12 @@ class EditFieldsViewController: UIViewController, UITableViewDataSource, UITable
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AltTextMultiCell", for: indexPath) as! AltTextMultiCell
         if indexPath.row == 0 {
-            cell.altText.placeholder = "Label..."
+            cell.altText.placeholder = NSLocalizedString("profile.edit.label", comment: "")
             if fields.count > indexPath.section {
                 cell.altText.text = fields[indexPath.section].name.stripHTML()
             }
         } else {
-            cell.altText.placeholder = "Content..."
+            cell.altText.placeholder = NSLocalizedString("profile.edit.content", comment: "")
             if fields.count > indexPath.section {
                 cell.altText.text = fields[indexPath.section].value.stripHTML()
             }

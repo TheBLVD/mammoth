@@ -43,8 +43,8 @@ class DiscoverSuggestionsViewController: UIViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
-        self.title = NSLocalizedString("title.discover", comment: "")
-        self.navigationItem.title = NSLocalizedString("title.discover", comment: "")
+        self.title = NSLocalizedString("navigator.discover", comment: "")
+        self.navigationItem.title = NSLocalizedString("navigator.discover", comment: "")
     }
 
     required init?(coder aDecoder: NSCoder) {

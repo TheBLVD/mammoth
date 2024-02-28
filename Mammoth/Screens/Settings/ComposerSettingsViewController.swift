@@ -90,7 +90,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "Composer"
+        self.navigationItem.title = NSLocalizedString("settings.composer", comment: "")
         
         let navApp = UINavigationBarAppearance()
         navApp.configureWithOpaqueBackground()
@@ -154,7 +154,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell2", for: indexPath)
             cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.text = "Require Image Descriptions"
+            cell.textLabel?.text = NSLocalizedString("settings.composer.requireDescriptions", comment: "")
             cell.imageView?.image = settingsSystemImage("text.below.photo")
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "altText") as? Bool != nil {
@@ -184,7 +184,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell3", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Threader Mode"
+                cell.textLabel?.text = NSLocalizedString("settings.composer.threaderMode", comment: "")
                 cell.imageView?.image = settingsSystemImage("lineweight")
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "threaderMode") as? Bool != nil {
@@ -212,10 +212,10 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell3", for: indexPath) as! SelectionCell
-                cell.textLabel?.text = "Thread Style"
-                cell.accessibilityLabel = "Thread Style"
+                cell.textLabel?.text = NSLocalizedString("settings.composer.threadStyle", comment: "")
+                cell.accessibilityLabel = NSLocalizedString("settings.composer.threadStyle", comment: "")
                 if GlobalStruct.threaderStyle == 0 {
-                    cell.detailTextLabel?.text = "None"
+                    cell.detailTextLabel?.text = NSLocalizedString("generic.none", comment: "")
                     cell.imageView?.image = settingsSystemImage("1.circle")
                 } else if GlobalStruct.threaderStyle == 1 {
                     cell.detailTextLabel?.text = "..."
@@ -328,7 +328,7 @@ class ComposerSettingsViewController: UIViewController, UITableViewDataSource, U
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 0 {
-            return "Prevent posting posts unless alt text image descriptions have been added to attached images."
+            return NSLocalizedString("settings.composer.requireDescriptions.footer", comment: "")
         } else {
             return nil
         }
