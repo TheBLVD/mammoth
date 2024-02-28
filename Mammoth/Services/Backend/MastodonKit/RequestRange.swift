@@ -53,6 +53,27 @@ extension RequestRange {
     }
 }
 
+extension RequestRange: Comparable {
+    private static func requestRangeIdToIntegers(_ range: RequestRange) -> Int {
+        switch range {
+        case let .max(id, _):
+            return Int(id) ?? 0
+        case let .min(id, _):
+            return Int(id) ?? 0
+        default:
+            print("Warning: unsupported comparison for RequestRange")
+            return 0
+        }
+    }
+    
+    public static func < (lhs: RequestRange, rhs: RequestRange) -> Bool {
+        // guard that both lhs and rhs have the same type
+        let lhsVal = requestRangeIdToIntegers(lhs)
+        let rhsVal = requestRangeIdToIntegers(rhs)
+        
+        return lhsVal < rhsVal
+    }
+}
 // MARK: - Equatable
 
 extension RequestRange: Equatable {}

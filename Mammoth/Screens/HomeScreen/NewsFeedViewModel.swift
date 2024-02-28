@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum NewsFeedViewModelError: Error {
+    case invalidFeedType
+}
+
 enum NewsFeedSnapshotUpdateType {
     case hydrate        // loading items from cache
     case replaceAll     // replacing all items
@@ -133,12 +137,10 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
                 return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, instanceName: $1.serverName, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
                 
             case .likes:
-                let (result, cursorId) = try await TimelineService.likes(range: range)
-                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
-                
+                throw NewsFeedViewModelError.invalidFeedType
+
             case .bookmarks:
-                let (result, cursorId) = try await TimelineService.bookmarks(range: range)
-                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                throw NewsFeedViewModelError.invalidFeedType
                 
             case .mentionsIn:
                 let (result, cursorId) = try await TimelineService.mentions(range: range)
@@ -181,6 +183,24 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
         }
     }
     
+    func fetchAllPaginated(range: RequestRange = .default, batchName: String, retryCount: Int = 0) async throws -> ([NewsFeedListItem], Pagination?, String?) {
+        let batchName = "\(batchName)_\(Int.random(in: 0 ... 10000))"
+
+        switch(self) {
+        case .bookmarks:
+            let (result, pagination, cursorId) = try await TimelineService.bookmarks(range: range)
+            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), pagination, cursorId)
+        case .likes:
+            let (result, pagination, cursorId) = try await TimelineService.likes(range: range)
+            return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), pagination, cursorId)
+        default:
+            // fetchAllPaginated() only applies to bookmarks
+            throw NewsFeedViewModelError.invalidFeedType
+        }
+
+        // There is no catch block here as bookmarks should not rate limit like news feeds might
+    }
+        
     // Map cell types to view types
     func postCardCellType() -> PostCardCell.PostCardCellType {
         switch self {
@@ -329,7 +349,7 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
     
     var shouldSyncItems: Bool {
         switch self {
-        case .activity, .mentionsIn, .mentionsOut:
+        case .activity, .mentionsIn, .mentionsOut, .bookmarks:
             return false
         default:
             return true
@@ -338,7 +358,7 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
     
     var shouldPollForListData: Bool {
         switch self {
-        case .activity, .mentionsIn, .mentionsOut:
+        case .activity, .mentionsIn, .mentionsOut, .bookmarks:
             return false
         default:
             return true
@@ -370,7 +390,10 @@ class NewsFeedViewModel {
         
     internal var postSyncingTasks: [IndexPath: Task<Void, Error>] = [:]
     internal var forYouStatus: ForYouStatus? = nil
+    
     internal var cursorId: String?
+    internal var nextPageRange: RequestRange?
+    internal var previousPageRange: RequestRange?
     
     internal var newestSectionLength: Int = 35
     internal var newItemsThreshold: Int {
@@ -379,6 +402,15 @@ class NewsFeedViewModel {
             return 1
         default:
             return 5
+        }
+    }
+    
+    internal var makePaginatedRequest: Bool {
+        switch self.type {
+        case .bookmarks, .likes:
+            return true
+        default:
+            return false
         }
     }
     
@@ -479,7 +511,9 @@ class NewsFeedViewModel {
                 }
             }
             
-            self.startPollingListData(forFeed: type)
+            if (self.type.shouldPollForListData) {
+                self.startPollingListData(forFeed: type)
+            }
         }
     }
     
@@ -510,6 +544,36 @@ class NewsFeedViewModel {
                 activityCard.postCard?.videoPlayer?.pause()
             }
         })
+    }
+    
+    func updateCurrentRange(newPagination: Pagination?) {
+        guard let newPagination = newPagination else { return }
+        guard let nextPage = newPagination.next else { 
+            self.nextPageRange = nil
+            return
+        }
+        extendNextPageRange(newRange: nextPage)
+        guard let previousPage = newPagination.previous else {
+            self.previousPageRange = nil
+            return
+        }
+        extendPreviousPageRange(newRange: previousPage)
+    }
+    
+    func extendNextPageRange(newRange: RequestRange) {
+        if self.nextPageRange == nil {
+            self.nextPageRange = newRange
+        } else if (newRange < self.nextPageRange!) {
+            self.nextPageRange = newRange
+        }
+    }
+    
+    func extendPreviousPageRange(newRange: RequestRange) {
+        if self.previousPageRange == nil {
+            self.previousPageRange = newRange
+        } else if (newRange > self.nextPageRange!) {
+            self.previousPageRange = newRange
+        }
     }
 }
 
