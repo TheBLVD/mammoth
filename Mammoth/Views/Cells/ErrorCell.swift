@@ -33,7 +33,7 @@ class ErrorCell: UITableViewCell {
         titleLabel.textColor = UIColor.secondaryLabel
         bgView.addSubview(titleLabel)
         
-        titleLabel.text = "Can't load more"
+        titleLabel.text = NSLocalizedString("error.cantLoadMore", comment: "")
         titleLabel.isHidden = false
         
         contentView.layer.masksToBounds = false

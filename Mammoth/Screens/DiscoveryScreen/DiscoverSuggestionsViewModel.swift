@@ -144,14 +144,14 @@ extension DiscoverSuggestionsViewModel {
     func getSectionTitle(for sectionIndex: Int) -> String {
         switch(sectionIndex) {
         case 0:
-            return "Smart Lists"
+            return NSLocalizedString("discover.smartLists", comment: "")
         case 1:
-            return "Trending Hashtags"
+            return NSLocalizedString("discover.trendingHashtags", comment: "")
         case 2:
             if searchQuery?.isEmpty ?? true {
-                return "Recommended Follows"
+                return NSLocalizedString("discover.recommendedFollows", comment: "")
             } else {
-                return "Users"
+                return NSLocalizedString("discover.users", comment: "")
             }
         default:
             return ""

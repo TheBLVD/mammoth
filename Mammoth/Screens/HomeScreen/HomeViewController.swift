@@ -267,31 +267,30 @@ extension HomeViewController {
             item.menu = UIMenu(title: "", options: [], children: [self.jumpToContextMenu()])
         }
     }
-    
     private func generalContextMenu() -> UIMenu {
-        let addList = UIAction(title: "Add list", image: FontAwesome.image(fromChar: "\u{2b}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
+        let addList = UIAction(title: NSLocalizedString("list.add", comment: ""), image: FontAwesome.image(fromChar: "\u{2b}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
             guard let self else { return }
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: "Add list", message: "Browse community created Smart Lists or create a regular list?", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Browse Smart Lists", style: .default, handler: { _ in
+                let alert = UIAlertController(title: NSLocalizedString("list.add", comment: ""), message: NSLocalizedString("list.prompt", comment: ""), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("list.smart.browse", comment: ""), style: .default, handler: { _ in
                     let vc = ChannelsViewController(viewModel: ChannelsViewModel(singleSection: true)) { [weak self] in
                         self?.showTutorialIfNeeded()
                     }
                     self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
                 }))
-                alert.addAction(UIAlertAction(title: "Create List", style: .default, handler: { _ in
+                alert.addAction(UIAlertAction(title: NSLocalizedString("list.create", comment: ""), style: .default, handler: { _ in
                     let vc = AltTextViewController() { [weak self] in
                         self?.showTutorialIfNeeded()
                     }
                     vc.newList = true
                     self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
                 }))
-                alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .destructive, handler: nil))
                 self.present(alert, animated: true)
             }
         }
         
-        let organize = UIAction(title: "Manage feeds", image: FontAwesome.image(fromChar: "\u{f03a}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
+        let organize = UIAction(title: NSLocalizedString("home.manageFeeds", comment: ""), image: FontAwesome.image(fromChar: "\u{f03a}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
             guard let self else { return }
             DispatchQueue.main.async {
                 let vc = FeedEditorViewController { [weak self] in

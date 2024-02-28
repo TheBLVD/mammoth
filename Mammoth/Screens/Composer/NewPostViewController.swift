@@ -3622,7 +3622,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                             self.startActivity()
                             self.sendDataIfCanPost()
                         }))
-                        alert.addAction(UIAlertAction(title: NSLocalizedString("composer.media.progress.wait", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("composer.media.progress.wait", comment: "As in 'to wait'"), style: .cancel , handler:{ (UIAlertAction) in
                             
                         }))
                         if let presenter = alert.popoverPresentationController {

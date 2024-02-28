@@ -12,13 +12,13 @@ fileprivate extension FollowManager.FollowStatus {
     var title: String {
         switch self {
         case .notFollowing, .unknown, .unfollowRequested:
-            return "Follow"
+            return NSLocalizedString("profile.follow", comment: "")
         case .following, .followRequested:
-            return "Unfollow"
+            return NSLocalizedString("profile.unfollow", comment: "")
         case .followAwaitingApproval:
-            return "Awaiting approval"
+            return NSLocalizedString("profile.awaitingApproval", comment: "")
         case .inProgress:
-            return "Follow"
+            return NSLocalizedString("profile.follow", comment: "")
         }
     }
 }

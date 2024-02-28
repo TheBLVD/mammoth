@@ -45,7 +45,7 @@ private enum Item {
         case .accounts: return NSLocalizedString("settings.accounts", comment: "Button in settings.")
         case .pushNotifications: return NSLocalizedString("settings.notifications", comment: "")
         case .siriShortcuts: return NSLocalizedString("settings.siriShortcuts", comment: "")
-        case .getInTouch: return NSLocalizedString("settings.getInTouch", comment: "")
+        case .getInTouch: return NSLocalizedString("settings.getInTouch", comment: "As in, 'to get in touch'")
         case .subscriptions: return NSLocalizedString("settings.manageSubscriptions", comment: "")
         case .openSourceCredits: return NSLocalizedString("settings.about", comment: "")
         case .openLinks: return NSLocalizedString("settings.openLinks", comment: "")
@@ -87,7 +87,7 @@ private struct Section {
     var footerTitle: String? = nil
 }
 
-private let version = String.localizedStringWithFormat(NSLocalizedString("settings.version", comment: ""), Bundle.main.appVersion, Bundle.main.appBuild)
+private let version = String.localizedStringWithFormat(NSLocalizedString("settings.version", comment: ""), Bundle.main.appVersion) + "\n" + String.localizedStringWithFormat(NSLocalizedString("settings.build", comment: ""), Bundle.main.appBuild)
 private let bottomFooterText = NSLocalizedString("settings.clearData.footer", comment: "") + "\n\n" + version
 
 class SettingsViewController: UIViewController {

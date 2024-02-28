@@ -1304,7 +1304,7 @@ extension NewsFeedViewController {
         btn.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: -1, right: 0)
         
         // Create context menu
-        let list_members = NSLocalizedString("list.members", comment: "")
+        let list_members = NSLocalizedString("list.members", comment: "As in 'members in the list'")
         let viewMembersMenu = UIAction(title: list_members, image: FontAwesome.image(fromChar: "\u{f500}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
             guard let self else { return }
             let vc = UserListViewController(listID: list.id)

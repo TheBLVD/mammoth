@@ -30,7 +30,7 @@ class DiscoveryViewController: UIViewController {
     // searchBar for the iPad aux column
     private lazy var searchBar: UISearchBar = {
         let searchBar: UISearchBar = UISearchBar()
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = NSLocalizedString("discover.search", comment: "")
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
         return searchBar

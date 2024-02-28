@@ -135,16 +135,16 @@ extension ProfileViewSettingsButton {
         if let user = self.user {
             if user.isSelf {
                 let options = [
-                    createContextMenuAction("Share profile", .share, isActive: true, data: nil),
+                    createContextMenuAction(NSLocalizedString("profile.shareProfile", comment: ""), .share, isActive: true, data: nil),
                     
-                    createContextMenuAction("Likes", .likes, isActive: true, data: nil),
-                    createContextMenuAction("Bookmarks", .bookmarks, isActive: true, data: nil),
+                    createContextMenuAction(NSLocalizedString("title.likes", comment: ""), .likes, isActive: true, data: nil),
+                    createContextMenuAction(NSLocalizedString("title.bookmarks", comment: ""), .bookmarks, isActive: true, data: nil),
                     
-                    createContextMenuAction("Filters", .filters, isActive: true, data: nil),
-                    createContextMenuAction("Muted", .muted, isActive: true, data: nil),
-                    createContextMenuAction("Blocked", .blocked, isActive: true, data: nil),
+                    createContextMenuAction(NSLocalizedString("profile.filters", comment: ""), .filters, isActive: true, data: nil),
+                    createContextMenuAction(NSLocalizedString("profile.muted", comment: ""), .muted, isActive: true, data: nil),
+                    createContextMenuAction(NSLocalizedString("profile.blocked", comment: ""), .blocked, isActive: true, data: nil),
                     
-                    createContextMenuAction("Settings", .settings, isActive: true, data: nil),
+                    createContextMenuAction(NSLocalizedString("title.settings", comment: ""), .settings, isActive: true, data: nil),
                 ]
                 
                 return UIMenu(title: "", options: [.displayInline], children: options)
@@ -154,57 +154,57 @@ extension ProfileViewSettingsButton {
                     
                     let options = [
                         
-                        createContextMenuAction("Mention", .mention, isActive: true, data: nil),
+                        createContextMenuAction(NSLocalizedString("profile.mention", comment: "As in 'to mention'"), .mention, isActive: true, data: nil),
                         
                         (user.relationship?.notifying == nil || user.relationship?.notifying == false
-                        ? createContextMenuAction("Enable Notifications", .enableNotifications, isActive: true, data: nil)
-                        : createContextMenuAction("Disable Notifications", .disableNotifications, isActive: true, data: nil)),
+                        ? createContextMenuAction(NSLocalizedString("user.enableNotifications", comment: ""), .enableNotifications, isActive: true, data: nil)
+                        : createContextMenuAction(NSLocalizedString("user.disableNotifications", comment: ""), .disableNotifications, isActive: true, data: nil)),
                                                 
                         (user.relationship?.showingReblogs == nil || user.relationship?.showingReblogs == false
-                        ? createContextMenuAction("Enable Reposts", .enableReposts, isActive: true, data: nil)
-                        : createContextMenuAction("Disable Reposts", .disableReposts, isActive: true, data: nil)),
+                        ? createContextMenuAction(NSLocalizedString("user.enableReposts", comment: ""), .enableReposts, isActive: true, data: nil)
+                        : createContextMenuAction(NSLocalizedString("user.disableReposts", comment: ""), .disableReposts, isActive: true, data: nil)),
                         
-                        UIMenu(title: "Manage Lists", image: MAMenu.list.image.withRenderingMode(.alwaysTemplate), options: [], children: [
+                        UIMenu(title: NSLocalizedString("list.manage", comment: ""), image: MAMenu.list.image.withRenderingMode(.alwaysTemplate), options: [], children: [
                             UIMenu(title: MAMenu.addToList.title, image: MAMenu.addToList.image, options: [], children: ListManager.shared.allLists(includeTopFriends: false).map({
                                 createContextMenuAction($0.title, .addToList, isActive: true, data: UserCardButtonCallbackData.list($0.id))
                             })),
                             UIMenu(title: MAMenu.removeFromList.title, image: MAMenu.removeFromList.image, options: [], children: ListManager.shared.allLists(includeTopFriends: false).map({
                                 createContextMenuAction($0.title, .removeFromList, isActive: true, data: UserCardButtonCallbackData.list($0.id))
                             })),
-                            createContextMenuAction("Create new List", .createNewList, isActive: true, data: nil)
+                            createContextMenuAction(NSLocalizedString("list.create", comment: ""), .createNewList, isActive: true, data: nil)
                         ]),
                         
                         (user.isMuted
-                         ? createContextMenuAction("Unmute", .unmute, isActive: true, data: nil)
-                         : UIMenu(title: "Mute @\(user.username)", image: MAMenu.muteOneDay.image.withRenderingMode(.alwaysTemplate), options: [], children: [
-                            createContextMenuAction("Mute 1 Day", .muteOneDay, isActive: true, data: nil),
-                            createContextMenuAction("Mute Forever", .muteForever, isActive: true, data: nil)
+                         ? createContextMenuAction(NSLocalizedString("user.unmute", comment: ""), .unmute, isActive: true, data: nil)
+                         : UIMenu(title: String.localizedStringWithFormat(NSLocalizedString("user.muteUser", comment: ""), user.username), image: MAMenu.muteOneDay.image.withRenderingMode(.alwaysTemplate), options: [], children: [
+                            createContextMenuAction(NSLocalizedString("user.muteDay", comment: ""), .muteOneDay, isActive: true, data: nil),
+                            createContextMenuAction(NSLocalizedString("user.muteForever", comment: ""), .muteForever, isActive: true, data: nil)
                         ])),
                         
                         (user.isBlocked
-                         ? createContextMenuAction("Unblock", .unblock, isActive: true, data: nil)
-                         : createContextMenuAction("Block", .block, isActive: true, data: nil)),
+                         ? createContextMenuAction(NSLocalizedString("user.unblock", comment: ""), .unblock, isActive: true, data: nil)
+                         : createContextMenuAction(NSLocalizedString("user.block", comment: ""), .block, isActive: true, data: nil)),
                         
-                        createContextMenuAction("Share Link", .share, isActive: true, data: nil)
+                        createContextMenuAction(NSLocalizedString("user.shareLink", comment: ""), .share, isActive: true, data: nil)
                     ]
                     
                     return UIMenu(title: "", options: [.displayInline], children: options)
                 } else {
                     let options = [
-                        createContextMenuAction("Mention", .mention, isActive: true, data: nil),
+                        createContextMenuAction(NSLocalizedString("profile.mention", comment: ""), .mention, isActive: true, data: nil),
                         
                         (user.isMuted
-                         ? createContextMenuAction("Unmute", .unmute, isActive: true, data: nil)
-                         : UIMenu(title: "Mute @\(user.username)", image: MAMenu.muteOneDay.image.withRenderingMode(.alwaysTemplate), options: [], children: [
-                            createContextMenuAction("Mute 1 Day", .muteOneDay, isActive: true, data: nil),
-                            createContextMenuAction("Mute Forever", .muteForever, isActive: true, data: nil)
+                         ? createContextMenuAction(NSLocalizedString("user.unmute", comment: ""), .unmute, isActive: true, data: nil)
+                         : UIMenu(title: String.localizedStringWithFormat(NSLocalizedString("user.muteUser", comment: ""), user.username), image: MAMenu.muteOneDay.image.withRenderingMode(.alwaysTemplate), options: [], children: [
+                            createContextMenuAction(NSLocalizedString("user.muteDay", comment: ""), .muteOneDay, isActive: true, data: nil),
+                            createContextMenuAction(NSLocalizedString("user.muteForever", comment: ""), .muteForever, isActive: true, data: nil)
                         ])),
                         
                         (user.isBlocked
-                         ? createContextMenuAction("Unblock", .unblock, isActive: true, data: nil)
-                         : createContextMenuAction("Block", .block, isActive: true, data: nil)),
+                         ? createContextMenuAction(NSLocalizedString("user.unblock", comment: ""), .unblock, isActive: true, data: nil)
+                         : createContextMenuAction(NSLocalizedString("user.block", comment: ""), .block, isActive: true, data: nil)),
                         
-                        createContextMenuAction("Share Link", .share, isActive: true, data: nil)
+                        createContextMenuAction(NSLocalizedString("user.shareLink", comment: ""), .share, isActive: true, data: nil)
                     ]
                     
                     return UIMenu(title: "", options: [.displayInline], children: options)
