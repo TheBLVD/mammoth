@@ -62,6 +62,12 @@
             "state" : "translated",
             "value" : "edited"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "editou"
+          }
         }
       }
     },
@@ -73,6 +79,12 @@
             "state" : "translated",
             "value" : "followed you"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "te seguiu"
+          }
         }
       }
     },
@@ -83,6 +95,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "follow request"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "pediu para seguir"
           }
         }
       }
@@ -111,6 +129,12 @@
             "state" : "translated",
             "value" : "liked"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "curtiu"
+          }
         }
       }
     },
@@ -122,6 +146,12 @@
             "state" : "translated",
             "value" : "liked your %@"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "curtiu %@"
+          }
         }
       }
     },
@@ -132,6 +162,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "liked your quote post"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "curtiu sua menção"
           }
         }
       }
@@ -160,6 +196,12 @@
             "state" : "translated",
             "value" : "mentioned you"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "te mencionou"
+          }
         }
       }
     },
@@ -171,6 +213,12 @@
             "state" : "translated",
             "value" : "poll ended"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "enquete encerrou"
+          }
         }
       }
     },
@@ -181,6 +229,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "posted"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "postou"
           }
         }
       }
@@ -209,6 +263,12 @@
             "state" : "translated",
             "value" : "reposted"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "repostou"
+          }
         }
       }
     },
@@ -220,6 +280,12 @@
             "state" : "translated",
             "value" : "reposted your %@"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "repostou %@"
+          }
         }
       }
     },
@@ -230,6 +296,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "reposted your quote post"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "repostou sua menção"
           }
         }
       }
@@ -1296,7 +1368,21 @@
       }
     },
     "discover.peopleTalking" : {
-      "extractionState" : "manual"
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ people talking"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ pessoas falando"
+          }
+        }
+      }
     },
     "discover.recommendedFollows" : {
       "extractionState" : "manual",
@@ -1305,6 +1391,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recommended Follows"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuários Recomendados"
           }
         }
       }
@@ -1317,6 +1409,12 @@
             "state" : "translated",
             "value" : "Search"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pesquisar"
+          }
         }
       }
     },
@@ -1327,6 +1425,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "See all"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ver tudo"
           }
         }
       }
@@ -1339,6 +1443,12 @@
             "state" : "translated",
             "value" : "Several"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vários"
+          }
         }
       }
     },
@@ -1349,6 +1459,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Smart Lists"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listas Inteligentes"
           }
         }
       }
@@ -1361,6 +1477,12 @@
             "state" : "translated",
             "value" : "Trending Hashtags"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hashtags em Alta"
+          }
         }
       }
     },
@@ -1371,6 +1493,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Users"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usuários"
           }
         }
       }
@@ -1633,12 +1761,6 @@
         }
       }
     },
-    "Key" : {
-      "extractionState" : "manual"
-    },
-    "Key 1" : {
-      "extractionState" : "manual"
-    },
     "list.add" : {
       "localizations" : {
         "en" : {
@@ -1792,6 +1914,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Carousel"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carrossel"
           }
         }
       }
@@ -2092,6 +2220,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Add account"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adicionar conta"
           }
         }
       }
@@ -2445,6 +2579,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Account settings"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes de conta"
           }
         }
       }
@@ -2821,6 +2961,12 @@
             "state" : "translated",
             "value" : "Received"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recebidos"
+          }
         }
       }
     },
@@ -2831,6 +2977,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sent"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviados"
           }
         }
       }
@@ -2895,6 +3047,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Block %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloquear %@"
           }
         }
       }
@@ -3026,6 +3184,12 @@
             "state" : "translated",
             "value" : "Report %@"
           }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Denunciar %@"
+          }
         }
       }
     },
@@ -3070,6 +3234,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unblock %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquear %@"
           }
         }
       }
