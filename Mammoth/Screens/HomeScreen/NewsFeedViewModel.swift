@@ -352,6 +352,8 @@ class NewsFeedViewModel {
     public var dataSource: NewsFeedDiffableDataSource?
     public var snapshot = NewsFeedSnapshot()
     
+    var isJumpToNowButtonDisabled: Bool = false
+    
     internal var state: ViewState
     internal var listData = NewsFeedListData()
     internal var isLoadMoreEnabled: Bool = true

@@ -251,6 +251,9 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
             self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
         }
         
+        // If the user disabled the JumpToNow button (pressed the close button)
+        // re-enable it now
+        self.viewModel.isJumpToNowButtonDisabled = false
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -354,6 +357,10 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                 }
             }
         }
+        
+        // If the user disabled the JumpToNow button (pressed the close button)
+        // re-enable it now
+        self.viewModel.isJumpToNowButtonDisabled = false
     }
     
     @objc private func onThemeChange() {
@@ -759,8 +766,9 @@ extension NewsFeedViewController {
                 self.unreadIndicator.configure(unreadCount: 0)
                 self.unreadIndicator.isEnabled = true
                 
-                self.jumpToNow.isEnabled = false
-                self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+                if self.viewModel.getShowJumpToNow(forFeed: self.viewModel.type) == false {
+                    self.jumpToNow.isEnabled = false
+                }
             }
             
             self.delegate?.didScrollToTop()
@@ -798,8 +806,6 @@ extension NewsFeedViewController {
         } else {
             self.unreadIndicator.configure(unreadCount: 0)
             self.unreadIndicator.isEnabled = true
-            
-            self.jumpToNow.isEnabled = false
         }
         
         self.delegate?.didScrollToTop()
@@ -1254,6 +1260,10 @@ extension NewsFeedViewController: JumpToNewest {
                 }
             }
         }
+        
+        // If the user disabled the JumpToNow button (pressed the close button)
+        // re-enable it now
+        self.viewModel.isJumpToNowButtonDisabled = false
     }
 }
 
@@ -1578,5 +1588,6 @@ extension NewsFeedViewController: JumpToLatestDelegate {
     func onClosePress() {
         self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
         self.jumpToNow.isEnabled = false
+        self.viewModel.isJumpToNowButtonDisabled = true
     }
 }
