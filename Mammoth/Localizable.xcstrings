@@ -13,7 +13,19 @@
             "value" : "Follow Tag"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Follow Tag"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Follow Tag"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rótulo para seguir"
@@ -30,7 +42,19 @@
             "value" : "Unfollow Tag"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unfollow Tag"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unfollow Tag"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rótulo para deixar de seguir"
@@ -46,7 +70,19 @@
             "value" : "All"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "All"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "All"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tudo"
@@ -63,7 +99,19 @@
             "value" : "edited"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "edited"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "edited"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "editou"
@@ -80,7 +128,19 @@
             "value" : "followed you"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "followed you"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "followed you"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "te seguiu"
@@ -97,7 +157,19 @@
             "value" : "follow request"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "follow request"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "follow request"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "pediu para seguir"
@@ -113,7 +185,19 @@
             "value" : "Follows"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Follows"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Follows"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seguidores"
@@ -130,7 +214,19 @@
             "value" : "liked"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "liked"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "liked"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "curtiu"
@@ -147,7 +243,19 @@
             "value" : "liked your %@"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "liked your %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "liked your %@"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "curtiu %@"
@@ -164,7 +272,19 @@
             "value" : "liked your quote post"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "liked your quote post"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "liked your quote post"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "curtiu sua menção"
@@ -180,7 +300,19 @@
             "value" : "Likes"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Likes"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Likes"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Curtidas"
@@ -197,7 +329,19 @@
             "value" : "mentioned you"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "mentioned you"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "mentioned you"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "te mencionou"
@@ -214,7 +358,19 @@
             "value" : "New Followers"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "New Followers"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "New Followers"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Novos Seguidores"
@@ -231,7 +387,19 @@
             "value" : "New Posts"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "New Posts"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "New Posts"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Novas Publicações"
@@ -248,7 +416,19 @@
             "value" : "poll ended"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "poll ended"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "poll ended"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "enquete encerrou"
@@ -265,7 +445,19 @@
             "value" : "Polls"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Polls"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Polls"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enquetes"
@@ -282,7 +474,19 @@
             "value" : "posted"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "posted"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "posted"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "postou"
@@ -298,7 +502,19 @@
             "value" : "Posts"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Posts"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Posts"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Publicações"
@@ -315,7 +531,19 @@
             "value" : "reposted"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "reposted"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "reposted"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "repostou"
@@ -332,7 +560,19 @@
             "value" : "reposted your %@"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "reposted your %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "reposted your %@"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "repostou %@"
@@ -349,7 +589,19 @@
             "value" : "reposted your quote post"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "reposted your quote post"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "reposted your quote post"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "repostou sua menção"
@@ -365,7 +617,19 @@
             "value" : "Reposts"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reposts"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Reposts"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reposts"
@@ -385,7 +649,19 @@
             "value" : "%@ Communities"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Communities"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Communities"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comunidades de %@"
@@ -401,7 +677,19 @@
             "value" : "Community Name or URL"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Community Name or URL"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Community Name or URL"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nome ou URL da Comunidade"
@@ -417,7 +705,19 @@
             "value" : "A Mastodon instance"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "A Mastodon instance"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "A Mastodon instance"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Uma instância Mastodon"
@@ -433,7 +733,19 @@
             "value" : "Popular"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Popular"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Popular"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Popular"
@@ -449,7 +761,19 @@
             "value" : "Popular Communities"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Popular Communities"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Popular Communities"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comunidades Populares"
@@ -465,7 +789,19 @@
             "value" : "%d characters remaining"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%d characters remaining"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%d characters remaining"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%d caracteres disponíveis"
@@ -481,7 +817,19 @@
             "value" : "Post %d: %d"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post %d: %d"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post %d: %d"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Post %d: %d"
@@ -497,7 +845,19 @@
             "value" : "Post %d: %d characters remaining"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post %d: %d characters remaining"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post %d: %d characters remaining"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Post %d: %d caracteres disponíveis"
@@ -513,7 +873,19 @@
             "value" : "Choose language"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Choose language"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Choose language"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escolher língua"
@@ -529,7 +901,19 @@
             "value" : "Content Warning"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Content Warning"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Content Warning"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aviso de Conteúdo"
@@ -545,7 +929,19 @@
             "value" : "Content warning..."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Content warning..."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Content warning..."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aviso de conteúdo..."
@@ -561,7 +957,19 @@
             "value" : "Drafts"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Drafts"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Drafts"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rascunhos"
@@ -577,7 +985,19 @@
             "value" : "Discard"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Discard"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Discard"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descartar"
@@ -593,7 +1013,19 @@
             "value" : "Save as Draft"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Save as Draft"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Save as Draft"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salvar como Rascunho"
@@ -609,7 +1041,19 @@
             "value" : "You can upload 1 video or up to 4 images per post"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You can upload 1 video or up to 4 images per post"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You can upload 1 video or up to 4 images per post"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você pode anexar 1 vídeo ou até 4 imagens por publicação"
@@ -626,7 +1070,19 @@
             "value" : "No GIFs match this search."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No GIFs match this search."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "No GIFs match this search."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nenhum GIF corresponde à pesquisa."
@@ -643,7 +1099,19 @@
             "value" : "Search GIFs"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Search GIFs"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Search GIFs"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pesquisar por GIFs"
@@ -659,7 +1127,19 @@
             "value" : "Add %@ Description"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Add %@ Description"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Add %@ Description"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adicionar Descrição de %@"
@@ -675,7 +1155,19 @@
             "value" : "Camera"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Camera"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Camera"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Câmera"
@@ -691,7 +1183,19 @@
             "value" : "Custom Emoji"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Custom Emoji"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Custom Emoji"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Emoji Customizado"
@@ -707,7 +1211,19 @@
             "value" : "Media from Gallery"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media from Gallery"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media from Gallery"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mídia da Galeria"
@@ -723,7 +1239,19 @@
             "value" : "GIF"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "GIF"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "GIF"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "GIF"
@@ -739,7 +1267,19 @@
             "value" : "Image"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Image"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Image"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Imagem"
@@ -755,7 +1295,19 @@
             "value" : "Media upload in progress..."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media upload in progress..."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media upload in progress..."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Upload da mídia em progresso..."
@@ -771,7 +1323,19 @@
             "value" : "Are you sure you want to post this without the media?"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Are you sure you want to post this without the media?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Are you sure you want to post this without the media?"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você tem certeza de que gostaria de publicar sem a mídia?"
@@ -787,7 +1351,19 @@
             "value" : "Post Without Media"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post Without Media"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post Without Media"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Postar sem Mídia"
@@ -804,7 +1380,19 @@
             "value" : "Wait"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Wait"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Wait"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Esperar"
@@ -820,7 +1408,19 @@
             "value" : "Video"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Video"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Video"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vídeo"
@@ -836,7 +1436,19 @@
             "value" : "View %@"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "View %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "View %@"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ver %@"
@@ -852,7 +1464,19 @@
             "value" : "Poll"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Poll"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Poll"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enquete"
@@ -868,7 +1492,19 @@
             "value" : "Edit Poll"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Poll"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Poll"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar Enquete"
@@ -884,7 +1520,19 @@
             "value" : "Remove Poll"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remove Poll"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remove Poll"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Remover Enquete"
@@ -900,7 +1548,19 @@
             "value" : "Post"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Publicar"
@@ -916,7 +1576,19 @@
             "value" : "Retry"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Retry"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Retry"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tentar novamente"
@@ -932,7 +1604,19 @@
             "value" : "Mark as Sensitive"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mark as Sensitive"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mark as Sensitive"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Marcar como Sensível"
@@ -948,7 +1632,19 @@
             "value" : "Remove Sensitive Tag"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remove Sensitive Tag"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remove Sensitive Tag"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Remover Rótulo de Sensível"
@@ -964,7 +1660,19 @@
             "value" : "Post Visibility"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post Visibility"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post Visibility"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Visibilidade do Post"
@@ -980,7 +1688,19 @@
             "value" : "Everyone"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Everyone"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Everyone"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Todos"
@@ -996,7 +1716,19 @@
             "value" : "Followers"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Followers"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Followers"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seguidores"
@@ -1012,7 +1744,19 @@
             "value" : "Private"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Private"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Private"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Privado"
@@ -1028,7 +1772,19 @@
             "value" : "Unlisted"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlisted"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlisted"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Não Listado"
@@ -1057,7 +1813,43 @@
             }
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "tomorrow"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d days"
+                }
+              }
+            }
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "tomorrow"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d days"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
           "variations" : {
             "plural" : {
               "one" : {
@@ -1098,7 +1890,43 @@
             }
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "next hour"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d hours"
+                }
+              }
+            }
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "next hour"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d hours"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
           "variations" : {
             "plural" : {
               "one" : {
@@ -1139,7 +1967,43 @@
             }
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d minute"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d minutes"
+                }
+              }
+            }
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d minute"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d minutes"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
           "variations" : {
             "plural" : {
               "one" : {
@@ -1180,7 +2044,43 @@
             }
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "next month"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d months"
+                }
+              }
+            }
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "next month"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d months"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
           "variations" : {
             "plural" : {
               "one" : {
@@ -1221,7 +2121,43 @@
             }
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "next week"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d weeks"
+                }
+              }
+            }
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "next week"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d weeks"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
           "variations" : {
             "plural" : {
               "one" : {
@@ -1262,7 +2198,43 @@
             }
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "next year"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d years"
+                }
+              }
+            }
+          }
+        },
+        "nl" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "next year"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "new",
+                  "value" : "in %d years"
+                }
+              }
+            }
+          }
+        },
+        "pt" : {
           "variations" : {
             "plural" : {
               "one" : {
@@ -1291,7 +2263,19 @@
             "value" : "now"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "now"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "now"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "agora"
@@ -1308,7 +2292,19 @@
             "value" : "%dd"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dd"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dd"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%dd"
@@ -1325,7 +2321,19 @@
             "value" : "%dh"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dh"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dh"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%dh"
@@ -1342,7 +2350,19 @@
             "value" : "%dm"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dm"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dm"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%dm"
@@ -1359,7 +2379,19 @@
             "value" : "%dM"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dM"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dM"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%dM"
@@ -1376,10 +2408,22 @@
             "value" : "%dw"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dw"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dw"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%dw"
+            "value" : "%dS"
           }
         }
       }
@@ -1393,10 +2437,22 @@
             "value" : "%dy"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dy"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%dy"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%dy"
+            "value" : "%da"
           }
         }
       }
@@ -1410,7 +2466,19 @@
             "value" : "%ds"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%ds"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%ds"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%ds"
@@ -1427,7 +2495,19 @@
             "value" : "%@ people talking"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ people talking"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ people talking"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ pessoas falando"
@@ -1444,7 +2524,19 @@
             "value" : "Recommended Follows"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Recommended Follows"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Recommended Follows"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Usuários Recomendados"
@@ -1461,7 +2553,19 @@
             "value" : "Search"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Search"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Search"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pesquisar"
@@ -1478,7 +2582,19 @@
             "value" : "See all"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "See all"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "See all"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ver tudo"
@@ -1495,7 +2611,19 @@
             "value" : "Several"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Several"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Several"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vários"
@@ -1512,7 +2640,19 @@
             "value" : "Smart Lists"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Smart Lists"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Smart Lists"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Listas Inteligentes"
@@ -1529,7 +2669,19 @@
             "value" : "Trending Hashtags"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Trending Hashtags"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Trending Hashtags"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hashtags em Alta"
@@ -1546,7 +2698,19 @@
             "value" : "Users"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Users"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Users"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Usuários"
@@ -1555,14 +2719,7 @@
       }
     },
     "Display a streamlined view that focuses on the feed timeline" : {
-      "localizations" : {
-        "pt-BR" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar uma visão simplificada da linha do tempo do feed"
-          }
-        }
-      }
+
     },
     "error.cantLoadMore" : {
       "extractionState" : "manual",
@@ -1573,7 +2730,19 @@
             "value" : "Can't load more"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Can't load more"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Can't load more"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Não foi possível carregar"
@@ -1589,7 +2758,19 @@
             "value" : "Media failed to upload"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media failed to upload"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media failed to upload"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao inserir mídia"
@@ -1605,7 +2786,19 @@
             "value" : "Post failed to upload"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post failed to upload"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Post failed to upload"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha ao publicar"
@@ -1622,7 +2815,19 @@
             "value" : "Payment Sheet Failed"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Payment Sheet Failed"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Payment Sheet Failed"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Falha na Ficha de Pagamento"
@@ -1638,7 +2843,19 @@
             "value" : "Please try again"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Please try again"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Please try again"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por favor, tente novamente"
@@ -1655,7 +2872,19 @@
             "value" : "Purchase Error"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Purchase Error"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Purchase Error"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro ao Comprar"
@@ -1671,7 +2900,19 @@
             "value" : "Error signing in"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Error signing in"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Error signing in"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro ao entrar"
@@ -1688,7 +2929,19 @@
             "value" : "Customize For You"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Customize For You"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Customize For You"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Customizar Para Você"
@@ -1707,7 +2960,19 @@
             "value" : "Cancel"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Cancel"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Cancel"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancelar"
@@ -1723,7 +2988,19 @@
             "value" : "Copy"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Copy"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Copy"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copiar"
@@ -1739,7 +3016,19 @@
             "value" : "Delete"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Delete"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Delete"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apagar"
@@ -1755,7 +3044,19 @@
             "value" : "Dismiss"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dismiss"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dismiss"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ignorar"
@@ -1772,7 +3073,19 @@
             "value" : "More"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "More"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "More"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mais"
@@ -1789,7 +3102,19 @@
             "value" : "None"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "None"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "None"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nenhum"
@@ -1806,7 +3131,19 @@
             "value" : "OK"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "OK"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "OK"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
@@ -1822,7 +3159,19 @@
             "value" : "Remove"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remove"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Remove"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Remover"
@@ -1839,7 +3188,19 @@
             "value" : "Jump to a list"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Jump to a list"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Jump to a list"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pular para uma lista"
@@ -1855,7 +3216,19 @@
             "value" : "Manage feeds"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Manage feeds"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Manage feeds"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gerenciar feeds"
@@ -1872,7 +3245,19 @@
             "value" : "View trends"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "View trends"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "View trends"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ver tendências"
@@ -1888,7 +3273,19 @@
             "value" : "Add list"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Add list"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Add list"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adicionar lista"
@@ -1904,7 +3301,19 @@
             "value" : "Create new List"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Create new List"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Create new List"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Criar nova Lista"
@@ -1920,7 +3329,19 @@
             "value" : "Delete list"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Delete list"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Delete list"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apagar lista"
@@ -1936,7 +3357,19 @@
             "value" : "Are you sure you want to delete this list?"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Are you sure you want to delete this list?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Are you sure you want to delete this list?"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você tem certeza que deseja apagar essa lista?"
@@ -1952,7 +3385,19 @@
             "value" : "Edit list title"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit list title"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit list title"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar título da lista"
@@ -1969,7 +3414,19 @@
             "value" : "Manage Lists"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Manage Lists"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Manage Lists"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gerenciar Listas"
@@ -1986,7 +3443,19 @@
             "value" : "List members"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "List members"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "List members"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Membros da lista"
@@ -2002,7 +3471,19 @@
             "value" : "Browse community created Smart Lists or create a regular list?"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Browse community created Smart Lists or create a regular list?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Browse community created Smart Lists or create a regular list?"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Navegar por Listas Inteligentes curadas pela comunidade ou criar uma lista tradicional?"
@@ -2018,7 +3499,19 @@
             "value" : "Browse Smart Lists"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Browse Smart Lists"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Browse Smart Lists"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Navegar Listas Inteligentes"
@@ -2035,7 +3528,19 @@
             "value" : "Carousel"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Carousel"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Carousel"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Carrossel"
@@ -2052,7 +3557,19 @@
             "value" : "Activity"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activity"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activity"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atividade"
@@ -2069,7 +3586,19 @@
             "value" : "Discover"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Discover"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Discover"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descobrir"
@@ -2086,7 +3615,19 @@
             "value" : "Home"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Home"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Home"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Início"
@@ -2103,7 +3644,19 @@
             "value" : "Mentions"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mentions"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mentions"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Menções"
@@ -2120,7 +3673,19 @@
             "value" : "Profile"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Profile"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Profile"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Perfil"
@@ -2137,7 +3702,19 @@
             "value" : "%@ Likes"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Likes"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Likes"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ Curtidas"
@@ -2154,7 +3731,19 @@
             "value" : "%@ Like"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Like"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Like"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ Curtida"
@@ -2171,7 +3760,19 @@
             "value" : "Direct"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Direct"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Direct"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Direta"
@@ -2188,7 +3789,19 @@
             "value" : "private mention"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "private mention"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "private mention"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "menção privada"
@@ -2205,7 +3818,19 @@
             "value" : "%@ Replies"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Replies"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Replies"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ Comentários"
@@ -2222,7 +3847,19 @@
             "value" : "%@ Reply"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Reply"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Reply"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ Comentário"
@@ -2239,7 +3876,19 @@
             "value" : "%@ Reposts"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Reposts"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Reposts"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ Reposts"
@@ -2256,7 +3905,19 @@
             "value" : "%@ Repost"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Repost"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ Repost"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ Repost"
@@ -2273,7 +3934,19 @@
             "value" : "%@ reposted"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ reposted"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ reposted"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ republicou"
@@ -2289,7 +3962,19 @@
             "value" : "Share Post"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Share Post"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Share Post"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compartilhar Publicação"
@@ -2305,7 +3990,19 @@
             "value" : "Translate Post"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Translate Post"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Translate Post"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Traduzir Publicação"
@@ -2322,7 +4019,19 @@
             "value" : "via %@, %@"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "via %@, %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "via %@, %@"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "via %@, %@"
@@ -2339,7 +4048,19 @@
             "value" : "an unknown app"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "an unknown app"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "an unknown app"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "um app desconhecido"
@@ -2356,7 +4077,19 @@
             "value" : "View details"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "View details"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "View details"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ver detalhes"
@@ -2372,7 +4105,19 @@
             "value" : "View in Browser"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "View in Browser"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "View in Browser"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ver no Navegador"
@@ -2392,7 +4137,19 @@
             "value" : "Add account"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Add account"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Add account"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adicionar conta"
@@ -2408,7 +4165,19 @@
             "value" : "Awaiting approval"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Awaiting approval"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Awaiting approval"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Esperando Aprovação"
@@ -2425,7 +4194,19 @@
             "value" : "Blocked"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Blocked"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Blocked"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloqueado"
@@ -2441,7 +4222,19 @@
             "value" : "Edit Profile"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Profile"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Profile"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar Perfil"
@@ -2457,7 +4250,19 @@
             "value" : "Edit Avatar"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Avatar"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Avatar"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar Avatar"
@@ -2474,7 +4279,19 @@
             "value" : "Content..."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Content..."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Content..."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Conteúdo..."
@@ -2491,7 +4308,19 @@
             "value" : "Default Language"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Default Language"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Default Language"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Língua Padrão"
@@ -2507,7 +4336,19 @@
             "value" : "Edit Details"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Details"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Details"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar Detalhes"
@@ -2524,7 +4365,19 @@
             "value" : "Bot"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Bot"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Bot"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bot"
@@ -2541,7 +4394,19 @@
             "value" : "Discoverable"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Discoverable"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Discoverable"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descobrível"
@@ -2558,7 +4423,19 @@
             "value" : "Display Name"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Display Name"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Display Name"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nome de Exibição"
@@ -2575,7 +4452,19 @@
             "value" : "Display name..."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Display name..."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Display name..."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nome de exibição..."
@@ -2592,7 +4481,19 @@
             "value" : "Extras"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Extras"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Extras"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Extras"
@@ -2609,7 +4510,19 @@
             "value" : "Locked"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Locked"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Locked"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trancada"
@@ -2626,7 +4539,19 @@
             "value" : "Note"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Note"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Note"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nota"
@@ -2643,7 +4568,19 @@
             "value" : "Note..."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Note..."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Note..."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nota..."
@@ -2660,7 +4597,19 @@
             "value" : "Field %d"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Field %d"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Field %d"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lacuna %d"
@@ -2677,7 +4626,19 @@
             "value" : "Edit Fields"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Fields"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Fields"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar Lacunas"
@@ -2693,7 +4654,19 @@
             "value" : "Edit Header"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Header"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Header"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar Cabeçalho"
@@ -2709,7 +4682,19 @@
             "value" : "Edit Info and Links"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Info and Links"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Edit Info and Links"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar Info e Links"
@@ -2726,7 +4711,19 @@
             "value" : "Label..."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Label..."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Label..."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lacuna..."
@@ -2743,7 +4740,19 @@
             "value" : "Filters"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Filters"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Filters"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Filtros"
@@ -2759,7 +4768,19 @@
             "value" : "Follow"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Follow"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Follow"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seguir"
@@ -2775,7 +4796,19 @@
             "value" : "Follow back"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Follow back"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Follow back"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seguir de volta"
@@ -2791,7 +4824,19 @@
             "value" : "%@ followers"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ followers"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ followers"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ seguidores"
@@ -2807,7 +4852,19 @@
             "value" : "%@ follower"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ follower"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%@ follower"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ seguidor"
@@ -2823,7 +4880,19 @@
             "value" : "Joined %@"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Joined %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Joined %@"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entrou %@"
@@ -2840,7 +4909,19 @@
             "value" : "Mention"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mention"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mention"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mencionar"
@@ -2857,7 +4938,19 @@
             "value" : "Muted"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Muted"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Muted"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "SIlenciado"
@@ -2873,7 +4966,19 @@
             "value" : "Posts"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Posts"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Posts"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Publicações"
@@ -2889,7 +4994,19 @@
             "value" : "Posts & Replies"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Posts & Replies"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Posts & Replies"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Posts & Respostas"
@@ -2906,7 +5023,19 @@
             "value" : "Default Privacy"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Default Privacy"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Default Privacy"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Privacidade Padrão"
@@ -2923,7 +5052,19 @@
             "value" : "Private"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Private"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Private"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Privado"
@@ -2940,7 +5081,19 @@
             "value" : "Public"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Public"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Public"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Público"
@@ -2957,7 +5110,19 @@
             "value" : "Unlisted"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlisted"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlisted"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Não Listado"
@@ -2974,7 +5139,19 @@
             "value" : "Share profile"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Share profile"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Share profile"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compartilhar perfil"
@@ -2990,7 +5167,19 @@
             "value" : "Unfollow"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unfollow"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unfollow"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Deixar de seguir"
@@ -3006,7 +5195,19 @@
             "value" : "About"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "About"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sobre"
@@ -3023,7 +5224,19 @@
             "value" : "Accounts"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Accounts"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Accounts"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contas"
@@ -3040,7 +5253,19 @@
             "value" : "Sign Out"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sign Out"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sign Out"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sair"
@@ -3057,7 +5282,19 @@
             "value" : "Account settings"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Account settings"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Account settings"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajustes de conta"
@@ -3074,7 +5311,19 @@
             "value" : "Appearance"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Appearance"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Appearance"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aparência"
@@ -3091,7 +5340,19 @@
             "value" : "Auto-play videos & GIFs"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Auto-play videos & GIFs"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Auto-play videos & GIFs"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tocar vídeos e GIFs automaticamente"
@@ -3108,7 +5369,19 @@
             "value" : "Blur sensitive content"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Blur sensitive content"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Blur sensitive content"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desfoque de conteúdo sensível"
@@ -3125,7 +5398,19 @@
             "value" : "Circle profile icons"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Circle profile icons"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Circle profile icons"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fotos de perfil circulares"
@@ -3141,7 +5426,19 @@
             "value" : "Dark"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dark"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Dark"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escuro"
@@ -3158,7 +5455,19 @@
             "value" : "High-contrast mode"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "High-contrast mode"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "High-contrast mode"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modo de alto contraste"
@@ -3174,7 +5483,19 @@
             "value" : "Light"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Light"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Light"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Claro"
@@ -3191,7 +5512,19 @@
             "value" : "Maximum lines"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Maximum lines"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Maximum lines"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Máximo de linhas"
@@ -3208,7 +5541,19 @@
             "value" : "Media size"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media size"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Media size"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tamanho da mídia"
@@ -3225,7 +5570,19 @@
             "value" : "Names"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Names"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Names"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nomes"
@@ -3242,7 +5599,19 @@
             "value" : "Full"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Full"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Full"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Completo"
@@ -3259,7 +5628,19 @@
             "value" : "Username"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Username"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Username"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nome de usuário"
@@ -3276,7 +5657,19 @@
             "value" : "Usertag"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Usertag"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Usertag"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tag de usuário"
@@ -3293,7 +5686,19 @@
             "value" : "Example post preview showing what these changes will look like on your feed."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Example post preview showing what these changes will look like on your feed."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Example post preview showing what these changes will look like on your feed."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exemplo de publicação mostrando como suas mudanças aparecerão no feed."
@@ -3310,7 +5715,19 @@
             "value" : "Content warning overlays"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Content warning overlays"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Content warning overlays"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sobreposição de avisos de conteúdo"
@@ -3327,7 +5744,19 @@
             "value" : "System"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "System"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "System"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sistema"
@@ -3344,7 +5773,19 @@
             "value" : "Text Size"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Text Size"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Text Size"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tamanho do Texto"
@@ -3361,7 +5802,19 @@
             "value" : "Theme"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Theme"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Theme"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tema"
@@ -3378,7 +5831,19 @@
             "value" : "Translation language"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Translation language"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Translation language"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Língua de tradução"
@@ -3395,7 +5860,19 @@
             "value" : "App icon"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "App icon"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "App icon"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ícone do app"
@@ -3412,7 +5889,19 @@
             "value" : "App Icon"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "App Icon"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "App Icon"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ícone do App"
@@ -3428,7 +5917,19 @@
             "value" : "App lock"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "App lock"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "App lock"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trava do app"
@@ -3445,7 +5946,19 @@
             "value" : "Build %@"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Build %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Build %@"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compilação"
@@ -3461,7 +5974,19 @@
             "value" : "Clear cache and data"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Clear cache and data"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Clear cache and data"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limpar cache e dados"
@@ -3478,7 +6003,19 @@
             "value" : "Clear cache"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Clear cache"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Clear cache"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limpar cache"
@@ -3494,7 +6031,19 @@
             "value" : "Clearing cached data may help in freeing up device storage, and may be useful to do if you notice lag or declining performance in the app."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Clearing cached data may help in freeing up device storage, and may be useful to do if you notice lag or declining performance in the app."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Clearing cached data may help in freeing up device storage, and may be useful to do if you notice lag or declining performance in the app."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limpar dados em cache pode ajudar a liberar armazenamento do dispositivo, e pode ser útil se você notar lag ou perda de desempenho do app."
@@ -3511,7 +6060,19 @@
             "value" : "This will clear all cached information and can't be undone."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This will clear all cached information and can't be undone."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This will clear all cached information and can't be undone."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Isso vai apagar todos os dados em cache e não pode ser desfeito."
@@ -3528,7 +6089,19 @@
             "value" : "Clear Cache?"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Clear Cache?"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Clear Cache?"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limpar Cache?"
@@ -3545,7 +6118,19 @@
             "value" : "Composer"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Composer"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Composer"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compositor"
@@ -3562,7 +6147,19 @@
             "value" : "Require Image Descriptions"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Require Image Descriptions"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Require Image Descriptions"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exigir Descrições de Imagem"
@@ -3579,7 +6176,19 @@
             "value" : "Prevent posting posts unless alt text image descriptions have been added to attached images."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Prevent posting posts unless alt text image descriptions have been added to attached images."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Prevent posting posts unless alt text image descriptions have been added to attached images."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Previne que posts sejam postados sem que sejam adicionadas descrições de imagem aos anexos."
@@ -3596,7 +6205,19 @@
             "value" : "Threader Mode"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Threader Mode"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Threader Mode"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modo de Threads"
@@ -3613,7 +6234,19 @@
             "value" : "Thread Style"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Thread Style"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Thread Style"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Estilo de Thread"
@@ -3630,7 +6263,19 @@
             "value" : "Get in touch"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Get in touch"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Get in touch"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entrar em contato"
@@ -3647,7 +6292,19 @@
             "value" : "Email Logs as Attachment"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Email Logs as Attachment"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Email Logs as Attachment"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Anexar Logs por Email"
@@ -3664,7 +6321,19 @@
             "value" : "Mammoth was made with ♥ by The BLVD Inc."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mammoth was made with ♥ by The BLVD Inc."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mammoth was made with ♥ by The BLVD Inc."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mammoth foi feito com ♥ pela The BLVD Inc."
@@ -3681,7 +6350,19 @@
             "value" : "Find out more about Mammoth."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Find out more about Mammoth."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Find out more about Mammoth."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saiba mais sobre o Mammoth."
@@ -3698,7 +6379,19 @@
             "value" : "You may sometimes be prompted to review Mammoth on the App Store when viewing post details. Disabling the above toggle will prevent these requests."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You may sometimes be prompted to review Mammoth on the App Store when viewing post details. Disabling the above toggle will prevent these requests."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You may sometimes be prompted to review Mammoth on the App Store when viewing post details. Disabling the above toggle will prevent these requests."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você pode ser lembrado eventualmente de avaliar o Mammoth na App Store quando abre detalhes de um post. Desabilitar a opção acima vai impedir esses lembretes."
@@ -3715,7 +6408,19 @@
             "value" : "Enable Debug Logging"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enable Debug Logging"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enable Debug Logging"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Habilitar Logs de Depuração"
@@ -3732,7 +6437,19 @@
             "value" : "Logs may include your account handles (@mammoth@moth.social), but never login information, text from posts or DMs, or any other private info. You can review the email attachment before it's sent."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Logs may include your account handles (@mammoth@moth.social), but never login information, text from posts or DMs, or any other private info. You can review the email attachment before it's sent."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Logs may include your account handles (@mammoth@moth.social), but never login information, text from posts or DMs, or any other private info. You can review the email attachment before it's sent."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Logs podem incluir seus nomes de usuário (@mammoth@moth.social), mas nunca informações de login, texto de publicações ou DMs ou quaisquer outras informações pessoais. Você pode revisar o anexo do email antes de enviá-lo."
@@ -3749,7 +6466,19 @@
             "value" : "1. Enable Debug Logging"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "1. Enable Debug Logging"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "1. Enable Debug Logging"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "1. Habilite Logs de Depuração"
@@ -3766,7 +6495,19 @@
             "value" : "2. Reproduce the problem"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "2. Reproduce the problem"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "2. Reproduce the problem"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "2. Reproduza o problema"
@@ -3782,7 +6523,19 @@
             "value" : "3. Email us the logs"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "3. Email us the logs"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "3. Email us the logs"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "3. Nos mande as logs por email"
@@ -3798,7 +6551,19 @@
             "value" : "4. Disable Debug Logging"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "4. Disable Debug Logging"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "4. Disable Debug Logging"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "4. Desabilitar Logs de Depuração"
@@ -3815,7 +6580,19 @@
             "value" : "Server Privacy Policy"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Server Privacy Policy"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Server Privacy Policy"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Política de Privacidade do Servidor"
@@ -3832,7 +6609,19 @@
             "value" : "Review Prompt"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Review Prompt"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Review Prompt"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aviso de Avaliação"
@@ -3849,7 +6638,19 @@
             "value" : "Get in Touch"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Get in Touch"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Get in Touch"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entrar em Contato"
@@ -3866,7 +6667,19 @@
             "value" : "Website"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Website"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Website"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Website"
@@ -3883,7 +6696,19 @@
             "value" : "Mammoth Gold Active!"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mammoth Gold Active!"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mammoth Gold Active!"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mammoth Gold Ativo!"
@@ -3900,7 +6725,19 @@
             "value" : "Best deal"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Best deal"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Best deal"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Melhor negócio"
@@ -3917,7 +6754,19 @@
             "value" : "Join the supporter community to get access to our discord and vote on new features."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Join the supporter community to get access to our discord and vote on new features."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Join the supporter community to get access to our discord and vote on new features."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entre na comunidade de apoiadores para ter acesso ao Discord e votar em novas funções."
@@ -3934,7 +6783,19 @@
             "value" : "early access to new features"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "early access to new features"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "early access to new features"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "acesso antecipado às funções novas"
@@ -3951,7 +6812,19 @@
             "value" : "supporter only app icons"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "supporter only app icons"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "supporter only app icons"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "ícones de app apenas para apoiadores"
@@ -3968,7 +6841,19 @@
             "value" : "Join community"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Join community"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Join community"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Entrar na comunidade"
@@ -3985,7 +6870,19 @@
             "value" : "Restore previous purchases"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Restore previous purchases"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Restore previous purchases"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Restaurar compras anteriores"
@@ -4002,7 +6899,19 @@
             "value" : "support an open and free web"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "support an open and free web"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "support an open and free web"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "apoiar uma rede aberta e livre"
@@ -4019,7 +6928,19 @@
             "value" : "Unlock Icons"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlock Icons"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unlock Icons"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desbloquear Ícones"
@@ -4036,7 +6957,19 @@
             "value" : "Upgrade to Gold"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Upgrade to Gold"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Upgrade to Gold"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atualizar para Gold"
@@ -4053,7 +6986,19 @@
             "value" : "vote on new features"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "vote on new features"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "vote on new features"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "vote em novas funções"
@@ -4069,7 +7014,19 @@
             "value" : "Manage subscriptions"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Manage subscriptions"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Manage subscriptions"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gerenciar Assinaturas"
@@ -4085,7 +7042,19 @@
             "value" : "Notifications"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Notifications"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Notifications"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notificações"
@@ -4102,7 +7071,19 @@
             "value" : "Activity Notifications"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activity Notifications"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activity Notifications"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notificações de Atividade"
@@ -4119,7 +7100,19 @@
             "value" : "Activity Badges"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activity Badges"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activity Badges"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ícones de Atividade"
@@ -4136,7 +7129,19 @@
             "value" : "Receive push notifications for activity notifications."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Receive push notifications for activity notifications."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Receive push notifications for activity notifications."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Receber notificações push para notificações de atividade."
@@ -4153,7 +7158,19 @@
             "value" : "Toggle whether to receive push notifications for mentions, likes, reposts, new followers, polls, or new posts from users."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Toggle whether to receive push notifications for mentions, likes, reposts, new followers, polls, or new posts from users."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Toggle whether to receive push notifications for mentions, likes, reposts, new followers, polls, or new posts from users."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Habilitar se você deseja receber notificações push para menções, curtidas, reposts, novos seguidores, enquetes ou novas publicações."
@@ -4170,7 +7187,19 @@
             "value" : "Pick whether to display activity badges in the tab bar for newly received notifications."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Pick whether to display activity badges in the tab bar for newly received notifications."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Pick whether to display activity badges in the tab bar for newly received notifications."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escolha se você deseja que apareçam ícones na barra de início para novas notificações."
@@ -4187,7 +7216,19 @@
             "value" : "Push Notifications"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Push Notifications"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Push Notifications"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notificações Push"
@@ -4203,7 +7244,19 @@
             "value" : "Open links in browser"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Open links in browser"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Open links in browser"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Abrir links no navegador"
@@ -4219,7 +7272,19 @@
             "value" : "Siri shortcuts"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Siri shortcuts"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Siri shortcuts"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atalhos da Siri"
@@ -4236,7 +7301,19 @@
             "value" : "Compose a Post"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Compose a Post"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Compose a Post"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compor um Post"
@@ -4253,7 +7330,19 @@
             "value" : "Assign Siri Shortcuts to do specific things."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Assign Siri Shortcuts to do specific things."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Assign Siri Shortcuts to do specific things."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atribuir Atalhos da Siri para coisas específicas."
@@ -4270,7 +7359,19 @@
             "value" : "You can also set up the ability to post directly via the Shortcuts app."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You can also set up the ability to post directly via the Shortcuts app."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You can also set up the ability to post directly via the Shortcuts app."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Você pode configurar a capacidade de publicar diretamente do app de Atalhos."
@@ -4287,7 +7388,19 @@
             "value" : "Siri Shortcuts"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Siri Shortcuts"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Siri Shortcuts"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atalhos da Siri"
@@ -4304,7 +7417,19 @@
             "value" : "Sounds and Haptics"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sounds and Haptics"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sounds and Haptics"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Som e Tato"
@@ -4321,7 +7446,19 @@
             "value" : "Sounds across the app."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sounds across the app."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sounds across the app."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sons pelo app."
@@ -4338,7 +7475,19 @@
             "value" : "Haptics across the app, when switching tabs, and for pop-up alerts."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Haptics across the app, when switching tabs, and for pop-up alerts."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Haptics across the app, when switching tabs, and for pop-up alerts."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tato pelo app, quando mudar de abas e para alertas pop-up."
@@ -4355,7 +7504,19 @@
             "value" : "Haptics"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Haptics"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Haptics"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tato"
@@ -4372,7 +7533,19 @@
             "value" : "Sounds"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sounds"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sounds"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sons"
@@ -4388,7 +7561,19 @@
             "value" : "Version %@"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Version %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Version %@"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Versão %@"
@@ -4405,7 +7590,19 @@
             "value" : "Activity"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activity"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Activity"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atividade"
@@ -4422,7 +7619,19 @@
             "value" : "Bookmarks"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Bookmarks"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Bookmarks"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Salvos"
@@ -4439,7 +7648,19 @@
             "value" : "Federated"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Federated"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Federated"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Federado"
@@ -4456,7 +7677,19 @@
             "value" : "Following"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Following"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Following"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Seguindo"
@@ -4473,7 +7706,19 @@
             "value" : "For You"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "For You"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "For You"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Para Você"
@@ -4490,7 +7735,19 @@
             "value" : "Likes"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Likes"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Likes"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Curtidas"
@@ -4506,7 +7763,19 @@
             "value" : "Mentions"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mentions"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mentions"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Menções"
@@ -4522,7 +7791,19 @@
             "value" : "Received Mentions"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Received Mentions"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Received Mentions"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Menções Recebidas"
@@ -4538,7 +7819,19 @@
             "value" : "Sent Mentions"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sent Mentions"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sent Mentions"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Menções Enviadas"
@@ -4555,7 +7848,19 @@
             "value" : "Received"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Received"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Received"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recebidos"
@@ -4571,7 +7876,19 @@
             "value" : "Retrieved"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Retrieved"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Retrieved"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Recebido"
@@ -4588,7 +7905,19 @@
             "value" : "Sent"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sent"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Sent"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enviado"
@@ -4605,7 +7934,19 @@
             "value" : "Settings"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Settings"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Settings"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajustes"
@@ -4621,7 +7962,19 @@
             "value" : "Trending"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Trending"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Trending"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Em Alta"
@@ -4638,7 +7991,19 @@
             "value" : "Long press the Profile tab to quickly switch between accounts."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Long press the Profile tab to quickly switch between accounts."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Long press the Profile tab to quickly switch between accounts."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Segure no ícone do perfil para mudar rapidamente entre contas."
@@ -4655,7 +8020,19 @@
             "value" : "Tap here and choose “%@” to choose what shows up here!"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tap here and choose “%@” to choose what shows up here!"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Tap here and choose “%@” to choose what shows up here!"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Toque aqui e selecione \"%@\" para escolher o que aparece aqui em cima!"
@@ -4672,7 +8049,19 @@
             "value" : "Long press the Home tab to quickly jump to other feeds."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Long press the Home tab to quickly jump to other feeds."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Long press the Home tab to quickly jump to other feeds."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Segure no ícone de "
@@ -4689,7 +8078,19 @@
             "value" : "For You shows the top posts from all of your  /smart lists."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "For You shows the top posts from all of your  /smart lists."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "For You shows the top posts from all of your  /smart lists."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Para Você mostra os posts mais populares de todas as suas /listas inteligentes."
@@ -4706,7 +8107,19 @@
             "value" : "Smart lists marked with a /slash are community curated lists."
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Smart lists marked with a /slash are community curated lists."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Smart lists marked with a /slash are community curated lists."
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Listas Inteligentes marcadas com uma /barrinha são comunidades curadas pela comunidade."
@@ -4726,7 +8139,19 @@
             "value" : "Block"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Block"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Block"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloquear"
@@ -4743,7 +8168,19 @@
             "value" : "Block %@"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Block %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Block %@"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloquear %@"
@@ -4760,7 +8197,19 @@
             "value" : "Disable Notifications"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Disable Notifications"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Disable Notifications"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desabilitar Notificações"
@@ -4777,7 +8226,19 @@
             "value" : "Disable Reposts"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Disable Reposts"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Disable Reposts"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desabilitar Reposts"
@@ -4794,7 +8255,19 @@
             "value" : "Enable Notifications"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enable Notifications"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enable Notifications"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Habilitar Notificações"
@@ -4811,7 +8284,19 @@
             "value" : "Enable Reposts"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enable Reposts"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Enable Reposts"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Habilitar Reposts"
@@ -4828,7 +8313,19 @@
             "value" : "Mute 1 Day"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mute 1 Day"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mute 1 Day"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Silenciar 1 Dia"
@@ -4845,7 +8342,19 @@
             "value" : "Mute Forever"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mute Forever"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mute Forever"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Silenciar Para Sempre"
@@ -4862,7 +8371,19 @@
             "value" : "Mute %@"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mute %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Mute %@"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Silenciar %@"
@@ -4879,7 +8400,19 @@
             "value" : "Report %@"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Report %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Report %@"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Denunciar %@"
@@ -4896,7 +8429,19 @@
             "value" : "Share Link"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Share Link"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Share Link"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Compartilhar Link"
@@ -4913,7 +8458,19 @@
             "value" : "Unblock"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unblock"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unblock"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desbloquear"
@@ -4930,7 +8487,19 @@
             "value" : "Unblock %@"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unblock %@"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unblock %@"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desbloquear %@"
@@ -4947,7 +8516,19 @@
             "value" : "Unmute"
           }
         },
-        "pt-BR" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unmute"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Unmute"
+          }
+        },
+        "pt" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dessilenciar"
