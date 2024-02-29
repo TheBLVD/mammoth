@@ -627,12 +627,6 @@ extension NewsFeedViewController {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let item = self.viewModel.getItemForIndexPath(indexPath) {
-            if case .postCard(let postCardModel) = item {
-                return postCardModel.cellHeight ?? UITableView.automaticDimension
-            }
-        }
-        
         return UITableView.automaticDimension
     }
     

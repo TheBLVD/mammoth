@@ -500,8 +500,8 @@ extension NewsFeedViewModel {
         guard type == self.type else { return }
         
         // Save cards to disk
-        let scrollPosition = self.getScrollPosition(forFeed: type)
-        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
+//        let scrollPosition = self.getScrollPosition(forFeed: type)
+//        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
         
         self.snapshot.deleteSections([.main])
         self.snapshot.appendSections([.main])
@@ -876,6 +876,20 @@ extension NewsFeedViewModel {
             feedType: type,
             updateType: .removeAll,
             onCompleted: nil)
+    }
+    
+    func clearAllHeights(forType type: NewsFeedTypes) {
+        if let current = self.listData.forType(type: type) {
+            let updated = current.compactMap({
+                if case .postCard(let postCard) = $0 {
+                    postCard.cellHeight = 0
+                    return NewsFeedListItem.postCard(postCard)
+                }
+
+                return nil
+            })
+            self.listData.set(items: updated, forType: type)
+        }
     }
     
     // MARK: - Loader

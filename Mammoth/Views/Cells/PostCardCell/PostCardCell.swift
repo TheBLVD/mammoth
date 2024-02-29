@@ -306,6 +306,17 @@ final class PostCardCell: UITableViewCell {
         return metaText
     }()
     
+    private var hiddenImageIndicator: UILabel = {
+        let label = UILabel()
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
+        label.textColor = .custom.highContrast
+        label.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        return label
+    }()
+    
     private var postTextTrailingConstraint: NSLayoutConstraint?
     
     // Contains image attachment, poll, and/or link preview if needed
@@ -418,6 +429,8 @@ final class PostCardCell: UITableViewCell {
         self.separatorInset = .zero
         
 //        self.readMoreButton?.isHidden = true
+        
+        self.hiddenImageIndicator.isHidden = true
         
         self.contentStackView.setCustomSpacing(self.contentStackView.spacing, after: self.header)
         
@@ -543,6 +556,11 @@ private extension PostCardCell {
         }
         
         if self.cellVariant.hasMedia {
+            
+            if self.cellVariant.mediaVariant == .hidden {
+                contentStackView.addArrangedSubview(hiddenImageIndicator)
+            }
+            
             contentStackView.addArrangedSubview(mediaContainer)
                         
             if UIDevice.current.userInterfaceIdiom == .phone {
@@ -599,7 +617,7 @@ private extension PostCardCell {
                 mediaGalleryTrailingConstraint = self.mediaGallery!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
             default: break
             }
-            
+
             // Setup Poll
             self.poll = PostCardPoll()
             self.poll?.translatesAutoresizingMaskIntoConstraints = false
@@ -732,6 +750,14 @@ extension PostCardCell {
         self.configureMetaTextContent()
         
         if self.cellVariant.hasMedia {
+            
+            if type != .detail && postCard.hasMediaAttachment && !postCard.mediaAttachmentDescription.isEmpty {
+                self.hiddenImageIndicator.text = "(\(postCard.mediaAttachmentDescription))"
+                self.hiddenImageIndicator.isHidden = false
+            } else {
+                self.hiddenImageIndicator.isHidden = true
+            }
+            
             // Display poll if needed
             if postCard.containsPoll {
                 self.poll?.prepareForReuse()
@@ -924,7 +950,7 @@ extension PostCardCell {
                 self.postTextView.configure(content: postTextContent)
                 self.postTextView.isHidden = false
                 
-            } else if [.small, .hidden].contains(self.cellVariant.mediaVariant) {
+            } else if [.small].contains(self.cellVariant.mediaVariant) {
                 // If there's no post text, but a media attachment,
                 // set the post text to either:
                 //  - ([type])
@@ -942,6 +968,8 @@ extension PostCardCell {
                 } else {
                     self.postTextView.isHidden = true
                 }
+            } else {
+                self.postTextView.isHidden = true
             }
             
 //            self.readMoreButton?.isHidden = true
