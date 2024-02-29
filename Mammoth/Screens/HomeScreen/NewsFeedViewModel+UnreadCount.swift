@@ -9,7 +9,10 @@
 import Foundation
 
 internal struct NewsFeedUnreadState {
-    var count: Int = 0
+    var count: Int {
+        return unreadIDs.count
+    }
+    var unreadIDs = Set<String>()
     var enabled: Bool = true
     var unreadPics: [URL] = []
     var showJumpToNow: Bool = false
@@ -29,49 +32,6 @@ internal struct NewsFeedUnreadStates {
     var mentionsOut = NewsFeedUnreadState()
     var activity: [String: NewsFeedUnreadState] = [:]
     var channel: [String: NewsFeedUnreadState] = [:]
-
-    mutating func setCount(count: Int, forFeed type: NewsFeedTypes) {
-        switch type {
-        case .forYou:
-            forYou.count = count
-        case .following:
-            following.count = count
-        case .federated:
-            federated.count = count
-        case .community(let name):
-            var model = community[name] ?? NewsFeedUnreadState()
-            model.count = count
-            community[name] = model
-        case .trending(let name):
-            var model = trending[name] ?? NewsFeedUnreadState()
-            model.count = count
-            trending[name] = model
-        case .hashtag(let tag):
-            var model = hashtag[tag.name] ?? NewsFeedUnreadState()
-            model.count = count
-            hashtag[tag.name] = model
-        case .list(let data):
-            var model = list[data.id] ?? NewsFeedUnreadState()
-            model.count = count
-            list[data.id] = model
-        case .likes:
-            likes.count = count
-        case .bookmarks:
-            bookmarks.count = count
-        case .mentionsIn:
-            mentionsIn.count = count
-        case .mentionsOut:
-            mentionsOut.count = count
-        case .activity(let type):
-            var model = activity[type?.rawValue ?? "all"] ?? NewsFeedUnreadState()
-            model.count = count
-            activity[type?.rawValue ?? "all"] = model
-        case .channel(let data):
-            var model = channel[data.id] ?? NewsFeedUnreadState()
-            model.count = count
-            channel[data.id] = model
-        }
-    }
     
     mutating func setEnabled(enabled: Bool, forFeed type: NewsFeedTypes) {
         switch type {
@@ -202,6 +162,135 @@ internal struct NewsFeedUnreadStates {
         }
     }
     
+    mutating func addUnreadIds(ids: [String], forFeed type: NewsFeedTypes) {
+        switch type {
+        case .forYou:
+            forYou.unreadIDs.formUnion(ids)
+        case .following:
+            following.unreadIDs.formUnion(ids)
+        case .federated:
+            federated.unreadIDs.formUnion(ids)
+        case .community(let name):
+            var model = community[name] ?? NewsFeedUnreadState()
+            model.unreadIDs.formUnion(ids)
+            community[name] = model
+        case .trending(let name):
+            var model = trending[name] ?? NewsFeedUnreadState()
+            model.unreadIDs.formUnion(ids)
+            trending[name] = model
+        case .hashtag(let data):
+            var model = hashtag[data.name] ?? NewsFeedUnreadState()
+            model.unreadIDs.formUnion(ids)
+            hashtag[data.name] = model
+        case .list(let data):
+            var model = list[data.id] ?? NewsFeedUnreadState()
+            model.unreadIDs.formUnion(ids)
+            list[data.id] = model
+        case .likes:
+            likes.unreadIDs.formUnion(ids)
+        case .bookmarks:
+            bookmarks.unreadIDs.formUnion(ids)
+        case .mentionsIn:
+            mentionsIn.unreadIDs.formUnion(ids)
+        case .mentionsOut:
+            mentionsOut.unreadIDs.formUnion(ids)
+        case .activity(let type):
+            var model = activity[type?.rawValue ?? "all"] ?? NewsFeedUnreadState()
+            model.unreadIDs.formUnion(ids)
+            activity[type?.rawValue ?? "all"] = model
+        case .channel(let data):
+            var model = channel[data.id] ?? NewsFeedUnreadState()
+            model.unreadIDs.formUnion(ids)
+            channel[data.id] = model
+        }
+    }
+    
+    mutating func removeUnreadId(id: String, forFeed type: NewsFeedTypes) {
+        switch type {
+        case .forYou:
+            forYou.unreadIDs.remove(id)
+        case .following:
+            following.unreadIDs.remove(id)
+        case .federated:
+            federated.unreadIDs.remove(id)
+        case .community(let name):
+            var model = community[name] ?? NewsFeedUnreadState()
+            model.unreadIDs.remove(id)
+            community[name] = model
+        case .trending(let name):
+            var model = trending[name] ?? NewsFeedUnreadState()
+            model.unreadIDs.remove(id)
+            trending[name] = model
+        case .hashtag(let data):
+            var model = hashtag[data.name] ?? NewsFeedUnreadState()
+            model.unreadIDs.remove(id)
+            hashtag[data.name] = model
+        case .list(let data):
+            var model = list[data.id] ?? NewsFeedUnreadState()
+            model.unreadIDs.remove(id)
+            list[data.id] = model
+        case .likes:
+            likes.unreadIDs.remove(id)
+        case .bookmarks:
+            bookmarks.unreadIDs.remove(id)
+        case .mentionsIn:
+            mentionsIn.unreadIDs.remove(id)
+        case .mentionsOut:
+            mentionsOut.unreadIDs.remove(id)
+        case .activity(let type):
+            var model = activity[type?.rawValue ?? "all"] ?? NewsFeedUnreadState()
+            model.unreadIDs.remove(id)
+            activity[type?.rawValue ?? "all"] = model
+        case .channel(let data):
+            var model = channel[data.id] ?? NewsFeedUnreadState()
+            model.unreadIDs.remove(id)
+            channel[data.id] = model
+        }
+    }
+    
+    mutating func clearAllUnreadIds(forFeed type: NewsFeedTypes) {
+        switch type {
+        case .forYou:
+            forYou.unreadIDs.removeAll()
+        case .following:
+            following.unreadIDs.removeAll()
+        case .federated:
+            federated.unreadIDs.removeAll()
+        case .community(let name):
+            var model = community[name] ?? NewsFeedUnreadState()
+            model.unreadIDs.removeAll()
+            community[name] = model
+        case .trending(let name):
+            var model = trending[name] ?? NewsFeedUnreadState()
+            model.unreadIDs.removeAll()
+            trending[name] = model
+        case .hashtag(let data):
+            var model = hashtag[data.name] ?? NewsFeedUnreadState()
+            model.unreadIDs.removeAll()
+            hashtag[data.name] = model
+        case .list(let data):
+            var model = list[data.id] ?? NewsFeedUnreadState()
+            model.unreadIDs.removeAll()
+            list[data.id] = model
+        case .likes:
+            likes.unreadIDs.removeAll()
+        case .bookmarks:
+            bookmarks.unreadIDs.removeAll()
+        case .mentionsIn:
+            mentionsIn.unreadIDs.removeAll()
+        case .mentionsOut:
+            mentionsOut.unreadIDs.removeAll()
+        case .activity(let type):
+            var model = activity[type?.rawValue ?? "all"] ?? NewsFeedUnreadState()
+            model.unreadIDs.removeAll()
+            activity[type?.rawValue ?? "all"] = model
+        case .channel(let data):
+            var model = channel[data.id] ?? NewsFeedUnreadState()
+            model.unreadIDs.removeAll()
+            channel[data.id] = model
+        }
+    }
+    
     func getState(forType type: NewsFeedTypes) -> NewsFeedUnreadState {
         switch type {
         case .forYou:
@@ -236,15 +325,6 @@ internal struct NewsFeedUnreadStates {
 
 // MARK: - Unread count accessors
 extension NewsFeedViewModel {
-    func setUnreadState(count: Int, enabled: Bool, forFeed type: NewsFeedTypes) {
-        self.unreadCounts.setCount(count: count, forFeed: type)
-        self.unreadCounts.setEnabled(enabled: enabled, forFeed: type)
-    }
-    
-    func setUnreadCount(count: Int, forFeed type: NewsFeedTypes) {
-        self.unreadCounts.setCount(count: count, forFeed: type)
-    }
-    
     func setUnreadEnabled(enabled: Bool, forFeed type: NewsFeedTypes) {
         self.unreadCounts.setEnabled(enabled: enabled, forFeed: type)
     }
@@ -253,8 +333,20 @@ extension NewsFeedViewModel {
         self.unreadCounts.setUnreadPics(urls: urls, forFeed: type)
     }
     
+    func addUnreadIds(ids: [String], forFeed type: NewsFeedTypes) {
+        self.unreadCounts.addUnreadIds(ids: ids, forFeed: type)
+    }
+    
+    func removeUnreadId(id: String, forFeed type: NewsFeedTypes) {
+        self.unreadCounts.removeUnreadId(id: id, forFeed: type)
+    }
+    
+    func clearAllUnreadIds(forFeed type: NewsFeedTypes) {
+        self.unreadCounts.clearAllUnreadIds(forFeed: type)
+    }
+    
     func getUnreadCount(forFeed type: NewsFeedTypes) -> Int {
-        return self.unreadCounts.getState(forType: type).count
+        return self.unreadCounts.getState(forType: type).unreadIDs.count
     }
     
     func getUnreadEnabled(forFeed type: NewsFeedTypes) -> Bool {

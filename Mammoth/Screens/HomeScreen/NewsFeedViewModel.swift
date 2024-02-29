@@ -421,10 +421,12 @@ class NewsFeedViewModel {
                         guard type == .mentionsIn else { return }
                         if let status = notification.status {
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity2"), object: self)
-                            let currentUnreadCount = self.getUnreadCount(forFeed: .mentionsIn)
-                            self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .mentionsIn)
                             let newPost = PostCardModel(status: status)
                             let newItem = NewsFeedListItem.postCard(newPost)
+                            
+                            self.addUnreadIds(ids: [newItem.uniqueId()], forFeed: .mentionsIn)
+                            self.setUnreadEnabled(enabled: true, forFeed: .mentionsIn)
+                            
                             if !self.isItemInSnapshot(newItem) {
                                 newPost.preloadQuotePost()
                                 self.insertNewest(items: [newItem], includeLoadMore: false, forType: .mentionsIn)
@@ -432,16 +434,20 @@ class NewsFeedViewModel {
                         }
                     } else {
                         if case .activity(let activityType) = type, notification.type == activityType {
-                            let currentUnreadCount = self.getUnreadCount(forFeed: .activity(activityType))
-                            self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity(activityType))
                             let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
+                            
+                            self.addUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
+                            self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
+                            
                             if !self.isItemInSnapshot(newItem) {
                                 self.insertNewest(items: [newItem], includeLoadMore: false, forType: .activity(activityType))
                             }
                         } else if case .activity(let activityType) = type, activityType == nil { // activityType == nil means All activity
-                            let currentUnreadCount = self.getUnreadCount(forFeed: .activity(nil))
-                            self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity(nil))
                             let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
+                            
+                            self.addUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
+                            self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
+                            
                             if !self.isItemInSnapshot(newItem) {
                                 self.insertNewest(items: [newItem], includeLoadMore: false, forType: .activity(nil))
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: self)
@@ -549,7 +555,7 @@ private extension NewsFeedViewModel {
                     if NewsFeedTypes.allActivityTypes.contains(self.type) {
                         self.listData.activity.forEach { (key, activities) in
                             if let index = activities.firstIndex(where: {$0.extractPostCard()?.uniqueId == postCard.uniqueId}) {
-                                if case .activity(var activity) = activities[index] {
+                                if case .activity(let activity) = activities[index] {
                                     activity.postCard = postCard
                                     let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
                                     self.update(with: .activity(activity), forType: .activity(activityType))

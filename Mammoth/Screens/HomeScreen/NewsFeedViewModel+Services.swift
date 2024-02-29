@@ -606,7 +606,7 @@ extension NewsFeedViewModel {
         let forceFYCheck: Bool = type == .forYou
         
         if self.pollingTask == nil || self.pollingTask!.isCancelled {
-            self.pollingTask = Task { [weak self] in
+            self.pollingTask = Task(priority: .medium) { [weak self] in
                 guard let self else { return }
                 var fetchingNewItems = false
 
@@ -652,7 +652,9 @@ extension NewsFeedViewModel {
                                 self.stopPollingListData()
                                 if !self.isJumpToNowButtonDisabled {
                                     self.setShowJumpToNow(enabled: true, forFeed: type)
-                                    self.delegate?.didUpdateUnreadState(type: type)
+                                    DispatchQueue.main.async { [weak self] in
+                                        self?.delegate?.didUpdateUnreadState(type: type)
+                                    }
                                 }
                             } else {
                                 self.setShowJumpToNow(enabled: false, forFeed: type)
@@ -672,7 +674,7 @@ extension NewsFeedViewModel {
     
     func requestItemSync(forIndexPath indexPath: IndexPath, afterSeconds delay: CGFloat) {
         if let item = self.getItemForIndexPath(indexPath) {
-            self.postSyncingTasks[indexPath] = Task { [weak self] in
+            self.postSyncingTasks[indexPath] = Task(priority: .medium) { [weak self] in
                 guard let self else { return }
                 try await Task.sleep(seconds: delay)
                 guard !NetworkMonitor.shared.isNearRateLimit else {
@@ -710,16 +712,20 @@ extension NewsFeedViewModel {
                     guard !Task.isCancelled else { return }
 
                     let newPostCard = postCard.mergeInOriginalData(status: status)
-                    NotificationCenter.default.post(name: PostActions.didUpdatePostCardNotification, object: nil, userInfo: ["postCard": newPostCard])
+                    await MainActor.run { [weak self] in
+                        guard let self else { return }
+                        self.update(with: .postCard(newPostCard), forType: self.type, silently: false)
+                    }
                 }
             } catch {
                 guard !Task.isCancelled else { return }
                 
                 postCard.isSyncedWithOriginal = true
                 
-                await MainActor.run {
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
                     postCard.isSyncedWithOriginal = true
-                    self.update(with: .postCard(postCard), forType: self.type)
+                    self.update(with: .postCard(postCard), forType: self.type, silently: true)
                 }
                 
                 switch error as? ClientError {
@@ -736,7 +742,10 @@ extension NewsFeedViewModel {
                             if webfinger == nil || !webfinger!.isEmpty {
                                 let deletedPostCard = postCard
                                 deletedPostCard.isDeleted = true
-                                NotificationCenter.default.post(name: PostActions.didUpdatePostCardNotification, object: nil, userInfo: ["postCard": deletedPostCard])
+                                await MainActor.run { [weak self] in
+                                    guard let self else { return }
+                                    self.update(with: .postCard(deletedPostCard), forType: self.type, silently: false)
+                                }
                             }
                         }
                     }
