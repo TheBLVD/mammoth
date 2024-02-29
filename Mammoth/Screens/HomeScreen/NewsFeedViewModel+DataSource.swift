@@ -271,7 +271,7 @@ internal struct NewsFeedListData {
                     self.update(item: item, atIndex: index, forType: feedType)
                 }
                 
-            case .activity(let type):
+            case .activity(_):
                 self.activity.forEach { (key, activities) in
                     let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
                     if let index = activities.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
@@ -594,11 +594,7 @@ extension NewsFeedViewModel {
         
         // Don't update data source if this feed is not currently viewed
         guard type == self.type else { return }
-        
-        // Save cards to disk
-//        let scrollPosition = self.getScrollPosition(forFeed: type)
-//        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-        
+
         self.snapshot = self.appendMainSectionToSnapshot(snapshot: self.snapshot)
         
         let uniques = items.filter({ !self.snapshot.itemIdentifiers(inSection: .main).contains($0)})
@@ -634,11 +630,7 @@ extension NewsFeedViewModel {
 
         // Don't update data source if this feed is not currently viewed
         guard type == self.type else { return }
-        
-        // Save cards to disk
-//        let scrollPosition = self.getScrollPosition(forFeed: type)
-//        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-        
+
         if !self.snapshot.sectionIdentifiers.contains(.main) {
             self.snapshot.appendSections([.main])
         }
@@ -700,11 +692,7 @@ extension NewsFeedViewModel {
 
         // update in-memory cache
         self.listData.set(items: self.snapshot.itemIdentifiers(inSection: .main), forType: type)
-        
-        // update on-disk cache
-//        let scrollPosition = self.getScrollPosition(forFeed: type)
-//        self.saveToDisk(items: self.snapshot.itemIdentifiers(inSection: .main), position: scrollPosition, feedType: type, mode: .cards)
-        
+
         if numberOfItemsPreUpdate == 0 {
             self.setUnreadEnabled(enabled: false, forFeed: type)
             self.hideLoader(forType: type)
