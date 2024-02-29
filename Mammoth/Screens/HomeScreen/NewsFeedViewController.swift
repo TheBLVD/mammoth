@@ -371,6 +371,9 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     }
     
     @objc func onJumpToNow() {
+        self.viewModel.stopPollingListData()
+        self.viewModel.cancelAllItemSyncs()
+        
         self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
         self.viewModel.setUnreadEnabled(enabled: false, forFeed: self.viewModel.type)
         self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
@@ -380,7 +383,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
             try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
         }
         
-        self.viewModel.cancelAllItemSyncs()
         self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
         
         self.latestPill.isEnabled = false
@@ -799,7 +801,6 @@ extension NewsFeedViewController {
     
     func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
         self.viewModel.cancelAllItemSyncs()
-//        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
         
         if GlobalStruct.feedReadDirection == .topDown {
             switch self.viewModel.type {

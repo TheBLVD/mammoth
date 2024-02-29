@@ -638,26 +638,46 @@ extension NewsFeedViewModel {
                         } else {
                             var pageToFetchLimit = 10
                             fetchingNewItems = true
-                            while fetchingNewItems && pageToFetchLimit > 0 {
-                                log.debug("Calling loadListData(previousPage) for feedType: \(type)")
-                                let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
-                                if fetchedItems.isEmpty {
-                                    break
-                                } else {
-                                    pageToFetchLimit -= 1
+                            
+                            let isOldFeed = self.isNewestItemOlderThen(targetDate: Date().adding(minutes: -60*24)) ?? false
+                            
+                            log.debug("Calling loadListData(previousPage) for feedType: \(type)")
+                            let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
+                            pageToFetchLimit -= 1
+                            
+                            if !fetchedItems.isEmpty {
+                                
+                                // Show the JumpToNow pill if the feed is old
+                                if isOldFeed {
+                                    await MainActor.run { [weak self] in
+                                        self?.setShowJumpToNow(enabled: true, forFeed: type)
+                                    }
+                                }
+                                
+                                while fetchingNewItems && pageToFetchLimit > 0 {
+                                    log.debug("Calling loadListData(previousPage) for feedType: \(type)")
+                                    let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
+                                    if fetchedItems.isEmpty {
+                                        break
+                                    } else {
+                                        pageToFetchLimit -= 1
+                                    }
                                 }
                             }
                             
                             if pageToFetchLimit == 0 {
-                                self.stopPollingListData()
-                                if !self.isJumpToNowButtonDisabled {
-                                    self.setShowJumpToNow(enabled: true, forFeed: type)
-                                    DispatchQueue.main.async { [weak self] in
-                                        self?.delegate?.didUpdateUnreadState(type: type)
+                                await MainActor.run { [weak self] in
+                                    guard let self else { return }
+                                    self.stopPollingListData()
+                                    if !self.isJumpToNowButtonDisabled {
+                                        self.setShowJumpToNow(enabled: true, forFeed: type)
+                                        self.delegate?.didUpdateUnreadState(type: type)
                                     }
                                 }
-                            } else {
-                                self.setShowJumpToNow(enabled: false, forFeed: type)
+                            } else if !isOldFeed {
+                                await MainActor.run { [weak self] in
+                                    self?.setShowJumpToNow(enabled: false, forFeed: type)
+                                }
                             }
 
                             fetchingNewItems = false

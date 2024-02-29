@@ -1266,6 +1266,22 @@ extension NewsFeedViewModel {
         return 0
     }
     
+    func isNewestItemOlderThen(targetDate: Date) -> Bool? {
+        if self.snapshot.indexOfSection(.main) != nil {
+            if let firstItem = self.snapshot.itemIdentifiers(inSection: .main).first {
+                switch firstItem {
+                case .postCard(let postCard):
+                    let postDate = postCard.createdAt
+                    return targetDate > postDate
+                default:
+                    return nil
+                }
+            }
+        }
+        
+        return nil
+    }
+    
     // MARK: - Prefetching
     
     func shouldFetchNext(prefetchRowsAt indexPaths: [IndexPath]) -> Bool {
