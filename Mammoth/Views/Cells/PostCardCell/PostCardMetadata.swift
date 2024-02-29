@@ -123,7 +123,7 @@ final class PostCardMetadata: UIView {
             if !description.isEmpty {
                 description += " - "
             }
-            description += "via \(postCard.applicationName ?? "an unknown app"), \(postCard.visibility ?? "")"
+            description += String.localizedStringWithFormat(NSLocalizedString("post.via", comment: "'via Mammoth' or other apps"), postCard.applicationName ?? NSLocalizedString("post.via.unknown", comment: "placeholder for when the app name wasn't found."), postCard.visibility ?? "")
             self.applicationLabel.text = description
             if !self.mainStackView.arrangedSubviews.contains(applicationLabel) {
                 self.mainStackView.insertArrangedSubview(applicationLabel, at: 0)

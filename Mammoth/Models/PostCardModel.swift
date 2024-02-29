@@ -463,7 +463,7 @@ final class PostCardModel {
             self.applicationName = "Threads"
         }
         
-        self.visibility = (status.reblog?.visibility ?? status.visibility).rawValue.lowercased()
+        self.visibility = (status.reblog?.visibility ?? status.visibility).toLocalizedString().lowercased()
         
         // Status
         self.statusSource = nil

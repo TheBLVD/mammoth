@@ -2162,6 +2162,23 @@
         }
       }
     },
+    "post.privacy.direct" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direct"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direta"
+          }
+        }
+      }
+    },
     "post.privateMention" : {
       "comment" : "Shows up over a post in the timeline indicating that it's been sent privately.",
       "localizations" : {
@@ -2292,6 +2309,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Traduzir Publicação"
+          }
+        }
+      }
+    },
+    "post.via" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "via %@, %@"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "via %@, %@"
+          }
+        }
+      }
+    },
+    "post.via.unknown" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "an unknown app"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "um app desconhecido"
           }
         }
       }
