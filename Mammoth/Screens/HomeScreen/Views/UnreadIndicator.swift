@@ -60,6 +60,7 @@ private extension UnreadIndicator {
         self.titleLabel?.textAlignment = .center
 
         self.alpha = 0
+        self.transform = CGAffineTransform(translationX: 0, y: -50)
         self.isEnabled = true
 
         NSLayoutConstraint.activate([
@@ -76,9 +77,9 @@ private extension UnreadIndicator {
     func animateIn() {
         if !self.animatedIn {
             self.animatedIn = true
-            self.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
-            UIView.animate(withDuration: 0.85, delay: 0, usingSpringWithDamping: 0.67, initialSpringVelocity: 0.44, options: .curveEaseOut, animations: {
-                self.transform = .identity
+            UIView.animate(withDuration: 0.72, delay: 0, usingSpringWithDamping: 0.67, initialSpringVelocity: 0.44, options: .curveEaseOut, animations: {
+                let translateY = CGAffineTransform(translationX: 0, y: 0)
+                self.transform = translateY
                 self.alpha = 1
             })
         }
@@ -90,8 +91,8 @@ private extension UnreadIndicator {
             self.transform = .identity
             UIView.animate(withDuration: 0.25, animations: {
                 self.alpha = 0
-                let shrink = CGAffineTransform(scaleX: 0.01, y: 0.01)
-                self.transform = shrink
+                let translateY = CGAffineTransform(translationX: 0, y: -50)
+                self.transform = translateY
             })
         }
     }

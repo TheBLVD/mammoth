@@ -606,7 +606,7 @@ extension NewsFeedViewModel {
         let forceFYCheck: Bool = type == .forYou
         
         if self.pollingTask == nil || self.pollingTask!.isCancelled {
-            self.pollingTask = Task { [weak self] in
+            self.pollingTask = Task(priority: .medium) { [weak self] in
                 guard let self else { return }
                 var fetchingNewItems = false
 
@@ -638,20 +638,46 @@ extension NewsFeedViewModel {
                         } else {
                             var pageToFetchLimit = 10
                             fetchingNewItems = true
-                            while fetchingNewItems && pageToFetchLimit > 0 {
-                                log.debug("Calling loadListData(previousPage) for feedType: \(type)")
-                                let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
-                                if fetchedItems.isEmpty {
-                                    break
-                                } else {
-                                    pageToFetchLimit -= 1
+                            
+                            let isOldFeed = self.isNewestItemOlderThen(targetDate: Date().adding(minutes: -60*24)) ?? false
+                            
+                            log.debug("Calling loadListData(previousPage) for feedType: \(type)")
+                            let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
+                            pageToFetchLimit -= 1
+                            
+                            if !fetchedItems.isEmpty {
+                                
+                                // Show the JumpToNow pill if the feed is old
+                                if isOldFeed {
+                                    await MainActor.run { [weak self] in
+                                        self?.setShowJumpToNow(enabled: true, forFeed: type)
+                                    }
+                                }
+                                
+                                while fetchingNewItems && pageToFetchLimit > 0 {
+                                    log.debug("Calling loadListData(previousPage) for feedType: \(type)")
+                                    let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
+                                    if fetchedItems.isEmpty {
+                                        break
+                                    } else {
+                                        pageToFetchLimit -= 1
+                                    }
                                 }
                             }
                             
                             if pageToFetchLimit == 0 {
-                                self.stopPollingListData()
-                                self.setShowJumpToNow(enabled: true, forFeed: type)
-                                self.delegate?.didUpdateUnreadState(type: type)
+                                await MainActor.run { [weak self] in
+                                    guard let self else { return }
+                                    self.stopPollingListData()
+                                    if !self.isJumpToNowButtonDisabled {
+                                        self.setShowJumpToNow(enabled: true, forFeed: type)
+                                        self.delegate?.didUpdateUnreadState(type: type)
+                                    }
+                                }
+                            } else if !isOldFeed {
+                                await MainActor.run { [weak self] in
+                                    self?.setShowJumpToNow(enabled: false, forFeed: type)
+                                }
                             }
 
                             fetchingNewItems = false
@@ -668,7 +694,7 @@ extension NewsFeedViewModel {
     
     func requestItemSync(forIndexPath indexPath: IndexPath, afterSeconds delay: CGFloat) {
         if let item = self.getItemForIndexPath(indexPath) {
-            self.postSyncingTasks[indexPath] = Task { [weak self] in
+            self.postSyncingTasks[indexPath] = Task(priority: .medium) { [weak self] in
                 guard let self else { return }
                 try await Task.sleep(seconds: delay)
                 guard !NetworkMonitor.shared.isNearRateLimit else {
@@ -706,16 +732,20 @@ extension NewsFeedViewModel {
                     guard !Task.isCancelled else { return }
 
                     let newPostCard = postCard.mergeInOriginalData(status: status)
-                    NotificationCenter.default.post(name: PostActions.didUpdatePostCardNotification, object: nil, userInfo: ["postCard": newPostCard])
+                    await MainActor.run { [weak self] in
+                        guard let self else { return }
+                        self.update(with: .postCard(newPostCard), forType: self.type, silently: false)
+                    }
                 }
             } catch {
                 guard !Task.isCancelled else { return }
                 
                 postCard.isSyncedWithOriginal = true
                 
-                await MainActor.run {
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
                     postCard.isSyncedWithOriginal = true
-                    self.update(with: .postCard(postCard), forType: self.type)
+                    self.update(with: .postCard(postCard), forType: self.type, silently: true)
                 }
                 
                 switch error as? ClientError {
@@ -732,7 +762,10 @@ extension NewsFeedViewModel {
                             if webfinger == nil || !webfinger!.isEmpty {
                                 let deletedPostCard = postCard
                                 deletedPostCard.isDeleted = true
-                                NotificationCenter.default.post(name: PostActions.didUpdatePostCardNotification, object: nil, userInfo: ["postCard": deletedPostCard])
+                                await MainActor.run { [weak self] in
+                                    guard let self else { return }
+                                    self.update(with: .postCard(deletedPostCard), forType: self.type, silently: false)
+                                }
                             }
                         }
                     }

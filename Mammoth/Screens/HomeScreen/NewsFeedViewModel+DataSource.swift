@@ -271,7 +271,7 @@ internal struct NewsFeedListData {
                     self.update(item: item, atIndex: index, forType: feedType)
                 }
                 
-            case .activity(let type):
+            case .activity(_):
                 self.activity.forEach { (key, activities) in
                     let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
                     if let index = activities.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
@@ -493,7 +493,7 @@ extension NewsFeedViewModel {
         self.set(withItems: toListCardItems(cards), forType: type)
     }
     
-    func set(withItems items: [NewsFeedListItem], forType type: NewsFeedTypes) {
+    func set(withItems items: [NewsFeedListItem], forType type: NewsFeedTypes, silently: Bool = false) {
         self.listData.set(items: items.removingDuplicates(), forType: type)
 
         // Don't update data source if this feed is not currently viewed
@@ -507,15 +507,18 @@ extension NewsFeedViewModel {
         self.snapshot.appendSections([.main])
         
         self.snapshot.appendItems(items.removingDuplicates(), toSection: .main)
-        self.delegate?.didUpdateSnapshot(self.snapshot,
-                                            feedType: type,
-                                            updateType: .replaceAll,
-                                            onCompleted: nil)
+        
+        if !silently {
+            self.delegate?.didUpdateSnapshot(self.snapshot,
+                                             feedType: type,
+                                             updateType: .replaceAll,
+                                             onCompleted: nil)
+        }
     }
     
     // MARK: - Update
     
-    func update(with item: NewsFeedListItem, forType type: NewsFeedTypes) {
+    func update(with item: NewsFeedListItem, forType type: NewsFeedTypes, silently: Bool = false) {
         self.listData.update(item: item)
         
         // Don't update data source if this feed is not currently viewed
@@ -533,15 +536,17 @@ extension NewsFeedViewModel {
                 self.snapshot.reloadItems([item])
             }
             
-            self.delegate?.didUpdateSnapshot(self.snapshot,
-                                                feedType: type,
-                                                updateType: .update,
-                                                onCompleted: nil)
+            if !silently {
+                self.delegate?.didUpdateSnapshot(self.snapshot,
+                                                 feedType: type,
+                                                 updateType: .update,
+                                                 onCompleted: nil)
+            }
         } else {
             // This might happen when the view is not in the view hierarchy
             log.debug("updating 1 item but can not find it (replaceAll instead)")
             let allItems = self.listData.forType(type: type)?.removingDuplicates()
-            self.set(withItems: allItems ?? [], forType: type)
+            self.set(withItems: allItems ?? [], forType: type, silently: silently)
         }
     }
     
@@ -589,11 +594,7 @@ extension NewsFeedViewModel {
         
         // Don't update data source if this feed is not currently viewed
         guard type == self.type else { return }
-        
-        // Save cards to disk
-        let scrollPosition = self.getScrollPosition(forFeed: type)
-        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-        
+
         self.snapshot = self.appendMainSectionToSnapshot(snapshot: self.snapshot)
         
         let uniques = items.filter({ !self.snapshot.itemIdentifiers(inSection: .main).contains($0)})
@@ -629,11 +630,7 @@ extension NewsFeedViewModel {
 
         // Don't update data source if this feed is not currently viewed
         guard type == self.type else { return }
-        
-        // Save cards to disk
-        let scrollPosition = self.getScrollPosition(forFeed: type)
-        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-        
+
         if !self.snapshot.sectionIdentifiers.contains(.main) {
             self.snapshot.appendSections([.main])
         }
@@ -643,13 +640,13 @@ extension NewsFeedViewModel {
         } else {
             self.snapshot.appendItems(items, toSection: .main)
         }
-
+        
+        self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
+        
         self.delegate?.didUpdateSnapshot(self.snapshot,
                                             feedType: type,
                                             updateType: .insert) { [weak self] in
             guard let self else { return }
-            let currentCount = self.getUnreadCount(forFeed: type)
-            self.setUnreadCount(count: currentCount + items.count, forFeed: type)
             self.delegate?.didUpdateUnreadState(type: type)
         }
     }
@@ -695,11 +692,7 @@ extension NewsFeedViewModel {
 
         // update in-memory cache
         self.listData.set(items: self.snapshot.itemIdentifiers(inSection: .main), forType: type)
-        
-        // update on-disk cache
-        let scrollPosition = self.getScrollPosition(forFeed: type)
-        self.saveToDisk(items: self.snapshot.itemIdentifiers(inSection: .main), position: scrollPosition, feedType: type, mode: .cards)
-        
+
         if numberOfItemsPreUpdate == 0 {
             self.setUnreadEnabled(enabled: false, forFeed: type)
             self.hideLoader(forType: type)
@@ -716,16 +709,20 @@ extension NewsFeedViewModel {
                 // This will show the unread pill/indicator
                 if GlobalStruct.feedReadDirection == .topDown {
                     if NewsFeedTypes.allActivityTypes.contains(type) || [.mentionsIn, .mentionsOut].contains(type) {
-                        self.setUnreadState(count: items.count, enabled: true, forFeed: type)
+                        self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
+                        self.setUnreadEnabled(enabled: true, forFeed: type)
                     } else {
                         if items.count >= 5 && numberOfItemsPreUpdate > 0 {
-                            self.setUnreadState(count: items.count, enabled: true, forFeed: type)
+                            self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
+                            self.setUnreadEnabled(enabled: true, forFeed: type)
                         } else {
+                            self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
                             self.setUnreadEnabled(enabled: false, forFeed: type)
                         }
                     }
                 } else {
-                    self.setUnreadState(count: items.count, enabled: true, forFeed: type)
+                    self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
+                    self.setUnreadEnabled(enabled: true, forFeed: type)
                     self.delegate?.didUpdateUnreadState(type: type)
                 }
             }
@@ -863,7 +860,7 @@ extension NewsFeedViewModel {
         log.debug("[NewsFeedViewModel] Remove All")
         
         self.listData.clear(forType: type)
-        self.setUnreadState(count: 0, enabled: true, forFeed: type)
+        self.clearAllUnreadIds(forFeed: type)
         if clearScrollPosition {
             self.setScrollPosition(model: nil, offset: 0, forFeed: type)
         }
@@ -1269,6 +1266,22 @@ extension NewsFeedViewModel {
             return self.snapshot.itemIdentifiers(inSection: section).count
         }
         return 0
+    }
+    
+    func isNewestItemOlderThen(targetDate: Date) -> Bool? {
+        if self.snapshot.indexOfSection(.main) != nil {
+            if let firstItem = self.snapshot.itemIdentifiers(inSection: .main).first {
+                switch firstItem {
+                case .postCard(let postCard):
+                    let postDate = postCard.createdAt
+                    return targetDate > postDate
+                default:
+                    return nil
+                }
+            }
+        }
+        
+        return nil
     }
     
     // MARK: - Prefetching
