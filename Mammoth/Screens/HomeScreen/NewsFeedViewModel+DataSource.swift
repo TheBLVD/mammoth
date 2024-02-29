@@ -640,13 +640,12 @@ extension NewsFeedViewModel {
         } else {
             self.snapshot.appendItems(items, toSection: .main)
         }
-        
-        self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
-        
+
         self.delegate?.didUpdateSnapshot(self.snapshot,
                                             feedType: type,
                                             updateType: .insert) { [weak self] in
             guard let self else { return }
+            self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
             self.delegate?.didUpdateUnreadState(type: type)
         }
     }
