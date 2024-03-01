@@ -147,7 +147,7 @@ public class AccountSource: Codable {
 public extension Account {
     
     /// The account server, regardless of whether it's on the user's same server.
-    /// Example: "@mammoth@moth.social" would return "moth.social"
+    /// Example: "mammoth@moth.social" would return "moth.social"
     var server: String {
         var server = ""
         if let otherUserURL = URL(string: self.url) {
@@ -166,7 +166,7 @@ public extension Account {
     
     
     /// The fully formed acct regardless whether it's on the user's same server.
-    /// Example: "@mammoth" would return "@mammoth@moth.social"
+    /// Example: "mammoth" would return "mammoth@moth.social"
     var fullAcct: String {
         // lowercase to increase chances of == succeeding
         // when comparing accounts from various sources
@@ -174,8 +174,8 @@ public extension Account {
     }
     
     /// The fully formed acct with original letter casing.
-    ///  "@rileyhBat@moth.social" will return it as it is on the servers
-    /// Example: "@Mammoth" would return "@Mammoth@moth.social"
+    ///  "rileyhBat@moth.social" will return it as it is on the servers
+    /// Example: username "Mammoth" would return "Mammoth@moth.social"
     var remoteFullOriginalAcct: String {
         // If the username and acct are the same, then this
         // account is on the same server as the user.
