@@ -761,6 +761,17 @@
         }
       }
     },
+    "home.jumpToNow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jump to now"
+          }
+        }
+      }
+    },
     "home.viewTrends" : {
       "comment" : "Button for showing trends of an instance in the carousel.",
       "localizations" : {
