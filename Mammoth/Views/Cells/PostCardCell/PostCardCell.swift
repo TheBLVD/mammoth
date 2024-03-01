@@ -306,6 +306,17 @@ final class PostCardCell: UITableViewCell {
         return metaText
     }()
     
+    private var hiddenImageIndicator: UILabel = {
+        let label = UILabel()
+        label.isOpaque = true
+        label.backgroundColor = .custom.background
+        label.textColor = .custom.highContrast
+        label.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        return label
+    }()
+    
     private var postTextTrailingConstraint: NSLayoutConstraint?
     
     // Contains image attachment, poll, and/or link preview if needed
@@ -418,6 +429,8 @@ final class PostCardCell: UITableViewCell {
         self.separatorInset = .zero
         
 //        self.readMoreButton?.isHidden = true
+        
+        self.hiddenImageIndicator.isHidden = true
         
         self.contentStackView.setCustomSpacing(self.contentStackView.spacing, after: self.header)
         
@@ -543,6 +556,11 @@ private extension PostCardCell {
         }
         
         if self.cellVariant.hasMedia {
+            
+            if self.cellVariant.mediaVariant == .hidden {
+                contentStackView.addArrangedSubview(hiddenImageIndicator)
+            }
+            
             contentStackView.addArrangedSubview(mediaContainer)
                         
             if UIDevice.current.userInterfaceIdiom == .phone {
@@ -599,7 +617,7 @@ private extension PostCardCell {
                 mediaGalleryTrailingConstraint = self.mediaGallery!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
             default: break
             }
-            
+
             // Setup Poll
             self.poll = PostCardPoll()
             self.poll?.translatesAutoresizingMaskIntoConstraints = false
@@ -732,6 +750,14 @@ extension PostCardCell {
         self.configureMetaTextContent()
         
         if self.cellVariant.hasMedia {
+            
+            if type != .detail && postCard.hasMediaAttachment && !postCard.mediaAttachmentDescription.isEmpty {
+                self.hiddenImageIndicator.text = "(\(postCard.mediaAttachmentDescription))"
+                self.hiddenImageIndicator.isHidden = false
+            } else {
+                self.hiddenImageIndicator.isHidden = true
+            }
+            
             // Display poll if needed
             if postCard.containsPoll {
                 self.poll?.prepareForReuse()
@@ -805,7 +831,7 @@ extension PostCardCell {
                 self.mediaStack?.isHidden = true
             }
         }
-
+        
         // Enable the content warning button if needed
         if let statID = postCard.id,
            !postCard.contentWarning.isEmpty,
@@ -816,10 +842,10 @@ extension PostCardCell {
             self.contentWarningButton.isHidden = false
             self.contentWarningButton.isUserInteractionEnabled = true
         } else if case .warn(let filterName) = postCard.filterType {
-           NSLayoutConstraint.activate(self.contentWarningConstraints)
-           self.contentWarningButton.setTitle("Content filter: \(filterName)", for: .normal)
-           self.contentWarningButton.isHidden = false
-           self.contentWarningButton.isUserInteractionEnabled = true
+            NSLayoutConstraint.activate(self.contentWarningConstraints)
+            self.contentWarningButton.setTitle("Content filter: \(filterName)", for: .normal)
+            self.contentWarningButton.isHidden = false
+            self.contentWarningButton.isUserInteractionEnabled = true
         }
         
         if postCard.isDeleted {
@@ -847,8 +873,14 @@ extension PostCardCell {
         // Hide media gallery (carousel) if covered with content warning / deleted overlay
         if self.contentWarningButton.isHidden == false || self.deletedWarningButton.isHidden == false {
             self.mediaGallery?.alpha = 0
-        } else if self.mediaGallery?.alpha == 0 && postCard.mediaDisplayType == .carousel {
+            self.textAndSmallMediaStackView.alpha = 0
+            self.mediaStack?.alpha = 0
+            self.metadata?.alpha = 0
+        } else {
             self.mediaGallery?.alpha = 1
+            self.textAndSmallMediaStackView.alpha = 1
+            self.mediaStack?.alpha = 1
+            self.metadata?.alpha = 1
         }
         
         self.footer.configure(postCard: postCard, includeMetrics: false)
@@ -918,7 +950,7 @@ extension PostCardCell {
                 self.postTextView.configure(content: postTextContent)
                 self.postTextView.isHidden = false
                 
-            } else if [.small, .hidden].contains(self.cellVariant.mediaVariant) {
+            } else if [.small].contains(self.cellVariant.mediaVariant) {
                 // If there's no post text, but a media attachment,
                 // set the post text to either:
                 //  - ([type])
@@ -936,6 +968,8 @@ extension PostCardCell {
                 } else {
                     self.postTextView.isHidden = true
                 }
+            } else {
+                self.postTextView.isHidden = true
             }
             
 //            self.readMoreButton?.isHidden = true
@@ -1056,6 +1090,7 @@ extension PostCardCell {
         
         self.header.startTimeUpdates()
         self.profilePic.willDisplay()
+        self.quotePost?.willDisplay()
     }
     
     // the cell will end being displayed in the tableview
@@ -1193,6 +1228,9 @@ extension PostCardCell {
         GlobalStruct.allCW.append(self.postCard?.id ?? "")
         self.postCard?.filterType = .none
         self.mediaGallery?.alpha = 1
+        self.textAndSmallMediaStackView.alpha = 1
+        self.mediaStack?.alpha = 1
+        self.metadata?.alpha = 1
     }
     
     @objc func onReadMorePress() {

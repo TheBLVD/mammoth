@@ -3,7 +3,7 @@ name: Crowdin Upload
 on:
   push:
     paths: [ '*.xcstring' ]
-    branches: [ MAM-3979 ]
+    branches: [ main ]
 
 jobs:
   synchronize-with-crowdin:

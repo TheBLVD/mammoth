@@ -19,6 +19,11 @@ enum NewsFeedSnapshotUpdateType {
     case removeAll      // remove all items
 }
 
+enum NewsFeedReadDirection: String {
+    case bottomUp
+    case topDown
+}
+
 protocol NewsFeedViewModelDelegate: AnyObject {
     func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot,
                            feedType: NewsFeedTypes,
@@ -347,6 +352,8 @@ class NewsFeedViewModel {
     public var dataSource: NewsFeedDiffableDataSource?
     public var snapshot = NewsFeedSnapshot()
     
+    var isJumpToNowButtonDisabled: Bool = false
+    
     internal var state: ViewState
     internal var listData = NewsFeedListData()
     internal var isLoadMoreEnabled: Bool = true
@@ -414,10 +421,12 @@ class NewsFeedViewModel {
                         guard type == .mentionsIn else { return }
                         if let status = notification.status {
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity2"), object: self)
-                            let currentUnreadCount = self.getUnreadCount(forFeed: .mentionsIn)
-                            self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .mentionsIn)
                             let newPost = PostCardModel(status: status)
                             let newItem = NewsFeedListItem.postCard(newPost)
+                            
+                            self.addUnreadIds(ids: [newItem.uniqueId()], forFeed: .mentionsIn)
+                            self.setUnreadEnabled(enabled: true, forFeed: .mentionsIn)
+                            
                             if !self.isItemInSnapshot(newItem) {
                                 newPost.preloadQuotePost()
                                 self.insertNewest(items: [newItem], includeLoadMore: false, forType: .mentionsIn)
@@ -425,16 +434,20 @@ class NewsFeedViewModel {
                         }
                     } else {
                         if case .activity(let activityType) = type, notification.type == activityType {
-                            let currentUnreadCount = self.getUnreadCount(forFeed: .activity(activityType))
-                            self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity(activityType))
                             let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
+                            
+                            self.addUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
+                            self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
+                            
                             if !self.isItemInSnapshot(newItem) {
                                 self.insertNewest(items: [newItem], includeLoadMore: false, forType: .activity(activityType))
                             }
                         } else if case .activity(let activityType) = type, activityType == nil { // activityType == nil means All activity
-                            let currentUnreadCount = self.getUnreadCount(forFeed: .activity(nil))
-                            self.setUnreadState(count: currentUnreadCount+1, enabled: true, forFeed: .activity(nil))
                             let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
+                            
+                            self.addUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
+                            self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
+                            
                             if !self.isItemInSnapshot(newItem) {
                                 self.insertNewest(items: [newItem], includeLoadMore: false, forType: .activity(nil))
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: self)
@@ -531,27 +544,30 @@ extension NewsFeedViewModel {
 private extension NewsFeedViewModel {
     
     @objc func onPostCardUpdate(notification: Notification) {
-        if let postCard = notification.userInfo?["postCard"] as? PostCardModel {
-            if let isDeleted = notification.userInfo?["deleted"] as? Bool, isDeleted == true {
-                 // Delete post card data in list data and data source
-                 self.remove(card: postCard, forType: self.type)
-             } else {
-                 // Replace activity data in list that include this post card
-                 if NewsFeedTypes.allActivityTypes.contains(self.type) {
-                     self.listData.activity.forEach { (key, activities) in
-                         if let index = activities.firstIndex(where: {$0.extractPostCard()?.uniqueId == postCard.uniqueId}) {
-                             if case .activity(var activity) = activities[index] {
-                                 activity.postCard = postCard
-                                 let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
-                                 self.update(with: .activity(activity), forType: .activity(activityType))
-                             }
-                         }
-                     }
-                 } else {
-                     // Replace post card data in list data and data source
-                     self.update(with: .postCard(postCard), forType: self.type)
-                 }
-             }
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if let postCard = notification.userInfo?["postCard"] as? PostCardModel {
+                if let isDeleted = notification.userInfo?["deleted"] as? Bool, isDeleted == true {
+                    // Delete post card data in list data and data source
+                    self.remove(card: postCard, forType: self.type)
+                } else {
+                    // Replace activity data in list that include this post card
+                    if NewsFeedTypes.allActivityTypes.contains(self.type) {
+                        self.listData.activity.forEach { (key, activities) in
+                            if let index = activities.firstIndex(where: {$0.extractPostCard()?.uniqueId == postCard.uniqueId}) {
+                                if case .activity(let activity) = activities[index] {
+                                    activity.postCard = postCard
+                                    let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
+                                    self.update(with: .activity(activity), forType: .activity(activityType))
+                                }
+                            }
+                        }
+                    } else {
+                        // Replace post card data in list data and data source
+                        self.update(with: .postCard(postCard), forType: self.type)
+                    }
+                }
+            }
         }
     }
     

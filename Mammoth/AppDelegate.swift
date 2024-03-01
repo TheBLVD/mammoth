@@ -163,7 +163,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.customTextSize = UserDefaults.standard.value(forKey: "customTextSize") as? CGFloat ?? 0
         GlobalStruct.customLineSize = UserDefaults.standard.value(forKey: "customLineSize") as? CGFloat ?? 0
         GlobalStruct.timeStampStyle = UserDefaults.standard.value(forKey: "timeStampStyle") as? Int ?? 0
-        GlobalStruct.originalPostTimeStamp = UserDefaults.standard.value(forKey: "originalPostTimeStamp2") as? Bool ?? false
+        GlobalStruct.originalPostTimeStamp = UserDefaults.standard.value(forKey: "originalPostTimeStamp") as? Bool ?? true
         let displayNameRawValue: Int = UserDefaults.standard.value(forKey: "displayName") as? Int ?? GlobalStruct.DisplayNameType.usernameOnly.rawValue
         GlobalStruct.displayName = GlobalStruct.DisplayNameType(rawValue: displayNameRawValue) ?? GlobalStruct.DisplayNameType.usernameOnly
         GlobalStruct.maxLines = UserDefaults.standard.value(forKey: "maxLines") as? Int ?? 6
@@ -171,6 +171,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.blurSensitiveContent = UserDefaults.standard.value(forKey: "blurSensitiveContent") as? Bool ?? true
         GlobalStruct.autoPlayVideos = UserDefaults.standard.value(forKey: "autoPlayVideos") as? Bool ?? true
         GlobalStruct.mediaSize = PostCardCell.PostCardMediaVariant(rawValue: (UserDefaults.standard.value(forKey: "mediaSize") ?? "") as! String) ?? PostCardCell.PostCardMediaVariant.large
+        GlobalStruct.feedReadDirection = NewsFeedReadDirection(rawValue: (UserDefaults.standard.value(forKey: "feedReadDirection") ?? "") as! String) ?? NewsFeedReadDirection.bottomUp
         GlobalStruct.activityBadges = UserDefaults.standard.value(forKey: "activityBadges") as? Bool ?? true
         GlobalStruct.reviewPrompt = UserDefaults.standard.value(forKey: "reviewPrompt") as? Bool ?? true
         GlobalStruct.enableLogging = UserDefaults.standard.value(forKey: "enableLogging") as? Bool ?? true

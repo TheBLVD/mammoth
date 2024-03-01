@@ -194,7 +194,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
         self.context3 = AccountsManager.shared.currentUser()?.discoverable ?? false
         
         self.context4 = AccountsManager.shared.currentUser()?.source?.sensitive ?? false
-        self.privacyType = AccountsManager.shared.currentUser()?.source?.privacy.capitalized ?? "Public"
+        self.privacyType = AccountsManager.shared.currentUser()?.source?.privacy?.capitalized ?? "Public"
         GlobalStruct.currentPostLang2 = AccountsManager.shared.currentUser()?.source?.language ?? "EN"
         
         // set up nav

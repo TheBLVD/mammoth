@@ -132,7 +132,7 @@ struct UserActions {
         let vc = NewPostViewController()
         vc.isModalInPresentation = true
         vc.fromPro = true
-        vc.proText = "\(user.remoteFullOriginalAcct) "
+        vc.proText = "@\(user.remoteFullOriginalAcct) "
         target.present(UINavigationController(rootViewController: vc), animated: true)
     }
     
@@ -140,7 +140,7 @@ struct UserActions {
         let vc = NewPostViewController()
         vc.isModalInPresentation = true
         vc.fromPro = true
-        vc.proText = "\(user.remoteFullOriginalAcct) "
+        vc.proText = "@\(user.remoteFullOriginalAcct) "
         vc.whoCanReply = .direct
         target.present(UINavigationController(rootViewController: vc), animated: true)
     }

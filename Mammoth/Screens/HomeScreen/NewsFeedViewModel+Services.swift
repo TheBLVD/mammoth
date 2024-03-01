@@ -18,15 +18,17 @@ public enum NewsFeedFetchType {
 // MARK: - Services
 extension NewsFeedViewModel {
 
-    func loadListData(type: NewsFeedTypes? = nil, fetchType: NewsFeedFetchType = .refresh) async throws {
+    @discardableResult
+    func loadListData(type: NewsFeedTypes? = nil, fetchType: NewsFeedFetchType = .refresh) async throws -> [NewsFeedListItem] {
         try await loadListDataMastodon(type: type, fetchType: fetchType)
     }
         
-    func loadListDataMastodon(type: NewsFeedTypes? = nil, fetchType: NewsFeedFetchType = .refresh) async throws {
+    @discardableResult
+    func loadListDataMastodon(type: NewsFeedTypes? = nil, fetchType: NewsFeedFetchType = .refresh) async throws -> [NewsFeedListItem] {
         let currentType = type ?? self.type
         let requestingUser = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID
         
-        if case .error(_) = self.state { return }
+        if case .error(_) = self.state { return [] }
         
         do  {
             switch fetchType {
@@ -35,18 +37,32 @@ extension NewsFeedViewModel {
                 self.state = .loading
                 self.displayLoader(forType: currentType)
 
-                if let lastId = self.oldestItemId(forType: currentType) {
+                if let lastId = await MainActor.run(body: { [weak self] in return self?.oldestItemId(forType: currentType) }) {
                     let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.max(id: lastId, limit: 20), batchName: "next-page_batch")
-  
-                    let newItems = items.removeMutesAndBlocks().removeFiltered()
                     
-                    DispatchQueue.main.async { [weak self] in
-                        guard let self else { return }
+                    // only remove mutes and blocks in remote feeds.
+                    let newItems: [NewsFeedListItem]
+                    if case .community = type {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else if case .forYou = currentType {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else if case .channel = currentType {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else {
+                        newItems = items
+                    }
+                    
+                    return await MainActor.run { [weak self] in
+                        guard let self else { return [] }
 
                         // Abort if user changed in the meantime
-                        guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
+                        guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return [] }
 
                         self.cursorId = cursorId
+                        
+                        if cursorId == nil {
+                            self.isLoadMoreEnabled = false
+                        }
                         
                         if let current = self.listData.forType(type: currentType) {
                             let currentIds = current.compactMap({ $0.extractUniqueId() })
@@ -59,13 +75,6 @@ extension NewsFeedViewModel {
                             self.state = .success
                             self.hideLoader(forType: currentType)
                             
-                            // Preload quote posts
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                uniqueNewItems.forEach({
-                                    $0.extractPostCard()?.preloadQuotePost()
-                               })
-                            }
-                            
                             // Clear cached video players of items higher up
                             if self.snapshot.itemIdentifiers.count > 60 {
                                 let firstSection = Array(self.snapshot.itemIdentifiers[0...self.snapshot.itemIdentifiers.count-40])
@@ -75,41 +84,45 @@ extension NewsFeedViewModel {
                                     }
                                 })
                             }
+                            
+                            return uniqueNewItems
                         } else {
                             self.set(withItems: newItems, forType: currentType)
                             self.state = .success
                             self.hideLoader(forType: currentType)
                             
-                            // Preload quote posts
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                newItems.forEach({
-                                    $0.extractPostCard()?.preloadQuotePost()
-                                })
-                            }
-                        }
-                        
-                        if cursorId == nil {
-                            self.isLoadMoreEnabled = false
+                            return newItems
                         }
                     }
                 } else {
                     self.state = .success
                     self.hideLoader(forType: currentType)
+                    return []
                 }
                 
             // Fetch newer posts
             case .previousPage:
                 
-                if let firstId = self.newestItemId(forType: currentType) {
-                    let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.min(id: firstId, limit: 20), batchName: "previous-page_batch")
+                if let firstId = await MainActor.run(body: { [weak self] in return self?.newestItemId(forType: currentType) }) {
+                    let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.min(id: firstId, limit: 40), batchName: "previous-page_batch")
                     
-                    let newItems = items.removeMutesAndBlocks().removeFiltered()
+                    // only remove mutes and blocks in remote feeds.
+                    let newItems: [NewsFeedListItem]
+                    if case .community = type {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else if case .forYou = currentType {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else if case .channel = currentType {
+                        newItems = items.removeMutesAndBlocks().removeFiltered()
+                    } else {
+                        newItems = items
+                    }
 
-                    DispatchQueue.main.async { [weak self] in
-                        guard let self else { return }
+                    return await MainActor.run { [weak self] in
+                        guard let self else { return [] }
 
                         // Abort if user changed in the meantime
-                        guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
+                        guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return [] }
 
                         self.cursorId = cursorId
                         
@@ -120,34 +133,39 @@ extension NewsFeedViewModel {
                                 self.insert(items: newUniqueItems, forType: currentType)
                                 self.hideEmpty(forType: currentType)
                             }
+                            
+                            return newUniqueItems
                                                         
-                            // Preload quote posts
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                newUniqueItems.forEach({
-                                    $0.extractPostCard()?.preloadQuotePost()
-                               })
-                            }
                         } else {
                             self.set(withItems: newItems, forType: currentType)
-                            
-                            // Preload quote posts
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                newItems.forEach({ $0.extractPostCard()?.preloadQuotePost() })
-                            }
+                            return newItems
                         }
                     }
+                } else {
+                    // No content yet
+                    return try await self.loadListData(type: type, fetchType: .refresh)
                 }
-                break
                 
             // Refresh list
             case .refresh:
                 self.state = .loading
                 self.isLoadMoreEnabled = true
                 
-                let (item, cursorId) = try await currentType.fetchAll(batchName: "refresh_batch")
-                let newItems = item.removeMutesAndBlocks().removeFiltered()
+                let (items, cursorId) = try await currentType.fetchAll(batchName: "refresh_batch")
                 
-                DispatchQueue.main.async { [weak self] in
+                // only remove mutes and blocks in remote feeds.
+                let newItems: [NewsFeedListItem]
+                if case .community = type {
+                    newItems = items.removeMutesAndBlocks().removeFiltered()
+                } else if case .forYou = currentType {
+                    newItems = items.removeMutesAndBlocks().removeFiltered()
+                } else if case .channel = currentType {
+                    newItems = items.removeMutesAndBlocks().removeFiltered()
+                } else {
+                    newItems = items
+                }
+                
+                await MainActor.run { [weak self] in
                     guard let self else { return }
 
                     // Abort if user changed in the meantime
@@ -165,18 +183,13 @@ extension NewsFeedViewModel {
                     self.set(withItems: newItems, forType: currentType)
                     self.state = .success
                     self.hideLoader(forType: currentType)
-                    
-                    // Preload quote posts
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                        newItems.forEach({
-                            $0.extractPostCard()?.preloadQuotePost()
-                       })
-                    }
                 }
+                
+                return newItems
             }
             
         } catch let error {
-            DispatchQueue.main.async { [weak self] in
+            await MainActor.run { [weak self] in
                 guard let self else { return }
                 self.state = .error(error)
                 self.displayError(feedType: self.type)
@@ -327,8 +340,19 @@ extension NewsFeedViewModel {
             
             let requestingUser = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID
             
-            let (item, cursorId) = try await feedType.fetchAll(range: .limit(60), batchName: "latest_batch")
-            let newItems = item.removeMutesAndBlocks().removeFiltered()
+            let (items, cursorId) = try await feedType.fetchAll(range: .limit(60), batchName: "latest_batch")
+            
+            // only remove mutes and blocks in remote feeds.
+            let newItems: [NewsFeedListItem]
+            if case .community = type {
+                newItems = items.removeMutesAndBlocks().removeFiltered()
+            } else if case .forYou = feedType {
+                newItems = items.removeMutesAndBlocks().removeFiltered()
+            } else if case .channel = feedType {
+                newItems = items.removeMutesAndBlocks().removeFiltered()
+            } else {
+                newItems = items
+            }
             
             // Abort if user changed in the meantime
             guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
@@ -455,9 +479,19 @@ extension NewsFeedViewModel {
             if let lastId = self.firstOfTheOlderItemsId(forType: feedType) {
                 let (newItems, _) = try await feedType.fetchAll(range: RequestRange.min(id: lastId, limit: loadMoreLimit), batchName: "load-more_batch")
                 
-                // only keep older posts - trim away what's already in the feed
-                var newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered().removeMutesAndBlocks()
+                // only remove mutes and blocks in remote feeds.
+                var newItemsSlice: [NewsFeedListItem]
+                if case .community = type {
+                    newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered()
+                } else if case .forYou = feedType {
+                    newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered()
+                } else if case .channel = feedType {
+                    newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered()
+                } else {
+                    newItemsSlice = newItems
+                }
                 
+                // only keep older posts - trim away what's already in the feed
                 if let currentFirstItem = self.lastItemOfTheNewestItems(forType: feedType),
                     let currentFirstId = currentFirstItem.extractUniqueId(),
                     let currentFirstIndex = newItems.firstIndex(where: {$0.extractUniqueId() == currentFirstId}) {
@@ -562,16 +596,28 @@ extension NewsFeedViewModel {
         }
     }
     
+    public var isPollingEnabled: Bool {
+        return self.pollingTask != nil && !self.pollingTask!.isCancelled
+    }
+    
     func startPollingListData(forFeed type: NewsFeedTypes, delay: Double = 0) {
         // In the For You case, we want to force a check of the ForYou status
         // the first time through this loop.
         let forceFYCheck: Bool = type == .forYou
         
         if self.pollingTask == nil || self.pollingTask!.isCancelled {
-            self.pollingTask = Task { [weak self] in
+            self.pollingTask = Task(priority: .medium) { [weak self] in
                 guard let self else { return }
+                var fetchingNewItems = false
+
                 try await self.recursiveTask(retryCount: 5, frequency: self.pollingFrequency, delay: delay) { [weak self] in
                     guard let self else { return }
+                                        
+                    guard !fetchingNewItems else {
+                        log.warning("Skipping polling task for \(type) because previous task is still fetching")
+                        return
+                    }
+                    
                     guard !NetworkMonitor.shared.isNearRateLimit else {
                         log.warning("Skipping polling task for \(type) due to rate limit")
                         return
@@ -583,8 +629,59 @@ extension NewsFeedViewModel {
                     // showing Mammoth picks at that point).
                     let showingUpdateRow = try await self.loadForYouStatus(feedType:type, forceFYCheck: forceFYCheck)
                     if !showingUpdateRow || (showingUpdateRow && self.forYouStatus == .overloaded) {
-                        log.debug("Calling loadLatest for feedType: \(type)")
-                        try await self.loadLatest(feedType: type)
+
+                        if GlobalStruct.feedReadDirection == .topDown {
+                            fetchingNewItems = true
+                            log.debug("Calling loadLatest for feedType: \(type)")
+                            try await self.loadLatest(feedType: type)
+                            fetchingNewItems = false
+                        } else {
+                            var pageToFetchLimit = 10
+                            fetchingNewItems = true
+                            
+                            let isOldFeed = self.isNewestItemOlderThen(targetDate: Date().adding(minutes: -60*24)) ?? false
+                            
+                            log.debug("Calling loadListData(previousPage) for feedType: \(type)")
+                            let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
+                            pageToFetchLimit -= 1
+                            
+                            if !fetchedItems.isEmpty {
+                                
+                                // Show the JumpToNow pill if the feed is old
+                                if isOldFeed {
+                                    await MainActor.run { [weak self] in
+                                        self?.setShowJumpToNow(enabled: true, forFeed: type)
+                                    }
+                                }
+                                
+                                while fetchingNewItems && pageToFetchLimit > 0 {
+                                    log.debug("Calling loadListData(previousPage) for feedType: \(type)")
+                                    let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
+                                    if fetchedItems.isEmpty {
+                                        break
+                                    } else {
+                                        pageToFetchLimit -= 1
+                                    }
+                                }
+                            }
+                            
+                            if pageToFetchLimit == 0 {
+                                await MainActor.run { [weak self] in
+                                    guard let self else { return }
+                                    self.stopPollingListData()
+                                    if !self.isJumpToNowButtonDisabled {
+                                        self.setShowJumpToNow(enabled: true, forFeed: type)
+                                        self.delegate?.didUpdateUnreadState(type: type)
+                                    }
+                                }
+                            } else if !isOldFeed {
+                                await MainActor.run { [weak self] in
+                                    self?.setShowJumpToNow(enabled: false, forFeed: type)
+                                }
+                            }
+
+                            fetchingNewItems = false
+                        }
                     }
                 }
             }
@@ -597,7 +694,7 @@ extension NewsFeedViewModel {
     
     func requestItemSync(forIndexPath indexPath: IndexPath, afterSeconds delay: CGFloat) {
         if let item = self.getItemForIndexPath(indexPath) {
-            self.postSyncingTasks[indexPath] = Task { [weak self] in
+            self.postSyncingTasks[indexPath] = Task(priority: .medium) { [weak self] in
                 guard let self else { return }
                 try await Task.sleep(seconds: delay)
                 guard !NetworkMonitor.shared.isNearRateLimit else {
@@ -635,12 +732,21 @@ extension NewsFeedViewModel {
                     guard !Task.isCancelled else { return }
 
                     let newPostCard = postCard.mergeInOriginalData(status: status)
-                    NotificationCenter.default.post(name: PostActions.didUpdatePostCardNotification, object: nil, userInfo: ["postCard": newPostCard])
+                    await MainActor.run { [weak self] in
+                        guard let self else { return }
+                        self.update(with: .postCard(newPostCard), forType: self.type, silently: false)
+                    }
                 }
             } catch {
                 guard !Task.isCancelled else { return }
                 
                 postCard.isSyncedWithOriginal = true
+                
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    postCard.isSyncedWithOriginal = true
+                    self.update(with: .postCard(postCard), forType: self.type, silently: true)
+                }
                 
                 switch error as? ClientError {
                 case .mastodonError(let message):
@@ -656,12 +762,14 @@ extension NewsFeedViewModel {
                             if webfinger == nil || !webfinger!.isEmpty {
                                 let deletedPostCard = postCard
                                 deletedPostCard.isDeleted = true
-                                NotificationCenter.default.post(name: PostActions.didUpdatePostCardNotification, object: nil, userInfo: ["postCard": deletedPostCard])
+                                await MainActor.run { [weak self] in
+                                    guard let self else { return }
+                                    self.update(with: .postCard(deletedPostCard), forType: self.type, silently: false)
+                                }
                             }
                         }
                     }
                 default:
-                    NotificationCenter.default.post(name: PostActions.didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
                     break
                 }
             }
