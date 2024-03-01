@@ -20,15 +20,15 @@ class TutorialOverlay: UIViewController {
         var description: String {
             switch self {
             case .customizeFeed:
-                return "Tap here and choose “Customize For You” to choose what shows up here!"
+                return NSLocalizedString("tutorial.customizeFeed", comment: "")
             case .forYou:
-                return "For You shows the top posts from all of your \n/smart lists."
+                return NSLocalizedString("tutorial.forYou", comment: "")
             case .smartList:
-                return "Smart lists marked with a /slash are community curated lists."
+                return NSLocalizedString("tutorial.smartList", comment: "")
             case .quickFeedSwitcher:
-                return "Long press the Home tab to quickly jump to other feeds."
+                return NSLocalizedString("tutorial.quickFeedSwitcher", comment: "")
             case .quickAccountSwitcher:
-                return "Long press the profile tap to quickly switch between accounts."
+                return NSLocalizedString("tutorial.quickAccountSwitcher", comment: "")
             }
         }
         

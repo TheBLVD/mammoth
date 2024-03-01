@@ -1272,6 +1272,61 @@
         }
       }
     },
+    "tutorial.customizeFeed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap here and choose “Customize For You” to choose what shows up here!"
+          }
+        }
+      }
+    },
+    "tutorial.forYou" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For You shows the top posts from all of your \\n/smart lists."
+          }
+        }
+      }
+    },
+    "tutorial.quickAccountSwitcher" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long press the profile tap to quickly switch between accounts."
+          }
+        }
+      }
+    },
+    "tutorial.quickFeedSwitcher" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long press the Home tab to quickly jump to other feeds."
+          }
+        }
+      }
+    },
+    "tutorial.smartList" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smart lists marked with a /slash are community curated lists."
+          }
+        }
+      }
+    },
     "Undo Post" : {
 
     }
