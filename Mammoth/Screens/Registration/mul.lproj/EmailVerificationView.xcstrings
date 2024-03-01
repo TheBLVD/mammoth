@@ -1,0 +1,54 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "9gC-bj-FLY.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"Confirm your email\"; ObjectID = \"9gC-bj-FLY\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Confirm your email"
+          }
+        }
+      }
+    },
+    "evb-y8-I7n.normalTitle" : {
+      "comment" : "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"evb-y8-I7n\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Button"
+          }
+        }
+      }
+    },
+    "Gy5-I4-8FY.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"Click the link in the email we sent to\\n%@ then return to Mammoth\"; ObjectID = \"Gy5-I4-8FY\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Click the link in the email we sent to\n%@ then return to Mammoth"
+          }
+        }
+      }
+    },
+    "mnj-bI-it3.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"Not seeing it?\"; ObjectID = \"mnj-bI-it3\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Not seeing it?"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

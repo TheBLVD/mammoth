@@ -1,0 +1,78 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "2zk-Me-fek.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"You can pick something fun or use your real name\"; ObjectID = \"2zk-Me-fek\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You can pick something fun or use your real name"
+          }
+        }
+      }
+    },
+    "COv-0h-44m.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"%1@ %2@\"; ObjectID = \"COv-0h-44m\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1@ %2@"
+          }
+        }
+      }
+    },
+    "d8T-wc-Ss7.placeholder" : {
+      "comment" : "Class = \"UITextField\"; placeholder = \"display name\"; ObjectID = \"d8T-wc-Ss7\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "display name"
+          }
+        }
+      }
+    },
+    "idJ-cm-z0Y.configuration.title" : {
+      "comment" : "Class = \"UIButton\"; configuration.title = \"Done\"; ObjectID = \"idJ-cm-z0Y\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "idJ-cm-z0Y.normalTitle" : {
+      "comment" : "Class = \"UIButton\"; normalTitle = \"Done\"; ObjectID = \"idJ-cm-z0Y\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "O19-oE-faw.normalTitle" : {
+      "comment" : "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"O19-oE-faw\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Button"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
