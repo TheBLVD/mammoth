@@ -1,0 +1,18 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "sek-yR-qsQ.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"Some instructions to help the user find cool accounts, and meet cool people.\"; ObjectID = \"sek-yR-qsQ\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
