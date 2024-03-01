@@ -373,26 +373,30 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     @objc func onJumpToNow() {
         self.viewModel.stopPollingListData()
         self.viewModel.cancelAllItemSyncs()
+
+        self.viewModel.clearSnapshot()
+        self.showLoader(enabled: true)
         
-        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-        self.viewModel.setUnreadEnabled(enabled: false, forFeed: self.viewModel.type)
-        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
-        
-        Task { [weak self] in
-            guard let self else { return }
-            try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
-        }
-        
-        self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        
-        self.latestPill.isEnabled = false
-        self.unreadIndicator.isEnabled = false
-        self.jumpToNow.isEnabled = false
-        // Clear LatestPill state after scroll animation
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            guard let self else { return }
-            self.latestPill.configure(unreadCount: 0, picUrls: [])
-            self.unreadIndicator.configure(unreadCount: 0)
+        DispatchQueue.main.async {
+            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+            self.viewModel.setUnreadEnabled(enabled: false, forFeed: self.viewModel.type)
+            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+            
+            self.latestPill.isEnabled = false
+            self.unreadIndicator.isEnabled = false
+            self.jumpToNow.isEnabled = false
+            
+            Task { [weak self] in
+                guard let self else { return }
+                try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
+            }
+            
+            // Clear LatestPill state after scroll animation
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                guard let self else { return }
+                self.latestPill.configure(unreadCount: 0, picUrls: [])
+                self.unreadIndicator.configure(unreadCount: 0)
+            }
         }
     }
     
