@@ -5683,7 +5683,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Example post preview showing what these changes will look like on your feed."
+            "value" : "Example post preview showing what these changes will look like on your feed. 🦣"
           }
         },
         "fr" : {
@@ -5700,7 +5700,7 @@
         },
         "pt" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Exemplo de publicação mostrando como suas mudanças aparecerão no feed."
           }
         }
