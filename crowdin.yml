@@ -1,0 +1,32 @@
+
+"project_id_env": "CROWDIN_PROJECT_ID"
+"api_token_env": "CROWDIN_PERSONAL_TOKEN"
+"base_path": "."
+"base_url": "https://api.crowdin.com"
+"preserve_hierarchy": true
+files: [
+  {
+    "source": "Mammoth/Localizable.xcstrings",
+    "translation": "Mammoth/Localizable.xcstrings"
+  },
+  {
+    "source": "Mammoth/Screens/Registration/mul.lproj/SignUpView.xcstrings",
+    "translation": "Mammoth/Screens/Registration/mul.lproj/SignUpView.xcstrings"
+  },
+  {
+    "source": "Mammoth/Screens/Registration/mul.lproj/SetupProfile.xcstrings",
+    "translation": "Mammoth/Screens/Registration/mul.lproj/SetupProfile.xcstrings"
+  },
+  {
+    "source": "Mammoth/Screens/Registration/mul.lproj/SetupInstructionsCell.xcstrings",
+    "translation": "Mammoth/Screens/Registration/mul.lproj/SetupInstructionsCell.xcstrings"
+  },
+  {
+    "source": "Mammoth/Screens/Registration/mul.lproj/IntroViewController.xcstrings",
+    "translation": "Mammoth/Screens/Registration/mul.lproj/IntroViewController.xcstrings"
+  },
+  {
+    "source": "Mammoth/Screens/Registration/mul.lproj/EmailVerificationView.xcstrings",
+    "translation": "Mammoth/Screens/Registration/mul.lproj/EmailVerificationView.xcstrings"
+  }
+]
