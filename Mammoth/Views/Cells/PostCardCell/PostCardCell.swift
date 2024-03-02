@@ -692,7 +692,7 @@ private extension PostCardCell {
         self.postTextView.paragraphStyle = {
             let style = NSMutableParagraphStyle()
             style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
-            style.paragraphSpacing = self.type == .detail ? 14 : 4
+            style.paragraphSpacing = 12
             style.alignment = .natural
             return style
         }()
