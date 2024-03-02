@@ -7868,34 +7868,6 @@
         }
       }
     },
-    "title.retrieved" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Retrieved"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Retrieved"
-          }
-        },
-        "nl" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Retrieved"
-          }
-        },
-        "pt" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Recebido"
-          }
-        }
-      }
-    },
     "title.sent" : {
       "extractionState" : "manual",
       "localizations" : {

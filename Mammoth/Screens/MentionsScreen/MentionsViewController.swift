@@ -104,7 +104,7 @@ class MentionsViewController : UIViewController {
             headerView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor)
         ])
         
-        self.headerView.carousel.content = [NSLocalizedString("title.retrieved", comment: ""), NSLocalizedString("title.sent", comment: "")]
+        self.headerView.carousel.content = [NSLocalizedString("title.received", comment: ""), NSLocalizedString("title.sent", comment: "")]
     }
 }
 
