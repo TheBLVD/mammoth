@@ -3,7 +3,7 @@ name: Crowdin Upload
 on:
   push:
     paths: [ '*.xcstring' ]
-    branches: [ main ]
+    branches: [ MAM-3979-migrate-strings-to-string-catalogs ]
 
 jobs:
   synchronize-with-crowdin:
