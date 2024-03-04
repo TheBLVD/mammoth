@@ -106,7 +106,7 @@ final class PostCardMetadata: UIView {
         metricsStackView.addArrangedSubview(repostsLabel)
         metricsStackView.addArrangedSubview(repliesLabel)
         
-        viewDetailsLabel.text = "View details"
+        viewDetailsLabel.text = NSLocalizedString("post.viewDetails", comment: "Shows up under a post in the timeline.")
         metricsStackView.addArrangedSubview(viewDetailsLabel)
         
         self.setupUIFromSettings()
@@ -123,7 +123,7 @@ final class PostCardMetadata: UIView {
             if !description.isEmpty {
                 description += " - "
             }
-            description += "via \(postCard.applicationName ?? "an unknown app"), \(postCard.visibility ?? "")"
+            description += String.localizedStringWithFormat(NSLocalizedString("post.via", comment: "'via Mammoth' or other apps"), postCard.applicationName ?? NSLocalizedString("post.via.unknown", comment: "placeholder for when the app name wasn't found."), postCard.visibility ?? "")
             self.applicationLabel.text = description
             if !self.mainStackView.arrangedSubviews.contains(applicationLabel) {
                 self.mainStackView.insertArrangedSubview(applicationLabel, at: 0)
@@ -135,9 +135,12 @@ final class PostCardMetadata: UIView {
             }
         }
         
-        likesLabel.text = Int(postCard.likeCount) == 1 ? "1 Like" : "\(postCard.likeCount) Likes"
-        repliesLabel.text = Int(postCard.replyCount) == 1 ? "1 Reply" : "\(postCard.replyCount) Replies"
-        repostsLabel.text = Int(postCard.repostCount) == 1 ? "1 Repost" : "\(postCard.repostCount) Reposts"
+        let like_localized = postCard.likeCount == "1" ? "post.likeCount.singular" : "post.likeCount.plural"
+        likesLabel.text = String.localizedStringWithFormat(NSLocalizedString(like_localized, comment: ""), postCard.likeCount)
+        let reply_localized = postCard.replyCount == "1" ? "post.replyCount.singular" : "post.replyCount.plural"
+        repliesLabel.text = String.localizedStringWithFormat(NSLocalizedString(reply_localized, comment: ""), postCard.replyCount)
+        let repost_localized = postCard.repostCount == "1" ? "post.repostCount.singular" : "post.repostCount.plural"
+        repostsLabel.text = String.localizedStringWithFormat(NSLocalizedString(repost_localized, comment: ""), postCard.repostCount)
         
         if postCard.likeCount == "0" {
             likesLabel.isHidden = true

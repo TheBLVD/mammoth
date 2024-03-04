@@ -1,0 +1,90 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "B5m-ag-pqO.configuration.title" : {
+      "comment" : "Class = \"UIButton\"; configuration.title = \"Create moth.social account\"; ObjectID = \"B5m-ag-pqO\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Create moth.social account"
+          }
+        }
+      }
+    },
+    "B5m-ag-pqO.normalTitle" : {
+      "comment" : "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"B5m-ag-pqO\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Button"
+          }
+        }
+      }
+    },
+    "chB-SK-Zhc.configuration.title" : {
+      "comment" : "Class = \"UIButton\"; configuration.title = \"Login with Mastodon / Moth\"; ObjectID = \"chB-SK-Zhc\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Login with Mastodon / Moth"
+          }
+        }
+      }
+    },
+    "chB-SK-Zhc.normalTitle" : {
+      "comment" : "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"chB-SK-Zhc\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Button"
+          }
+        }
+      }
+    },
+    "NQ2-VB-8CC.configuration.title" : {
+      "comment" : "Class = \"UIButton\"; configuration.title = \"Close\"; ObjectID = \"NQ2-VB-8CC\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "NQ2-VB-8CC.normalTitle" : {
+      "comment" : "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"NQ2-VB-8CC\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Button"
+          }
+        }
+      }
+    },
+    "T46-Id-HW3.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"You can sign into additional\\naccounts in settings.\"; ObjectID = \"T46-Id-HW3\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

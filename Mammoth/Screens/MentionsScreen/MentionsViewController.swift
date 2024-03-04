@@ -41,7 +41,7 @@ class MentionsViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Mentions"
+        self.navigationItem.title = NSLocalizedString("title.mentions", comment: "")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -104,7 +104,7 @@ class MentionsViewController : UIViewController {
             headerView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor)
         ])
         
-        self.headerView.carousel.content = ["Received", "Sent"]
+        self.headerView.carousel.content = [NSLocalizedString("title.received", comment: ""), NSLocalizedString("title.sent", comment: "")]
     }
 }
 

@@ -30,3 +30,21 @@ public enum Visibility: String, Codable {
     /// - Federates to other instances: Only remote @mentions.
     case direct
 }
+
+extension Visibility {
+    func toLocalizedString() -> String {
+        switch self {
+        case .public:
+            NSLocalizedString("profile.privacy.public", comment: "")
+
+        case .unlisted:
+            NSLocalizedString("profile.privacy.unlisted", comment: "")
+
+        case .private:
+            NSLocalizedString("profile.privacy.private", comment: "")
+
+        case .direct:
+            NSLocalizedString("post.privacy.direct", comment: "")
+        }
+    }
+}

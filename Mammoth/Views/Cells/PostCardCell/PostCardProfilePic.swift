@@ -263,8 +263,8 @@ extension PostCardProfilePic {
         if let user = self.user {
             if user.isSelf {
                 let options = [
-                    createContextMenuAction("Mention", .mention, isActive: true, data: nil),
-                    createContextMenuAction("Share Link", .share, isActive: true, data: nil),
+                    createContextMenuAction(NSLocalizedString("profile.mention", comment: ""), .mention, isActive: true, data: nil),
+                    createContextMenuAction(NSLocalizedString("user.shareLink", comment: ""), .share, isActive: true, data: nil),
                 ]
 
                 return UIMenu(title: "", options: [.displayInline], children: options)
@@ -272,38 +272,38 @@ extension PostCardProfilePic {
             
             let options = [
                 
-                createContextMenuAction("Mention", .mention, isActive: true, data: nil),
+                createContextMenuAction(NSLocalizedString("profile.mention", comment: ""), .mention, isActive: true, data: nil),
 
                 ( isFollowing
-                  ? createContextMenuAction("Unfollow", .follow, isActive: false, data: nil)
-                  : createContextMenuAction("Follow", .follow, isActive: true, data: nil)),
+                  ? createContextMenuAction(NSLocalizedString("profile.unfollow", comment: ""), .follow, isActive: false, data: nil)
+                  : createContextMenuAction(NSLocalizedString("profile.follow", comment: ""), .follow, isActive: true, data: nil)),
                 
                 ( isFollowing
-                    ? UIMenu(title: "Manage Lists", image: MAMenu.list.image.withRenderingMode(.alwaysTemplate), options: [], children: [
+                    ? UIMenu(title: NSLocalizedString("list.manage", comment: ""), image: MAMenu.list.image.withRenderingMode(.alwaysTemplate), options: [], children: [
                             UIMenu(title: MAMenu.addToList.title, image: MAMenu.addToList.image, options: [], children: ListManager.shared.allLists(includeTopFriends: false).map({
                                 createContextMenuAction($0.title, .addToList, isActive: true, data: PostCardButtonCallbackData.list($0.id))
                             })),
                             UIMenu(title: MAMenu.removeFromList.title, image: MAMenu.removeFromList.image, options: [], children: ListManager.shared.allLists(includeTopFriends: false).map({
                                 createContextMenuAction($0.title, .removeFromList, isActive: true, data: PostCardButtonCallbackData.list($0.id))
                             })),
-                            createContextMenuAction("Create new List", .createNewList, isActive: true, data: nil)
+                            createContextMenuAction(NSLocalizedString("list.create", comment: ""), .createNewList, isActive: true, data: nil)
                         ])
                     : nil),
                 
                 (user.isMuted
-                 ? createContextMenuAction("Unmute", .unmute, isActive: true, data: nil)
-                 : UIMenu(title: "Mute @\(user.username)", image: MAMenu.muteOneDay.image.withRenderingMode(.alwaysTemplate), options: [], children: [
-                    createContextMenuAction("Mute 1 Day", .muteOneDay, isActive: true, data: nil),
-                    createContextMenuAction("Mute Forever", .muteForever, isActive: true, data: nil)
+                 ? createContextMenuAction(NSLocalizedString("user.unmute", comment: ""), .unmute, isActive: true, data: nil)
+                 : UIMenu(title: String.localizedStringWithFormat(NSLocalizedString("user.muteUser", comment: ""), user.username), image: MAMenu.muteOneDay.image.withRenderingMode(.alwaysTemplate), options: [], children: [
+                    createContextMenuAction(NSLocalizedString("user.muteDay", comment: ""), .muteOneDay, isActive: true, data: nil),
+                    createContextMenuAction(NSLocalizedString("user.muteForever", comment: ""), .muteForever, isActive: true, data: nil)
                 ])),
                 
-                createContextMenuAction("Report @\(user.username)", .reportUser, isActive: true, data: nil, attributes: .destructive),
+                createContextMenuAction(String.localizedStringWithFormat(NSLocalizedString("user.report", comment: ""), user.username), .reportUser, isActive: true, data: nil, attributes: .destructive),
                 
                 (user.isBlocked
-                 ? createContextMenuAction("Unblock @\(user.username)", .unblock, isActive: true, data: nil)
-                 : createContextMenuAction("Block @\(user.username)", .block, isActive: true, data: nil, attributes: .destructive)),
+                 ? createContextMenuAction(String.localizedStringWithFormat(NSLocalizedString("user.unblockUser", comment: ""), user.username), .unblock, isActive: true, data: nil)
+                 : createContextMenuAction(String.localizedStringWithFormat(NSLocalizedString("user.blockUser", comment: ""), user.username), .block, isActive: true, data: nil, attributes: .destructive)),
                                 
-                createContextMenuAction("Share Link", .share, isActive: true, data: nil),
+                createContextMenuAction(NSLocalizedString("user.shareLink", comment: ""), .share, isActive: true, data: nil),
             ].compactMap({$0})
 
             return UIMenu(title: "", options: [.displayInline], children: options)

@@ -38,19 +38,19 @@ private enum Item {
     var title: String {
         switch self {
         case .upgrade: return ""
-        case .appIcon: return "App icon"
-        case .postAppearance: return "Appearance"
-        case .soundsAndHaptics: return "Sounds and Haptics"
-        case .composer: return "Composer"
-        case .accounts: return "Accounts"
-        case .pushNotifications: return "Notifications"
-        case .siriShortcuts: return "Siri shortcuts"
-        case .getInTouch: return "Get in touch"
-        case .subscriptions: return "Manage subscriptions"
-        case .openSourceCredits: return "About"
-        case .openLinks: return "Open links in browser"
-        case .appLock: return "App lock"
-        case .clearData: return "Clear cache and data"
+        case .appIcon: return NSLocalizedString("settings.appIcon", comment: "Button in settings.")
+        case .postAppearance: return NSLocalizedString("settings.appearance", comment: "Button in settings.")
+        case .soundsAndHaptics: return NSLocalizedString("settings.soundsAndHaptics", comment: "Button in settings.")
+        case .composer: return NSLocalizedString("settings.composer", comment: "Button in settings.")
+        case .accounts: return NSLocalizedString("settings.accounts", comment: "Button in settings.")
+        case .pushNotifications: return NSLocalizedString("settings.notifications", comment: "")
+        case .siriShortcuts: return NSLocalizedString("settings.siriShortcuts", comment: "")
+        case .getInTouch: return NSLocalizedString("settings.getInTouch", comment: "As in, 'to get in touch'")
+        case .subscriptions: return NSLocalizedString("settings.manageSubscriptions", comment: "")
+        case .openSourceCredits: return NSLocalizedString("settings.about", comment: "")
+        case .openLinks: return NSLocalizedString("settings.openLinks", comment: "")
+        case .appLock: return NSLocalizedString("settings.appLock", comment: "")
+        case .clearData: return NSLocalizedString("settings.clearData", comment: "")
         }
     }
     
@@ -87,8 +87,8 @@ private struct Section {
     var footerTitle: String? = nil
 }
 
-private let version = "Version \(Bundle.main.appVersion)\nBuild \(Bundle.main.appBuild)"
-private let bottomFooterText = "Clearing cached data may help in freeing up device storage, and may be useful to do if you notice lag or declining performance in the app.\n\n\(version)"
+private let version = String.localizedStringWithFormat(NSLocalizedString("settings.version", comment: ""), Bundle.main.appVersion) + "\n" + String.localizedStringWithFormat(NSLocalizedString("settings.build", comment: ""), Bundle.main.appBuild)
+private let bottomFooterText = NSLocalizedString("settings.clearData.footer", comment: "") + "\n\n" + version
 
 class SettingsViewController: UIViewController {
     
@@ -245,7 +245,7 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
 
         self.view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "Settings"
+        self.navigationItem.title = NSLocalizedString("title.settings", comment: "")
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadAll), name: NSNotification.Name(rawValue: "reloadAll"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.scrollToTop), name: NSNotification.Name(rawValue: "scrollToTop9"), object: nil)
@@ -493,10 +493,10 @@ extension SettingsViewController: UpgradeViewDelegate {
 extension SettingsViewController {
     
     func postClearCacheAlert() {
-        let alert = UIAlertController(title: "Clear Cache?", message: "This will clear all cached information and can't be undone.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler:{ (UIAlertAction) in
+        let alert = UIAlertController(title: NSLocalizedString("settings.clearData.title", comment: ""), message: NSLocalizedString("settings.clearData.info", comment: ""), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
         }))
-        alert.addAction(UIAlertAction(title: "Clear Cache", style: .destructive , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("settings.clearData.confirm", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
             self.clearAllCaches()
         }))
         self.present(alert, animated: true, completion: nil)

@@ -207,7 +207,7 @@ class AccountCell: UITableViewCell {
         profileIcon.isUserInteractionEnabled = true
         profileIcon.imageView?.contentMode = .scaleAspectFill
         profileIcon.contentMode = .scaleAspectFill
-        profileIcon.accessibilityLabel = "Profile"
+        profileIcon.accessibilityLabel = NSLocalizedString("navigator.profile", comment: "")
         bgView.addSubview(profileIcon)
         if GlobalStruct.circleProfiles {
             profileIcon.layer.cornerRadius = 22
@@ -259,7 +259,7 @@ class AccountCell: UITableViewCell {
         signOutButton.translatesAutoresizingMaskIntoConstraints = false
         signOutButton.backgroundColor = .clear
         signOutButton.setTitleColor(.custom.destructive, for: .normal)
-        signOutButton.setTitle("Sign Out", for: .normal)
+        signOutButton.setTitle(NSLocalizedString("settings.accounts.signOut", comment: ""), for: .normal)
         signOutButton.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 2, weight: .bold)
         signOutButton.addTarget(self, action: #selector(signOutTapped), for: .touchUpInside)
         bgView.addSubview(signOutButton)

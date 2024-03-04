@@ -59,7 +59,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
     var tableView = UITableView()
     let btn0 = UIButton(type: .custom)
     
-    let firstSection = ["Text Size"]
+    let firstSection = [NSLocalizedString("settings.appearance.textSize", comment: "")]
     let sampleStatus = {
         let currentUserAccount = AccountsManager.shared.currentUser()!
         let formatter = DateFormatter()
@@ -68,7 +68,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         let status = Status(id: "",
                             uri: "",
                             account: currentUserAccount,
-                            content: "Example post preview showing what these changes will look like on your feed. 🦣",
+                            content: NSLocalizedString("settings.appearance.placeholder", comment: ""),
                             createdAt: fiveMinsAgo,
                             emojis: [],
                             repliesCount: 20,
@@ -163,7 +163,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .custom.backgroundTint
-        self.title = "Appearance"
+        self.title = NSLocalizedString("settings.appearance", comment: "")
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadAll), name: NSNotification.Name(rawValue: "reloadAll"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadBars), name: NSNotification.Name(rawValue: "reloadBars"), object: nil)
@@ -210,7 +210,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         btn0.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         btn0.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
         btn0.addTarget(self, action: #selector(self.dismissTap), for: .touchUpInside)
-        btn0.accessibilityLabel = "Dismiss"
+        btn0.accessibilityLabel = NSLocalizedString("generic.dismiss", comment: "")
     }
 
     // MARK: TableView
@@ -248,13 +248,13 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.textLabel?.numberOfLines = 0
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f894}")
                 cell.textLabel?.text = self.firstSection[indexPath.row]
-                
+                let system = NSLocalizedString("settings.appearance.system", comment: "")
                 if GlobalStruct.customTextSize == 0 {
-                    cell.detailTextLabel?.text = "\("System")"
+                    cell.detailTextLabel?.text = "\(system)"
                 } else if GlobalStruct.customTextSize > 0 {
-                    cell.detailTextLabel?.text = "\("System") \("+\(Int(GlobalStruct.customTextSize))")"
+                    cell.detailTextLabel?.text = "\(system) \("+\(Int(GlobalStruct.customTextSize))")"
                 } else {
-                    cell.detailTextLabel?.text = "\("System") \(Int(GlobalStruct.customTextSize))"
+                    cell.detailTextLabel?.text = "\(system) \(Int(GlobalStruct.customTextSize))"
                 }
                 
                 cell.backgroundColor = .custom.OVRLYSoftContrast
@@ -291,19 +291,19 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             switch option {
             case AppearanceOptions.theme:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
-                cell.textLabel?.text = "Theme"
+                cell.textLabel?.text = NSLocalizedString("settings.appearance.theme", comment: "")
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f1fc}")
                 switch GlobalStruct.overrideTheme {
                 case 1:
-                    cell.detailTextLabel?.text = "Light"
+                    cell.detailTextLabel?.text = NSLocalizedString("settings.appearance.light", comment: "")
                 case 2:
-                    cell.detailTextLabel?.text = "Dark"
+                    cell.detailTextLabel?.text = NSLocalizedString("settings.appearance.dark", comment: "")
                 default:
-                    cell.detailTextLabel?.text = "System"
+                    cell.detailTextLabel?.text = NSLocalizedString("settings.appearance.system", comment: "")
                 }
 
                 var gestureActions: [UIAction] = []
-                let op1 = UIAction(title: "System", image: settingsFontAwesomeImage("\u{f042}"), identifier: nil) { action in
+                let op1 = UIAction(title: NSLocalizedString("settings.appearance.system", comment: ""), image: settingsFontAwesomeImage("\u{f042}"), identifier: nil) { action in
                     GlobalStruct.overrideTheme = 0
                     UserDefaults.standard.set(GlobalStruct.overrideTheme, forKey: "overrideTheme")
                     FontAwesome.setColorTheme(theme: ColorTheme.systemDefault)
@@ -314,7 +314,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                     op1.state = .on
                 }
                 gestureActions.append(op1)
-                let op2 = UIAction(title: "Light", image: settingsFontAwesomeImage("\u{e0c9}"), identifier: nil) { action in
+                let op2 = UIAction(title: NSLocalizedString("settings.appearance.light", comment: ""), image: settingsFontAwesomeImage("\u{e0c9}"), identifier: nil) { action in
                     GlobalStruct.overrideTheme = 1
                     UserDefaults.standard.set(GlobalStruct.overrideTheme, forKey: "overrideTheme")
                     FontAwesome.setColorTheme(theme: ColorTheme.light)
@@ -325,7 +325,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                     op2.state = .on
                 }
                 gestureActions.append(op2)
-                let op3 = UIAction(title: "Dark", image: settingsFontAwesomeImage("\u{f186}"), identifier: nil) { action in
+                let op3 = UIAction(title: NSLocalizedString("settings.appearance.dark", comment: ""), image: settingsFontAwesomeImage("\u{f186}"), identifier: nil) { action in
                     GlobalStruct.overrideTheme = 2
                     UserDefaults.standard.set(GlobalStruct.overrideTheme, forKey: "overrideTheme")
                     FontAwesome.setColorTheme(theme: ColorTheme.dark)
@@ -343,7 +343,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             case AppearanceOptions.highContrast:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "High-contrast mode"
+                cell.textLabel?.text = NSLocalizedString("settings.appearance.highContrast", comment: "")
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f042}")
                 let switchView = UISwitch(frame: .zero)
                 switchView.setOn(GlobalStruct.overrideThemeHighContrast, animated: false)
@@ -360,23 +360,23 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
 
             case AppearanceOptions.names:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
-                cell.textLabel?.text = "Names"
-                cell.accessibilityLabel = "Names"
+                cell.textLabel?.text = NSLocalizedString("settings.appearance.names", comment: "")
+                cell.accessibilityLabel = NSLocalizedString("settings.appearance.names", comment: "")
                 
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f5b7}")
                 if GlobalStruct.displayName == .full {
-                    cell.detailTextLabel?.text = "Full"
+                    cell.detailTextLabel?.text = NSLocalizedString("settings.appearance.names.full", comment: "")
                 } else if GlobalStruct.displayName == .usernameOnly {
-                    cell.detailTextLabel?.text = "Username"
+                    cell.detailTextLabel?.text = NSLocalizedString("settings.appearance.names.username", comment: "")
                 } else if GlobalStruct.displayName == .usertagOnly {
-                    cell.detailTextLabel?.text = "Usertag"
+                    cell.detailTextLabel?.text = NSLocalizedString("generic.none", comment: "")
                 } else {
                     cell.detailTextLabel?.text = "None" // .none
                 }
                 
                 var gestureActions: [UIAction] = []
                 let image1 = settingsFontAwesomeImage("\u{f47f}")
-                let op1 = UIAction(title: "Full", image: image1, identifier: nil) { action in
+                let op1 = UIAction(title: NSLocalizedString("settings.appearance.names.full", comment: ""), image: image1, identifier: nil) { action in
                     
                     GlobalStruct.displayName = .full
                     UserDefaults.standard.set(GlobalStruct.displayName.rawValue, forKey: "displayName")
@@ -389,7 +389,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 
                 gestureActions.append(op1)
                 let image2 = settingsFontAwesomeImage("\u{f007}")
-                let op2 = UIAction(title: "Username", image: image2, identifier: nil) { action in
+                let op2 = UIAction(title: NSLocalizedString("settings.appearance.names.username", comment: ""), image: image2, identifier: nil) { action in
                     
                     GlobalStruct.displayName = .usernameOnly
                     UserDefaults.standard.set(GlobalStruct.displayName.rawValue, forKey: "displayName")
@@ -402,7 +402,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 
                 gestureActions.append(op2)
                 let image3 = settingsFontAwesomeImage("\u{40}")
-                let op3 = UIAction(title: "Usertag", image: image3, identifier: nil) { action in
+                let op3 = UIAction(title: NSLocalizedString("settings.appearance.names.usertag", comment: ""), image: image3, identifier: nil) { action in
                     
                     GlobalStruct.displayName = .usertagOnly
                     UserDefaults.standard.set(GlobalStruct.displayName.rawValue, forKey: "displayName")
@@ -415,7 +415,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 
                 gestureActions.append(op3)
                 let image4 = settingsFontAwesomeImage("\u{f656}")
-                let op4 = UIAction(title: "None", image: image4, identifier: nil) { action in
+                let op4 = UIAction(title: NSLocalizedString("generic.none", comment: ""), image: image4, identifier: nil) { action in
                     
                     GlobalStruct.displayName = .none
                     UserDefaults.standard.set(GlobalStruct.displayName.rawValue, forKey: "displayName")
@@ -432,12 +432,12 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
 
             case AppearanceOptions.maximumLines:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
-                cell.textLabel?.text = "Maximum lines"
-                cell.accessibilityLabel = "Maximum lines"
+                cell.textLabel?.text = NSLocalizedString("settings.appearance.maximumLines", comment: "")
+                cell.accessibilityLabel = NSLocalizedString("settings.appearance.maximumLines", comment: "")
                 
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f7a4}")
                 if GlobalStruct.maxLines == 0 {
-                    cell.detailTextLabel?.text = "None"
+                    cell.detailTextLabel?.text = NSLocalizedString("generic.none", comment: "")
                 } else {
                     cell.detailTextLabel?.text = "\(GlobalStruct.maxLines)"
                 }
@@ -445,7 +445,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 var gestureActions: [UIAction] = []
                 let actionValues = [0, 2, 4, 6, 8, 10]
                 for actionValue in actionValues {
-                    let title = (actionValue==0) ? "None" : "\(actionValue)"
+                    let title = (actionValue==0) ? NSLocalizedString("generic.none", comment: "") : "\(actionValue)"
                     let op1 = UIAction(title: title, image: nil, identifier: nil) { action in
                         GlobalStruct.maxLines = actionValue
                         UserDefaults.standard.set(GlobalStruct.maxLines, forKey: "maxLines")
@@ -462,8 +462,8 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             case AppearanceOptions.mediaSize:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Media size"
-                cell.accessibilityLabel = "Media size"
+                cell.textLabel?.text = NSLocalizedString("settings.appearance.mediaSize", comment: "")
+                cell.accessibilityLabel = NSLocalizedString("settings.appearance.mediaSize", comment: "")
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f03e}")
                 cell.detailTextLabel?.text = GlobalStruct.mediaSize.displayName
                 
@@ -487,7 +487,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             case AppearanceOptions.profileIcon:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Circle profile icons"
+                cell.textLabel?.text = NSLocalizedString("settings.appearance.circleIcons", comment: "")
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f2bd}")
 
                 let switchView = UISwitch(frame: .zero)
@@ -515,7 +515,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             case AppearanceOptions.contentWarning:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Content warning overlays"
+                cell.textLabel?.text = NSLocalizedString("settings.appearance.showCW", comment: "")
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f05e}")
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "showCW") as? Bool != nil {
@@ -541,7 +541,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             case AppearanceOptions.sensitiveContent:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Blur sensitive content"
+                cell.textLabel?.text = NSLocalizedString("settings.appearance.blurSensitive", comment: "")
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f071}")
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "blurSensitiveContent") as? Bool != nil {
@@ -567,7 +567,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             case AppearanceOptions.autoplay:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Auto-play videos & GIFs"
+                cell.textLabel?.text = NSLocalizedString("settings.appearance.autoplay", comment: "")
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f04b}")
                 let switchView = UISwitch(frame: .zero)
                 if UserDefaults.standard.value(forKey: "autoPlayVideos") as? Bool != nil {
@@ -592,7 +592,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 
             case AppearanceOptions.translation:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
-                cell.textLabel?.text = "Translation language"
+                cell.textLabel?.text = NSLocalizedString("settings.appearance.translationLang", comment: "")
                 cell.imageView?.image = UIImage(systemName: "globe")
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f0ac}")
                 cell.accessoryView = nil

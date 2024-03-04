@@ -633,7 +633,7 @@ extension ProfileViewController: UIContextMenuInteractionDelegate {
             return accountAction
         }))
         
-        let addAccount = UIAction(title: "Add account", image: FontAwesome.image(fromChar: "\u{2b}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { _ in
+        let addAccount = UIAction(title: NSLocalizedString("profile.addAccount", comment: ""), image: FontAwesome.image(fromChar: "\u{2b}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { _ in
             DispatchQueue.main.async {
                 triggerHapticImpact(style: .light)
                 let vc = IntroViewController()
@@ -644,7 +644,7 @@ extension ProfileViewController: UIContextMenuInteractionDelegate {
             }
         }
         
-        let accountSettings = UIAction(title: "Account settings", image: FontAwesome.image(fromChar: "\u{f013}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { _ in
+        let accountSettings = UIAction(title: NSLocalizedString("settings.accountSettings", comment: ""), image: FontAwesome.image(fromChar: "\u{f013}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { _ in
             DispatchQueue.main.async {
                 triggerHapticImpact(style: .light)
                 let vc = AccountsSettingsViewController()

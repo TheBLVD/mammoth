@@ -346,9 +346,8 @@ extension ProfileHeader {
                 descriptionLabel.textView.constraints.forEach({ $0.isActive = false })
             }
         }
-        
         if screenType == .own {
-            let buttonLabel = NSMutableAttributedString(string: "Edit Profile")
+            let buttonLabel = NSMutableAttributedString(string: NSLocalizedString("profile.edit", comment: ""))
             let imageAttachment = NSTextAttachment()
             let caretImage = FontAwesome.image(fromChar: "\u{f0d7}", size: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 2, weight: .bold).withRenderingMode(.alwaysTemplate)
             imageAttachment.image = caretImage
@@ -370,9 +369,9 @@ extension ProfileHeader {
                 fallthrough
             case .notFollowing:
                 if let followedBy = self.user?.relationship?.followedBy, followedBy {
-                    actionButton.setTitle("Follow back", for: .normal)
+                    actionButton.setTitle(NSLocalizedString("profile.followBack", comment: ""), for: .normal)
                 } else {
-                    actionButton.setTitle("Follow", for: .normal)
+                    actionButton.setTitle(NSLocalizedString("profile.follow", comment: ""), for: .normal)
                 }
                 actionButton.removeTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
                 actionButton.addTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
@@ -380,28 +379,24 @@ extension ProfileHeader {
             case .followRequested:
                 fallthrough
             case .following:
-                actionButton.setTitle("Unfollow", for: .normal)
+                actionButton.setTitle(NSLocalizedString("profile.unfollow", comment: ""), for: .normal)
                 actionButton.removeTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
                 actionButton.addTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
                 break
             case .followAwaitingApproval:
-                actionButton.setTitle("Awaiting approval", for: .normal)
+                actionButton.setTitle(NSLocalizedString("profile.awaitingApproval", comment: ""), for: .normal)
                 actionButton.removeTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
                 actionButton.addTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
                 break
             case .none:
-                actionButton.setTitle("Follow", for: .normal)
+                actionButton.setTitle(NSLocalizedString("profile.follow", comment: ""), for: .normal)
                 actionButton.removeTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
                 actionButton.addTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
             }
         }
-        
-        self.statsLabel.text = " - Joined \(user.joinedOn?.toString(dateStyle: .short, timeStyle: .none) ?? "")"
-        if user.followersCount == "1" {
-            self.followersButton.setTitle("\(user.followersCount) follower", for: .normal)
-        } else {
-            self.followersButton.setTitle("\(user.followersCount) followers", for: .normal)
-        }
+        let joined_on = user.joinedOn?.toString(dateStyle: .short, timeStyle: .none) ?? ""
+        self.statsLabel.text = " - " + String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joined_on)
+        self.followersButton.setTitle(String.localizedStringWithFormat(user.followersCount == "1" ? NSLocalizedString("profile.followers.singular", comment: "") : NSLocalizedString("profile.followers.plural", comment: ""), user.followersCount), for: .normal)
         
         // Clear all fields
         if let infoConstraints = self.extraInfoConstraints {
@@ -497,7 +492,7 @@ extension ProfileHeader {
         self.statsLabel.textColor = .custom.softContrast
         
         if let screenType = self.screenType, screenType == .own {
-            let buttonLabel = NSMutableAttributedString(string: "Edit Profile")
+            let buttonLabel = NSMutableAttributedString(string: NSLocalizedString("profile.edit", comment: ""))
             let imageAttachment = NSTextAttachment()
             let caretImage = FontAwesome.image(fromChar: "\u{f0d7}", size: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 2, weight: .bold).withRenderingMode(.alwaysTemplate)
             imageAttachment.image = caretImage
@@ -525,7 +520,7 @@ extension ProfileHeader {
     }
     
     @objc func followTapped() {
-        actionButton.setTitle("Unfollow", for: .normal)
+        actionButton.setTitle(NSLocalizedString("profile.unfollow", comment: ""), for: .normal)
         triggerHapticImpact(style: .light)
         
         if  let userCard = self.user, let account = userCard.account {
@@ -550,7 +545,7 @@ extension ProfileHeader {
     }
     
     @objc func unfollowTapped() {
-        actionButton.setTitle("Follow", for: .normal)
+        actionButton.setTitle(NSLocalizedString("profile.follow", comment: ""), for: .normal)
         triggerHapticImpact(style: .light)
         
         if let userCard = self.user, let account = userCard.account {
@@ -637,13 +632,13 @@ internal extension ProfileHeader {
 extension ProfileHeader {
     func createContextMenu() -> UIMenu {                
         let options = [
-            createContextMenuAction("Edit Avatar", .editAvatar),
-            createContextMenuAction("Edit Header", .editHeader),
-            createContextMenuAction("Edit Details", .editDetails),
-            createContextMenuAction("Edit Info and Links", .editInfoAndLink),
+            createContextMenuAction(NSLocalizedString("profile.edit.avatar", comment: ""), .editAvatar),
+            createContextMenuAction(NSLocalizedString("profile.edit.header", comment: ""), .editHeader),
+            createContextMenuAction(NSLocalizedString("profile.edit.details", comment: ""), .editDetails),
+            createContextMenuAction(NSLocalizedString("profile.edit.infoAndLinks", comment: ""), .editInfoAndLink),
         ]
         
-        return UIMenu(title: "Edit Profile", options: [.displayInline], children: options)
+        return UIMenu(title: NSLocalizedString("profile.edit", comment: ""), options: [.displayInline], children: options)
     }
 
     private func createContextMenuAction(_ title: String, _ buttonType: UserCardButtonType) -> UIAction {
@@ -760,7 +755,7 @@ final class ProfileField: UIStackView, MetaLabelDelegate {
             view.becomeFirstResponder()
             let menuController = UIMenuController.shared
                     
-            let copyItem = UIMenuItem(title: "Copy", action: #selector(self.copyText))
+            let copyItem = UIMenuItem(title: NSLocalizedString("generic.copy", comment: ""), action: #selector(self.copyText))
             menuController.menuItems = [copyItem]
             
             menuController.showMenu(from: superview, rect: view.frame)

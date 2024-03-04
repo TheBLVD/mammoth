@@ -169,7 +169,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
         super.viewDidLoad()
         
         self.view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "App Icon"
+        self.navigationItem.title = NSLocalizedString("settings.appIcon.title", comment: "")
         
         let navApp = UINavigationBarAppearance()
         navApp.configureWithOpaqueBackground()
@@ -185,7 +185,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadAll), name: NSNotification.Name(rawValue: "reloadAll"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadBars), name: NSNotification.Name(rawValue: "reloadBars"), object: nil)
         
-        self.title = "App Icon"
+        self.title = NSLocalizedString("settings.appIcon.title", comment: "")
         
         if GlobalStruct.hideNavBars2 {
             self.extendedLayoutIncludesOpaqueBars = true

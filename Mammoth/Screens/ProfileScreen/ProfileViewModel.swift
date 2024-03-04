@@ -17,9 +17,9 @@ final class ProfileViewModel {
         func labelText() -> String {
             switch self {
             case .posts:
-                return "Posts"
+                return NSLocalizedString("profile.posts", comment: "")
             case .postsAndReplies:
-                return "Posts & Replies"
+                return NSLocalizedString("profile.postsAndReplies", comment: "")
             }
         }
         

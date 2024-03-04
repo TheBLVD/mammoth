@@ -17,7 +17,7 @@ public typealias GiphySimpleSingleGIFResponseBlock = (_ error: NSError?, _ respo
 
 fileprivate typealias GiphyAPIResponseBlock = (_ error: NSError?, _ response: [String : AnyObject]?) -> Void
 
-fileprivate let kGiphyUnknownResponseError = NSLocalizedString("The server returned an unknown response.", comment: "The error message shown when the server produces something unintelligible.")
+fileprivate let kGiphyUnknownResponseError = "The server returned an unknown response."
 
 fileprivate let kGiphyDefaultAPIBase = URL(string: "https://api.giphy.com/v1/gifs/")!
 fileprivate let kGiphyDefaultStickerAPIBase = URL(string: "https://api.giphy.com/v1/stickers/")!
@@ -257,7 +257,7 @@ public extension SwiftyGiphyAPI {
         guard apiKey != nil || !isUsingDefaultAPIBase else {
             print("ATTENTION: You need to set your Giphy API key before using SwiftyGiphy.")
             
-            completion?(networkError(description: NSLocalizedString("You need to set your Giphy API key before using SwiftyGiphy.", comment: "You need to set your Giphy API key before using SwiftyGiphy.")), nil)
+            completion?(networkError(description: "You need to set your Giphy API key before using SwiftyGiphy."), nil)
             return
         }
         
@@ -315,7 +315,7 @@ public extension SwiftyGiphyAPI {
         guard apiKey != nil || !isUsingDefaultAPIBase else {
             print("ATTENTION: You need to set your Giphy API key before using SwiftyGiphy.")
             
-            completion?(networkError(description: NSLocalizedString("You need to set your Giphy API key before using SwiftyGiphy.", comment: "You need to set your Giphy API key before using SwiftyGiphy.")), nil)
+            completion?(networkError(description: "You need to set your Giphy API key before using SwiftyGiphy."), nil)
             return
         }
         
@@ -373,7 +373,7 @@ public extension SwiftyGiphyAPI {
         guard apiKey != nil || !isUsingDefaultAPIBase else {
             print("ATTENTION: You need to set your Giphy API key before using SwiftyGiphy.")
             
-            completion?(networkError(description: NSLocalizedString("You need to set your Giphy API key before using SwiftyGiphy.", comment: "You need to set your Giphy API key before using SwiftyGiphy.")), nil)
+            completion?(networkError(description: "You need to set your Giphy API key before using SwiftyGiphy."), nil)
             return
         }
         
@@ -429,7 +429,7 @@ public extension SwiftyGiphyAPI {
         guard apiKey != nil || !isUsingDefaultAPIBase else {
             print("ATTENTION: You need to set your Giphy API key before using SwiftyGiphy.")
             
-            completion?(networkError(description: NSLocalizedString("You need to set your Giphy API key before using SwiftyGiphy.", comment: "You need to set your Giphy API key before using SwiftyGiphy.")), nil)
+            completion?(networkError(description: "You need to set your Giphy API key before using SwiftyGiphy."), nil)
             return
         }
         
@@ -479,7 +479,7 @@ public extension SwiftyGiphyAPI {
         guard apiKey != nil || !isUsingDefaultAPIBase else {
             print("ATTENTION: You need to set your Giphy API key before using SwiftyGiphy.")
             
-            completion?(networkError(description: NSLocalizedString("You need to set your Giphy API key before using SwiftyGiphy.", comment: "You need to set your Giphy API key before using SwiftyGiphy.")), nil)
+            completion?(networkError(description: "You need to set your Giphy API key before using SwiftyGiphy."), nil)
             return
         }
         
@@ -533,7 +533,7 @@ public extension SwiftyGiphyAPI {
         guard apiKey != nil || !isUsingDefaultStickerAPIBase else {
             print("ATTENTION: You need to set your Giphy API key before using SwiftyGiphy.")
             
-            completion?(networkError(description: NSLocalizedString("You need to set your Giphy API key before using SwiftyGiphy.", comment: "You need to set your Giphy API key before using SwiftyGiphy.")), nil)
+            completion?(networkError(description: "You need to set your Giphy API key before using SwiftyGiphy."), nil)
             return
         }
         
@@ -591,7 +591,7 @@ public extension SwiftyGiphyAPI {
         guard apiKey != nil || !isUsingDefaultStickerAPIBase else {
             print("ATTENTION: You need to set your Giphy API key before using SwiftyGiphy.")
             
-            completion?(networkError(description: NSLocalizedString("You need to set your Giphy API key before using SwiftyGiphy.", comment: "You need to set your Giphy API key before using SwiftyGiphy.")), nil)
+            completion?(networkError(description: "You need to set your Giphy API key before using SwiftyGiphy."), nil)
             return
         }
         
@@ -649,7 +649,7 @@ public extension SwiftyGiphyAPI {
         guard apiKey != nil || !isUsingDefaultStickerAPIBase else {
             print("ATTENTION: You need to set your Giphy API key before using SwiftyGiphy.")
             
-            completion?(networkError(description: NSLocalizedString("You need to set your Giphy API key before using SwiftyGiphy.", comment: "You need to set your Giphy API key before using SwiftyGiphy.")), nil)
+            completion?(networkError(description: "You need to set your Giphy API key before using SwiftyGiphy."), nil)
             return
         }
         
@@ -705,7 +705,7 @@ public extension SwiftyGiphyAPI {
         guard apiKey != nil || !isUsingDefaultStickerAPIBase else {
             print("ATTENTION: You need to set your Giphy API key before using SwiftyGiphy.")
             
-            completion?(networkError(description: NSLocalizedString("You need to set your Giphy API key before using SwiftyGiphy.", comment: "You need to set your Giphy API key before using SwiftyGiphy.")), nil)
+            completion?(networkError(description: "You need to set your Giphy API key before using SwiftyGiphy."), nil)
             return
         }
         

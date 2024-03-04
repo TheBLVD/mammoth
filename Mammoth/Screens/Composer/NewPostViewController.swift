@@ -1052,7 +1052,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         btn1.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         btn1.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
         btn1.addTarget(self, action: #selector(self.dismissTap), for: .touchUpInside)
-        btn1.accessibilityLabel = "Dismiss"
+        btn1.accessibilityLabel = NSLocalizedString("generic.dismiss", comment: "")
         let moreButton0 = UIBarButtonItem(customView: btn1)
         self.navigationItem.setLeftBarButton(moreButton0, animated: true)
         
@@ -1062,7 +1062,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         btn2.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         btn2.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
         btn2.addTarget(self, action: #selector(self.sendTap), for: .touchUpInside)
-        btn2.accessibilityLabel = "Post"
+        btn2.accessibilityLabel = NSLocalizedString("composer.post", comment: "")
         let moreButton1 = UIBarButtonItem(customView: btn2)
         self.navigationItem.setRightBarButton(moreButton1, animated: true)
     }
@@ -1123,19 +1123,22 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             self.imageButton[0].layer.masksToBounds = true
             self.view.addSubview(self.imageButton[0])
 
-            var mediaType: String = "Video"
+            let image_string = NSLocalizedString("composer.media.image", comment: "")
+            let view_media = NSLocalizedString("composer.media.viewMedia", comment: "")
+            let add_media_description = NSLocalizedString("composer.media.altText", comment: "")
+            var mediaType: String = NSLocalizedString("composer.media.video", comment: "")
             if self.gifAttached {
-                mediaType = "GIF"
+                mediaType = NSLocalizedString("composer.media.gif", comment: "")
             }
-            let vie0 = UIAction(title: "View \(mediaType)", image: UIImage(systemName: "eye"), identifier: nil) { action in
+            let vie0 = UIAction(title: String.localizedStringWithFormat(view_media, mediaType), image: UIImage(systemName: "eye"), identifier: nil) { action in
                 self.viewVideo()
             }
-            vie0.accessibilityLabel = "View \(mediaType)"
-            let vie1 = UIAction(title: "View Image", image: UIImage(systemName: "eye"), identifier: nil) { action in
+            vie0.accessibilityLabel = String.localizedStringWithFormat(view_media, mediaType)
+            let vie1 = UIAction(title: String.localizedStringWithFormat(view_media, image_string), image: UIImage(systemName: "eye"), identifier: nil) { action in
                 self.viewImages(self.imageButton[0])
             }
-            vie1.accessibilityLabel = "View Image"
-            let alt1 = UIAction(title: "Add Image Description", image: UIImage(systemName: "character.cursor.ibeam"), identifier: nil) { action in
+            vie1.accessibilityLabel = String.localizedStringWithFormat(view_media, image_string)
+            let alt1 = UIAction(title: String.localizedStringWithFormat(add_media_description, image_string), image: UIImage(systemName: "character.cursor.ibeam"), identifier: nil) { action in
                 self.hasEditedMetadata = true
                 let vc = AltTextViewController()
                 vc.currentImage = self.imageButton[0].currentImage ?? UIImage()
@@ -1153,11 +1156,11 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                     self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
                 }
             }
-            alt1.accessibilityLabel = "Add Image Description"
+            alt1.accessibilityLabel = String.localizedStringWithFormat(add_media_description, image_string)
             if (self.instanceCanEditAltText == false && self.fromEdit != nil && mediaCount >= 1) || (self.mediaIdStrings.count < 1) {
                 alt1.attributes = .hidden
             }
-            let remove1 = UIAction(title: "Remove", image: UIImage(systemName: "trash"), identifier: nil) { action in
+            let remove1 = UIAction(title: NSLocalizedString("generic.remove", comment: ""), image: UIImage(systemName: "trash"), identifier: nil) { action in
                 triggerHapticImpact(style: .light)
                 
                 GlobalStruct.whichImagesAltText = GlobalStruct.whichImagesAltText.filter({ x in
@@ -1196,7 +1199,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.createToolbar()
                 self.setupImages2()
             }
-            remove1.accessibilityLabel = "Remove"
+            remove1.accessibilityLabel = NSLocalizedString("generic.remove", comment: "")
             remove1.attributes = .destructive
             
             if self.canPost || self.fromEdit != nil {
@@ -1229,11 +1232,11 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.imageButton[index].layer.masksToBounds = true
                 self.view.addSubview(self.imageButton[index])
                 
-                let vie2 = UIAction(title: "View Image", image: UIImage(systemName: "eye"), identifier: nil) { action in
+                let vie2 = UIAction(title: String.localizedStringWithFormat(view_media, image_string), image: UIImage(systemName: "eye"), identifier: nil) { action in
                     self.viewImages(self.imageButton[index])
                 }
-                vie2.accessibilityLabel = "View Image"
-                let alt2 = UIAction(title: "Add Image Description", image: UIImage(systemName: "character.cursor.ibeam"), identifier: nil) { action in
+                vie2.accessibilityLabel = String.localizedStringWithFormat(view_media, image_string)
+                let alt2 = UIAction(title: String.localizedStringWithFormat(add_media_description, image_string), image: UIImage(systemName: "character.cursor.ibeam"), identifier: nil) { action in
                     self.hasEditedMetadata = true
                     let vc = AltTextViewController()
                     vc.currentImage = self.imageButton[index].currentImage ?? UIImage()
@@ -1251,14 +1254,14 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                         self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
                     }
                 }
-                alt2.accessibilityLabel = "Add Image Description"
+                alt2.accessibilityLabel = String.localizedStringWithFormat(add_media_description, image_string)
                 // Disable this if (1) editing from an instance that doesn't support it and there's media to edit, OR
                 //                 (3) there's no text placeholder - it should have been added in attachPhoto()/similar
                 if (self.instanceCanEditAltText == false && self.fromEdit != nil && mediaCount >= index+1) ||
                     (self.mediaIdStrings.count < index+1) {
                     alt2.attributes = .hidden
                 }
-                let remove2 = UIAction(title: "Remove", image: UIImage(systemName: "trash"), identifier: nil) { action in
+                let remove2 = UIAction(title: NSLocalizedString("generic.remove", comment: ""), image: UIImage(systemName: "trash"), identifier: nil) { action in
                     triggerHapticImpact(style: .light)
                     GlobalStruct.whichImagesAltText = GlobalStruct.whichImagesAltText.filter({ x in
                         x != index
@@ -1288,7 +1291,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                     
                     self.updatePostButton()
                 }
-                remove2.accessibilityLabel = "Remove"
+                remove2.accessibilityLabel = NSLocalizedString("generic.remove", comment: "")
                 remove2.attributes = .destructive
                 let itemMenu2 = UIMenu(title: "", options: [], children: [vie2, alt2, remove2])
                 if self.canPost || self.fromEdit != nil {
@@ -1359,15 +1362,15 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         // items
         let photoButtonImage = FontAwesome.image(fromChar: "\u{f03e}", weight: .bold).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
         let photoButton = UIBarButtonItem(image: photoButtonImage, style: .plain, target: self, action: #selector(self.galleryTapped))
-        photoButton.accessibilityLabel = "Media from Gallery"
+        photoButton.accessibilityLabel = NSLocalizedString("composer.media.fromGallery", comment: "")
         let cameraButton = UIBarButtonItem(image: UIImage(systemName: "camera", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.cameraTapped))
-        cameraButton.accessibilityLabel = "Camera"
+        cameraButton.accessibilityLabel = NSLocalizedString("composer.media.camera", comment: "")
         let gifButtonImage = FontAwesome.image(fromChar: "\u{e190}", weight: .bold).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
         let gifButton = UIBarButtonItem(image: gifButtonImage, style: .plain, target: self, action: #selector(self.gifTapped))
-        gifButton.accessibilityLabel = "GIF"
+        gifButton.accessibilityLabel = NSLocalizedString("composer.media.gif", comment: "")
         let customEmojiButtonImage = FontAwesome.image(fromChar: "\u{e409}", weight: .bold).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
         let customEmojiButton = UIBarButtonItem(image: customEmojiButtonImage, style: .plain, target: self, action: #selector(self.customEmojiTapped))
-        customEmojiButton.accessibilityLabel = "Custom Emoji"
+        customEmojiButton.accessibilityLabel = NSLocalizedString("composer.media.customEmoji", comment: "")
         let pollButtonImage = FontAwesome.image(fromChar: "\u{f828}", weight: .regular).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
         var pollButton = UIBarButtonItem(image: pollButtonImage, style: .plain, target: self, action: #selector(self.pollTapped))
         if GlobalStruct.newPollPost != nil {
@@ -1375,35 +1378,37 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             let pollButtonImage = FontAwesome.image(fromChar: "\u{f828}", weight: .bold).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
             pollButton = UIBarButtonItem(image: pollButtonImage, style: .plain, target: self, action: nil)
             
-            let view31 = UIAction(title: "Edit Poll", image: UIImage(systemName: "pencil"), identifier: nil) { action in
+            let edit_poll = NSLocalizedString("composer.poll.edit", comment: "")
+            let view31 = UIAction(title: edit_poll, image: UIImage(systemName: "pencil"), identifier: nil) { action in
                 self.pollTapped(true)
             }
-            view31.accessibilityLabel = "Edit Poll"
-            let view32 = UIAction(title: "Remove Poll", image: UIImage(systemName: "trash"), identifier: nil) { action in
+            view31.accessibilityLabel = edit_poll
+            let remove_poll = NSLocalizedString("composer.poll.remove", comment: "")
+            let view32 = UIAction(title: remove_poll, image: UIImage(systemName: "trash"), identifier: nil) { action in
                 self.hasEditedPoll = true
                 GlobalStruct.newPollPost = nil
                 self.createToolbar()
             }
-            view32.accessibilityLabel = "Remove Poll"
+            view32.accessibilityLabel = remove_poll
             view32.attributes = .destructive
             
             let itemMenu1 = UIMenu(title: "", options: [], children: [view31, view32])
             pollButton.menu = itemMenu1
         }
-        pollButton.accessibilityLabel = "Poll"
+        pollButton.accessibilityLabel = NSLocalizedString("composer.poll", comment: "")
         
         let imageWeight: UIFont.Weight = self.cwHeight != 0 ? .bold : .regular
         let itemCWImage = FontAwesome.image(fromChar: "\u{f321}", weight: imageWeight).withConfiguration(symbolConfig).withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal)
         let itemCW = UIBarButtonItem(image: itemCWImage, style: .plain, target: self, action: #selector(self.cwTapped))
-        itemCW.accessibilityLabel = "Content Warning"
+        itemCW.accessibilityLabel = NSLocalizedString("composer.contentWarning", comment: "")
         
         let languageButton = toolbarLanguageButton()
         
         let itemDrafts = UIBarButtonItem(image: UIImage(systemName: "doc.text", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: #selector(self.draftsTapped))
-        itemDrafts.accessibilityLabel = "Drafts"
+        itemDrafts.accessibilityLabel = NSLocalizedString("composer.drafts", comment: "")
         
         itemLast = UIBarButtonItem(image: UIImage(systemName: "ellipsis", withConfiguration: symbolConfig)!.withTintColor(.custom.baseTint, renderingMode: .alwaysOriginal), style: .plain, target: self, action: nil)
-        itemLast.accessibilityLabel = "More"
+        itemLast.accessibilityLabel = NSLocalizedString("generic.more", comment: "")
         itemLastMenu()
         
         if self.audioAttached {
@@ -1467,18 +1472,23 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         formatToolbar.frame = CGRect(x: 0, y: self.view.bounds.height - formatToolbar.bounds.size.height - 5, width: self.view.bounds.width, height: formatToolbar.frame.size.height)
 #endif
         
-        var visibilityText = "Everyone"
+        let everyone_string = NSLocalizedString("composer.visibility.everyone", comment: "")
+        let private_string = NSLocalizedString("composer.visibility.private", comment: "")
+        let followers_string = NSLocalizedString("composer.visibility.followers", comment: "")
+        let unlisted_string = NSLocalizedString("composer.visibility.unlisted", comment: "")
+
+        var visibilityText = everyone_string
         var visibilityImage = "globe"
         if self.whoCanReply == .direct {
-            visibilityText = "Private"
+            visibilityText = private_string
             visibilityImage = "tray.full"
         }
         if self.whoCanReply == .private {
-            visibilityText = "Followers"
+            visibilityText = followers_string
             visibilityImage = "person.2"
         }
         if self.whoCanReply == .unlisted {
-            visibilityText = "Unlisted"
+            visibilityText = unlisted_string
             visibilityImage = "lock.open"
         }
         self.whoCanReplyPill.setTitle(visibilityText, for: .normal)
@@ -1493,41 +1503,42 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         attStringNewLine000.append(attStringNewLine00)
         self.whoCanReplyPill.setAttributedTitle(attStringNewLine000, for: .normal)
         
-        let view01 = UIAction(title: "Everyone", image: UIImage(systemName: "globe"), identifier: nil) { action in
+        let view01 = UIAction(title: everyone_string, image: UIImage(systemName: "globe"), identifier: nil) { action in
             self.whoCanReply = .public
             self.createToolbar()
         }
-        view01.accessibilityLabel = "Everyone"
+        view01.accessibilityLabel = everyone_string
         if self.whoCanReply == .public {
             view01.state = .on
         }
-        let view21 = UIAction(title: "Private", image: UIImage(systemName: "tray.full"), identifier: nil) { action in
+        let view21 = UIAction(title: private_string, image: UIImage(systemName: "tray.full"), identifier: nil) { action in
             self.whoCanReply = .direct
             self.createToolbar()
         }
-        view21.accessibilityLabel = "Private"
+        view21.accessibilityLabel = private_string
         if self.whoCanReply == .direct {
             view21.state = .on
         }
-        let view11 = UIAction(title: "Followers", image: UIImage(systemName: "person.2"), identifier: nil) { action in
+        let view11 = UIAction(title: followers_string, image: UIImage(systemName: "person.2"), identifier: nil) { action in
             self.whoCanReply = .private
             self.createToolbar()
         }
-        view11.accessibilityLabel = "Followers"
+        view11.accessibilityLabel = followers_string
         if self.whoCanReply == .private {
             view11.state = .on
         }
-        let view12 = UIAction(title: "Unlisted", image: UIImage(systemName: "lock.open"), identifier: nil) { action in
+        let view12 = UIAction(title: unlisted_string, image: UIImage(systemName: "lock.open"), identifier: nil) { action in
             self.whoCanReply = .unlisted
             self.createToolbar()
         }
-        view12.accessibilityLabel = "Unlisted"
+        view12.accessibilityLabel = unlisted_string
         if self.whoCanReply == .unlisted {
             view12.state = .on
         }
         
-        let itemMenu1 = UIMenu(title: "Post Visibility", options: [], children: [view01, view21, view11, view12])
-        itemMenu1.accessibilityLabel = "Post Visibility"
+        let post_visibility = NSLocalizedString("composer.visibility", comment: "")
+        let itemMenu1 = UIMenu(title: post_visibility, options: [], children: [view01, view21, view11, view12])
+        itemMenu1.accessibilityLabel = post_visibility
         self.whoCanReplyPill.menu = itemMenu1
         self.whoCanReplyPill.showsMenuAsPrimaryAction = true
     }
@@ -1546,7 +1557,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             self.tableView.reloadRows(at: [IndexPath(row: 0, section: 1)], with: .bottom)
             self.createToolbar()
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? AltTextCell2 {
-                cell.altText.placeholder = "Content warning..."
+                cell.altText.placeholder = NSLocalizedString("composer.contentWarning.placeholder", comment: "")
                 cell.altText.becomeFirstResponder()
                 cell.altText.text = self.spoilerText
                 cell.altText.isHidden = false
@@ -1587,10 +1598,10 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func itemLastMenu() {
-        var sensitiveText: String = "Mark as Sensitive"
+        var sensitiveText: String = NSLocalizedString("composer.sensitive.add", comment: "")
         var sensitiveImage: String = "exclamationmark.triangle"
         if self.isSensitive {
-            sensitiveText = "Remove Sensitive Tag"
+            sensitiveText = NSLocalizedString("composer.sensitive.remove", comment: "")
             sensitiveImage = "exclamationmark.triangle.fill"
         }
         let viewSensitive = UIAction(title: sensitiveText, image: UIImage(systemName: sensitiveImage), identifier: nil) { action in
@@ -1604,10 +1615,11 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             viewSensitive.attributes = .disabled
         }
         
-        let translatePost = UIAction(title: "Translate Post", image: UIImage(systemName: "arrow.triangle.2.circlepath"), identifier: nil) { action in
+        let translate_post_string = NSLocalizedString("post.translatePost", comment: "")
+        let translatePost = UIAction(title: translate_post_string, image: UIImage(systemName: "arrow.triangle.2.circlepath"), identifier: nil) { action in
             self.translatePostTapped()
         }
-        translatePost.accessibilityLabel = "Translate Post"
+        translatePost.accessibilityLabel = translate_post_string
                 
         if self.imageButton[0].alpha == 1 {
             let itemMenu = UIMenu(title: "", options: [], children: [viewSensitive, translatePost])
@@ -1664,7 +1676,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         } else {
             // Invalid selection
             completion = {
-                self.mediaFailure(title: "Please try again", message: "You can upload 1 video or up to 4 images per post")
+                self.mediaFailure(title: NSLocalizedString("error.pleaseTryAgain", comment: ""), message: NSLocalizedString("composer.error.mediaLimit", comment: ""))
             }
         }
         
@@ -2256,7 +2268,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    func mediaFailure(title: String = "Media failed to upload", message: String) {
+    func mediaFailure(title: String = NSLocalizedString("error.composer.mediaFailed", comment: ""), message: String) {
         let alert = UIAlertController(title: title, message: "\(message)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Done", style: .cancel , handler:{ (UIAlertAction) in
         }))
@@ -2268,14 +2280,14 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func setPostFailure() {
-        let alert = UIAlertController(title: "Post failed to upload", message: "", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Retry", style: .default , handler:{ [weak self] (UIAlertAction) in
+        let alert = UIAlertController(title: NSLocalizedString("error.composer.postFailed", comment: ""), message: "", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("composer.retry", comment: ""), style: .default , handler:{ [weak self] (UIAlertAction) in
             self?.sendData()
         }))
-        alert.addAction(UIAlertAction(title: "Save Draft", style: .default , handler:{ [weak self] (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("composer.drafts.save", comment: ""), style: .default , handler:{ [weak self] (UIAlertAction) in
             self?.saveDraft()
         }))
-        alert.addAction(UIAlertAction(title: "Discard", style: .destructive , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("composer.drafts.discard", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
         }))
         if let presenter = alert.popoverPresentationController {
             presenter.sourceView = getTopMostViewController()?.view
@@ -2846,12 +2858,13 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             // Show the # of characters used
             self.postCharacterCount = self.postCharacterCount2 - postPieces[0].count - contentWarning.count
             self.navigationItem.title = "\(postCharacterCount)"
-            self.navigationItem.accessibilityLabel = "\(postCharacterCount) characters remaining"
+            self.navigationItem.accessibilityLabel = String.localizedStringWithFormat(NSLocalizedString("composer.characterCount", comment: ""), postCharacterCount)
         } else {
             // Show the current number of posts, and the character space *remaining*
             self.postCharacterCount = self.postCharacterCount2 - postPieces.last!.count
-            self.navigationItem.title = "Post \(postPieces.count): \(postCharacterCount)"
-            self.navigationItem.accessibilityLabel = "Post \(postPieces.count): \(postCharacterCount) characters remaining"
+            
+            self.navigationItem.title = String.localizedStringWithFormat(NSLocalizedString("composer.characterCount.thread", comment: ""), postPieces.count, postCharacterCount)
+            self.navigationItem.accessibilityLabel = String.localizedStringWithFormat(NSLocalizedString("composer.characterCount.thread.description", comment: ""), postPieces.count, postCharacterCount)
 
         }
         
@@ -3046,10 +3059,10 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.btn1.showsMenuAsPrimaryAction = false
             } else {
                 // present drafts option
-                let draft = UIAction(title: "Save as Draft", image: UIImage(systemName: "doc.text"), identifier: nil) { action in
+                let draft = UIAction(title: NSLocalizedString("composer.drafts.save", comment: ""), image: UIImage(systemName: "doc.text"), identifier: nil) { action in
                     self.saveDraft()
                 }
-                let dismiss = UIAction(title: "Dismiss", image: UIImage(systemName: "xmark"), identifier: nil) { action in
+                let dismiss = UIAction(title: NSLocalizedString("generic.dismiss", comment: ""), image: UIImage(systemName: "xmark"), identifier: nil) { action in
                     self.dismiss(animated: true, completion: nil)
                 }
                 dismiss.attributes = .destructive
@@ -3604,12 +3617,12 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                     } else {
                         self.visibImages = 0
                         // all media not attached, reconsider
-                        let alert = UIAlertController(title: "Media upload in progress...", message: "Are you sure you want to post this without the media?", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Post Without Media", style: .destructive , handler:{ (UIAlertAction) in
+                        let alert = UIAlertController(title: NSLocalizedString("composer.media.progress", comment: ""), message: NSLocalizedString("composer.media.progress.confirm", comment: ""), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("composer.media.progress.giveUp", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
                             self.startActivity()
                             self.sendDataIfCanPost()
                         }))
-                        alert.addAction(UIAlertAction(title: "Wait", style: .cancel , handler:{ (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("composer.media.progress.wait", comment: "As in 'to wait'"), style: .cancel , handler:{ (UIAlertAction) in
                             
                         }))
                         if let presenter = alert.popoverPresentationController {
@@ -3962,11 +3975,11 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
 
 // Toolbar language extension
 extension NewPostViewController: TranslationComposeViewControllerDelegate {
-    
     private func toolbarLanguageButton() -> UIBarButtonItem {
+        let choose_language = NSLocalizedString("composer.chooseLanguage", comment: "")
         // Create the button menu
         var menuItems: [UIAction] = []
-        let showLanguagePickerAction = UIAction(title:"Choose language", image: nil, identifier: nil) { [weak self] _ in
+        let showLanguagePickerAction = UIAction(title: choose_language, image: nil, identifier: nil) { [weak self] _ in
             self?.menuShowLanguagePicker()
         }
         menuItems.append(showLanguagePickerAction)
@@ -3982,7 +3995,7 @@ extension NewPostViewController: TranslationComposeViewControllerDelegate {
         // Create the button
         let buttonImage = buttonImage()
         let toolbarLanguageButton = UIBarButtonItem(image: buttonImage, style: .plain, target: self, action: nil)
-        toolbarLanguageButton.accessibilityLabel = "toolbar language"
+        toolbarLanguageButton.accessibilityLabel = choose_language
         toolbarLanguageButton.menu = buttonMenu
         return toolbarLanguageButton
     }

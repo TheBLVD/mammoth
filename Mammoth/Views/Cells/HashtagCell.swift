@@ -52,7 +52,7 @@ final class HashtagCell: UITableViewCell {
     
     private var addButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Follow", for: .normal)
+        button.setTitle(NSLocalizedString("profile.follow", comment: ""), for: .normal)
         button.setTitleColor(.custom.highContrast, for: .normal)
         button.backgroundColor = .custom.followButtonBG
         button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
@@ -158,18 +158,18 @@ extension HashtagCell {
         }
         var numPeopleAsString: String
         if numPeopleTalking < 10 {
-            numPeopleAsString = "Several"
+            numPeopleAsString = NSLocalizedString("discover.several", comment: "")
         } else {
             numPeopleAsString = numPeopleTalking.formatUsingAbbrevation()
         }
-        self.userTagLabel.text = "\(numPeopleAsString) people talking"
+        self.userTagLabel.text = String.localizedStringWithFormat(NSLocalizedString("discover.peopleTalking", comment: ""), numPeopleAsString)
                 
         if isSubscribed {
-            addButton.setTitle("Unfollow", for: .normal)
+            addButton.setTitle(NSLocalizedString("profile.unfollow", comment: ""), for: .normal)
             addButton.removeTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
             addButton.addTarget(self, action: #selector(self.removeTapped), for: .touchUpInside)
         } else {
-            addButton.setTitle("Follow", for: .normal)
+            addButton.setTitle(NSLocalizedString("profile.follow", comment: ""), for: .normal)
             addButton.removeTarget(self, action: #selector(self.removeTapped), for: .touchUpInside)
             addButton.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
         }

@@ -213,37 +213,37 @@ extension ActivityCardHeader {
         switch activity.type {
         case .favourite:
             if let text = activity.postCard?.postText, text.isEmpty, let mediaType = activity.postCard?.mediaDisplayType.displayName {
-                return "liked your \(mediaType)"
+                return String.localizedStringWithFormat(NSLocalizedString("activity.likedMedia", comment: "Could be image, video, GIF or carousel."), mediaType)
             }
             if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasQuotePost {
-                return "liked your quote post"
+                return NSLocalizedString("activity.likedQuote", comment: "")
             }
-            return "liked"
+            return NSLocalizedString("activity.liked", comment: "")
         case .follow:
-            return "followed you"
+            return NSLocalizedString("activity.followedYou", comment: "")
         case .follow_request:
-            return "follow request"
+            return NSLocalizedString("activity.followRequest", comment: "")
         case .poll:
-            return "poll ended"
+            return NSLocalizedString("activity.pollEnded", comment: "")
         case .reblog:
             if let text = activity.postCard?.postText, text.isEmpty, let mediaType = activity.postCard?.mediaDisplayType.displayName {
-                return "reposted your \(mediaType)"
+                return String.localizedStringWithFormat(NSLocalizedString("activity.repostedMedia", comment: "Could be image, video, GIF or carousel."), mediaType)
             }
             if let text = activity.postCard?.postText, text.isEmpty, let postCard = activity.postCard, postCard.hasQuotePost {
-                return "reposted your quote post"
+                return NSLocalizedString("activity.repostedQuote", comment: "")
             }
-            return "reposted"
+            return NSLocalizedString("activity.reposted", comment: "")
         case .status:
-            return "posted"
+            return NSLocalizedString("activity.posted", comment: "")
         case .update:
-            return "edited"
+            return NSLocalizedString("activity.edited", comment: "")
         case .direct:
-            return "mentioned you"
+            return NSLocalizedString("activity.mention", comment: "")
         case .mention:
             if let postCard = activity.postCard, postCard.isPrivateMention {
-                return "mentioned you"
+                return NSLocalizedString("activity.mention", comment: "")
             }
-            return "mentioned you"
+            return NSLocalizedString("activity.mention", comment: "")
         }
     }
     

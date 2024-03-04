@@ -132,30 +132,33 @@ class DetailViewController: UIViewController {
         let btn = UIButton(type: .custom)
         btn.setImage(FontAwesome.image(fromChar: "\u{e10a}").withConfiguration(symbolConfig).withTintColor(.custom.highContrast, renderingMode: .alwaysTemplate), for: .normal)
         btn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        btn.accessibilityLabel = "More"
+        btn.accessibilityLabel = NSLocalizedString("generic.more", comment: "")
         btn.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: -1, right: 0)
         
         // Create context menu
+        let view_in_browser = NSLocalizedString("post.viewInBrowser", comment: "")
         var contextMenuOptions: [UIAction] = []
-        let option0 = UIAction(title: "View in Browser", image: PostCardButtonType.viewInBrowser.icon(symbolConfig: postCardSymbolConfig), identifier: nil) { [weak self] _ in
+        let option0 = UIAction(title: view_in_browser, image: PostCardButtonType.viewInBrowser.icon(symbolConfig: postCardSymbolConfig), identifier: nil) { [weak self] _ in
             guard let self else { return }
             PostActions.onViewInBrowser(postCard: self.viewModel.post)
         }
-        option0.accessibilityLabel = "View in Browser"
+        option0.accessibilityLabel = view_in_browser
         contextMenuOptions.append(option0)
         
-        let option1 = UIAction(title: "Translate Post", image: PostCardButtonType.translate.icon(symbolConfig: postCardSymbolConfig), identifier: nil) { [weak self] _ in
+        let translate_post = NSLocalizedString("post.translatePost", comment: "")
+        let option1 = UIAction(title: translate_post, image: PostCardButtonType.translate.icon(symbolConfig: postCardSymbolConfig), identifier: nil) { [weak self] _ in
             guard let self else { return }
             PostActions.onTranslate(target: self, postCard: self.viewModel.post)
         }
-        option1.accessibilityLabel = "Translate Post"
+        option1.accessibilityLabel = translate_post
         contextMenuOptions.append(option1)
         
-        let option2 = UIAction(title: "Share Post", image: PostCardButtonType.share.icon(symbolConfig: postCardSymbolConfig), identifier: nil) { [weak self] _ in
+        let share_post = NSLocalizedString("post.sharePost", comment: "")
+        let option2 = UIAction(title: share_post, image: PostCardButtonType.share.icon(symbolConfig: postCardSymbolConfig), identifier: nil) { [weak self] _ in
             guard let self else { return }
             PostActions.onShare(target: self, postCard: self.viewModel.post)
         }
-        option2.accessibilityLabel = "Share Post"
+        option2.accessibilityLabel = share_post
         contextMenuOptions.append(option2)
         
         

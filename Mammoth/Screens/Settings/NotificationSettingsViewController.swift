@@ -64,9 +64,9 @@ func DisablePushNotificationsSetting(completionHandler: @escaping () -> Void) {
 class NotificationSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var tableView = UITableView()
-    let firstSection = ["Activity Notifications"]
+    let firstSection = [NSLocalizedString("settings.notifications.activity", comment: "")]
     var section0Images: [String] = ["app.badge"]
-    var secondSection = ["Mentions", "Likes", "Reposts", "New Followers", "Polls", "New Posts"]
+    var secondSection = [NSLocalizedString("navigator.mentions", comment: ""), NSLocalizedString("activity.likes", comment: ""), NSLocalizedString("activity.reposts", comment: ""), NSLocalizedString("activity.newFollowers", comment: ""), NSLocalizedString("activity.polls", comment: ""), NSLocalizedString("activity.newPosts", comment: "")]
     var section1Images: [String] = ["at", "heart", "arrow.2.squarepath", "person.2", "chart.pie", "heart.text.square"]
     var latestTapped = 0
     
@@ -151,7 +151,7 @@ class NotificationSettingsViewController: UIViewController, UITableViewDataSourc
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "Push Notifications"
+        self.navigationItem.title = NSLocalizedString("settings.notifications.push", comment: "")
         
         let navApp = UINavigationBarAppearance()
         navApp.configureWithOpaqueBackground()
@@ -490,7 +490,7 @@ class NotificationSettingsViewController: UIViewController, UITableViewDataSourc
             cell = UITableViewCell(style: .default, reuseIdentifier: "settingsCellai")
             cell.textLabel?.numberOfLines = 0
             cell.imageView?.image = settingsSystemImage("bell.badge")
-            cell.textLabel?.text = "Activity Badges"
+            cell.textLabel?.text = NSLocalizedString("settings.notifications.badges", comment: "")
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "activityBadges") as? Bool != nil {
                 if UserDefaults.standard.value(forKey: "activityBadges") as? Bool == false {
@@ -642,11 +642,11 @@ class NotificationSettingsViewController: UIViewController, UITableViewDataSourc
         
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 0 {
-            return "Receive push notifications for activity notifications."
+            return NSLocalizedString("settings.notifications.footer1", comment: "")
         } else if section == 1 {
-            return "Toggle whether to receive push notifications for mentions, likes, reposts, new followers, polls, or new posts from users."
+            return NSLocalizedString("settings.notifications.footer2", comment: "")
         } else {
-            return "Pick whether to display activity badges in the tab bar for newly received notifications."
+            return NSLocalizedString("settings.notifications.footer3", comment: "")
         }
     }
     

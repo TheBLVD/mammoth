@@ -89,7 +89,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "Get in Touch"
+        self.navigationItem.title = NSLocalizedString("settings.getInTouch.title", comment: "")
         
         let navApp = UINavigationBarAppearance()
         navApp.configureWithOpaqueBackground()
@@ -164,7 +164,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell2")
             cell.textLabel?.numberOfLines = 0
             cell.imageView?.image = settingsSystemImage("safari")
-            cell.textLabel?.text = "Website"
+            cell.textLabel?.text = NSLocalizedString("settings.getInTouch.website", comment: "")
             cell.backgroundColor = .custom.OVRLYSoftContrast
             if #available(iOS 15.0, *) {
                 cell.focusEffect = UIFocusHaloEffect()
@@ -175,7 +175,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell3")
             cell.textLabel?.numberOfLines = 0
             cell.imageView?.image = settingsSystemImage("hand.raised")
-            cell.textLabel?.text = "Server Privacy Policy"
+            cell.textLabel?.text = NSLocalizedString("settings.getInTouch.privacyPolicy", comment: "")
             cell.backgroundColor = .custom.OVRLYSoftContrast
             if #available(iOS 15.0, *) {
                 cell.focusEffect = UIFocusHaloEffect()
@@ -186,7 +186,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell4")
             cell.textLabel?.numberOfLines = 0
             cell.imageView?.image = settingsSystemImage("heart")
-            cell.textLabel?.text = "Review Prompt"
+            cell.textLabel?.text = NSLocalizedString("settings.getInTouch.reviewPrompt", comment: "")
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "reviewPrompt") as? Bool != nil {
                 if UserDefaults.standard.value(forKey: "reviewPrompt") as? Bool == false {
@@ -214,7 +214,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell5")
                 cell.textLabel?.numberOfLines = 0
                 cell.imageView?.image = settingsSystemImage("doc.text.magnifyingglass")
-                cell.textLabel?.text = "Enable Debug Logging"
+                cell.textLabel?.text = NSLocalizedString("settings.getInTouch.logging", comment: "")
                 let switchView = UISwitch(frame: .zero)
                 
                 switchView.setOn(GlobalStruct.enableLogging, animated: false)
@@ -234,7 +234,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "settingsCell6")
                 cell.textLabel?.numberOfLines = 0
                 cell.imageView?.image = settingsSystemImage("mail.and.text.magnifyingglass")
-                cell.textLabel?.text = "Email Logs as Attachment"
+                cell.textLabel?.text = NSLocalizedString("settings.getInTouch.emailLogs", comment: "")
                 cell.backgroundColor = .custom.OVRLYSoftContrast
                 if #available(iOS 15.0, *) {
                     cell.focusEffect = UIFocusHaloEffect()
@@ -309,7 +309,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
             }
         } else if indexPath.section == 4 {
             if indexPath.row == 1 && GlobalStruct.enableLogging {
-                let alert = UIAlertController(title: "Email Logs", message: "Logs may include your account handles (@mammoth@moth.social), but never login information, text from posts or DMs, or any other private info. You can review the email attachment before it's sent.", preferredStyle: .alert)
+                let alert = UIAlertController(title: NSLocalizedString("settings.getInTouch.emailLogs", comment: ""), message: NSLocalizedString("settings.getInTouch.logInfo", comment: ""), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default , handler:{ (UIAlertAction) in
                     self.emailLoggingData()
                 }))
@@ -324,19 +324,19 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 0 {
-            return "Mammoth was made with ♥ by The BLVD Inc."
+            return NSLocalizedString("settings.getInTouch.footer1", comment: "")
         } else if section == 1 {
-            return "Find out more about Mammoth."
+            return NSLocalizedString("settings.getInTouch.footer1", comment: "")
         } else if section == 2 {
             return ""
         } else if section == 3 {
-            return "You may sometimes be prompted to review Mammoth on the App Store when viewing post details. Disabling the above toggle will prevent these requests."
+            return NSLocalizedString("settings.getInTouch.footer1", comment: "")
         } else {
-            return "Logs may include your account handles (@mammoth@moth.social), but never login information, text from posts or DMs, or any other private info. You can review the email attachment before it's sent.\n" +
-            "     1. Enable Debug Logging\n" +
-            "     2. Reproduce the problem\n" +
-            "     3. Email us the logs\n" +
-            "     4. Disable Debug Logging\n"
+            return NSLocalizedString("settings.getInTouch.logInfo", comment: "") + "\n" +
+            "     " + NSLocalizedString("settings.getInTouch.logInfo.1", comment: "") + "\n" +
+            "     " + NSLocalizedString("settings.getInTouch.logInfo.2", comment: "") + "\n" +
+            "     " + NSLocalizedString("settings.getInTouch.logInfo.3", comment: "") + "\n" +
+            "     " + NSLocalizedString("settings.getInTouch.logInfo.4", comment: "") + "\n"
         }
     }
     
