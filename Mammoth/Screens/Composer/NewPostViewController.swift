@@ -553,7 +553,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             sendPost.wantsPriorityOverSystemBehavior = true
         }
         let closeWindow = UIKeyCommand(input: "w", modifierFlags: [.command], action: #selector(dismissTap))
-        closeWindow.discoverabilityTitle = "Dismiss"
+        closeWindow.discoverabilityTitle = NSLocalizedString("generic.dismiss", comment: "")
         if #available(iOS 15, *) {
             closeWindow.wantsPriorityOverSystemBehavior = true
         }
@@ -2433,7 +2433,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         } else {
             let alert = UIAlertController(title: nil, message: "Polls cannot be added to posts that contain media.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                 
             }))
             if let presenter = alert.popoverPresentationController {
@@ -2495,7 +2495,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 let draft = UIAction(title: "Save as Draft", image: UIImage(systemName: "doc.text"), identifier: nil) { action in
                     self.saveDraft()
                 }
-                let dismiss = UIAction(title: "Dismiss", image: UIImage(systemName: "xmark"), identifier: nil) { action in
+                let dismiss = UIAction(title: NSLocalizedString("generic.dismiss", comment: ""), image: UIImage(systemName: "xmark"), identifier: nil) { action in
                     self.dismiss(animated: true, completion: nil)
                 }
                 dismiss.attributes = .destructive

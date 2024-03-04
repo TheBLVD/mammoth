@@ -11656,6 +11656,7 @@
         }
       }
     },
+<<<<<<< Updated upstream
     "date.futureDays": {
       "comment": "Date format",
       "localizations": {
@@ -11666,6 +11667,65 @@
                 "stringUnit": {
                   "state": "translated",
                   "value": "tomorrow"
+=======
+    "customize.mammothPicks" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accounts handpicked by the Mammoth team"
+          }
+        }
+      }
+    },
+    "customize.mammothPicks.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mammoth Picks"
+          }
+        }
+      }
+    },
+    "customize.smartLists" : {
+      "extractionState" : "manual"
+    },
+    "customize.smartLists.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smart Lists"
+          }
+        }
+      }
+    },
+    "customize.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Customize your \"for you\" feed"
+          }
+        }
+      }
+    },
+    "date.futureDays" : {
+      "comment" : "Date format",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "tomorrow"
+>>>>>>> Stashed changes
                 }
               },
               "other": {
@@ -52086,11 +52146,34 @@
             "state": "translated",
             "value": "Menções Recebidas"
           }
+<<<<<<< Updated upstream
         },
         "ro": {
           "stringUnit": {
             "state": "needs_review",
             "value": "Received Mentions"
+=======
+        }
+      }
+    },
+    "generic.close" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "generic.copy" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy"
+>>>>>>> Stashed changes
           }
         },
         "ru": {
@@ -52247,11 +52330,46 @@
             "state": "needs_review",
             "value": "Sent Mentions"
           }
+<<<<<<< Updated upstream
         },
         "no": {
           "stringUnit": {
             "state": "needs_review",
             "value": "Sent Mentions"
+=======
+        }
+      }
+    },
+    "generic.save" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "generic.share" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share"
+          }
+        }
+      }
+    },
+    "home.jumpToAList" : {
+      "comment" : "Appears when holding in the 'home' button, before a list of feeds.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jump to a list"
+>>>>>>> Stashed changes
           }
         },
         "pl": {
@@ -52665,11 +52783,91 @@
             "state": "needs_review",
             "value": "Sent"
           }
+<<<<<<< Updated upstream
         },
         "sv": {
           "stringUnit": {
             "state": "translated",
             "value": "Skickat"
+=======
+        }
+      }
+    },
+    "post.bookmark" : {
+      "comment" : "Add post to bookmarks.",
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmark"
+          }
+        }
+      }
+    },
+    "post.bookmark.undo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove bookmark"
+          }
+        }
+      }
+    },
+    "post.delete" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Post"
+          }
+        }
+      }
+    },
+    "post.edit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Post"
+          }
+        }
+      }
+    },
+    "post.like" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Like"
+          }
+        }
+      }
+    },
+    "post.like.undo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlike"
+          }
+        }
+      }
+    },
+    "post.likeCount.plural" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Likes"
+>>>>>>> Stashed changes
           }
         },
         "tr": {
@@ -52713,10 +52911,72 @@
             "value": "Settings"
           }
         },
+<<<<<<< Updated upstream
         "ca": {
           "stringUnit": {
             "state": "needs_review",
             "value": "Settings"
+=======
+        "pt" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Curtida"
+          }
+        }
+      }
+    },
+    "post.modify" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modify Post"
+          }
+        }
+      }
+    },
+    "post.openLink" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open link"
+          }
+        }
+      }
+    },
+    "post.pin" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin post"
+          }
+        }
+      }
+    },
+    "post.pin.undo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unpin post"
+          }
+        }
+      }
+    },
+    "post.privacy.direct" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direct"
+>>>>>>> Stashed changes
           }
         },
         "zh-Hans": {
@@ -52754,11 +53014,35 @@
             "state": "needs_review",
             "value": "Settings"
           }
+<<<<<<< Updated upstream
         },
         "fr": {
           "stringUnit": {
             "state": "needs_review",
             "value": "Settings"
+=======
+        }
+      }
+    },
+    "post.reply" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reply"
+          }
+        }
+      }
+    },
+    "post.replyCount.plural" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Replies"
+>>>>>>> Stashed changes
           }
         },
         "de": {
@@ -52802,11 +53086,79 @@
             "state": "needs_review",
             "value": "Settings"
           }
+<<<<<<< Updated upstream
         },
         "no": {
           "stringUnit": {
             "state": "needs_review",
             "value": "Settings"
+=======
+        }
+      }
+    },
+    "post.report" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report post"
+          }
+        }
+      }
+    },
+    "post.report.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report this post?"
+          }
+        }
+      }
+    },
+    "post.repost" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repost"
+          }
+        }
+      }
+    },
+    "post.repost.text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll notify your instance’s moderator."
+          }
+        }
+      }
+    },
+    "post.repost.undo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo repost"
+          }
+        }
+      }
+    },
+    "post.repostCount.plural" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Reposts"
+>>>>>>> Stashed changes
           }
         },
         "pl": {
@@ -56132,11 +56484,401 @@
             "state": "needs_review",
             "value": "Unblock"
           }
+<<<<<<< Updated upstream
         },
         "no": {
           "stringUnit": {
             "state": "needs_review",
             "value": "Unblock"
+=======
+        }
+      }
+    },
+    "toast.AccountBlocked" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account Blocked"
+          }
+        }
+      }
+    },
+    "toast.accounteMuted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "account Muted"
+          }
+        }
+      }
+    },
+    "toast.added" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added"
+          }
+        }
+      }
+    },
+    "toast.blocked" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked"
+          }
+        }
+      }
+    },
+    "toast.blockedUser" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked User"
+          }
+        }
+      }
+    },
+    "toast.bookmarked" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmarked"
+          }
+        }
+      }
+    },
+    "toast.disabled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disabled"
+          }
+        }
+      }
+    },
+    "toast.editedPost" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edited Post"
+          }
+        }
+      }
+    },
+    "toast.enabled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enabled"
+          }
+        }
+      }
+    },
+    "toast.errorPosting" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error Posting"
+          }
+        }
+      }
+    },
+    "toast.errorPosting.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error posting post"
+          }
+        }
+      }
+    },
+    "toast.failedAdd" : {
+      "extractionState" : "manual"
+    },
+    "toast.failedFollow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to Follow"
+          }
+        }
+      }
+    },
+    "toast.followed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Followed"
+          }
+        }
+      }
+    },
+    "toast.imageSaved" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image Saved"
+          }
+        }
+      }
+    },
+    "toast.listUpdated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List Updated"
+          }
+        }
+      }
+    },
+    "toast.muted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muted"
+          }
+        }
+      }
+    },
+    "toast.pinned" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinned"
+          }
+        }
+      }
+    },
+    "toast.postDeleted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post Deleted"
+          }
+        }
+      }
+    },
+    "toast.postReported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post reported"
+          }
+        }
+      }
+    },
+    "toast.publishedPost" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Published Post"
+          }
+        }
+      }
+    },
+    "toast.rateLimit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate Limited"
+          }
+        }
+      }
+    },
+    "toast.removed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removed"
+          }
+        }
+      }
+    },
+    "toast.scheduledPost" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled Post"
+          }
+        }
+      }
+    },
+    "toast.sent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent"
+          }
+        }
+      }
+    },
+    "toast.subscribed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribed"
+          }
+        }
+      }
+    },
+    "toast.subscribedList" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribed to List"
+          }
+        }
+      }
+    },
+    "toast.unblocked" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unblocked"
+          }
+        }
+      }
+    },
+    "toast.unblockedUser" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unblocked User"
+          }
+        }
+      }
+    },
+    "toast.unmuted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unmuted"
+          }
+        }
+      }
+    },
+    "toast.unpinned" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unpinned"
+          }
+        }
+      }
+    },
+    "toast.unsubscribed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unsubscribed"
+          }
+        }
+      }
+    },
+    "toast.userAdded" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User Added"
+          }
+        }
+      }
+    },
+    "toast.userReported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User reported"
+          }
+        }
+      }
+    },
+    "toast.viewDrafts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View Drafts"
+          }
+        }
+      }
+    },
+    "tutorial.accountSwitch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Long press the Profile tab to quickly switch between accounts."
+>>>>>>> Stashed changes
           }
         },
         "pl": {

@@ -342,22 +342,22 @@ private extension PostFooterButton {
     
     func createMoreMenu(postCard: PostCardModel) -> UIMenu {
         let bookmarkItem = postCard.isBookmarked
-        ? createContextMenuAction("Remove Bookmark", .unbookmark, isActive: true)
-            : createContextMenuAction("Bookmark", .bookmark, isActive: false)
+        ? createContextMenuAction(NSLocalizedString("post.bookmark.undo", comment: ""), .unbookmark, isActive: true)
+            : createContextMenuAction(NSLocalizedString("post.bookmark", comment: ""), .bookmark, isActive: false)
         
-        let translateItem = createContextMenuAction("Translate Post", .translate, isActive: false)
-        let inBrowserItem = createContextMenuAction("View in Browser", .viewInBrowser, isActive: false)
-        let report = createContextMenuAction("Report Post", .reportPost, isActive: false, attributes: .destructive)
+        let translateItem = createContextMenuAction(NSLocalizedString("post.translatePost", comment: ""), .translate, isActive: false)
+        let inBrowserItem = createContextMenuAction(NSLocalizedString("post.viewInBrowser", comment: ""), .viewInBrowser, isActive: false)
+        let report = createContextMenuAction(NSLocalizedString("post.report", comment: ""), .reportPost, isActive: false, attributes: .destructive)
         
-        let shareItem = createContextMenuAction("Share", .share, isActive: false)
+        let shareItem = createContextMenuAction(NSLocalizedString("post.sharePost", comment: ""), .share, isActive: false)
         let pinItem = postCard.isPinned
-            ? createContextMenuAction("Unpin post", .pinPost, isActive: true)
-            : createContextMenuAction("Pin post", .pinPost, isActive: false)
+            ? createContextMenuAction(NSLocalizedString("post.pin.undo", comment: ""), .pinPost, isActive: true)
+            : createContextMenuAction(NSLocalizedString("post.pin", comment: ""), .pinPost, isActive: false)
         
-        let editPostItem = createContextMenuAction("Edit Post", .editPost, isActive: false)
-        let deletePostItem = createContextMenuAction("Delete Post", .deletePost, isActive: false, attributes: .destructive)
+        let editPostItem = createContextMenuAction(NSLocalizedString("post.edit", comment: ""), .editPost, isActive: false)
+        let deletePostItem = createContextMenuAction(NSLocalizedString("post.delete", comment: ""), .deletePost, isActive: false, attributes: .destructive)
         
-        let modifyMenu = UIMenu(title: "Modify Post", options: [], children: [pinItem, editPostItem, deletePostItem])
+        let modifyMenu = UIMenu(title: NSLocalizedString("post.modify", comment: ""), options: [], children: [pinItem, editPostItem, deletePostItem])
         
         return UIMenu(title: "", options: [.displayInline], children: [bookmarkItem,
                                                                        translateItem,

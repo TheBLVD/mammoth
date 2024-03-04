@@ -155,7 +155,7 @@ open class SKPhotoBrowser: UIViewController, UIContextMenuInteractionDelegate, U
     
     open override var keyCommands: [UIKeyCommand]? {
         let dism = UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(dism))
-        dism.discoverabilityTitle = "Dismiss"
+        dism.discoverabilityTitle = NSLocalizedString("generic.dismiss", comment: "")
         if #available(iOS 15, *) {
             dism.wantsPriorityOverSystemBehavior = true
         }
@@ -273,10 +273,10 @@ open class SKPhotoBrowser: UIViewController, UIContextMenuInteractionDelegate, U
         
     func makeContextMenu() -> UIMenu {
         self.hideViews()
-        let copy = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
+        let copy = UIAction(title: NSLocalizedString("generic.copy", comment: ""), image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
             UIPasteboard.general.image = self.photos[self.currentPageIndex].underlyingImage ?? UIImage()
         }
-        let share = UIAction(title: "Share", image: FontAwesome.image(fromChar: "\u{e09a}"), identifier: nil) { action in
+        let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: FontAwesome.image(fromChar: "\u{e09a}"), identifier: nil) { action in
             let imToShare = [self.photos[self.currentPageIndex].underlyingImage ?? UIImage(), self]
             let activityViewController = UIActivityViewController(activityItems: imToShare,  applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = self.paginationView
@@ -284,7 +284,7 @@ open class SKPhotoBrowser: UIViewController, UIContextMenuInteractionDelegate, U
             self.present(activityViewController, animated: true, completion: nil)
             self.bringBackViews()
         }
-        let save = UIAction(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
+        let save = UIAction(title: NSLocalizedString("generic.save", comment: ""), image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
             UIImageWriteToSavedPhotosAlbum(self.photos[self.currentPageIndex].underlyingImage ?? UIImage(), nil, nil, nil)
             NotificationCenter.default.post(name: Notification.Name(rawValue: "savedImage"), object: nil)
             self.bringBackViews()
@@ -790,7 +790,7 @@ private extension SKPhotoBrowser {
             pasteboard.string = str
             self.bringBackViews()
         }))
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
             self.bringBackViews()
         }))
         let paragraphStyle = NSMutableParagraphStyle()

@@ -47,7 +47,7 @@ class ProfileFieldsViewController: UIViewController, UITableViewDataSource, UITa
     
     override var keyCommands: [UIKeyCommand]? {
         let closeWindow = UIKeyCommand(input: "w", modifierFlags: [.command], action: #selector(dismissTap))
-        closeWindow.discoverabilityTitle = "Dismiss"
+        closeWindow.discoverabilityTitle = NSLocalizedString("generic.dismiss", comment: "")
         if #available(iOS 15, *) {
             closeWindow.wantsPriorityOverSystemBehavior = true
         }

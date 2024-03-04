@@ -30,7 +30,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(close))
+        let closeButton = UIBarButtonItem(title: NSLocalizedString("generic.close", comment: ""), style: .plain, target: self, action: #selector(close))
         navigationItem.leftBarButtonItem = closeButton
 
         if let url = URL(string: self.urlString) {

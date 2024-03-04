@@ -252,11 +252,11 @@ extension PostCardImageAttachment: UICollectionViewDataSource {
         triggerHapticImpact(style: .light)
         let altTextPopup = self.collectionCellModels[sender.tag].altText
         let alert = UIAlertController(title: nil, message: altTextPopup, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Copy", style: .default , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.copy", comment: ""), style: .default , handler:{ (UIAlertAction) in
             let pasteboard = UIPasteboard.general
             pasteboard.string = altTextPopup
         }))
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
 
         }))
         if let presenter = alert.popoverPresentationController {

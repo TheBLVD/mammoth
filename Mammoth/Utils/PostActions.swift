@@ -519,7 +519,7 @@ extension PostActions {
             }
         }))
         
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler: nil))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
         
         if let presenter = alert.popoverPresentationController {
             presenter.sourceView = getTopMostViewController()?.view
@@ -546,7 +546,7 @@ extension PostActions {
                 log.error("onPin post error: \(error)")
                 DispatchQueue.main.async {
                     let alert = UIAlertController(title: "Unable to pin post", message: error.localizedDescription, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: .default, handler: nil))
                     target.present(alert, animated: true)
                 }
             }
@@ -643,10 +643,10 @@ extension PostActions {
                     }
                     DispatchQueue.main.async {
                         let alert = UIAlertController(title: nil, message: translatedText, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Copy", style: .default , handler:{ (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.copy", comment: ""), style: .default , handler:{ (UIAlertAction) in
                             UIPasteboard.general.string = translatedText
                         }))
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                             
                         }))
                         let paragraphStyle = NSMutableParagraphStyle()
@@ -932,7 +932,7 @@ extension PostActions {
                             let alert = UIAlertController(title: "Poll Ended",
                                                           message: "You can't vote on this poll as it has already ended.",
                                                           preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler: nil))
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
                             
                             if let presenter = alert.popoverPresentationController {
                                 presenter.sourceView = getTopMostViewController()?.view
@@ -947,7 +947,7 @@ extension PostActions {
                             let alert = UIAlertController(title: "Already Voted",
                                                           message: "You can't vote on this poll as you have already voted on it.",
                                                           preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler: nil))
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
                             
                             if let presenter = alert.popoverPresentationController {
                                 presenter.sourceView = getTopMostViewController()?.view
@@ -969,8 +969,8 @@ extension PostActions {
     static func report(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
         guard let accountID = postCard.account?.id, case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
         
-        let alert = UIAlertController(title: "Report this post?", message: "We'll notify your instance’s moderator.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Report post", style: .destructive , handler:{ (UIAlertAction) in
+        let alert = UIAlertController(title: NSLocalizedString("post.report.title", comment: ""), message: NSLocalizedString("post.report.text", comment: ""), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("post.report", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
             Task {
                 do {
                     try await StatusService.report(accountID: accountID, status: status, withPolicy: .retryLocally)
@@ -982,7 +982,7 @@ extension PostActions {
                 }
             }
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel))
         getTopMostViewController()?.present(alert, animated: true, completion: nil)
     }
 }
@@ -1019,10 +1019,10 @@ extension PostActions {
                     }
                     DispatchQueue.main.async {
                         let alert = UIAlertController(title: nil, message: translatedText, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Copy", style: .default , handler:{ (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.copy", comment: ""), style: .default , handler:{ (UIAlertAction) in
                             UIPasteboard.general.string = translatedText
                         }))
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                             
                         }))
                         let paragraphStyle = NSMutableParagraphStyle()

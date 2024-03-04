@@ -92,7 +92,7 @@ class EmailVerificationViewController: UIViewController {
         log.debug("resending email")
         resendEmailConfirmation()
         let alert = UIAlertController(title: "Email Sent", message: "A confirmation email has been resent.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: .default , handler:{ (UIAlertAction) in
         }))
         self.present(alert, animated: true, completion: nil)
     }

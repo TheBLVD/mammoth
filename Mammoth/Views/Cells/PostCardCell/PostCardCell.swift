@@ -1114,7 +1114,7 @@ extension PostCardCell {
             view.becomeFirstResponder()
             let menuController = UIMenuController.shared
                     
-            let copyItem = UIMenuItem(title: "Copy", action: #selector(self.copyText))
+            let copyItem = UIMenuItem(title: NSLocalizedString("generic.copy", comment: ""), action: #selector(self.copyText))
             menuController.menuItems = [copyItem]
             
             menuController.showMenu(from: superview, rect: view.frame)
@@ -1293,36 +1293,35 @@ extension PostCardCell {
     // General cell context menu
     func createContextMenu(postCard: PostCardModel, onButtonPress: @escaping PostCardButtonCallback) -> UIMenu {
         let options = [
-            createContextMenuAction("Reply", .reply, isActive: false, onPress: onButtonPress),
+            createContextMenuAction(NSLocalizedString("post.reply", comment: ""), .reply, isActive: false, onPress: onButtonPress),
             
             (postCard.isReposted
-             ? createContextMenuAction("Undo repost", .repost, isActive: true, onPress: onButtonPress)
-             : createContextMenuAction("Repost", .repost, isActive: false, onPress: onButtonPress)),
+             ? createContextMenuAction(NSLocalizedString("post.repost.undo", comment: ""), .repost, isActive: true, onPress: onButtonPress)
+             : createContextMenuAction(NSLocalizedString("post.repost", comment: ""), .repost, isActive: false, onPress: onButtonPress)),
             
             (postCard.isLiked
-             ? createContextMenuAction("Unlike", .like, isActive: true, onPress: onButtonPress)
-             : createContextMenuAction("Like", .like, isActive: false, onPress: onButtonPress)),
+             ? createContextMenuAction(NSLocalizedString("post.like.undo", comment: ""), .like, isActive: true, onPress: onButtonPress)
+             : createContextMenuAction(NSLocalizedString("post.like", comment: ""), .like, isActive: false, onPress: onButtonPress)),
             
             (postCard.isBookmarked
-                ? createContextMenuAction("Remove bookmark", .unbookmark, isActive: false, onPress: onButtonPress)
-                : createContextMenuAction("Bookmark", .bookmark, isActive: false, onPress: onButtonPress)),
+                ? createContextMenuAction(NSLocalizedString("post.bookmark.undo", comment: ""), .unbookmark, isActive: false, onPress: onButtonPress)
+                : createContextMenuAction(NSLocalizedString("post.bookmark", comment: ""), .bookmark, isActive: false, onPress: onButtonPress)),
             
-            createContextMenuAction("Translate post", .translate, isActive: false, onPress: onButtonPress),
-            createContextMenuAction("View in browser", .viewInBrowser, isActive: false, onPress: onButtonPress),
+            createContextMenuAction(NSLocalizedString("post.translatePost", comment: ""), .translate, isActive: false, onPress: onButtonPress),
+            createContextMenuAction(NSLocalizedString("post.viewInBrowser", comment: ""), .viewInBrowser, isActive: false, onPress: onButtonPress),
             
-            ( !postCard.isOwn ? createContextMenuAction("Report post", .reportPost, isActive: false, onPress: onButtonPress, attributes: .destructive) : nil),
+            ( !postCard.isOwn ? createContextMenuAction(NSLocalizedString("post.report", comment: ""), .reportPost, isActive: false, onPress: onButtonPress, attributes: .destructive) : nil),
             
-            createContextMenuAction("Share", .share, isActive: false, onPress: onButtonPress),
-            
+            createContextMenuAction(NSLocalizedString("post.sharePost", comment: ""), .share, isActive: false, onPress: onButtonPress),
             (postCard.isOwn
-             ? UIMenu(title: "Modify post", options: [], children: [
+             ? UIMenu(title: NSLocalizedString("post.modify", comment: ""), options: [], children: [
                 
                 (postCard.isPinned
-                    ? createContextMenuAction("Unpin post", .pinPost, isActive: true, onPress: onButtonPress)
-                    : createContextMenuAction("Pin post", .pinPost, isActive: false, onPress: onButtonPress)),
+                    ? createContextMenuAction(NSLocalizedString("post.pin.undo", comment: ""), .pinPost, isActive: true, onPress: onButtonPress)
+                    : createContextMenuAction(NSLocalizedString("post.pin", comment: ""), .pinPost, isActive: false, onPress: onButtonPress)),
                 
-                createContextMenuAction("Edit post", .editPost, isActive: false, onPress: onButtonPress),
-                createContextMenuAction("Delete post", .deletePost, isActive: false, onPress: onButtonPress, attributes: .destructive),
+                createContextMenuAction(NSLocalizedString("post.edit", comment: ""), .editPost, isActive: false, onPress: onButtonPress),
+                createContextMenuAction(NSLocalizedString("post.delete", comment: ""), .deletePost, isActive: false, onPress: onButtonPress, attributes: .destructive),
              ])
              : nil)
         ].compactMap({$0})

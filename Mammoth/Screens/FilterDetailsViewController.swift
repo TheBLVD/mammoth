@@ -420,7 +420,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
         btn1.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         btn1.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
         btn1.addTarget(self, action: #selector(self.dismissTap), for: .touchUpInside)
-        btn1.accessibilityLabel = "Dismiss"
+        btn1.accessibilityLabel = NSLocalizedString("generic.dismiss", comment: "")
         let moreButton0 = UIBarButtonItem(customView: btn1)
         if self.isShowingXmark {
             self.navigationItem.setLeftBarButton(moreButton0, animated: true)

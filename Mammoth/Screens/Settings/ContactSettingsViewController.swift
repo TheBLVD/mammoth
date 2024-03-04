@@ -310,7 +310,7 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
         } else if indexPath.section == 4 {
             if indexPath.row == 1 && GlobalStruct.enableLogging {
                 let alert = UIAlertController(title: NSLocalizedString("settings.getInTouch.emailLogs", comment: ""), message: NSLocalizedString("settings.getInTouch.logInfo", comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default , handler:{ (UIAlertAction) in
+                alert.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: .default , handler:{ (UIAlertAction) in
                     self.emailLoggingData()
                 }))
                 if let presenter = alert.popoverPresentationController {

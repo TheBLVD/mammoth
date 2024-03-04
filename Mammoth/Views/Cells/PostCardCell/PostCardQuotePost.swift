@@ -557,9 +557,9 @@ extension PostCardQuotePost: UIContextMenuInteractionDelegate {
                     guard let self else { return UIMenu() }
                     
                     let options = [
-                        self.createContextMenuAction("Open link", .link, isActive: false, data: .url(url), onPress: onButtonPress),
-                        self.createContextMenuAction("Copy", .copy, isActive: false, data: .url(url), onPress: onButtonPress),
-                        self.createContextMenuAction("Share", .share, isActive: false, data: .url(url), onPress: onButtonPress),
+                        self.createContextMenuAction(NSLocalizedString("post.openLink", comment: ""), .link, isActive: false, data: .url(url), onPress: onButtonPress),
+                        self.createContextMenuAction(NSLocalizedString("generic.copy", comment: ""), .copy, isActive: false, data: .url(url), onPress: onButtonPress),
+                        self.createContextMenuAction(NSLocalizedString("generic.share", comment: ""), .share, isActive: false, data: .url(url), onPress: onButtonPress),
                     ].compactMap({$0})
                     
                     return UIMenu(title: "", options: [.displayInline], children: options)
