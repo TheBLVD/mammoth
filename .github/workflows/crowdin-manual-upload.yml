@@ -1,13 +1,11 @@
-name: Crowdin auto-upload
+name: Crowdin manual upload
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - '**/*.xcstrings'
+  workflow_dispatch:
 
 jobs:
   upload-to-crowdin:
+    if: contains('["bdcrem","bnolens", "derspyy", "rileyhCode", "jtomchak"]', github.actor)
     runs-on: ubuntu-latest
 
     steps:

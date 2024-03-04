@@ -7,26 +7,26 @@
 files: [
   {
     "source": "Mammoth/Localizable.xcstrings",
-    "translation": "Mammoth/Localizable.xcstrings"
+    "translation": ".i18n/%locale%/Mammoth/%original_file_name%"
   },
   {
     "source": "Mammoth/Screens/Registration/mul.lproj/SignUpView.xcstrings",
-    "translation": "Mammoth/Screens/Registration/mul.lproj/SignUpView.xcstrings"
+    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%"
   },
   {
     "source": "Mammoth/Screens/Registration/mul.lproj/SetupProfile.xcstrings",
-    "translation": "Mammoth/Screens/Registration/mul.lproj/SetupProfile.xcstrings"
+    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%"
   },
   {
     "source": "Mammoth/Screens/Registration/mul.lproj/SetupInstructionsCell.xcstrings",
-    "translation": "Mammoth/Screens/Registration/mul.lproj/SetupInstructionsCell.xcstrings"
+    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%"
   },
   {
     "source": "Mammoth/Screens/Registration/mul.lproj/IntroViewController.xcstrings",
-    "translation": "Mammoth/Screens/Registration/mul.lproj/IntroViewController.xcstrings"
+    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%"
   },
   {
     "source": "Mammoth/Screens/Registration/mul.lproj/EmailVerificationView.xcstrings",
-    "translation": "Mammoth/Screens/Registration/mul.lproj/EmailVerificationView.xcstrings"
+    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%"
   }
 ]
