@@ -5,7 +5,7 @@ on:
 
 jobs:
   upload-to-crowdin:
-    if: contains('["bdcrem","bnolens", "derspyy", "rileyhCode", "jtomchak"]', github.actor)
+    if: contains('["bdecrem","bnolens", "derspyy", "rileyhCode", "jtomchak"]', github.actor)
     runs-on: ubuntu-latest
 
     steps:
