@@ -4821,7 +4821,6 @@
 				revision = a81b7367f2c46875f29577e03a60c39cdfad0c8d;
 			};
 		};
-<<<<<<< Updated upstream
 		14A849FD2B4D75F20027C689 /* XCRemoteSwiftPackageReference "MetaTextKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TheBLVD/MetaTextKit";
@@ -4830,8 +4829,6 @@
 				version = 2.3.11;
 			};
 		};
-=======
->>>>>>> Stashed changes
 		532F291329476916003C9FAD /* XCRemoteSwiftPackageReference "MessageKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
