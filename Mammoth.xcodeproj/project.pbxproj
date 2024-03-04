@@ -4494,7 +4494,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 416;
+				CURRENT_PROJECT_VERSION = 417;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
@@ -4517,7 +4517,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.9;
+				MARKETING_VERSION = 2.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.theblvd.mammoth;
 				PRODUCT_NAME = Mammoth;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4541,7 +4541,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 416;
+				CURRENT_PROJECT_VERSION = 417;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
@@ -4564,7 +4564,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 2.9;
+				MARKETING_VERSION = 2.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.theblvd.mammoth;
 				PRODUCT_NAME = Mammoth;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4819,14 +4819,6 @@
 			requirement = {
 				kind = revision;
 				revision = a81b7367f2c46875f29577e03a60c39cdfad0c8d;
-			};
-		};
-		14A849FD2B4D75F20027C689 /* XCRemoteSwiftPackageReference "MetaTextKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/TheBLVD/MetaTextKit";
-			requirement = {
-				kind = exactVersion;
-				version = 2.3.11;
 			};
 		};
 		532F291329476916003C9FAD /* XCRemoteSwiftPackageReference "MessageKit" */ = {
