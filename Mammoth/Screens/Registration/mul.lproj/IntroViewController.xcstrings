@@ -54,8 +54,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+            "state": "translated",
+            "value": "Maak moth.social account"
           }
         },
         "fi": {
@@ -72,8 +72,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+            "state": "translated",
+            "value": "Erstelle ein moth.social Konto"
           }
         },
         "el": {
@@ -132,8 +132,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+            "state": "translated",
+            "value": "Crie uma conta moth.social"
           }
         },
         "ro": {
@@ -162,8 +162,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+            "state": "translated",
+            "value": "Skapa moth.social konto"
           }
         },
         "tr": {
@@ -239,8 +239,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Knop"
           }
         },
         "fi": {
@@ -257,7 +257,7 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Button"
           }
         },
@@ -317,8 +317,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Botão"
           }
         },
         "ro": {
@@ -347,8 +347,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Knapp"
           }
         },
         "tr": {
@@ -424,8 +424,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+            "state": "translated",
+            "value": "Inloggen met Mastodon / Moth"
           }
         },
         "fi": {
@@ -442,8 +442,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+            "state": "translated",
+            "value": "Mit Mastodon / Moth einloggen"
           }
         },
         "el": {
@@ -502,8 +502,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+            "state": "translated",
+            "value": "Entrar com Mastodon / Moth"
           }
         },
         "ro": {
@@ -532,8 +532,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+            "state": "translated",
+            "value": "Logga in med Mastodon / Moth"
           }
         },
         "tr": {
@@ -609,8 +609,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Knop"
           }
         },
         "fi": {
@@ -627,7 +627,7 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Button"
           }
         },
@@ -687,8 +687,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Botão"
           }
         },
         "ro": {
@@ -717,8 +717,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Knapp"
           }
         },
         "tr": {
@@ -794,8 +794,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
+            "state": "translated",
+            "value": "Sluit"
           }
         },
         "fi": {
@@ -812,8 +812,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
+            "state": "translated",
+            "value": "Schließen"
           }
         },
         "el": {
@@ -872,8 +872,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
+            "state": "translated",
+            "value": "Fechar"
           }
         },
         "ro": {
@@ -902,8 +902,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
+            "state": "translated",
+            "value": "Stäng"
           }
         },
         "tr": {
@@ -979,8 +979,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Knop"
           }
         },
         "fi": {
@@ -997,7 +997,7 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Button"
           }
         },
@@ -1057,8 +1057,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Botão"
           }
         },
         "ro": {
@@ -1087,8 +1087,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Knapp"
           }
         },
         "tr": {
@@ -1164,8 +1164,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+            "state": "translated",
+            "value": "Je kan inloggen in andere\naccounts via de instellingen."
           }
         },
         "fi": {
@@ -1182,8 +1182,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+            "state": "translated",
+            "value": "Du kannst dich in den Einstellungen bei weiteren\nKonten anmelden."
           }
         },
         "el": {
@@ -1242,8 +1242,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+            "state": "translated",
+            "value": "Você pode entrar com outras\ncontas nas configurações."
           }
         },
         "ro": {
@@ -1272,8 +1272,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+            "state": "translated",
+            "value": "Du kan logga in på ytterligare\nkonton i inställningarna."
           }
         },
         "tr": {

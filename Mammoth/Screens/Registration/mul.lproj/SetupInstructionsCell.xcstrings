@@ -54,8 +54,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+            "state": "translated",
+            "value": "Enkele instructies om de gebruiker te helpen coole accounts te vinden en coole mensen te ontmoeten."
           }
         },
         "fi": {
@@ -72,8 +72,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+            "state": "translated",
+            "value": "Einige Anweisungen, die dem Benutzer helfen, coole Konten zu finden und coole Leute zu treffen."
           }
         },
         "el": {
@@ -132,8 +132,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+            "state": "translated",
+            "value": "Algumas instruções para ajudar o usuário a encontrar contas legais e conhecer pessoas legais."
           }
         },
         "ro": {
@@ -162,8 +162,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+            "state": "translated",
+            "value": "Några instruktioner för att hjälpa användaren att hitta coola konton, och träffa coola människor."
           }
         },
         "tr": {
