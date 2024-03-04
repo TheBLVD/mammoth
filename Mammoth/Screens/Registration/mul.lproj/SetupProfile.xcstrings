@@ -54,8 +54,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "You can pick something fun or use your real name"
+            "state": "translated",
+            "value": "Je kunt iets leuks kiezen of je echte naam gebruiken"
           }
         },
         "fi": {
@@ -72,8 +72,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "You can pick something fun or use your real name"
+            "state": "translated",
+            "value": "Du kannst etwas Lustiges auswählen oder deinen echten Namen verwenden"
           }
         },
         "el": {
@@ -132,8 +132,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "You can pick something fun or use your real name"
+            "state": "translated",
+            "value": "Você pode escolher algo divertido ou usar seu nome real"
           }
         },
         "ro": {
@@ -162,8 +162,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "You can pick something fun or use your real name"
+            "state": "translated",
+            "value": "Du kan välja något roligt eller använda ditt riktiga namn"
           }
         },
         "tr": {
@@ -239,7 +239,7 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%1@ %2@"
           }
         },
@@ -257,7 +257,7 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%1@ %2@"
           }
         },
@@ -317,7 +317,7 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%1@ %2@"
           }
         },
@@ -347,7 +347,7 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "%1@ %2@"
           }
         },
@@ -424,8 +424,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "display name"
+            "state": "translated",
+            "value": "weergavenaam"
           }
         },
         "fi": {
@@ -442,8 +442,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "display name"
+            "state": "translated",
+            "value": "Anzeigename"
           }
         },
         "el": {
@@ -502,8 +502,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "display name"
+            "state": "translated",
+            "value": "nome de exibição"
           }
         },
         "ro": {
@@ -532,8 +532,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "display name"
+            "state": "translated",
+            "value": "visningsnamn"
           }
         },
         "tr": {
@@ -609,8 +609,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Done"
+            "state": "translated",
+            "value": "Klaar"
           }
         },
         "fi": {
@@ -627,8 +627,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Done"
+            "state": "translated",
+            "value": "Fertig"
           }
         },
         "el": {
@@ -687,8 +687,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Done"
+            "state": "translated",
+            "value": "Concluído"
           }
         },
         "ro": {
@@ -717,8 +717,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Done"
+            "state": "translated",
+            "value": "Klar"
           }
         },
         "tr": {
@@ -794,8 +794,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Done"
+            "state": "translated",
+            "value": "Klaar"
           }
         },
         "fi": {
@@ -812,8 +812,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Done"
+            "state": "translated",
+            "value": "Erledigt"
           }
         },
         "el": {
@@ -872,8 +872,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Done"
+            "state": "translated",
+            "value": "Concluído"
           }
         },
         "ro": {
@@ -902,8 +902,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Done"
+            "state": "translated",
+            "value": "Klar"
           }
         },
         "tr": {
@@ -979,8 +979,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Knop"
           }
         },
         "fi": {
@@ -997,7 +997,7 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Button"
           }
         },
@@ -1057,8 +1057,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Botão"
           }
         },
         "ro": {
@@ -1087,8 +1087,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Knapp"
           }
         },
         "tr": {

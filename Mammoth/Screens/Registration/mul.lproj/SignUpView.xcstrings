@@ -54,8 +54,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Sign up"
+            "state": "translated",
+            "value": "Registreren"
           }
         },
         "fi": {
@@ -72,8 +72,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Sign up"
+            "state": "translated",
+            "value": "Registrieren"
           }
         },
         "el": {
@@ -132,8 +132,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Sign up"
+            "state": "translated",
+            "value": "Criar uma conta"
           }
         },
         "ro": {
@@ -162,8 +162,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Sign up"
+            "state": "translated",
+            "value": "Registrera dig"
           }
         },
         "tr": {
@@ -239,8 +239,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "We will send a confirmation email to this address"
+            "state": "translated",
+            "value": "Wij sturen een bevestigingsmail naar dit adres"
           }
         },
         "fi": {
@@ -257,8 +257,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "We will send a confirmation email to this address"
+            "state": "translated",
+            "value": "Wir werden eine Bestätigungs-E-Mail an diese Adresse senden"
           }
         },
         "el": {
@@ -317,8 +317,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "We will send a confirmation email to this address"
+            "state": "translated",
+            "value": "Vamos enviar um email de confirmação para este endereço"
           }
         },
         "ro": {
@@ -347,8 +347,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "We will send a confirmation email to this address"
+            "state": "translated",
+            "value": "Vi kommer att skicka ett bekräftelsemail till denna adress"
           }
         },
         "tr": {
@@ -424,8 +424,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Pick something fun or use your real name"
+            "state": "translated",
+            "value": "Kies iets leuks of gebruik je echte naam"
           }
         },
         "fi": {
@@ -442,8 +442,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Pick something fun or use your real name"
+            "state": "translated",
+            "value": "Wähle etwas Lustiges aus oder verwende deinen echten Namen"
           }
         },
         "el": {
@@ -502,8 +502,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Pick something fun or use your real name"
+            "state": "translated",
+            "value": "Escolha algo divertido ou use seu nome real"
           }
         },
         "ro": {
@@ -532,8 +532,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Pick something fun or use your real name"
+            "state": "translated",
+            "value": "Du kan välja något roligt eller använda ditt riktiga namn"
           }
         },
         "tr": {
@@ -609,8 +609,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Must include at least 8 characters"
+            "state": "translated",
+            "value": "Minimaal 8 karakters"
           }
         },
         "fi": {
@@ -627,8 +627,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Must include at least 8 characters"
+            "state": "translated",
+            "value": "mindestens 8 Zeichen erforderlich"
           }
         },
         "el": {
@@ -687,8 +687,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Must include at least 8 characters"
+            "state": "translated",
+            "value": "Deve conter pelo menos 8 caracteres"
           }
         },
         "ro": {
@@ -717,8 +717,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Must include at least 8 characters"
+            "state": "translated",
+            "value": "Måste innehålla minst 8 tecken"
           }
         },
         "tr": {
@@ -794,8 +794,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create account"
+            "state": "translated",
+            "value": "Account aanmaken"
           }
         },
         "fi": {
@@ -812,8 +812,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create account"
+            "state": "translated",
+            "value": "Account erstellen"
           }
         },
         "el": {
@@ -872,8 +872,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create account"
+            "state": "translated",
+            "value": "Criar conta"
           }
         },
         "ro": {
@@ -902,8 +902,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create account"
+            "state": "translated",
+            "value": "Skapa konto"
           }
         },
         "tr": {
@@ -979,8 +979,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "username"
+            "state": "translated",
+            "value": "gebruikersnaam"
           }
         },
         "fi": {
@@ -997,8 +997,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "username"
+            "state": "translated",
+            "value": "Benutzername"
           }
         },
         "el": {
@@ -1057,8 +1057,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "username"
+            "state": "translated",
+            "value": "nome de usuário"
           }
         },
         "ro": {
@@ -1087,8 +1087,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "username"
+            "state": "translated",
+            "value": "användarnamn"
           }
         },
         "tr": {
@@ -1164,8 +1164,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "email address"
+            "state": "translated",
+            "value": "e-mailadres"
           }
         },
         "fi": {
@@ -1182,8 +1182,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "email address"
+            "state": "translated",
+            "value": "E-Mail Adresse"
           }
         },
         "el": {
@@ -1242,8 +1242,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "email address"
+            "state": "translated",
+            "value": "endereço de e-mail"
           }
         },
         "ro": {
@@ -1272,8 +1272,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "email address"
+            "state": "translated",
+            "value": "e-postadress"
           }
         },
         "tr": {
@@ -1349,8 +1349,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "password"
+            "state": "translated",
+            "value": "wachtwoord"
           }
         },
         "fi": {
@@ -1367,8 +1367,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "password"
+            "state": "translated",
+            "value": "Passwort"
           }
         },
         "el": {
@@ -1427,8 +1427,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "password"
+            "state": "translated",
+            "value": "senha"
           }
         },
         "ro": {
@@ -1457,8 +1457,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "password"
+            "state": "translated",
+            "value": "lösenord"
           }
         },
         "tr": {

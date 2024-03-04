@@ -54,8 +54,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Confirm your email"
+            "state": "translated",
+            "value": "Bevestig je e-mail"
           }
         },
         "fi": {
@@ -72,8 +72,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Confirm your email"
+            "state": "translated",
+            "value": "Bestätige deine E-Mail"
           }
         },
         "el": {
@@ -132,8 +132,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Confirm your email"
+            "state": "translated",
+            "value": "Confirme seu e-mail"
           }
         },
         "ro": {
@@ -162,8 +162,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Confirm your email"
+            "state": "translated",
+            "value": "Bekräfta din e-postadress"
           }
         },
         "tr": {
@@ -239,8 +239,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Knop"
           }
         },
         "fi": {
@@ -257,7 +257,7 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "Button"
           }
         },
@@ -317,8 +317,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Botão"
           }
         },
         "ro": {
@@ -347,8 +347,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Knapp"
           }
         },
         "tr": {
@@ -424,8 +424,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Click the link in the email we sent to\n%@ then return to Mammoth"
+            "state": "translated",
+            "value": "Klik op de link in de e-mail die we naar\n%@ hebben gestuurd en keer daarna terug naar Mammoth"
           }
         },
         "fi": {
@@ -442,8 +442,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Click the link in the email we sent to\n%@ then return to Mammoth"
+            "state": "translated",
+            "value": "Klicke auf den Link in der E-Mail, die wir an\n%@ gesendet haben und kehre anschließend zurück zu Mammoth"
           }
         },
         "el": {
@@ -502,8 +502,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Click the link in the email we sent to\n%@ then return to Mammoth"
+            "state": "translated",
+            "value": "Clique o link no email enviado para %@ e depois retorne ao Mammoth"
           }
         },
         "ro": {
@@ -532,8 +532,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Click the link in the email we sent to\n%@ then return to Mammoth"
+            "state": "translated",
+            "value": "Klicka på länken i e-postmeddelandet vi skickade till\n%@ sedan återgå till Mammoth"
           }
         },
         "tr": {
@@ -609,8 +609,8 @@
         },
         "nl": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Not seeing it?"
+            "state": "translated",
+            "value": "Zie je ze niet?"
           }
         },
         "fi": {
@@ -627,8 +627,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Not seeing it?"
+            "state": "translated",
+            "value": "Kannst du es nicht sehen?"
           }
         },
         "el": {
@@ -687,8 +687,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Not seeing it?"
+            "state": "translated",
+            "value": "Não está vendo?"
           }
         },
         "ro": {
@@ -717,8 +717,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Not seeing it?"
+            "state": "translated",
+            "value": "Ser du inte det?"
           }
         },
         "tr": {
