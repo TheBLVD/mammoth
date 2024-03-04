@@ -3594,8 +3594,8 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "new",
-            "value" : "Discover"
+            "state" : "translated",
+            "value" : "Ontdek"
           }
         },
         "pt" : {
@@ -5471,6 +5471,79 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Modo de alto contraste"
+          }
+        }
+      }
+    },
+    "settings.appearance.language" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Taal"
+          }
+        }
+      }
+    },
+    "settings.appearance.language.alert.cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuleer"
+          }
+        }
+      }
+    },
+    "settings.appearance.language.alert.cta" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ga verder"
+          }
+        }
+      }
+    },
+    "settings.appearance.language.alert.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are different steps to change your Mammoth app language.\n\n1. Continue to the next screen.\n2. Tap Language to select the language that you want.\n\nIf no language setting is available, go to your general device language settings to first set a preferred language."
+          }
+        }
+      }
+    },
+    "settings.appearance.language.alert.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to set your app language"
           }
         }
       }
