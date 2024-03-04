@@ -470,7 +470,7 @@ extension ProfileHeader {
         self.descriptionLabel.paragraphStyle = {
             let style = NSMutableParagraphStyle()
             style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
-            style.paragraphSpacing = 4
+            style.paragraphSpacing = 12
             style.alignment = .center
             return style
         }()

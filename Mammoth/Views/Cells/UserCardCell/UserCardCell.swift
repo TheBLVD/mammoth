@@ -170,7 +170,7 @@ private extension UserCardCell {
         self.descriptionLabel.paragraphStyle = {
             let style = NSMutableParagraphStyle()
             style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : -1
-            style.paragraphSpacing = 4
+            style.paragraphSpacing = 12
             style.alignment = .left
             return style
         }()
