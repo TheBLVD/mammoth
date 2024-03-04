@@ -21,6 +21,7 @@ jobs:
 
           create_pull_request: true
           pull_request_title: 'MAM-translations'
+          commit_message: 'MAM-translations'
           pull_request_body: 'New Crowdin pull request with translations.\nhttps://crowdin.com/project/mammoth-app'
           pull_request_base_branch_name: 'main'
         env:
