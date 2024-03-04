@@ -114,7 +114,7 @@
          </EnvironmentVariable>
       </EnvironmentVariables>
       <StoreKitConfigurationFileReference
-         identifier = "../../Mastodon/IAPConfig.storekit">
+         identifier = "../../Mammoth/IAPConfig.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction

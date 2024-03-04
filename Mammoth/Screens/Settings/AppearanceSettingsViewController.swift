@@ -31,7 +31,8 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 AppearanceOptions.contentWarning,
                 AppearanceOptions.sensitiveContent,
                 AppearanceOptions.autoplay,
-                AppearanceOptions.translation
+                AppearanceOptions.translation,
+                AppearanceOptions.language,
             ]
             return allItems.compactMap({$0})
         }
@@ -47,6 +48,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         case sensitiveContent
         case autoplay
         case translation
+        case language
 
         @available(*, unavailable)
         case all
@@ -593,8 +595,19 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             case AppearanceOptions.translation:
                 let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell.textLabel?.text = NSLocalizedString("settings.appearance.translationLang", comment: "")
-                cell.imageView?.image = UIImage(systemName: "globe")
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f0ac}")
+                cell.accessoryView = nil
+                cell.accessoryType = .disclosureIndicator
+                cell.backgroundColor = .custom.OVRLYSoftContrast
+                if #available(iOS 15.0, *) {
+                    cell.focusEffect = UIFocusHaloEffect()
+                }
+                return cell
+                
+            case AppearanceOptions.language:
+                let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
+                cell.textLabel?.text = NSLocalizedString("settings.appearance.language", comment: "")
+                cell.imageView?.image = settingsFontAwesomeImage("\u{f1ab}")
                 cell.accessoryView = nil
                 cell.accessoryType = .disclosureIndicator
                 cell.backgroundColor = .custom.OVRLYSoftContrast
@@ -616,6 +629,21 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             if AppearanceOptions.allCases[indexPath.row] == AppearanceOptions.translation {
                 let vc = TranslationSettingsViewController()
                 navigationController?.pushViewController(vc, animated: true)
+            }
+            
+            if AppearanceOptions.allCases[indexPath.row] == AppearanceOptions.language {
+                let alert = UIAlertController(title: NSLocalizedString("settings.appearance.language.alert.title", comment: "Alert title when tapping on the language setting item"), message: NSLocalizedString("settings.appearance.language.alert.description", comment: "Alert description when tapping on the language setting item"), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("settings.appearance.language.alert.cta", comment: "Alert call-to-action when tapping on the language setting item"), style: .default, handler: { _ in
+                    guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+                        return
+                    }
+
+                    if UIApplication.shared.canOpenURL(settingsUrl) {
+                        UIApplication.shared.open(settingsUrl, completionHandler: { _ in })
+                    }
+                }))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("settings.appearance.language.alert.cancel", comment: "Alert cancel button when tapping on the language setting item"), style: .cancel, handler: nil))
+                getTopMostViewController()?.present(alert, animated: true)
             }
         default:
             break
