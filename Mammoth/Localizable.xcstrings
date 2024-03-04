@@ -11609,19 +11609,54 @@
       }
     },
     "customize.mammothPicks" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accounts handpicked by the Mammoth team"
+          }
+        }
+      }
     },
     "customize.mammothPicks.title" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mammoth Picks"
+          }
+        }
+      }
     },
     "customize.smartLists" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Smart Lists"
+          }
+        }
+      }
     },
     "customize.smartLists.title" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Topical lists curated by the Mastodon community"
+          }
+        }
+      }
     },
     "customize.title" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Customize your \"for you\" feed"
+          }
+        }
+      }
     },
     "date.futureDays" : {
       "comment" : "Date format",
@@ -19907,7 +19942,14 @@
       }
     },
     "generic.close" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
     },
     "generic.copy" : {
       "localizations" : {
@@ -21200,7 +21242,14 @@
       }
     },
     "generic.save" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
     },
     "generic.share" : {
       "localizations" : {
@@ -24718,22 +24767,64 @@
       }
     },
     "post.bookmark" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmark"
+          }
+        }
+      }
     },
     "post.bookmark.undo" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove bookmark"
+          }
+        }
+      }
     },
     "post.delete" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete post"
+          }
+        }
+      }
     },
     "post.edit" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit post"
+          }
+        }
+      }
     },
     "post.like" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Like"
+          }
+        }
+      }
     },
     "post.like.undo" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo like"
+          }
+        }
+      }
     },
     "post.likeCount.plural" : {
       "extractionState" : "stale",
@@ -25106,16 +25197,44 @@
       }
     },
     "post.modify" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modify Post"
+          }
+        }
+      }
     },
     "post.openLink" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open link"
+          }
+        }
+      }
     },
     "post.pin" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pin post"
+          }
+        }
+      }
     },
     "post.pin.undo" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unpin post"
+          }
+        }
+      }
     },
     "post.privacy.direct" : {
       "localizations" : {
@@ -25487,7 +25606,14 @@
       }
     },
     "post.reply" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reply"
+          }
+        }
+      }
     },
     "post.replyCount.plural" : {
       "extractionState" : "stale",
@@ -25860,19 +25986,54 @@
       }
     },
     "post.report" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report this post?"
+          }
+        }
+      }
     },
     "post.report.text" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll notify your instance’s moderator."
+          }
+        }
+      }
     },
     "post.report.title" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report this post?"
+          }
+        }
+      }
     },
     "post.repost" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Repost"
+          }
+        }
+      }
     },
     "post.repost.undo" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo"
+          }
+        }
+      }
     },
     "post.repostCount.plural" : {
       "extractionState" : "stale",
@@ -29197,7 +29358,6 @@
     },
     "profile.edit.details.discoverable" : {
       "comment" : "Profile setting.  User can be discovered through recommendation.",
-      "extractionState" : "stale",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -42642,7 +42802,6 @@
       }
     },
     "settings.getInTouch.footer2" : {
-      "extractionState" : "stale",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -42827,7 +42986,6 @@
       }
     },
     "settings.getInTouch.footer3" : {
-      "extractionState" : "stale",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -46324,7 +46482,6 @@
       }
     },
     "settings.gold.unlock" : {
-      "extractionState" : "stale",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -52957,100 +53114,346 @@
       }
     },
     "toast.accountBlocked" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account Blocked"
+          }
+        }
+      }
     },
     "toast.accountMuted" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account Muted"
+          }
+        }
+      }
     },
     "toast.added" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added"
+          }
+        }
+      }
+    },
+    "toast.addFail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to Add"
+          }
+        }
+      }
     },
     "toast.blockedUser" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked User"
+          }
+        }
+      }
     },
     "toast.bookmarked" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmarked"
+          }
+        }
+      }
     },
     "toast.disabled" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disabled"
+          }
+        }
+      }
     },
     "toast.editedPost" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edited Post"
+          }
+        }
+      }
     },
     "toast.enabled" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enabled"
+          }
+        }
+      }
     },
     "toast.errorPosting" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error Posting"
+          }
+        }
+      }
     },
     "toast.errorPosting.title" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Error posting post"
+          }
+        }
+      }
     },
     "toast.followed" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Followed"
+          }
+        }
+      }
+    },
+    "toast.followFail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to Follow"
+          }
+        }
+      }
     },
     "toast.imageSaved" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image Saved"
+          }
+        }
+      }
     },
     "toast.listUpdated" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List Updated"
+          }
+        }
+      }
     },
     "toast.muted" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muted"
+          }
+        }
+      }
     },
     "toast.pinned" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pinned"
+          }
+        }
+      }
     },
     "toast.pollVoted" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poll Voted"
+          }
+        }
+      }
     },
     "toast.postDeleted" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post Deleted"
+          }
+        }
+      }
     },
     "toast.postReported" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post Reported"
+          }
+        }
+      }
     },
     "toast.publishedPost" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Published Post"
+          }
+        }
+      }
     },
     "toast.rateLimit" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate Limited"
+          }
+        }
+      }
     },
     "toast.removed" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removed"
+          }
+        }
+      }
     },
     "toast.scheduledPost" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled Post"
+          }
+        }
+      }
     },
     "toast.sent" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent"
+          }
+        }
+      }
     },
     "toast.subscribed" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribed"
+          }
+        }
+      }
     },
     "toast.subscribedList" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribed to List"
+          }
+        }
+      }
     },
     "toast.unblockedUser" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unblocked User"
+          }
+        }
+      }
     },
     "toast.unmuted" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unmuted"
+          }
+        }
+      }
     },
     "toast.unpinned" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unpinned"
+          }
+        }
+      }
     },
     "toast.unsubscribed" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unsubscribed"
+          }
+        }
+      }
     },
     "toast.userAdded" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User Added"
+          }
+        }
+      }
     },
     "toast.userReported" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "User Reported"
+          }
+        }
+      }
     },
     "toast.viewDrafts" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View Drafts"
+          }
+        }
+      }
     },
     "tutorial.accountSwitch" : {
       "localizations" : {

@@ -436,7 +436,7 @@ class EditProfileViewController: UIViewController, UITableViewDataSource, UITabl
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell3", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell3")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = NSLocalizedString("profile.edit", comment: "")
+                cell.textLabel?.text = NSLocalizedString("profile.edit.details.discoverable", comment: "")
                 cell.imageView?.image = UIImage(systemName: "binoculars")
                 let switchView = UISwitch(frame: .zero)
                 if self.context3 {

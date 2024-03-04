@@ -326,11 +326,11 @@ class ContactSettingsViewController: UIViewController, UITableViewDataSource, UI
         if section == 0 {
             return NSLocalizedString("settings.getInTouch.footer1", comment: "")
         } else if section == 1 {
-            return NSLocalizedString("settings.getInTouch.footer1", comment: "")
+            return NSLocalizedString("settings.getInTouch.footer2", comment: "")
         } else if section == 2 {
             return ""
         } else if section == 3 {
-            return NSLocalizedString("settings.getInTouch.footer1", comment: "")
+            return NSLocalizedString("settings.getInTouch.footer3", comment: "")
         } else {
             return NSLocalizedString("settings.getInTouch.logInfo", comment: "") + "\n" +
             "     " + NSLocalizedString("settings.getInTouch.logInfo.1", comment: "") + "\n" +
