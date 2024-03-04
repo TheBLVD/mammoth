@@ -17,7 +17,7 @@ jobs:
           upload_translations: false
           download_translations: false
           download_bundle: 2
-          localization_branch_name: i10n_translations
+          localization_branch_name: i18n_translations
 
           create_pull_request: true
           pull_request_title: 'MAM-translations'
