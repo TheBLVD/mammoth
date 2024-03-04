@@ -76,7 +76,7 @@ private extension JumpToLatest {
         self.setTitleColor(.label, for: .normal)
         self.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
         self.titleLabel?.textAlignment = .center
-        self.setTitle("Jump to now", for: .normal)
+        self.setTitle(NSLocalizedString("home.jumpToNow", comment: ""), for: .normal)
         
         self.contentEdgeInsets = .init(top: 0, left: 14, bottom: 0, right: 32)
         

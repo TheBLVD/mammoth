@@ -11,7 +11,7 @@ import UIKit
 class MentionsViewController : UIViewController {
     
     public let headerView: CarouselNavigationHeader = {
-        let headerView = CarouselNavigationHeader(title: "Mentions")
+        let headerView = CarouselNavigationHeader(title: NSLocalizedString("title.mentions", comment: ""))
         headerView.translatesAutoresizingMaskIntoConstraints = false
         return headerView
     }()
