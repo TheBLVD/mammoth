@@ -512,7 +512,7 @@ class ChatMessagesViewController: MessagesViewController, MessagesDataSource, Me
         op1.setValue(UIImage(systemName: "camera")!, forKey: "image")
         op1.setValue(CATextLayerAlignmentMode.left, forKey: "titleTextAlignment")
         alert.addAction(op1)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
             
         }))
         if let presenter = alert.popoverPresentationController {

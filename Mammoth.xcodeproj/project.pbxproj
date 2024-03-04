@@ -30,7 +30,6 @@
 		149A682D2AD6A4E200E72A83 /* Mute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68282AD6A4E200E72A83 /* Mute.swift */; };
 		149A682F2AD6A4E200E72A83 /* mute.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 149A682B2AD6A4E200E72A83 /* mute.aiff */; };
 		149A68312AD6CE3700E72A83 /* AVManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68302AD6CE3700E72A83 /* AVManager.swift */; };
-		14A849FF2B4D75F20027C689 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14A849FE2B4D75F20027C689 /* MetaTextKit */; };
 		14BE1A502AEFDAB700C13189 /* String+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE1A4F2AEFDAB700C13189 /* String+Image.swift */; };
 		14BE1A522AF1047D00C13189 /* PushNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE1A512AF1047D00C13189 /* PushNotificationManager.swift */; };
 		14BE1A562AF1208200C13189 /* KeyChainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BE1A552AF1208200C13189 /* KeyChainHelper.swift */; };
@@ -775,6 +774,7 @@
 		D8CA77612AB90D4000F49ECC /* ShareableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */; };
 		D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DE092E2A3D12D800DD0483 /* Haptics.swift */; };
 		F084802D2B8BBF02005201A7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F084802C2B8BBF02005201A7 /* Localizable.xcstrings */; };
+		F0ED503C2B949A2C00F7525B /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F0ED503B2B949A2C00F7525B /* MetaTextKit */; };
 		F0F6A5DD2ACCA9C1004FD05F /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6A5DC2ACCA9C1004FD05F /* AnalyticsManager.swift */; };
 		F0F6A5DF2ACCB5D1004FD05F /* FeaturesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6A5DE2ACCB5D1004FD05F /* FeaturesService.swift */; };
 /* End PBXBuildFile section */
@@ -1655,7 +1655,7 @@
 				532F291529476916003C9FAD /* MessageKit in Frameworks */,
 				662B60EF2A4A1F6D00CB331F /* JWTDecode in Frameworks */,
 				146C6A432B34545B00A002D7 /* UnifiedBlurHash in Frameworks */,
-				14A849FF2B4D75F20027C689 /* MetaTextKit in Frameworks */,
+				F0ED503C2B949A2C00F7525B /* MetaTextKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3197,7 +3197,7 @@
 				88EFEB2C2AC23A3C0040228B /* SwiftJWT */,
 				14780F802AFCEA7000A7ECD9 /* Reachability */,
 				146C6A422B34545B00A002D7 /* UnifiedBlurHash */,
-				14A849FE2B4D75F20027C689 /* MetaTextKit */,
+				F0ED503B2B949A2C00F7525B /* MetaTextKit */,
 			);
 			productName = Mastodon;
 			productReference = 533993DF29141F4600560F83 /* Mammoth.app */;
@@ -3334,7 +3334,7 @@
 				144DC74E2B17698200F4EE98 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				144DC7E02B1773E400F4EE98 /* XCRemoteSwiftPackageReference "OpenSSL" */,
 				146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */,
-				14A849FD2B4D75F20027C689 /* XCRemoteSwiftPackageReference "MetaTextKit" */,
+				F0ED503A2B949A2C00F7525B /* XCLocalSwiftPackageReference "../MetaTextKit" */,
 			);
 			productRefGroup = 533993E029141F4600560F83 /* Products */;
 			projectDirPath = "";
@@ -4781,6 +4781,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		F0ED503A2B949A2C00F7525B /* XCLocalSwiftPackageReference "../MetaTextKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../MetaTextKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		144DC74E2B17698200F4EE98 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -4814,6 +4821,7 @@
 				revision = a81b7367f2c46875f29577e03a60c39cdfad0c8d;
 			};
 		};
+<<<<<<< Updated upstream
 		14A849FD2B4D75F20027C689 /* XCRemoteSwiftPackageReference "MetaTextKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/TheBLVD/MetaTextKit";
@@ -4822,6 +4830,8 @@
 				version = 2.3.11;
 			};
 		};
+=======
+>>>>>>> Stashed changes
 		532F291329476916003C9FAD /* XCRemoteSwiftPackageReference "MessageKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
@@ -4883,11 +4893,6 @@
 			package = 14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */;
 			productName = Reachability;
 		};
-		14A849FE2B4D75F20027C689 /* MetaTextKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 14A849FD2B4D75F20027C689 /* XCRemoteSwiftPackageReference "MetaTextKit" */;
-			productName = MetaTextKit;
-		};
 		532F291429476916003C9FAD /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 532F291329476916003C9FAD /* XCRemoteSwiftPackageReference "MessageKit" */;
@@ -4930,6 +4935,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 533993F62914201500560F83 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		F0ED503B2B949A2C00F7525B /* MetaTextKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MetaTextKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

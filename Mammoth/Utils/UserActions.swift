@@ -174,7 +174,7 @@ struct UserActions {
                     if message == "Validation failed: Account has already been taken" {
                         await MainActor.run {
                             let alert = UIAlertController(title: "You have already added this account to your list", message: nil, preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: .default, handler: nil))
                             getTopMostViewController()?.present(alert, animated: true)
                         }
                     } else {
@@ -183,7 +183,7 @@ struct UserActions {
                 default:
                     await MainActor.run {
                         let alert = UIAlertController(title: "Unable to add this account to your list", message: "Please try again", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: .default, handler: nil))
                         getTopMostViewController()?.present(alert, animated: true)
                     }
                 }

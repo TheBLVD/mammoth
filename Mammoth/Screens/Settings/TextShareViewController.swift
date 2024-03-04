@@ -104,7 +104,7 @@ class TextShareViewController: UIViewController, UITableViewDataSource, UITableV
     
     override var keyCommands: [UIKeyCommand]? {
         let closeWindow = UIKeyCommand(input: "w", modifierFlags: [.command], action: #selector(dismissTap))
-        closeWindow.discoverabilityTitle = "Dismiss"
+        closeWindow.discoverabilityTitle = NSLocalizedString("generic.dismiss", comment: "")
         if #available(iOS 15, *) {
             closeWindow.wantsPriorityOverSystemBehavior = true
         }
@@ -143,7 +143,7 @@ class TextShareViewController: UIViewController, UITableViewDataSource, UITableV
         btn0.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         btn0.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
         btn0.addTarget(self, action: #selector(self.dismissTap), for: .touchUpInside)
-        btn0.accessibilityLabel = "Dismiss"
+        btn0.accessibilityLabel = NSLocalizedString("generic.dismiss", comment: "")
         let moreButton0 = UIBarButtonItem(customView: btn0)
         self.navigationItem.setLeftBarButton(moreButton0, animated: true)
         

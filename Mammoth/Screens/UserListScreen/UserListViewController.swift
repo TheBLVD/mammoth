@@ -82,7 +82,7 @@ class UserListViewController: UIViewController {
         
         if self.isModal {
             if #available(iOS 16.0, *) {
-                let closeBtn = UIBarButtonItem(title: "Close", image: nil, target: self, action: #selector(self.onClosePressed))
+                let closeBtn = UIBarButtonItem(title: NSLocalizedString("generic.close", comment: ""), image: nil, target: self, action: #selector(self.onClosePressed))
                 self.navigationItem.setLeftBarButton(closeBtn, animated: false)
             } else {}
         }

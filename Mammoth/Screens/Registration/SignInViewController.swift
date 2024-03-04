@@ -267,7 +267,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
                                 }
                             })
                             alert.addAction(op1)
-                            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                             }))
                             if let presenter = alert.popoverPresentationController {
                                 presenter.sourceView = self.view

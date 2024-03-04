@@ -77,7 +77,7 @@ class ChannelsViewController: UIViewController {
         
         if self.isModal {
             if #available(iOS 16.0, *) {
-                let closeBtn = UIBarButtonItem(title: "Close", image: nil, target: self, action: #selector(self.onClosePressed))
+                let closeBtn = UIBarButtonItem(title: NSLocalizedString("generic.close", comment: ""), image: nil, target: self, action: #selector(self.onClosePressed))
                 closeBtn.setTitleTextAttributes([
                     NSAttributedString.Key.font : UIFont.systemFont(ofSize: 18, weight: .semibold)],
                                                 for: .normal)

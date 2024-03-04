@@ -790,7 +790,7 @@ class DetailView: UIView, SKPhotoBrowserDelegate, UIActivityItemSource, UIContex
         alert.addAction(UIAlertAction(title: "Vote", style: .default , handler:{ (UIAlertAction) in
             self.voteOnThis(sender.view?.tag ?? 0)
         }))
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
             
         }))
         if let presenter = alert.popoverPresentationController {
@@ -808,7 +808,7 @@ class DetailView: UIView, SKPhotoBrowserDelegate, UIActivityItemSource, UIContex
                     DispatchQueue.main.async {
                         triggerHapticNotification(feedback: .warning)
                         let alert = UIAlertController(title: "Poll Ended", message: "You can't vote on this poll as it has already ended.", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                             
                         }))
                         if let presenter = alert.popoverPresentationController {
@@ -822,7 +822,7 @@ class DetailView: UIView, SKPhotoBrowserDelegate, UIActivityItemSource, UIContex
                         DispatchQueue.main.async {
                             triggerHapticNotification(feedback: .warning)
                             let alert = UIAlertController(title: "Already Voted", message: "You can't vote on this poll as you have already voted on it.", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                                 
                             }))
                             if let presenter = alert.popoverPresentationController {
@@ -875,12 +875,12 @@ class DetailView: UIView, SKPhotoBrowserDelegate, UIActivityItemSource, UIContex
                 }
             }
         }
-        let copy = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
+        let copy = UIAction(title: NSLocalizedString("generic.copy", comment: ""), image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
             if let x = self.linkStr?.url {
                 UIPasteboard.general.string = x
             }
         }
-        let share = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+        let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
             if let x = self.linkStr?.url {
                 let linkToShare = [x]
                 let activityViewController = UIActivityViewController(activityItems: linkToShare,  applicationActivities: nil)

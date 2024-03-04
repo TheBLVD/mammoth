@@ -125,87 +125,87 @@ class ToastNotificationManager {
     
     private func postPosted(notification: Notification) {
         if GlobalStruct.popupPostPosted {
-            self.postNotification(title: "Published Post", sound: "soundPublished")
+            self.postNotification(title: NSLocalizedString("toast.publishedPost", comment: ""), sound: "soundPublished")
         }
     }
 
     private func postUpdated(notification: Notification) {
-        self.postNotification(title: "Edited Post", sound: "soundPublished2")
+        self.postNotification(title: NSLocalizedString("toast.editedPost", comment: ""), sound: "soundPublished2")
     }
 
     private func postScheduled(notification: Notification) {
-        self.postNotification(title: "Scheduled Post", sound: "soundPublished2")
+        self.postNotification(title: NSLocalizedString("toast.scheduledPost", comment: ""), sound: "soundPublished2")
     }
 
     private func postSentMessage(notification: Notification) {
         if GlobalStruct.popupPostPosted {
-            self.postNotification(title: "Sent", sound: "soundPublished")
+            self.postNotification(title: NSLocalizedString("toast.sent", comment: ""), sound: "soundPublished")
         }
     }
 
     private func postLimitError(notification: Notification) {
         if let x = UserDefaults.standard.value(forKey: "oauthToken") as? String, x != "oauthToken" {
             if GlobalStruct.popupRateLimits {
-                self.postNotification(title: "Rate Limited", sound: "soundError", notificationType: .destructive)
+                self.postNotification(title: NSLocalizedString("toast.rateLimit", comment: ""), sound: "soundError", notificationType: .destructive)
             }
         }
     }
     
     private func postPostError(notification: Notification) {
         toastButton.addTarget(self, action: #selector(self.postErrorTap), for: .touchUpInside)
-        self.postNotification(title: "Error Posting", sound: "soundError", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.errorPosting", comment: ""), sound: "soundError", notificationType: .destructive)
     }
 
     private func postMuted(notification: Notification) {
-        self.postNotification(title: "Muted", sound: "soundMallet", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.muted", comment: ""), sound: "soundMallet", notificationType: .destructive)
     }
 
     private func postBlocked(notification: Notification) {
-        self.postNotification(title: "Blocked User", sound: "soundMallet", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.blockedUser", comment: ""), sound: "soundMallet", notificationType: .destructive)
     }
 
     private func postUnmuted(notification: Notification) {
-        self.postNotification(title: "Unmuted", sound: "soundRemove")
+        self.postNotification(title: NSLocalizedString("toast.unmuted", comment: ""), sound: "soundRemove")
     }
 
     private func postUnblocked(notification: Notification) {
-        self.postNotification(title: "Unblocked User", sound: "soundRemove")
+        self.postNotification(title: NSLocalizedString("toast.unblockedUser", comment: ""), sound: "soundRemove")
     }
 
     private func postDeleted(notification: Notification) {
-        self.postNotification(title: "Post Deleted", sound: "soundMallet", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.postDeleted", comment: ""), sound: "soundMallet", notificationType: .destructive)
     }
 
     private func postListUpdated(notification: Notification) {
-        self.postNotification(title: "List Updated", sound: "soundMallet", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.listUpdated", comment: ""), sound: "soundMallet", notificationType: .destructive)
     }
     
     private func postListFollowed(notification: Notification) {
-        self.postNotification(title: "Subscribed to List", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.subscribedList", comment: ""), sound: "soundMallet")
     }
 
     private func postListUnfollowed(notification: Notification) {
-        self.postNotification(title: "Unsubscribed", sound: "soundRemove")
+        self.postNotification(title: NSLocalizedString("toast.accountBlocked", comment: ""), sound: "soundRemove")
     }
 
     private func postListUserAdded(notification: Notification) {
-        self.postNotification(title: "User Added", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.userAdded", comment: ""), sound: "soundMallet")
     }
 
     private func postBookmarked(notification: Notification) {
-        self.postNotification(title: "Bookmarked", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.bookmarked", comment: ""), sound: "soundMallet")
     }
 
     private func postUnbookmarked(notification: Notification) {
-        self.postNotification(title: "Removed", sound: "soundRemove")
+        self.postNotification(title: NSLocalizedString("toast.removed", comment: ""), sound: "soundRemove")
     }
     
     private func postVIP(notification: Notification) {
-        self.postNotification(title: "Added", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.added", comment: ""), sound: "soundMallet")
     }
 
     private func postUnVIP(notification: Notification) {
-        self.postNotification(title: "Removed", sound: "soundRemove", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.removed", comment: ""), sound: "soundRemove", notificationType: .destructive)
     }
 
     private func failedList(notification: Notification) {
@@ -217,39 +217,39 @@ class ToastNotificationManager {
     }
 
     private func postFollowed(notification: Notification) {
-        self.postNotification(title: "Followed", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.followed", comment: ""), sound: "soundMallet")
     }
 
     private func postPinned(notification: Notification) {
-        self.postNotification(title: "Pinned", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.pinned", comment: ""), sound: "soundMallet")
     }
 
     private func postUnpinned(notification: Notification) {
-        self.postNotification(title: "Unpinned", sound: "soundRemove", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.unpinned", comment: ""), sound: "soundRemove", notificationType: .destructive)
     }
 
     private func userNotifsEnabled(notification: Notification) {
-        self.postNotification(title: "Enabled", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.enabled", comment: ""), sound: "soundMallet")
     }
 
     private func userNotifsDisabled(notification: Notification) {
-        self.postNotification(title: "Disabled", sound: "soundRemove", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.disabled", comment: ""), sound: "soundRemove", notificationType: .destructive)
     }
 
     private func userRepostsEnabled(notification: Notification) {
-        self.postNotification(title: "Enabled", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.enabled", comment: ""), sound: "soundMallet")
     }
 
     private func userRepostsDisabled(notification: Notification) {
-        self.postNotification(title: "Disabled", sound: "soundRemove", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.disabled", comment: ""), sound: "soundRemove", notificationType: .destructive)
     }
     
     private func userReported(notification: Notification) {
-        self.postNotification(title: "User reported", sound: "soundMallet", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.userReported", comment: ""), sound: "soundMallet", notificationType: .destructive)
     }
     
     private func postReported(notification: Notification) {
-        self.postNotification(title: "Post reported", sound: "soundMallet", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.postReported", comment: ""), sound: "soundMallet", notificationType: .destructive)
     }
 
     private func actionFrom(notification: Notification) {
@@ -257,27 +257,27 @@ class ToastNotificationManager {
     }
 
     private func pollVoted(notification: Notification) {
-        self.postNotification(title: "Poll Voted", sound: "soundPublished2")
+        self.postNotification(title: NSLocalizedString("toast.pollVoted", comment: ""), sound: "soundPublished2")
     }
     
     private func subscribed(notification: Notification) {
-        self.postNotification(title: "Subscribed", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.subscribed", comment: ""), sound: "soundMallet")
     }
     
     private func unsubscribed(notification: Notification) {
-        self.postNotification(title: "Unsubscribed", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.unsubscribed", comment: ""), sound: "soundMallet")
     }
     
     private func imageSaved(notification: Notification) {
-        self.postNotification(title: "Image Saved", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.imageSaved", comment: ""), sound: "soundMallet")
     }
     
     private func accountMuted(notification: Notification) {
-        self.postNotification(title: "Account Muted", sound: "soundMallet")
+        self.postNotification(title: NSLocalizedString("toast.accountMuted", comment: ""), sound: "soundMallet")
     }
     
     private func accountBlocked(notification: Notification) {
-        self.postNotification(title: "Account Blocked", sound: "soundMallet", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.accountBlocked", comment: ""), sound: "soundMallet", notificationType: .destructive)
     }
 
 
@@ -323,11 +323,11 @@ class ToastNotificationManager {
     
     
     @objc func postErrorTap() {
-        let alert = UIAlertController(title: "Error posting post", message: GlobalStruct.postPostError, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+        let alert = UIAlertController(title: NSLocalizedString("toast.errorPosting.title", comment: ""), message: GlobalStruct.postPostError, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
             self.toastButton.removeTarget(self, action: #selector(self.postErrorTap), for: .touchUpInside)
         }))
-        alert.addAction(UIAlertAction(title: "View Drafts", style: .default , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("toast.viewDrafts", comment: ""), style: .default , handler:{ (UIAlertAction) in
             let vc = ScheduledPostsViewController()
             vc.drafts = GlobalStruct.drafts
             vc.currentUser = AccountsManager.shared.currentUser()

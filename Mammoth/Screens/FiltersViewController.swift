@@ -269,7 +269,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
                     }
                 }
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                 
             }))
             if let presenter = alert.popoverPresentationController {
@@ -306,7 +306,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
                     }
                 }
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                 
             }))
             if let presenter = alert.popoverPresentationController {

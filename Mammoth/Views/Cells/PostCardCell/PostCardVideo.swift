@@ -778,7 +778,7 @@ final class PostCardVideo: UIView {
             
             if player.isMuted && player.currentItem?.tracks.first(where: { $0.assetTrack?.mediaType == .audio}) == nil {
                 let alertController = UIAlertController(title: "This video has no sound", message: nil, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .default)
+                let okAction = UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: .default)
                 alertController.addAction(okAction)
                 getTopMostViewController()?.present(alertController, animated: true, completion: nil)
                 return
@@ -797,11 +797,11 @@ final class PostCardVideo: UIView {
         if let altTextPopup = self.media?.description {
             triggerHapticImpact(style: .light)
             let alert = UIAlertController(title: nil, message: altTextPopup, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Copy", style: .default , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.copy", comment: ""), style: .default , handler:{ (UIAlertAction) in
                 let pasteboard = UIPasteboard.general
                 pasteboard.string = altTextPopup
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
 
             }))
             if let presenter = alert.popoverPresentationController {

@@ -352,7 +352,7 @@ fileprivate class PostCardPollOption: UIStackView {
             alert.addAction(UIAlertAction(title: "Vote", style: .default , handler:{ (UIAlertAction) in
                 callback(option)
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler: nil))
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
             
             if let presenter = alert.popoverPresentationController {
                 presenter.sourceView = getTopMostViewController()?.view

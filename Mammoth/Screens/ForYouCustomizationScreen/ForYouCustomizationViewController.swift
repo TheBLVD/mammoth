@@ -20,7 +20,7 @@ class ForYouCustomizationViewController: UIViewController {
     private lazy var closeButton: UIButton = {
         let closeButton = UIButton()
         closeButton.translatesAutoresizingMaskIntoConstraints = false
-        closeButton.setTitle("Close", for: .normal)
+        closeButton.setTitle(NSLocalizedString("generic.close", comment: ""), for: .normal)
         closeButton.titleLabel?.font = .systemFont(ofSize: 17)
         closeButton.setTitleColor(.custom.highContrast, for: .normal)
         return closeButton
@@ -334,7 +334,7 @@ extension ForYouCustomizationViewController {
         triggerHapticImpact(style: .light)
         guard viewModel.canSendSettingsToServer() else {
             let dialogMessage = UIAlertController(title: "No feeds selected", message: "You must select at least one active feed.", preferredStyle: .alert)
-            dialogMessage.addAction(UIAlertAction(title: "OK", style: .default))
+            dialogMessage.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: .default))
             self.present(dialogMessage, animated: true, completion: nil)
             return
         }
