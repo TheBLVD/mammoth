@@ -74,6 +74,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     
     weak var delegate: NewsFeedViewControllerDelegate?
     private var deferredSnapshotUpdates: [NewsFeedSnapshotUpdateType: () -> Void] = [:]
+    private var deferredSnapshotUpdatesCallbacks: [(() -> Void)] = []
     
     public var type: NewsFeedTypes {
         return self.viewModel.type
@@ -315,6 +316,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     
     @objc private func willSwitchAccount() {
         self.deferredSnapshotUpdates = [:]
+        self.deferredSnapshotUpdatesCallbacks = []
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         self.viewModel.removeAll(type: self.viewModel.type, clearScrollPosition: false)
         
@@ -824,9 +826,18 @@ extension NewsFeedViewController {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         
-        let tasks = Array(self.deferredSnapshotUpdates.values)
-        self.deferredSnapshotUpdates = [:]
-        tasks.forEach({ $0() })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self else { return }
+            
+            guard !self.tableView.isTracking, !self.tableView.isDecelerating else { return }
+            let tasks = Array(self.deferredSnapshotUpdates.values)
+            self.deferredSnapshotUpdates = [:]
+            tasks.forEach({ $0() })
+            
+            let callbacks = self.deferredSnapshotUpdatesCallbacks
+            self.deferredSnapshotUpdatesCallbacks = []
+            callbacks.forEach({ $0() })
+        }
     }
 }
 
@@ -845,15 +856,23 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         guard !self.tableView.isTracking, !self.tableView.isDecelerating, updateDisplay else {
             let deferredJob = {  [weak self] in
                 guard let self else { return }
-                self.didUpdateSnapshot(snapshot, feedType: feedType, updateType: updateType, onCompleted: onCompleted)
+                self.didUpdateSnapshot(snapshot, feedType: feedType, updateType: updateType, onCompleted: nil)
             }
             self.deferredSnapshotUpdates[updateType] = deferredJob
+            
+            if let callback = onCompleted {
+                self.deferredSnapshotUpdatesCallbacks.append(callback)
+            }
             return
         }
         
         let tasks = Array(self.deferredSnapshotUpdates.values)
         self.deferredSnapshotUpdates = [:]
         tasks.forEach({ $0() })
+        
+        let callbacks = self.deferredSnapshotUpdatesCallbacks
+        self.deferredSnapshotUpdatesCallbacks = []
+        callbacks.forEach({ $0() })
         
         switch updateType {
         case .insert, .update, .remove, .replaceAll:
