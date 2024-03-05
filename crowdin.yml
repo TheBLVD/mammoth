@@ -7,26 +7,38 @@
 files: [
   {
     "source": "Mammoth/Localizable.xcstrings",
-    "translation": ".i18n/%locale%/Mammoth/%original_file_name%"
+    "translation": ".i18n/%locale%/Mammoth/%original_file_name%",
+    "skip_untranslated_strings": true,
+    "export_only_approved": true
   },
   {
     "source": "Mammoth/Screens/Registration/mul.lproj/SignUpView.xcstrings",
-    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%"
+    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%",
+    "skip_untranslated_strings": true,
+    "export_only_approved": true
   },
   {
     "source": "Mammoth/Screens/Registration/mul.lproj/SetupProfile.xcstrings",
-    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%"
+    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%",
+    "skip_untranslated_strings": true,
+    "export_only_approved": true
   },
   {
     "source": "Mammoth/Screens/Registration/mul.lproj/SetupInstructionsCell.xcstrings",
-    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%"
+    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%",
+    "skip_untranslated_strings": true,
+    "export_only_approved": true
   },
   {
     "source": "Mammoth/Screens/Registration/mul.lproj/IntroViewController.xcstrings",
-    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%"
+    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%",
+    "skip_untranslated_strings": true,
+    "export_only_approved": true
   },
   {
     "source": "Mammoth/Screens/Registration/mul.lproj/EmailVerificationView.xcstrings",
-    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%"
+    "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%",
+    "skip_untranslated_strings": true,
+    "export_only_approved": true
   }
 ]
