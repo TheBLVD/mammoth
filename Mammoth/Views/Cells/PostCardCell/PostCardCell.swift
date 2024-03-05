@@ -25,9 +25,9 @@ final class PostCardCell: UITableViewCell {
 //            UNCOMMENT TO SUPPORT DYNAMIC MEDIA SIZE MODE
 //            case .auto: return "Dynamic"
                 
-            case .large: return "Large"
-            case .small: return "Small"
-            case .hidden: return "Hidden"
+            case .large: return NSLocalizedString("settings.appearance.mediaSize.large", comment: "")
+            case .small: return NSLocalizedString("settings.appearance.mediaSize.small", comment: "")
+            case .hidden: return NSLocalizedString("settings.appearance.mediaSize.hidden", comment: "")
             }
         }
     }
