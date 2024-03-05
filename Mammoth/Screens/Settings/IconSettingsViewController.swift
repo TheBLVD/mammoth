@@ -291,7 +291,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
         if indexPath.section == 1 && indexPath.item == 0 && !isGoldMember {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpgradeItem.reuseIdentifier, for: indexPath) as? UpgradeItem {
                 cell.delegate = self
-                cell.configure(expanded: self.upgradeCellIsExpanded, title: "Mammoth Gold", featureName: "Unlock Icons")
+                cell.configure(expanded: self.upgradeCellIsExpanded, title: "Mammoth Gold", featureName: NSLocalizedString("settings.gold.unlock", comment: ""))
                 cell.parentWidth = collectionView.bounds.size.width
                 return cell
             }

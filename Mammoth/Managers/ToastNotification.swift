@@ -209,11 +209,11 @@ class ToastNotificationManager {
     }
 
     private func failedList(notification: Notification) {
-        self.postNotification(title: "Failed to Add", sound: "soundError", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.addFail", comment: ""), sound: "soundError", notificationType: .destructive)
     }
 
     private func failedFollow(notification: Notification) {
-        self.postNotification(title: "Failed to Follow", sound: "soundError", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.followFail", comment: ""), sound: "soundError", notificationType: .destructive)
     }
 
     private func postFollowed(notification: Notification) {
