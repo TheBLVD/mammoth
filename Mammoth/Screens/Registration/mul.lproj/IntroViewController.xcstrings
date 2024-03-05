@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+            "state": "translated",
+            "value": "Crea un account moth.social"
           }
         },
         "ja": {
@@ -144,8 +144,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+            "state": "translated",
+            "value": "Создайте аккаунт moth.social"
           }
         },
         "sr": {
@@ -281,8 +281,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Bottone"
           }
         },
         "ja": {
@@ -329,8 +329,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Кнопка"
           }
         },
         "sr": {
@@ -466,8 +466,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+            "state": "translated",
+            "value": "Accedi con Mastodon / Moth"
           }
         },
         "ja": {
@@ -514,8 +514,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+            "state": "translated",
+            "value": "Войти с Mastodon / Moth"
           }
         },
         "sr": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Bottone"
           }
         },
         "ja": {
@@ -699,8 +699,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Кнопка"
           }
         },
         "sr": {
@@ -836,8 +836,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
+            "state": "translated",
+            "value": "Chiudi"
           }
         },
         "ja": {
@@ -884,8 +884,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
+            "state": "translated",
+            "value": "Закрыть"
           }
         },
         "sr": {
@@ -1021,8 +1021,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Bottone"
           }
         },
         "ja": {
@@ -1069,8 +1069,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Кнопка"
           }
         },
         "sr": {
@@ -1206,8 +1206,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+            "state": "translated",
+            "value": "Puoi accedere a ulteriori\naccount nelle impostazioni."
           }
         },
         "ja": {
@@ -1254,8 +1254,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+            "state": "translated",
+            "value": "Вы можете войти в дополнительные\nаккаунты в настройках."
           }
         },
         "sr": {
