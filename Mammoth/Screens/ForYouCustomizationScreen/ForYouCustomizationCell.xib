@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,7 +20,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DBe-39-0hi">
                         <rect key="frame" x="17" y="16" width="356" height="88"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xyF-xm-QQT">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xyF-xm-QQT">
                                 <rect key="frame" x="16" y="13.000000000000004" width="31.666666666666671" height="48.333333333333343"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <color key="textColor" name="High Contrast"/>
@@ -42,6 +42,7 @@
                         </subviews>
                         <color key="backgroundColor" name="OVRLY Soft Contrast"/>
                         <constraints>
+                            <constraint firstItem="TeC-xW-esf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xyF-xm-QQT" secondAttribute="trailing" constant="10" id="3zJ-h5-1Sj"/>
                             <constraint firstItem="xyF-xm-QQT" firstAttribute="leading" secondItem="DBe-39-0hi" secondAttribute="leading" constant="16" id="AyE-Lh-Lhb"/>
                             <constraint firstAttribute="trailing" secondItem="TeC-xW-esf" secondAttribute="trailing" constant="13" id="E3Q-KJ-xJK"/>
                             <constraint firstItem="xyF-xm-QQT" firstAttribute="top" secondItem="DBe-39-0hi" secondAttribute="top" constant="13" id="J1D-mr-hDS"/>
@@ -74,7 +75,7 @@
             <color red="0.87450980392156863" green="0.6588235294117647" blue="0.33725490196078434" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="High Contrast">
-            <color red="0.27058823529411763" green="0.27058823529411763" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.2196078431372549" green="0.2196078431372549" blue="0.2196078431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="OVRLY Soft Contrast">
             <color red="0.92156862745098034" green="0.92156862745098034" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

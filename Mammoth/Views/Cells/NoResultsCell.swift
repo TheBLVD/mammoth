@@ -15,7 +15,7 @@ class NoResultsCell: UITableViewCell {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "No results"
+        label.text = NSLocalizedString("generic.noResults", comment: "")
         label.textColor = .custom.feintContrast
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false

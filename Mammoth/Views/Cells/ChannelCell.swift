@@ -74,7 +74,7 @@ class ChannelCell: UITableViewCell {
     
     private var addButton = {
         let button = UIButton(type: .custom)
-        button.setTitle("Subscribe", for: .normal)
+        button.setTitle(NSLocalizedString("generic.subscribe", comment: "Subscribe button label"), for: .normal)
         button.setTitleColor(.custom.highContrast, for: .normal)
         button.backgroundColor = .custom.followButtonBG
         button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
@@ -197,11 +197,11 @@ extension ChannelCell {
         self.channelPic.configure(channel: channel)
                 
         if isSubscribed {
-            addButton.setTitle("Unsubscribe", for: .normal)
+            addButton.setTitle(NSLocalizedString("generic.unsubscribe", comment: "Unsubscribe button label"), for: .normal)
             addButton.removeTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
             addButton.addTarget(self, action: #selector(self.removeTapped), for: .touchUpInside)
         } else {
-            addButton.setTitle("Subscribe", for: .normal)
+            addButton.setTitle(NSLocalizedString("generic.subscribe", comment: "Subscribe button label"), for: .normal)
             addButton.removeTarget(self, action: #selector(self.removeTapped), for: .touchUpInside)
             addButton.addTarget(self, action: #selector(self.addTapped), for: .touchUpInside)
         }

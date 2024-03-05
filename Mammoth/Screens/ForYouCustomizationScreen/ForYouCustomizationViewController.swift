@@ -29,7 +29,7 @@ class ForYouCustomizationViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.text = "For You"
+        titleLabel.text = NSLocalizedString("title.forYou", comment: "")
         titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         titleLabel.textColor = .custom.highContrast
         return titleLabel

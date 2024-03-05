@@ -52,7 +52,7 @@ final class InstanceCell: UITableViewCell {
         
         private var addButton: UIButton = {
             let button = UIButton()
-            button.setTitle("Subscribe", for: .normal)
+            button.setTitle(NSLocalizedString("generic.subscribe", comment: "Subscribe button label"), for: .normal)
             button.setTitleColor(.custom.active, for: .normal)
             button.backgroundColor = .custom.followButtonBG
             button.contentEdgeInsets = UIEdgeInsets(top: 4.5, left: 11, bottom: 3.5, right: 11)
@@ -248,13 +248,13 @@ final class InstanceCell: UITableViewCell {
         
         func configureAddButton(isPinned: Bool) {
             if !isPinned {
-                addButton.setTitle("Subscribe", for: .normal)
+                addButton.setTitle(NSLocalizedString("generic.subscribe", comment: "Subscribe button label"), for: .normal)
                 addButton.removeTarget(self, action: #selector(self.unpinTapped), for: .touchUpInside)
                 addButton.addTarget(self, action: #selector(self.pinTapped), for: .touchUpInside)
                 addButton.showsMenuAsPrimaryAction = true
                 
             } else {
-                addButton.setTitle("Unsubscribe", for: .normal)
+                addButton.setTitle(NSLocalizedString("generic.unsubscribe", comment: "Unsubscribe button label"), for: .normal)
                 addButton.removeTarget(self, action: #selector(self.pinTapped), for: .touchUpInside)
                 addButton.addTarget(self, action: #selector(self.unpinTapped), for: .touchUpInside)
                 addButton.showsMenuAsPrimaryAction = true

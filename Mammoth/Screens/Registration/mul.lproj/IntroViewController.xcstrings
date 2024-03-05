@@ -1,1301 +1,1175 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "B5m-ag-pqO.configuration.title": {
-      "comment": "Class = \"UIButton\"; configuration.title = \"Create moth.social account\"; ObjectID = \"B5m-ag-pqO\";",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Create moth.social account"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "B5m-ag-pqO.configuration.title" : {
+      "comment" : "Class = \"UIButton\"; configuration.title = \"Create moth.social account\"; ObjectID = \"B5m-ag-pqO\";",
+      "localizations" : {
+        "af" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "af": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "ca" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "cs" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Erstelle ein moth.social Konto"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "el" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create moth.social account"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Maak moth.social account"
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Erstelle ein moth.social Konto"
+        "he" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "hu" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea un account moth.social"
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Crea un account moth.social"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maak moth.social account"
           }
         },
-        "no": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "pl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "pt" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crie uma conta moth.social"
           }
         },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Crie uma conta moth.social"
+        "ro" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Создайте аккаунт moth.social"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Создайте аккаунт moth.social"
+        "sr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "sr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skapa moth.social konto"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Skapa moth.social konto"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "vi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         },
-        "vi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
-          }
-        }
-      }
-    },
-    "B5m-ag-pqO.normalTitle": {
-      "comment": "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"B5m-ag-pqO\";",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Button"
-          }
-        },
-        "af": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "ca": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "cs": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Knop"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Button"
-          }
-        },
-        "el": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "he": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "hu": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bottone"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "no": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Botão"
-          }
-        },
-        "ro": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Кнопка"
-          }
-        },
-        "sr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Knapp"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Create moth.social account"
           }
         }
       }
     },
-    "chB-SK-Zhc.configuration.title": {
-      "comment": "Class = \"UIButton\"; configuration.title = \"Login with Mastodon / Moth\"; ObjectID = \"chB-SK-Zhc\";",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Login with Mastodon / Moth"
+    "B5m-ag-pqO.normalTitle" : {
+      "comment" : "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"B5m-ag-pqO\";",
+      "localizations" : {
+        "af" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "af": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "ca" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "cs" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "el" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create moth.social account"
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inloggen met Mastodon / Moth"
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "he" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "hu" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mit Mastodon / Moth einloggen"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "pl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Accedi con Mastodon / Moth"
+        "pt" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "ro" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "sr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "no": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "vi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Entrar com Mastodon / Moth"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Войти с Mastodon / Moth"
-          }
-        },
-        "sr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Logga in med Mastodon / Moth"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         }
       }
     },
-    "chB-SK-Zhc.normalTitle": {
-      "comment": "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"chB-SK-Zhc\";",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Button"
+    "chB-SK-Zhc.configuration.title" : {
+      "comment" : "Class = \"UIButton\"; configuration.title = \"Login with Mastodon / Moth\"; ObjectID = \"chB-SK-Zhc\";",
+      "localizations" : {
+        "af" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "af": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "ca" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "cs" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mit Mastodon / Moth einloggen"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "el" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Knop"
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Button"
+        "he" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "hu" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accedi con Mastodon / Moth"
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bottone"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inloggen met Mastodon / Moth"
           }
         },
-        "no": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "pl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "pt" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entrar com Mastodon / Moth"
           }
         },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Botão"
+        "ro" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Войти с Mastodon / Moth"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Кнопка"
+        "sr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "sr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Logga in med Mastodon / Moth"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Knapp"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "vi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "vi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        }
-      }
-    },
-    "NQ2-VB-8CC.configuration.title": {
-      "comment": "Class = \"UIButton\"; configuration.title = \"Close\"; ObjectID = \"NQ2-VB-8CC\";",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Close"
-          }
-        },
-        "af": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "ca": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "cs": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "da": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sluit"
-          }
-        },
-        "fi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Schließen"
-          }
-        },
-        "el": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "he": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "hu": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Chiudi"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "no": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "pt": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fechar"
-          }
-        },
-        "ro": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Закрыть"
-          }
-        },
-        "sr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stäng"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Login with Mastodon / Moth"
           }
         }
       }
     },
-    "NQ2-VB-8CC.normalTitle": {
-      "comment": "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"NQ2-VB-8CC\";",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Button"
+    "chB-SK-Zhc.normalTitle" : {
+      "comment" : "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"chB-SK-Zhc\";",
+      "localizations" : {
+        "af" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "af": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "ca" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "cs" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "el" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Login with Mastodon / Moth"
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Knop"
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "he" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "hu" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Button"
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "pl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Bottone"
+        "pt" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "ro" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "sr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "no": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "vi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Botão"
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Кнопка"
-          }
-        },
-        "sr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Knapp"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "uk": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
-          }
-        },
-        "vi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
           }
         }
       }
     },
-    "T46-Id-HW3.text": {
-      "comment": "Class = \"UILabel\"; text = \"You can sign into additional\\naccounts in settings.\"; ObjectID = \"T46-Id-HW3\";",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "You can sign into additional\naccounts in settings."
+    "NQ2-VB-8CC.configuration.title" : {
+      "comment" : "Class = \"UIButton\"; configuration.title = \"Close\"; ObjectID = \"NQ2-VB-8CC\";",
+      "localizations" : {
+        "af" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "af": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "ar": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "ca" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "cs" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Schließen"
           }
         },
-        "cs": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "el" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "da": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
           }
         },
-        "nl": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Je kan inloggen in andere\naccounts via de instellingen."
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "fi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "fr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "de": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Du kannst dich in den Einstellungen bei weiteren\nKonten anmelden."
+        "he" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "el": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "hu" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "he": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi"
           }
         },
-        "hu": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "it": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Puoi accedere a ulteriori\naccount nelle impostazioni."
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "ja": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "ko": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sluit"
           }
         },
-        "no": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "pl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "pl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "pt" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "pt": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fechar"
           }
         },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Você pode entrar com outras\ncontas nas configurações."
+        "ro" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "ro": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Закрыть"
           }
         },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Вы можете войти в дополнительные\nаккаунты в настройках."
+        "sr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "sr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stäng"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "sv": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Du kan logga in på ytterligare\nkonton i inställningarna."
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "tr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "vi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "uk": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
           }
         },
-        "vi": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "You can sign into additional\naccounts in settings."
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "NQ2-VB-8CC.normalTitle" : {
+      "comment" : "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"NQ2-VB-8CC\";",
+      "localizations" : {
+        "af" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "sr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Button"
+          }
+        }
+      }
+    },
+    "T46-Id-HW3.text" : {
+      "comment" : "Class = \"UILabel\"; text = \"You can sign into additional\\naccounts in settings.\"; ObjectID = \"T46-Id-HW3\";",
+      "localizations" : {
+        "af" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "ar" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "ca" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "cs" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "da" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du kannst dich in den Einstellungen bei weiteren\nKonten anmelden."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "fi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "he" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "hu" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puoi accedere a ulteriori\naccount nelle impostazioni."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "nb" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Je kan inloggen in andere\naccounts via de instellingen."
+          }
+        },
+        "pl" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "pt" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você pode entrar com outras\ncontas nas configurações."
+          }
+        },
+        "ro" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы можете войти в дополнительные\nаккаунты в настройках."
+          }
+        },
+        "sr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "sv" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Du kan logga in på ytterligare\nkonton i inställningarna."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "uk" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "vi" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "You can sign into additional\naccounts in settings."
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }
