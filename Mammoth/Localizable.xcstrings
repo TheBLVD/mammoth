@@ -31135,6 +31135,50 @@
         }
       }
     },
+    "poll.already.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Already Voted"
+          }
+        }
+      }
+    },
+    "poll.already.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can't vote on this poll as you have already voted on it."
+          }
+        }
+      }
+    },
+    "poll.ended.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can't vote on this poll as it has already ended."
+          }
+        }
+      }
+    },
+    "poll.ended.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poll Ended"
+          }
+        }
+      }
+    },
     "post.bookmark" : {
       "comment" : "Button to add a post to bookmarks.",
       "localizations" : {
