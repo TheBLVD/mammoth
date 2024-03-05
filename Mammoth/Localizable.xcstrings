@@ -1535,7 +1535,7 @@
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "vind je %@ leuk"
+            "value": "vindt je %@ leuk"
           }
         },
         "fi": {
@@ -1720,7 +1720,7 @@
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "vind je quote post leuk"
+            "value": "vindt je quote post leuk"
           }
         },
         "fi": {
@@ -12450,7 +12450,7 @@
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Pas je \"For You\" feed aan"
+            "value": "Pas je \"Voor Jou\" feed aan"
           }
         },
         "fi": {
@@ -26238,7 +26238,7 @@
       }
     },
     "post.bookmark": {
-      "comment": null,
+      "comment": "Button to add a post to bookmarks.",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -26423,7 +26423,7 @@
       }
     },
     "post.bookmark.undo": {
-      "comment": null,
+      "comment": "Button to remove a post from bookmarks.",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -28881,7 +28881,7 @@
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Reactie"
+            "value": "Reageren"
           }
         },
         "fi": {
@@ -29388,181 +29388,181 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "af": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "ar": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "ca": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "cs": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "da": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "nl": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Rapporteer deze post?"
+            "state": "needs_review",
+            "value": "Report post"
           }
         },
         "fi": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "de": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "el": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "he": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "hu": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "it": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "no": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "pl": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "pt": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "ro": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "sr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "es": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "sv": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "tr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "uk": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         },
         "vi": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Report this post?"
+            "value": "Report post"
           }
         }
       }
@@ -55706,7 +55706,7 @@
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Je volgers"
+            "value": "Volgers"
           }
         },
         "fi": {
