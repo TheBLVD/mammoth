@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Confirm your email"
+            "state": "translated",
+            "value": "Conferma la tua email"
           }
         },
         "ja": {
@@ -144,8 +144,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Confirm your email"
+            "state": "translated",
+            "value": "Подтвердите свою эл. почту"
           }
         },
         "sr": {
@@ -281,8 +281,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Bottone"
           }
         },
         "ja": {
@@ -329,8 +329,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Button"
+            "state": "translated",
+            "value": "Кнопка"
           }
         },
         "sr": {
@@ -466,8 +466,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Click the link in the email we sent to\n%@ then return to Mammoth"
+            "state": "translated",
+            "value": "Fai clic sul link nell'email che abbiamo inviato a\n%@ e torna su Mammoth"
           }
         },
         "ja": {
@@ -514,8 +514,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Click the link in the email we sent to\n%@ then return to Mammoth"
+            "state": "translated",
+            "value": "Нажмите на ссылку в эл. почте, которую мы отправили на\n%@ затем вернитесь в Mammoth"
           }
         },
         "sr": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Not seeing it?"
+            "state": "translated",
+            "value": "Non hai ricevuto nulla?"
           }
         },
         "ja": {
@@ -699,8 +699,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Not seeing it?"
+            "state": "translated",
+            "value": "Не видите?"
           }
         },
         "sr": {

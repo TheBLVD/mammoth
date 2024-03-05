@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+            "state": "translated",
+            "value": "Qualche suggerimento per aiutare l'utente a trovare account interessanti e incontrare persone speciali."
           }
         },
         "ja": {
@@ -144,8 +144,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+            "state": "translated",
+            "value": "Несколько инструкций, которые помогут пользователю найти крутые аккаунты и познакомиться с крутыми людьми."
           }
         },
         "sr": {

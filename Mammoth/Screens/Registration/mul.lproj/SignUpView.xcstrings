@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Sign up"
+            "state": "translated",
+            "value": "Registrati"
           }
         },
         "ja": {
@@ -144,8 +144,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Sign up"
+            "state": "translated",
+            "value": "Зарегистрироваться"
           }
         },
         "sr": {
@@ -281,8 +281,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "We will send a confirmation email to this address"
+            "state": "translated",
+            "value": "Invieremo un'email di conferma a questo indirizzo"
           }
         },
         "ja": {
@@ -329,8 +329,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "We will send a confirmation email to this address"
+            "state": "translated",
+            "value": "Мы отправим подтверждение по эл. почте на этот адрес"
           }
         },
         "sr": {
@@ -466,8 +466,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Pick something fun or use your real name"
+            "state": "translated",
+            "value": "Inventati qualcosa di simpatico o usa il tuo vero nome"
           }
         },
         "ja": {
@@ -514,8 +514,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Pick something fun or use your real name"
+            "state": "translated",
+            "value": "Выберите что-нибудь забавное или используйте свое настоящее имя."
           }
         },
         "sr": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Must include at least 8 characters"
+            "state": "translated",
+            "value": "Deve includere almeno 8 caratteri"
           }
         },
         "ja": {
@@ -699,8 +699,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Must include at least 8 characters"
+            "state": "translated",
+            "value": "Должно содержать не менее 8 символов"
           }
         },
         "sr": {
@@ -836,8 +836,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create account"
+            "state": "translated",
+            "value": "Crea account"
           }
         },
         "ja": {
@@ -884,8 +884,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create account"
+            "state": "translated",
+            "value": "Создать аккаунт"
           }
         },
         "sr": {
@@ -1021,8 +1021,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "username"
+            "state": "translated",
+            "value": "nome utente"
           }
         },
         "ja": {
@@ -1069,8 +1069,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "username"
+            "state": "translated",
+            "value": "имя пользователя"
           }
         },
         "sr": {
@@ -1206,8 +1206,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "email address"
+            "state": "translated",
+            "value": "indirizzo email"
           }
         },
         "ja": {
@@ -1254,8 +1254,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "email address"
+            "state": "translated",
+            "value": "эл. почта"
           }
         },
         "sr": {
@@ -1391,7 +1391,7 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
+            "state": "translated",
             "value": "password"
           }
         },
@@ -1439,8 +1439,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "password"
+            "state": "translated",
+            "value": "пароль"
           }
         },
         "sr": {
