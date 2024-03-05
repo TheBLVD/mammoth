@@ -72,12 +72,12 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
         super.viewDidLoad()
         self.view.backgroundColor = .custom.background
         if self.fromPlus {
-            self.title = "Add New Account"
+            self.title = NSLocalizedString("newAccount.title", comment: "Sign up screen to choose your instance")
         } else {
             if self.isFromSignIn {
-                self.title = "Sign In"
+                self.title = NSLocalizedString("signIn.title", comment: "Sign in screen to choose your instance")
             } else {
-                self.title = "Communities"
+                self.title = NSLocalizedString("communities.title", comment: "Screen to choose an instance")
                 configureNavigationBarLayout(navigationController: self.navigationController, userInterfaceStyle: self.traitCollection.userInterfaceStyle)
             }
         }
@@ -219,7 +219,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func signingInAlertController() -> UIAlertController {
-        let alert = UIAlertController(title: nil, message: "Signing in…", preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: NSLocalizedString("signin.toast", comment: ""), preferredStyle: .alert)
         let loadingIndicator = UIActivityIndicatorView(frame: .zero)
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         loadingIndicator.hidesWhenStopped = true
@@ -257,8 +257,8 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
                 self.dismiss(animated: true) {
                     if application.value == nil {
                         DispatchQueue.main.async {
-                            let alert = UIAlertController(title: "Not a valid community (may be closed, or inactive)", message: "Please enter a community name like mastodon.social, or use one from the list to get started. You can sign in if you already have an account registered with the instance, or you can choose to sign up with a new account.", preferredStyle: .alert)
-                            let op1 = UIAlertAction(title: "Find out more", style: .default , handler:{ (UIAlertAction) in
+                            let alert = UIAlertController(title: NSLocalizedString("community.error.title", comment: "when choosing a community, an error occurse"), message: NSLocalizedString("community.error.description", comment: "when choosing a community, an error occurse"), preferredStyle: .alert)
+                            let op1 = UIAlertAction(title: NSLocalizedString("generic.findOutMore", comment: ""), style: .default , handler:{ (UIAlertAction) in
                                 let queryURL = URL(string: "https://joinmastodon.org")!
                                 UIApplication.shared.open(queryURL, options: [.universalLinksOnly: true]) { (success) in
                                     if !success {
@@ -333,7 +333,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
         let downImage1 = UIImage(systemName: "chevron.down", withConfiguration: symbolConfig1) ?? UIImage()
         attachment1.image = downImage1.withTintColor(.custom.softContrast, renderingMode: .alwaysOriginal)
         let attStringNewLine000 = NSMutableAttributedString()
-        let attStringNewLine00 = NSMutableAttributedString(string: "Popular Communities ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .semibold), NSAttributedString.Key.foregroundColor : UIColor.custom.highContrast])
+        let attStringNewLine00 = NSMutableAttributedString(string: NSLocalizedString("communities.popular.title", comment: "") + " ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .semibold), NSAttributedString.Key.foregroundColor : UIColor.custom.highContrast])
         let attStringNewLine002 = NSMutableAttributedString(string: "  ", attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 16, weight: .semibold), NSAttributedString.Key.foregroundColor : UIColor.custom.highContrast])
         let attString00 = NSAttributedString(attachment: attachment1)
         attStringNewLine000.append(attStringNewLine00)

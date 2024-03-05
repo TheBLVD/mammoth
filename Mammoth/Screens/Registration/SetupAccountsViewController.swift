@@ -100,7 +100,7 @@ class SetupAccountsViewController: UIViewController {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        let doneButtonTitle = SetupMammothViewModel.shared.shouldShow() ? "Next" : "Done"
+        let doneButtonTitle = SetupMammothViewModel.shared.shouldShow() ? NSLocalizedString("generic.next", comment: "") : NSLocalizedString("generic.done", comment: "")
         doneButton.setTitle(doneButtonTitle, for: .normal)
     }
 
@@ -193,7 +193,7 @@ extension SetupAccountsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = self.tableView.dequeueReusableCell(withIdentifier: SetupInstructionsCell.reuseIdentifier) as! SetupInstructionsCell
-            cell.configure(title: "Recommended\nfollows for you", instructions: "The more people you follow the better our recommendations will get. You can see more recommendations later in the Discover tab.")
+            cell.configure(title: NSLocalizedString("onboarding.accounts.title", comment: ""), instructions: NSLocalizedString("onboarding.accounts.description", comment: ""))
             return cell
         } else {
             if let userCard = viewModel.getInfo(forIndexPath: indexPath) {

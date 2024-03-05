@@ -35,6 +35,7 @@ class ForYouCustomizationCell: UITableViewCell {
         self.betaItem = betaItem
         titleLabel.text = forYouRowInfo.title
         descriptionLabel.text = forYouRowInfo.description
+        titleLabel.numberOfLines = 2
         enabledSwitch.isOn = forYouRowInfo.isOn
         var cornerMask: CACornerMask
         if hasChildCells {
