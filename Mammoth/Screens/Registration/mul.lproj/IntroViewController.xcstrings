@@ -257,8 +257,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+            "state": "translated",
+            "value": "Erstelle ein moth.social Konto"
           }
         },
         "el": {
@@ -281,8 +281,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+            "state": "translated",
+            "value": "Crea account moth.social"
           }
         },
         "ja": {
@@ -317,8 +317,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+            "state": "translated",
+            "value": "Criar conta moth.social"
           }
         },
         "ro": {
@@ -329,8 +329,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Create moth.social account"
+            "state": "translated",
+            "value": "Создать аккаунт moth.social"
           }
         },
         "sr": {
@@ -627,8 +627,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+            "state": "translated",
+            "value": "Mit Mastodon / Moth einloggen"
           }
         },
         "el": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+            "state": "translated",
+            "value": "Accedi con Mastodon / Moth"
           }
         },
         "ja": {
@@ -687,8 +687,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+            "state": "translated",
+            "value": "Entrar com Mastodon / Moth"
           }
         },
         "ro": {
@@ -699,8 +699,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Login with Mastodon / Moth"
+            "state": "translated",
+            "value": "Войти с Mastodon / Moth"
           }
         },
         "sr": {
@@ -997,8 +997,8 @@
         },
         "de": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
+            "state": "translated",
+            "value": "Schließen"
           }
         },
         "el": {
@@ -1021,8 +1021,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
+            "state": "translated",
+            "value": "Chiudi"
           }
         },
         "ja": {
@@ -1057,8 +1057,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
+            "state": "translated",
+            "value": "Fechar"
           }
         },
         "ro": {
@@ -1069,8 +1069,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": "Close"
+            "state": "translated",
+            "value": "Закрыть"
           }
         },
         "sr": {
