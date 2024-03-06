@@ -424,7 +424,7 @@ class NewsFeedViewModel {
                             let newPost = PostCardModel(status: status)
                             let newItem = NewsFeedListItem.postCard(newPost)
                             
-                            self.addUnreadIds(ids: [newItem.uniqueId()], forFeed: .mentionsIn)
+                            self.insertUnreadIds(ids: [newItem.uniqueId()], forFeed: .mentionsIn)
                             self.setUnreadEnabled(enabled: true, forFeed: .mentionsIn)
                             
                             if !self.isItemInSnapshot(newItem) {
@@ -436,7 +436,7 @@ class NewsFeedViewModel {
                         if case .activity(let activityType) = type, notification.type == activityType {
                             let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
                             
-                            self.addUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
+                            self.insertUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
                             self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
                             
                             if !self.isItemInSnapshot(newItem) {
@@ -445,7 +445,7 @@ class NewsFeedViewModel {
                         } else if case .activity(let activityType) = type, activityType == nil { // activityType == nil means All activity
                             let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
                             
-                            self.addUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
+                            self.insertUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
                             self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
                             
                             if !self.isItemInSnapshot(newItem) {

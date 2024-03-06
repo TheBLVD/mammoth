@@ -7,12 +7,13 @@
 //
 
 import Foundation
+import OrderedCollections
 
 internal struct NewsFeedUnreadState {
     var count: Int {
         return unreadIDs.count
     }
-    var unreadIDs = Set<String>()
+    var unreadIDs = OrderedSet<String>()
     var enabled: Bool = true
     var unreadPics: [URL] = []
     var showJumpToNow: Bool = false
@@ -205,45 +206,127 @@ internal struct NewsFeedUnreadStates {
         }
     }
     
-    mutating func removeUnreadId(id: String, forFeed type: NewsFeedTypes) {
+    mutating func insertUnreadIds(ids: [String], forFeed type: NewsFeedTypes) {
         switch type {
         case .forYou:
-            forYou.unreadIDs.remove(id)
+            forYou.unreadIDs.elements.insert(contentsOf: ids, at: 0)
         case .following:
-            following.unreadIDs.remove(id)
+            following.unreadIDs.elements.insert(contentsOf: ids, at: 0)
         case .federated:
-            federated.unreadIDs.remove(id)
+            federated.unreadIDs.elements.insert(contentsOf: ids, at: 0)
         case .community(let name):
             var model = community[name] ?? NewsFeedUnreadState()
-            model.unreadIDs.remove(id)
+            model.unreadIDs.elements.insert(contentsOf: ids, at: 0)
             community[name] = model
         case .trending(let name):
             var model = trending[name] ?? NewsFeedUnreadState()
-            model.unreadIDs.remove(id)
+            model.unreadIDs.elements.insert(contentsOf: ids, at: 0)
             trending[name] = model
         case .hashtag(let data):
             var model = hashtag[data.name] ?? NewsFeedUnreadState()
-            model.unreadIDs.remove(id)
+            model.unreadIDs.elements.insert(contentsOf: ids, at: 0)
             hashtag[data.name] = model
         case .list(let data):
             var model = list[data.id] ?? NewsFeedUnreadState()
-            model.unreadIDs.remove(id)
+            model.unreadIDs.elements.insert(contentsOf: ids, at: 0)
             list[data.id] = model
         case .likes:
-            likes.unreadIDs.remove(id)
+            likes.unreadIDs.elements.insert(contentsOf: ids, at: 0)
         case .bookmarks:
-            bookmarks.unreadIDs.remove(id)
+            bookmarks.unreadIDs.elements.insert(contentsOf: ids, at: 0)
         case .mentionsIn:
-            mentionsIn.unreadIDs.remove(id)
+            mentionsIn.unreadIDs.elements.insert(contentsOf: ids, at: 0)
         case .mentionsOut:
-            mentionsOut.unreadIDs.remove(id)
+            mentionsOut.unreadIDs.elements.insert(contentsOf: ids, at: 0)
         case .activity(let type):
             var model = activity[type?.rawValue ?? "all"] ?? NewsFeedUnreadState()
-            model.unreadIDs.remove(id)
+            model.unreadIDs.elements.insert(contentsOf: ids, at: 0)
             activity[type?.rawValue ?? "all"] = model
         case .channel(let data):
             var model = channel[data.id] ?? NewsFeedUnreadState()
-            model.unreadIDs.remove(id)
+            model.unreadIDs.elements.insert(contentsOf: ids, at: 0)
+            channel[data.id] = model
+        }
+    }
+    
+    mutating func removeUnreadId(id: String, forFeed type: NewsFeedTypes) {
+        switch type {
+        case .forYou:
+            let startIndex = forYou.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                forYou.unreadIDs.removeSubrange(startIndex...)
+            }
+        case .following:
+            let startIndex = following.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                following.unreadIDs.removeSubrange(startIndex...)
+            }
+        case .federated:
+            let startIndex = federated.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                federated.unreadIDs.removeSubrange(startIndex...)
+            }
+        case .community(let name):
+            var model = community[name] ?? NewsFeedUnreadState()
+            let startIndex = model.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                model.unreadIDs.removeSubrange(startIndex...)
+            }
+            community[name] = model
+        case .trending(let name):
+            var model = trending[name] ?? NewsFeedUnreadState()
+            let startIndex = model.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                model.unreadIDs.removeSubrange(startIndex...)
+            }
+            trending[name] = model
+        case .hashtag(let data):
+            var model = hashtag[data.name] ?? NewsFeedUnreadState()
+            let startIndex = model.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                model.unreadIDs.removeSubrange(startIndex...)
+            }
+            hashtag[data.name] = model
+        case .list(let data):
+            var model = list[data.id] ?? NewsFeedUnreadState()
+            let startIndex = model.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                model.unreadIDs.removeSubrange(startIndex...)
+            }
+            list[data.id] = model
+        case .likes:
+            let startIndex = likes.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                likes.unreadIDs.removeSubrange(startIndex...)
+            }
+        case .bookmarks:
+            let startIndex = bookmarks.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                bookmarks.unreadIDs.removeSubrange(startIndex...)
+            }
+        case .mentionsIn:
+            let startIndex = mentionsIn.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                mentionsIn.unreadIDs.removeSubrange(startIndex...)
+            }
+        case .mentionsOut:
+            let startIndex = mentionsOut.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                mentionsOut.unreadIDs.removeSubrange(startIndex...)
+            }
+        case .activity(let type):
+            var model = activity[type?.rawValue ?? "all"] ?? NewsFeedUnreadState()
+            let startIndex = model.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                model.unreadIDs.removeSubrange(startIndex...)
+            }
+            activity[type?.rawValue ?? "all"] = model
+        case .channel(let data):
+            var model = channel[data.id] ?? NewsFeedUnreadState()
+            let startIndex = model.unreadIDs.firstIndex(of: id)
+            if let startIndex {
+                model.unreadIDs.removeSubrange(startIndex...)
+            }
             channel[data.id] = model
         }
     }
@@ -335,6 +418,10 @@ extension NewsFeedViewModel {
     
     func addUnreadIds(ids: [String], forFeed type: NewsFeedTypes) {
         self.unreadCounts.addUnreadIds(ids: ids, forFeed: type)
+    }
+    
+    func insertUnreadIds(ids: [String], forFeed type: NewsFeedTypes) {
+        self.unreadCounts.insertUnreadIds(ids: ids, forFeed: type)
     }
     
     func removeUnreadId(id: String, forFeed type: NewsFeedTypes) {

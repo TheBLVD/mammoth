@@ -80,7 +80,7 @@ private extension JumpToLatest {
         
         self.contentEdgeInsets = .init(top: 0, left: 14, bottom: 0, right: 32)
         
-        self.closeIcon.image = FontAwesome.image(fromChar: "\u{f00d}", color: .label, size: 12, weight: .bold)
+        self.closeIcon.image = FontAwesome.image(fromChar: "\u{f00d}", color: .label, size: 12, weight: .bold).withRenderingMode(.alwaysTemplate)
         
         let closeGesture = UITapGestureRecognizer(target: self, action: #selector(self.onClosePress))
         self.closeIcon.addGestureRecognizer(closeGesture)

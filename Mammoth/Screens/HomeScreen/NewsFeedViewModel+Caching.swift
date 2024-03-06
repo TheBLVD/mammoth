@@ -120,8 +120,8 @@ extension NewsFeedViewModel {
             let scrollPositionCardIndex = items?.firstIndex(where: { $0 == position.model })
 
             if let scrollPositionCardIndex {
-                // Keep the bookmarked card, 8 younger cards, and 10 older cards
-                var cardsSubset = items?[max(scrollPositionCardIndex - 8, 0)...min(scrollPositionCardIndex + 10, (items?.count ?? 1) - 1)]
+                // Keep the bookmarked card, 4 younger cards, and 10 older cards
+                var cardsSubset = items?[max(scrollPositionCardIndex - 2, 0)...min(scrollPositionCardIndex + 10, (items?.count ?? 1) - 1)]
 
                 // If the 'load more' button is inside the subset of cards saved to disk
                 // only keep the chunk of the subset before or after the 'load more' button

@@ -67,6 +67,9 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     private var feedMenuItems : [UIMenu] = []
     private var viewModel: NewsFeedViewModel
     private var didInitializeOnce = false
+    private var isInsertingContent: Bool = false
+    private var isScrollingProgrammatically: Bool = false
+    
     // switchingAccounts is set to true in the period between
     // willSwitchAccount and didSwitchAccount, when currentAccount
     // should not be accessed.
@@ -74,6 +77,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     
     weak var delegate: NewsFeedViewControllerDelegate?
     private var deferredSnapshotUpdates: [NewsFeedSnapshotUpdateType: () -> Void] = [:]
+    private var deferredSnapshotUpdatesCallbacks: [(() -> Void)] = []
     
     public var type: NewsFeedTypes {
         return self.viewModel.type
@@ -315,6 +319,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     
     @objc private func willSwitchAccount() {
         self.deferredSnapshotUpdates = [:]
+        self.deferredSnapshotUpdatesCallbacks = []
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         self.viewModel.removeAll(type: self.viewModel.type, clearScrollPosition: false)
         
@@ -373,35 +378,28 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     @objc func onJumpToNow() {
         self.viewModel.stopPollingListData()
         self.viewModel.cancelAllItemSyncs()
-
+        
+        self.deferredSnapshotUpdates = [:]
+        self.deferredSnapshotUpdatesCallbacks = []
+        
+        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+        self.didUpdateUnreadState(type: self.viewModel.type)
+        
+        self.isScrollingProgrammatically = false
+        
         self.viewModel.clearSnapshot()
         self.showLoader(enabled: true)
         
         DispatchQueue.main.async {
-            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-            self.viewModel.setUnreadEnabled(enabled: false, forFeed: self.viewModel.type)
-            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
-            
-            self.latestPill.isEnabled = false
-            self.unreadIndicator.isEnabled = false
-            self.jumpToNow.isEnabled = false
-            
             Task { [weak self] in
                 guard let self else { return }
                 try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
-            }
-            
-            // Clear LatestPill state after scroll animation
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                guard let self else { return }
-                self.latestPill.configure(unreadCount: 0, picUrls: [])
-                self.unreadIndicator.configure(unreadCount: 0)
             }
         }
     }
     
     @objc func onUnreadTapped() {
-        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
         self.viewModel.setUnreadEnabled(enabled: false, forFeed: self.viewModel.type)
         self.latestPill.isEnabled = false
         self.unreadIndicator.isEnabled = false
@@ -598,7 +596,7 @@ extension NewsFeedViewController {
                 activityModel.cellHeight = cell.frame.size.height
             }
             
-            if self.viewModel.getUnreadEnabled(forFeed: self.viewModel.type) {
+            if self.viewModel.getUnreadEnabled(forFeed: self.viewModel.type) && !self.isInsertingContent {
                 self.viewModel.removeUnreadId(id: item.uniqueId(), forFeed: self.viewModel.type)
                 let count = self.viewModel.getUnreadCount(forFeed: self.viewModel.type)
                 
@@ -733,6 +731,8 @@ extension NewsFeedViewController {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !self.tableView.visibleCells.isEmpty
         
         // scroll past the last item in feed (pull up)
         if (scrollView.contentOffset.y + self.view.safeAreaInsets.top) > max(scrollView.contentSize.height - (scrollView.bounds.height - self.view.safeAreaInsets.top - self.view.safeAreaInsets.bottom), 0) + 130 {
@@ -751,31 +751,18 @@ extension NewsFeedViewController {
         // When scrollview reachs the top
         // We need to include an inset when the background is translucent
         if scrollView.contentOffset.y == 0 - self.view.safeAreaInsets.top {
-            self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+            if !self.isInsertingContent {
+                self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+            }
             self.viewModel.removeOldItems(forType: self.viewModel.type)
             self.delegate?.didScrollToTop()
         }
         
-        // Clean unread indicator when close to top
         if scrollView.contentOffset.y < 0 - self.view.safeAreaInsets.top + 60 {
-            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-            
-            if GlobalStruct.feedReadDirection == .topDown {
-                switch self.viewModel.type {
-                case .mentionsIn, .mentionsOut, .activity:
-                    self.unreadIndicator.configure(unreadCount: 0)
-                    self.unreadIndicator.isEnabled = true
-                default:
-                    self.latestPill.configure(unreadCount: 0, picUrls: self.viewModel.getUnreadPics(forFeed: self.viewModel.type))
-                    self.latestPill.isEnabled = true
-                }
-            } else {
-                self.unreadIndicator.configure(unreadCount: 0)
-                self.unreadIndicator.isEnabled = true
-                
-                if self.viewModel.getShowJumpToNow(forFeed: self.viewModel.type) == false {
-                    self.jumpToNow.isEnabled = false
-                }
+            // Clean unread indicator when close to top
+            if self.viewModel.getUnreadCount(forFeed: self.viewModel.type) == 1 {
+                self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+                self.didUpdateUnreadState(type: self.viewModel.type)
             }
             
             self.delegate?.didScrollToTop()
@@ -787,17 +774,16 @@ extension NewsFeedViewController {
             // For feeds with many new posts a second we don't want to
             // nag the user with the unread pill right after they reached the top.
             if self.viewModel.type.shouldPollForListData && self.viewModel.snapshot.numberOfItems > 0 {
-                if !self.viewModel.isPollingEnabled {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                        guard let self else { return }
-                        self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
-                    }
+                if !self.viewModel.isPollingEnabled && !self.isScrollingProgrammatically {
+                    self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 2.5)
                 }
             }
         }
     }
     
     func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        self.isScrollingProgrammatically = false
+
         self.viewModel.cancelAllItemSyncs()
         
         if GlobalStruct.feedReadDirection == .topDown {
@@ -814,6 +800,12 @@ extension NewsFeedViewController {
             self.unreadIndicator.isEnabled = true
         }
         
+        if self.viewModel.type.shouldPollForListData && self.viewModel.snapshot.numberOfItems > 0 {
+            if !self.viewModel.isPollingEnabled && !self.isScrollingProgrammatically {
+                self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 2.5)
+            }
+        }
+        
         self.delegate?.didScrollToTop()
     }
     
@@ -824,9 +816,18 @@ extension NewsFeedViewController {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         
-        let tasks = Array(self.deferredSnapshotUpdates.values)
-        self.deferredSnapshotUpdates = [:]
-        tasks.forEach({ $0() })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.7) { [weak self] in
+            guard let self else { return }
+            
+            guard !self.tableView.isTracking, !self.tableView.isDecelerating else { return }
+            let tasks = Array(self.deferredSnapshotUpdates.values)
+            self.deferredSnapshotUpdates = [:]
+            tasks.forEach({ $0() })
+            
+            let callbacks = self.deferredSnapshotUpdatesCallbacks
+            self.deferredSnapshotUpdatesCallbacks = []
+            callbacks.forEach({ $0() })
+        }
     }
 }
 
@@ -842,12 +843,16 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         
         let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || self.isInWindowHierarchy()
         
-        guard !self.tableView.isTracking, !self.tableView.isDecelerating, updateDisplay else {
+        guard !self.tableView.isTracking, !self.tableView.isDecelerating, updateDisplay, !(updateType == .update && self.isScrollingProgrammatically) else {
             let deferredJob = {  [weak self] in
                 guard let self else { return }
-                self.didUpdateSnapshot(snapshot, feedType: feedType, updateType: updateType, onCompleted: onCompleted)
+                self.didUpdateSnapshot(snapshot, feedType: feedType, updateType: updateType, onCompleted: nil)
             }
             self.deferredSnapshotUpdates[updateType] = deferredJob
+            
+            if let callback = onCompleted {
+                self.deferredSnapshotUpdatesCallbacks.append(callback)
+            }
             return
         }
         
@@ -855,13 +860,21 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         self.deferredSnapshotUpdates = [:]
         tasks.forEach({ $0() })
         
+        let callbacks = self.deferredSnapshotUpdatesCallbacks
+        self.deferredSnapshotUpdatesCallbacks = []
+        callbacks.forEach({ $0() })
+        
         switch updateType {
         case .insert, .update, .remove, .replaceAll:
 
             log.debug("tableview change: \(updateType) for \(feedType)")
             
+            if updateType == .insert {
+                self.isInsertingContent = true
+            }
+            
             // Cache scroll position pre-update
-            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .bottom)
+            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
             if updateDisplay && self.viewModel.dataSource != nil {
                 CATransaction.begin()
@@ -882,7 +895,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     // Keep both of them to make the feed less jumpy on feed updates.
                     self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                 }
-                
+
                 onCompleted?()
                 
                 DispatchQueue.main.async {
@@ -892,6 +905,10 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     
                     if updateDisplay {
                         CATransaction.commit()
+                        
+                        if updateType == .insert {
+                            self.isInsertingContent = false
+                        }
                     }
                 }
                 
@@ -913,7 +930,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             log.debug("tableview change: \(updateType) for \(feedType)")
                         
             // Cache scroll position pre-update
-            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .bottom)
+            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
             if updateDisplay {
                 CATransaction.begin()
@@ -992,7 +1009,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
 
        case .append:
             // Cache scroll position pre-update
-            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .bottom)
+            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
             if updateDisplay {
                 CATransaction.begin()
@@ -1213,7 +1230,7 @@ private extension NewsFeedViewController {
     enum ScrollPositionReference { case top, bottom }
     
     @discardableResult
-    func cacheScrollPosition(tableView: UITableView, forFeed type: NewsFeedTypes, scrollReference: ScrollPositionReference = .bottom) -> NewsFeedScrollPosition? {
+    func cacheScrollPosition(tableView: UITableView, forFeed type: NewsFeedTypes, scrollReference: ScrollPositionReference = .top) -> NewsFeedScrollPosition? {
         if let navBar = self.navigationController?.navigationBar {
             let whereIsNavBarInTableView = tableView.convert(navBar.bounds, from: navBar)
             let pointWhereNavBarEnds = CGPoint(x: 0, y: whereIsNavBarInTableView.origin.y + whereIsNavBarInTableView.size.height)
@@ -1231,7 +1248,7 @@ private extension NewsFeedViewController {
         return nil
     }
     
-    func getCurrentCellIndexPath(tableView: UITableView, scrollReference: ScrollPositionReference = .bottom) -> IndexPath? {
+    func getCurrentCellIndexPath(tableView: UITableView, scrollReference: ScrollPositionReference = .top) -> IndexPath? {
         switch scrollReference {
         case .top:
             return tableView.indexPathsForVisibleRows?.first

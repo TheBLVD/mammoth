@@ -639,7 +639,7 @@ extension NewsFeedViewModel {
                             var pageToFetchLimit = 10
                             fetchingNewItems = true
                             
-                            let isOldFeed = self.isNewestItemOlderThen(targetDate: Date().adding(minutes: -60*24)) ?? false
+                            let isOldFeed = self.isNewestItemOlderThen(targetDate: Date().adding(minutes: -60*22)) ?? false
                             
                             log.debug("Calling loadListData(previousPage) for feedType: \(type)")
                             let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
@@ -677,6 +677,7 @@ extension NewsFeedViewModel {
                             } else if !isOldFeed {
                                 await MainActor.run { [weak self] in
                                     self?.setShowJumpToNow(enabled: false, forFeed: type)
+                                    self?.delegate?.didUpdateUnreadState(type: type)
                                 }
                             }
 
