@@ -68,6 +68,8 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     private var viewModel: NewsFeedViewModel
     private var didInitializeOnce = false
     private var isInsertingContent: Bool = false
+    private var isScrollingToTop: Bool = false
+    
     // switchingAccounts is set to true in the period between
     // willSwitchAccount and didSwitchAccount, when currentAccount
     // should not be accessed.
@@ -376,35 +378,28 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     @objc func onJumpToNow() {
         self.viewModel.stopPollingListData()
         self.viewModel.cancelAllItemSyncs()
-
+        
+        self.deferredSnapshotUpdates = [:]
+        self.deferredSnapshotUpdatesCallbacks = []
+        
+        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+        self.didUpdateUnreadState(type: self.viewModel.type)
+        
+        self.isScrollingToTop = false
+        
         self.viewModel.clearSnapshot()
         self.showLoader(enabled: true)
         
         DispatchQueue.main.async {
-            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-            self.viewModel.setUnreadEnabled(enabled: false, forFeed: self.viewModel.type)
-            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
-            
-            self.latestPill.isEnabled = false
-            self.unreadIndicator.isEnabled = false
-            self.jumpToNow.isEnabled = false
-            
             Task { [weak self] in
                 guard let self else { return }
                 try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
-            }
-            
-            // Clear LatestPill state after scroll animation
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                guard let self else { return }
-                self.latestPill.configure(unreadCount: 0, picUrls: [])
-                self.unreadIndicator.configure(unreadCount: 0)
             }
         }
     }
     
     @objc func onUnreadTapped() {
-        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
         self.viewModel.setUnreadEnabled(enabled: false, forFeed: self.viewModel.type)
         self.latestPill.isEnabled = false
         self.unreadIndicator.isEnabled = false
@@ -736,6 +731,8 @@ extension NewsFeedViewController {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        self.isScrollingToTop = !self.tableView.isDecelerating && !self.tableView.isTracking && !self.tableView.visibleCells.isEmpty
         
         // scroll past the last item in feed (pull up)
         if (scrollView.contentOffset.y + self.view.safeAreaInsets.top) > max(scrollView.contentSize.height - (scrollView.bounds.height - self.view.safeAreaInsets.top - self.view.safeAreaInsets.bottom), 0) + 130 {
@@ -754,7 +751,9 @@ extension NewsFeedViewController {
         // When scrollview reachs the top
         // We need to include an inset when the background is translucent
         if scrollView.contentOffset.y == 0 - self.view.safeAreaInsets.top {
-            self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+            if !self.isInsertingContent {
+                self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+            }
             self.viewModel.removeOldItems(forType: self.viewModel.type)
             self.delegate?.didScrollToTop()
         }
@@ -770,17 +769,16 @@ extension NewsFeedViewController {
             // For feeds with many new posts a second we don't want to
             // nag the user with the unread pill right after they reached the top.
             if self.viewModel.type.shouldPollForListData && self.viewModel.snapshot.numberOfItems > 0 {
-                if !self.viewModel.isPollingEnabled {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                        guard let self else { return }
-                        self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
-                    }
+                if !self.viewModel.isPollingEnabled && !self.isScrollingToTop {
+                    self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 2.5)
                 }
             }
         }
     }
     
     func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+        self.isScrollingToTop = false
+
         self.viewModel.cancelAllItemSyncs()
         
         if GlobalStruct.feedReadDirection == .topDown {
@@ -795,6 +793,12 @@ extension NewsFeedViewController {
         } else {
             self.unreadIndicator.configure(unreadCount: 0)
             self.unreadIndicator.isEnabled = true
+        }
+        
+        if self.viewModel.type.shouldPollForListData && self.viewModel.snapshot.numberOfItems > 0 {
+            if !self.viewModel.isPollingEnabled && !self.isScrollingToTop {
+                self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 2.5)
+            }
         }
         
         self.delegate?.didScrollToTop()
@@ -834,7 +838,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         
         let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || self.isInWindowHierarchy()
         
-        guard !self.tableView.isTracking, !self.tableView.isDecelerating, updateDisplay else {
+        guard !self.tableView.isTracking, !self.tableView.isDecelerating, updateDisplay, !(updateType == .update && self.isScrollingToTop) else {
             let deferredJob = {  [weak self] in
                 guard let self else { return }
                 self.didUpdateSnapshot(snapshot, feedType: feedType, updateType: updateType, onCompleted: nil)
