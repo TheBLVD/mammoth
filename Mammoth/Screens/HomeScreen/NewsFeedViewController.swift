@@ -758,8 +758,13 @@ extension NewsFeedViewController {
             self.delegate?.didScrollToTop()
         }
         
-        // Clean unread indicator when close to top
         if scrollView.contentOffset.y < 0 - self.view.safeAreaInsets.top + 60 {
+            // Clean unread indicator when close to top
+            if self.viewModel.getUnreadCount(forFeed: self.viewModel.type) == 1 {
+                self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+                self.didUpdateUnreadState(type: self.viewModel.type)
+            }
+            
             self.delegate?.didScrollToTop()
         }
         
