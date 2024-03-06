@@ -67,6 +67,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     private var feedMenuItems : [UIMenu] = []
     private var viewModel: NewsFeedViewModel
     private var didInitializeOnce = false
+    private var isInsertingContent: Bool = false
     // switchingAccounts is set to true in the period between
     // willSwitchAccount and didSwitchAccount, when currentAccount
     // should not be accessed.
@@ -600,7 +601,7 @@ extension NewsFeedViewController {
                 activityModel.cellHeight = cell.frame.size.height
             }
             
-            if self.viewModel.getUnreadEnabled(forFeed: self.viewModel.type) {
+            if self.viewModel.getUnreadEnabled(forFeed: self.viewModel.type) && !self.isInsertingContent {
                 self.viewModel.removeUnreadId(id: item.uniqueId(), forFeed: self.viewModel.type)
                 let count = self.viewModel.getUnreadCount(forFeed: self.viewModel.type)
                 
@@ -760,26 +761,6 @@ extension NewsFeedViewController {
         
         // Clean unread indicator when close to top
         if scrollView.contentOffset.y < 0 - self.view.safeAreaInsets.top + 60 {
-            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-            
-            if GlobalStruct.feedReadDirection == .topDown {
-                switch self.viewModel.type {
-                case .mentionsIn, .mentionsOut, .activity:
-                    self.unreadIndicator.configure(unreadCount: 0)
-                    self.unreadIndicator.isEnabled = true
-                default:
-                    self.latestPill.configure(unreadCount: 0, picUrls: self.viewModel.getUnreadPics(forFeed: self.viewModel.type))
-                    self.latestPill.isEnabled = true
-                }
-            } else {
-                self.unreadIndicator.configure(unreadCount: 0)
-                self.unreadIndicator.isEnabled = true
-                
-                if self.viewModel.getShowJumpToNow(forFeed: self.viewModel.type) == false {
-                    self.jumpToNow.isEnabled = false
-                }
-            }
-            
             self.delegate?.didScrollToTop()
         }
         
@@ -826,7 +807,7 @@ extension NewsFeedViewController {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.7) { [weak self] in
             guard let self else { return }
             
             guard !self.tableView.isTracking, !self.tableView.isDecelerating else { return }
@@ -879,8 +860,12 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
 
             log.debug("tableview change: \(updateType) for \(feedType)")
             
+            if updateType == .insert {
+                self.isInsertingContent = true
+            }
+            
             // Cache scroll position pre-update
-            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .bottom)
+            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
             if updateDisplay && self.viewModel.dataSource != nil {
                 CATransaction.begin()
@@ -901,7 +886,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     // Keep both of them to make the feed less jumpy on feed updates.
                     self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                 }
-                
+
                 onCompleted?()
                 
                 DispatchQueue.main.async {
@@ -911,6 +896,10 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     
                     if updateDisplay {
                         CATransaction.commit()
+                        
+                        if updateType == .insert {
+                            self.isInsertingContent = false
+                        }
                     }
                 }
                 
@@ -932,7 +921,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             log.debug("tableview change: \(updateType) for \(feedType)")
                         
             // Cache scroll position pre-update
-            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .bottom)
+            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
             if updateDisplay {
                 CATransaction.begin()
@@ -1011,7 +1000,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
 
        case .append:
             // Cache scroll position pre-update
-            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .bottom)
+            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
             if updateDisplay {
                 CATransaction.begin()
@@ -1232,7 +1221,7 @@ private extension NewsFeedViewController {
     enum ScrollPositionReference { case top, bottom }
     
     @discardableResult
-    func cacheScrollPosition(tableView: UITableView, forFeed type: NewsFeedTypes, scrollReference: ScrollPositionReference = .bottom) -> NewsFeedScrollPosition? {
+    func cacheScrollPosition(tableView: UITableView, forFeed type: NewsFeedTypes, scrollReference: ScrollPositionReference = .top) -> NewsFeedScrollPosition? {
         if let navBar = self.navigationController?.navigationBar {
             let whereIsNavBarInTableView = tableView.convert(navBar.bounds, from: navBar)
             let pointWhereNavBarEnds = CGPoint(x: 0, y: whereIsNavBarInTableView.origin.y + whereIsNavBarInTableView.size.height)
@@ -1250,7 +1239,7 @@ private extension NewsFeedViewController {
         return nil
     }
     
-    func getCurrentCellIndexPath(tableView: UITableView, scrollReference: ScrollPositionReference = .bottom) -> IndexPath? {
+    func getCurrentCellIndexPath(tableView: UITableView, scrollReference: ScrollPositionReference = .top) -> IndexPath? {
         switch scrollReference {
         case .top:
             return tableView.indexPathsForVisibleRows?.first

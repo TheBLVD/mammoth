@@ -645,7 +645,7 @@ extension NewsFeedViewModel {
                                             feedType: type,
                                             updateType: .insert) { [weak self] in
             guard let self else { return }
-            self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
+            self.insertUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
             self.delegate?.didUpdateUnreadState(type: type)
         }
     }
@@ -708,19 +708,19 @@ extension NewsFeedViewModel {
                 // This will show the unread pill/indicator
                 if GlobalStruct.feedReadDirection == .topDown {
                     if NewsFeedTypes.allActivityTypes.contains(type) || [.mentionsIn, .mentionsOut].contains(type) {
-                        self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
+                        self.insertUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
                         self.setUnreadEnabled(enabled: true, forFeed: type)
                     } else {
                         if items.count >= 5 && numberOfItemsPreUpdate > 0 {
-                            self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
+                            self.insertUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
                             self.setUnreadEnabled(enabled: true, forFeed: type)
                         } else {
-                            self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
+                            self.insertUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
                             self.setUnreadEnabled(enabled: false, forFeed: type)
                         }
                     }
                 } else {
-                    self.addUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
+                    self.insertUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
                     self.setUnreadEnabled(enabled: true, forFeed: type)
                     self.delegate?.didUpdateUnreadState(type: type)
                 }
