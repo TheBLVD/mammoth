@@ -12,8 +12,8 @@ import UIKit
 class HapticsSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var tableView = UITableView()
-    var section0: [String] = ["Sounds"]
-    var section1: [String] = ["Haptics"]
+    var section0: [String] = [NSLocalizedString("settings.soundsAndHaptics.sounds", comment: "")]
+    var section1: [String] = [NSLocalizedString("settings.soundsAndHaptics.haptics", comment: "")]
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -93,9 +93,9 @@ class HapticsSettingsViewController: UIViewController, UITableViewDataSource, UI
         super.viewDidLoad()
         self.view.backgroundColor = .custom.backgroundTint
         if UIDevice.current.userInterfaceIdiom == .phone {
-            self.navigationItem.title = "Sounds and Haptics"
+            self.navigationItem.title = NSLocalizedString("settings.soundsAndHaptics", comment: "")
         } else {
-            self.navigationItem.title = "Sounds"
+            self.navigationItem.title = NSLocalizedString("settings.soundsAndHaptics.sounds", comment: "")
         }
         
         let navApp = UINavigationBarAppearance()
@@ -249,9 +249,9 @@ class HapticsSettingsViewController: UIViewController, UITableViewDataSource, UI
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 0 {
-            return "Sounds across the app."
+            return NSLocalizedString("settings.soundsAndHaptics.footer1", comment: "")
         } else {
-            return "Haptics across the app, when switching tabs, and for pop-up alerts."
+            return NSLocalizedString("settings.soundsAndHaptics.footer2", comment: "")
         }
     }
     

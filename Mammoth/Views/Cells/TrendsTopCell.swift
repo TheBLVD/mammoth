@@ -232,12 +232,12 @@ class TrendsTopCell: UITableViewCell, UICollectionViewDataSource, UICollectionVi
                 }
             }
         }
-        let copy = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
+        let copy = UIAction(title: NSLocalizedString("generic.copy", comment: ""), image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
             if let x = self.allPosts[index].url {
                 UIPasteboard.general.string = x
             }
         }
-        let share = UIAction(title: "Share", image: FontAwesome.image(fromChar: "\u{e09a}"), identifier: nil) { action in
+        let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: FontAwesome.image(fromChar: "\u{e09a}"), identifier: nil) { action in
             if let x = self.allPosts[index].url {
                 let linkToShare = [x]
                 let activityViewController = UIActivityViewController(activityItems: linkToShare,  applicationActivities: nil)

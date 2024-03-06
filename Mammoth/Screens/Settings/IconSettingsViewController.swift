@@ -169,7 +169,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
         super.viewDidLoad()
         
         self.view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "App Icon"
+        self.navigationItem.title = NSLocalizedString("settings.appIcon.title", comment: "")
         
         let navApp = UINavigationBarAppearance()
         navApp.configureWithOpaqueBackground()
@@ -185,7 +185,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadAll), name: NSNotification.Name(rawValue: "reloadAll"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadBars), name: NSNotification.Name(rawValue: "reloadBars"), object: nil)
         
-        self.title = "App Icon"
+        self.title = NSLocalizedString("settings.appIcon.title", comment: "")
         
         if GlobalStruct.hideNavBars2 {
             self.extendedLayoutIncludesOpaqueBars = true
@@ -291,7 +291,7 @@ class IconSettingsViewController: UIViewController, UICollectionViewDelegate, UI
         if indexPath.section == 1 && indexPath.item == 0 && !isGoldMember {
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UpgradeItem.reuseIdentifier, for: indexPath) as? UpgradeItem {
                 cell.delegate = self
-                cell.configure(expanded: self.upgradeCellIsExpanded, title: "Mammoth Gold", featureName: "Unlock Icons")
+                cell.configure(expanded: self.upgradeCellIsExpanded, title: "Mammoth Gold", featureName: NSLocalizedString("settings.gold.unlock", comment: ""))
                 cell.parentWidth = collectionView.bounds.size.width
                 return cell
             }

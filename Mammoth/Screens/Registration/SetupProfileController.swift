@@ -80,7 +80,7 @@ class SetupProfileController: UIViewController {
     
     func updateDisplayNameField() {
         // Concatenate the display name and the email address
-        let currentDisplayName = (displayName?.isEmpty ?? true) ? "display name" : displayName!
+        let currentDisplayName = (displayName?.isEmpty ?? true) ? NSLocalizedString("d8T-wc-Ss7.placeholder", comment: "display name") : displayName!
         let attributedDisplayName = NSAttributedString(string: currentDisplayName, attributes: [NSAttributedString.Key.foregroundColor : UIColor.custom.highContrast,
              NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .bold)])
         

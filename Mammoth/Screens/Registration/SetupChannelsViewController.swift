@@ -48,7 +48,7 @@ class SetupChannelsViewController: UIViewController {
     private lazy var doneButton: UIButton = {
         let doneButton = UIButton()
         doneButton.translatesAutoresizingMaskIntoConstraints = false
-        doneButton.setTitle("Next", for: .normal)
+        doneButton.setTitle(NSLocalizedString("generic.next", comment: ""), for: .normal)
         doneButton.backgroundColor = .custom.OVRLYMedContrast
         doneButton.setTitleColor(.custom.highContrast, for: .normal)
         doneButton.layer.cornerRadius = 8
@@ -184,7 +184,7 @@ extension SetupChannelsViewController: UITableViewDataSource & UITableViewDelega
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = self.tableView.dequeueReusableCell(withIdentifier: SetupInstructionsCell.reuseIdentifier) as! SetupInstructionsCell
-            cell.configure(title: "Subscribe to\nsmart lists", instructions: "Follow your favorite topics and see trending posts from accounts hand picked by the community.")
+            cell.configure(title: NSLocalizedString("onboarding.smartlists.title", comment: ""), instructions: NSLocalizedString("onboarding.smartlists.description", comment: ""))
             return cell
         } else {
             if let (channel, isSubscribed) = viewModel.getInfo(forIndexPath: indexPath), let channel {

@@ -1,10 +1,10 @@
-name: Crowdin Download
+name: Crowdin manual download
 
 on:
   workflow_dispatch:
 
 jobs:
-  crowdin:
+  download-from-crowdin:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,11 +15,13 @@ jobs:
         with:
           upload_sources: false
           upload_translations: false
-          download_translations: true
-          localization_branch_name: l10n
+          download_translations: false
+          download_bundle: 2
+          localization_branch_name: i18n_translations
 
           create_pull_request: true
           pull_request_title: 'MAM-translations'
+          commit_message: 'MAM-translations'
           pull_request_body: 'New Crowdin pull request with translations.\nhttps://crowdin.com/project/mammoth-app'
           pull_request_base_branch_name: 'main'
         env:

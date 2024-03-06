@@ -1,3 +1,5 @@
+[![Crowdin](https://badges.crowdin.net/mammoth-app/localized.svg)](https://crowdin.com/project/mammoth-app)
+
 ## Welcome
 
 This repository contains the source code for the [Mammoth app](https://getmammoth.app) for iOS, iPadOS and MacOS, released under the [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.html).

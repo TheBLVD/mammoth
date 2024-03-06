@@ -123,20 +123,20 @@ final class PostCardModel {
         
         var displayName: String? {
             switch self {
-            case .singleImage: return "image"
-            case .singleVideo: return "video"
-            case .singleGIF: return "GIF"
-            case .carousel: return "carousel"
+            case .singleImage: return NSLocalizedString("composer.media.image", comment: "").lowercased()
+            case .singleVideo: return NSLocalizedString("composer.media.video", comment: "").lowercased()
+            case .singleGIF: return NSLocalizedString("composer.media.gif", comment: "")
+            case .carousel: return NSLocalizedString("media.carousel", comment: "").lowercased()
             default: return nil
             }
         }
         
         var captializedDisplayName: String? {
             switch self {
-            case .singleImage: return "Image"
-            case .singleVideo: return "Video"
-            case .singleGIF: return "GIF"
-            case .carousel: return "Carousel"
+            case .singleImage: return NSLocalizedString("composer.media.image", comment: "")
+            case .singleVideo: return NSLocalizedString("composer.media.video", comment: "")
+            case .singleGIF: return NSLocalizedString("composer.media.gif", comment: "")
+            case .carousel: return NSLocalizedString("media.carousel", comment: "")
             default: return nil
             }
         }
@@ -491,7 +491,7 @@ final class PostCardModel {
             self.applicationName = "Threads"
         }
         
-        self.visibility = (status.reblog?.visibility ?? status.visibility).rawValue.lowercased()
+        self.visibility = (status.reblog?.visibility ?? status.visibility).toLocalizedString().lowercased()
         
         // Status
         self.statusSource = nil

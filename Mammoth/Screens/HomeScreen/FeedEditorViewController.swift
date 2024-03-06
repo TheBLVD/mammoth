@@ -78,7 +78,7 @@ class FeedEditorViewController: UIViewController {
         
         if self.isModal {
             if #available(iOS 16.0, *) {
-                let closeBtn = UIBarButtonItem(title: "Done", image: nil, target: self, action: #selector(self.onClosePressed))
+                let closeBtn = UIBarButtonItem(title: NSLocalizedString("generic.done", comment: ""), image: nil, target: self, action: #selector(self.onClosePressed))
                 closeBtn.setTitleTextAttributes([
                     NSAttributedString.Key.font : UIFont.systemFont(ofSize: 18, weight: .semibold)],
                                                 for: .normal)
@@ -146,13 +146,13 @@ extension FeedEditorViewController: UITableViewDelegate, UITableViewDataSource, 
                 case .delete:
                     switch item.type {
                     case .hashtag(let tag):
-                        let alert = UIAlertController(title: "Unfollow hashtag", message: "This hashtag is already hidden, would you like to unfollow it entirely?", preferredStyle: .alert)
+                        let alert = UIAlertController(title: NSLocalizedString("feedEditor.alert.unfollowTag.title", comment: ""), message: NSLocalizedString("feedEditor.alert.unfollowTag.message", comment: ""), preferredStyle: .alert)
                         alert.view.tintColor = .custom.highContrast
-                        alert.addAction(UIAlertAction(title: "Unfollow", style: .destructive , handler: { (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.unfollow", comment: ""), style: .destructive , handler: { (UIAlertAction) in
                             cell.showLoader()
                             HashtagManager.shared.unfollowHashtag(tag.name.lowercased(), completion: { _ in })
                         }))
-                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: { (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel , handler: { (UIAlertAction) in
                         }))
                         if let presenter = alert.popoverPresentationController {
                             presenter.sourceView = getTopMostViewController()?.view
@@ -161,13 +161,13 @@ extension FeedEditorViewController: UITableViewDelegate, UITableViewDataSource, 
                         getTopMostViewController()?.present(alert, animated: true, completion: nil)
                         
                     case .channel(let channel):
-                        let alert = UIAlertController(title: "Unsubscribe from smart list", message: "This smart list is already hidden, would you like to unsubscribe from it entirely?", preferredStyle: .alert)
+                        let alert = UIAlertController(title: NSLocalizedString("feedEditor.alert.unfollowSmartList.title", comment: ""), message: NSLocalizedString("feedEditor.alert.unfollowSmartList.message", comment: ""), preferredStyle: .alert)
                         alert.view.tintColor = .custom.highContrast
-                        alert.addAction(UIAlertAction(title: "Unsubscribe", style: .destructive , handler: { (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.unsubscribe", comment: "Unsubscribe button label"), style: .destructive , handler: { (UIAlertAction) in
                             cell.showLoader()
                             ChannelManager.shared.unsubscribeFromChannel(channel)
                         }))
-                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: { (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel , handler: { (UIAlertAction) in
                         }))
                         if let presenter = alert.popoverPresentationController {
                             presenter.sourceView = getTopMostViewController()?.view
@@ -176,9 +176,9 @@ extension FeedEditorViewController: UITableViewDelegate, UITableViewDataSource, 
                         getTopMostViewController()?.present(alert, animated: true, completion: nil)
                         
                     case .list(let list):
-                        let alert = UIAlertController(title: "Delete list", message: "Are you sure you want to permanently delete this list?", preferredStyle: .alert)
+                        let alert = UIAlertController(title: NSLocalizedString("feedEditor.alert.deleteList.title", comment: ""), message: NSLocalizedString("feedEditor.alert.deleteList.message", comment: ""), preferredStyle: .alert)
                         alert.view.tintColor = .custom.highContrast
-                        alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler: { (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.delete", comment: ""), style: .destructive , handler: { (UIAlertAction) in
                             cell.showLoader()
                             ListManager.shared.deleteList(list.id) { success in
                                 DispatchQueue.main.async {
@@ -186,7 +186,7 @@ extension FeedEditorViewController: UITableViewDelegate, UITableViewDataSource, 
                                 }
                             }
                         }))
-                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: { (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel , handler: { (UIAlertAction) in
                         }))
                         if let presenter = alert.popoverPresentationController {
                             presenter.sourceView = getTopMostViewController()?.view
@@ -195,13 +195,13 @@ extension FeedEditorViewController: UITableViewDelegate, UITableViewDataSource, 
                         getTopMostViewController()?.present(alert, animated: true, completion: nil)
                         
                     case .community(let instanceName):
-                        let alert = UIAlertController(title: "Unsubscribe from instance", message: "This instance is already hidden, would you like to unsubscribe from it entirely?", preferredStyle: .alert)
+                        let alert = UIAlertController(title: NSLocalizedString("feedEditor.alert.unfollowInstance.title", comment: ""), message: NSLocalizedString("feedEditor.alert.unfollowInstance.message", comment: ""), preferredStyle: .alert)
                         alert.view.tintColor = .custom.highContrast
-                        alert.addAction(UIAlertAction(title: "Unsubscribe", style: .destructive , handler: { (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.unsubscribe", comment: ""), style: .destructive , handler: { (UIAlertAction) in
                             cell.showLoader()
                             InstanceManager.shared.unpinInstance(instanceName)
                         }))
-                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: { (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel , handler: { (UIAlertAction) in
                         }))
                         if let presenter = alert.popoverPresentationController {
                             presenter.sourceView = getTopMostViewController()?.view

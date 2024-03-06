@@ -82,11 +82,12 @@ extension PostCardHeaderExtension {
         self.postCard = postCard
         
         if postCard.isReblogged {
-            self.titleLabel.text = postCard
+            let normalized_username = postCard
                 .rebloggerUsername
                 .stripCustomEmojiShortcodes()
                 .stripEmojis()
-                .stripLeadingTrailingSpaces() + " reposted"
+                .stripLeadingTrailingSpaces()
+            self.titleLabel.text = String.localizedStringWithFormat(NSLocalizedString("post.reposted", comment: "Shows up over a post in the timeline indicating who reposted it."), normalized_username)
         }
         
         if postCard.isHashtagged {
@@ -94,7 +95,7 @@ extension PostCardHeaderExtension {
         }
         
         if postCard.isPrivateMention {
-            self.titleLabel.text = "private mention"
+            self.titleLabel.text = NSLocalizedString("post.privateMention", comment: "Shows up over a post in the timeline indicating that it's been sent privately.")
         }
         
         if let postCard = self.postCard, postCard.isPrivateMention {

@@ -13,7 +13,7 @@ extension UIViewController {
             preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(
-            title: "OK", style: .cancel,
+            title: NSLocalizedString("generic.ok", comment: ""), style: .cancel,
             handler: { _ in callback?() }))
         
         present(alert, animated: true)

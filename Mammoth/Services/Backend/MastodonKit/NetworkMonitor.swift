@@ -172,7 +172,7 @@ extension NetworkMonitor {
         } else {
             DispatchQueue.main.async {
                 let alert = UIAlertController(title: "Rate Limit Reached", message: "Some servers limit how frequently you can get new posts. Try again in 5 minutes.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel , handler:{ (UIAlertAction) in
+                alert.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                 }))
                 if let presentingVC = getTopMostViewController() {
                     presentingVC.present(alert, animated: true, completion: nil)
@@ -258,7 +258,7 @@ extension NetworkMonitor {
         }
         DispatchQueue.main.async {
             let alert = UIAlertController(title: "Nearing Rate Limit ⚠️", message: "You are reaching the rate limit for your server. (Services have used \(rateLimit - remainingRateLimit) of the \(rateLimit) alloted network calls in the last 5 minutes). Background network fetches have been disabled temporarily.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
             }))
             if let presentingVC = getTopMostViewController() {
                 presentingVC.present(alert, animated: true, completion: nil)

@@ -11,7 +11,7 @@ import UIKit
 class ActivityViewController : UIViewController {
     
     public let headerView: CarouselNavigationHeader = {
-        let headerView = CarouselNavigationHeader(title: "Activity")
+        let headerView = CarouselNavigationHeader(title: NSLocalizedString("title.activity", comment: ""))
         headerView.translatesAutoresizingMaskIntoConstraints = false
         return headerView
     }()
@@ -41,7 +41,7 @@ class ActivityViewController : UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "Activity"
+        self.navigationItem.title = NSLocalizedString("title.activity", comment: "")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -104,7 +104,7 @@ class ActivityViewController : UIViewController {
             headerView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor)
         ])
         
-        self.headerView.carousel.content = ["All", "Likes", "Reposts", "Follows", "Posts"]
+        self.headerView.carousel.content = [NSLocalizedString("activity.all", comment: ""), NSLocalizedString("activity.likes", comment: ""), NSLocalizedString("activity.reposts", comment: ""), NSLocalizedString("activity.follows", comment: ""), NSLocalizedString("activity.posts", comment: "")]
     }
 }
 

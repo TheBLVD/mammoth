@@ -1305,7 +1305,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
         } else {
             acc = self.acc[0]
         }
-        let op0 = UIAction(title: "Mention", image: UIImage(systemName: "at"), identifier: nil) { action in
+        let op0 = UIAction(title: NSLocalizedString("profile.mention", comment: ""), image: UIImage(systemName: "at"), identifier: nil) { action in
             let vc = NewPostViewController()
             vc.isModalInPresentation = true
             vc.fromPro = true
@@ -1519,7 +1519,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                     }
                 }
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                 
             }))
             if let presenter = alert.popoverPresentationController {
@@ -1556,7 +1556,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                     }
                 })
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                 
             }))
             if let presenter = alert.popoverPresentationController {

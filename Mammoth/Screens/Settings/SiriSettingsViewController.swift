@@ -15,7 +15,7 @@ import MobileCoreServices
 class SiriSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, INUIAddVoiceShortcutViewControllerDelegate {
     
     var tableView = UITableView()
-    let firstSection = ["Compose a Post"]
+    let firstSection = [NSLocalizedString("settings.siriShortcuts.compose", comment: "")]
     var section0Images: [String] = ["square.and.pencil"]
     var latestTapped = 0
     
@@ -100,8 +100,7 @@ class SiriSettingsViewController: UIViewController, UITableViewDataSource, UITab
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "Siri Shortcuts"
-        
+        self.navigationItem.title = NSLocalizedString("settings.siriShortcuts.title", comment: "")
         let navApp = UINavigationBarAppearance()
         navApp.configureWithOpaqueBackground()
         navApp.backgroundColor = .custom.backgroundTint
@@ -190,14 +189,14 @@ class SiriSettingsViewController: UIViewController, UITableViewDataSource, UITab
             
             if self.latestTapped == 0 {
                 let activity1 = NSUserActivity(activityType: "com.theblvd.mammoth.new")
-                activity1.title = "Compose a Post"
+                activity1.title = NSLocalizedString("settings.siriShortcuts.compose", comment: "")
                 let attributes = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
-                attributes.contentDescription = "Compose a Post"
+                attributes.contentDescription = NSLocalizedString("settings.siriShortcuts.compose", comment: "")
                 activity1.contentAttributeSet = attributes
                 activity1.isEligibleForSearch = true
                 activity1.isEligibleForPrediction = true
                 activity1.persistentIdentifier = "com.theblvd.mammoth.new"
-                activity1.suggestedInvocationPhrase = "Compose a Post"
+                activity1.suggestedInvocationPhrase = NSLocalizedString("settings.siriShortcuts.compose", comment: "")
                 activity1.persistentIdentifier = String(self.latestTapped)
                 self.view.userActivity = activity1
                 activity1.becomeCurrent()
@@ -222,7 +221,7 @@ class SiriSettingsViewController: UIViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return "Assign Siri Shortcuts to do specific things.\n\nYou can also set up the ability to post directly via the Shortcuts app."
+        return NSLocalizedString("settings.siriShortcuts.footer1", comment: "") + "\n\n" + NSLocalizedString("settings.siriShortcuts.footer2", comment: "")
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

@@ -1509,7 +1509,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
         alert.addAction(UIAlertAction(title: "Vote", style: .default , handler:{ (UIAlertAction) in
             self.voteOnThis(sender.view?.tag ?? 0)
         }))
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
             
         }))
         if let presenter = alert.popoverPresentationController {
@@ -1527,7 +1527,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     DispatchQueue.main.async {
                         triggerHapticNotification(feedback: .warning)
                         let alert = UIAlertController(title: "Poll Ended", message: "You can't vote on this poll as it has already ended.", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                             
                         }))
                         if let presenter = alert.popoverPresentationController {
@@ -1541,7 +1541,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                         DispatchQueue.main.async {
                             triggerHapticNotification(feedback: .warning)
                             let alert = UIAlertController(title: "Already Voted", message: "You can't vote on this poll as you have already voted on it.", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+                            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                                 
                             }))
                             if let presenter = alert.popoverPresentationController {
@@ -1877,11 +1877,11 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
         triggerHapticImpact(style: .light)
         let altTextPopup = self.altText[sender.tag]
         let alert = UIAlertController(title: nil, message: altTextPopup, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Copy", style: .default , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.copy", comment: ""), style: .default , handler:{ (UIAlertAction) in
             let pasteboard = UIPasteboard.general
             pasteboard.string = altTextPopup
         }))
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
 
         }))
         if let presenter = alert.popoverPresentationController {
@@ -2023,12 +2023,12 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                 }
             }
         }
-        let copy = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
+        let copy = UIAction(title: NSLocalizedString("generic.copy", comment: ""), image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
             if let x = self.linkStr?.url {
                 UIPasteboard.general.string = x
             }
         }
-        let share = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+        let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
             if let x = self.linkStr?.url {
                 let linkToShare = [x]
                 let activityViewController = UIActivityViewController(activityItems: linkToShare,  applicationActivities: nil)
@@ -2318,7 +2318,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
         self.tmpCollection = collectionView
         var image1: UIImage = UIImage()
         if self.videoUrl != "" {
-            let share = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+            let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
                 if let videoURL = URL(string: self.videoUrl) {
                     let imageToShare = [videoURL]
                     let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
@@ -2346,7 +2346,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     getTopMostViewController()?.present(activityViewController, animated: true, completion: nil)
                 }
             }
-            let save = UIAction(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
+            let save = UIAction(title: NSLocalizedString("generic.save", comment: ""), image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
                 if let videoURL = URL(string: self.videoUrl) {
                     DispatchQueue.global(qos: .background).async {
                         if let urlData = NSData(contentsOf: videoURL) {
@@ -2368,7 +2368,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
             }
             return UIMenu(title: "", image: nil, identifier: nil, children: [share, save])
         } else if self.videoUrlQ != "" {
-            let share = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+            let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
                 if let videoURL = URL(string: self.videoUrlQ) {
                     let imageToShare = [videoURL]
                     let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
@@ -2396,7 +2396,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     getTopMostViewController()?.present(activityViewController, animated: true, completion: nil)
                 }
             }
-            let save = UIAction(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
+            let save = UIAction(title: NSLocalizedString("generic.save", comment: ""), image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
                 if let videoURL = URL(string: self.videoUrlQ) {
                     DispatchQueue.global(qos: .background).async {
                         if let urlData = NSData(contentsOf: videoURL) {
@@ -2439,10 +2439,10 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     image1 = cell.image.image ?? UIImage()
                 }
             }
-            let copy = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
+            let copy = UIAction(title: NSLocalizedString("generic.copy", comment: ""), image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
                 UIPasteboard.general.image = image1
             }
-            let share = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+            let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
                 self.tmpIndex = index
                 let imToShare = [image1, self]
                 let activityViewController = UIActivityViewController(activityItems: imToShare,  applicationActivities: nil)
@@ -2450,7 +2450,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                 activityViewController.popoverPresentationController?.sourceRect = self.bounds
                 getTopMostViewController()?.present(activityViewController, animated: true, completion: nil)
             }
-            let save = UIAction(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
+            let save = UIAction(title: NSLocalizedString("generic.save", comment: ""), image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
                 UIImageWriteToSavedPhotosAlbum(image1, nil, nil, nil)
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "savedImage"), object: nil)
             }

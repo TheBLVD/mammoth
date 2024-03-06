@@ -143,7 +143,7 @@ extension ForYouCustomizationViewModel {
     func getSectionTitle(for sectionIndex: Int) -> String {
         switch Section(rawValue: sectionIndex) {
         case .mammothPicks:
-            return "Customize your \"for you\" feed"
+            return NSLocalizedString("customize.title", comment: "")
         case .smartLists:
             return ""
         case .beta:
@@ -165,11 +165,11 @@ extension ForYouCustomizationViewModel {
         switch Section(rawValue: indexPath.section) {
         case .mammothPicks:
             let isOn = self.updatedForYouInfo?.curatedByMammoth == 1
-            forYouRowInfo = ForYouRowInfo(title: "Mammoth Picks", description: "Accounts handpicked by the Mammoth team", isOn: isOn, isEnabled: true)
+            forYouRowInfo = ForYouRowInfo(title: NSLocalizedString("customize.mammothPicks.title", comment: ""), description: NSLocalizedString("customize.mammothPicks", comment: ""), isOn: isOn, isEnabled: true)
         case .smartLists:
             if indexPath.item == 0 {
                 let isOn = self.updatedForYouInfo?.fromYourChannels == 1
-                forYouRowInfo = ForYouRowInfo(title: "Smart Lists", description: "Topical lists curated by the Mastodon community", isOn: isOn, isEnabled: true)
+                forYouRowInfo = ForYouRowInfo(title: NSLocalizedString("customize.smartLists.title", comment: ""), description: NSLocalizedString("customize.smartLists", comment: ""), isOn: isOn, isEnabled: true)
             } else {
                 let subscribedChannel = self.subscribedChannels[indexPath.item-1]
                 let isOn = self.updatedForYouInfo?.enabledChannelIDs.contains(subscribedChannel.id) ?? false

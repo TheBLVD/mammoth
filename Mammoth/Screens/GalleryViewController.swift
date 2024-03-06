@@ -454,10 +454,10 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate, UIColle
             if let cell = collectionView.cellForItem(at: IndexPath(item: index, section: 0)) as? ImageCell {
                 image1 = cell.image.image ?? UIImage()
             }
-            let copy = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
+            let copy = UIAction(title: NSLocalizedString("generic.copy", comment: ""), image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
                 UIPasteboard.general.image = image1
             }
-            let share = UIAction(title: "Share", image: FontAwesome.image(fromChar: "\u{e09a}"), identifier: nil) { action in
+            let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: FontAwesome.image(fromChar: "\u{e09a}"), identifier: nil) { action in
                 self.tmpIndex = index
                 let imToShare = [image1, self]
                 let activityViewController = UIActivityViewController(activityItems: imToShare,  applicationActivities: nil)
@@ -465,7 +465,7 @@ class GalleryViewController: UIViewController, UICollectionViewDelegate, UIColle
                 activityViewController.popoverPresentationController?.sourceRect = self.view.bounds
                 getTopMostViewController()?.present(activityViewController, animated: true, completion: nil)
             }
-            let save = UIAction(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
+            let save = UIAction(title: NSLocalizedString("generic.save", comment: ""), image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
                 UIImageWriteToSavedPhotosAlbum(image1, nil, nil, nil)
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "savedImage"), object: nil)
             }

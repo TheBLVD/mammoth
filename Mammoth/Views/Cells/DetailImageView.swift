@@ -429,11 +429,11 @@ class DetailImageView: UIView, UICollectionViewDataSource, UICollectionViewDeleg
         triggerHapticImpact(style: .light)
         let altTextPopup = self.altText[sender.tag]
         let alert = UIAlertController(title: nil, message: altTextPopup, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Copy", style: .default , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.copy", comment: ""), style: .default , handler:{ (UIAlertAction) in
             let pasteboard = UIPasteboard.general
             pasteboard.string = altTextPopup
         }))
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
             
         }))
         if let presenter = alert.popoverPresentationController {
@@ -506,7 +506,7 @@ class DetailImageView: UIView, UICollectionViewDataSource, UICollectionViewDeleg
     }
     
     func makeContextMenuV(_ index: Int) -> UIMenu {
-        let share = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+        let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
             DispatchQueue.global(qos: .background).async {
                 if let url = URL(string: self.videoUrl) {
                     guard let urlData = NSData(contentsOf: url) else { return }
@@ -524,7 +524,7 @@ class DetailImageView: UIView, UICollectionViewDataSource, UICollectionViewDeleg
                 }
             }
         }
-        let save = UIAction(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
+        let save = UIAction(title: NSLocalizedString("generic.save", comment: ""), image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
             DispatchQueue.global(qos: .background).async {
                 if let url = URL(string: self.videoUrl) {
                     guard let urlData = NSData(contentsOf: url) else { return }
@@ -571,7 +571,7 @@ class DetailImageView: UIView, UICollectionViewDataSource, UICollectionViewDeleg
     func makeContextMenu(_ index: Int) -> UIMenu {
         var image1: UIImage = UIImage()
         if self.videoUrl != "" {
-            let share = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+            let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
                 if let videoURL = URL(string: self.videoUrl) {
                     let imageToShare = [videoURL]
                     let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
@@ -582,7 +582,7 @@ class DetailImageView: UIView, UICollectionViewDataSource, UICollectionViewDeleg
                     getTopMostViewController()?.present(activityViewController, animated: true, completion: nil)
                 }
             }
-            let save = UIAction(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
+            let save = UIAction(title: NSLocalizedString("generic.save", comment: ""), image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
                 if let videoURL = URL(string: self.videoUrl) {
                     DispatchQueue.global(qos: .background).async {
                         if let urlData = NSData(contentsOf: videoURL) {
@@ -607,10 +607,10 @@ class DetailImageView: UIView, UICollectionViewDataSource, UICollectionViewDeleg
             if let cell = collectionView1.cellForItem(at: IndexPath(item: index, section: 0)) as? CollectionImageCellD {
                 image1 = cell.image.image ?? UIImage()
             }
-            let copy = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
+            let copy = UIAction(title: NSLocalizedString("generic.copy", comment: ""), image: UIImage(systemName: "doc.on.doc"), identifier: nil) { action in
                 UIPasteboard.general.image = image1
             }
-            let share = UIAction(title: "Share", image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
+            let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: UIImage(systemName: "square.and.arrow.up"), identifier: nil) { action in
                 self.tmpIndex = index
                 let imToShare = [image1, self]
                 let activityViewController = UIActivityViewController(activityItems: imToShare,  applicationActivities: nil)
@@ -618,7 +618,7 @@ class DetailImageView: UIView, UICollectionViewDataSource, UICollectionViewDeleg
                 activityViewController.popoverPresentationController?.sourceRect = self.bounds
                 getTopMostViewController()?.present(activityViewController, animated: true, completion: nil)
             }
-            let save = UIAction(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
+            let save = UIAction(title: NSLocalizedString("generic.save", comment: ""), image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
                 UIImageWriteToSavedPhotosAlbum(image1, nil, nil, nil)
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "savedImage"), object: nil)
             }

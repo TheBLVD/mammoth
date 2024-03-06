@@ -1,0 +1,191 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "sek-yR-qsQ.text": {
+      "comment": "Class = \"UILabel\"; text = \"Some instructions to help the user find cool accounts, and meet cool people.\"; ObjectID = \"sek-yR-qsQ\";",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "af": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "ar": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "cs": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "da": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enkele instructies om de gebruiker te helpen coole accounts te vinden en coole mensen te ontmoeten."
+          }
+        },
+        "fi": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Einige Anweisungen, die dem Benutzer helfen, coole Konten zu finden und coole Leute zu treffen."
+          }
+        },
+        "el": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "he": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "hu": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Qualche suggerimento per aiutare l'utente a trovare account interessanti e incontrare persone speciali."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "no": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "pt": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Algumas instruções para ajudar o usuário a encontrar contas legais e conhecer pessoas legais."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Несколько инструкций, которые помогут пользователю найти крутые аккаунты и познакомиться с крутыми людьми."
+          }
+        },
+        "sr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "sv": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Några instruktioner för att hjälpa användaren att hitta coola konton, och träffa coola människor."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "uk": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        },
+        "vi": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Some instructions to help the user find cool accounts, and meet cool people."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

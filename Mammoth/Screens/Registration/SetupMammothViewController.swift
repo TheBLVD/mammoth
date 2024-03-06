@@ -47,7 +47,7 @@ class SetupMammothViewController: UIViewController {
     private lazy var noThanksButton: UIButton = {
         let noThanksButton = UIButton()
         noThanksButton.translatesAutoresizingMaskIntoConstraints = false
-        noThanksButton.setTitle("No thanks", for: .normal)
+        noThanksButton.setTitle(NSLocalizedString("onboarding.mammoth.noThanks", comment: ""), for: .normal)
         noThanksButton.backgroundColor = .clear
         noThanksButton.setTitleColor(.custom.mediumContrast, for: .normal)
         return noThanksButton
@@ -56,7 +56,7 @@ class SetupMammothViewController: UIViewController {
     private lazy var doneButton: UIButton = {
         let doneButton = UIButton()
         doneButton.translatesAutoresizingMaskIntoConstraints = false
-        doneButton.setTitle("Follow Mammoth", for: .normal)
+        doneButton.setTitle(NSLocalizedString("onboarding.mammoth.followMammoth", comment: ""), for: .normal)
         doneButton.backgroundColor = .custom.OVRLYMedContrast
         doneButton.setTitleColor(.custom.highContrast, for: .normal)
         doneButton.layer.cornerRadius = 8
@@ -199,7 +199,7 @@ extension SetupMammothViewController: UITableViewDataSource, UITableViewDelegate
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = self.tableView.dequeueReusableCell(withIdentifier: SetupInstructionsCell.reuseIdentifier) as! SetupInstructionsCell
-            cell.configure(title: "Find out what’s\ncoming next", instructions: "Have a feature you want to see? Want to know what we’re working on next? Or just have a question? Follow us!")
+            cell.configure(title: NSLocalizedString("onboarding.mammoth.title", comment: ""), instructions: NSLocalizedString("onboarding.mammoth.description", comment: ""))
             return cell
         } else {
             if let userCard = viewModel.getInfo(forIndexPath: indexPath) {

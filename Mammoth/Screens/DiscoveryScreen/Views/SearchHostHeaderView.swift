@@ -45,7 +45,7 @@ private extension SearchHostHeaderView {
     func setupUI() {
         self.backgroundColor = .clear
 
-        searchBar.placeholder = "Search"
+        searchBar.placeholder = NSLocalizedString("discover.search", comment: "")
         searchBar.searchBarStyle = .minimal
 
         mainStackView.addArrangedSubview(searchBar)

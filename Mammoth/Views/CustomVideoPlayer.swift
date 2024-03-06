@@ -94,11 +94,11 @@ class CustomVideoPlayer: AVPlayerViewController, UIContextMenuInteractionDelegat
         let alt = UIAction(title: "Show ALT text", image: FontAwesome.image(fromChar: "\u{f05a}"), identifier: nil) { action in
             triggerHapticImpact(style: .light)
             let alert = UIAlertController(title: nil, message: self.altText, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Copy", style: .default , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.copy", comment: ""), style: .default , handler:{ (UIAlertAction) in
                 let pasteboard = UIPasteboard.general
                 pasteboard.string = self.altText
             }))
-            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel , handler:{ (UIAlertAction) in
+            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
 
             }))
             if let presenter = alert.popoverPresentationController {
@@ -108,7 +108,7 @@ class CustomVideoPlayer: AVPlayerViewController, UIContextMenuInteractionDelegat
             getTopMostViewController()?.present(alert, animated: true, completion: nil)
         }
         
-        let share = UIAction(title: "Share", image: FontAwesome.image(fromChar: "\u{e09a}"), identifier: nil) { action in
+        let share = UIAction(title: NSLocalizedString("generic.share", comment: ""), image: FontAwesome.image(fromChar: "\u{e09a}"), identifier: nil) { action in
             if let x = ((self.player?.currentItem?.asset) as? AVURLAsset)?.url {
                 let imageToShare = [x]
                 let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
@@ -116,7 +116,7 @@ class CustomVideoPlayer: AVPlayerViewController, UIContextMenuInteractionDelegat
                 self.present(activityViewController, animated: true, completion: nil)
             }
         }
-        let save = UIAction(title: "Save", image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
+        let save = UIAction(title: NSLocalizedString("generic.save", comment: ""), image: UIImage(systemName: "square.and.arrow.down"), identifier: nil) { action in
             DispatchQueue.global(qos: .background).async {
                 if let x = ((self.player?.currentItem?.asset) as? AVURLAsset)?.url {
                     if let urlData = NSData(contentsOf: x) {

@@ -43,8 +43,8 @@ class DiscoverSuggestionsViewController: UIViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
-        self.title = "Discover"
-        self.navigationItem.title = "Discover"
+        self.title = NSLocalizedString("navigator.discover", comment: "")
+        self.navigationItem.title = NSLocalizedString("navigator.discover", comment: "")
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -170,7 +170,7 @@ extension DiscoverSuggestionsViewController: UITableViewDataSource, UITableViewD
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if viewModel.hasHeader(forSection: section) {
-            let buttonTitle = (section == Sections.accounts.rawValue) ? nil : "See all"
+            let buttonTitle = (section == Sections.accounts.rawValue) ? nil : NSLocalizedString("discover.seeAll", comment: "")
             let header = SectionHeader(buttonTitle: buttonTitle)
             if buttonTitle != nil {
                 header.delegate = self
