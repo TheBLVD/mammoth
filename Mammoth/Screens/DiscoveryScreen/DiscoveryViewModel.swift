@@ -128,7 +128,7 @@ extension DiscoveryViewModel {
     func getSectionTitle(for sectionIndex: Int) -> String {
         switch(self.type) {
         case .regular:
-            return "Suggested Follows"
+            return NSLocalizedString("discover.recommendedFollows", comment: "")
         case .typing:
             return ""
         case .searchResult:
