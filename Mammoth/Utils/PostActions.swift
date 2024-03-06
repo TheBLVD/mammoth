@@ -929,8 +929,8 @@ extension PostActions {
                     if "\(error)".contains("ended") {
                         DispatchQueue.main.async {
                             triggerHapticNotification(feedback: .warning)
-                            let alert = UIAlertController(title: "Poll Ended",
-                                                          message: "You can't vote on this poll as it has already ended.",
+                            let alert = UIAlertController(title: NSLocalizedString("poll.ended.title", comment: ""),
+                                                          message: NSLocalizedString("poll.ended.message", comment: ""),
                                                           preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
                             
@@ -944,8 +944,8 @@ extension PostActions {
                         DispatchQueue.main.async {
                             triggerHapticNotification(feedback: .warning)
                             
-                            let alert = UIAlertController(title: "Already Voted",
-                                                          message: "You can't vote on this poll as you have already voted on it.",
+                            let alert = UIAlertController(title: NSLocalizedString("poll.already.title", comment: ""),
+                                                          message: NSLocalizedString("poll.already.message", comment: ""),
                                                           preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
                             
