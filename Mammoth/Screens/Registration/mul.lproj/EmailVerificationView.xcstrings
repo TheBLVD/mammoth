@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Conferma la tua email"
+            "state": "needs_review",
+            "value": "Confirm your email"
           }
         },
         "ja": {
@@ -144,8 +144,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Подтвердите свою эл. почту"
+            "state": "needs_review",
+            "value": "Confirm your email"
           }
         },
         "sr": {
@@ -162,8 +162,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Bekräfta din e-postadress"
+            "state": "needs_review",
+            "value": "Confirm your email"
           }
         },
         "tr": {
@@ -281,8 +281,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Bottone"
+            "state": "needs_review",
+            "value": "Button"
           }
         },
         "ja": {
@@ -329,8 +329,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Кнопка"
+            "state": "needs_review",
+            "value": "Button"
           }
         },
         "sr": {
@@ -347,8 +347,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Knapp"
+            "state": "needs_review",
+            "value": "Button"
           }
         },
         "tr": {
@@ -466,8 +466,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Fai clic sul link nell'email che abbiamo inviato a\n%@ e torna su Mammoth"
+            "state": "needs_review",
+            "value": "Click the link in the email we sent to\n%@ then return to Mammoth"
           }
         },
         "ja": {
@@ -514,8 +514,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Нажмите на ссылку в эл. почте, которую мы отправили на\n%@ затем вернитесь в Mammoth"
+            "state": "needs_review",
+            "value": "Click the link in the email we sent to\n%@ then return to Mammoth"
           }
         },
         "sr": {
@@ -532,8 +532,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Klicka på länken i e-postmeddelandet vi skickade till\n%@ sedan återgå till Mammoth"
+            "state": "needs_review",
+            "value": "Click the link in the email we sent to\n%@ then return to Mammoth"
           }
         },
         "tr": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Non hai ricevuto nulla?"
+            "state": "needs_review",
+            "value": "Not seeing it?"
           }
         },
         "ja": {
@@ -699,8 +699,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Не видите?"
+            "state": "needs_review",
+            "value": "Not seeing it?"
           }
         },
         "sr": {
@@ -717,8 +717,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Ser du inte det?"
+            "state": "needs_review",
+            "value": "Not seeing it?"
           }
         },
         "tr": {

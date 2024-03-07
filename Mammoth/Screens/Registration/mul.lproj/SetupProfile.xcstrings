@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Puoi inventarti qualcosa di simpatico o usare il tuo vero nome"
+            "state": "needs_review",
+            "value": "You can pick something fun or use your real name"
           }
         },
         "ja": {
@@ -144,8 +144,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Вы можете выбрать что-нибудь забавное или использовать свое настоящее имя."
+            "state": "needs_review",
+            "value": "You can pick something fun or use your real name"
           }
         },
         "sr": {
@@ -162,8 +162,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Du kan välja något roligt eller använda ditt riktiga namn"
+            "state": "needs_review",
+            "value": "You can pick something fun or use your real name"
           }
         },
         "tr": {
@@ -281,7 +281,7 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "%1@ %2@"
           }
         },
@@ -329,7 +329,7 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "%1@ %2@"
           }
         },
@@ -347,7 +347,7 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
+            "state": "needs_review",
             "value": "%1@ %2@"
           }
         },
@@ -466,8 +466,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "nome visualizzato"
+            "state": "needs_review",
+            "value": "display name"
           }
         },
         "ja": {
@@ -514,8 +514,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "отображаемое имя"
+            "state": "needs_review",
+            "value": "display name"
           }
         },
         "sr": {
@@ -532,8 +532,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "visningsnamn"
+            "state": "needs_review",
+            "value": "display name"
           }
         },
         "tr": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Fatto"
+            "state": "needs_review",
+            "value": "Done"
           }
         },
         "ja": {
@@ -699,8 +699,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Готово"
+            "state": "needs_review",
+            "value": "Done"
           }
         },
         "sr": {
@@ -717,8 +717,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Klar"
+            "state": "needs_review",
+            "value": "Done"
           }
         },
         "tr": {
@@ -836,8 +836,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Fatto"
+            "state": "needs_review",
+            "value": "Done"
           }
         },
         "ja": {
@@ -884,8 +884,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Готово"
+            "state": "needs_review",
+            "value": "Done"
           }
         },
         "sr": {
@@ -902,8 +902,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Klar"
+            "state": "needs_review",
+            "value": "Done"
           }
         },
         "tr": {
@@ -1021,8 +1021,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Bottone"
+            "state": "needs_review",
+            "value": "Button"
           }
         },
         "ja": {
@@ -1069,8 +1069,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Кнопка"
+            "state": "needs_review",
+            "value": "Button"
           }
         },
         "sr": {
@@ -1087,8 +1087,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Knapp"
+            "state": "needs_review",
+            "value": "Button"
           }
         },
         "tr": {
