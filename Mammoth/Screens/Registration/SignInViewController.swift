@@ -219,7 +219,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     func signingInAlertController() -> UIAlertController {
-        let alert = UIAlertController(title: nil, message: NSLocalizedString("signin.toast", comment: ""), preferredStyle: .alert)
+        let alert = UIAlertController(title: nil, message: NSLocalizedString("signIn.toast", comment: ""), preferredStyle: .alert)
         let loadingIndicator = UIActivityIndicatorView(frame: .zero)
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         loadingIndicator.hidesWhenStopped = true

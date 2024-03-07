@@ -79,13 +79,13 @@ extension MAMenu {
             
         // feed menus
         case .activity:
-            return MenuStyle(title: "Activity", image: FontAwesome.image(fromChar: "\u{f0f3}"))
+            return MenuStyle(title: NSLocalizedString("title.activity", comment: ""), image: FontAwesome.image(fromChar: "\u{f0f3}"))
         case .messages:
             return MenuStyle(title: "Messages", image: FontAwesome.image(fromChar: "\u{f0e0}"))
         case .favorites:
-            return MenuStyle(title: "Likes", image: FontAwesome.image(fromChar: "\u{f004}"))
+            return MenuStyle(title: NSLocalizedString("title.likes", comment: ""), image: FontAwesome.image(fromChar: "\u{f004}"))
         case .search:
-            return MenuStyle(title: "Search", image: FontAwesome.image(fromChar: "\u{f002}"))
+            return MenuStyle(title: NSLocalizedString("discover.search", comment: ""), image: FontAwesome.image(fromChar: "\u{f002}"))
             
         // contextual menus
         case .mention: /* @ */
@@ -127,9 +127,9 @@ extension MAMenu {
         case .jumpToNewest: /* arrow-up */
             return MenuStyle(title: "Jump to Newest", image: FontAwesome.image(fromChar: "\u{f062}"))
         case .following:
-            return MenuStyle(title: "Following", image: FontAwesome.image(fromChar: "\u{f234}"))
+            return MenuStyle(title: NSLocalizedString("title.following", comment: ""), image: FontAwesome.image(fromChar: "\u{f234}"))
         case .federated:
-            return MenuStyle(title: "Federated", image: FontAwesome.image(fromChar: "\u{f57d}"))
+            return MenuStyle(title: NSLocalizedString("title.federated", comment: ""), image: FontAwesome.image(fromChar: "\u{f57d}"))
         case .trendingPosts:
             return MenuStyle(title: "Trending Posts", image: FontAwesome.image(fromChar: "\u{f06d}"))
 
@@ -143,17 +143,17 @@ extension MAMenu {
         case .localCommunity:
             return MenuStyle(title: "local community", image: FontAwesome.image(fromChar: "\u{f0c0}", weight: .bold))
         case .newList:
-            return MenuStyle(title: "New List", image: FontAwesome.image(fromChar: "\u{2b}"))
+            return MenuStyle(title: NSLocalizedString("title.newList", comment: ""), image: FontAwesome.image(fromChar: "\u{2b}"))
         case .browseCommunities:
-            return MenuStyle(title: "Browse Communities", image: FontAwesome.image(fromChar: "\u{e03e}"))
+            return MenuStyle(title: NSLocalizedString("title.browseCommunities", comment: ""), image: FontAwesome.image(fromChar: "\u{e03e}"))
 
         // activity
         case .allActivity:
             return MenuStyle(title: "All Activity", image: FontAwesome.image(fromChar: "\u{f0f3}"))
         case .sentMentions:
-            return MenuStyle(title: "Sent Mentions", image: FontAwesome.image(fromChar: "\u{40}"))
+            return MenuStyle(title: NSLocalizedString("title.mentionsOut", comment: ""), image: FontAwesome.image(fromChar: "\u{40}"))
         case .receivedMentions:
-            return MenuStyle(title: "Received Mentions", image: FontAwesome.image(fromChar: "\u{40}"))
+            return MenuStyle(title: NSLocalizedString("title.mentionsIn", comment: ""), image: FontAwesome.image(fromChar: "\u{40}"))
         case .likes:
             return MenuStyle(title: "Likes", image: FontAwesome.image(fromChar: "\u{f004}"))
         case .reposts:
@@ -163,7 +163,7 @@ extension MAMenu {
         case .recentMedia:
             return MenuStyle(title: "Recent Media", image: FontAwesome.image(fromChar: "\u{f2bd}"))
         case .bookmarks:
-            return MenuStyle(title: "Bookmarks", image: FontAwesome.image(fromChar: "\u{f02e}"))
+            return MenuStyle(title: NSLocalizedString("title.bookmarks", comment: ""), image: FontAwesome.image(fromChar: "\u{f02e}"))
         case .filters:
             return MenuStyle(title: "Filters", image: FontAwesome.image(fromChar: "\u{e17e}"))
         case .explore:

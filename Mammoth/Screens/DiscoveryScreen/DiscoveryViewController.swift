@@ -57,8 +57,8 @@ class DiscoveryViewController: UIViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
-        self.title = "Users"
-        self.navigationItem.title = "Users"
+        self.title = NSLocalizedString("discover.users", comment: "")
+        self.navigationItem.title = NSLocalizedString("discover.users", comment: "")
 
         if viewModel.position != .aux {
             self.searchController.delegate = self
