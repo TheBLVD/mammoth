@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Synchronize with Crowdin
+      - name: Pull from Crowdin
         uses: crowdin/github-action@v1
         with:
           upload_sources: false
