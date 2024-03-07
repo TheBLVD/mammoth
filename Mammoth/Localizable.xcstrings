@@ -47006,7 +47006,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "How to set Mammoth language If your language doesn't appear on the next screen you need to first add it under Settings > General > Language & Region."
+            "value" : "If your language doesn't appear on the next screen you need to first add it under Settings > General > Language & Region"
           }
         },
         "es" : {
@@ -47178,7 +47178,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Wie du die App Sprache festlegst"
           }
         },
@@ -47191,7 +47191,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "How to set your app language"
+            "value" : "How to set Mammoth language"
           }
         },
         "es" : {
@@ -47250,7 +47250,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Hoe stel je de app-taal in"
           }
         },
@@ -47268,7 +47268,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Como configurar o idioma do app"
           }
         },
