@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Crea un account moth.social"
+            "state": "needs_review",
+            "value": "Create moth.social account"
           }
         },
         "ja": {
@@ -144,8 +144,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Создайте аккаунт moth.social"
+            "state": "needs_review",
+            "value": "Create moth.social account"
           }
         },
         "sr": {
@@ -162,8 +162,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Skapa moth.social konto"
+            "state": "needs_review",
+            "value": "Create moth.social account"
           }
         },
         "tr": {
@@ -281,8 +281,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Crea account moth.social"
+            "state": "needs_review",
+            "value": "Create moth.social account"
           }
         },
         "ja": {
@@ -329,8 +329,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Создать аккаунт moth.social"
+            "state": "needs_review",
+            "value": "Create moth.social account"
           }
         },
         "sr": {
@@ -466,8 +466,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Accedi con Mastodon / Moth"
+            "state": "needs_review",
+            "value": "Login with Mastodon / Moth"
           }
         },
         "ja": {
@@ -514,8 +514,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Войти с Mastodon / Moth"
+            "state": "needs_review",
+            "value": "Login with Mastodon / Moth"
           }
         },
         "sr": {
@@ -532,8 +532,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Logga in med Mastodon / Moth"
+            "state": "needs_review",
+            "value": "Login with Mastodon / Moth"
           }
         },
         "tr": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Accedi con Mastodon / Moth"
+            "state": "needs_review",
+            "value": "Login with Mastodon / Moth"
           }
         },
         "ja": {
@@ -699,8 +699,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Войти с Mastodon / Moth"
+            "state": "needs_review",
+            "value": "Login with Mastodon / Moth"
           }
         },
         "sr": {
@@ -836,8 +836,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Chiudi"
+            "state": "needs_review",
+            "value": "Close"
           }
         },
         "ja": {
@@ -884,8 +884,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Закрыть"
+            "state": "needs_review",
+            "value": "Close"
           }
         },
         "sr": {
@@ -902,8 +902,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Stäng"
+            "state": "needs_review",
+            "value": "Close"
           }
         },
         "tr": {
@@ -1021,8 +1021,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Chiudi"
+            "state": "needs_review",
+            "value": "Close"
           }
         },
         "ja": {
@@ -1069,8 +1069,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Закрыть"
+            "state": "needs_review",
+            "value": "Close"
           }
         },
         "sr": {
@@ -1206,8 +1206,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Puoi accedere a ulteriori\naccount nelle impostazioni."
+            "state": "needs_review",
+            "value": "You can sign into additional\naccounts in settings."
           }
         },
         "ja": {
@@ -1254,8 +1254,8 @@
         },
         "ru": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Вы можете войти в дополнительные\nаккаунты в настройках."
+            "state": "needs_review",
+            "value": "You can sign into additional\naccounts in settings."
           }
         },
         "sr": {
@@ -1272,8 +1272,8 @@
         },
         "sv": {
           "stringUnit": {
-            "state": "translated",
-            "value": "Du kan logga in på ytterligare\nkonton i inställningarna."
+            "state": "needs_review",
+            "value": "You can sign into additional\naccounts in settings."
           }
         },
         "tr": {
