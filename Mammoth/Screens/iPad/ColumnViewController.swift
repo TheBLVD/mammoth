@@ -342,7 +342,7 @@ class ColumnViewController: UIViewController {
             goTo4.wantsPriorityOverSystemBehavior = true
         }
         let goTo5 = UIKeyCommand(input: "5", modifierFlags: .command, action: #selector(scrollTo5))
-        goTo5.discoverabilityTitle = "Profile"
+        goTo5.discoverabilityTitle = NSLocalizedString("navigator.profile", comment: "")
         if #available(iOS 15, *) {
             goTo5.wantsPriorityOverSystemBehavior = true
         }
@@ -357,7 +357,7 @@ class ColumnViewController: UIViewController {
             goTo7.wantsPriorityOverSystemBehavior = true
         }
         let goTo8 = UIKeyCommand(input: "8", modifierFlags: .command, action: #selector(scrollTo8))
-        goTo8.discoverabilityTitle = "Filters"
+        goTo8.discoverabilityTitle = NSLocalizedString("profile.filters", comment: "")
         if #available(iOS 15, *) {
             goTo8.wantsPriorityOverSystemBehavior = true
         }

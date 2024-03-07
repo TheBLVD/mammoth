@@ -127,11 +127,11 @@ extension PostResultsViewModel {
     func getSectionTitle(for sectionIndex: Int) -> String {
         switch(self.type) {
         case .regular:
-            return "Posts"
+            return NSLocalizedString("activity.posts", comment: "")
         case .typing:
-            return "Posts"
+            return NSLocalizedString("activity.posts", comment: "")
         case .searchResult:
-            return "Posts"
+            return NSLocalizedString("activity.posts", comment: "")
         }
     }
     

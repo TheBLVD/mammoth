@@ -88,7 +88,7 @@ class ForYouCustomizationViewController: UIViewController {
         self.viewModel = ForYouCustomizationViewModel()
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
-        self.title = "Instances"
+        self.title = NSLocalizedString("title.instances", comment: "")
     }
     
     required init?(coder aDecoder: NSCoder) {

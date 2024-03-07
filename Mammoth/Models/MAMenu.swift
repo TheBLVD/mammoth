@@ -105,9 +105,9 @@ extension MAMenu {
         case .listItem: /* bullet list */
             return MenuStyle(title: "List item", image: FontAwesome.image(fromChar: "\u{f0ca}"))
         case .addToList: /* plus sign */
-            return MenuStyle(title: "Add to List", image: FontAwesome.image(fromChar: "\u{2b}"))
+            return MenuStyle(title: NSLocalizedString("list.addTo", comment: ""), image: FontAwesome.image(fromChar: "\u{2b}"))
         case .removeFromList: /* minus sign */
-            return MenuStyle(title: "Remove from List", image: FontAwesome.image(fromChar: "\u{f068}"))
+            return MenuStyle(title: NSLocalizedString("list.removeFrom", comment: ""), image: FontAwesome.image(fromChar: "\u{f068}"))
         case .enableNotifications: /* plus sign */
             return MenuStyle(title: "Enable Notifications", image: FontAwesome.image(fromChar: "\u{f0f3}"))
         case .disableNotifications: /* plus sign */
@@ -165,13 +165,13 @@ extension MAMenu {
         case .bookmarks:
             return MenuStyle(title: NSLocalizedString("title.bookmarks", comment: ""), image: FontAwesome.image(fromChar: "\u{f02e}"))
         case .filters:
-            return MenuStyle(title: "Filters", image: FontAwesome.image(fromChar: "\u{e17e}"))
+            return MenuStyle(title: NSLocalizedString("profile.filters", comment: ""), image: FontAwesome.image(fromChar: "\u{e17e}"))
         case .explore:
             return MenuStyle(title: "Explore", image: FontAwesome.image(fromChar: "\u{e03e}"))
         case .muted:
-            return MenuStyle(title: "Muted", image: FontAwesome.image(fromChar: "\u{f4a9}"))
+            return MenuStyle(title: NSLocalizedString("profile.muted", comment: ""), image: FontAwesome.image(fromChar: "\u{f4a9}"))
         case .blocked:
-            return MenuStyle(title: "Blocked", image: FontAwesome.image(fromChar: "\u{f05e}"))
+            return MenuStyle(title: NSLocalizedString("profile.blocked", comment: ""), image: FontAwesome.image(fromChar: "\u{f05e}"))
         case .pinnedUsers:
             return MenuStyle(title: "Pinned Users", image: FontAwesome.image(fromChar: "\u{f08d}"))
         case .translateBio:

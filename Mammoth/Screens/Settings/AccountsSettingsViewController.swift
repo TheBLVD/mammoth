@@ -251,7 +251,7 @@ class AccountsSettingsViewController: UIViewController, ASWebAuthenticationPrese
         var theMessage: String
         if let currentInstance = self.currentInstanceDetails {
             let theTitle = "\(currentInstance.domain.stripHTML()) (\(currentInstance.version ?? "1.0.0"))"
-            theMessage = "\(theTitle)\n\((currentInstance.usage.users.activeMonth ).formatUsingAbbrevation()) active users per month\n\n\(currentInstance.description.stripHTML() )"
+            theMessage = theTitle + "\n" + String.localizedStringWithFormat(NSLocalizedString("profile.addAccount.mau", comment: ""), currentInstance.usage.users.activeMonth.formatUsingAbbrevation()) + "\n\n" + currentInstance.description.stripHTML()
         } else {
             theMessage = ""
         }
@@ -259,13 +259,13 @@ class AccountsSettingsViewController: UIViewController, ASWebAuthenticationPrese
         var rules = ""
         if let ru = self.currentInstanceDetails?.rules {
             if ru.isEmpty {} else {
-                rules = "\n\nRules:\n"
+                rules = "\n\n" + NSLocalizedString("profile.addAccount.rules", comment: "") + "\n"
                 for (c,x) in ru.enumerated() {
                     rules = "\(rules)\n\(c + 1). \(x.text)"
                 }
             }
         }
-        return "Add multiple accounts to the app, which can be switched through quickly by long-pressing the profile tab. Long-press an account above to remove it from the app.\n\n\(theMessage)\(rules)"
+        return NSLocalizedString("profile.addAccount.message", comment: "") + "\n\n" + theMessage + rules
     }
 
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {

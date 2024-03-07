@@ -118,9 +118,9 @@ class LikedByMutedBlockedViewController: UIViewController, UITableViewDataSource
         } else if type == 10 {
             self.navigationItem.title = "Reposted By..."
         } else if type == 1 {
-            self.navigationItem.title = "Muted"
+            self.navigationItem.title = NSLocalizedString("profile.muted", comment: "")
         } else if type == 2 {
-            self.navigationItem.title = "Blocked"
+            self.navigationItem.title = NSLocalizedString("profile.blocked", comment: "")
         } else if type == 3 {
             self.navigationItem.title = "Pinned Users"
         } else if type == 4 {

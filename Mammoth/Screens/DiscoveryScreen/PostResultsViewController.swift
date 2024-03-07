@@ -36,7 +36,7 @@ class PostResultsViewController: UIViewController {
     // searchBar for the iPad aux column
     private lazy var searchBar: UISearchBar = {
         let searchBar: UISearchBar = UISearchBar()
-        searchBar.placeholder = "Posts"
+        searchBar.placeholder = NSLocalizedString("activity.posts", comment: "")
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
         return searchBar
@@ -63,8 +63,8 @@ class PostResultsViewController: UIViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
-        self.title = "Posts"
-        self.navigationItem.title = "Posts"
+        self.title = NSLocalizedString("activity.posts", comment: "")
+        self.navigationItem.title = NSLocalizedString("activity.posts", comment: "")
 
         if viewModel.position != .aux {
             self.searchController.delegate = self

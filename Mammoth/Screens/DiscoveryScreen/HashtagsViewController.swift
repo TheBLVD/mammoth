@@ -35,7 +35,7 @@ class HashtagsViewController: UIViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
-        self.title = "Hashtags"
+        self.title = NSLocalizedString("title.hashtags", comment: "")
     }
 
     required init?(coder aDecoder: NSCoder) {

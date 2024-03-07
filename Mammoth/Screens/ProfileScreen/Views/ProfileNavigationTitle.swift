@@ -48,7 +48,7 @@ private extension ProfileNavigationTitle {
         self.addSubview(titleLabel)
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        titleLabel.text = "Profile"
+        titleLabel.text = NSLocalizedString("navigator.profile", comment: "")
         titleLabel.layer.opacity = 0
         titleLabel.sizeToFit()
         

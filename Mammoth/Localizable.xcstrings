@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@" : {
+
+    },
     "accessibility.followTag" : {
       "comment" : "Screen reader only.",
       "localizations" : {
@@ -1477,7 +1480,7 @@
       }
     },
     "activity.likedMedia" : {
-      "comment" : "for gendered variants, should be interpreted as 'liked %@'.",
+      "comment" : "Could be image, video, GIF or carousel.",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -4053,6 +4056,9 @@
           }
         }
       }
+    },
+    "App Layout" : {
+
     },
     "communities.generic.title" : {
       "comment" : "Example: 'Activism Communities', as in 'Communities of Activism'",
@@ -13077,6 +13083,9 @@
         }
       }
     },
+    "d8T-wc-Ss7.placeholder" : {
+      "comment" : "display name"
+    },
     "date.futureDays" : {
       "comment" : "Date format",
       "localizations" : {
@@ -16929,7 +16938,7 @@
       }
     },
     "date.pastDays" : {
-      "comment" : "Days label.",
+      "comment" : "Date format",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -17114,7 +17123,7 @@
       }
     },
     "date.pastHours" : {
-      "comment" : "Hours label.",
+      "comment" : "Date format",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -17299,7 +17308,7 @@
       }
     },
     "date.pastMinutes" : {
-      "comment" : "Minutes label.",
+      "comment" : "Date format",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -17484,7 +17493,7 @@
       }
     },
     "date.pastMonths" : {
-      "comment" : "Months label.",
+      "comment" : "Date format",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -17669,7 +17678,7 @@
       }
     },
     "date.pastWeeks" : {
-      "comment" : "Weeks label.",
+      "comment" : "Date format",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -17854,7 +17863,7 @@
       }
     },
     "date.pastYears" : {
-      "comment" : "Years label.",
+      "comment" : "Date format",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -18039,7 +18048,7 @@
       }
     },
     "date.seconds" : {
-      "comment" : "Seconds label.",
+      "comment" : "Date format",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -18219,6 +18228,28 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "%ds"
+          }
+        }
+      }
+    },
+    "discover.matchingSL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matching Smart Lists"
+          }
+        }
+      }
+    },
+    "discover.moreSL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More Smart Lists"
           }
         }
       }
@@ -19546,7 +19577,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Benutzer"
           }
         },
@@ -19618,7 +19649,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Gebruikers"
           }
         },
@@ -19636,7 +19667,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Usuários"
           }
         },
@@ -19695,6 +19726,9 @@
           }
         }
       }
+    },
+    "Display a streamlined view that focuses on the feed timeline" : {
+
     },
     "error.cantLoadMore" : {
       "localizations" : {
@@ -22638,6 +22672,281 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Unfollow hashtag"
+          }
+        }
+      }
+    },
+    "filters.duration" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Duration"
+          }
+        }
+      }
+    },
+    "filters.duration.expiresAt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expires at..."
+          }
+        }
+      }
+    },
+    "filters.duration.expiresAt.6hours" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6 hours"
+          }
+        }
+      }
+    },
+    "filters.duration.expiresAt.12hours" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "12 hours"
+          }
+        }
+      }
+    },
+    "filters.duration.expiresAt.day" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 day"
+          }
+        }
+      }
+    },
+    "filters.duration.expiresAt.halfHour" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "30 mins"
+          }
+        }
+      }
+    },
+    "filters.duration.expiresAt.hour" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 hour"
+          }
+        }
+      }
+    },
+    "filters.duration.expiresAt.never" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never"
+          }
+        }
+      }
+    },
+    "filters.duration.expiresAt.week" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1 week"
+          }
+        }
+      }
+    },
+    "filters.extras" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extras"
+          }
+        }
+      }
+    },
+    "filters.extras.conversations" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conversations"
+          }
+        }
+      }
+    },
+    "filters.extras.hideCompletely" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide Completely"
+          }
+        }
+      }
+    },
+    "filters.extras.hideCompletely.footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completely hide the filtered content, behaving as if it did not exist."
+          }
+        }
+      }
+    },
+    "filters.extras.homeAndLists" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home and Lists"
+          }
+        }
+      }
+    },
+    "filters.extras.notifications" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "filters.extras.profiles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profiles"
+          }
+        }
+      }
+    },
+    "filters.extras.public" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Public timelines"
+          }
+        }
+      }
+    },
+    "filters.keywords" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keywords"
+          }
+        }
+      }
+    },
+    "filters.keywords.add" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Keyword"
+          }
+        }
+      }
+    },
+    "filters.keywords.footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a keyword to your filter."
+          }
+        }
+      }
+    },
+    "filters.keywords.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to add a new keyword to this filter"
+          }
+        }
+      }
+    },
+    "filters.keywords.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyword..."
+          }
+        }
+      }
+    },
+    "filters.new" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Filter"
+          }
+        }
+      }
+    },
+    "filters.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Title"
+          }
+        }
+      }
+    },
+    "filters.title.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filter title..."
           }
         }
       }
@@ -26881,6 +27190,17 @@
         }
       }
     },
+    "list.addTo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to List"
+          }
+        }
+      }
+    },
     "list.create" : {
       "localizations" : {
         "af" : {
@@ -28166,6 +28486,17 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Browse community created Smart Lists or create a regular list?"
+          }
+        }
+      }
+    },
+    "list.removeFrom" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from List"
           }
         }
       }
@@ -29866,7 +30197,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Empfohlene\\nAccounts für dich"
           }
         },
@@ -29879,7 +30210,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Recommended\\nfollows for you"
+            "value" : "Recommended\nfollows for you"
           }
         },
         "es" : {
@@ -29938,7 +30269,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Aanbevolen\\naccounts voor jou"
           }
         },
@@ -29956,7 +30287,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Recomendações\npara seguir"
           }
         },
@@ -30602,7 +30933,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Finde heraus, was als\\nNächstes kommt"
           }
         },
@@ -30615,7 +30946,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Find out what’s\\ncoming next"
+            "value" : "Find out what’s\ncoming next"
           }
         },
         "es" : {
@@ -30674,7 +31005,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Ondek wat\\nnog aankomt"
           }
         },
@@ -30692,7 +31023,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Descubra o que\nestá chegando"
           }
         },
@@ -30970,7 +31301,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Abonniere\\nIntelligente Listen"
           }
         },
@@ -30983,7 +31314,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Subscribe to\\nsmart lists"
+            "value" : "Subscribe to\nsmart lists"
           }
         },
         "es" : {
@@ -31042,7 +31373,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Inschrijven in \\nsmart lists"
           }
         },
@@ -31060,7 +31391,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Se inscreva em\nListas Inteligentes"
           }
         },
@@ -32963,6 +33294,7 @@
       }
     },
     "post.likeCount.plural" : {
+      "extractionState" : "stale",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -33147,6 +33479,7 @@
       }
     },
     "post.likeCount.singular" : {
+      "extractionState" : "stale",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -34620,6 +34953,7 @@
       }
     },
     "post.replyCount.plural" : {
+      "extractionState" : "stale",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -34804,6 +35138,7 @@
       }
     },
     "post.replyCount.singular" : {
+      "extractionState" : "stale",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -35908,6 +36243,7 @@
       }
     },
     "post.repostCount.plural" : {
+      "extractionState" : "stale",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -36092,6 +36428,7 @@
       }
     },
     "post.repostCount.singular" : {
+      "extractionState" : "stale",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -37931,6 +38268,39 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Add account"
+          }
+        }
+      }
+    },
+    "profile.addAccount.mau" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ active users per month"
+          }
+        }
+      }
+    },
+    "profile.addAccount.message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add multiple accounts to the app, which can be switched through quickly by long-pressing the profile tab. Long-press an account above to remove it from the app."
+          }
+        }
+      }
+    },
+    "profile.addAccount.rules" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rules:"
           }
         }
       }
@@ -62791,6 +63161,28 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "For You"
+          }
+        }
+      }
+    },
+    "title.hashtags" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hashtags"
+          }
+        }
+      }
+    },
+    "title.instances" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instances"
           }
         }
       }

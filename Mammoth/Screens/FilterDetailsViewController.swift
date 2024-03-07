@@ -325,7 +325,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
         if let _ = self.filter {
             self.navigationItem.title = "Filter Detail"
         } else {
-            self.navigationItem.title = "New Filter"
+            self.navigationItem.title = NSLocalizedString("filters.new", comment: "")
         }
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadAll), name: NSNotification.Name(rawValue: "reloadAll"), object: nil)
@@ -484,7 +484,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
             lab.frame = bg.frame
             
             let fullString = NSMutableAttributedString(string: "")
-            fullString.append(NSAttributedString(string: "  Title"))
+            fullString.append(NSAttributedString(string: "  " + NSLocalizedString("filters.title", comment: "")))
             lab.attributedText = fullString
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -498,7 +498,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
             lab.frame = bg.frame
             
             let fullString = NSMutableAttributedString(string: "")
-            fullString.append(NSAttributedString(string: "  Keywords"))
+            fullString.append(NSAttributedString(string: "  " + NSLocalizedString("filters.keywords", comment: "")))
             lab.attributedText = fullString
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -512,7 +512,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
             lab.frame = bg.frame
             
             let fullString = NSMutableAttributedString(string: "")
-            fullString.append(NSAttributedString(string: "  Duration"))
+            fullString.append(NSAttributedString(string: "  " + NSLocalizedString("filters.duration", comment: "")))
             lab.attributedText = fullString
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -526,7 +526,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
             lab.frame = bg.frame
             
             let fullString = NSMutableAttributedString(string: "")
-            fullString.append(NSAttributedString(string: "  Extras"))
+            fullString.append(NSAttributedString(string: "  " + NSLocalizedString("filters.extras", comment: "")))
             lab.attributedText = fullString
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -554,7 +554,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TrendsCellList1", for: indexPath) as! TrendsCell
-                cell.configure("Add Keyword", titleLabel2: "Tap to add a new keyword to this filter")
+                cell.configure(NSLocalizedString("filters.keywords.add", comment: ""), titleLabel2: NSLocalizedString("filters.keywords.message", comment: ""))
                 cell.separatorInset = .zero
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = .custom.baseTint.withAlphaComponent(0.2)
@@ -585,7 +585,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
             // expires after
             let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
             if let _ = self.filter {
-                cell.textLabel?.text = "Expires at..."
+                cell.textLabel?.text = NSLocalizedString("filters.duration.expiresAt", comment: "")
             } else {
                 cell.textLabel?.text = "Expire after..."
             }
@@ -601,25 +601,25 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
                 cell.detailTextLabel?.text = "\(da)"
             }
             if self.durationMin == 0 {
-                cell.detailTextLabel?.text = "Never"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.never", comment: "")
             }
             if self.durationMin == 30 {
-                cell.detailTextLabel?.text = "30 mins"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.halfHour", comment: "")
             }
             if self.durationMin == 60 {
-                cell.detailTextLabel?.text = "1 hour"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.hour", comment: "")
             }
             if self.durationMin == 360 {
-                cell.detailTextLabel?.text = "6 hours"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.6hours", comment: "")
             }
             if self.durationMin == 720 {
-                cell.detailTextLabel?.text = "12 hours"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.12hours", comment: "")
             }
             if self.durationMin == 1440 {
-                cell.detailTextLabel?.text = "1 day"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.day", comment: "")
             }
             if self.durationMin == 1440 * 7 {
-                cell.detailTextLabel?.text = "1 week"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.week", comment: "")
             }
             
             let view0 = UIAction(title: "\(da)", image: UIImage(systemName: "clock"), identifier: nil) { action in
@@ -631,66 +631,66 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
             if self.durationMin == 100 {
                 view0.state = .on
             }
-            let view1 = UIAction(title: "Never", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view1 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.never", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 0
                 self.tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .none)
                 self.editThis()
             }
-            view1.accessibilityLabel = "Never"
+            view1.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.never", comment: "")
             if self.durationMin == 0 {
                 view1.state = .on
             }
-            let view3 = UIAction(title: "30 mins", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view3 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.halfHour", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 30
                 self.tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .none)
                 self.editThis()
             }
-            view3.accessibilityLabel = "30 mins"
+            view3.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.halfHour", comment: "")
             if self.durationMin == 30 {
                 view3.state = .on
             }
-            let view4 = UIAction(title: "1 hour", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view4 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.hour", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 60
                 self.tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .none)
                 self.editThis()
             }
-            view4.accessibilityLabel = "1 hour"
+            view4.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.hour", comment: "")
             if self.durationMin == 60 {
                 view4.state = .on
             }
-            let view5 = UIAction(title: "6 hours", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view5 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.6hours", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 360
                 self.tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .none)
                 self.editThis()
             }
-            view5.accessibilityLabel = "6 hours"
+            view5.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.6hours", comment: "")
             if self.durationMin == 360 {
                 view5.state = .on
             }
-            let view6 = UIAction(title: "12 hours", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view6 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.12hours", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 720
                 self.tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .none)
                 self.editThis()
             }
-            view6.accessibilityLabel = "12 hours"
+            view6.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.12hours", comment: "")
             if self.durationMin == 720 {
                 view6.state = .on
             }
-            let view7 = UIAction(title: "1 day", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view7 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.day", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 1440
                 self.tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .none)
                 self.editThis()
             }
-            view7.accessibilityLabel = "1 day"
+            view7.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.day", comment: "")
             if self.durationMin == 1440 {
                 view7.state = .on
             }
-            let view2 = UIAction(title: "1 week", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view2 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.week", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 1440 * 7
                 self.tableView.reloadRows(at: [IndexPath(row: 0, section: 2)], with: .none)
                 self.editThis()
             }
-            view2.accessibilityLabel = "1 week"
+            view2.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.week", comment: "")
             if self.durationMin == 1440 * 7 {
                 view2.state = .on
             }
@@ -710,7 +710,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell1", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell1")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Home and Lists"
+                cell.textLabel?.text = NSLocalizedString("filters.extras.homeAndLists", comment: "")
                 cell.imageView?.image = UIImage(systemName: "heart.text.square")
                 let switchView = UISwitch(frame: .zero)
                 if self.context1 {
@@ -744,7 +744,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell2", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell2")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Notifications"
+                cell.textLabel?.text = NSLocalizedString("filters.extras.notifications", comment: "")
                 cell.imageView?.image = UIImage(systemName: "bell")
                 let switchView = UISwitch(frame: .zero)
                 if self.context2 {
@@ -778,7 +778,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell3", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell3")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Public timelines"
+                cell.textLabel?.text = NSLocalizedString("filters.extras.public", comment: "")
                 cell.imageView?.image = UIImage(systemName: "person.2.crop.square.stack")
                 let switchView = UISwitch(frame: .zero)
                 if self.context3 {
@@ -812,7 +812,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell4", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell4")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Conversations"
+                cell.textLabel?.text = NSLocalizedString("filters.extras.conversations", comment: "")
                 cell.imageView?.image = UIImage(systemName: "text.bubble")
                 let switchView = UISwitch(frame: .zero)
                 if self.context4 {
@@ -846,7 +846,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell5", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell5")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Profiles"
+                cell.textLabel?.text = NSLocalizedString("filters.extras.profiles", comment: "")
                 cell.imageView?.image = UIImage(systemName: "person.crop.circle")
                 let switchView = UISwitch(frame: .zero)
                 if self.context5 {
@@ -880,9 +880,9 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
                 var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                 cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell")
                 cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.text = "Hide Completely"
+                cell.textLabel?.text = NSLocalizedString("filters.extras.hideCompletely", comment: "")
                 cell.imageView?.image = UIImage(systemName: "hand.raised")
-                cell.detailTextLabel?.text = "Completely hide the filtered content, behaving as if it did not exist."
+                cell.detailTextLabel?.text = NSLocalizedString("filters.extras.hideCompletely.footer", comment: "")
                 let switchView = UISwitch(frame: .zero)
                 if self.hideCompletely {
                     switchView.setOn(true, animated: false)

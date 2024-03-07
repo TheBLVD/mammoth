@@ -30,9 +30,9 @@ class UserListViewModel {
             case .following:
                 return "Following (\(user?.followingCount ?? "0"))"
             case .mutes:
-                return "Muted"
+                return NSLocalizedString("profile.muted", comment: "")
             case .blocks:
-                return "Blocked"
+                return NSLocalizedString("profile.blocked", comment: "")
             case .listMembers:
                 return "List members"
             }

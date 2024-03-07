@@ -194,7 +194,7 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.navigationItem.title = "New List"
             } else {
                 if self.newFilter {
-                    self.navigationItem.title = "Add Keyword"
+                    self.navigationItem.title = NSLocalizedString("filters.keywords.add", comment: "")
                 } else {
                     self.navigationItem.title = "Image Description"
                 }
@@ -358,8 +358,8 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
                     // Creating a new filter
                     let cell = tableView.dequeueReusableCell(withIdentifier: "AltTextMultiCell", for: indexPath) as! AltTextMultiCell
                     
-                    cell.altText.placeholder = "Keyword..."
-                    cell.altText.accessibilityLabel = "Keyword..."
+                    cell.altText.placeholder = NSLocalizedString("filters.keywords.placeholder", comment: "")
+                    cell.altText.accessibilityLabel = NSLocalizedString("filters.keywords.placeholder", comment: "")
                     cell.altText.delegate = self
                     
                     cell.altText.tag = indexPath.section
@@ -548,7 +548,7 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
                 return "Create a new list to keep track of various user accounts in one place."
             } else {
                 if self.newFilter {
-                    return "Add a keyword to your filter."
+                    return NSLocalizedString("filters.keywords.footer", comment: "")
                 } else {
                     return nil
                 }

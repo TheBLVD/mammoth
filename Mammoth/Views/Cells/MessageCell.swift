@@ -37,7 +37,7 @@ class MessageCell: UITableViewCell {
         profileIcon.layer.masksToBounds = true
         profileIcon.imageView?.contentMode = .scaleAspectFill
         profileIcon.contentMode = .scaleAspectFill
-        profileIcon.accessibilityLabel = "Profile"
+        profileIcon.accessibilityLabel = NSLocalizedString("navigator.profile", comment: "")
         bgView.addSubview(profileIcon)
         
         // create 2 user group
@@ -49,7 +49,7 @@ class MessageCell: UITableViewCell {
         profileIcon21.layer.masksToBounds = true
         profileIcon21.imageView?.contentMode = .scaleAspectFill
         profileIcon21.contentMode = .scaleAspectFill
-        profileIcon21.accessibilityLabel = "Profile"
+        profileIcon21.accessibilityLabel = NSLocalizedString("navigator.profile", comment: "")
         profileIcon21.alpha = 0
         profileIcon.addSubview(profileIcon21)
         
@@ -60,7 +60,7 @@ class MessageCell: UITableViewCell {
         profileIcon22.layer.masksToBounds = true
         profileIcon22.imageView?.contentMode = .scaleAspectFill
         profileIcon22.contentMode = .scaleAspectFill
-        profileIcon22.accessibilityLabel = "Profile"
+        profileIcon22.accessibilityLabel = NSLocalizedString("navigator.profile", comment: "")
         profileIcon22.alpha = 0
         profileIcon.addSubview(profileIcon22)
         

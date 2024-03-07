@@ -90,7 +90,7 @@ extension SetupChannelsViewModel {
     
     func getSectionTitle(for sectionIndex: Int) -> String {
         if sectionIndex == 1 {
-            return "Smart Lists"
+            return NSLocalizedString("discover.smartLists", comment: "")
         } else {
             return ""
         }

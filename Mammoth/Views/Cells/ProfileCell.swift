@@ -122,7 +122,7 @@ class ProfileCell: UITableViewCell, SKPhotoBrowserDelegate {
         profileIcon.imageView?.contentMode = .scaleAspectFill
         profileIcon.contentMode = .scaleAspectFill
         profileIcon.addTarget(self, action: #selector(self.profileTapped), for: .touchUpInside)
-        profileIcon.accessibilityLabel = "Profile"
+        profileIcon.accessibilityLabel = NSLocalizedString("navigator.profile", comment: "")
         contentView.addSubview(profileIcon)
         
         follow.translatesAutoresizingMaskIntoConstraints = false
