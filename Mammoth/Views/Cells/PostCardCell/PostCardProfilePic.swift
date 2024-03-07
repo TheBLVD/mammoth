@@ -280,10 +280,10 @@ extension PostCardProfilePic {
                 
                 ( isFollowing
                     ? UIMenu(title: NSLocalizedString("list.manage", comment: ""), image: MAMenu.list.image.withRenderingMode(.alwaysTemplate), options: [], children: [
-                            UIMenu(title: MAMenu.addToList.title, image: MAMenu.addToList.image, options: [], children: ListManager.shared.allLists(includeTopFriends: false).map({
+                            UIMenu(title: MAMenu.addToList.title, image: MAMenu.addToList.image.withRenderingMode(.alwaysTemplate), options: [], children: ListManager.shared.allLists(includeTopFriends: false).map({
                                 createContextMenuAction($0.title, .addToList, isActive: true, data: PostCardButtonCallbackData.list($0.id))
                             })),
-                            UIMenu(title: MAMenu.removeFromList.title, image: MAMenu.removeFromList.image, options: [], children: ListManager.shared.allLists(includeTopFriends: false).map({
+                            UIMenu(title: MAMenu.removeFromList.title, image: MAMenu.removeFromList.image.withRenderingMode(.alwaysTemplate), options: [], children: ListManager.shared.allLists(includeTopFriends: false).map({
                                 createContextMenuAction($0.title, .removeFromList, isActive: true, data: PostCardButtonCallbackData.list($0.id))
                             })),
                             createContextMenuAction(NSLocalizedString("list.create", comment: ""), .createNewList, isActive: true, data: nil)
