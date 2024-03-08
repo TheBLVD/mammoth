@@ -18413,8 +18413,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Listas Inteligentes correspondentes"
           }
         },
         "ro": {
@@ -18598,8 +18598,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Mais Listas Inteligentes"
           }
         },
         "ro": {
@@ -23223,8 +23223,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Duração"
           }
         },
         "ro": {
@@ -23408,8 +23408,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Expira em..."
           }
         },
         "ro": {
@@ -23593,8 +23593,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "6 horas"
           }
         },
         "ro": {
@@ -23778,8 +23778,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "12 horas"
           }
         },
         "ro": {
@@ -23963,8 +23963,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "1 dia"
           }
         },
         "ro": {
@@ -24148,8 +24148,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "30 mins"
           }
         },
         "ro": {
@@ -24333,8 +24333,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "1 hora"
           }
         },
         "ro": {
@@ -24518,8 +24518,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Nunca"
           }
         },
         "ro": {
@@ -24703,8 +24703,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "1 semana"
           }
         },
         "ro": {
@@ -24888,8 +24888,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Extras"
           }
         },
         "ro": {
@@ -25073,8 +25073,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Conversas"
           }
         },
         "ro": {
@@ -25258,8 +25258,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Esconder Completamente"
           }
         },
         "ro": {
@@ -25443,8 +25443,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Ocultar completamente o conteúdo filtrado, agindo como se ele não existisse."
           }
         },
         "ro": {
@@ -25628,8 +25628,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Início e Listas"
           }
         },
         "ro": {
@@ -25813,8 +25813,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Notificações"
           }
         },
         "ro": {
@@ -25998,8 +25998,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Perfis"
           }
         },
         "ro": {
@@ -26183,8 +26183,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Linhas do tempo públicas"
           }
         },
         "ro": {
@@ -26368,8 +26368,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Palavras-Chave"
           }
         },
         "ro": {
@@ -26553,8 +26553,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Adicionar Palavra-Chave"
           }
         },
         "ro": {
@@ -26738,8 +26738,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Adicione uma palavra-chave ao seu filtro."
           }
         },
         "ro": {
@@ -26923,8 +26923,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Toque para adicionar uma nova palavra-chave a este filtro"
           }
         },
         "ro": {
@@ -27108,8 +27108,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Palavra-chave..."
           }
         },
         "ro": {
@@ -27293,8 +27293,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Novo Filtro"
           }
         },
         "ro": {
@@ -27478,8 +27478,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Título"
           }
         },
         "ro": {
@@ -27663,8 +27663,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Título do filtro..."
           }
         },
         "ro": {
@@ -32103,8 +32103,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Adicionar a Lista"
           }
         },
         "ro": {
@@ -33583,8 +33583,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Remover de Lista"
           }
         },
         "ro": {
@@ -35433,8 +35433,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Recomendações\npara seguir"
           }
         },
         "ro": {
@@ -36173,8 +36173,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Descubra o que\nestá chegando"
           }
         },
         "ro": {
@@ -36543,8 +36543,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Se inscreva em\nListas Inteligentes"
           }
         },
         "ro": {
@@ -43573,8 +43573,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "%@ usuários ativos por mês"
           }
         },
         "ro": {
@@ -43758,8 +43758,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Adicione várias contas ao app, que podem ser trocadas rapidamente pressionando segurando a aba de perfil. Segure uma conta acima para removê-la do aplicativo."
           }
         },
         "ro": {
@@ -43943,8 +43943,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Regras:"
           }
         },
         "ro": {
@@ -53193,8 +53193,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Caso seu idioma não apareça na próxima tela, primeiro você precisa adicioná-lo em Ajustes > Geral > Idioma e Região"
           }
         },
         "ro": {
@@ -53378,8 +53378,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Como configurar o idioma do Mammoth"
           }
         },
         "ro": {
@@ -67808,8 +67808,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Entrando..."
           }
         },
         "ro": {
@@ -68363,8 +68363,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Navegar Comunidades"
           }
         },
         "ro": {
@@ -69103,8 +69103,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Hashtags"
           }
         },
         "ro": {
@@ -69288,8 +69288,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Instâncias"
           }
         },
         "ro": {
@@ -70213,8 +70213,8 @@
         },
         "pt-BR": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Nova Lista"
           }
         },
         "ro": {
