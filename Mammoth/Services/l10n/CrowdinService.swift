@@ -24,7 +24,7 @@ struct l10n {
     public static func checkForSupportedLanguage() {
         // Fallback to root localization if current device language is not supported
         let supported = GlobalStruct.supportedLocalizations
-        if let currentLanguage = Locale.current.languageCode {
+        if let currentLanguage = self.getCurrentLocale() {
             if !supported.contains(currentLanguage) {
                 CrowdinSDK.currentLocalization = GlobalStruct.rootLocalization
             } else {
@@ -33,5 +33,9 @@ struct l10n {
         } else {
             CrowdinSDK.currentLocalization = GlobalStruct.rootLocalization
         }
+    }
+    
+    private static func getCurrentLocale() -> String? {
+        return Locale.preferredLanguages[0]
     }
 }
