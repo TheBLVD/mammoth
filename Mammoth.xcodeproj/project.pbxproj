@@ -24,11 +24,13 @@
 		1450CE032ADD4FC300C91923 /* ListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1450CE022ADD4FC300C91923 /* ListService.swift */; };
 		1455B8F62B9B33A200630F46 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1455B8F52B9B33A200630F46 /* InfoPlist.xcstrings */; };
 		1455B8F62B9B33A200630F46 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 1455B8F52B9B33A200630F46 /* InfoPlist.xcstrings */; };
+		1455B8F42B9B228F00630F46 /* CrowdinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1455B8F32B9B228F00630F46 /* CrowdinService.swift */; };
 		146C6A432B34545B00A002D7 /* UnifiedBlurHash in Frameworks */ = {isa = PBXBuildFile; productRef = 146C6A422B34545B00A002D7 /* UnifiedBlurHash */; };
 		146C6A452B456EFB00A002D7 /* CarouselNavigationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C6A442B456EFB00A002D7 /* CarouselNavigationHeader.swift */; };
 		146C6A472B48113500A002D7 /* String+StripEmojis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C6A462B48113500A002D7 /* String+StripEmojis.swift */; };
 		14780F7B2AFBD6A700A7ECD9 /* RealtimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */; };
 		14780F812AFCEA7000A7ECD9 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 14780F802AFCEA7000A7ECD9 /* Reachability */; };
+		148D496A2B9A071E007DD94F /* CrowdinSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 148D49692B9A071E007DD94F /* CrowdinSDK */; };
 		149A682D2AD6A4E200E72A83 /* Mute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68282AD6A4E200E72A83 /* Mute.swift */; };
 		149A682F2AD6A4E200E72A83 /* mute.aiff in Resources */ = {isa = PBXBuildFile; fileRef = 149A682B2AD6A4E200E72A83 /* mute.aiff */; };
 		149A68312AD6CE3700E72A83 /* AVManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149A68302AD6CE3700E72A83 /* AVManager.swift */; };
@@ -846,6 +848,7 @@
 		1450CE022ADD4FC300C91923 /* ListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListService.swift; sourceTree = "<group>"; };
 		1455B8F52B9B33A200630F46 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		1455B8F52B9B33A200630F46 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
+		1455B8F32B9B228F00630F46 /* CrowdinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrowdinService.swift; sourceTree = "<group>"; };
 		146C6A442B456EFB00A002D7 /* CarouselNavigationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselNavigationHeader.swift; sourceTree = "<group>"; };
 		146C6A462B48113500A002D7 /* String+StripEmojis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+StripEmojis.swift"; sourceTree = "<group>"; };
 		14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeManager.swift; sourceTree = "<group>"; };
@@ -1637,6 +1640,7 @@
 				662B60EF2A4A1F6D00CB331F /* JWTDecode in Frameworks */,
 				146C6A432B34545B00A002D7 /* UnifiedBlurHash in Frameworks */,
 				F0ED503C2B949A2C00F7525B /* MetaTextKit in Frameworks */,
+				148D496A2B9A071E007DD94F /* CrowdinSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1679,6 +1683,14 @@
 				1441C0332B63EE5A00AFEE39 /* String+Helpers.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		1455B8F22B9B227B00630F46 /* l10n */ = {
+			isa = PBXGroup;
+			children = (
+				1455B8F32B9B228F00630F46 /* CrowdinService.swift */,
+			);
+			path = l10n;
 			sourceTree = "<group>";
 		};
 		149A68242AD6A4BF00E72A83 /* Sound */ = {
@@ -2869,6 +2881,7 @@
 		C3A521EF29FFCCB2008AA5D1 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				1455B8F22B9B227B00630F46 /* l10n */,
 				C392CE632A1E3AAD00651850 /* Backend */,
 				53B15857293F66D20026E90B /* Push */,
 				53450E81293775B100D720EA /* Shortcuts */,
@@ -3180,6 +3193,7 @@
 				14780F802AFCEA7000A7ECD9 /* Reachability */,
 				146C6A422B34545B00A002D7 /* UnifiedBlurHash */,
 				F0ED503B2B949A2C00F7525B /* MetaTextKit */,
+				148D49692B9A071E007DD94F /* CrowdinSDK */,
 			);
 			productName = Mastodon;
 			productReference = 533993DF29141F4600560F83 /* Mammoth.app */;
@@ -3294,6 +3308,7 @@
 				144DC7E02B1773E400F4EE98 /* XCRemoteSwiftPackageReference "OpenSSL" */,
 				146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */,
 				F0ED503A2B949A2C00F7525B /* XCLocalSwiftPackageReference "../MetaTextKit" */,
+				148D49682B9A04F2007DD94F /* XCRemoteSwiftPackageReference "mobile-sdk-ios" */,
 			);
 			productRefGroup = 533993E029141F4600560F83 /* Products */;
 			projectDirPath = "";
@@ -3599,6 +3614,7 @@
 				53399A3E291526B900560F83 /* DateFormatter.swift in Sources */,
 				C3085A152AC5C6CD007E1CFD /* PostCardImage.swift in Sources */,
 				53399A6B291526B900560F83 /* Media.swift in Sources */,
+				1455B8F42B9B228F00630F46 /* CrowdinService.swift in Sources */,
 				53399A5B291526B900560F83 /* Filters.swift in Sources */,
 				88722D9629FC5A7200988277 /* PostActions.swift in Sources */,
 				C3F3B0292A4E29DC008FC4B7 /* NewsFeedViewModel+ScrollPositions.swift in Sources */,
@@ -4758,6 +4774,14 @@
 				revision = a81b7367f2c46875f29577e03a60c39cdfad0c8d;
 			};
 		};
+		148D49682B9A04F2007DD94F /* XCRemoteSwiftPackageReference "mobile-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/crowdin/mobile-sdk-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.7.1;
+			};
+		};
 		532F291329476916003C9FAD /* XCRemoteSwiftPackageReference "MessageKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
@@ -4818,6 +4842,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 14780F7F2AFCE93800A7ECD9 /* XCRemoteSwiftPackageReference "Reachability" */;
 			productName = Reachability;
+		};
+		148D49692B9A071E007DD94F /* CrowdinSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 148D49682B9A04F2007DD94F /* XCRemoteSwiftPackageReference "mobile-sdk-ios" */;
+			productName = CrowdinSDK;
 		};
 		532F291429476916003C9FAD /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;
