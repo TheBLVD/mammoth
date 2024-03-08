@@ -69,7 +69,10 @@ extension NewsFeedViewModel {
                             let uniqueNewItems = newItems.filter({ !currentIds.contains($0.extractUniqueId() ?? "") }).removingDuplicates()
                             if !uniqueNewItems.isEmpty {
                                 self.append(items: uniqueNewItems, forType: currentType)
-                                self.hideEmpty(forType: currentType)
+                                
+                                if self.snapshot.indexOfSection(.empty) != nil {
+                                    self.hideEmpty(forType: currentType)
+                                }
                             }
                             
                             self.state = .success
@@ -131,7 +134,10 @@ extension NewsFeedViewModel {
                             let newUniqueItems = newItems.filter({ !currentIds.contains($0.extractUniqueId() ?? "") }).removingDuplicates()
                             if !newUniqueItems.isEmpty {
                                 self.insert(items: newUniqueItems, forType: currentType)
-                                self.hideEmpty(forType: currentType)
+                                
+                                if self.snapshot.indexOfSection(.empty) != nil {
+                                    self.hideEmpty(forType: currentType)
+                                }
                             }
                             
                             return newUniqueItems
@@ -638,9 +644,7 @@ extension NewsFeedViewModel {
                         } else {
                             var pageToFetchLimit = 10
                             fetchingNewItems = true
-                            
-                            let isOldFeed = self.isNewestItemOlderThen(targetDate: Date().adding(minutes: -60*22)) ?? false
-                            
+                                                        
                             log.debug("Calling loadListData(previousPage) for feedType: \(type)")
                             let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
                             pageToFetchLimit -= 1
@@ -648,7 +652,7 @@ extension NewsFeedViewModel {
                             if !fetchedItems.isEmpty {
                                 
                                 // Show the JumpToNow pill if the feed is old
-                                if isOldFeed {
+                                if fetchedItems.count >= 40 {
                                     await MainActor.run { [weak self] in
                                         self?.setShowJumpToNow(enabled: true, forFeed: type)
                                     }
@@ -674,7 +678,7 @@ extension NewsFeedViewModel {
                                         self.delegate?.didUpdateUnreadState(type: type)
                                     }
                                 }
-                            } else if !isOldFeed {
+                            } else if pageToFetchLimit >= 9 {
                                 await MainActor.run { [weak self] in
                                     self?.setShowJumpToNow(enabled: false, forFeed: type)
                                     self?.delegate?.didUpdateUnreadState(type: type)
