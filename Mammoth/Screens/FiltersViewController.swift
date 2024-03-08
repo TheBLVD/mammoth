@@ -91,7 +91,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "Filters"
+        self.navigationItem.title = NSLocalizedString("profile.filters", comment: "")
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadAll), name: NSNotification.Name(rawValue: "reloadAll"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadThis), name: NSNotification.Name(rawValue: "reloadThis"), object: nil)
@@ -112,7 +112,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         btn2.setImage(UIImage(systemName: "plus", withConfiguration: symbolConfig)?.withTintColor(.custom.baseTint, renderingMode: .alwaysTemplate), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
         btn2.addTarget(self, action: #selector(self.newFilter), for: .touchUpInside)
-        btn2.accessibilityLabel = "New Filter"
+        btn2.accessibilityLabel = NSLocalizedString("filters.new", comment: "")
         let moreButton3 = UIBarButtonItem(customView: btn2)
         self.navigationItem.setRightBarButtonItems([moreButton3], animated: true)
     }
@@ -213,7 +213,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         var filt: String = ""
         for (c,x) in self.allFilters[indexPath.row].context.enumerated() {
-            let aa = x.capitalized.replacingOccurrences(of: "Home", with: "Home and Lists").replacingOccurrences(of: "Public", with: "Public Timelines").replacingOccurrences(of: "Thread", with: "Conversations").replacingOccurrences(of: "Account", with: "Profiles")
+            let aa = x.capitalized.replacingOccurrences(of: "Home", with: NSLocalizedString("filters.extras.homeAndLists", comment: "")).replacingOccurrences(of: "Public", with: "Public Timelines").replacingOccurrences(of: "Thread", with: NSLocalizedString("filters.extras.conversations", comment: "")).replacingOccurrences(of: "Account", with: NSLocalizedString("filters.extras.profiles", comment: ""))
             if c == 0 {
                 filt = "\(aa)"
             } else if c == self.allFilters[indexPath.row].context.count - 1 {

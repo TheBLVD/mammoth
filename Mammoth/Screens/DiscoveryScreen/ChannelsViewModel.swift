@@ -124,9 +124,9 @@ extension ChannelsViewModel {
     func getSectionTitle(for sectionIndex: Int) -> String {
         switch(sectionIndex) {
         case 0:
-            return "Matching Smart Lists"
+            return NSLocalizedString("discover.matchingSL", comment: "")
         case 1:
-            return "More Smart Lists"
+            return NSLocalizedString("discover.moreSL", comment: "")
         default:
             return ""
         }

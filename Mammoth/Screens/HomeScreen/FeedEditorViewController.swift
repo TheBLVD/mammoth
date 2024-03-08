@@ -148,7 +148,7 @@ extension FeedEditorViewController: UITableViewDelegate, UITableViewDataSource, 
                     case .hashtag(let tag):
                         let alert = UIAlertController(title: NSLocalizedString("feedEditor.alert.unfollowTag.title", comment: ""), message: NSLocalizedString("feedEditor.alert.unfollowTag.message", comment: ""), preferredStyle: .alert)
                         alert.view.tintColor = .custom.highContrast
-                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.unfollow", comment: ""), style: .destructive , handler: { (UIAlertAction) in
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("profile.unfollow", comment: ""), style: .destructive , handler: { (UIAlertAction) in
                             cell.showLoader()
                             HashtagManager.shared.unfollowHashtag(tag.name.lowercased(), completion: { _ in })
                         }))

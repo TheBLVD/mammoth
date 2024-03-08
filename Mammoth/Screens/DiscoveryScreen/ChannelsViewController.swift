@@ -45,7 +45,7 @@ class ChannelsViewController: UIViewController {
         self.onClose = onClose
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
-        self.title = "Smart Lists"
+        self.title = NSLocalizedString("discover.smartLists", comment: "")
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -114,7 +114,7 @@ class DetailView: UIView, SKPhotoBrowserDelegate, UIActivityItemSource, UIContex
         profileIcon.layer.masksToBounds = true
         profileIcon.imageView?.contentMode = .scaleAspectFill
         profileIcon.contentMode = .scaleAspectFill
-        profileIcon.accessibilityLabel = "Profile"
+        profileIcon.accessibilityLabel = NSLocalizedString("navigator.profile", comment: "")
         pipView.addSubview(profileIcon)
         
         let symbolConfig0 = UIImage.SymbolConfiguration(pointSize: UIFont.preferredFont(forTextStyle: .title2).pointSize + GlobalStruct.customTextSize, weight: .bold)

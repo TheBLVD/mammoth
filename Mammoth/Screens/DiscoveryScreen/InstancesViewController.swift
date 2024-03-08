@@ -40,7 +40,7 @@ class InstancesViewController: UIViewController, UITableViewDataSourcePrefetchin
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.viewModel.delegate = self
-        self.title = "Instances"
+        self.title = NSLocalizedString("title.instances", comment: "")
     }
 
     required init?(coder aDecoder: NSCoder) {

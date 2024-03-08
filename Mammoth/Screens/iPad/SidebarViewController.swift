@@ -188,7 +188,7 @@ class SidebarViewController: UIViewController, UICollectionViewDelegate, UIPenci
             DiffSections(id: 2, title: "Explore", image: "\u{f002}"),
             DiffSections(id: 3, title: "Activity", image: "\u{f0f3}"),
             DiffSections(id: 4, title: "Mentions", image: "\u{40}"),
-            DiffSections(id: 5, title: "Profile", image: "\u{f007}"),
+            DiffSections(id: 5, title: NSLocalizedString("navigator.profile", comment: ""), image: "\u{f007}"),
         ]
         
         self.collectionView.showsVerticalScrollIndicator = false

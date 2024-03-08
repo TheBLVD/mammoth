@@ -677,8 +677,8 @@ extension ProfileViewController: RequestDelegate {
                     self.coverImage.configure(user: user)
                     self.tableView.updateHeaderViewFrame()
                     self.settingsButton?.user = user
-                    self.titleView.configure(title: user.isSelf ? "Profile" : "@\(user.username)")
-                    self.navigationItem.title = user.isSelf ? "Profile" : "@\(user.username)"
+                    self.titleView.configure(title: user.isSelf ? NSLocalizedString("navigator.profile", comment: "") : "@\(user.username)")
+                    self.navigationItem.title = user.isSelf ? NSLocalizedString("navigator.profile", comment: "") : "@\(user.username)"
                 }
             }
             

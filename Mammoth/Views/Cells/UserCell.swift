@@ -33,7 +33,7 @@ class UserCell: UITableViewCell {
         profileIcon.isUserInteractionEnabled = true
         profileIcon.imageView?.contentMode = .scaleAspectFill
         profileIcon.contentMode = .scaleAspectFill
-        profileIcon.accessibilityLabel = "Profile"
+        profileIcon.accessibilityLabel = NSLocalizedString("navigator.profile", comment: "")
         bgView.addSubview(profileIcon)
         if GlobalStruct.circleProfiles {
             profileIcon.layer.cornerRadius = 25

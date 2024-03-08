@@ -329,13 +329,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let command04 = UIKeyCommand(input: "4", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo4))
         command04.title =  "Explore"
         let command05 = UIKeyCommand(input: "5", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo5))
-        command05.title =  "Profile"
+        command05.title =  NSLocalizedString("navigator.profile", comment: "")
         let command06 = UIKeyCommand(input: "6", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo6))
         command06.title =  "Likes"
         let command07 = UIKeyCommand(input: "7", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo7))
         command07.title =  "Bookmarks"
         let command08 = UIKeyCommand(input: "8", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo8))
-        command08.title =  "Filters"
+        command08.title =  NSLocalizedString("profile.filters", comment: "")
         let command09 = UIKeyCommand(input: "f", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo9))
         command09.title =  "Search"
         let formatDataMenu4 = UIMenu(title: "", image: nil, identifier: UIMenu.Identifier("goto"), options: .displayInline, children: [command01, command02, command03, command04, command05, command06, command07, command08, command09])

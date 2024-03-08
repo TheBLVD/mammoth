@@ -31,7 +31,7 @@ class SignInInstanceCell: UITableViewCell {
         profileIcon.layer.masksToBounds = true
         profileIcon.imageView?.contentMode = .scaleAspectFill
         profileIcon.contentMode = .scaleAspectFill
-        profileIcon.accessibilityLabel = "Profile"
+        profileIcon.accessibilityLabel = NSLocalizedString("navigator.profile", comment: "")
         profileIcon.isUserInteractionEnabled = false
         contentView.addSubview(profileIcon)
         
