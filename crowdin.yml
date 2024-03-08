@@ -12,6 +12,12 @@ files: [
     "export_only_approved": true
   },
   {
+    "source": "Mammoth/InfoPlist.xcstrings",
+    "translation": ".i18n/%locale%/Mammoth/%original_file_name%",
+    "skip_untranslated_strings": true,
+    "export_only_approved": true
+  },
+  {
     "source": "Mammoth/Screens/Registration/mul.lproj/SignUpView.xcstrings",
     "translation": ".i18n/%locale%/Mammoth/Screens/Registration/mul.lproj/%original_file_name%",
     "skip_untranslated_strings": true,
