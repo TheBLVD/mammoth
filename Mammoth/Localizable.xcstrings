@@ -5530,6 +5530,61 @@
         }
       }
     },
+    "composer.alt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image Description"
+          }
+        }
+      }
+    },
+    "composer.alt.detect" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to Autodetect Text"
+          }
+        }
+      }
+    },
+    "composer.alt.footer1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The image that this description is being applied to."
+          }
+        }
+      }
+    },
+    "composer.alt.footer2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Autofill text detected within the image. Check for and correct any errors in the detected text before saving the description."
+          }
+        }
+      }
+    },
+    "composer.alt.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image description..."
+          }
+        }
+      }
+    },
     "composer.characterCount" : {
       "localizations" : {
         "af" : {
@@ -27430,7 +27485,6 @@
       }
     },
     "filters.title.placeholder" : {
-      "extractionState" : "stale",
       "localizations" : {
         "af" : {
           "stringUnit" : {
@@ -32405,6 +32459,17 @@
         }
       }
     },
+    "list.edit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit List"
+          }
+        }
+      }
+    },
     "list.editTitle" : {
       "localizations" : {
         "af" : {
@@ -32585,6 +32650,38 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : ""
+          }
+        }
+      }
+    },
+    "list.editTitle.placehoder" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit list title..."
+          }
+        }
+      }
+    },
+    "list.editTitle.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit list title..."
+          }
+        }
+      }
+    },
+    "list.hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lists will start populating once members start posting content"
           }
         }
       }
@@ -32954,6 +33051,39 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : ""
+          }
+        }
+      }
+    },
+    "list.new" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New List"
+          }
+        }
+      }
+    },
+    "list.new.footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create a new list to keep track of various user accounts in one place."
+          }
+        }
+      }
+    },
+    "list.new.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "List title..."
           }
         }
       }
