@@ -807,7 +807,10 @@ extension PostCardModel {
     
     func preloadEmojis() {
         self.emojis?.forEach({
-            ImageDownloader.default.downloadImage(with: $0.url)
+            if !SDImageCache.shared.diskImageDataExists(withKey: $0.url.absoluteString) {
+                let prefetcher = SDWebImagePrefetcher.shared
+                self.imagePrefetchToken = prefetcher.prefetchURLs([$0.url], context: [.animatedImageClass: SDAnimatedImageView.self], progress: nil)
+            }
         })
     }
     
