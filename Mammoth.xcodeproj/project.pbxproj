@@ -776,6 +776,7 @@
 		D87449C72A968D39002A0603 /* RotatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87449C62A968D39002A0603 /* RotatingViewController.swift */; };
 		D8CA77612AB90D4000F49ECC /* ShareableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */; };
 		D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DE092E2A3D12D800DD0483 /* Haptics.swift */; };
+		F054D25C2B9C9E07006130A4 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F054D25B2B9C9E07006130A4 /* MetaTextKit */; };
 		F084802D2B8BBF02005201A7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F084802C2B8BBF02005201A7 /* Localizable.xcstrings */; };
 		F0ED503C2B949A2C00F7525B /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F0ED503B2B949A2C00F7525B /* MetaTextKit */; };
 		F0F6A5DD2ACCA9C1004FD05F /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6A5DC2ACCA9C1004FD05F /* AnalyticsManager.swift */; };
@@ -1639,6 +1640,7 @@
 				146C6A432B34545B00A002D7 /* UnifiedBlurHash in Frameworks */,
 				F0ED503C2B949A2C00F7525B /* MetaTextKit in Frameworks */,
 				148D496A2B9A071E007DD94F /* CrowdinSDK in Frameworks */,
+				F054D25C2B9C9E07006130A4 /* MetaTextKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3192,6 +3194,7 @@
 				146C6A422B34545B00A002D7 /* UnifiedBlurHash */,
 				F0ED503B2B949A2C00F7525B /* MetaTextKit */,
 				148D49692B9A071E007DD94F /* CrowdinSDK */,
+				F054D25B2B9C9E07006130A4 /* MetaTextKit */,
 			);
 			productName = Mastodon;
 			productReference = 533993DF29141F4600560F83 /* Mammoth.app */;
@@ -3305,8 +3308,8 @@
 				144DC74E2B17698200F4EE98 /* XCRemoteSwiftPackageReference "swift-collections" */,
 				144DC7E02B1773E400F4EE98 /* XCRemoteSwiftPackageReference "OpenSSL" */,
 				146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */,
-				F0ED503A2B949A2C00F7525B /* XCLocalSwiftPackageReference "../MetaTextKit" */,
 				148D49682B9A04F2007DD94F /* XCRemoteSwiftPackageReference "mobile-sdk-ios" */,
+				F054D25A2B9C9E07006130A4 /* XCRemoteSwiftPackageReference "MetaTextKit" */,
 			);
 			productRefGroup = 533993E029141F4600560F83 /* Products */;
 			projectDirPath = "";
@@ -4732,13 +4735,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		F0ED503A2B949A2C00F7525B /* XCLocalSwiftPackageReference "../MetaTextKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../MetaTextKit;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCRemoteSwiftPackageReference section */
 		144DC74E2B17698200F4EE98 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -4828,6 +4824,14 @@
 				minimumVersion = 4.0.1;
 			};
 		};
+		F054D25A2B9C9E07006130A4 /* XCRemoteSwiftPackageReference "MetaTextKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TheBLVD/MetaTextKit";
+			requirement = {
+				kind = exactVersion;
+				version = 2.3.11;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -4888,6 +4892,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 533993F62914201500560F83 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		F054D25B2B9C9E07006130A4 /* MetaTextKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F054D25A2B9C9E07006130A4 /* XCRemoteSwiftPackageReference "MetaTextKit" */;
+			productName = MetaTextKit;
 		};
 		F0ED503B2B949A2C00F7525B /* MetaTextKit */ = {
 			isa = XCSwiftPackageProductDependency;
