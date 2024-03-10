@@ -23,7 +23,7 @@ open class SKPhoto: NSObject, SKPhotoProtocol {
     open var index: Int = 0
     open var underlyingImage: UIImage!
     open var caption: String?
-    open var contentMode: UIView.ContentMode = .scaleAspectFill
+    open var contentMode: UIView.ContentMode = .scaleAspectFit
     open var shouldCachePhotoURLImage: Bool = false
     open var photoURL: String!
 
