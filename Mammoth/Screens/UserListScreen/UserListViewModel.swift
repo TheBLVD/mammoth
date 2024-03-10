@@ -56,12 +56,14 @@ class UserListViewModel {
         func fetchAll(_ user: UserCardModel, range: RequestRange = .default) async throws -> ([UserCardModel], Pagination?) {
             switch self {
             case .followers:
-                let (accounts, pagination) = try await AccountService.followers(userId: user.id, instanceName: user.instanceName, range: range)
-                let users = accounts.map({ UserCardModel(account: $0, requestFollowStatusUpdate: .none) })
+                let (accounts, relationships, pagination) = try await AccountService.followers(userId: user.id, instanceName: user.instanceName, range: range)
+                let related_users = zip(accounts, relationships)
+                let users = related_users.map({ UserCardModel(account: $0, relationship: $1, requestFollowStatusUpdate: .none) })
                 return (users, pagination)
             case .following:
-                let (accounts, pagination) = try await AccountService.following(userId: user.id, instanceName: user.instanceName, range: range)
-                let users = accounts.map({ UserCardModel(account: $0, requestFollowStatusUpdate: .none, isFollowing: true) })
+                let (accounts, relationships, pagination) = try await AccountService.following(userId: user.id, instanceName: user.instanceName, range: range)
+                let related_users = zip(accounts, relationships)
+                let users = related_users.map({ UserCardModel(account: $0, relationship: $1, requestFollowStatusUpdate: .none, isFollowing: true) })
                 return (users, pagination)
             case .mutes:
 //                let (accounts, pagination) = try await AccountService.mutes(range: range)
