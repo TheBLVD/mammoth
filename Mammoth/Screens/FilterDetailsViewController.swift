@@ -587,7 +587,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
             if let _ = self.filter {
                 cell.textLabel?.text = NSLocalizedString("filters.duration.expiresAt", comment: "")
             } else {
-                cell.textLabel?.text = "Expire after..."
+                cell.textLabel?.text = NSLocalizedString("filters.duration.expiresAt", comment: "")
             }
             cell.imageView?.image = UIImage(systemName: "clock")
             
