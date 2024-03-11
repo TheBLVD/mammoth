@@ -375,6 +375,7 @@ final class PostCardImage: UIView {
                 photo.shouldCachePhotoURLImage = false
                 
                 let imageFromCache = SDImageCache.shared.imageFromCache(forKey: attachment.url)
+                let previewFromCache = SDImageCache.shared.imageFromCache(forKey: attachment.previewURL)
                 
                 var blurImage: UIImage? = nil
                 if let blurhash = attachment.blurhash, imageFromCache == nil, let currentMedia = self.media, attachment.url != currentMedia.url {
@@ -382,7 +383,7 @@ final class PostCardImage: UIView {
                     let blurHeight = attachment.meta?.original?.height != nil ? attachment.meta!.original!.height! / 20 : 32
                     blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: blurWidth, height: blurHeight))
                 }
-                photo.underlyingImage = imageFromCache ?? blurImage
+                photo.underlyingImage = imageFromCache ?? previewFromCache ?? blurImage
                 return photo
             } ?? [SKPhoto()]
             
