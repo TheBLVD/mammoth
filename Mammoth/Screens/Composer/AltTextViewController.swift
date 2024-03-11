@@ -188,15 +188,15 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
         view.backgroundColor = .custom.backgroundTint
         
         if self.editList != "" {
-            self.navigationItem.title = "Edit List"
+            self.navigationItem.title = NSLocalizedString("list.edit", comment: "")
         } else {
             if self.newList {
-                self.navigationItem.title = "New List"
+                self.navigationItem.title = NSLocalizedString("title.newList", comment: "")
             } else {
                 if self.newFilter {
                     self.navigationItem.title = NSLocalizedString("filters.keywords.add", comment: "")
                 } else {
-                    self.navigationItem.title = "Image Description"
+                    self.navigationItem.title = NSLocalizedString("composer.alt", comment: "")
                 }
             }
         }
@@ -323,8 +323,8 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
             // Editing an existing list name
             let cell = tableView.dequeueReusableCell(withIdentifier: "AltTextMultiCell", for: indexPath) as! AltTextMultiCell
             
-            cell.altText.placeholder = "Edit list title..."
-            cell.altText.accessibilityLabel = "Edit list title..."
+            cell.altText.placeholder = NSLocalizedString("list.editTitle.placehoder", comment: "")
+            cell.altText.accessibilityLabel = NSLocalizedString("list.editTitle.placehoder", comment: "")
             cell.altText.delegate = self
             cell.altText.text = self.editList
             
@@ -341,8 +341,8 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
                 // Creating a new list name
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AltTextMultiCell", for: indexPath) as! AltTextMultiCell
                 
-                cell.altText.placeholder = "List title..."
-                cell.altText.accessibilityLabel = "List title..."
+                cell.altText.placeholder = NSLocalizedString("list.new.placeholder", comment: "")
+                cell.altText.accessibilityLabel = NSLocalizedString("list.new.placeholder", comment: "")
                 cell.altText.delegate = self
                 
                 cell.altText.tag = indexPath.section
@@ -375,8 +375,8 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
                     if indexPath.section == 0 {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "AltTextMultiCell", for: indexPath) as! AltTextMultiCell
                         
-                        cell.altText.placeholder = "Image description..."
-                        cell.altText.accessibilityLabel = "Image description..."
+                        cell.altText.placeholder = NSLocalizedString("composer.alt.placeholder", comment: "")
+                        cell.altText.accessibilityLabel = NSLocalizedString("composer.alt.placeholder", comment: "")
                         cell.altText.delegate = self
                         
                         cell.altText.tag = indexPath.section
@@ -404,7 +404,7 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
                     } else {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
                         
-                        cell.textLabel?.text = "Tap to Autodetect Text"
+                        cell.textLabel?.text = NSLocalizedString("composer.alt.detect", comment: "")
                         cell.textLabel?.textColor = UIColor.label
                         cell.textLabel?.textAlignment = .center
                         cell.textLabel?.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
@@ -545,7 +545,7 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if section == 0 {
             if self.newList {
-                return "Create a new list to keep track of various user accounts in one place."
+                return NSLocalizedString("list.new.footer", comment: "")
             } else {
                 if self.newFilter {
                     return NSLocalizedString("filters.keywords.footer", comment: "")
@@ -554,9 +554,9 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             }
         } else if section == 1 {
-            return "The image that this description is being applied to."
+            return NSLocalizedString("composer.alt.footer1", comment: "")
         } else {
-            return "Autofill text detected within the image. Check for and correct any errors in the detected text before saving the description."
+            return NSLocalizedString("composer.alt.footer2", comment: "")
         }
     }
 

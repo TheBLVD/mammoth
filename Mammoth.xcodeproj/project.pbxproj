@@ -208,7 +208,6 @@
 		5339963F2914227A00560F83 /* GlobalStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533994FC2914227800560F83 /* GlobalStruct.swift */; };
 		533996412914227A00560F83 /* UndoStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533994FE2914227800560F83 /* UndoStruct.swift */; };
 		533996422914227A00560F83 /* DiffSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533994FF2914227800560F83 /* DiffSections.swift */; };
-		533996442914227A00560F83 /* IntentsStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995012914227800560F83 /* IntentsStruct.swift */; };
 		533996452914227A00560F83 /* TableOfContentsSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995022914227800560F83 /* TableOfContentsSelector.swift */; };
 		533996462914227A00560F83 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995032914227800560F83 /* ColumnFlowLayout.swift */; };
 		533996472914227A00560F83 /* CustomVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995042914227800560F83 /* CustomVideoPlayer.swift */; };
@@ -1034,7 +1033,6 @@
 		533994FC2914227800560F83 /* GlobalStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GlobalStruct.swift; sourceTree = "<group>"; };
 		533994FE2914227800560F83 /* UndoStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UndoStruct.swift; sourceTree = "<group>"; };
 		533994FF2914227800560F83 /* DiffSections.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiffSections.swift; sourceTree = "<group>"; };
-		533995012914227800560F83 /* IntentsStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntentsStruct.swift; sourceTree = "<group>"; };
 		533995022914227800560F83 /* TableOfContentsSelector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableOfContentsSelector.swift; sourceTree = "<group>"; };
 		533995032914227800560F83 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		533995042914227800560F83 /* CustomVideoPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomVideoPlayer.swift; sourceTree = "<group>"; };
@@ -2818,7 +2816,6 @@
 				533994FF2914227800560F83 /* DiffSections.swift */,
 				536AEDF429D6017C00AC0EF8 /* GIF2MP4.swift */,
 				BF28B68E29D3884D00AB5A48 /* InstanceFeatures.swift */,
-				533995012914227800560F83 /* IntentsStruct.swift */,
 				53EB77ED29D2EAC80036CDE1 /* NavigationHelpers.swift */,
 				C3CAA9352A122F0300EECBC2 /* ParseTextAttachments.swift */,
 				88722D9529FC5A7200988277 /* PostActions.swift */,
@@ -3995,7 +3992,6 @@
 				53399A58291526B900560F83 /* HashType.swift in Sources */,
 				533996472914227A00560F83 /* CustomVideoPlayer.swift in Sources */,
 				C376357A2A545A7C0008DD21 /* UIControl+AddAction.swift in Sources */,
-				533996442914227A00560F83 /* IntentsStruct.swift in Sources */,
 				BFB9066A2A7C5900007311C4 /* ForYouCustomizationViewController.swift in Sources */,
 				144173572B21E0480058AFCC /* TutorialOverlay.swift in Sources */,
 				66D091F22A5362E900291B8D /* SignInPasswordVC.swift in Sources */,

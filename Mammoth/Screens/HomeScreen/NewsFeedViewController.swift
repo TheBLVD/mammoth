@@ -539,7 +539,7 @@ extension NewsFeedViewController {
             case .empty:
                 if let cell = self.tableView.dequeueReusableCell(withIdentifier: EmptyFeedCell.reuseIdentifier, for: indexPath) as? EmptyFeedCell {
                     if case .list(_) = self.viewModel.type {
-                        cell.configure(label: "Lists will start populating once members start posting content")
+                        cell.configure(label: NSLocalizedString("list.hint", comment: ""))
                     } else {
                         cell.configure()
                     }
