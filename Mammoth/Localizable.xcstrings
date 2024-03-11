@@ -32654,16 +32654,6 @@
         }
       }
     },
-    "list.editTitle.placehoder" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit list title..."
-          }
-        }
-      }
-    },
     "list.editTitle.placeholder" : {
       "extractionState" : "manual",
       "localizations" : {
