@@ -243,12 +243,10 @@ extension UserCardModel {
             self.imagePrefetchToken = prefetcher.prefetchURLs([profilePicURL], context: [.imageTransformer: PostCardProfilePic.transformer], progress: nil)
         }
         
-        self.emojis?.forEach({
-            if !SDImageCache.shared.diskImageDataExists(withKey: $0.url.absoluteString) {
-                let prefetcher = SDWebImagePrefetcher.shared
-                self.imagePrefetchToken = prefetcher.prefetchURLs([$0.url], context: [.animatedImageClass: SDAnimatedImageView.self], progress: nil)
-            }
-        })
+        if let emojis = self.emojis, !emojis.isEmpty {
+            let prefetcher = SDWebImagePrefetcher.shared
+            prefetcher.prefetchURLs(emojis.map({$0.url}), context: [.animatedImageClass: SDAnimatedImageView.self], progress: nil)
+        }
     }
     
     func cancelAllPreloadTasks() {
