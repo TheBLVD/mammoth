@@ -454,8 +454,9 @@ final class PostCardVideo: UIView {
                 
                 loadingIndicator.startAnimating()
                 
-                let previewImageURL = URL(string: media.previewURL ?? "")
-                previewImage.sd_setImage(with: previewImageURL)
+                if let previewImageURL = media.previewURL{
+                     previewImage.sd_setImage(with: URL(string: previewImageURL))
+                }
                 
                 if let cachedPlayer = cachedPlayer {
                     // if the player is preloaded
