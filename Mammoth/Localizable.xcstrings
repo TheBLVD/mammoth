@@ -12614,7 +12614,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Intelligente Listen"
           }
         },
@@ -12627,7 +12627,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Smart Lists"
+            "value" : "Topical lists curated by the Mastodon community"
           }
         },
         "es" : {
@@ -12686,7 +12686,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Smart Lists"
           }
         },
@@ -12704,7 +12704,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Listas Inteligentes"
           }
         },
@@ -12798,7 +12798,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Themenlisten, die von der Mastodon Community kuratiert wurden"
           }
         },
@@ -12811,7 +12811,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topical lists curated by the Mastodon community"
+            "value" : "Smart Lists"
           }
         },
         "es" : {
@@ -12870,7 +12870,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Lijsten beheerd door de Mastodon-gemeenschap"
           }
         },
@@ -12888,7 +12888,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Listas de tópicos curadas pela comunidade do Mastodon"
           }
         },
@@ -32650,16 +32650,6 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : ""
-          }
-        }
-      }
-    },
-    "list.editTitle.placehoder" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit list title..."
           }
         }
       }

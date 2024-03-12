@@ -323,8 +323,8 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
             // Editing an existing list name
             let cell = tableView.dequeueReusableCell(withIdentifier: "AltTextMultiCell", for: indexPath) as! AltTextMultiCell
             
-            cell.altText.placeholder = NSLocalizedString("list.editTitle.placehoder", comment: "")
-            cell.altText.accessibilityLabel = NSLocalizedString("list.editTitle.placehoder", comment: "")
+            cell.altText.placeholder = NSLocalizedString("list.editTitle.placeholder", comment: "")
+            cell.altText.accessibilityLabel = NSLocalizedString("list.editTitle.placeholder", comment: "")
             cell.altText.delegate = self
             cell.altText.text = self.editList
             
