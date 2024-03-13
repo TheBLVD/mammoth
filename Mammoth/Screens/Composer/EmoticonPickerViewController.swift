@@ -104,7 +104,7 @@ class EmoticonPickerViewController: UIViewController, UICollectionViewDelegate, 
         super.viewDidLoad()
         
         self.view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "Add Custom Emoji"
+        self.navigationItem.title = NSLocalizedString("composer.addEmoji", comment: "")
         
         let navApp = UINavigationBarAppearance()
         navApp.configureWithOpaqueBackground()

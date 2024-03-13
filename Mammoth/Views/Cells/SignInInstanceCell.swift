@@ -43,7 +43,7 @@ class SignInInstanceCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         
         sfw.translatesAutoresizingMaskIntoConstraints = false
-        sfw.setTitle("Non-Explicit", for: .normal)
+        sfw.setTitle(NSLocalizedString("signIn.nonExplicit", comment: ""), for: .normal)
         sfw.setTitleColor(.white, for: .normal)
         sfw.titleLabel?.font = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 4, weight: .semibold)
         sfw.backgroundColor = UIColor(red: 63/255, green: 180/255, blue: 78/255, alpha: 1)
