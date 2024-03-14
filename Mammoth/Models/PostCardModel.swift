@@ -894,6 +894,7 @@ extension PostCardModel {
         // Add 1 to the count:
         //  - when we know the post has static metrics (For You feed) and we know locally the post has been liked
         //  - when we know locally the post has been liked but it's not yet reflected online (optimistic updates)
+        //  - when the server reports a like and we know it's been removed
         //  - when the online post returns 'favorited' but the count is still zero
         // Additionally, make sure the result is never < 0
         if staticMetrics {
@@ -901,6 +902,9 @@ extension PostCardModel {
         }
         if localCount > 0 && (isFavorited ?? false) == false {
             return max(onlineCount + localCount, 0).formatUsingAbbrevation()
+        }
+        if localCount == 0 && (isFavorited ?? false) == true {
+            return max(onlineCount - 1, 0).formatUsingAbbrevation()
         }
         if (isFavorited ?? false) == true && onlineCount == 0 {
             return max(onlineCount + 1, 0).formatUsingAbbrevation()
@@ -917,6 +921,7 @@ extension PostCardModel {
         // Add 1 to the count:
         //  - when we know the post has static metrics (For You feed) and we know locally the post has been reblogged
         //  - when we know locally the post has been reblogged but it's not yet reflected online (optimistic updates)
+        //  - when the server reports a repost and we know it's been removed
         //  - when the online post returns 'reblogged' but the count is still zero
         // Additionally, make sure the result is never < 0
         if staticMetrics {
@@ -924,6 +929,9 @@ extension PostCardModel {
         }
         if localCount > 0 && (isReblogged ?? false) == false {
             return max(onlineCount + localCount, 0).formatUsingAbbrevation()
+        }
+        if localCount == 0 && (isReblogged ?? false) == true {
+            return max(onlineCount - 1, 0).formatUsingAbbrevation()
         }
         if (isReblogged ?? false) == true && onlineCount == 0 {
             return max(onlineCount + 1, 0).formatUsingAbbrevation()
