@@ -137,10 +137,11 @@ class StatusCache {
                         }
                         completion(url, stat)
                     } else {
+                        log.error("couldn't find quote post.")
                         completion(url, nil)
                     }
                 } catch {
-                    log.error("couldn't load post.")
+                    log.error("couldn't find quote post.")
                     completion(url, nil)
                 }
             }
