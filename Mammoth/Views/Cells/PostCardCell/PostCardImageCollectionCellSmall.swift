@@ -42,7 +42,7 @@ class PostCardImageCollectionCellSmall: PostCardImageCollectionCell {
     
     // MARK: - Configuration
     override func configure(model: PostCardImageCollectionCellModel, withRoundedCorners roundedCorners: Bool = true) {
-        self.imageView.sd_setImage(with: URL(string: model.mediaAttachment.previewURL!))
+        self.imageView.sd_setImage(with: URL(string: model.mediaAttachment.url))
         for x in self.imageView.subviews {
             x.removeFromSuperview()
         }

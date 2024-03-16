@@ -171,11 +171,11 @@ class PostCardImageCollectionCell: UICollectionViewCell {
                 placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
             }
             
-            self.imageView.ma_setImage(with: URL(string: model.mediaAttachment.previewURL!)!,
-                                              cachedImage: model.postCard.decodedImages[model.mediaAttachment.previewURL!] as? UIImage,
+            self.imageView.ma_setImage(with: URL(string: model.mediaAttachment.url)!,
+                                              cachedImage: model.postCard.decodedImages[model.mediaAttachment.url] as? UIImage,
                                               placeholder: placeholder,
                                               imageTransformer: PostCardImage.transformer) { image in
-                model.postCard.decodedImages[model.mediaAttachment.previewURL!] = image
+                model.postCard.decodedImages[model.mediaAttachment.url] = image
             }
             
         } else {

@@ -245,22 +245,20 @@ final class PostCardImage: UIView {
         self.media = image
         
         if let media = image {
-            if let previewURL = media.previewURL, let imageURL = URL(string: previewURL) {
+            if let imageURL = URL(string: media.url) {
                 var placeholder: UIImage?
                 if let blurhash = media.blurhash {
                     let blurWidth = media.meta?.original?.width != nil ? media.meta!.original!.width! / 20 : 32
                     let blurHeight = media.meta?.original?.height != nil ? media.meta!.original!.height! / 20 : 32
                     placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: blurWidth, height: blurWidth))
                 }
-                let decodedImage = (media.previewURL != nil) ? postCard.decodedImages[media.previewURL!] as? UIImage : nil
+                let decodedImage = postCard.decodedImages[media.url] as? UIImage
                 self.imageView.ma_setImage(with: imageURL,
                                            cachedImage: decodedImage,
                                            placeholder: placeholder,
                                                   imageTransformer: PostCardImage.transformer) { [weak self] image in
                     if self?.media == media, let image = image {
-                        if let key = media.previewURL {
-                            postCard.decodedImages[key] = image
-                        }
+                        postCard.decodedImages[media.url] = image
                     }
                 }
             }
