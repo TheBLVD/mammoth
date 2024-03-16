@@ -425,11 +425,11 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
         if indexPath.section == 1 {
             var images = [SKPhoto]()
             if let cell = self.tableView.cellForRow(at: indexPath) as? ImagePreviewCell {
-                if let originImage = cell.image.image {
+                if cell.image.image != nil {
                     let photo = SKPhoto.photoWithImage(self.currentImage)
                     photo.shouldCachePhotoURLImage = true
                     images.append(photo)
-                    let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: cell.image, imageText: "", imageText2: 0, imageText3: 0, imageText4: "")
+                    let browser = SKPhotoBrowser(photos: images)
                     browser.delegate = self
                     SKPhotoBrowserOptions.enableSingleTapDismiss = false
                     SKPhotoBrowserOptions.displayCounterLabel = false

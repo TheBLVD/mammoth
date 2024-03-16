@@ -420,8 +420,8 @@ class ProfileCell: UITableViewCell, SKPhotoBrowserDelegate {
             let photo = SKPhoto.photoWithImage(x)
             photo.shouldCachePhotoURLImage = true
             images.append(photo)
-            let originImage = profileIcon.imageView?.image ?? UIImage()
-            let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: profileIcon, imageText: "", imageText2: 0, imageText3: 0, imageText4: "")
+            
+            let browser = SKPhotoBrowser(photos: images)
             browser.delegate = self
             SKPhotoBrowserOptions.enableSingleTapDismiss = false
             SKPhotoBrowserOptions.displayCounterLabel = false
@@ -437,13 +437,10 @@ class ProfileCell: UITableViewCell, SKPhotoBrowserDelegate {
     }
     
     @objc func headerTapped() {
-        var images = [SKPhoto]()
         if let x = headerImage.imageView?.image {
             let photo = SKPhoto.photoWithImage(x)
             photo.shouldCachePhotoURLImage = true
-            images.append(photo)
-            let originImage = x
-            let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: headerImage, imageText: "", imageText2: 0, imageText3: 0, imageText4: "")
+            let browser = SKPhotoBrowser(photos: [photo])
             browser.delegate = self
             SKPhotoBrowserOptions.enableSingleTapDismiss = false
             SKPhotoBrowserOptions.displayCounterLabel = false

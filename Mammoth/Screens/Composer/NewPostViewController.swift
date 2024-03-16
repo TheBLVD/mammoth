@@ -1329,12 +1329,9 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func viewImages(_ image: UIButton) {
-        var images = [SKPhoto]()
         let photo = SKPhoto.photoWithImage(image.currentImage ?? UIImage())
         photo.shouldCachePhotoURLImage = true
-        images.append(photo)
-        let originImage = image.currentImage ?? UIImage()
-        let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: image, imageText: "", imageText2: 0, imageText3: 0, imageText4: "")
+        let browser = SKPhotoBrowser(photos: [photo])
         browser.delegate = self
         SKPhotoBrowserOptions.enableSingleTapDismiss = false
         SKPhotoBrowserOptions.displayCounterLabel = false

@@ -280,8 +280,8 @@ private extension ProfileHeader {
                                 _ isActive: Bool,
                                 _ data: PostCardButtonCallbackData?) -> Void {
         let photo = SKPhoto(url: self.user?.imageURL ?? "")
-        let originImage = self.profilePic.profileImageView.image ?? UIImage()
-        let browser = SKPhotoBrowser(originImage: originImage, photos: [photo], animatedFromView: self.profilePic.profileImageView, imageText: "", imageText2: 0, imageText3: 0, imageText4: "")
+        photo.underlyingImage = self.profilePic.profileImageView.image ?? UIImage()
+        let browser = SKPhotoBrowser(photos: [photo])
         SKPhotoBrowserOptions.enableSingleTapDismiss = false
         SKPhotoBrowserOptions.displayCounterLabel = false
         SKPhotoBrowserOptions.displayBackAndForwardButton = false

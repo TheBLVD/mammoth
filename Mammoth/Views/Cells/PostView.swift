@@ -2828,15 +2828,12 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url, holder: originImage)
                                 photo.shouldCachePhotoURLImage = true
+                                photo.caption = x.description
                                 images.append(photo)
                             }
-                            var alt = ""
-                            if indexPath.item < self.altText.count {
-                                alt = self.altText[indexPath.item]
-                            }
-                            let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: cell.image, imageText: self.postText.text ?? "", imageText2: 0, imageText3: 0, imageText4: alt)
+                            let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
                             SKPhotoBrowserOptions.enableSingleTapDismiss = false
                             SKPhotoBrowserOptions.displayCounterLabel = false
@@ -2853,15 +2850,12 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCellActivity {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url, holder: originImage)
                                 photo.shouldCachePhotoURLImage = true
+                                photo.caption = x.description
                                 images.append(photo)
                             }
-                            var alt = ""
-                            if indexPath.item < self.altText.count {
-                                alt = self.altText[indexPath.item]
-                            }
-                            let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: cell.image, imageText: self.postText.text ?? "", imageText2: 0, imageText3: 0, imageText4: alt)
+                            let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
                             SKPhotoBrowserOptions.enableSingleTapDismiss = false
                             SKPhotoBrowserOptions.displayCounterLabel = false
@@ -2878,15 +2872,12 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCellS {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url, holder: originImage)
                                 photo.shouldCachePhotoURLImage = true
+                                photo.caption = x.description
                                 images.append(photo)
                             }
-                            var alt = ""
-                            if indexPath.item < self.altText.count {
-                                alt = self.altText[indexPath.item]
-                            }
-                            let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: cell.image, imageText: self.postText.text ?? "", imageText2: 0, imageText3: 0, imageText4: alt)
+                            let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
                             SKPhotoBrowserOptions.enableSingleTapDismiss = false
                             SKPhotoBrowserOptions.displayCounterLabel = false
@@ -2903,15 +2894,12 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell2 {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url, holder: originImage)
                                 photo.shouldCachePhotoURLImage = true
+                                photo.caption = x.description
                                 images.append(photo)
                             }
-                            var alt = ""
-                            if indexPath.item < self.altText.count {
-                                alt = self.altText[indexPath.item]
-                            }
-                            let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: cell.image, imageText: self.postText.text ?? "", imageText2: 0, imageText3: 0, imageText4: alt)
+                            let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
                             SKPhotoBrowserOptions.enableSingleTapDismiss = false
                             SKPhotoBrowserOptions.displayCounterLabel = false
@@ -2928,15 +2916,12 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell3 {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url, holder: originImage)
                                 photo.shouldCachePhotoURLImage = true
+                                photo.caption = x.description
                                 images.append(photo)
                             }
-                            var alt = ""
-                            if indexPath.item < self.altText.count {
-                                alt = self.altText[indexPath.item]
-                            }
-                            let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: cell.image, imageText: self.postText.text ?? "", imageText2: 0, imageText3: 0, imageText4: alt)
+                            let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
                             SKPhotoBrowserOptions.enableSingleTapDismiss = false
                             SKPhotoBrowserOptions.displayCounterLabel = false
@@ -2977,17 +2962,14 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                 if linkDataImages.isEmpty {
                     var images = [SKPhoto]()
                     if let cell = self.linkCollectionView1.cellForItem(at: indexPath) as? CollectionImageCell {
-                        if let originImage = cell.image.image {
+                        if cell.image.image != nil {
                             for x in self.linkImages {
                                 let photo = SKPhoto.photoWithImageURL(x)
                                 photo.shouldCachePhotoURLImage = true
+                                photo.caption = self.altText[indexPath.item]
                                 images.append(photo)
                             }
-                            var alt = ""
-                            if indexPath.item < self.altText.count {
-                                alt = self.altText[indexPath.item]
-                            }
-                            let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: cell.image, imageText: self.linkPost.text ?? "", imageText2: 0, imageText3: 0, imageText4: alt)
+                            let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
                             SKPhotoBrowserOptions.enableSingleTapDismiss = false
                             SKPhotoBrowserOptions.displayCounterLabel = false
@@ -3002,17 +2984,14 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                         }
                     }
                     if let cell = self.linkCollectionView1.cellForItem(at: indexPath) as? CollectionImageCellActivity {
-                        if let originImage = cell.image.image {
+                        if cell.image.image != nil {
                             for x in self.linkImages {
                                 let photo = SKPhoto.photoWithImageURL(x)
                                 photo.shouldCachePhotoURLImage = true
+                                photo.caption = self.altText[indexPath.item]
                                 images.append(photo)
                             }
-                            var alt = ""
-                            if indexPath.item < self.altText.count {
-                                alt = self.altText[indexPath.item]
-                            }
-                            let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: cell.image, imageText: self.linkPost.text ?? "", imageText2: 0, imageText3: 0, imageText4: alt)
+                            let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
                             SKPhotoBrowserOptions.enableSingleTapDismiss = false
                             SKPhotoBrowserOptions.displayCounterLabel = false
@@ -3027,17 +3006,14 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                         }
                     }
                     if let cell = self.linkCollectionView1.cellForItem(at: indexPath) as? CollectionImageCell3 {
-                        if let originImage = cell.image.image {
+                        if cell.image.image != nil {
                             for x in self.linkImages {
                                 let photo = SKPhoto.photoWithImageURL(x)
                                 photo.shouldCachePhotoURLImage = true
+                                photo.caption = self.altText[indexPath.item]
                                 images.append(photo)
                             }
-                            var alt = ""
-                            if indexPath.item < self.altText.count {
-                                alt = self.altText[indexPath.item]
-                            }
-                            let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: cell.image, imageText: self.linkPost.text ?? "", imageText2: 0, imageText3: 0, imageText4: alt)
+                            let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
                             SKPhotoBrowserOptions.enableSingleTapDismiss = false
                             SKPhotoBrowserOptions.displayCounterLabel = false

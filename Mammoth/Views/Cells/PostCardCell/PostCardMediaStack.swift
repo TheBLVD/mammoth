@@ -164,6 +164,7 @@ final class PostCardMediaStack: UIView {
                 guard attachment.type == .image else { return SKPhoto() }
                 let photo = SKPhoto.photoWithImageURL(attachment.url)
                 photo.shouldCachePhotoURLImage = false
+                photo.caption = attachment.description
                 
                 let imageFromCache = SDImageCache.shared.imageFromCache(forKey: attachment.url)
                 let previewFromCache = SDImageCache.shared.imageFromCache(forKey: attachment.previewURL)
@@ -177,14 +178,8 @@ final class PostCardMediaStack: UIView {
                 photo.underlyingImage = imageFromCache ?? previewFromCache ?? blurImage
                 return photo
             } ?? [SKPhoto()]
-            
-            let descriptions = self.postCard?.mediaAttachments.map { $0.description ?? "" } ?? []
-            
-            let browser = SKPhotoBrowser(originImage: originImage,
-                                         photos: images,
-                                         animatedFromView: self.imageView,
-                                         descriptions: descriptions,
-                                         currentIndex: 0)
+                        
+            let browser = SKPhotoBrowser(photos: images)
             SKPhotoBrowserOptions.enableSingleTapDismiss = false
             SKPhotoBrowserOptions.displayCounterLabel = false
             SKPhotoBrowserOptions.displayBackAndForwardButton = false

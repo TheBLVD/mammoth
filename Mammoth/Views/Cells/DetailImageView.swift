@@ -403,11 +403,12 @@ class DetailImageView: UIView, UICollectionViewDataSource, UICollectionViewDeleg
                 if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCellD {
                     if let originImage = cell.image.image {
                         for x in self.imagesFull {
-                            let photo = SKPhoto.photoWithImageURL(x.url)
+                            let photo = SKPhoto.photoWithImageURL(x.url, holder: originImage)
                             photo.shouldCachePhotoURLImage = true
+                            photo.caption = x.description
                             images.append(photo)
                         }
-                        let browser = SKPhotoBrowser(originImage: originImage, photos: images, animatedFromView: cell.image, imageText: self.postText, imageText2: 0, imageText3: 0, imageText4: "")
+                        let browser = SKPhotoBrowser(photos: images)
                         browser.delegate = self
                         SKPhotoBrowserOptions.enableSingleTapDismiss = false
                         SKPhotoBrowserOptions.displayCounterLabel = false

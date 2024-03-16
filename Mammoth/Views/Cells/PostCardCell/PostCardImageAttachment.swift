@@ -216,24 +216,17 @@ extension PostCardImageAttachment: UICollectionViewDataSource {
                 }
             }
         } else {
-            // Open fullscreen image preview
-            let images = self.mediaAttachments.map { attachment in
-                let photo = SKPhoto.photoWithImageURL(attachment.url)
-                photo.shouldCachePhotoURLImage = true
-                return photo
-            }
-            
-            let descriptions = self.mediaAttachments.map { $0.description }
-            
             if let cell = collectionView.cellForItem(at: indexPath) as? PostCardImageCollectionCell ??
-                collectionView.cellForItem(at: indexPath) as? PostCardImageCollectionCellSmall,
-                let originImage = cell.imageView.image {
-                
-                let browser = SKPhotoBrowser(originImage: originImage,
-                                             photos: images,
-                                             animatedFromView: cell.imageView,
-                                             descriptions: descriptions,
-                                             currentIndex: indexPath.item)
+                collectionView.cellForItem(at: indexPath) as? PostCardImageCollectionCellSmall {
+                // Open fullscreen image preview
+                let images = self.mediaAttachments.map { attachment in
+                    let photo = SKPhoto.photoWithImageURL(attachment.url, holder: cell.imageView.image)
+                    photo.shouldCachePhotoURLImage = true
+                    photo.caption = attachment.description
+                    return photo
+                }
+                let browser = SKPhotoBrowser(photos: images, initialPageIndex: indexPath.item)
+
                 SKPhotoBrowserOptions.enableSingleTapDismiss = false
                 SKPhotoBrowserOptions.displayCounterLabel = false
                 SKPhotoBrowserOptions.displayBackAndForwardButton = false

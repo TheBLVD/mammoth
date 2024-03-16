@@ -372,6 +372,7 @@ final class PostCardImage: UIView {
             let images = self.postCard?.mediaAttachments.compactMap { attachment in
                 guard attachment.type == .image else { return SKPhoto() }
                 let photo = SKPhoto.photoWithImageURL(attachment.url)
+                photo.caption = attachment.description
                 photo.shouldCachePhotoURLImage = false
                 
                 let imageFromCache = SDImageCache.shared.imageFromCache(forKey: attachment.url)
@@ -387,14 +388,10 @@ final class PostCardImage: UIView {
                 return photo
             } ?? [SKPhoto()]
             
-            let descriptions = self.postCard?.mediaAttachments.map { $0.description ?? "" } ?? []
             self.ownGalleryIndex = self.postCard?.mediaAttachments.firstIndex(where: {$0.id == self.media?.id}) ?? 0
             
-            let browser = SKPhotoBrowser(originImage: originImage,
-                                         photos: images,
-                                         animatedFromView: self.imageView,
-                                         descriptions: descriptions,
-                                         currentIndex: self.ownGalleryIndex ?? 0)
+            let browser = SKPhotoBrowser(photos: images,
+                                         initialPageIndex: self.ownGalleryIndex ?? 0)
             SKPhotoBrowserOptions.enableSingleTapDismiss = false
             SKPhotoBrowserOptions.displayCounterLabel = false
             SKPhotoBrowserOptions.displayBackAndForwardButton = false
@@ -406,27 +403,6 @@ final class PostCardImage: UIView {
             browser.initializePageIndex(self.ownGalleryIndex ?? 0)
             browser.delegate = self
             getTopMostViewController()?.present(browser, animated: true, completion: {})
-            
-            // Preload other images
-            PostCardModel.imageDecodeQueue.async { [weak self] in
-                guard let self else { return }
-                let prefetcher = SDWebImagePrefetcher.shared
-                let urls = self.postCard?.mediaAttachments.compactMap { URL(string: $0.url) }
-                prefetcher.prefetchURLs(urls, progress: nil) { _, _ in
-                    let images = self.postCard?.mediaAttachments.compactMap { attachment in
-                        guard attachment.type == .image else { return nil }
-                        let photo = SKPhoto.photoWithImageURL(attachment.url)
-                        photo.shouldCachePhotoURLImage = false
-                        photo.underlyingImage = SDImageCache.shared.imageFromCache(forKey: attachment.url)
-                        return photo
-                    } ?? [SKPhoto()]
-                    
-                    DispatchQueue.main.async {
-                        browser.photos = images
-                        browser.reloadData()
-                    }
-                }
-            }
         }
     }
     
