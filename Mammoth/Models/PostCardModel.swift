@@ -814,7 +814,7 @@ extension PostCardModel {
     
     func preloadImages() {
         self.user?.preloadImages()
-        self.preloadEmojis()
+//        self.preloadEmojis()
         self.preloadPostImages()
     }
     
