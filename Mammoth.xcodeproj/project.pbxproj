@@ -753,6 +753,7 @@
 		D8CA77612AB90D4000F49ECC /* ShareableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */; };
 		D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DE092E2A3D12D800DD0483 /* Haptics.swift */; };
 		F054D25C2B9C9E07006130A4 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F054D25B2B9C9E07006130A4 /* MetaTextKit */; };
+		F07A45FC2BA5E14D00B98A42 /* MammothCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07A45FB2BA5E14D00B98A42 /* MammothCache.swift */; };
 		F084802D2B8BBF02005201A7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F084802C2B8BBF02005201A7 /* Localizable.xcstrings */; };
 		F0ED503C2B949A2C00F7525B /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F0ED503B2B949A2C00F7525B /* MetaTextKit */; };
 		F0F56C472BA5D16D00F0B424 /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C282BA5D16D00F0B424 /* UIImage+animatedGIF.m */; };
@@ -1587,6 +1588,7 @@
 		D87449C62A968D39002A0603 /* RotatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotatingViewController.swift; sourceTree = "<group>"; };
 		D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableViewController.swift; sourceTree = "<group>"; };
 		D8DE092E2A3D12D800DD0483 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		F07A45FB2BA5E14D00B98A42 /* MammothCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MammothCache.swift; sourceTree = "<group>"; };
 		F084802C2B8BBF02005201A7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		F0F56C272BA5D16D00F0B424 /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
 		F0F56C282BA5D16D00F0B424 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
@@ -3157,6 +3159,7 @@
 				F0F56C432BA5D16D00F0B424 /* SKPhotoBrowserOptions.swift */,
 				F0F56C442BA5D16D00F0B424 /* SKToolbar.swift */,
 				F0F56C452BA5D16D00F0B424 /* SKZoomingScrollView.swift */,
+				F07A45FB2BA5E14D00B98A42 /* MammothCache.swift */,
 			);
 			path = SKPhotoBrowser;
 			sourceTree = "<group>";
@@ -4014,6 +4017,7 @@
 				C376357A2A545A7C0008DD21 /* UIControl+AddAction.swift in Sources */,
 				BFB9066A2A7C5900007311C4 /* ForYouCustomizationViewController.swift in Sources */,
 				144173572B21E0480058AFCC /* TutorialOverlay.swift in Sources */,
+				F07A45FC2BA5E14D00B98A42 /* MammothCache.swift in Sources */,
 				66D091F22A5362E900291B8D /* SignInPasswordVC.swift in Sources */,
 				53399A48291526B900560F83 /* Empty.swift in Sources */,
 				5339968D2914227A00560F83 /* Disk+[Data].swift in Sources */,

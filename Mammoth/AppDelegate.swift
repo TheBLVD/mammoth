@@ -260,6 +260,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: .mixWithOthers)
 
+        SKCache.sharedCache.imageCache = MammothCache()
+        
         return true
     }
     
