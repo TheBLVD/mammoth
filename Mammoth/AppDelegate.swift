@@ -261,6 +261,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: .mixWithOthers)
 
         SKCache.sharedCache.imageCache = MammothCache()
+        SKPhotoBrowserOptions.displayCloseButton = false
+        SKPhotoBrowserOptions.displayCloseButton = false
+        SKPhotoBrowserOptions.displayCounterLabel = false
+        SKPhotoBrowserOptions.displayBackAndForwardButton = false
+        SKPhotoBrowserOptions.displayAction = false
+        SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
+        SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
         
         return true
     }

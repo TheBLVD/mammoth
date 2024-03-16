@@ -392,14 +392,7 @@ final class PostCardImage: UIView {
             
             let browser = SKPhotoBrowser(photos: images,
                                          initialPageIndex: self.ownGalleryIndex ?? 0)
-            SKPhotoBrowserOptions.enableSingleTapDismiss = false
-            SKPhotoBrowserOptions.displayCounterLabel = false
-            SKPhotoBrowserOptions.displayBackAndForwardButton = false
-            SKPhotoBrowserOptions.displayAction = false
-            SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-            SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
             SKPhotoBrowserOptions.displayCloseButton = false
-            SKPhotoBrowserOptions.displayStatusbar = false
             browser.initializePageIndex(self.ownGalleryIndex ?? 0)
             browser.delegate = self
             getTopMostViewController()?.present(browser, animated: true, completion: {})

@@ -1333,14 +1333,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         photo.shouldCachePhotoURLImage = true
         let browser = SKPhotoBrowser(photos: [photo])
         browser.delegate = self
-        SKPhotoBrowserOptions.enableSingleTapDismiss = false
-        SKPhotoBrowserOptions.displayCounterLabel = false
-        SKPhotoBrowserOptions.displayBackAndForwardButton = false
-        SKPhotoBrowserOptions.displayAction = false
-        SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-        SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
         SKPhotoBrowserOptions.displayCloseButton = false
-        SKPhotoBrowserOptions.displayStatusbar = false
         browser.initializePageIndex(0)
         getTopMostViewController()?.present(browser, animated: true, completion: {})
     }

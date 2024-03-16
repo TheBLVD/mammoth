@@ -226,15 +226,7 @@ extension PostCardImageAttachment: UICollectionViewDataSource {
                     return photo
                 }
                 let browser = SKPhotoBrowser(photos: images, initialPageIndex: indexPath.item)
-
-                SKPhotoBrowserOptions.enableSingleTapDismiss = false
-                SKPhotoBrowserOptions.displayCounterLabel = false
-                SKPhotoBrowserOptions.displayBackAndForwardButton = false
-                SKPhotoBrowserOptions.displayAction = false
-                SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-                SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
                 SKPhotoBrowserOptions.displayCloseButton = false
-                SKPhotoBrowserOptions.displayStatusbar = false
                 browser.initializePageIndex(indexPath.row)
                 getTopMostViewController()?.present(browser, animated: true, completion: {})
             }

@@ -2835,14 +2835,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                             }
                             let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
-                            SKPhotoBrowserOptions.enableSingleTapDismiss = false
-                            SKPhotoBrowserOptions.displayCounterLabel = false
-                            SKPhotoBrowserOptions.displayBackAndForwardButton = false
-                            SKPhotoBrowserOptions.displayAction = false
-                            SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-                            SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
                             SKPhotoBrowserOptions.displayCloseButton = false
-                            SKPhotoBrowserOptions.displayStatusbar = false
                             browser.initializePageIndex(currentIndex)
                             getTopMostViewController()?.present(browser, animated: true, completion: {})
                         }
@@ -2857,14 +2850,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                             }
                             let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
-                            SKPhotoBrowserOptions.enableSingleTapDismiss = false
-                            SKPhotoBrowserOptions.displayCounterLabel = false
-                            SKPhotoBrowserOptions.displayBackAndForwardButton = false
-                            SKPhotoBrowserOptions.displayAction = false
-                            SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-                            SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
                             SKPhotoBrowserOptions.displayCloseButton = false
-                            SKPhotoBrowserOptions.displayStatusbar = false
                             browser.initializePageIndex(currentIndex)
                             getTopMostViewController()?.present(browser, animated: true, completion: {})
                         }
@@ -2879,14 +2865,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                             }
                             let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
-                            SKPhotoBrowserOptions.enableSingleTapDismiss = false
-                            SKPhotoBrowserOptions.displayCounterLabel = false
-                            SKPhotoBrowserOptions.displayBackAndForwardButton = false
-                            SKPhotoBrowserOptions.displayAction = false
-                            SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-                            SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
                             SKPhotoBrowserOptions.displayCloseButton = false
-                            SKPhotoBrowserOptions.displayStatusbar = false
                             browser.initializePageIndex(currentIndex)
                             getTopMostViewController()?.present(browser, animated: true, completion: {})
                         }
@@ -2901,14 +2880,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                             }
                             let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
-                            SKPhotoBrowserOptions.enableSingleTapDismiss = false
-                            SKPhotoBrowserOptions.displayCounterLabel = false
-                            SKPhotoBrowserOptions.displayBackAndForwardButton = false
-                            SKPhotoBrowserOptions.displayAction = false
-                            SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-                            SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
                             SKPhotoBrowserOptions.displayCloseButton = false
-                            SKPhotoBrowserOptions.displayStatusbar = false
                             browser.initializePageIndex(currentIndex)
                             getTopMostViewController()?.present(browser, animated: true, completion: {})
                         }
@@ -2923,14 +2895,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                             }
                             let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
-                            SKPhotoBrowserOptions.enableSingleTapDismiss = false
-                            SKPhotoBrowserOptions.displayCounterLabel = false
-                            SKPhotoBrowserOptions.displayBackAndForwardButton = false
-                            SKPhotoBrowserOptions.displayAction = false
-                            SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-                            SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
                             SKPhotoBrowserOptions.displayCloseButton = false
-                            SKPhotoBrowserOptions.displayStatusbar = false
                             browser.initializePageIndex(currentIndex)
                             getTopMostViewController()?.present(browser, animated: true, completion: {})
                         }
@@ -2971,14 +2936,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                             }
                             let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
-                            SKPhotoBrowserOptions.enableSingleTapDismiss = false
-                            SKPhotoBrowserOptions.displayCounterLabel = false
-                            SKPhotoBrowserOptions.displayBackAndForwardButton = false
-                            SKPhotoBrowserOptions.displayAction = false
-                            SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-                            SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
                             SKPhotoBrowserOptions.displayCloseButton = false
-                            SKPhotoBrowserOptions.displayStatusbar = false
                             browser.initializePageIndex(linkCurrentIndex)
                             getTopMostViewController()?.present(browser, animated: true, completion: {})
                         }
@@ -2993,14 +2951,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                             }
                             let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
-                            SKPhotoBrowserOptions.enableSingleTapDismiss = false
-                            SKPhotoBrowserOptions.displayCounterLabel = false
-                            SKPhotoBrowserOptions.displayBackAndForwardButton = false
-                            SKPhotoBrowserOptions.displayAction = false
-                            SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-                            SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
                             SKPhotoBrowserOptions.displayCloseButton = false
-                            SKPhotoBrowserOptions.displayStatusbar = false
                             browser.initializePageIndex(linkCurrentIndex)
                             getTopMostViewController()?.present(browser, animated: true, completion: {})
                         }
@@ -3015,14 +2966,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                             }
                             let browser = SKPhotoBrowser(photos: images)
                             browser.delegate = self
-                            SKPhotoBrowserOptions.enableSingleTapDismiss = false
-                            SKPhotoBrowserOptions.displayCounterLabel = false
-                            SKPhotoBrowserOptions.displayBackAndForwardButton = false
-                            SKPhotoBrowserOptions.displayAction = false
-                            SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-                            SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
                             SKPhotoBrowserOptions.displayCloseButton = false
-                            SKPhotoBrowserOptions.displayStatusbar = false
                             browser.initializePageIndex(linkCurrentIndex)
                             getTopMostViewController()?.present(browser, animated: true, completion: {})
                         }

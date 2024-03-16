@@ -282,14 +282,7 @@ private extension ProfileHeader {
         let photo = SKPhoto(url: self.user?.imageURL ?? "")
         photo.underlyingImage = self.profilePic.profileImageView.image ?? UIImage()
         let browser = SKPhotoBrowser(photos: [photo])
-        SKPhotoBrowserOptions.enableSingleTapDismiss = false
-        SKPhotoBrowserOptions.displayCounterLabel = false
-        SKPhotoBrowserOptions.displayBackAndForwardButton = false
-        SKPhotoBrowserOptions.displayAction = false
-        SKPhotoBrowserOptions.displayHorizontalScrollIndicator = false
-        SKPhotoBrowserOptions.displayVerticalScrollIndicator = false
         SKPhotoBrowserOptions.displayCloseButton = false
-        SKPhotoBrowserOptions.displayStatusbar = false
         getTopMostViewController()?.present(browser, animated: true, completion: {})
     }
     
