@@ -65,8 +65,8 @@ open class SKZoomingScrollView: UIScrollView {
         addSubview(imageView)
         
         // indicator
-//        indicatorView = SKIndicatorView(frame: frame)
-//        addSubview(indicatorView)
+        indicatorView = SKIndicatorView(frame: frame)
+        addSubview(indicatorView)
         
         // self
         backgroundColor = .clear
@@ -80,7 +80,7 @@ open class SKZoomingScrollView: UIScrollView {
     
     open override func layoutSubviews() {
         tapView.frame = bounds
-//        indicatorView.frame = bounds
+        indicatorView.frame = bounds
         
         super.layoutSubviews()
         
@@ -120,7 +120,7 @@ open class SKZoomingScrollView: UIScrollView {
         
         let xScale = boundsSize.width / imageSize.width
         let yScale = boundsSize.height / imageSize.height
-        var minScale: CGFloat = min(xScale.isNormal ? xScale : 1.0 , yScale.isNormal ? yScale : 1.0)
+        var minScale: CGFloat = min(xScale.isNormal ? xScale : 1.0, yScale.isNormal ? yScale : 1.0)
         var maxScale: CGFloat = 1.0
         
         let scale = max(SKMesurement.screenScale, 2.0)
@@ -132,7 +132,7 @@ open class SKZoomingScrollView: UIScrollView {
             maxScale = 2.5
         } else if imageView.frame.width < deviceScreenWidth {
             // I think that we should to get coefficient between device screen width and image width and assign it to maxScale. I made two mode that we will get the same result for different device orientations.
-            if let orientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation, orientation.isPortrait {
+            if UIApplication.shared.statusBarOrientation.isPortrait {
                 maxScale = deviceScreenHeight / imageView.frame.width
             } else {
                 maxScale = deviceScreenWidth / imageView.frame.width
@@ -143,7 +143,7 @@ open class SKZoomingScrollView: UIScrollView {
             // here if imageView.frame.width == deviceScreenWidth
             maxScale = 2.5
         }
-    
+        
         maximumZoomScale = maxScale
         minimumZoomScale = minScale
         zoomScale = minScale
@@ -151,11 +151,11 @@ open class SKZoomingScrollView: UIScrollView {
         // on high resolution screens we have double the pixel density, so we will be seeing every pixel if we limit the
         // maximum zoom scale to 0.5
         // After changing this value, we still never use more
-//        maxScale = maxScale / scale
-//        if maxScale < minScale {
-//            maxScale = minScale * 2
-//        }
-        
+         maxScale /= scale
+         if maxScale < minScale {
+             maxScale = minScale * 2
+         }
+
         // reset position
         imageView.frame.origin = CGPoint.zero
         setNeedsLayout()
@@ -165,7 +165,7 @@ open class SKZoomingScrollView: UIScrollView {
         photo = nil
         if captionView != nil {
             captionView.removeFromSuperview()
-            captionView = nil 
+            captionView = nil
         }
     }
     
@@ -198,24 +198,24 @@ open class SKZoomingScrollView: UIScrollView {
         
         if !flag {
             if photo.underlyingImage == nil {
-//                indicatorView.startAnimating()
+                indicatorView.startAnimating()
             }
             photo.loadUnderlyingImageAndNotify()
         } else {
-//            indicatorView.stopAnimating()
+            indicatorView.stopAnimating()
         }
         
         if let image = photo.underlyingImage, photo != nil {
             displayImage(image)
-		} else {
-			// change contentSize will reset contentOffset, so only set the contentsize zero when the image is nil
-			contentSize = CGSize.zero
-		}
+		    } else {
+			    // change contentSize will reset contentOffset, so only set the contentsize zero when the image is nil
+			    contentSize = CGSize.zero
+		    }
         setNeedsLayout()
     }
     
     open func displayImageFailure() {
-//        indicatorView.stopAnimating()
+        indicatorView.stopAnimating()
     }
     
     // MARK: - handle tap
@@ -230,11 +230,11 @@ open class SKZoomingScrollView: UIScrollView {
         } else {
             // zoom in
             // I think that the result should be the same after double touch or pinch
-           /* var newZoom: CGFloat = zoomScale * 3.13
-            if newZoom >= maximumZoomScale {
-                newZoom = maximumZoomScale
-            }
-            */
+            /* var newZoom: CGFloat = zoomScale * 3.13
+             if newZoom >= maximumZoomScale {
+             newZoom = maximumZoomScale
+             }
+             */
             let zoomRect = zoomRectForScrollViewWith(maximumZoomScale, touchPoint: touchPoint)
             zoom(to: zoomRect, animated: true)
         }
@@ -265,18 +265,18 @@ extension SKZoomingScrollView: UIScrollViewDelegate {
 
 extension SKZoomingScrollView: SKDetectingViewDelegate {
     func handleSingleTap(_ view: UIView, touch: UITouch) {
-//        guard let browser = browser else {
-//            return
-//        }
-//        guard SKPhotoBrowserOptions.enableZoomBlackArea == true else {
-//            return
-//        }
-//
-//        if browser.areControlsHidden() == false && SKPhotoBrowserOptions.enableSingleTapDismiss == true {
-//            browser.determineAndClose()
-//        } else {
-//            browser.toggleControls()
-//        }
+        guard let browser = browser else {
+            return
+        }
+        guard SKPhotoBrowserOptions.enableZoomBlackArea == true else {
+            return
+        }
+        
+        if browser.areControlsHidden() == false && SKPhotoBrowserOptions.enableSingleTapDismiss == true {
+            browser.determineAndClose()
+        } else {
+            browser.toggleControls()
+        }
     }
     
     func handleDoubleTap(_ view: UIView, touch: UITouch) {
@@ -295,8 +295,7 @@ extension SKZoomingScrollView: SKDetectingImageViewDelegate {
             return
         }
         if SKPhotoBrowserOptions.enableSingleTapDismiss {
-//            browser.determineAndClose()
-            NotificationCenter.default.post(name: Notification.Name(rawValue: "sksingle"), object: self)
+            browser.determineAndClose()
         } else {
             browser.toggleControls()
         }

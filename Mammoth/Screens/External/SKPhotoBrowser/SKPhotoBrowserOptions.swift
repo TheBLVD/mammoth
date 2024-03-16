@@ -30,7 +30,7 @@ public struct SKPhotoBrowserOptions {
     
     public static var backgroundColor: UIColor = .black
     public static var indicatorColor: UIColor = .white
-    public static var indicatorStyle: UIActivityIndicatorView.Style = .large
+    public static var indicatorStyle: UIActivityIndicatorView.Style = .whiteLarge
 
     /// By default close button is on left side and delete button is on right.
     ///
@@ -47,6 +47,10 @@ public struct SKPhotoBrowserOptions {
 
     /// Provide custom session configuration (eg. for headers, etc.)
     public static var sessionConfiguration: URLSessionConfiguration = .default
+    
+    /// if this value is true, when you take a screenshot, the image will be hidden
+    /// only working on a device, not on simulator
+    public static var protectScreenshot: Bool = false
 }
 
 public struct SKButtonOptions {
@@ -64,13 +68,13 @@ public struct SKCaptionOptions {
     public static var textAlignment: NSTextAlignment = .center
     public static var numberOfLine: Int = 3
     public static var lineBreakMode: NSLineBreakMode = .byTruncatingTail
-    public static var font: UIFont = .systemFont(ofSize: 17.0, weight: .regular)
+    public static var font: UIFont = .systemFont(ofSize: 17.0)
     public static var backgroundColor: UIColor = .clear
     public static var captionLocation: CaptionLocation = .basic
 }
 
 public struct SKToolbarOptions {
     public static var textColor: UIColor = .white
-    public static var font: UIFont = .systemFont(ofSize: 17.0, weight: .regular)
+    public static var font: UIFont = .systemFont(ofSize: 17.0)
     public static var textShadowColor: UIColor = .black
 }

@@ -219,29 +219,6 @@
 		5339966F2914227A00560F83 /* StringTrimExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995412914227800560F83 /* StringTrimExtension.swift */; };
 		533996702914227A00560F83 /* ActiveBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995422914227800560F83 /* ActiveBuilder.swift */; };
 		533996712914227A00560F83 /* ActiveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995432914227800560F83 /* ActiveType.swift */; };
-		533996742914227A00560F83 /* SKPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339954A2914227900560F83 /* SKPhotoBrowser.swift */; };
-		533996752914227A00560F83 /* SKMesurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339954B2914227900560F83 /* SKMesurement.swift */; };
-		533996762914227A00560F83 /* SKZoomingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339954C2914227900560F83 /* SKZoomingScrollView.swift */; };
-		533996772914227A00560F83 /* SKPaginationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339954D2914227900560F83 /* SKPaginationView.swift */; };
-		533996782914227A00560F83 /* SKIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339954E2914227900560F83 /* SKIndicatorView.swift */; };
-		533996792914227A00560F83 /* SKAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339954F2914227900560F83 /* SKAnimator.swift */; };
-		5339967A2914227A00560F83 /* SKPhotoBrowserOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995502914227900560F83 /* SKPhotoBrowserOptions.swift */; };
-		5339967B2914227A00560F83 /* SKDetectingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995512914227900560F83 /* SKDetectingImageView.swift */; };
-		5339967C2914227A00560F83 /* UIApplication+UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995522914227900560F83 /* UIApplication+UIWindow.swift */; };
-		5339967D2914227A00560F83 /* SKPagingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995532914227900560F83 /* SKPagingScrollView.swift */; };
-		5339967E2914227A00560F83 /* SKDetectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995542914227900560F83 /* SKDetectingView.swift */; };
-		5339967F2914227A00560F83 /* SKCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995552914227900560F83 /* SKCache.swift */; };
-		533996802914227A00560F83 /* UIImage+Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995572914227900560F83 /* UIImage+Rotation.swift */; };
-		533996812914227A00560F83 /* UIView+Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995582914227900560F83 /* UIView+Radius.swift */; };
-		533996822914227A00560F83 /* SKCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995592914227900560F83 /* SKCaptionView.swift */; };
-		533996832914227A00560F83 /* SKLocalPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339955A2914227900560F83 /* SKLocalPhoto.swift */; };
-		533996842914227A00560F83 /* SKPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339955B2914227900560F83 /* SKPhoto.swift */; };
-		533996852914227A00560F83 /* SKActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339955C2914227900560F83 /* SKActionView.swift */; };
-		533996862914227A00560F83 /* SKToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339955D2914227900560F83 /* SKToolbar.swift */; };
-		533996872914227A00560F83 /* SKPhotoBrowserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339955E2914227900560F83 /* SKPhotoBrowserDelegate.swift */; };
-		533996882914227A00560F83 /* SKCacheable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5339955F2914227900560F83 /* SKCacheable.swift */; };
-		533996892914227A00560F83 /* SKPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 533995602914227900560F83 /* SKPhotoBrowser.bundle */; };
-		5339968A2914227A00560F83 /* SKButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995612914227900560F83 /* SKButtons.swift */; };
 		5339968B2914227A00560F83 /* Disk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995632914227900560F83 /* Disk.swift */; };
 		5339968C2914227A00560F83 /* Disk+InternalHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995642914227900560F83 /* Disk+InternalHelpers.swift */; };
 		5339968D2914227A00560F83 /* Disk+[Data].swift in Sources */ = {isa = PBXBuildFile; fileRef = 533995652914227900560F83 /* Disk+[Data].swift */; };
@@ -778,6 +755,32 @@
 		F054D25C2B9C9E07006130A4 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F054D25B2B9C9E07006130A4 /* MetaTextKit */; };
 		F084802D2B8BBF02005201A7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F084802C2B8BBF02005201A7 /* Localizable.xcstrings */; };
 		F0ED503C2B949A2C00F7525B /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F0ED503B2B949A2C00F7525B /* MetaTextKit */; };
+		F0F56C472BA5D16D00F0B424 /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C282BA5D16D00F0B424 /* UIImage+animatedGIF.m */; };
+		F0F56C482BA5D16D00F0B424 /* UIApplication+UIWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C2A2BA5D16D00F0B424 /* UIApplication+UIWindow.swift */; };
+		F0F56C492BA5D16D00F0B424 /* UIImage+BundledImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C2B2BA5D16D00F0B424 /* UIImage+BundledImage.swift */; };
+		F0F56C4A2BA5D16D00F0B424 /* UIImage+Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C2C2BA5D16D00F0B424 /* UIImage+Rotation.swift */; };
+		F0F56C4B2BA5D16D00F0B424 /* UIView+Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C2D2BA5D16D00F0B424 /* UIView+Radius.swift */; };
+		F0F56C4C2BA5D16D00F0B424 /* UIView+ScreenshotProtection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C2E2BA5D16D00F0B424 /* UIView+ScreenshotProtection.swift */; };
+		F0F56C4E2BA5D16D00F0B424 /* SKActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C312BA5D16D00F0B424 /* SKActionView.swift */; };
+		F0F56C4F2BA5D16D00F0B424 /* SKAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C322BA5D16D00F0B424 /* SKAnimator.swift */; };
+		F0F56C502BA5D16D00F0B424 /* SKButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C332BA5D16D00F0B424 /* SKButtons.swift */; };
+		F0F56C512BA5D16D00F0B424 /* SKCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C342BA5D16D00F0B424 /* SKCache.swift */; };
+		F0F56C522BA5D16D00F0B424 /* SKCacheable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C352BA5D16D00F0B424 /* SKCacheable.swift */; };
+		F0F56C532BA5D16D00F0B424 /* SKCaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C362BA5D16D00F0B424 /* SKCaptionView.swift */; };
+		F0F56C542BA5D16D00F0B424 /* SKDetectingImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C372BA5D16D00F0B424 /* SKDetectingImageView.swift */; };
+		F0F56C552BA5D16D00F0B424 /* SKDetectingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C382BA5D16D00F0B424 /* SKDetectingView.swift */; };
+		F0F56C562BA5D16D00F0B424 /* SKIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C392BA5D16D00F0B424 /* SKIndicatorView.swift */; };
+		F0F56C572BA5D16D00F0B424 /* SKLocalPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C3A2BA5D16D00F0B424 /* SKLocalPhoto.swift */; };
+		F0F56C582BA5D16D00F0B424 /* SKMesurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C3B2BA5D16D00F0B424 /* SKMesurement.swift */; };
+		F0F56C592BA5D16D00F0B424 /* SKPaginationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C3C2BA5D16D00F0B424 /* SKPaginationView.swift */; };
+		F0F56C5A2BA5D16D00F0B424 /* SKPagingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C3D2BA5D16D00F0B424 /* SKPagingScrollView.swift */; };
+		F0F56C5B2BA5D16D00F0B424 /* SKPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C3E2BA5D16D00F0B424 /* SKPhoto.swift */; };
+		F0F56C5C2BA5D16D00F0B424 /* SKPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F0F56C3F2BA5D16D00F0B424 /* SKPhotoBrowser.bundle */; };
+		F0F56C5D2BA5D16D00F0B424 /* SKPhotoBrowser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C412BA5D16D00F0B424 /* SKPhotoBrowser.swift */; };
+		F0F56C5E2BA5D16D00F0B424 /* SKPhotoBrowserDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C422BA5D16D00F0B424 /* SKPhotoBrowserDelegate.swift */; };
+		F0F56C5F2BA5D16D00F0B424 /* SKPhotoBrowserOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C432BA5D16D00F0B424 /* SKPhotoBrowserOptions.swift */; };
+		F0F56C602BA5D16D00F0B424 /* SKToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C442BA5D16D00F0B424 /* SKToolbar.swift */; };
+		F0F56C612BA5D16D00F0B424 /* SKZoomingScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F56C452BA5D16D00F0B424 /* SKZoomingScrollView.swift */; };
 		F0F6A5DD2ACCA9C1004FD05F /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6A5DC2ACCA9C1004FD05F /* AnalyticsManager.swift */; };
 		F0F6A5DF2ACCB5D1004FD05F /* FeaturesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6A5DE2ACCB5D1004FD05F /* FeaturesService.swift */; };
 /* End PBXBuildFile section */
@@ -1045,30 +1048,6 @@
 		533995422914227800560F83 /* ActiveBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveBuilder.swift; sourceTree = "<group>"; };
 		533995432914227800560F83 /* ActiveType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveType.swift; sourceTree = "<group>"; };
 		533995442914227800560F83 /* ActiveLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveLabel.h; sourceTree = "<group>"; };
-		533995492914227900560F83 /* SKPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPhotoBrowser.h; sourceTree = "<group>"; };
-		5339954A2914227900560F83 /* SKPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPhotoBrowser.swift; sourceTree = "<group>"; };
-		5339954B2914227900560F83 /* SKMesurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKMesurement.swift; sourceTree = "<group>"; };
-		5339954C2914227900560F83 /* SKZoomingScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKZoomingScrollView.swift; sourceTree = "<group>"; };
-		5339954D2914227900560F83 /* SKPaginationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPaginationView.swift; sourceTree = "<group>"; };
-		5339954E2914227900560F83 /* SKIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKIndicatorView.swift; sourceTree = "<group>"; };
-		5339954F2914227900560F83 /* SKAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKAnimator.swift; sourceTree = "<group>"; };
-		533995502914227900560F83 /* SKPhotoBrowserOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPhotoBrowserOptions.swift; sourceTree = "<group>"; };
-		533995512914227900560F83 /* SKDetectingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKDetectingImageView.swift; sourceTree = "<group>"; };
-		533995522914227900560F83 /* UIApplication+UIWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+UIWindow.swift"; sourceTree = "<group>"; };
-		533995532914227900560F83 /* SKPagingScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPagingScrollView.swift; sourceTree = "<group>"; };
-		533995542914227900560F83 /* SKDetectingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKDetectingView.swift; sourceTree = "<group>"; };
-		533995552914227900560F83 /* SKCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKCache.swift; sourceTree = "<group>"; };
-		533995572914227900560F83 /* UIImage+Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Rotation.swift"; sourceTree = "<group>"; };
-		533995582914227900560F83 /* UIView+Radius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Radius.swift"; sourceTree = "<group>"; };
-		533995592914227900560F83 /* SKCaptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKCaptionView.swift; sourceTree = "<group>"; };
-		5339955A2914227900560F83 /* SKLocalPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKLocalPhoto.swift; sourceTree = "<group>"; };
-		5339955B2914227900560F83 /* SKPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPhoto.swift; sourceTree = "<group>"; };
-		5339955C2914227900560F83 /* SKActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKActionView.swift; sourceTree = "<group>"; };
-		5339955D2914227900560F83 /* SKToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKToolbar.swift; sourceTree = "<group>"; };
-		5339955E2914227900560F83 /* SKPhotoBrowserDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPhotoBrowserDelegate.swift; sourceTree = "<group>"; };
-		5339955F2914227900560F83 /* SKCacheable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKCacheable.swift; sourceTree = "<group>"; };
-		533995602914227900560F83 /* SKPhotoBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SKPhotoBrowser.bundle; sourceTree = "<group>"; };
-		533995612914227900560F83 /* SKButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButtons.swift; sourceTree = "<group>"; };
 		533995632914227900560F83 /* Disk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Disk.swift; sourceTree = "<group>"; };
 		533995642914227900560F83 /* Disk+InternalHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Disk+InternalHelpers.swift"; sourceTree = "<group>"; };
 		533995652914227900560F83 /* Disk+[Data].swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Disk+[Data].swift"; sourceTree = "<group>"; };
@@ -1609,6 +1588,34 @@
 		D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableViewController.swift; sourceTree = "<group>"; };
 		D8DE092E2A3D12D800DD0483 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		F084802C2B8BBF02005201A7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		F0F56C272BA5D16D00F0B424 /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
+		F0F56C282BA5D16D00F0B424 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
+		F0F56C2A2BA5D16D00F0B424 /* UIApplication+UIWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIApplication+UIWindow.swift"; sourceTree = "<group>"; };
+		F0F56C2B2BA5D16D00F0B424 /* UIImage+BundledImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+BundledImage.swift"; sourceTree = "<group>"; };
+		F0F56C2C2BA5D16D00F0B424 /* UIImage+Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Rotation.swift"; sourceTree = "<group>"; };
+		F0F56C2D2BA5D16D00F0B424 /* UIView+Radius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Radius.swift"; sourceTree = "<group>"; };
+		F0F56C2E2BA5D16D00F0B424 /* UIView+ScreenshotProtection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+ScreenshotProtection.swift"; sourceTree = "<group>"; };
+		F0F56C312BA5D16D00F0B424 /* SKActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKActionView.swift; sourceTree = "<group>"; };
+		F0F56C322BA5D16D00F0B424 /* SKAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKAnimator.swift; sourceTree = "<group>"; };
+		F0F56C332BA5D16D00F0B424 /* SKButtons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButtons.swift; sourceTree = "<group>"; };
+		F0F56C342BA5D16D00F0B424 /* SKCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKCache.swift; sourceTree = "<group>"; };
+		F0F56C352BA5D16D00F0B424 /* SKCacheable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKCacheable.swift; sourceTree = "<group>"; };
+		F0F56C362BA5D16D00F0B424 /* SKCaptionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKCaptionView.swift; sourceTree = "<group>"; };
+		F0F56C372BA5D16D00F0B424 /* SKDetectingImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKDetectingImageView.swift; sourceTree = "<group>"; };
+		F0F56C382BA5D16D00F0B424 /* SKDetectingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKDetectingView.swift; sourceTree = "<group>"; };
+		F0F56C392BA5D16D00F0B424 /* SKIndicatorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKIndicatorView.swift; sourceTree = "<group>"; };
+		F0F56C3A2BA5D16D00F0B424 /* SKLocalPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKLocalPhoto.swift; sourceTree = "<group>"; };
+		F0F56C3B2BA5D16D00F0B424 /* SKMesurement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKMesurement.swift; sourceTree = "<group>"; };
+		F0F56C3C2BA5D16D00F0B424 /* SKPaginationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPaginationView.swift; sourceTree = "<group>"; };
+		F0F56C3D2BA5D16D00F0B424 /* SKPagingScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPagingScrollView.swift; sourceTree = "<group>"; };
+		F0F56C3E2BA5D16D00F0B424 /* SKPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPhoto.swift; sourceTree = "<group>"; };
+		F0F56C3F2BA5D16D00F0B424 /* SKPhotoBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SKPhotoBrowser.bundle; sourceTree = "<group>"; };
+		F0F56C402BA5D16D00F0B424 /* SKPhotoBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKPhotoBrowser.h; sourceTree = "<group>"; };
+		F0F56C412BA5D16D00F0B424 /* SKPhotoBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPhotoBrowser.swift; sourceTree = "<group>"; };
+		F0F56C422BA5D16D00F0B424 /* SKPhotoBrowserDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPhotoBrowserDelegate.swift; sourceTree = "<group>"; };
+		F0F56C432BA5D16D00F0B424 /* SKPhotoBrowserOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKPhotoBrowserOptions.swift; sourceTree = "<group>"; };
+		F0F56C442BA5D16D00F0B424 /* SKToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKToolbar.swift; sourceTree = "<group>"; };
+		F0F56C452BA5D16D00F0B424 /* SKZoomingScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKZoomingScrollView.swift; sourceTree = "<group>"; };
 		F0F6A5DC2ACCA9C1004FD05F /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		F0F6A5DE2ACCB5D1004FD05F /* FeaturesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1875,45 +1882,6 @@
 				533995442914227800560F83 /* ActiveLabel.h */,
 			);
 			path = ActiveLabel;
-			sourceTree = "<group>";
-		};
-		533995482914227900560F83 /* SKPhotoBrowser */ = {
-			isa = PBXGroup;
-			children = (
-				533995492914227900560F83 /* SKPhotoBrowser.h */,
-				5339954A2914227900560F83 /* SKPhotoBrowser.swift */,
-				5339954B2914227900560F83 /* SKMesurement.swift */,
-				5339954C2914227900560F83 /* SKZoomingScrollView.swift */,
-				5339954D2914227900560F83 /* SKPaginationView.swift */,
-				5339954E2914227900560F83 /* SKIndicatorView.swift */,
-				5339954F2914227900560F83 /* SKAnimator.swift */,
-				533995502914227900560F83 /* SKPhotoBrowserOptions.swift */,
-				533995512914227900560F83 /* SKDetectingImageView.swift */,
-				533995522914227900560F83 /* UIApplication+UIWindow.swift */,
-				533995532914227900560F83 /* SKPagingScrollView.swift */,
-				533995542914227900560F83 /* SKDetectingView.swift */,
-				533995552914227900560F83 /* SKCache.swift */,
-				533995562914227900560F83 /* extensions */,
-				533995592914227900560F83 /* SKCaptionView.swift */,
-				5339955A2914227900560F83 /* SKLocalPhoto.swift */,
-				5339955B2914227900560F83 /* SKPhoto.swift */,
-				5339955C2914227900560F83 /* SKActionView.swift */,
-				5339955D2914227900560F83 /* SKToolbar.swift */,
-				5339955E2914227900560F83 /* SKPhotoBrowserDelegate.swift */,
-				5339955F2914227900560F83 /* SKCacheable.swift */,
-				533995602914227900560F83 /* SKPhotoBrowser.bundle */,
-				533995612914227900560F83 /* SKButtons.swift */,
-			);
-			path = SKPhotoBrowser;
-			sourceTree = "<group>";
-		};
-		533995562914227900560F83 /* extensions */ = {
-			isa = PBXGroup;
-			children = (
-				533995572914227900560F83 /* UIImage+Rotation.swift */,
-				533995582914227900560F83 /* UIView+Radius.swift */,
-			);
-			path = extensions;
 			sourceTree = "<group>";
 		};
 		533995622914227900560F83 /* Disk */ = {
@@ -3015,7 +2983,7 @@
 		C3C9977B2A4994D60079457D /* External */ = {
 			isa = PBXGroup;
 			children = (
-				533995482914227900560F83 /* SKPhotoBrowser */,
+				F0F56C462BA5D16D00F0B424 /* SKPhotoBrowser */,
 				533995BA2914227900560F83 /* TOCropViewController */,
 			);
 			path = External;
@@ -3140,6 +3108,57 @@
 				C311EACF2ACAE1DA005B5708 /* PostCardVideo.swift */,
 			);
 			path = PostCardCell;
+			sourceTree = "<group>";
+		};
+		F0F56C292BA5D16D00F0B424 /* ObjC */ = {
+			isa = PBXGroup;
+			children = (
+				F0F56C272BA5D16D00F0B424 /* UIImage+animatedGIF.h */,
+				F0F56C282BA5D16D00F0B424 /* UIImage+animatedGIF.m */,
+			);
+			path = ObjC;
+			sourceTree = "<group>";
+		};
+		F0F56C2F2BA5D16D00F0B424 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F0F56C292BA5D16D00F0B424 /* ObjC */,
+				F0F56C2A2BA5D16D00F0B424 /* UIApplication+UIWindow.swift */,
+				F0F56C2B2BA5D16D00F0B424 /* UIImage+BundledImage.swift */,
+				F0F56C2C2BA5D16D00F0B424 /* UIImage+Rotation.swift */,
+				F0F56C2D2BA5D16D00F0B424 /* UIView+Radius.swift */,
+				F0F56C2E2BA5D16D00F0B424 /* UIView+ScreenshotProtection.swift */,
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
+		F0F56C462BA5D16D00F0B424 /* SKPhotoBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				F0F56C2F2BA5D16D00F0B424 /* extensions */,
+				F0F56C312BA5D16D00F0B424 /* SKActionView.swift */,
+				F0F56C322BA5D16D00F0B424 /* SKAnimator.swift */,
+				F0F56C332BA5D16D00F0B424 /* SKButtons.swift */,
+				F0F56C342BA5D16D00F0B424 /* SKCache.swift */,
+				F0F56C352BA5D16D00F0B424 /* SKCacheable.swift */,
+				F0F56C362BA5D16D00F0B424 /* SKCaptionView.swift */,
+				F0F56C372BA5D16D00F0B424 /* SKDetectingImageView.swift */,
+				F0F56C382BA5D16D00F0B424 /* SKDetectingView.swift */,
+				F0F56C392BA5D16D00F0B424 /* SKIndicatorView.swift */,
+				F0F56C3A2BA5D16D00F0B424 /* SKLocalPhoto.swift */,
+				F0F56C3B2BA5D16D00F0B424 /* SKMesurement.swift */,
+				F0F56C3C2BA5D16D00F0B424 /* SKPaginationView.swift */,
+				F0F56C3D2BA5D16D00F0B424 /* SKPagingScrollView.swift */,
+				F0F56C3E2BA5D16D00F0B424 /* SKPhoto.swift */,
+				F0F56C3F2BA5D16D00F0B424 /* SKPhotoBrowser.bundle */,
+				F0F56C402BA5D16D00F0B424 /* SKPhotoBrowser.h */,
+				F0F56C412BA5D16D00F0B424 /* SKPhotoBrowser.swift */,
+				F0F56C422BA5D16D00F0B424 /* SKPhotoBrowserDelegate.swift */,
+				F0F56C432BA5D16D00F0B424 /* SKPhotoBrowserOptions.swift */,
+				F0F56C442BA5D16D00F0B424 /* SKToolbar.swift */,
+				F0F56C452BA5D16D00F0B424 /* SKZoomingScrollView.swift */,
+			);
+			path = SKPhotoBrowser;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3343,6 +3362,7 @@
 				5383F20429796808005F1B20 /* Icon3.png in Resources */,
 				533993EF29141F4700560F83 /* LaunchScreen.storyboard in Resources */,
 				533B06D9298954CB003A01B8 /* soundRemove.wav in Resources */,
+				F0F56C5C2BA5D16D00F0B424 /* SKPhotoBrowser.bundle in Resources */,
 				14C45DDF2B1A1F8C000171A9 /* Burton.png in Resources */,
 				14C45D842B1A1F8C000171A9 /* Gold-Icon@2x.png in Resources */,
 				14C45DC12B1A1F8C000171A9 /* OG Pride.png in Resources */,
@@ -3527,7 +3547,6 @@
 				14C45D8B2B1A1F8C000171A9 /* Nicholas@3x.png in Resources */,
 				14C45DB82B1A1F8C000171A9 /* OG Monochrome@3x.png in Resources */,
 				14C45D9C2B1A1F8C000171A9 /* Granny Smith@2x.png in Resources */,
-				533996892914227A00560F83 /* SKPhotoBrowser.bundle in Resources */,
 				14C45DF02B1A4266000171A9 /* Pride.png in Resources */,
 				14C45D862B1A1F8C000171A9 /* OG Margot@2x.png in Resources */,
 				14C45DCB2B1A1F8C000171A9 /* Newsprint.png in Resources */,
@@ -3592,7 +3611,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5339967E2914227A00560F83 /* SKDetectingView.swift in Sources */,
 				533996EA2914227A00560F83 /* TrendsTopCell.swift in Sources */,
 				53399A7A291526B900560F83 /* Payload.swift in Sources */,
 				533994A82914214A00560F83 /* SiriSettingsViewController.swift in Sources */,
@@ -3625,6 +3643,7 @@
 				662B61132A4A1FB500CB331F /* AbbreviatedNumberFormatter.swift in Sources */,
 				533996F82914227A00560F83 /* TrendsCell.swift in Sources */,
 				533996E32914227A00560F83 /* ProfileCell.swift in Sources */,
+				F0F56C572BA5D16D00F0B424 /* SKLocalPhoto.swift in Sources */,
 				533996EE2914227A00560F83 /* UserCell.swift in Sources */,
 				534118522954B26D00696DDA /* EmailVerificationViewController.swift in Sources */,
 				C3DE20812A40C50300B07B24 /* AccountCacher.swift in Sources */,
@@ -3632,11 +3651,12 @@
 				C354D6082A0D22BD00F8AC04 /* UserCardModel.swift in Sources */,
 				C382D2CC2AA6398F00688A83 /* ProfileBackButton.swift in Sources */,
 				BFDCBD252A9EBCF100606234 /* Channels.swift in Sources */,
-				533996852914227A00560F83 /* SKActionView.swift in Sources */,
 				BF7F46F32AD07A51000977EB /* PostResultsViewController.swift in Sources */,
+				F0F56C542BA5D16D00F0B424 /* SKDetectingImageView.swift in Sources */,
 				66D091F12A5362E900291B8D /* SignInUsernameVC.swift in Sources */,
 				14BE1A522AF1047D00C13189 /* PushNotificationManager.swift in Sources */,
 				533996E12914227A00560F83 /* ALProgressBar.swift in Sources */,
+				F0F56C502BA5D16D00F0B424 /* SKButtons.swift in Sources */,
 				53399A4C291526B900560F83 /* LoginSettings.swift in Sources */,
 				BF48B9322A8FE54F00DE6BFC /* ToastNotification.swift in Sources */,
 				532567AC2971C512004E7636 /* Timelines.swift in Sources */,
@@ -3660,6 +3680,7 @@
 				53399A3C291526B900560F83 /* Decodable.swift in Sources */,
 				662B60D22A4A1E8600CB331F /* ModelNotification.swift in Sources */,
 				532567F32971D250004E7636 /* OtherStruct.swift in Sources */,
+				F0F56C5E2BA5D16D00F0B424 /* SKPhotoBrowserDelegate.swift in Sources */,
 				53399A6E291526B900560F83 /* ProfileDirectory.swift in Sources */,
 				53450E4A2936121600D720EA /* ParsingTransforms.swift in Sources */,
 				53450E6E2936127C00D720EA /* DataTransform.swift in Sources */,
@@ -3701,7 +3722,6 @@
 				532F286F29449DBF003C9FAD /* ChatMessageViewController.swift in Sources */,
 				533996912914227A00560F83 /* Disk+VolumeInformation.swift in Sources */,
 				C3B693C12A38748300E85927 /* PostCardProfilePic.swift in Sources */,
-				533996802914227A00560F83 /* UIImage+Rotation.swift in Sources */,
 				C3DB76632A4F23BF00524E8A /* NewsFeedViewModel+UnreadCount.swift in Sources */,
 				533993E329141F4700560F83 /* AppDelegate.swift in Sources */,
 				533996F42914227A00560F83 /* EditedFooterCell.swift in Sources */,
@@ -3713,7 +3733,6 @@
 				BF32F9DB2A3CB64400AE4291 /* NewPostButton.swift in Sources */,
 				533994AC2914214A00560F83 /* SettingsViewController.swift in Sources */,
 				53450E722936127C00D720EA /* DictionaryTransform.swift in Sources */,
-				5339967A2914227A00560F83 /* SKPhotoBrowserOptions.swift in Sources */,
 				53411857295DFBFC00696DDA /* Familiar.swift in Sources */,
 				BF6055822B18F2C000171180 /* UITableView+SafeScrollToRow.swift in Sources */,
 				53399A62291526B900560F83 /* Instances.swift in Sources */,
@@ -3740,8 +3759,6 @@
 				53B15867293F72B00026E90B /* NotificationService.swift in Sources */,
 				C3BBEEF22A9F98BC0027C761 /* NavigationBarTitle.swift in Sources */,
 				53399A6A291526B900560F83 /* FilterPosts.swift in Sources */,
-				5339967C2914227A00560F83 /* UIApplication+UIWindow.swift in Sources */,
-				533996762914227A00560F83 /* SKZoomingScrollView.swift in Sources */,
 				5339968C2914227A00560F83 /* Disk+InternalHelpers.swift in Sources */,
 				C354D6162A0E8FF000F8AC04 /* AccountService.swift in Sources */,
 				53450E732936127C00D720EA /* TransformOperators.swift in Sources */,
@@ -3753,19 +3770,17 @@
 				5339947D2914214A00560F83 /* NotificationSettingsViewController.swift in Sources */,
 				5341184C29531F0400696DDA /* LoadingCell.swift in Sources */,
 				5341184E2954868C00696DDA /* SignUpViewController.swift in Sources */,
-				533996792914227A00560F83 /* SKAnimator.swift in Sources */,
-				533996772914227A00560F83 /* SKPaginationView.swift in Sources */,
 				C32832AE2A41FCC500176646 /* ProfileNavigationTitle.swift in Sources */,
 				144DC7EA2B18D29000F4EE98 /* WebViewController.swift in Sources */,
 				BF193DC62AC4D66800D0F6F7 /* ChannelPic.swift in Sources */,
 				53450E792936127C00D720EA /* DateTransform.swift in Sources */,
 				53399A44291526B900560F83 /* Visibility.swift in Sources */,
 				149A68312AD6CE3700E72A83 /* AVManager.swift in Sources */,
+				F0F56C582BA5D16D00F0B424 /* SKMesurement.swift in Sources */,
 				BF193DC02AC245BE00D0F6F7 /* DiscoverSuggestionsViewModel.swift in Sources */,
 				C3BBEEED2A98F9DD0027C761 /* UIViewController+isModal.swift in Sources */,
 				149A682D2AD6A4E200E72A83 /* Mute.swift in Sources */,
 				C34475622AB0ADA1000FB335 /* FeedsManager.swift in Sources */,
-				533996882914227A00560F83 /* SKCacheable.swift in Sources */,
 				53450E7C2936127C00D720EA /* TransformOf.swift in Sources */,
 				53399A57291526B900560F83 /* Status.swift in Sources */,
 				53399A6D291526B900560F83 /* Lists.swift in Sources */,
@@ -3781,14 +3796,14 @@
 				662B612C2A4A245000CB331F /* BlueskyPostViewModel.swift in Sources */,
 				53399A73291526B900560F83 /* Trending.swift in Sources */,
 				533994B52914214A00560F83 /* ExploreViewController.swift in Sources */,
-				5339967D2914227A00560F83 /* SKPagingScrollView.swift in Sources */,
 				88B9D50E29E9F7DC00A7B1BC /* BundleExtension.swift in Sources */,
 				53399A4A291526B900560F83 /* Card.swift in Sources */,
-				533996812914227A00560F83 /* UIView+Radius.swift in Sources */,
 				BF073FB12A16A3EC00FF6EEF /* Suggestion.swift in Sources */,
+				F0F56C5D2BA5D16D00F0B424 /* SKPhotoBrowser.swift in Sources */,
 				BFE5A3072A02C7BD004CBD9F /* URL+Mastodon.swift in Sources */,
 				C376357C2A55974F0008DD21 /* NewsFeedListItem.swift in Sources */,
 				662B60E52A4A1EFC00CB331F /* BlueskyAPI+Notification.swift in Sources */,
+				F0F56C4B2BA5D16D00F0B424 /* UIView+Radius.swift in Sources */,
 				C36DDAA72A1EA5FF00357964 /* TimelineService.swift in Sources */,
 				C3EE65A02AD43E91009489EE /* ModerationManager.swift in Sources */,
 				C3DB76612A4EE25300524E8A /* UnreadIndicator.swift in Sources */,
@@ -3822,6 +3837,7 @@
 				533996E72914227A00560F83 /* DetailCell.swift in Sources */,
 				BFDCBD182A9D5EEB00606234 /* ChannelsViewController.swift in Sources */,
 				53399A46291526B900560F83 /* Attachment.swift in Sources */,
+				F0F56C552BA5D16D00F0B424 /* SKDetectingView.swift in Sources */,
 				C33DC38D2AA203EC00B18AB1 /* ActivityCardModel.swift in Sources */,
 				53450E462936121600D720EA /* SwiftyGiphyCollectionViewCell.swift in Sources */,
 				53399A52291526B900560F83 /* Instance.swift in Sources */,
@@ -3831,6 +3847,7 @@
 				532F2926294B3771003C9FAD /* VIPCell.swift in Sources */,
 				C354D60F2A0E598500F8AC04 /* SectionHeader.swift in Sources */,
 				BFE721AB2A58A6960028F78F /* AccountSwitcherButton.swift in Sources */,
+				F0F56C512BA5D16D00F0B424 /* SKCache.swift in Sources */,
 				533996F62914227A00560F83 /* DetailActionsCell.swift in Sources */,
 				14780F7B2AFBD6A700A7ECD9 /* RealtimeManager.swift in Sources */,
 				C3BBEEE92A97B3E50027C761 /* CarouselCollectionView.swift in Sources */,
@@ -3847,9 +3864,9 @@
 				53399A6C291526B900560F83 /* Accounts.swift in Sources */,
 				532F292A294CC2DA003C9FAD /* LoadMoreCell.swift in Sources */,
 				53450E84293775B100D720EA /* Intents.intentdefinition in Sources */,
-				533996872914227A00560F83 /* SKPhotoBrowserDelegate.swift in Sources */,
 				BFB2406B299B1744000245D8 /* Hashtag.swift in Sources */,
 				C3F3B02B2A4E47F2008FC4B7 /* NewsFeedViewModel+DataSource.swift in Sources */,
+				F0F56C492BA5D16D00F0B424 /* UIImage+BundledImage.swift in Sources */,
 				53399A35291526B900560F83 /* Parameter.swift in Sources */,
 				88C69FC729FC474D0085C6A3 /* RepostButtonView.swift in Sources */,
 				533994AD2914214A00560F83 /* TabBarViewController.swift in Sources */,
@@ -3857,6 +3874,8 @@
 				BF28B68F29D3884D00AB5A48 /* InstanceFeatures.swift in Sources */,
 				53399A66291526B900560F83 /* Polls.swift in Sources */,
 				BF2451F62A4B91A500B409D4 /* AccountsManagerShim.swift in Sources */,
+				F0F56C612BA5D16D00F0B424 /* SKZoomingScrollView.swift in Sources */,
+				F0F56C592BA5D16D00F0B424 /* SKPaginationView.swift in Sources */,
 				BF7F46F72AD48783000977EB /* SetupChannelsViewController.swift in Sources */,
 				D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */,
 				53450E482936121600D720EA /* GiphyPagination.swift in Sources */,
@@ -3876,6 +3895,7 @@
 				BFA71B572AB3CBBB001D1EC1 /* InstanceManager.swift in Sources */,
 				533993E529141F4700560F83 /* SceneDelegate.swift in Sources */,
 				BF193DBE2AC2305B00D0F6F7 /* DiscoverSuggestionsViewController.swift in Sources */,
+				F0F56C562BA5D16D00F0B424 /* SKIndicatorView.swift in Sources */,
 				C33DC38F2AA20BFA00B18AB1 /* ActivityCardCell.swift in Sources */,
 				5339966D2914227A00560F83 /* ActiveLabel.swift in Sources */,
 				53399A5A291526B900560F83 /* Tag.swift in Sources */,
@@ -3885,7 +3905,6 @@
 				C3C22E742A39B79C00C7CB0A /* UITableView+HeaderView.swift in Sources */,
 				533996E92914227A00560F83 /* DetailImageCell.swift in Sources */,
 				BF0DC4BD2A2039770072C1DA /* UIImage+Utils.swift in Sources */,
-				5339968A2914227A00560F83 /* SKButtons.swift in Sources */,
 				533996F32914227A00560F83 /* TextSizeCell.swift in Sources */,
 				BFA71B552AB23A70001D1EC1 /* InstanceCardModel.swift in Sources */,
 				BFDCBD1C2A9D689700606234 /* Channel.swift in Sources */,
@@ -3899,7 +3918,6 @@
 				C344755E2AB0A031000FB335 /* FeedEditorViewController.swift in Sources */,
 				53399A76291526B900560F83 /* Client.swift in Sources */,
 				53EB77EE29D2EAC80036CDE1 /* NavigationHelpers.swift in Sources */,
-				533996862914227A00560F83 /* SKToolbar.swift in Sources */,
 				53450E692936127C00D720EA /* URLTransform.swift in Sources */,
 				53450E6F2936127C00D720EA /* Mapper.swift in Sources */,
 				53450E6C2936127C00D720EA /* EnumOperators.swift in Sources */,
@@ -3912,7 +3930,6 @@
 				BFEA73292B2A4A5600A0D032 /* SetupMammothViewController.swift in Sources */,
 				53B15861293F66D20026E90B /* Decode85.swift in Sources */,
 				BF0DC4AD2A1C22170072C1DA /* HomeViewController.swift in Sources */,
-				533996742914227A00560F83 /* SKPhotoBrowser.swift in Sources */,
 				533996942914227A00560F83 /* Disk+Codable.swift in Sources */,
 				C3085A042AC42EEF007E1CFD /* PostCardMetadata.swift in Sources */,
 				BF8D23F22A09BCA300D61419 /* DetailView.swift in Sources */,
@@ -3929,9 +3946,9 @@
 				53450E672936127C00D720EA /* HexColorTransform.swift in Sources */,
 				53399A53291526B900560F83 /* Relationship.swift in Sources */,
 				C3EE65A52AD5A2D2009489EE /* UserCardActionButton.swift in Sources */,
-				533996842914227A00560F83 /* SKPhoto.swift in Sources */,
 				5339968E2914227A00560F83 /* Disk+Data.swift in Sources */,
 				BF93257E2A4262C80034CAE7 /* ExtendedTouchView.swift in Sources */,
+				F0F56C4A2BA5D16D00F0B424 /* UIImage+Rotation.swift in Sources */,
 				BFBD41EE2ACB3A58009BA818 /* ForYouCustomizationCell.swift in Sources */,
 				53450E6D2936127C00D720EA /* EnumTransform.swift in Sources */,
 				C3C22E7C2A3A0DF400C7CB0A /* ProfileViewSettingsButton.swift in Sources */,
@@ -3947,9 +3964,10 @@
 				6671448F2A4E924500C93E3B /* PostCardModel.swift in Sources */,
 				F0F6A5DD2ACCA9C1004FD05F /* AnalyticsManager.swift in Sources */,
 				536AEDF529D6017C00AC0EF8 /* GIF2MP4.swift in Sources */,
+				F0F56C4F2BA5D16D00F0B424 /* SKAnimator.swift in Sources */,
+				F0F56C4E2BA5D16D00F0B424 /* SKActionView.swift in Sources */,
 				533996E62914227A00560F83 /* DetailFooterCell.swift in Sources */,
 				BF492DB229F33550004100B8 /* StatusCache.swift in Sources */,
-				533996752914227A00560F83 /* SKMesurement.swift in Sources */,
 				C354D60A2A0D271200F8AC04 /* UserCardCell.swift in Sources */,
 				66D091E32A5360FB00291B8D /* BlueskySignInViewController.swift in Sources */,
 				533996712914227A00560F83 /* ActiveType.swift in Sources */,
@@ -3978,16 +3996,18 @@
 				BF193DC82AC4DF6A00D0F6F7 /* HashtagCell.swift in Sources */,
 				144DC6C52B14E1D200F4EE98 /* GradientLabel.swift in Sources */,
 				C35D495C2A0A378E006BCF5C /* DetailImageView.swift in Sources */,
+				F0F56C532BA5D16D00F0B424 /* SKCaptionView.swift in Sources */,
 				53450E6B2936127C00D720EA /* Operators.swift in Sources */,
 				53399A70291526B900560F83 /* Clients.swift in Sources */,
 				C3B693BF2A3866C000E85927 /* ProfileViewModel.swift in Sources */,
-				5339967F2914227A00560F83 /* SKCache.swift in Sources */,
 				53399A72291526B900560F83 /* Search.swift in Sources */,
+				F0F56C472BA5D16D00F0B424 /* UIImage+animatedGIF.m in Sources */,
 				533994CD2914214A00560F83 /* GalleryViewController.swift in Sources */,
 				533996F52914227A00560F83 /* PlainButtonCell.swift in Sources */,
 				BF7F46FF2AD4A73F000977EB /* SetupAccountsViewController.swift in Sources */,
 				53B1585F293F66D20026E90B /* PushNotificationReceiver.swift in Sources */,
 				662B61212A4A1FFC00CB331F /* HTTP.swift in Sources */,
+				F0F56C482BA5D16D00F0B424 /* UIApplication+UIWindow.swift in Sources */,
 				53450E742936127C00D720EA /* CodableTransform.swift in Sources */,
 				53399A58291526B900560F83 /* HashType.swift in Sources */,
 				533996472914227A00560F83 /* CustomVideoPlayer.swift in Sources */,
@@ -4048,6 +4068,7 @@
 				88EFEB2A2AC236E10040228B /* MothSocialJWT.swift in Sources */,
 				533994BE2914214A00560F83 /* PollViewController.swift in Sources */,
 				662B60E72A4A1EFC00CB331F /* BlueskyAPI+Repo.swift in Sources */,
+				F0F56C602BA5D16D00F0B424 /* SKToolbar.swift in Sources */,
 				14E4CAC32B74076700E4D499 /* ArrowAlignment.swift in Sources */,
 				BF492DB829F99523004100B8 /* QuotePostHostView.swift in Sources */,
 				C3D8AFA12A308AA9008F999D /* PollService.swift in Sources */,
@@ -4055,10 +4076,12 @@
 				533996F92914227A00560F83 /* PostCell.swift in Sources */,
 				533996422914227A00560F83 /* DiffSections.swift in Sources */,
 				53450E432936121600D720EA /* GiphyMultipleGIFResponse.swift in Sources */,
+				F0F56C5A2BA5D16D00F0B424 /* SKPagingScrollView.swift in Sources */,
 				534118592960B7F200696DDA /* MessageDisclaimerCell.swift in Sources */,
 				53399A33291526B900560F83 /* PaginationItem.swift in Sources */,
 				BF9325802A451B280034CAE7 /* ProfileImage.swift in Sources */,
 				BFEA732A2B2A4A5600A0D032 /* SetupMammothViewModel.swift in Sources */,
+				F0F56C4C2BA5D16D00F0B424 /* UIView+ScreenshotProtection.swift in Sources */,
 				662B60EC2A4A1EFC00CB331F /* BlueskyAPI.swift in Sources */,
 				53B15869294227650026E90B /* FilterDetailsViewController.swift in Sources */,
 				53399A3F291526B900560F83 /* HTTPURLResponse.swift in Sources */,
@@ -4066,8 +4089,8 @@
 				14BE1A562AF1208200C13189 /* KeyChainHelper.swift in Sources */,
 				C3E470A82ABDC04D006D0DD6 /* FollowButton.swift in Sources */,
 				1441736F2B2C6C600058AFCC /* UIImageView+Caching.swift in Sources */,
+				F0F56C522BA5D16D00F0B424 /* SKCacheable.swift in Sources */,
 				532F2928294C765F003C9FAD /* EditFieldsViewController.swift in Sources */,
-				5339967B2914227A00560F83 /* SKDetectingImageView.swift in Sources */,
 				662B60D62A4A1E8600CB331F /* Repo.swift in Sources */,
 				C3C22E7A2A39FE0000C7CB0A /* UserActions.swift in Sources */,
 				533994DA2914214A00560F83 /* SignInViewController.swift in Sources */,
@@ -4097,21 +4120,20 @@
 				5339966F2914227A00560F83 /* StringTrimExtension.swift in Sources */,
 				533996F72914227A00560F83 /* MessageCell.swift in Sources */,
 				C360A9052AA75E9000E17556 /* DetailViewModel.swift in Sources */,
-				533996832914227A00560F83 /* SKLocalPhoto.swift in Sources */,
 				C37881D32A214D450053A586 /* PostCardImageAttachment.swift in Sources */,
 				662B60E82A4A1EFC00CB331F /* BlueskyAPI+Server.swift in Sources */,
+				F0F56C5B2BA5D16D00F0B424 /* SKPhoto.swift in Sources */,
 				53450E6A2936127C00D720EA /* NSDecimalNumberTransform.swift in Sources */,
 				533994BD2914214A00560F83 /* NewPostViewController.swift in Sources */,
 				C3C7ED262A5D5E400039FB4D /* NewsFeedViewModel+Caching.swift in Sources */,
 				533996FC2914227A00560F83 /* AltTextCell.swift in Sources */,
 				53399A79291526B900560F83 /* ClientError.swift in Sources */,
-				533996822914227A00560F83 /* SKCaptionView.swift in Sources */,
 				533996DC2914227A00560F83 /* TOCropView.m in Sources */,
 				53399A56291526B900560F83 /* StatusPara.swift in Sources */,
 				53450E3F2936121600D720EA /* GiphyItem.swift in Sources */,
-				533996782914227A00560F83 /* SKIndicatorView.swift in Sources */,
 				53399A3B291526B900560F83 /* Data.swift in Sources */,
 				53399A4B291526B900560F83 /* CardType.swift in Sources */,
+				F0F56C5F2BA5D16D00F0B424 /* SKPhotoBrowserOptions.swift in Sources */,
 				662B60CF2A4A1E8600CB331F /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

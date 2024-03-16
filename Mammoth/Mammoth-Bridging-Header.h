@@ -6,3 +6,4 @@
 //
 
 #import "TOCropViewController.h"
+#import "UIImage+animatedGIF.h"
