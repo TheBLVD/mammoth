@@ -170,9 +170,9 @@ final class PostCardMediaStack: UIView {
                 
                 var blurImage: UIImage? = nil
                 if let blurhash = attachment.blurhash, imageFromCache == nil, let currentMedia = self.media, attachment.url != currentMedia.url {
-                    let blurWidth = attachment.meta?.small?.width ?? 32
-                    let blurHeight = attachment.meta?.small?.height ?? 32
-                    blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))?
+                    let blurWidth = attachment.meta?.small?.width ?? 64
+                    let blurHeight = attachment.meta?.small?.height ?? 64
+                    blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: 64, height: 64))?
                         .resized(to: .init(width: blurWidth, height: blurHeight))
                 }
                 photo.underlyingImage = imageFromCache ?? previewFromCache ?? blurImage
