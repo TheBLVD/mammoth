@@ -1250,10 +1250,17 @@ private extension NewsFeedViewController {
 // MARK: - Jump to newest
 extension NewsFeedViewController: JumpToNewest {
     func jumpToNewest() {
-        DispatchQueue.main.async {
-            self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        self.viewModel.stopPollingListData()
+        self.viewModel.cancelAllItemSyncs()
+        
+        self.isScrollingProgrammatically = true
+        
+        self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
+            
+            self.isScrollingProgrammatically = false
+            
             Task { [weak self] in
                 guard let self else { return }
                 if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
