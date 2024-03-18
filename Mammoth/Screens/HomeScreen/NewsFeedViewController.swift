@@ -259,6 +259,8 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         // If the user disabled the JumpToNow button (pressed the close button)
         // re-enable it now
         self.viewModel.isJumpToNowButtonDisabled = false
+        
+        self.didUpdateSnapshot(self.viewModel.snapshot, feedType: self.viewModel.type, updateType: .insert, onCompleted: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -814,6 +816,7 @@ extension NewsFeedViewController {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.isScrollingProgrammatically = false
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.7) { [weak self] in
@@ -840,7 +843,6 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         guard !self.switchingAccounts else { return }
         
         let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || self.isInWindowHierarchy()
-        self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !self.tableView.visibleCells.isEmpty
         
         guard !self.tableView.isTracking, !self.tableView.isDecelerating, updateDisplay, !(updateType == .update && self.isScrollingProgrammatically) else {
             if let callback = onCompleted {
