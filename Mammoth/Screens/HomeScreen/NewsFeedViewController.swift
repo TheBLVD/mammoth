@@ -840,6 +840,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         guard !self.switchingAccounts else { return }
         
         let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || self.isInWindowHierarchy()
+        self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !self.tableView.visibleCells.isEmpty
         
         guard !self.tableView.isTracking, !self.tableView.isDecelerating, updateDisplay, !(updateType == .update && self.isScrollingProgrammatically) else {
             if let callback = onCompleted {
