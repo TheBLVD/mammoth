@@ -739,6 +739,8 @@ extension NewsFeedViewModel {
                     let newPostCard = postCard.mergeInOriginalData(status: status)
                     await MainActor.run { [weak self] in
                         guard let self else { return }
+                        guard !Task.isCancelled else { return }
+                        
                         self.update(with: .postCard(newPostCard), forType: self.type, silently: false)
                     }
                 }
