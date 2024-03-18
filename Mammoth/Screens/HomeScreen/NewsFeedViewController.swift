@@ -76,7 +76,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     private var switchingAccounts = false
     
     weak var delegate: NewsFeedViewControllerDelegate?
-    private var deferredSnapshotUpdates: [NewsFeedSnapshotUpdateType: () -> Void] = [:]
     private var deferredSnapshotUpdatesCallbacks: [(() -> Void)] = []
     
     public var type: NewsFeedTypes {
@@ -318,7 +317,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     }
     
     @objc private func willSwitchAccount() {
-        self.deferredSnapshotUpdates = [:]
         self.deferredSnapshotUpdatesCallbacks = []
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         self.viewModel.removeAll(type: self.viewModel.type, clearScrollPosition: false)
@@ -378,23 +376,25 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     @objc func onJumpToNow() {
         self.viewModel.stopPollingListData()
         self.viewModel.cancelAllItemSyncs()
-        
-        self.deferredSnapshotUpdates = [:]
         self.deferredSnapshotUpdatesCallbacks = []
         
-        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
-        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-        self.didUpdateUnreadState(type: self.viewModel.type)
-        
-        self.isScrollingProgrammatically = false
-        
-        self.viewModel.clearSnapshot()
-        self.showLoader(enabled: true)
-        
-        DispatchQueue.main.async {
-            Task { [weak self] in
-                guard let self else { return }
-                try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+
+            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+            self.didUpdateUnreadState(type: self.viewModel.type)
+            
+            self.isScrollingProgrammatically = false
+            
+            self.viewModel.clearSnapshot()
+            self.showLoader(enabled: true)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                Task { [weak self] in
+                    guard let self else { return }
+                    try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
+                }
             }
         }
     }
@@ -820,13 +820,11 @@ extension NewsFeedViewController {
             guard let self else { return }
             
             guard !self.tableView.isTracking, !self.tableView.isDecelerating else { return }
-            let tasks = Array(self.deferredSnapshotUpdates.values)
-            self.deferredSnapshotUpdates = [:]
-            tasks.forEach({ $0() })
-            
             let callbacks = self.deferredSnapshotUpdatesCallbacks
             self.deferredSnapshotUpdatesCallbacks = []
             callbacks.forEach({ $0() })
+            
+            self.didUpdateSnapshot(self.viewModel.snapshot, feedType: self.viewModel.type, updateType: .insert, onCompleted: nil)
         }
     }
 }
@@ -844,21 +842,11 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || self.isInWindowHierarchy()
         
         guard !self.tableView.isTracking, !self.tableView.isDecelerating, updateDisplay, !(updateType == .update && self.isScrollingProgrammatically) else {
-            let deferredJob = {  [weak self] in
-                guard let self else { return }
-                self.didUpdateSnapshot(snapshot, feedType: feedType, updateType: updateType, onCompleted: nil)
-            }
-            self.deferredSnapshotUpdates[updateType] = deferredJob
-            
             if let callback = onCompleted {
                 self.deferredSnapshotUpdatesCallbacks.append(callback)
             }
             return
         }
-        
-        let tasks = Array(self.deferredSnapshotUpdates.values)
-        self.deferredSnapshotUpdates = [:]
-        tasks.forEach({ $0() })
         
         let callbacks = self.deferredSnapshotUpdatesCallbacks
         self.deferredSnapshotUpdatesCallbacks = []
@@ -869,9 +857,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
 
             log.debug("tableview change: \(updateType) for \(feedType)")
             
-            if updateType == .insert {
-                self.isInsertingContent = true
-            }
+            self.isInsertingContent = true
             
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
@@ -906,9 +892,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     if updateDisplay {
                         CATransaction.commit()
                         
-                        if updateType == .insert {
-                            self.isInsertingContent = false
-                        }
+                        self.isInsertingContent = false
                     }
                 }
                 
@@ -1210,6 +1194,7 @@ private extension NewsFeedViewController {
                         // we need to include an inset when the background is translucent
                         var additionalOffset = 0.0
                         
+                        UIView.setAnimationsEnabled(false)
                         if UIDevice.current.userInterfaceIdiom == .phone && !self.additionalSafeAreaInsets.top.isZero {
                             additionalOffset = 176
                             tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top + additionalOffset
@@ -1219,6 +1204,7 @@ private extension NewsFeedViewController {
                         } else {
                             tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top
                         }
+                        UIView.setAnimationsEnabled(true)
                     }
                 } else {
                     log.error("#scrollToPosition2: no indexpath found")
