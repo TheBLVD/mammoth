@@ -155,9 +155,9 @@ extension MAMenu {
         case .receivedMentions:
             return MenuStyle(title: NSLocalizedString("title.mentionsIn", comment: ""), image: FontAwesome.image(fromChar: "\u{40}"))
         case .likes:
-            return MenuStyle(title: "Likes", image: FontAwesome.image(fromChar: "\u{f004}"))
+            return MenuStyle(title: NSLocalizedString("title.likes", comment: ""), image: FontAwesome.image(fromChar: "\u{f004}"))
         case .reposts:
-            return MenuStyle(title: "Reposts", image: FontAwesome.image(fromChar: "\u{f361}"))
+            return MenuStyle(title: NSLocalizedString("activity.reposts", comment: ""), image: FontAwesome.image(fromChar: "\u{f361}"))
 
         // profile menu
         case .recentMedia:

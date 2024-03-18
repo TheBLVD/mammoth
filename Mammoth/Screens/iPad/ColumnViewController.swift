@@ -347,7 +347,7 @@ class ColumnViewController: UIViewController {
             goTo5.wantsPriorityOverSystemBehavior = true
         }
         let goTo6 = UIKeyCommand(input: "6", modifierFlags: .command, action: #selector(scrollTo6))
-        goTo6.discoverabilityTitle = "Likes"
+        goTo6.discoverabilityTitle = NSLocalizedString("title.likes", comment: "")
         if #available(iOS 15, *) {
             goTo6.wantsPriorityOverSystemBehavior = true
         }

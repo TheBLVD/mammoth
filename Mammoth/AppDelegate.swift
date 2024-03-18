@@ -331,7 +331,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let command05 = UIKeyCommand(input: "5", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo5))
         command05.title =  NSLocalizedString("navigator.profile", comment: "")
         let command06 = UIKeyCommand(input: "6", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo6))
-        command06.title =  "Likes"
+        command06.title =  NSLocalizedString("title.likes", comment: "")
         let command07 = UIKeyCommand(input: "7", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo7))
         command07.title =  "Bookmarks"
         let command08 = UIKeyCommand(input: "8", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo8))
