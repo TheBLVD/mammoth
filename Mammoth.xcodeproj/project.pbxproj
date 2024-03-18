@@ -4444,7 +4444,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 426;
+				CURRENT_PROJECT_VERSION = 427;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
@@ -4467,6 +4467,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 2.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.theblvd.mammoth;
 				PRODUCT_NAME = Mammoth;
@@ -4491,7 +4492,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 426;
+				CURRENT_PROJECT_VERSION = 427;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
@@ -4514,6 +4515,7 @@
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 2.10;
 				PRODUCT_BUNDLE_IDENTIFIER = com.theblvd.mammoth;
 				PRODUCT_NAME = Mammoth;
