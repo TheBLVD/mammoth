@@ -454,7 +454,9 @@ extension NewsFeedViewModel {
                 self.snapshot.deleteSections([.main])
                 self.snapshot = self.appendMainSectionToSnapshot(snapshot: self.snapshot)
                 
-                guard retrievedItems != nil else {
+                // Until we refactor persistence to store nextPageRange / previousPageRange
+                // we cannot accurately restore the state of any feedType that makes paginated requests
+                guard retrievedItems != nil && !makePaginatedRequest else {
                     self.state = .success
                     completed?()
                     return

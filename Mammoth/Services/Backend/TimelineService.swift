@@ -97,16 +97,17 @@ struct TimelineService {
         return result
     }
     
-    static func likes(range: RequestRange = .default) async throws -> ([Status], cursorId: String?) {
+    static func likes(range: RequestRange = .default) async throws -> ([Status], Pagination?, cursorId: String?) {
         let request = Favourites.all(range: range)
-        let result = try await ClientService.runRequest(request: request)
-        return (result, cursorId: result.last?.id)
+        let (result, pagination) = try await ClientService.runPaginatedRequest(request: request)
+        return (result, pagination, cursorId: result.last?.id)
     }
 
-    static func bookmarks(range: RequestRange = .default) async throws -> ([Status], cursorId: String?) {
-        let request = Bookmarks.bookmarks(range: range)
-        let result = try await ClientService.runRequest(request: request)
-        return (result, cursorId: result.last?.id)
+    static func bookmarks(range: RequestRange = .default) async throws -> ([Status], Pagination?, cursorId: String?) {
+        let request = Bookmarks.all(range: range)
+
+        let (result, pagination) = try await ClientService.runPaginatedRequest(request: request)
+        return (result, pagination, cursorId: result.last?.id)
     }
     
     static func mentions(range: RequestRange = .default) async throws -> ([Status], cursorId: String?) {

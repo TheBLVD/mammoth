@@ -20,7 +20,7 @@ extension NewsFeedViewModel {
 
     @discardableResult
     func loadListData(type: NewsFeedTypes? = nil, fetchType: NewsFeedFetchType = .refresh) async throws -> [NewsFeedListItem] {
-        try await loadListDataMastodon(type: type, fetchType: fetchType)
+        return try await loadListDataMastodon(type: type, fetchType: fetchType)
     }
         
     @discardableResult
@@ -37,8 +37,29 @@ extension NewsFeedViewModel {
                 self.state = .loading
                 self.displayLoader(forType: currentType)
 
-                if let lastId = await MainActor.run(body: { [weak self] in return self?.oldestItemId(forType: currentType) }) {
-                    let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.max(id: lastId, limit: 20), batchName: "next-page_batch")
+                if let lastId = self.oldestItemId(forType: currentType) {
+                    let items: [NewsFeedListItem]
+                    
+                    if (self.makePaginatedRequest) {
+                        let (requestItems, pagination, requestCursorId) = try await currentType.fetchAllPaginated(range: self.nextPageRange ?? .default, batchName: "next-page_batch")
+                        items = requestItems
+
+                        self.cursorId = requestCursorId
+                        updateCurrentRange(newPagination: pagination)
+                        if (self.nextPageRange == nil) {
+                            // If a 'nextPage' call results in a nil nextpageRange, we've hit the end
+                            self.isLoadMoreEnabled = false
+                        }
+                        
+                    } else {
+                        let (requestItems, requestCursorId) = try await currentType.fetchAll(range: RequestRange.max(id: lastId, limit: 20), batchName: "next-page_batch")
+                        items = requestItems
+                        
+                        self.cursorId = requestCursorId
+                        if self.cursorId == nil {
+                            self.isLoadMoreEnabled = false
+                        }
+                    }
                     
                     // only remove mutes and blocks in remote feeds.
                     let newItems: [NewsFeedListItem]
@@ -57,12 +78,6 @@ extension NewsFeedViewModel {
 
                         // Abort if user changed in the meantime
                         guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return [] }
-
-                        self.cursorId = cursorId
-                        
-                        if cursorId == nil {
-                            self.isLoadMoreEnabled = false
-                        }
                         
                         if let current = self.listData.forType(type: currentType) {
                             let currentIds = current.compactMap({ $0.extractUniqueId() })
@@ -105,9 +120,20 @@ extension NewsFeedViewModel {
                 
             // Fetch newer posts
             case .previousPage:
-                
-                if let firstId = await MainActor.run(body: { [weak self] in return self?.newestItemId(forType: currentType) }) {
-                    let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.min(id: firstId, limit: 40), batchName: "previous-page_batch")
+                if let firstId = self.newestItemId(forType: currentType) {
+                    
+                    let items: [NewsFeedListItem]
+
+                    if (self.makePaginatedRequest) {
+                        let (requestItems, pagination, requestCursorId) = try await currentType.fetchAllPaginated(range: self.previousPageRange ?? .default, batchName: "previous-page_batch")
+                        items = requestItems
+                        self.cursorId = requestCursorId
+                        updateCurrentRange(newPagination: pagination)
+                    } else {
+                        let (requestItems, requestCursorId) = try await currentType.fetchAll(range: RequestRange.min(id: firstId, limit: 40), batchName: "previous-page_batch")
+                        items = requestItems
+                        self.cursorId = requestCursorId
+                    }
                     
                     // only remove mutes and blocks in remote feeds.
                     let newItems: [NewsFeedListItem]
@@ -126,8 +152,6 @@ extension NewsFeedViewModel {
 
                         // Abort if user changed in the meantime
                         guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return [] }
-
-                        self.cursorId = cursorId
                         
                         if let current = self.listData.forType(type: currentType) {
                             let currentIds = current.compactMap({ $0.extractUniqueId() })
@@ -157,7 +181,26 @@ extension NewsFeedViewModel {
                 self.state = .loading
                 self.isLoadMoreEnabled = true
                 
-                let (items, cursorId) = try await currentType.fetchAll(batchName: "refresh_batch")
+                let items: [NewsFeedListItem]
+
+                if (self.makePaginatedRequest) {
+                    let (requestItems, pagination, requestCursorId) = try await currentType.fetchAllPaginated(batchName: "refresh_batch")
+                    items = requestItems
+                    self.cursorId = requestCursorId
+                    updateCurrentRange(newPagination: pagination)
+                } else {
+                    let (requestItems, requestCursorId) = try await currentType.fetchAll(batchName: "refresh_batch")
+                    items = requestItems
+                    self.cursorId = requestCursorId
+                }
+                
+                // This should be true of paginated and unpaginated requests
+                if (self.cursorId == nil) {
+                    self.isLoadMoreEnabled = false
+                    self.showEmpty(forType: currentType)
+                } else {
+                    self.hideEmpty(forType: currentType)
+                }
                 
                 // only remove mutes and blocks in remote feeds.
                 let newItems: [NewsFeedListItem]
@@ -176,15 +219,6 @@ extension NewsFeedViewModel {
 
                     // Abort if user changed in the meantime
                     guard requestingUser == (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID else { return }
-
-                    self.cursorId = cursorId
-                    
-                    if cursorId == nil {
-                        self.isLoadMoreEnabled = false
-                        self.showEmpty(forType: currentType)
-                    } else {
-                        self.hideEmpty(forType: currentType)
-                    }
                     
                     self.set(withItems: newItems, forType: currentType)
                     self.state = .success
@@ -346,8 +380,18 @@ extension NewsFeedViewModel {
             
             let requestingUser = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.uniqueID
             
-            let (items, cursorId) = try await feedType.fetchAll(range: .limit(60), batchName: "latest_batch")
-            
+            let items: [NewsFeedListItem]
+            if (self.makePaginatedRequest) {
+                let (requestItems, pagination, requestCursorId) = try await feedType.fetchAllPaginated(batchName: "latest_batch")
+                items = requestItems
+                self.cursorId = requestCursorId
+                updateCurrentRange(newPagination: pagination)
+            } else {
+                let (requestItems, requestCursorId) = try await feedType.fetchAll(range: .limit(60), batchName: "latest_batch")
+                items = requestItems
+                self.cursorId = requestCursorId
+            }
+
             // only remove mutes and blocks in remote feeds.
             let newItems: [NewsFeedListItem]
             if case .community = type {
@@ -366,9 +410,7 @@ extension NewsFeedViewModel {
             
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
-                
-                self.cursorId = cursorId
-                
+                                
                 if let current = self.listData.forType(type: feedType) {
                     
                     // only keep newer posts - trim away what's already in the feed
