@@ -131,6 +131,12 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
         let urlStr = "https://feature.\(GlobalHostServer())/api/v1/instances/list"
         let url: URL = URL(string: urlStr)!
         var request = URLRequest(url: url)
+        var components = URLComponents(url: request.url!, resolvingAgainstBaseURL: false)!
+        let language = NSLocale.preferredLanguages[0]
+        if GlobalStruct.supportedLocalizations.contains(language) {
+            components.queryItems = [URLQueryItem(name: "language", value: NSLocale.current.languageCode)]
+        }
+        request.url = components.url
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
