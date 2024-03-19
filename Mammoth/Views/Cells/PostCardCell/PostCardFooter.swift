@@ -188,9 +188,9 @@ fileprivate class PostFooterButton: UIButton {
         self.setupUI()
 
         if [.like, .reply, .repost, .quote].contains(where: { $0 == type }) {
-            let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
-            self.addGestureRecognizer(tap)
+            self.addTarget(self, action: #selector(self.handleTap), for: .touchUpInside)
         }
+        
         self.accessibilityLabel = String(describing: type)
     }
     
@@ -200,10 +200,12 @@ fileprivate class PostFooterButton: UIButton {
     
     private func setupUI() {
         self.isOpaque = true
+        self.isUserInteractionEnabled = true
         self.addSubview(container)
         self.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         
         self.container.layoutMargins = .zero
+        self.container.isUserInteractionEnabled = false
         
         NSLayoutConstraint.activate([
             container.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
@@ -312,7 +314,7 @@ private extension PostFooterButton {
             break
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
             self.onPress?(self.postButtonType, !self.isActive, nil)
         }
     }
