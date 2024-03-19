@@ -265,6 +265,15 @@ extension Status {
                 // Create a card from this URL
                 quotePostCard = Card(url: firstURL.absoluteString, title: "", description: "", type: .link, authorName: "", authorUrl: "", providerName: "", html: "", width: 0, height: 0)
             }
+        } else if let hrefStart = text.range(of:"href=\"", options:.backwards) {
+            // old behaviour as a fallback, since ivory doesn't include a "RE: "
+            let urls = URLsFromHTML(String(text.suffix(from: hrefStart.lowerBound)))
+            if let firstURL = urls.first {
+                if firstURL.isPostURL() {
+                    // Create a card from this URL
+                    quotePostCard = Card(url: firstURL.absoluteString, title: "", description: "", type: .link, authorName: "", authorUrl: "", providerName: "", html: "", width: 0, height: 0)
+                }
+            }
         }
         
         return quotePostCard
