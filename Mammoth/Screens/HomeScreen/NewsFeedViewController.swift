@@ -1252,32 +1252,27 @@ extension NewsFeedViewController: JumpToNewest {
     func jumpToNewest() {
         self.viewModel.stopPollingListData()
         self.viewModel.cancelAllItemSyncs()
+        self.deferredSnapshotUpdatesCallbacks = []
         
-        self.isScrollingProgrammatically = true
-        
-        self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.2) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+
+            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+            self.didUpdateUnreadState(type: self.viewModel.type)
             
             self.isScrollingProgrammatically = false
             
-            Task { [weak self] in
-                guard let self else { return }
-                if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
+            self.viewModel.clearSnapshot()
+            self.showLoader(enabled: true)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                Task { [weak self] in
+                    guard let self else { return }
                     try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
-                } else {
-                    if GlobalStruct.feedReadDirection == .bottomUp {
-                        try await self.viewModel.loadListData(type: type, fetchType: .previousPage)
-                    } else {
-                        try await self.viewModel.loadLatest(feedType: type, threshold: 1)
-                    }
                 }
             }
         }
-        
-        // If the user disabled the JumpToNow button (pressed the close button)
-        // re-enable it now
-        self.viewModel.isJumpToNowButtonDisabled = false
     }
 }
 
