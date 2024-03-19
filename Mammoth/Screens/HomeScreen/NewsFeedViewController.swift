@@ -894,9 +894,9 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     
                     if updateDisplay {
                         CATransaction.commit()
-                        
-                        self.isInsertingContent = false
                     }
+                    
+                    self.isInsertingContent = false
                 }
                 
                 // This extra commit is needed when updating with .replaceAll (triggered by refresh snapshot)
