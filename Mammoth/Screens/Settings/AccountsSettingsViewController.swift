@@ -276,10 +276,10 @@ class AccountsSettingsViewController: UIViewController, ASWebAuthenticationPrese
 
 extension AccountsSettingsViewController: AccountCellDelegate {
     func signOutAccount(_ account: any AcctDataType) {
-        let alert = UIAlertController(title: "Sign out?", message: "Are you sure you want to sign out of this account?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler:{ (UIAlertAction) in
+        let alert = UIAlertController(title: NSLocalizedString("signOut.title", comment: ""), message: NSLocalizedString("signOut.message", comment: ""), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
         }))
-        alert.addAction(UIAlertAction(title: "Sign out", style: .destructive , handler:{ (UIAlertAction) in
+        alert.addAction(UIAlertAction(title: NSLocalizedString("signOut.option", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
                     AccountsManager.shared.logoutAndDeleteAccount(account)
         }))
         self.present(alert, animated: true, completion: nil)
