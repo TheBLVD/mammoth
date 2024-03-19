@@ -380,19 +380,28 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         self.viewModel.cancelAllItemSyncs()
         self.deferredSnapshotUpdatesCallbacks = []
         
-        DispatchQueue.main.async { [weak self] in
+        self.isScrollingProgrammatically = true
+        self.isInsertingContent = true
+        
+        self.viewModel.clearSnapshot()
+        self.showLoader(enabled: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self else { return }
 
             self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
             self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
             self.didUpdateUnreadState(type: self.viewModel.type)
             
-            self.isScrollingProgrammatically = false
-            
             self.viewModel.clearSnapshot()
             self.showLoader(enabled: true)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                guard let self else { return }
+                
+                self.isInsertingContent = false
+                self.isScrollingProgrammatically = false
+                
                 Task { [weak self] in
                     guard let self else { return }
                     try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
@@ -1254,19 +1263,28 @@ extension NewsFeedViewController: JumpToNewest {
         self.viewModel.cancelAllItemSyncs()
         self.deferredSnapshotUpdatesCallbacks = []
         
-        DispatchQueue.main.async { [weak self] in
+        self.isScrollingProgrammatically = true
+        self.isInsertingContent = true
+        
+        self.viewModel.clearSnapshot()
+        self.showLoader(enabled: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self else { return }
 
             self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
             self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
             self.didUpdateUnreadState(type: self.viewModel.type)
             
-            self.isScrollingProgrammatically = false
-            
             self.viewModel.clearSnapshot()
             self.showLoader(enabled: true)
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                guard let self else { return }
+                
+                self.isInsertingContent = false
+                self.isScrollingProgrammatically = false
+                
                 Task { [weak self] in
                     guard let self else { return }
                     try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
