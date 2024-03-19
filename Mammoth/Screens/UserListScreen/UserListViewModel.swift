@@ -22,19 +22,19 @@ class UserListViewModel {
         func title(_ user: UserCardModel? = nil) -> String {
             switch self {
             case .likes:
-                return "Likes"
+                return NSLocalizedString("title.likes", comment: "")
             case .reposts:
-                return "Reposts"
+                return NSLocalizedString("activity.reposts", comment: "")
             case .followers:
-                return "Followers (\(user?.followersCount ?? "0"))"
+                return NSLocalizedString("title.followers", comment: "") + " (\(user?.followersCount ?? "0"))"
             case .following:
-                return "Following (\(user?.followingCount ?? "0"))"
+                return NSLocalizedString("title.following", comment: "") + " (\(user?.followingCount ?? "0"))"
             case .mutes:
                 return NSLocalizedString("profile.muted", comment: "")
             case .blocks:
                 return NSLocalizedString("profile.blocked", comment: "")
             case .listMembers:
-                return "List members"
+                return NSLocalizedString("list.members", comment: "")
             }
         }
         
