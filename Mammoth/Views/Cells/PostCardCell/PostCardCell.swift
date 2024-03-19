@@ -216,7 +216,7 @@ final class PostCardCell: UITableViewCell {
         stackView.axis = .horizontal
         stackView.alignment = .leading
         stackView.distribution = .fillProportionally
-        stackView.spacing = 11.0
+        stackView.spacing = 0.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.preservesSuperviewLayoutMargins = false
         return stackView
@@ -231,9 +231,10 @@ final class PostCardCell: UITableViewCell {
         stackView.distribution = .fill
         stackView.spacing = 2
         stackView.isOpaque = true
-        stackView.layoutMargins = .zero
+        stackView.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 0)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.preservesSuperviewLayoutMargins = false
+        stackView.isLayoutMarginsRelativeArrangement = true
         return stackView
     }()
     

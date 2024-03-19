@@ -109,6 +109,17 @@ extension PostCardFooter {
     }
 }
 
+extension PostCardFooter {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let pointForTargetView = self.likeButton.convert(point, from: self)
+        if CGRectContainsPoint(self.likeButton.bounds, pointForTargetView) {
+            return self.likeButton
+        }
+        
+        return super.hitTest(point, with: event)
+    }
+}
+
 // MARK: Appearance changes
 internal extension PostCardFooter {
      override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -301,7 +312,7 @@ private extension PostFooterButton {
             break
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             self.onPress?(self.postButtonType, !self.isActive, nil)
         }
     }

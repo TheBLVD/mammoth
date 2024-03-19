@@ -498,11 +498,7 @@ extension NewsFeedViewModel {
 
         // Don't update data source if this feed is not currently viewed
         guard type == self.type else { return }
-        
-        // Save cards to disk
-//        let scrollPosition = self.getScrollPosition(forFeed: type)
-//        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-        
+
         self.snapshot.deleteSections([.main])
         self.snapshot.appendSections([.main])
         
@@ -525,10 +521,6 @@ extension NewsFeedViewModel {
         guard type == self.type else { return }
         guard let _ = self.listData.forType(type: type)?.first(where: { $0.uniqueId() == item.uniqueId() }) else { return }
         
-        // Save cards to disk
-        let scrollPosition = self.getScrollPosition(forFeed: type)
-        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-
         if self.snapshot.indexOfItem(item) != nil {
             if #available(iOS 15.0, *) {
                 self.snapshot.reconfigureItems([item])
@@ -776,10 +768,6 @@ extension NewsFeedViewModel {
     func remove(card: PostCardModel, forType type: NewsFeedTypes) {
         DispatchQueue.main.async {
             self.listData.remove(item: .loadMore)
-            
-            // Save cards to disk
-            let scrollPosition = self.getScrollPosition(forFeed: type)
-            self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
             
             // Don't update data source if this feed is not currently viewed
             guard type == self.type else { return }

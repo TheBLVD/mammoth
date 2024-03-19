@@ -886,6 +886,19 @@ extension PostCardModel {
 
 // MARK: - Formatters
 extension PostCardModel {
+    
+    public func likeTap() -> Void {
+        guard case .mastodon(let status) = data, status.favourited == false else { return }
+        status.favourited = true
+        status.favouritesCount += 1
+    }
+    
+    public func unlikeTap() -> Void {
+        guard case .mastodon(let status) = data, status.favourited == true else { return }
+        status.favourited = false
+        status.favouritesCount -= 1
+    }
+    
     static func formattedLikeCount(status: Status, withStaticMetrics staticMetrics: Bool = false) -> String {
         let hasLocal = StatusCache.shared.hasLocalMetric(metricType: .like, forStatusId: status.uniqueId)
         let localCount = hasLocal != nil ? hasLocal! ? 1 : 0 : 0
