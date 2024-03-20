@@ -379,6 +379,8 @@ extension PostActions {
             // Optimistically update local cache
             StatusCache.shared.addLocalMetric(metricType: .repost, statusId: uniqueId)
             
+            postCard.repostTap()
+            
             // Consolidate list data with updated post card data and request a cell refresh
             NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
             
@@ -405,6 +407,8 @@ extension PostActions {
         if let uniqueId = postCard.uniqueId {
             // Optimistically update local cache
             StatusCache.shared.removeLocalMetric(metricType: .repost, statusId: uniqueId)
+            
+            postCard.unrepostTap()
             
             // Consolidate list data with updated post card data and request a cell refresh
             NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])

@@ -183,28 +183,33 @@ public class Status: Codable, Hashable {
         self.filtered = filtered
     }
     
+    @discardableResult
     public func likeTap() -> Int {
         favouritesCount += 1
         favourited = true
         return getLikesCount()
     }
     
+    @discardableResult
     public func unlikeTap() -> Int {
         favouritesCount -= 1
         favourited = false
         return getLikesCount()
     }
     
+    @discardableResult
     private func getLikesCount() -> Int {
         return favouritesCount
     }
     
+    @discardableResult
     public func repostTap() -> Int {
         reblogsCount += 1
         reblogged = true
         return getRepostsCount()
     }
     
+    @discardableResult
     public func unrepostTap() -> Int {
         reblogsCount -= 1
         reblogged = false
