@@ -889,14 +889,22 @@ extension PostCardModel {
     
     public func likeTap() -> Void {
         guard case .mastodon(let status) = data, status.favourited == false else { return }
-        status.favourited = true
-        status.favouritesCount += 1
+        status.likeTap()
     }
     
     public func unlikeTap() -> Void {
         guard case .mastodon(let status) = data, status.favourited == true else { return }
-        status.favourited = false
-        status.favouritesCount -= 1
+        status.unlikeTap()
+    }
+    
+    public func repostTap() -> Void {
+        guard case .mastodon(let status) = data, status.reblogged == false else { return }
+        status.repostTap()
+    }
+    
+    public func unrepostTap() -> Void {
+        guard case .mastodon(let status) = data, status.reblogged == true else { return }
+        status.unrepostTap()
     }
     
     static func formattedLikeCount(status: Status, withStaticMetrics staticMetrics: Bool = false) -> String {
