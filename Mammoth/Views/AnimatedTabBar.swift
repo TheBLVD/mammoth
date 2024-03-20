@@ -182,11 +182,18 @@ class AnimatedTabBarView : UIView {
         itemsStackView.alignment = .center
         itemsStackView.spacing = gapBetweenButtons
         itemsStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let leading = itemsStackView.leadingAnchor.constraint(lessThanOrEqualTo: self.leadingAnchor, constant: 32)
+        leading.priority = .defaultLow
+        let trailing = itemsStackView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -32)
+        trailing.priority = .defaultLow
+        
         NSLayoutConstraint.activate([
             itemsStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 1),
-            itemsStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 32),
-            itemsStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -32),
-            itemsStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            leading,
+            trailing,
+            itemsStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            itemsStackView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
         
         self.addSubview(selectionPill)
