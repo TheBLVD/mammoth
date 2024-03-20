@@ -100,7 +100,7 @@ extension PostCardPoll {
     func configure(postCard: PostCardModel) {
         self.postCard = postCard
         
-        if let poll = postCard.poll {
+        if let poll = postCard.poll, optionsStackView.arrangedSubviews.isEmpty {
             
             // Create poll option view for each option
             poll.options.enumerated().forEach { (index, pollOption) in
