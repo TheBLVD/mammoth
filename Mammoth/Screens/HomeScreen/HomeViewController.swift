@@ -350,7 +350,9 @@ extension HomeViewController {
 // MARK: - Jump to newest
 extension HomeViewController: JumpToNewest {
     @objc func jumpToNewest() {
-        self.currentPage().jumpToNewest()
+        if let currentPage = self.pageViewController.viewControllers?.first as? NewsFeedViewController {
+            currentPage.jumpToNewest()
+        }
     }
 }
 

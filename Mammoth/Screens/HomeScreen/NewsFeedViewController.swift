@@ -69,6 +69,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     private var didInitializeOnce = false
     private var isInsertingContent: Bool = false
     private var isScrollingProgrammatically: Bool = false
+    private var disableFeedUpdates: Bool = false
     
     // switchingAccounts is set to true in the period between
     // willSwitchAccount and didSwitchAccount, when currentAccount
@@ -381,32 +382,24 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         self.deferredSnapshotUpdatesCallbacks = []
         
         self.isScrollingProgrammatically = true
-        self.isInsertingContent = true
+        
+        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+        self.didUpdateUnreadState(type: self.viewModel.type)
         
         self.viewModel.clearSnapshot()
+        self.disableFeedUpdates = true
         self.showLoader(enabled: true)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self else { return }
-
-            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
-            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-            self.didUpdateUnreadState(type: self.viewModel.type)
-            
-            self.viewModel.clearSnapshot()
-            self.showLoader(enabled: true)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                        
+            Task { [weak self] in
                 guard let self else { return }
-                
-                self.isInsertingContent = false
-                self.isScrollingProgrammatically = false
-                
-                Task { [weak self] in
-                    guard let self else { return }
-                    try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
-                }
+                try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
             }
+            
+            self.disableFeedUpdates = false
         }
     }
     
@@ -849,11 +842,13 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                            feedType: NewsFeedTypes,
                            updateType: NewsFeedSnapshotUpdateType,
                            onCompleted: (() -> Void)?) {
-        guard !self.switchingAccounts else { return }
+        guard !self.switchingAccounts && !self.disableFeedUpdates else { return }
         
         let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || self.isInWindowHierarchy()
         
-        guard !self.tableView.isTracking, !self.tableView.isDecelerating, updateDisplay, !(updateType == .update && self.isScrollingProgrammatically) else {
+        guard ((!self.tableView.isTracking && !self.tableView.isDecelerating) || updateType == .removeAll),
+                updateDisplay,
+                !(updateType == .update && self.isScrollingProgrammatically) else {
             if let callback = onCompleted {
                 self.deferredSnapshotUpdatesCallbacks.append(callback)
             }
@@ -1264,32 +1259,24 @@ extension NewsFeedViewController: JumpToNewest {
         self.deferredSnapshotUpdatesCallbacks = []
         
         self.isScrollingProgrammatically = true
-        self.isInsertingContent = true
+        
+        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+        self.didUpdateUnreadState(type: self.viewModel.type)
         
         self.viewModel.clearSnapshot()
+        self.disableFeedUpdates = true
         self.showLoader(enabled: true)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self else { return }
-
-            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
-            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-            self.didUpdateUnreadState(type: self.viewModel.type)
-            
-            self.viewModel.clearSnapshot()
-            self.showLoader(enabled: true)
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                        
+            Task { [weak self] in
                 guard let self else { return }
-                
-                self.isInsertingContent = false
-                self.isScrollingProgrammatically = false
-                
-                Task { [weak self] in
-                    guard let self else { return }
-                    try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
-                }
+                try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
             }
+            
+            self.disableFeedUpdates = false
         }
     }
 }
