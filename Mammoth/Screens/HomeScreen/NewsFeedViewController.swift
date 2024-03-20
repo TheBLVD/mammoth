@@ -383,13 +383,13 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         
         self.isScrollingProgrammatically = true
         
-        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
-        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-        self.didUpdateUnreadState(type: self.viewModel.type)
-        
         self.viewModel.clearSnapshot()
         self.disableFeedUpdates = true
         self.showLoader(enabled: true)
+        
+        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+        self.didUpdateUnreadState(type: self.viewModel.type)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self else { return }
@@ -462,9 +462,9 @@ private extension NewsFeedViewController {
         view.addSubview(tableView)
         view.addSubview(latestPill)
         view.addSubview(unreadIndicator)
-        view.addSubview(jumpToNow)
+//        view.addSubview(jumpToNow)
         
-        jumpToNow.delegate = self
+//        jumpToNow.delegate = self
         
         if ![.mentionsIn, .mentionsOut].contains(self.viewModel.type) && !NewsFeedTypes.allActivityTypes.contains(self.viewModel.type)  {
             self.tableView.tableHeaderView = UIView()
@@ -484,8 +484,8 @@ private extension NewsFeedViewController {
             self.latestPill.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
             self.latestPill.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 9),
             
-            self.jumpToNow.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
-            self.jumpToNow.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 9),
+//            self.jumpToNow.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
+//            self.jumpToNow.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 9),
             
             self.unreadIndicator.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -10),
             self.unreadIndicator.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 9),
@@ -1260,13 +1260,13 @@ extension NewsFeedViewController: JumpToNewest {
         
         self.isScrollingProgrammatically = true
         
-        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
-        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-        self.didUpdateUnreadState(type: self.viewModel.type)
-        
         self.viewModel.clearSnapshot()
         self.disableFeedUpdates = true
         self.showLoader(enabled: true)
+        
+        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+        self.didUpdateUnreadState(type: self.viewModel.type)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self else { return }
