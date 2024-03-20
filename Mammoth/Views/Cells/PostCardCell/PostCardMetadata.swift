@@ -94,6 +94,7 @@ final class PostCardMetadata: UIView {
         
         mainStackView.addArrangedSubview(metricsStackView)
         
+        likesLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         likesLabel.tag = MetricButtons.likes.rawValue
         repostsLabel.tag = MetricButtons.reposts.rawValue
         repliesLabel.tag = MetricButtons.replies.rawValue
