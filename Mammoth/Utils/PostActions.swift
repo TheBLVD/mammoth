@@ -910,63 +910,66 @@ extension PostActions {
     }
     
     static func onVote(postCard: PostCardModel, choices: [Int]) {
-        if let pollId = postCard.poll?.id {
-            Task {
-                do {
-                    let poll = try await PollService.vote(pollId: pollId, choices: choices)
-                    log.debug("Vote Sent")
-                    DispatchQueue.main.async {
-                        triggerHapticNotification()
-                        
-                        GlobalStruct.votedOnPolls[pollId] = poll
-                        do {
-                            try Disk.save(GlobalStruct.votedOnPolls, to: .documents, as: "votedOnPolls.json")
-                        } catch {
-                            log.error("error saving votedOnPolls to Disk")
-                        }
-
-                        // Consolidate list data with updated post card data and request a cell refresh
-                        NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard.withNewPoll(poll: poll)])
-                        
-                        // Display success toast
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "pollVoted"), object: nil)
-                    }
-                } catch let error {
-                    if "\(error)".contains("ended") {
+        Task {
+            do {
+                if case .mastodon(let status) = postCard.data {
+                    let localStatus = try await StatusService.getLocalStatus(status: status)
+                    if let pollId = localStatus?.reblog?.poll?.id ?? localStatus?.poll?.id {
+                        let poll = try await PollService.vote(pollId: pollId, choices: choices)
+                        log.debug("Vote Sent")
                         DispatchQueue.main.async {
-                            triggerHapticNotification(feedback: .warning)
-                            let alert = UIAlertController(title: NSLocalizedString("poll.ended.title", comment: ""),
-                                                          message: NSLocalizedString("poll.ended.message", comment: ""),
-                                                          preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
+                            triggerHapticNotification()
                             
-                            if let presenter = alert.popoverPresentationController {
-                                presenter.sourceView = getTopMostViewController()?.view
-                                presenter.sourceRect = getTopMostViewController()?.view.bounds ?? .zero
+                            GlobalStruct.votedOnPolls[pollId] = poll
+                            do {
+                                try Disk.save(GlobalStruct.votedOnPolls, to: .documents, as: "votedOnPolls.json")
+                            } catch {
+                                log.error("error saving votedOnPolls to Disk")
                             }
-                            getTopMostViewController()?.present(alert, animated: true, completion: nil)
-                        }
-                    } else if "\(error)".contains("already voted") {
-                        DispatchQueue.main.async {
-                            triggerHapticNotification(feedback: .warning)
                             
-                            let alert = UIAlertController(title: NSLocalizedString("poll.already.title", comment: ""),
-                                                          message: NSLocalizedString("poll.already.message", comment: ""),
-                                                          preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
+                            // Consolidate list data with updated post card data and request a cell refresh
+                            NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard.withNewPoll(poll: poll)])
                             
-                            if let presenter = alert.popoverPresentationController {
-                                presenter.sourceView = getTopMostViewController()?.view
-                                presenter.sourceRect = getTopMostViewController()?.view.bounds ?? .zero
-                            }
-                            getTopMostViewController()?.present(alert, animated: true, completion: nil)
+                            // Display success toast
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "pollVoted"), object: nil)
                         }
                     }
-                    
+                }
+            } catch let error {
+                if "\(error)".contains("ended") {
                     DispatchQueue.main.async {
-                        // Consolidate list data with updated post card data and request a cell refresh
-                        NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
+                        triggerHapticNotification(feedback: .warning)
+                        let alert = UIAlertController(title: NSLocalizedString("poll.ended.title", comment: ""),
+                                                      message: NSLocalizedString("poll.ended.message", comment: ""),
+                                                      preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
+                        
+                        if let presenter = alert.popoverPresentationController {
+                            presenter.sourceView = getTopMostViewController()?.view
+                            presenter.sourceRect = getTopMostViewController()?.view.bounds ?? .zero
+                        }
+                        getTopMostViewController()?.present(alert, animated: true, completion: nil)
                     }
+                } else if "\(error)".contains("already voted") {
+                    DispatchQueue.main.async {
+                        triggerHapticNotification(feedback: .warning)
+                        
+                        let alert = UIAlertController(title: NSLocalizedString("poll.already.title", comment: ""),
+                                                      message: NSLocalizedString("poll.already.message", comment: ""),
+                                                      preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
+                        
+                        if let presenter = alert.popoverPresentationController {
+                            presenter.sourceView = getTopMostViewController()?.view
+                            presenter.sourceRect = getTopMostViewController()?.view.bounds ?? .zero
+                        }
+                        getTopMostViewController()?.present(alert, animated: true, completion: nil)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    // Consolidate list data with updated post card data and request a cell refresh
+                    NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
                 }
             }
         }

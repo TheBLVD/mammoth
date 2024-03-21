@@ -387,8 +387,8 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let cell = tableView.dequeueReusableCell(withIdentifier: "PollCell", for: indexPath) as! PollCell
             
             cell.pollItem.text = "\(self.tempOptions[indexPath.section])"
-            cell.pollItem.placeholder = String.localizedStringWithFormat(NSLocalizedString("composer.poll.option", comment: ""), indexPath.section + 1)
-            cell.pollItem.accessibilityLabel = String.localizedStringWithFormat(NSLocalizedString("composer.poll.option", comment: ""), indexPath.section + 1)
+            cell.pollItem.placeholder = String.localizedStringWithFormat(NSLocalizedString("composer.poll.option", comment: ""), String(indexPath.section + 1))
+            cell.pollItem.accessibilityLabel = String.localizedStringWithFormat(NSLocalizedString("composer.poll.option", comment: ""), String(indexPath.section + 1))
             cell.pollItem.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
             
             cell.pollItem.tag = indexPath.section
