@@ -104,7 +104,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
         view.backgroundColor = .custom.backgroundTint
         
-        self.navigationItem.title = "Add Poll"
+        self.navigationItem.title = NSLocalizedString("composer.poll", comment: "")
         
         // set up nav bar
         let navApp = UINavigationBarAppearance()
@@ -140,7 +140,7 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
         btn2.imageEdgeInsets = UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7)
         btn2.frame = CGRect(x: 0, y: 0, width: 28, height: 28)
         btn2.addTarget(self, action: #selector(self.addTap), for: .touchUpInside)
-        btn2.accessibilityLabel = "Add Poll"
+        btn2.accessibilityLabel = NSLocalizedString("composer.poll", comment: "")
         let moreButton1 = UIBarButtonItem(customView: btn2)
         self.navigationItem.setRightBarButton(moreButton1, animated: true)
         
@@ -254,9 +254,9 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
             var cell = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell", for: indexPath)
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: "UITableViewCell")
             cell.textLabel?.numberOfLines = 0
-            cell.textLabel?.text = "Allow Multiple Votes"
+            cell.textLabel?.text = NSLocalizedString("composer.poll.multiple", comment: "")
             cell.imageView?.image = UIImage(systemName: "hand.raised")
-            cell.detailTextLabel?.text = "Toggle whether multiple votes are allowed in polls"
+            cell.detailTextLabel?.text = NSLocalizedString("composer.poll.multiple.footer", comment: "")
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "pollMultiple") as? Bool != nil {
                 if UserDefaults.standard.value(forKey: "pollMultiple") as? Bool == false {
@@ -291,84 +291,85 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
         } else if indexPath.section == options.count {
             // duration cell
             let cell = tableView.dequeueReusableCell(withIdentifier: "SelectionCell", for: indexPath) as! SelectionCell
-            cell.textLabel?.text = "Duration"
+            // reuse filters locale
+            cell.textLabel?.text = NSLocalizedString("filters.duration", comment: "")
             cell.imageView?.image = UIImage(systemName: "chart.pie")
             
             if self.durationMin == 5 * 60 {
-                cell.detailTextLabel?.text = "5 mins"
+                cell.detailTextLabel?.text = NSLocalizedString("duration.expiresAt.5mins", comment: "")
             }
             if self.durationMin == 15 * 60 {
-                cell.detailTextLabel?.text = "15 mins"
+                cell.detailTextLabel?.text = NSLocalizedString("duration.expiresAt.15mins", comment: "")
             }
             if self.durationMin == 30 * 60 {
-                cell.detailTextLabel?.text = "30 mins"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.halfHour", comment: "")
             }
             if self.durationMin == 60 * 60 {
-                cell.detailTextLabel?.text = "1 hour"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.hour", comment: "")
             }
             if self.durationMin == 360 * 60 {
-                cell.detailTextLabel?.text = "6 hours"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.6hours", comment: "")
             }
             if self.durationMin == 720 * 60 {
-                cell.detailTextLabel?.text = "12 hours"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.12hours", comment: "")
             }
             if self.durationMin == 1440 * 60 {
-                cell.detailTextLabel?.text = "1 day"
+                cell.detailTextLabel?.text = NSLocalizedString("filters.duration.expiresAt.day", comment: "")
             }
             
-            let view1 = UIAction(title: "5 mins", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view1 = UIAction(title: NSLocalizedString("duration.expiresAt.5mins", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 5 * 60
                 self.tableView.reloadData()
             }
-            view1.accessibilityLabel = "5 mins"
+            view1.accessibilityLabel = NSLocalizedString("duration.expiresAt.5mins", comment: "")
             if self.durationMin == 5 * 60 {
                 view1.state = .on
             }
-            let view2 = UIAction(title: "15 mins", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view2 = UIAction(title: NSLocalizedString("duration.expiresAt.15mins", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 15 * 60
                 self.tableView.reloadData()
             }
-            view2.accessibilityLabel = "15 mins"
+            view2.accessibilityLabel = NSLocalizedString("duration.expiresAt.15mins", comment: "")
             if self.durationMin == 15 * 60 {
                 view2.state = .on
             }
-            let view3 = UIAction(title: "30 mins", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view3 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.halfHour", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 30 * 60
                 self.tableView.reloadData()
             }
-            view3.accessibilityLabel = "30 mins"
+            view3.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.halfHour", comment: "")
             if self.durationMin == 30 * 60 {
                 view3.state = .on
             }
-            let view4 = UIAction(title: "1 hour", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view4 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.hour", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 60 * 60
                 self.tableView.reloadData()
             }
-            view4.accessibilityLabel = "1 hour"
+            view4.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.hour", comment: "")
             if self.durationMin == 60 * 60 {
                 view4.state = .on
             }
-            let view5 = UIAction(title: "6 hours", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view5 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.6hours", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 360 * 60
                 self.tableView.reloadData()
             }
-            view5.accessibilityLabel = "6 hours"
+            view5.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.6hours", comment: "")
             if self.durationMin == 360 * 60 {
                 view5.state = .on
             }
-            let view6 = UIAction(title: "12 hours", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view6 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.12hours", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 720 * 60
                 self.tableView.reloadData()
             }
-            view6.accessibilityLabel = "12 hours"
+            view6.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.12hours", comment: "")
             if self.durationMin == 720 * 60 {
                 view6.state = .on
             }
-            let view7 = UIAction(title: "1 day", image: UIImage(systemName: "clock"), identifier: nil) { action in
+            let view7 = UIAction(title: NSLocalizedString("filters.duration.expiresAt.day", comment: ""), image: UIImage(systemName: "clock"), identifier: nil) { action in
                 self.durationMin = 1440 * 60
                 self.tableView.reloadData()
             }
-            view7.accessibilityLabel = "1 day"
+            view7.accessibilityLabel = NSLocalizedString("filters.duration.expiresAt.day", comment: "")
             if self.durationMin == 1440 * 60 {
                 view7.state = .on
             }
@@ -386,8 +387,8 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
             let cell = tableView.dequeueReusableCell(withIdentifier: "PollCell", for: indexPath) as! PollCell
             
             cell.pollItem.text = "\(self.tempOptions[indexPath.section])"
-            cell.pollItem.placeholder = "Option \(indexPath.section + 1)"
-            cell.pollItem.accessibilityLabel = "Option \(indexPath.section + 1)"
+            cell.pollItem.placeholder = String.localizedStringWithFormat(NSLocalizedString("composer.poll.option", comment: ""), indexPath.section + 1)
+            cell.pollItem.accessibilityLabel = String.localizedStringWithFormat(NSLocalizedString("composer.poll.option", comment: ""), indexPath.section + 1)
             cell.pollItem.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
             
             cell.pollItem.tag = indexPath.section
