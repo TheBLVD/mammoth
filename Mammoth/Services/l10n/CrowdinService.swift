@@ -11,6 +11,13 @@ import CrowdinSDK
 import ArkanaKeys
 
 struct l10n {
+    
+    static let germanLocales = ["de", "de-US", "de-AT", "de-BE", "de-CH", "de-DE", "de-LI", "de-LU"]
+    static let spanishLocales = ["es", "es-AR", "es-BO", "es-CL", "es-CO", "es-CR", "es-DO", "es-EC", "es-SV", "es-SV", "es-GT", "es-HN", "es-MX", "es-NI", "es-PA", "es-PY", "es-PE", "es-PR", "es-ES", "es-UY", "es-VE"]
+    static let italianLocales = ["it", "it_IT"]
+    static let dutchLocales = ["nl", "nl-BE", "nl-NL",]
+    
+    
     public static func start() {
         let crowdinProviderConfig = CrowdinProviderConfig(hashString: ArkanaKeys.Global().crowdinDistributionString,
                                                           sourceLanguage: GlobalStruct.rootLocalization)
