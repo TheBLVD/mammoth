@@ -11,13 +11,7 @@ import CrowdinSDK
 import ArkanaKeys
 
 struct l10n {
-    
-    static let germanLocales = ["de", "de-US", "de-AT", "de-BE", "de-CH", "de-DE", "de-LI", "de-LU"]
-    static let spanishLocales = ["es", "es-AR", "es-BO", "es-CL", "es-CO", "es-CR", "es-DO", "es-EC", "es-SV", "es-SV", "es-GT", "es-HN", "es-MX", "es-NI", "es-PA", "es-PY", "es-PE", "es-PR", "es-ES", "es-UY", "es-VE"]
-    static let italianLocales = ["it", "it_IT"]
-    static let dutchLocales = ["nl", "nl-BE", "nl-NL",]
-    
-    
+
     public static func start() {
         let crowdinProviderConfig = CrowdinProviderConfig(hashString: ArkanaKeys.Global().crowdinDistributionString,
                                                           sourceLanguage: GlobalStruct.rootLocalization)
@@ -31,15 +25,25 @@ struct l10n {
     public static func checkForSupportedLanguage() {
         // Fallback to root localization if current device language is not supported
         let supported = GlobalStruct.supportedLocalizations
-        if let currentLanguage = self.getCurrentLocale() {
-            if !supported.contains(currentLanguage) {
+        if let currentLocale = self.getCurrentLocale() {
+            if !supported.contains(currentLocale) {
+                if let range = currentLocale.range(of: "-") {
+                    let languageCode = String(currentLocale[currentLocale.startIndex..<range.lowerBound])
+                    if supported.contains(languageCode) {
+                        CrowdinSDK.currentLocalization = languageCode
+                        return
+                    }
+                }
+                
                 CrowdinSDK.currentLocalization = GlobalStruct.rootLocalization
+                
             } else {
-                CrowdinSDK.currentLocalization = currentLanguage
+                CrowdinSDK.currentLocalization = currentLocale
+                return
             }
-        } else {
-            CrowdinSDK.currentLocalization = GlobalStruct.rootLocalization
         }
+        
+        CrowdinSDK.currentLocalization = GlobalStruct.rootLocalization
     }
     
     private static func getCurrentLocale() -> String? {
