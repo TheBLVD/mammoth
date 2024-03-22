@@ -240,15 +240,12 @@ extension Status {
         
         let text = self.content
         
-        // If there is any link in this text, find the last link,
-        // and see if it's an @ URL.
-        //
         // Based on multiple case studies, our best algo is:
-        //      1. Find the position of the last "href="
+        //      1. Find the position of the last "RE:" or "From:"
         //      2. Get the first URL after that
-        //      3. See if the URL matches a post URL pattern
+        //      3. Assume the URL is a fediverse-compatible post
         
-        if let hrefStart = text.range(of:"href=\"", options:.backwards) {
+        if let quoteStart = text.range(of:"RE: ", options:.backwards) ?? text.range(of: "From: ") {
 
             // Make a link card from the content
             //
@@ -265,10 +262,17 @@ extension Status {
             // [0] = "https://mastodonapp.uk/@aarondavid/110300508837718942?public_follow=false"
             // [1] = "http://mastodonapp.uk/@aarondavid/110"
 
-            // Find the list of URLs, starting from where we found the href
-            let urls = URLsFromHTML(String(text.suffix(from: hrefStart.lowerBound)))
+            // Find the list of URLs, starting from the "RE:"
+            let urls = URLsFromHTML(String(text.suffix(from: quoteStart.lowerBound)))
             
-            // Use the first valid URL, and see if it looks like a quote post
+            // Use the first valid URL
+            if let firstURL = urls.first {
+                // Create a card from this URL
+                quotePostCard = Card(url: firstURL.absoluteString, title: "", description: "", type: .link, authorName: "", authorUrl: "", providerName: "", html: "", width: 0, height: 0)
+            }
+        } else if let hrefStart = text.range(of:"href=\"", options:.backwards) {
+            // old behaviour as a fallback, since ivory doesn't include a "RE: "
+            let urls = URLsFromHTML(String(text.suffix(from: hrefStart.lowerBound)))
             if let firstURL = urls.first {
                 if firstURL.isPostURL() {
                     // Create a card from this URL

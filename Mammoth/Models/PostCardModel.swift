@@ -1016,7 +1016,7 @@ extension PostCardModel {
 
         if let url = status.reblog?.quotePostCard()?.url ?? status.quotePostCard()?.url {
             // Remove quote post url from text
-            let regex = try! NSRegularExpression(pattern: "RE: <a[^>]*href=\"\(url)\"[^>]*>(?!.*<a[^>]*href=\"\(url)\"[^>]*>).*?</a>", options: .caseInsensitive)
+            let regex = try! NSRegularExpression(pattern: "RE:( )*<a[^>]*href=\"\(url)\"[^>]*>(?!.*<a[^>]*href=\"\(url)\"[^>]*>).*?</a>", options: .caseInsensitive)
             let range = NSMakeRange(0, text.count)
             text = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
         }

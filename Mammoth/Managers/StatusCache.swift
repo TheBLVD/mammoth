@@ -125,59 +125,24 @@ class StatusCache {
             return
         } else {
             // Make the network request, then the callback
-            guard let server = url.host else {
-                completion(url, nil)
-                return
-            }
-            
-            // Special case for threads.net posts
-            if server.hasSuffix("www.threads.net") {
-                Task {
-                    let baseURL = "https://feature.moth.social"
-                    let request = URLRequest(url: URL(string: "\(baseURL)/api/v1/status/lookup?url=\(url.absoluteString)")!)
-                    do {
-                        let (data, response) = try await URLSession.shared.data(for: request)
-                        if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 {
-                            let stat = try JSONDecoder().decode(Status.self, from: data)
-                            await MainActor.run {
-                                StatusCache.cachedStatusesLock.lock()
-                                StatusCache.cachedStatuses[url] = stat
-                                StatusCache.cachedStatusesLock.unlock()
-                            }
-                            
-                            completion(url, stat)
-                        }
-                    } catch {
-                        log.error("can't load thread post")
-                        completion(url, nil)
-                    }
-                }
-                
-            } else {
-                let originalPostID = url.lastPathComponent
-                let client = Client(baseURL: "https://\(server)")
-                let request = Statuses.status(id: originalPostID)
-                client.run(request) { (statuses) in
-                    var stat: Status? = nil
-                    if let error = statuses.error {
-                        log.error("error trying to get post info to cache: \(error)")
-                    }
-                    stat = (statuses.value)
-                    if stat == nil {
-                        log.debug("going to return nil for \(url)")
-                        DispatchQueue.main.async {
-                            StatusCache.nilValuesURLsLock.lock()
-                            StatusCache.nilValueURLs.append(url)
-                            StatusCache.nilValuesURLsLock.unlock()
-                        }
-                    } else {
-                        DispatchQueue.main.async {
+            let request = Search.searchOne(query: url.absoluteString, resolve: true)
+            Task {
+                do {
+                    let result = try await ClientService.runRequest(request: request)
+                    if let stat = result.statuses.first {
+                        await MainActor.run {
                             StatusCache.cachedStatusesLock.lock()
                             StatusCache.cachedStatuses[url] = stat
                             StatusCache.cachedStatusesLock.unlock()
                         }
+                        completion(url, stat)
+                    } else {
+                        log.error("couldn't find quote post.")
+                        completion(url, nil)
                     }
-                    completion(url, stat)
+                } catch {
+                    log.error("couldn't find quote post.")
+                    completion(url, nil)
                 }
             }
         }
