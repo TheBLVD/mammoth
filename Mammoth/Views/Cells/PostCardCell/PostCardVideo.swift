@@ -450,10 +450,13 @@ final class PostCardVideo: UIView {
             guard self.media != media else { return }
             
             self.media = media
-            if let videoURL = URL(string: media.remoteURL ?? media.url), let previewImageURL = URL(string: media.previewURL ?? "") {
+            if let videoURL = URL(string: media.remoteURL ?? media.url) {
                 
                 loadingIndicator.startAnimating()
-                previewImage.sd_setImage(with: previewImageURL)
+                
+                if let previewImageURL = media.previewURL{
+                     previewImage.sd_setImage(with: URL(string: previewImageURL))
+                }
                 
                 if let cachedPlayer = cachedPlayer {
                     // if the player is preloaded
@@ -727,7 +730,7 @@ final class PostCardVideo: UIView {
     }
     
     @objc func onPress() {
-        if let player = self.player, let media = self.media, [.video, .gifv].contains(media.type) {
+        if let player = self.player, let media = self.media, [.video, .gifv, .audio].contains(media.type) {
             let vc = CustomVideoPlayer()
             vc.allowsPictureInPicturePlayback = true
             vc.player = player
@@ -741,7 +744,7 @@ final class PostCardVideo: UIView {
     
     private func showMuteButton() {
         if let media = self.media {
-            if media.type == .video {
+            if media.type == .video || media.type == .audio {
                 self.muteButton.isHidden = false
             } else if media.type == .gifv {
                 self.muteButton.isHidden = true
