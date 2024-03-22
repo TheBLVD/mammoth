@@ -125,7 +125,7 @@ class StatusCache {
             return
         } else {
             // Make the network request, then the callback
-            let request = Search.search(query: url.absoluteString, resolve: true)
+            let request = Search.searchOne(query: url.absoluteString, resolve: true)
             Task {
                 do {
                     let result = try await ClientService.runRequest(request: request)
