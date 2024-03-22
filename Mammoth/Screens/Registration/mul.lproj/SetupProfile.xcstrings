@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Puoi inventarti qualcosa di simpatico o usare il tuo vero nome"
           }
         },
         "ja": {
@@ -156,8 +156,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Puedes elegir algo divertido o usar tu nombre real"
           }
         },
         "sv": {
@@ -281,8 +281,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "%1@ %2@"
           }
         },
         "ja": {
@@ -341,8 +341,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "%1@ %2@"
           }
         },
         "sv": {
@@ -466,8 +466,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "nome visualizzato"
           }
         },
         "ja": {
@@ -526,8 +526,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "nombre para mostrar"
           }
         },
         "sv": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Fatto"
           }
         },
         "ja": {
@@ -711,8 +711,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Hecho"
           }
         },
         "sv": {
@@ -836,8 +836,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Fatto"
           }
         },
         "ja": {
@@ -896,8 +896,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Hecho"
           }
         },
         "sv": {
@@ -1021,8 +1021,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Bottone"
           }
         },
         "ja": {
@@ -1081,8 +1081,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Botón"
           }
         },
         "sv": {

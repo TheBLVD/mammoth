@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Registrati"
           }
         },
         "ja": {
@@ -156,8 +156,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Registrarse"
           }
         },
         "sv": {
@@ -281,8 +281,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Invieremo un'email di conferma a questo indirizzo"
           }
         },
         "ja": {
@@ -341,8 +341,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Enviaremos un email de confirmación a esta dirección"
           }
         },
         "sv": {
@@ -466,8 +466,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Inventati qualcosa di simpatico o usa il tuo vero nome"
           }
         },
         "ja": {
@@ -526,8 +526,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Elige algo divertido o usa tu nombre real"
           }
         },
         "sv": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Deve includere almeno 8 caratteri"
           }
         },
         "ja": {
@@ -711,8 +711,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Debe tener al menos 8 caracteres"
           }
         },
         "sv": {
@@ -836,8 +836,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Crea account"
           }
         },
         "ja": {
@@ -896,8 +896,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Crear cuenta"
           }
         },
         "sv": {
@@ -1021,8 +1021,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "nome utente"
           }
         },
         "ja": {
@@ -1081,8 +1081,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "nombre de usuario"
           }
         },
         "sv": {
@@ -1206,8 +1206,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "indirizzo email"
           }
         },
         "ja": {
@@ -1266,8 +1266,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "email"
           }
         },
         "sv": {
@@ -1391,8 +1391,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "password"
           }
         },
         "ja": {
@@ -1451,8 +1451,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "contraseña"
           }
         },
         "sv": {

@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Crea un account moth.social"
           }
         },
         "ja": {
@@ -156,8 +156,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Crear una cuenta de moth.social"
           }
         },
         "sv": {
@@ -281,8 +281,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Crea account moth.social"
           }
         },
         "ja": {
@@ -341,8 +341,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Crear una cuenta de moth.social"
           }
         },
         "sv": {
@@ -466,8 +466,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Accedi con Mastodon / Moth"
           }
         },
         "ja": {
@@ -526,8 +526,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Iniciar sesión con Mastodon / Moth"
           }
         },
         "sv": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Accedi con Mastodon / Moth"
           }
         },
         "ja": {
@@ -711,8 +711,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Iniciar sesión con Mastodon / Moth"
           }
         },
         "sv": {
@@ -836,8 +836,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Chiudi"
           }
         },
         "ja": {
@@ -896,8 +896,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Cerrar"
           }
         },
         "sv": {
@@ -1021,8 +1021,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Chiudi"
           }
         },
         "ja": {
@@ -1081,8 +1081,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Cerrar"
           }
         },
         "sv": {
@@ -1206,8 +1206,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Puoi accedere a ulteriori\naccount nelle impostazioni."
           }
         },
         "ja": {
@@ -1266,8 +1266,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Puedes iniciar sesión en cuentas\nadicionales en la configuración."
           }
         },
         "sv": {
