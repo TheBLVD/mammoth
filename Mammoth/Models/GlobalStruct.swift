@@ -23,7 +23,7 @@ public struct GlobalStruct {
     static let shared = GlobalStruct()
     
     // The supported localizations / app languages
-    static let supportedLocalizations = ["en", "de", "de-US", "de-AT", "de-BE", "de-CH", "de-DE", "de-LI", "de-LU", "nl", "nl-BE", "nl-NL", "pt-BR"]
+    static let supportedLocalizations = ["en", "pt-BR"] + l10n.dutchLocales + l10n.germanLocales + l10n.spanishLocales + l10n.italianLocales
     static let rootLocalization = "en"
     
     static var clientID = ""
