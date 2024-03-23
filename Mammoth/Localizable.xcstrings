@@ -55736,7 +55736,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Abbrechen"
           }
         },
@@ -55744,12 +55744,6 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : ""
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
           }
         },
         "es" : {
@@ -55808,7 +55802,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Annuleer"
           }
         },
@@ -55826,7 +55820,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Cancelar"
           }
         },
@@ -55921,7 +55915,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Weiter"
           }
         },
@@ -55929,12 +55923,6 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : ""
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Continue"
           }
         },
         "es" : {
@@ -55993,7 +55981,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Doorgaan"
           }
         },
@@ -56011,7 +55999,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Continuar"
           }
         },
