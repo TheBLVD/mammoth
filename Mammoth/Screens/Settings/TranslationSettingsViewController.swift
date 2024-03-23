@@ -115,7 +115,7 @@ class TranslationSettingsViewController: UIViewController, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "Translation Language"
+        self.navigationItem.title = NSLocalizedString("title.translationLang", comment: "")
         
         let navApp = UINavigationBarAppearance()
         navApp.configureWithOpaqueBackground()
@@ -202,7 +202,7 @@ class TranslationSettingsViewController: UIViewController, UITableViewDataSource
             bg.frame = CGRect(x: 0, y: 6, width: self.view.bounds.width, height: 40)
             let lab = UILabel()
             lab.frame = bg.frame
-            lab.text = "Preferred Languages"
+            lab.text = NSLocalizedString("settings.appearance.translationLang.preferred", comment: "")
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             lab.textColor = UIColor.label
             bg.addSubview(lab)
@@ -212,7 +212,7 @@ class TranslationSettingsViewController: UIViewController, UITableViewDataSource
             bg.frame = CGRect(x: 0, y: 6, width: self.view.bounds.width, height: 40)
             let lab = UILabel()
             lab.frame = bg.frame
-            lab.text = "All Languages"
+            lab.text = NSLocalizedString("settings.appearance.translationLang.all", comment: "")
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             lab.textColor = UIColor.label
             bg.addSubview(lab)

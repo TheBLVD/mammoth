@@ -239,7 +239,7 @@ class AccountsSettingsViewController: UIViewController, ASWebAuthenticationPrese
     }
 
     func makeContextMenu(_ indexPath: IndexPath) -> UIMenu {
-        let logoutAction = UIAction(title: "Log Out", image: UIImage(systemName: "xmark"), identifier: nil) { action in
+        let logoutAction = UIAction(title: NSLocalizedString("settings.accounts.signOut", comment: ""), image: UIImage(systemName: "xmark"), identifier: nil) { action in
             let accountToRemove = AccountsManager.shared.allAccounts[indexPath.row]
             AccountsManager.shared.logoutAndDeleteAccount(accountToRemove)
         }
