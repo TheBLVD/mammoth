@@ -753,7 +753,7 @@ extension PostCardCell {
         if self.cellVariant.hasMedia {
             
             if type != .detail && postCard.hasMediaAttachment && !postCard.mediaAttachmentDescription.isEmpty {
-                self.hiddenImageIndicator.text = "(\(postCard.mediaAttachmentDescription))"
+                self.hiddenImageIndicator.text = postCard.mediaAttachmentDescription
                 self.hiddenImageIndicator.isHidden = false
             } else {
                 self.hiddenImageIndicator.isHidden = true
@@ -787,7 +787,7 @@ extension PostCardCell {
             }
             
             // Display single image if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage {
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage && !postCard.hasWebview {
                 self.image?.configure(postCard: postCard)
                 self.image?.isHidden = false
             } else {
@@ -1024,7 +1024,7 @@ extension PostCardCell {
             }
             
             // Display single image if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage {
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage && !postCard.hasWebview {
                 if let constraint = self.imageTrailingConstraint, !constraint.isActive {
                     NSLayoutConstraint.activate([self.imageTrailingConstraint!])
                 }

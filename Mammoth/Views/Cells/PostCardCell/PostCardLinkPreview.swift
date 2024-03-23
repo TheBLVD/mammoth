@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import SDWebImage
 import UnifiedBlurHash
+import WebKit
 
 class PostCardLinkPreview: UIView {
     
@@ -24,7 +25,7 @@ class PostCardLinkPreview: UIView {
         stackView.distribution = .fill
         stackView.spacing = 0.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         stackView.layer.borderWidth = 0.4
         stackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
         stackView.layer.masksToBounds = true
@@ -34,6 +35,18 @@ class PostCardLinkPreview: UIView {
     }()
     
     private var imageStack: UIStackView = {
+        let stackView = UIStackView()
+        stackView.isOpaque = true
+        stackView.axis = .vertical
+        stackView.alignment = .top
+        stackView.distribution = .fill
+        stackView.spacing = 0.0
+        stackView.clipsToBounds = true
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private var iframeStack: UIStackView = {
         let stackView = UIStackView()
         stackView.isOpaque = true
         stackView.axis = .vertical
@@ -69,6 +82,14 @@ class PostCardLinkPreview: UIView {
         return imageView
     }()
     private var imageHeightConstraint: NSLayoutConstraint? = nil
+    
+    private var iframeView: WKWebView = {
+        let iframeConfig = WKWebViewConfiguration()
+        iframeConfig.allowsInlineMediaPlayback = true
+        let iframeView = WKWebView()
+        return iframeView
+    }()
+    private var iframeHeightConstraint: NSLayoutConstraint? = nil
     
     private var urlLabel: UILabel = {
         let label = UILabel()
@@ -131,15 +152,21 @@ private extension PostCardLinkPreview {
         self.isOpaque = true
         self.addSubview(mainStackView)
         
-        mainStackView.addArrangedSubview(imageStack)
+//        mainStackView.addArrangedSubview(imageStack)
+        mainStackView.addArrangedSubview(iframeStack)
         mainStackView.addArrangedSubview(textStack)
         textStack.addArrangedSubview(self.urlLabel)
         textStack.addArrangedSubview(self.titleLabel)
         
-        imageStack.addArrangedSubview(self.imageView)
-        imageHeightConstraint = imageHeightConstraint ?? self.imageView.heightAnchor.constraint(equalToConstant: PostCardLinkPreview.largeImageHeight)
-        imageHeightConstraint?.priority = .defaultHigh
-        imageHeightConstraint?.isActive = true
+//        imageStack.addArrangedSubview(self.imageView)
+//        imageHeightConstraint = imageHeightConstraint ?? self.imageView.heightAnchor.constraint(equalToConstant: PostCardLinkPreview.largeImageHeight)
+//        imageHeightConstraint?.priority = .defaultHigh
+//        imageHeightConstraint?.isActive = true
+        
+        iframeStack.addArrangedSubview(self.iframeView)
+        iframeHeightConstraint = iframeHeightConstraint ?? self.iframeView.heightAnchor.constraint(equalToConstant: PostCardLinkPreview.largeImageHeight)
+        iframeHeightConstraint?.priority = .defaultHigh
+        iframeHeightConstraint?.isActive = true
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
@@ -147,8 +174,11 @@ private extension PostCardLinkPreview {
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            imageStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: self.imageStack.trailingAnchor)
+//            imageStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+//            imageView.trailingAnchor.constraint(equalTo: self.imageStack.trailingAnchor),
+            
+            iframeStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            iframeView.trailingAnchor.constraint(equalTo: self.iframeStack.trailingAnchor)
         ])
         
         let urlLabelTrailing = urlLabel.trailingAnchor.constraint(equalTo: textStack.layoutMarginsGuide.trailingAnchor)
@@ -185,24 +215,29 @@ extension PostCardLinkPreview {
         
         self.titleLabel.text = postCard.linkCard?.title
         
-        // Display the link image if needed
-        if !postCard.hideLinkImage, let imageURL = postCard.linkCard?.image {
-            var placeholder: UIImage?
-            if let blurhash = postCard.linkCard?.blurhash {
-                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
-            }
-            self.imageView.ma_setImage(with: imageURL,
-                                       cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
-                                       placeholder: placeholder,
-                                              imageTransformer: PostCardImage.transformer) { [weak self] image in
-                if self?.status == status {
-                    postCard.decodedImages[imageURL.absoluteString] = image
-                }
-            }
-            
-            self.imageView.isHidden = false
-        } else {
-            self.imageView.isHidden = true
+//        // Display the link image if needed
+//        if !postCard.hideLinkImage, let imageURL = postCard.linkCard?.image, !postCard.hasWebview {
+//            var placeholder: UIImage?
+//            if let blurhash = postCard.linkCard?.blurhash {
+//                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+//            }
+//            self.imageView.ma_setImage(with: imageURL,
+//                                       cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
+//                                       placeholder: placeholder,
+//                                              imageTransformer: PostCardImage.transformer) { [weak self] image in
+//                if self?.status == status {
+//                    postCard.decodedImages[imageURL.absoluteString] = image
+//                }
+//            }
+//            
+//            self.imageView.isHidden = false
+//        } else {
+//            self.imageView.isHidden = true
+//        }
+        
+        if let iframe = postCard.webview {
+            let url_request = URLRequest(url: iframe)
+            iframeView.load(url_request)
         }
         
         if shouldChangeTheme {

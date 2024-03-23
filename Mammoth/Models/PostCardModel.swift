@@ -98,6 +98,8 @@ final class PostCardModel {
     let mediaDisplayType: MediaDisplayType
     var linkCard: Card?
     var hasLink: Bool
+    var webview: URL?
+    var hasWebview: Bool
     let hideLinkImage: Bool
     let formattedCardUrlStr: String?
     var statusSource: [StatusSource]?
@@ -385,8 +387,18 @@ final class PostCardModel {
         // Post has a link to display
         self.hasLink = self.linkCard?.url != nil
         
+        // get iframe
+        if let html = self.linkCard?.html {
+            if let url = URL(string: html.slice(from: "src=\"", to: "\" ") ?? "") {
+                self.webview = url
+            }
+        }
+        
+        // post has an iframe
+        self.hasWebview = self.webview != nil
+        
         // Hide the link image if there is a media attachment
-        self.hideLinkImage = true //self.hasMediaAttachment
+        self.hideLinkImage = self.hasMediaAttachment
         
         // Contains quote post?
         self.hasQuotePost = (status.reblog?.quotePostCard() ?? status.quotePostCard()) != nil
@@ -586,6 +598,8 @@ final class PostCardModel {
         self.linkCard = nil
         self.hideLinkImage = false
         self.formattedCardUrlStr = nil
+        self.webview = nil
+        self.hasWebview = false
         
         self.applicationName = ""
         self.visibility = ""
