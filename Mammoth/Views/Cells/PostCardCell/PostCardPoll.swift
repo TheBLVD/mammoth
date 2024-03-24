@@ -77,11 +77,30 @@ class PostCardPoll: UIView {
 // MARK: - Setup UI
 private extension PostCardPoll {
     func setupUI() {
+        self.isHidden = true
         self.isOpaque = true
         self.addSubview(mainStackView)
         
         mainStackView.addArrangedSubview(optionsStackView)
-        
+        if let postCard = self.postCard {
+            if let poll = postCard.poll {
+                for (index, option) in poll.options.enumerated() {
+                    let data = PostCardPollOption.PollOption(index: index,
+                                                             title: option.title.trimmingCharacters(in: .whitespacesAndNewlines),
+                                                             percentage: Float(option.votesCount ?? 0) / Float(max(poll.votesCount, 1)),
+                                                             isActive: !poll.expired
+                    )
+                    let optionView = PostCardPollOption(option: data, onTap: { [weak self] option in
+                        // On vote tap
+                         PostActions.onVote(postCard: postCard, choices: [option.index])
+                        
+                        guard let self else { return }
+                        self.updateOnVote(voteOptionIndex: data.index)
+                    })
+                    optionsStackView.addArrangedSubview(optionView)
+                }
+            }
+        }
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
             mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
@@ -100,32 +119,49 @@ extension PostCardPoll {
     func configure(postCard: PostCardModel) {
         self.postCard = postCard
         
-        if let poll = postCard.poll, optionsStackView.arrangedSubviews.isEmpty {
+        if let poll = postCard.poll {
+            // sanity check if an option was removed
+            while poll.options.count < self.optionsStackView.arrangedSubviews.count {
+                self.optionsStackView.removeArrangedSubview(optionsStackView.arrangedSubviews.last!)
+                self.optionsTrailingConstraints.removeLast()
+            }
             
-            // Create poll option view for each option
+            // update every poll option.
             poll.options.enumerated().forEach { (index, pollOption) in
                 let data = PostCardPollOption.PollOption(index: index,
-                                                           title: pollOption.title.trimmingCharacters(in: .whitespacesAndNewlines),
+                                                         title: pollOption.title.trimmingCharacters(in: .whitespacesAndNewlines),
                                                          percentage: Float(pollOption.votesCount ?? 0) / Float(max(poll.votesCount, 1)),
-                                                           isActive: !poll.expired
+                                                         isActive: !poll.expired
                 )
                 
                 let optionView = PostCardPollOption(option: data, onTap: { [weak self] option in
                     // On vote tap
-                     PostActions.onVote(postCard: postCard, choices: [option.index])
+                    PostActions.onVote(postCard: postCard, choices: [option.index])
                     
                     guard let self else { return }
                     self.updateOnVote(voteOptionIndex: data.index)
                 })
-                                                    
-                optionsStackView.addArrangedSubview(optionView)
-                self.optionsTrailingConstraints.append(optionView.trailingAnchor.constraint(equalTo: optionsStackView.trailingAnchor))
+                
+                // sanity check if an option was added
+                if index < optionsStackView.arrangedSubviews.count {
+                    // update poll
+                    for (otherIndex, view) in optionsStackView.arrangedSubviews.enumerated() {
+                        if let currentOptionView = view as? PostCardPollOption, index == otherIndex  {
+                            currentOptionView.update(option: data)
+                        }
+                    }
+                } else {
+                    optionsStackView.addArrangedSubview(optionView)
+                    self.optionsTrailingConstraints.append(optionView.trailingAnchor.constraint(equalTo: optionsStackView.trailingAnchor))
+                }
             }
             
             NSLayoutConstraint.activate(self.optionsTrailingConstraints)
             
             let numOfVotesString = "\(poll.votesCount.withCommas()) vote\(poll.votesCount == 1 ? "" : "s")"
             footerLabel.text = "\(numOfVotesString) • Poll \(self.readableDate(withDateString: poll.expiresAt ?? ""))"
+            
+            self.isHidden = false
         }
     }
     
