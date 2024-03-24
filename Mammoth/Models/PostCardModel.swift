@@ -388,7 +388,7 @@ final class PostCardModel {
         self.hasLink = self.linkCard?.url != nil
         
         // get iframe
-        if let html = self.linkCard?.html {
+        if let html = self.linkCard?.html, !self.hasMediaAttachment {
             if let url = URL(string: html.slice(from: "src=\"", to: "\" ") ?? "") {
                 self.webview = url
             }

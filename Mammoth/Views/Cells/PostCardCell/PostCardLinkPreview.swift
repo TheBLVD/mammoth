@@ -86,7 +86,7 @@ class PostCardLinkPreview: UIView {
     private var iframeView: WKWebView = {
         let iframeConfig = WKWebViewConfiguration()
         iframeConfig.allowsInlineMediaPlayback = true
-        let iframeView = WKWebView()
+        let iframeView = WKWebView(frame: .zero, configuration: iframeConfig)
         return iframeView
     }()
     private var iframeHeightConstraint: NSLayoutConstraint? = nil
@@ -164,6 +164,7 @@ private extension PostCardLinkPreview {
 //        imageHeightConstraint?.isActive = true
         
         iframeStack.addArrangedSubview(self.iframeView)
+        iframeStack.isHidden = true
         iframeHeightConstraint = iframeHeightConstraint ?? self.iframeView.heightAnchor.constraint(equalToConstant: PostCardLinkPreview.largeImageHeight)
         iframeHeightConstraint?.priority = .defaultHigh
         iframeHeightConstraint?.isActive = true
@@ -238,6 +239,7 @@ extension PostCardLinkPreview {
         if let iframe = postCard.webview {
             let url_request = URLRequest(url: iframe)
             iframeView.load(url_request)
+            iframeStack.isHidden = false
         }
         
         if shouldChangeTheme {
