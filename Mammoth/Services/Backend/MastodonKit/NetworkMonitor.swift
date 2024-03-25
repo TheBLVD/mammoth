@@ -191,7 +191,7 @@ extension NetworkMonitor {
         // Figure out the remaining rate limit from the header, if any.
         
         // If it's a media-upload, skip it.
-        let isMediaURL = response.url?.absoluteString.contains("/api/v1/media") ?? false
+        let isMediaURL = response.url?.absoluteString.contains("/api/v2/media") ?? false
         guard !isMediaURL else {
             log.warning("skipping ratelimit check on media response")
             return

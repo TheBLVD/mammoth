@@ -15,8 +15,7 @@ public struct Media {
     /// - Returns: Request for `Attachment`.
     public static func upload(media mediaAttachment: MediaAttachment) -> Request<Attachment> {
         let method = HTTPMethod.post(.media(mediaAttachment))
-        return Request<Attachment>(path: "/api/v1/media", method: method)
-//        return Request<Attachment>(path: "/api/v2/media", method: method)
+        return Request<Attachment>(path: "/api/v2/media", method: method)
     }
     
     public static func updateDescription(description: String, id: String) -> Request<Attachment> {
