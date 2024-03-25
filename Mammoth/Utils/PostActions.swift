@@ -391,7 +391,7 @@ extension PostActions {
                     
                     DispatchQueue.main.async {
                         if let returnedText = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.instanceData.returnedText {
-                            GlobalStruct.actionFromInstance = "Reposted from \(returnedText)"
+                            GlobalStruct.actionFromInstance = String.localizedStringWithFormat(NSLocalizedString("toast.repostedFrom", comment: ""), returnedText)
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "actionFrom"), object: nil)
                         }
                     }
@@ -498,8 +498,8 @@ extension PostActions {
     static func onDeletePost(target: UIViewController, postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
         guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
         
-        let alert = UIAlertController(title: nil, message: "Are you sure you want to delete this post?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ (UIAlertAction) in
+        let alert = UIAlertController(title: nil, message: NSLocalizedString("post.delete.confirm", comment: ""), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.delete", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
             
             Task {
                 do {
@@ -551,7 +551,7 @@ extension PostActions {
             } catch {
                 log.error("onPin post error: \(error)")
                 DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Unable to pin post", message: error.localizedDescription, preferredStyle: .alert)
+                    let alert = UIAlertController(title: NSLocalizedString("error.pin", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: .default, handler: nil))
                     target.present(alert, animated: true)
                 }

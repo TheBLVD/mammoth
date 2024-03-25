@@ -633,7 +633,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             
             if AppearanceOptions.allCases[indexPath.row] == AppearanceOptions.language {
                 let alert = UIAlertController(title: NSLocalizedString("settings.appearance.language.alert.title", comment: "Alert title when tapping on the language setting item"), message: NSLocalizedString("settings.appearance.language.alert.description", comment: "Alert description when tapping on the language setting item"), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("settings.appearance.language.alert.cta", comment: "Alert call-to-action when tapping on the language setting item"), style: .default, handler: { _ in
+                alert.addAction(UIAlertAction(title: NSLocalizedString("generic.continue", comment: ""), style: .default, handler: { _ in
                     guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
                         return
                     }
@@ -642,7 +642,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                         UIApplication.shared.open(settingsUrl, completionHandler: { _ in })
                     }
                 }))
-                alert.addAction(UIAlertAction(title: NSLocalizedString("settings.appearance.language.alert.cancel", comment: "Alert cancel button when tapping on the language setting item"), style: .cancel, handler: nil))
+                alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel, handler: nil))
                 getTopMostViewController()?.present(alert, animated: true)
             }
         default:

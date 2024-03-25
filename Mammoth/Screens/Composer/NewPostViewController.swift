@@ -2416,11 +2416,11 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     @objc func pollTapped(_ edit: Bool = false) {
         if self.imageButton[0].alpha == 0 {
             if let _ = self.fromEdit, GlobalStruct.newPollPost != nil {
-                let alert = UIAlertController(title: nil, message: "Please note that editing polls will reset all current votes.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Continue", style: .default , handler:{ (UIAlertAction) in
+                let alert = UIAlertController(title: nil, message: NSLocalizedString("poll.editNotice", comment: ""), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("generic.continue", comment: ""), style: .default , handler:{ (UIAlertAction) in
                     self.goToPollView(edit)
                 }))
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler:{ (UIAlertAction) in
+                alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                     
                 }))
                 if let presenter = alert.popoverPresentationController {
@@ -2432,7 +2432,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.goToPollView(edit)
             }
         } else {
-            let alert = UIAlertController(title: nil, message: "Polls cannot be added to posts that contain media.", preferredStyle: .alert)
+            let alert = UIAlertController(title: nil, message: NSLocalizedString("error.pollMedia", comment: ""), preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler:{ (UIAlertAction) in
                 
             }))
@@ -2459,9 +2459,9 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 }
             } else {
                 DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Oops!", message: "Looks like camera access is denied. Please enable it again via Settings to use this feature.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-                    alert.addAction(UIAlertAction(title: "Settings", style: .default) { _ in
+                    let alert = UIAlertController(title: NSLocalizedString("generic.oops", comment: ""), message: NSLocalizedString("error.cameraDenied", comment: ""), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel))
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("title.settings", comment: ""), style: .default) { _ in
                         if let url = URL(string: UIApplication.openSettingsURLString) {
                             UIApplication.shared.open(url, options: [:], completionHandler: { _ in
                                 
@@ -2492,7 +2492,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 self.btn1.showsMenuAsPrimaryAction = false
             } else {
                 // present drafts option
-                let draft = UIAction(title: "Save as Draft", image: UIImage(systemName: "doc.text"), identifier: nil) { action in
+                let draft = UIAction(title: NSLocalizedString("composer.drafts.save", comment: ""), image: UIImage(systemName: "doc.text"), identifier: nil) { action in
                     self.saveDraft()
                 }
                 let dismiss = UIAction(title: NSLocalizedString("generic.dismiss", comment: ""), image: UIImage(systemName: "xmark"), identifier: nil) { action in
@@ -2511,7 +2511,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             self.tableView.reloadRows(at: [IndexPath(row: 0, section: 1)], with: .automatic)
             self.createToolbar()
             if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? AltTextCell2 {
-                cell.altText.placeholder = "Content warning..."
+                cell.altText.placeholder = NSLocalizedString("composer.contentWarning.placeholder", comment: "")
                 cell.altText.becomeFirstResponder()
                 cell.altText.text = self.spoilerText
                 cell.altText.isHidden = false
