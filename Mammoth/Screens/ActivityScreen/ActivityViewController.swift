@@ -10,11 +10,12 @@ import UIKit
 
 class ActivityViewController : UIViewController {
     
-    public let headerView: CarouselNavigationHeader = {
-        let headerView = CarouselNavigationHeader(title: NSLocalizedString("title.activity", comment: ""))
-        headerView.translatesAutoresizingMaskIntoConstraints = false
-        return headerView
-    }()
+    enum ScreenPosition {
+        case main
+        case aux
+    }
+    
+    public let headerView: CarouselNavigationHeader
     
     private let blurEffectView: BlurredBackground = {
         let blurredEffectView = BlurredBackground(dimmed: true)
@@ -23,10 +24,17 @@ class ActivityViewController : UIViewController {
     }()
     
     private let pageViewController: UIPageViewController
+    private let screenPosition: ScreenPosition
+    
     private let pages = [NewsFeedViewController(type: .activity(nil)), NewsFeedViewController(type: .activity(.favourite)), NewsFeedViewController(type: .activity(.reblog)), NewsFeedViewController(type: .activity(.follow)), NewsFeedViewController(type: .activity(.update))]
     
-    required init() {
+    init(screenPosition: ScreenPosition = .main) {
+        self.screenPosition = screenPosition
         pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        
+        headerView = CarouselNavigationHeader(title: screenPosition == .main ? NSLocalizedString("title.activity", comment: "") : "")
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        
         super.init(nibName: nil, bundle: nil)
         
         self.pages.forEach({$0.delegate = self})
@@ -42,6 +50,7 @@ class ActivityViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = NSLocalizedString("title.activity", comment: "")
+        self.title = NSLocalizedString("title.activity", comment: "")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,11 +63,15 @@ class ActivityViewController : UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        if self.screenPosition == .main {
+            self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        if self.screenPosition == .main {
+            self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        }
         super.viewWillDisappear(animated)
     }
     
@@ -104,7 +117,7 @@ class ActivityViewController : UIViewController {
             headerView.bottomAnchor.constraint(equalTo: blurEffectView.bottomAnchor)
         ])
         
-        self.headerView.carousel.content = [NSLocalizedString("activity.all", comment: ""), NSLocalizedString("activity.likes", comment: ""), NSLocalizedString("activity.reposts", comment: ""), NSLocalizedString("activity.follows", comment: ""), NSLocalizedString("activity.posts", comment: "")]
+        self.headerView.carousel.content = ["activity.all", "activity.likes", "activity.reposts", "activity.follows", "activity.posts"].map({NSLocalizedString($0, comment: "")})
     }
 }
 
