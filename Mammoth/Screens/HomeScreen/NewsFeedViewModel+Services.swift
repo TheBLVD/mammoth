@@ -157,7 +157,7 @@ extension NewsFeedViewModel {
                 self.state = .loading
                 self.isLoadMoreEnabled = true
                 
-                let (items, cursorId) = try await currentType.fetchAll(batchName: "refresh_batch")
+                let (items, cursorId) = try await currentType.fetchAll(range: .limit(5) ,batchName: "refresh_batch")
                 
                 // only remove mutes and blocks in remote feeds.
                 let newItems: [NewsFeedListItem]
