@@ -98,7 +98,14 @@ final class PostCardModel {
     let mediaDisplayType: MediaDisplayType
     var linkCard: Card?
     var hasLink: Bool
-    var webview: URL?
+    
+    struct Webview {
+        let url: URL
+        let width: Int
+        let height: Int
+    }
+    
+    var webview: Webview?
     var hasWebview: Bool
     let hideLinkImage: Bool
     let formattedCardUrlStr: String?
@@ -389,9 +396,10 @@ final class PostCardModel {
         
         // get iframe
         if let html = self.linkCard?.html, !self.hasMediaAttachment {
-            if let url = URL(string: html.slice(from: "src=\"", to: "\" ") ?? "") {
-                self.webview = url
+            if let url = URL(string: html.slice(from: "src=\"", to: "\" ") ?? ""), let width = self.linkCard?.width ?? Int(html.slice(from: "width=\"", to: "\"") ?? ""), let height = self.linkCard?.width ?? Int(html.slice(from: "height=\"", to: "\"") ?? "")  {
+                self.webview = Webview.init(url: url, width: width, height: height)
             }
+            
         }
         
         // post has an iframe

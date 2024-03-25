@@ -237,7 +237,7 @@ extension PostCardLinkPreview {
 //        }
         
         if let iframe = postCard.webview {
-            let url_request = URLRequest(url: iframe)
+            let url_request = URLRequest(url: iframe.url)
             iframeView.load(url_request)
             iframeStack.isHidden = false
         }
