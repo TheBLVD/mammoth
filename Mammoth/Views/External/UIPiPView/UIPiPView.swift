@@ -28,20 +28,14 @@ open class UIPiPView: UIView,
     private var frameSizeObservation: NSKeyValueObservation?
     private var refreshIntervalTimer: Timer!
 
-    private func initialize() {
-        let session = AVAudioSession.sharedInstance()
-        try! session.setCategory(.playback, mode: .moviePlayback)
-        try! session.setActive(true)
-        setupVideoLayerView()
-    }
-
     /// Starts PinP.
     /// Also, this function should be called due to a user operation. (This is a limitation of iOS app.)
     /// Every withRefreshInterval (in seconds), the screen will refresh the PiP video image.
     open func startPictureInPicture(
         withRefreshInterval: TimeInterval
     ) {
-        initialize()
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
+        setupVideoLayerView()
         DispatchQueue.main.async { [weak self] in
             self?.startPictureInPictureSub(refreshInterval: withRefreshInterval)
         }
@@ -51,7 +45,8 @@ open class UIPiPView: UIView,
     /// Also, this function should be called due to a user operation. (This is a limitation of iOS app.)
     /// This function will not automatically update the video image. You should call the render() function.
     open func startPictureInPictureWithManualCallRender() {
-        initialize()
+        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
+        setupVideoLayerView()
         DispatchQueue.main.async { [weak self] in
             self?.startPictureInPictureSub(refreshInterval: nil)
         }
@@ -129,6 +124,7 @@ open class UIPiPView: UIView,
 
     /// Stop PiP.
     open func stopPictureInPicture() {
+        try! AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
         guard let pipController = pipController else { return }
         if pipController.isPictureInPictureActive {
             pipController.stopPictureInPicture()

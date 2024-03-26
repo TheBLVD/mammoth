@@ -258,7 +258,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             FontAwesome.setColorTheme(theme: ColorTheme.systemDefault)
         }
         
-        try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: .mixWithOthers)
+        try? AVAudioSession.sharedInstance().setCategory(.ambient, mode: .default)
 
         return true
     }
