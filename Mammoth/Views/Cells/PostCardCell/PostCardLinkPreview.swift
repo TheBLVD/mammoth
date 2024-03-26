@@ -135,6 +135,7 @@ class PostCardLinkPreview: UIView {
         self.status = nil
         self.imageView.image = nil
         self.imageView.sd_cancelCurrentImageLoad()
+        self.iframeStack.isHidden = true
         self.onPress = nil
     }
     
