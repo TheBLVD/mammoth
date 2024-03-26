@@ -89,7 +89,6 @@ class PostCardLinkPreview: UIView {
         let iframeView = WKWebView(frame: .zero, configuration: iframeConfig)
         return iframeView
     }()
-    private var iframeHeightConstraint: NSLayoutConstraint? = nil
     
     private var urlLabel: UILabel = {
         let label = UILabel()
@@ -165,9 +164,6 @@ private extension PostCardLinkPreview {
         
         iframeStack.addArrangedSubview(self.iframeView)
         iframeStack.isHidden = true
-        iframeHeightConstraint = iframeHeightConstraint ?? self.iframeView.heightAnchor.constraint(equalToConstant: PostCardLinkPreview.largeImageHeight)
-        iframeHeightConstraint?.priority = .defaultHigh
-        iframeHeightConstraint?.isActive = true
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
@@ -239,6 +235,8 @@ extension PostCardLinkPreview {
         if let iframe = postCard.webview {
             let url_request = URLRequest(url: iframe.url)
             iframeView.load(url_request)
+            let inverse_ratio = Double(iframe.height) / Double(iframe.width)
+            iframeStack.heightAnchor.constraint(equalTo: iframeStack.widthAnchor, multiplier: inverse_ratio).isActive = true
             iframeStack.isHidden = false
         }
         
