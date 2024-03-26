@@ -108,7 +108,7 @@ final class PostCardVideo: UIView {
     
     private var previewImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -522,6 +522,8 @@ final class PostCardVideo: UIView {
                 var aspect: Double? = nil
                 if let width = self.media?.meta?.original?.width, let height = self.media?.meta?.original?.height {
                     aspect = Double(width) / Double(height)
+                } else {
+                    previewImage.contentMode = .scaleAspectFit
                 }
                 let ratio = self.media?.meta?.original?.aspect ?? aspect ?? (self.media?.type == .audio ? 1.0 : 16.0 / 9.0)
         

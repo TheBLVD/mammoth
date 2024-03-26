@@ -23,7 +23,7 @@ final class PostCardImage: UIView {
     
     private(set) var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = .custom.OVRLYSoftContrast
         imageView.isUserInteractionEnabled = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -289,6 +289,8 @@ final class PostCardImage: UIView {
             var aspect: Double? = nil
             if let width = self.media?.meta?.original?.width, let height = self.media?.meta?.original?.height {
                 aspect = Double(width) / Double(height)
+            } else {
+                imageView.contentMode = .scaleAspectFit
             }
             let ratio = self.media?.meta?.original?.aspect ?? aspect ?? 16.0 / 9.0
     
@@ -370,6 +372,7 @@ final class PostCardImage: UIView {
             let images = self.postCard?.mediaAttachments.compactMap { attachment in
                 guard attachment.type == .image else { return SKPhoto() }
                 let photo = SKPhoto.photoWithImageURL(attachment.url)
+                photo.contentMode = imageView.contentMode
                 photo.shouldCachePhotoURLImage = false
                 
                 let imageFromCache = SDImageCache.shared.imageFromCache(forKey: attachment.url)
@@ -413,6 +416,7 @@ final class PostCardImage: UIView {
                     let images = self.postCard?.mediaAttachments.compactMap { attachment in
                         guard attachment.type == .image else { return nil }
                         let photo = SKPhoto.photoWithImageURL(attachment.url)
+                        photo.contentMode = self.imageView.contentMode
                         photo.shouldCachePhotoURLImage = false
                         photo.underlyingImage = SDImageCache.shared.imageFromCache(forKey: attachment.url)
                         return photo
