@@ -149,7 +149,10 @@ final class PostCardMediaStack: UIView {
                 }
                 
                 if let second = (postCard.mediaAttachments.count > 1 ? postCard.mediaAttachments[1] : nil), let blurHash = second.blurhash {
-                    let blurImage = UnifiedImage(blurHash: blurHash, size: .init(width: 32, height: 32))
+                    let blurWidth = second.meta?.small?.width ?? 64
+                    let blurHeight = second.meta?.small?.height ?? 64
+                    let blurImage = UnifiedImage(blurHash: blurHash, size: .init(width: 64, height: 64))?
+                        .resized(to: .init(width: blurWidth, height: blurHeight))
                     self.backgroundCard.image = blurImage
                 }
             }
