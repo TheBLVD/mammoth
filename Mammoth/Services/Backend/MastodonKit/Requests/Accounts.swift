@@ -40,6 +40,8 @@ public struct Accounts {
                                          locked: Bool? = nil,
                                          bot: Bool? = nil,
                                          discoverable: Bool? = nil,
+                                         indexable: Bool? = nil,
+                                         hideCollections: Bool? = nil,
                                          sensitive: Bool? = nil,
                                          privacy: String? = nil,
                                          language: String? = nil,
@@ -55,7 +57,9 @@ public struct Accounts {
         let lockText = (locked ?? false) ? "true" : "false"
         let botText = (bot ?? false) ? "true" : "false"
         let discoverableText = (discoverable ?? false) ? "true" : "false"
+        let indexableText = (indexable ?? false) ? "true" : "false"
         let sensitiveText = (sensitive ?? false) ? "true" : "false"
+        let hideCollectionsText = (hideCollections ?? false) ? "true" : "false"
         
         var parameters = [
             Parameter(name: "display_name", value: displayName),
@@ -63,6 +67,8 @@ public struct Accounts {
             Parameter(name: "locked", value: lockText),
             Parameter(name: "bot", value: botText),
             Parameter(name: "discoverable", value: discoverableText),
+            Parameter(name: "indexable", value: indexableText),
+            Parameter(name: "hide_collections", value: hideCollectionsText),
             Parameter(name: "source[sensitive]", value: sensitiveText),
             Parameter(name: "source[privacy]", value: privacy),
             Parameter(name: "fields_attributes[0][name]", value: fieldName1),
@@ -312,8 +318,11 @@ public struct Accounts {
     ///
     /// - Parameter ids: The account's ids.
     /// - Returns: Request for `[Relationship]`.
-    public static func relationships(ids: [String]) -> Request<[Relationship]> {
-        let parameters = ids.map(toArrayOfParameters(withName: "id"))
+    public static func relationships(ids: [String], withSuspended: Bool = false) -> Request<[Relationship]> {
+        var parameters = [
+            Parameter(name: "with_suspended", value: String(withSuspended))
+        ]
+        parameters.append(contentsOf: ids.map(toArrayOfParameters(withName: "id")))
         let method = HTTPMethod.get(.parameters(parameters))
 
         return Request<[Relationship]>(path: "/api/v1/accounts/relationships", method: method)

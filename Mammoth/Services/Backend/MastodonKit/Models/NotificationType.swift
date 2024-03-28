@@ -26,15 +26,23 @@ public enum NotificationType: String, Codable, CaseIterable {
     case update
     case follow_request
     
-//    case admin: NotificationTypeAdmin?
-}
-
-public enum NotificationTypeAdmin: String, Codable {
-    case adminSignup
-    case adminReport
+//  TODO: handle these notification types.
+//    case adminSignup
+//    case adminReport
+//    case severed_relationships
     
     private enum CodingKeys: String, CodingKey {
-        case adminSignup = "admin.sign_up"
-        case adminReport = "admin.report"
+        case mention
+        case reblog
+        case favourite
+        case follow
+        case direct
+        case poll
+        case status
+        case update
+        case follow_request
+//        case adminSignup = "admin.signup"
+//        case adminReport = "admin.report"
+//        case severed_relationships
     }
 }

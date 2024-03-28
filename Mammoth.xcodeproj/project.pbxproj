@@ -777,6 +777,8 @@
 		D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DE092E2A3D12D800DD0483 /* Haptics.swift */; };
 		F054D25C2B9C9E07006130A4 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F054D25B2B9C9E07006130A4 /* MetaTextKit */; };
 		F084802D2B8BBF02005201A7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F084802C2B8BBF02005201A7 /* Localizable.xcstrings */; };
+		F0ED082F2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ED082E2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift */; };
+		F0ED08312BB61F380046B9EA /* RelationshipSeveranceEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ED08302BB61F380046B9EA /* RelationshipSeveranceEventType.swift */; };
 		F0ED503C2B949A2C00F7525B /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F0ED503B2B949A2C00F7525B /* MetaTextKit */; };
 		F0F6A5DD2ACCA9C1004FD05F /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6A5DC2ACCA9C1004FD05F /* AnalyticsManager.swift */; };
 		F0F6A5DF2ACCB5D1004FD05F /* FeaturesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6A5DE2ACCB5D1004FD05F /* FeaturesService.swift */; };
@@ -1609,6 +1611,8 @@
 		D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableViewController.swift; sourceTree = "<group>"; };
 		D8DE092E2A3D12D800DD0483 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		F084802C2B8BBF02005201A7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		F0ED082E2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSeveranceEvent.swift; sourceTree = "<group>"; };
+		F0ED08302BB61F380046B9EA /* RelationshipSeveranceEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSeveranceEventType.swift; sourceTree = "<group>"; };
 		F0F6A5DC2ACCA9C1004FD05F /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		F0F6A5DE2ACCB5D1004FD05F /* FeaturesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2168,6 +2172,8 @@
 				BFCC50A02B0D626A0081BFB5 /* ChannelOwner.swift */,
 				BF57C4042AE9C64000D11485 /* StatusSource.swift */,
 				BF57C4062AE9C7D600D11485 /* StatusSourceType.swift */,
+				F0ED082E2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift */,
+				F0ED08302BB61F380046B9EA /* RelationshipSeveranceEventType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -3618,6 +3624,7 @@
 				C3F3B0292A4E29DC008FC4B7 /* NewsFeedViewModel+ScrollPositions.swift in Sources */,
 				53450E412936121600D720EA /* SwiftyGiphyGridLayout.swift in Sources */,
 				144DC6C72B14E20200F4EE98 /* GradientBorderView.swift in Sources */,
+				F0ED08312BB61F380046B9EA /* RelationshipSeveranceEventType.swift in Sources */,
 				C354D6042A0D1AF300F8AC04 /* ViewState.swift in Sources */,
 				53450E7E29361DA000D720EA /* ScheduledPostsViewController.swift in Sources */,
 				C354D6062A0D1B6E00F8AC04 /* RequestDelegate.swift in Sources */,
@@ -3872,6 +3879,7 @@
 				D8CA77612AB90D4000F49ECC /* ShareableViewController.swift in Sources */,
 				BF57C4012AE7130300D11485 /* ServerUpdatingCell.swift in Sources */,
 				C34413C42A1F53F900C3791F /* PostCardCell.swift in Sources */,
+				F0ED082F2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift in Sources */,
 				BF0F3B9A2A82AFEB0055BB81 /* AnimatedTabBar.swift in Sources */,
 				BFA71B572AB3CBBB001D1EC1 /* InstanceManager.swift in Sources */,
 				533993E529141F4700560F83 /* SceneDelegate.swift in Sources */,
