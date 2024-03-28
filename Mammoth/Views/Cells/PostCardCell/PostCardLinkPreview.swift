@@ -86,6 +86,7 @@ class PostCardLinkPreview: UIView {
     private var iframeView: WKWebView = {
         let iframeConfig = WKWebViewConfiguration()
         iframeConfig.allowsInlineMediaPlayback = true
+        iframeConfig.allowsPictureInPictureMediaPlayback = true
         let iframeView = WKWebView(frame: .zero, configuration: iframeConfig)
         return iframeView
     }()
