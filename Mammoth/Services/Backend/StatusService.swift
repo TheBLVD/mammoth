@@ -495,10 +495,9 @@ extension StatusService {
         } catch let error {
             do {
                 switch error as? ClientError {
-                case .mastodonError(let message):
-                    if message == "Record not found" {
-                        return try await self.runTaskLocally(forStatus: status, task: task)
-                    }
+                case .mastodonError:
+                    // these error messages can be localized.
+                    return try await self.runTaskLocally(forStatus: status, task: task)
                 default: break
                 }
                 
