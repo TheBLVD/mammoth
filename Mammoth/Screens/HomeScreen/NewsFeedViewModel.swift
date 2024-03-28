@@ -28,6 +28,7 @@ protocol NewsFeedViewModelDelegate: AnyObject {
     func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot,
                            feedType: NewsFeedTypes,
                            updateType: NewsFeedSnapshotUpdateType,
+                           scrollPosition: NewsFeedScrollPosition?,
                            onCompleted: (() -> Void)?)
     func willChangeFeed(fromType: NewsFeedTypes, toType: NewsFeedTypes)
     func didChangeFeed(type: NewsFeedTypes)
