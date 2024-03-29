@@ -19,6 +19,10 @@ public class Notificationt: Codable, Hashable {
     public let account: Account
     /// The Status associated with the notification, if applicable.
     public var status: Status?
+    /// Report that was the object of the notification. Attached when type of the notification is admin.report.
+    public let report: Report?
+    /// Summary of the event that caused follow relationships to be severed. Attached when type of the notification is severed_relationships.
+    public let relationshipSeveranceEvent: RelationshipSeveranceEvent?
 
     private enum CodingKeys: String, CodingKey {
         case id
@@ -26,6 +30,8 @@ public class Notificationt: Codable, Hashable {
         case createdAt = "created_at"
         case account
         case status
+        case report
+        case relationshipSeveranceEvent = "relationship_severance_event"
     }
     
     public func hash(into hasher: inout Hasher) {
@@ -36,12 +42,16 @@ public class Notificationt: Codable, Hashable {
                 type: NotificationType,
                 createdAt: String,
                 account: Account,
-                status: Status? = nil) {
+                status: Status? = nil,
+                report: Report? = nil,
+                relationshipSeverance: RelationshipSeveranceEvent? = nil) {
         self.id = id
         self.type = type
         self.createdAt = createdAt
         self.account = account
         self.status = status
+        self.report = report
+        self.relationshipSeveranceEvent = relationshipSeverance
     }
 }
 

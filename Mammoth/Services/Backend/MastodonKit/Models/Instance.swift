@@ -40,6 +40,7 @@ public class Rules: Codable {
 public class PostConfiguration: Codable {
     public let statuses: PostConfigurationStatuses?
     public let urls: ConfigurationURLs?
+    public let vapid: ConfigurationVAPID?
 }
 
 public class PostConfigurationStatuses: Codable {
@@ -52,6 +53,13 @@ public class PostConfigurationStatuses: Codable {
 
 public class ConfigurationURLs: Codable {
     public let streaming: String?
+}
+
+public class ConfigurationVAPID: Codable {
+    public let publicKey: String?
+    private enum CodingKeys: String, CodingKey {
+        case publicKey = "public_key"
+    }
 }
 
 public class Usage: Codable {
