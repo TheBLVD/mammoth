@@ -186,6 +186,8 @@ extension NewsFeedViewModel {
                         self.hideEmpty(forType: currentType)
                     }
                     
+                    self.pollingReachedTop = true
+                    
                     self.set(withItems: newItems, forType: currentType)
                     self.state = .success
                     self.hideLoader(forType: currentType)
@@ -663,6 +665,10 @@ extension NewsFeedViewModel {
                             
                             if !fetchedItems.isEmpty {
                                 
+                                await MainActor.run { [weak self] in
+                                    self?.pollingReachedTop = false
+                                }
+                                
                                 // Show the JumpToNow pill if the feed is old
                                 if fetchedItems.count >= 40 {
                                     await MainActor.run { [weak self] in
@@ -682,6 +688,10 @@ extension NewsFeedViewModel {
                                     
                                     guard !Task.isCancelled else { break }
                                 }
+                            } else {
+                                await MainActor.run { [weak self] in
+                                    self?.pollingReachedTop = true
+                                }
                             }
                             
                             guard !Task.isCancelled else { return }
@@ -697,6 +707,7 @@ extension NewsFeedViewModel {
                                 }
                             } else if pageToFetchLimit >= 9 {
                                 await MainActor.run { [weak self] in
+                                    self?.pollingReachedTop = true
                                     self?.setShowJumpToNow(enabled: false, forFeed: type)
                                     self?.delegate?.didUpdateUnreadState(type: type)
                                 }

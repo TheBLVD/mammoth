@@ -11,6 +11,8 @@ import Meta
 import MastodonMeta
 import MetaTextKit
 
+let screenWidth = UIScreen.main.bounds.width
+
 final class PostCardCell: UITableViewCell {
     
     enum PostCardMediaVariant: String, Equatable, CaseIterable {
@@ -649,7 +651,7 @@ private extension PostCardCell {
         contentWarningConstraints = [
             contentWarningButton.topAnchor.constraint(equalTo: header.bottomAnchor, constant: -1),
             contentWarningButton.bottomAnchor.constraint(equalTo: contentStackView.bottomAnchor, constant: -48),
-            contentWarningButton.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor, constant: -1),
+            contentWarningButton.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor, constant: 6),
             contentWarningButton.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: 3),
         ]
         
@@ -660,7 +662,7 @@ private extension PostCardCell {
         deletedWarningConstraints = [
             deletedWarningButton.topAnchor.constraint(equalTo: wrapperStackView.topAnchor, constant: -1),
             deletedWarningButton.bottomAnchor.constraint(equalTo: contentStackView.bottomAnchor, constant: -8),
-            deletedWarningButton.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor, constant: -1),
+            deletedWarningButton.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor, constant: 6),
             deletedWarningButton.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: 3),
         ]
 
@@ -947,8 +949,9 @@ extension PostCardCell {
                 self.postTextView.numberOfLines = type!.numberOfLines
             }
             
-            if let postTextContent = postCard?.metaPostText, !postTextContent.original.isEmpty {
-                self.postTextView.configure(content: postTextContent)
+            if let postTextContent = postCard?.richPostText {
+                self.postTextView.textStorage.setAttributedString(postTextContent)
+                self.postTextView.attributedText = postTextContent
                 self.postTextView.isHidden = false
                 
             } else if [.small].contains(self.cellVariant.mediaVariant) {

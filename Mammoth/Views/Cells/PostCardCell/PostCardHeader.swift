@@ -199,7 +199,8 @@ private extension PostCardHeader {
             mainStackView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor)
+            mainStackView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
+            mainStackView.heightAnchor.constraint(equalToConstant: 24),
         ])
         
         mainStackView.addArrangedSubview(headerTitleStackView)
@@ -228,7 +229,7 @@ private extension PostCardHeader {
         headerTitleStackView.addArrangedSubview(userTagLabel)
         
         NSLayoutConstraint.activate([
-            headerMainTitleStackView.heightAnchor.constraint(equalToConstant: 23)
+            headerMainTitleStackView.heightAnchor.constraint(equalToConstant: 24)
         ])
         
         setupUIFromSettings()
@@ -349,8 +350,9 @@ extension PostCardHeader {
             let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
             self.titleLabel.configure(content: content)
         } else {
-            if let metaContent = postCard?.user?.metaName {
-                self.titleLabel.configure(content: metaContent)
+            if let richName = postCard?.user?.richName {
+                self.titleLabel.textStorage.setAttributedString(richName)
+                self.titleLabel.attributedText = richName
             } else {
                 let text = postCard?.user?.name ?? ""
                 let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
@@ -398,42 +400,57 @@ extension PostCardHeader {
     
     func startTimeUpdates() {
         if let createdAt = self.postCard?.createdAt {
-            var interval: Double = 60*60
-            var delay: Double = 60*15
-            let now = Date()
-            
-            let secondsRange = now.addingTimeInterval(-60)...now
-            let minutesRange = now.addingTimeInterval(-60*60)...now
-            let hoursRange = now.addingTimeInterval(-60*60*24)...now
-            
-            if secondsRange ~= createdAt {
-                interval = 5
-                delay = 2
-            } else if minutesRange ~= createdAt {
-                interval = 30
-                delay = 15
-            } else if hoursRange ~= createdAt {
-                interval = 60*60
-                delay = 60*15
-            }
-            
-            self.subscription = RunLoop.main.schedule(
-                after: .init(Date(timeIntervalSinceNow: delay)),
-                interval: .seconds(interval),
-                tolerance: .seconds(1)
-            ) { [weak self] in
+            Task { [weak self] in
                 guard let self else { return }
+                var interval: Double = 60*60
+                var delay: Double = 60*15
+                let now = Date()
+                
+                let secondsRange = now.addingTimeInterval(-60)...now
+                let minutesRange = now.addingTimeInterval(-60*60)...now
+                let hoursRange = now.addingTimeInterval(-60*60*24)...now
+                
+                if secondsRange ~= createdAt {
+                    interval = 5
+                    delay = 2
+                } else if minutesRange ~= createdAt {
+                    interval = 30
+                    delay = 15
+                } else if hoursRange ~= createdAt {
+                    interval = 60*60
+                    delay = 60*15
+                }
+                
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    self.subscription = RunLoop.main.schedule(
+                        after: .init(Date(timeIntervalSinceNow: delay)),
+                        interval: .seconds(interval),
+                        tolerance: .seconds(1)
+                    ) { [weak self] in
+                        guard let self else { return }
+                        if let status = self.status {
+                            Task { [weak self] in
+                                guard let self else { return }
+                                let newTime = PostCardModel.formattedTime(status: status, formatter: GlobalStruct.dateFormatter)
+                                await MainActor.run { [weak self] in
+                                    guard let self else { return }
+                                    self.postCard?.time = newTime
+                                    self.dateLabel.text = newTime
+                                }
+                            }
+                        }
+                    }
+                }
+                
                 if let status = self.status {
                     let newTime = PostCardModel.formattedTime(status: status, formatter: GlobalStruct.dateFormatter)
-                    self.postCard?.time = newTime
-                    self.dateLabel.text = newTime
+                    await MainActor.run { [weak self] in
+                        guard let self else { return }
+                        self.postCard?.time = newTime
+                        self.dateLabel.text = newTime
+                    }
                 }
-            }
-            
-            if let status = self.status {
-                let newTime = PostCardModel.formattedTime(status: status, formatter: GlobalStruct.dateFormatter)
-                self.postCard?.time = newTime
-                self.dateLabel.text = newTime
             }
         }
     }

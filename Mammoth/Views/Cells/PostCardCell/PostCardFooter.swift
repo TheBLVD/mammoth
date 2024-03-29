@@ -211,7 +211,7 @@ fileprivate class PostFooterButton: UIButton {
             container.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
             container.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
             container.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
-            container.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
+            container.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor)
         ])
         
         icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons,
@@ -221,6 +221,10 @@ fileprivate class PostFooterButton: UIButton {
         icon.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         container.addArrangedSubview(icon)
+        
+        NSLayoutConstraint.activate([
+            icon.heightAnchor.constraint(equalToConstant: 36)
+        ])
     }
 }
 

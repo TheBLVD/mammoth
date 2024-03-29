@@ -12,6 +12,7 @@ import Kingfisher
 import AVFoundation
 import Meta
 import MastodonMeta
+import MetaTextKit
 
 final class PostCardModel {
     
@@ -74,7 +75,7 @@ final class PostCardModel {
     let contentWarning: String
     let isSensitive: Bool
     var postText: String
-    var richPostText: NSAttributedString?
+    var richPostText: NSMutableAttributedString?
     let metaPostText: MastodonMetaContent?
     
     var profileURL: URL?
@@ -337,8 +338,36 @@ final class PostCardModel {
         } catch {
             self.metaPostText = MastodonMetaContent.convert(text: content)
         }
+                
+        let textAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+        
+        let linkAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+
+        let paragraphStyle: NSMutableParagraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
+            style.paragraphSpacing = 12
+            style.alignment = .natural
+            return style
+        }()
         
         self.richPostText = NSMutableAttributedString(string: self.metaPostText?.string ?? self.postText)
+
+        if let _ = self.richPostText, let _ = self.metaPostText {
+            MetaText.setAttributes(
+                for: self.richPostText!,
+                textAttributes: textAttributes,
+                linkAttributes: linkAttributes,
+                paragraphStyle: paragraphStyle,
+                content: self.metaPostText!
+            )
+        }
         
         // Content warning (applies to entire post)
         self.contentWarning = (status.reblog?.spoilerText ?? status.spoilerText).stripHTML()

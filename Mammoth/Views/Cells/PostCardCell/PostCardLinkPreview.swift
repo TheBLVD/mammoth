@@ -188,9 +188,9 @@ extension PostCardLinkPreview {
         // Display the link image if needed
         if !postCard.hideLinkImage, let imageURL = postCard.linkCard?.image {
             var placeholder: UIImage?
-            if let blurhash = postCard.linkCard?.blurhash {
-                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
-            }
+//            if let blurhash = postCard.linkCard?.blurhash {
+//                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+//            }
             self.imageView.ma_setImage(with: imageURL,
                                        cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
                                        placeholder: placeholder,

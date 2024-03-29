@@ -90,6 +90,7 @@ final class PostCardMetadata: UIView {
             mainStackView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
+            mainStackView.heightAnchor.constraint(equalToConstant: 23)
         ])
         
         mainStackView.addArrangedSubview(metricsStackView)

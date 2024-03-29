@@ -367,6 +367,7 @@ class NewsFeedViewModel {
     internal var isLoadMoreEnabled: Bool = true
         
     internal var pollingTask: Task<Void, Error>?
+    public var pollingReachedTop: Bool = true
     internal var pollingFrequency: Double { //seconds
         switch self.type {
         case .mentionsIn, .activity:

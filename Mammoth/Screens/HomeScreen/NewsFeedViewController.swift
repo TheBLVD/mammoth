@@ -653,18 +653,14 @@ extension NewsFeedViewController {
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if let item = self.viewModel.getItemForIndexPath(indexPath) {
             if case .postCard(let postCardModel) = item {
-                return postCardModel.cellHeight ?? 310
+                return postCardModel.cellHeight ?? UITableView.automaticDimension
             }
         }
         
-        return 310
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -1265,29 +1261,51 @@ private extension NewsFeedViewController {
 // MARK: - Jump to newest
 extension NewsFeedViewController: JumpToNewest {
     func jumpToNewest() {
-        self.viewModel.stopPollingListData()
-        self.viewModel.cancelAllItemSyncs()
-        self.deferredSnapshotUpdatesCallbacks = []
-        
-        self.isScrollingProgrammatically = true
-        
-        self.viewModel.clearSnapshot()
-        self.disableFeedUpdates = true
-        self.showLoader(enabled: true)
-        
-        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
-        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-        self.didUpdateUnreadState(type: self.viewModel.type)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            guard let self else { return }
-                        
-            Task { [weak self] in
+        if !self.viewModel.pollingReachedTop && (self.displayingIndexPath?.row ?? 0) < 100 {
+            
+            self.viewModel.stopPollingListData()
+            self.viewModel.cancelAllItemSyncs()
+            self.deferredSnapshotUpdatesCallbacks = []
+            
+            self.isScrollingProgrammatically = true
+            
+            self.viewModel.clearSnapshot()
+            self.disableFeedUpdates = true
+            self.showLoader(enabled: true)
+            
+            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+            self.didUpdateUnreadState(type: self.viewModel.type)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 guard let self else { return }
-                try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
+                
+                Task { [weak self] in
+                    guard let self else { return }
+                    try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
+                }
+                
+                self.disableFeedUpdates = false
             }
+        } else {
+            
+            self.viewModel.stopPollingListData()
+            self.viewModel.cancelAllItemSyncs()
+            self.deferredSnapshotUpdatesCallbacks = []
+            
+            self.isScrollingProgrammatically = true
+
+            self.disableFeedUpdates = true
+            
+            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+            self.didUpdateUnreadState(type: self.viewModel.type)
+            
+            self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             
             self.disableFeedUpdates = false
+            
+            self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
         }
     }
 }
