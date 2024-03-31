@@ -1128,7 +1128,7 @@ extension PostCardCell {
     // the cell will end being displayed in the tableview
     public func didEndDisplay() {
         if let postCard = self.postCard, 
-            (postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType)) {
+            postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType) {
             self.video?.pause()
         }
         

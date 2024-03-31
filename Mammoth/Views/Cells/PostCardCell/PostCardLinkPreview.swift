@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 import SDWebImage
 import UnifiedBlurHash
-import WebKit
 
 class PostCardLinkPreview: UIView {
     
