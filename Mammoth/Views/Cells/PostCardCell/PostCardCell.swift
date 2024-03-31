@@ -354,6 +354,9 @@ final class PostCardCell: UITableViewCell {
     private var linkPreview: PostCardLinkPreview?
     private var linkPreviewTrailingConstraint: NSLayoutConstraint? = nil
     
+    private var webview: PostCardWebview?
+    private var webviewTrailingConstraint: NSLayoutConstraint? = nil
+    
     private var quotePost: PostCardQuotePost?
     private var quotePostTrailingConstraint: NSLayoutConstraint? = nil
     
@@ -458,6 +461,7 @@ final class PostCardCell: UITableViewCell {
         self.video?.prepareForReuse()
         self.poll?.prepareForReuse()
         self.linkPreview?.prepareForReuse()
+        self.webview?.prepareForReuse()
         self.mediaStack?.prepareForReuse()
         self.mediaGallery?.prepareForReuse()
     }
@@ -638,6 +642,12 @@ private extension PostCardCell {
             mediaContainer.addArrangedSubview(self.linkPreview!)
             linkPreviewTrailingConstraint = self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
             
+            // setup webview.
+            self.webview = PostCardWebview()
+            self.webview?.translatesAutoresizingMaskIntoConstraints = false
+            self.webview?.isHidden = true
+            mediaContainer.addArrangedSubview(self.webview!)
+            webviewTrailingConstraint = self.webview!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
         }
         
         contentStackView.addArrangedSubview(footer)
@@ -778,12 +788,22 @@ extension PostCardCell {
             }
             
             // Display the link preview if needed
-            if postCard.hasLink && !postCard.hasQuotePost {
+            if postCard.hasLink && !postCard.hasQuotePost && !postCard.hasWebview {
                 self.linkPreview?.configure(postCard: postCard)
                 self.linkPreview?.onPress = onButtonPress
                 self.linkPreview?.isHidden = false
             } else {
                 self.linkPreview?.isHidden = true
+            }
+            
+            // display webview. don't configure twice.
+            if postCard.hasWebview {
+                if self.webview?.isHidden == true {
+                    self.webview?.configure(postCard: postCard)
+                    self.webview?.isHidden = false
+                }
+            } else {
+                self.webview?.isHidden = true
             }
             
             // Display single image if needed
@@ -1023,6 +1043,17 @@ extension PostCardCell {
                 }
             }
             
+            // display webview if needed.
+            if postCard.hasWebview {
+                if let constraint = self.webviewTrailingConstraint, !constraint.isActive {
+                    NSLayoutConstraint.activate([constraint])
+                }
+            } else {
+                if let constraint = self.webviewTrailingConstraint, constraint.isActive {
+                    NSLayoutConstraint.deactivate([constraint])
+                }
+            }
+            
             // Display single image if needed
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage && !postCard.hasWebview {
                 if let constraint = self.imageTrailingConstraint, !constraint.isActive {
@@ -1097,7 +1128,7 @@ extension PostCardCell {
     // the cell will end being displayed in the tableview
     public func didEndDisplay() {
         if let postCard = self.postCard, 
-            postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType) {
+            (postCard.hasMediaAttachment && [.singleVideo, .singleGIF].contains(postCard.mediaDisplayType)) {
             self.video?.pause()
         }
         
@@ -1155,6 +1186,13 @@ extension PostCardCell {
                 self.mediaContainer.removeArrangedSubview(linkPreview)
                 linkPreview.removeFromSuperview()
                 linkPreview.prepareForReuse()
+            }
+            
+            if let webview = self.webview {
+                self.webviewTrailingConstraint?.isActive = false
+                self.mediaContainer.removeArrangedSubview(webview)
+                webview.removeFromSuperview()
+                webview.prepareForReuse()
             }
             
             if let poll = self.poll {

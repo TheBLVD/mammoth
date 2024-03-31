@@ -46,18 +46,6 @@ class PostCardLinkPreview: UIView {
         return stackView
     }()
     
-    private var iframeStack: UIStackView = {
-        let stackView = UIStackView()
-        stackView.isOpaque = true
-        stackView.axis = .vertical
-        stackView.alignment = .top
-        stackView.distribution = .fill
-        stackView.spacing = 0.0
-        stackView.clipsToBounds = true
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
     private var textStack: UIStackView = {
         let stackView = UIStackView()
         stackView.isOpaque = true
@@ -82,15 +70,6 @@ class PostCardLinkPreview: UIView {
         return imageView
     }()
     private var imageHeightConstraint: NSLayoutConstraint? = nil
-    
-    private var iframeView: WKWebView = {
-        let iframeConfig = WKWebViewConfiguration()
-        iframeConfig.allowsInlineMediaPlayback = true
-        iframeConfig.allowsPictureInPictureMediaPlayback = true
-        let iframeView = WKWebView(frame: .zero, configuration: iframeConfig)
-        return iframeView
-    }()
-    private var iframeHeightConstraint: NSLayoutConstraint? = nil
     
     private var urlLabel: UILabel = {
         let label = UILabel()
@@ -137,8 +116,6 @@ class PostCardLinkPreview: UIView {
         self.status = nil
         self.imageView.image = nil
         self.imageView.sd_cancelCurrentImageLoad()
-        self.iframeStack.isHidden = true
-        self.iframeHeightConstraint?.isActive = false
         self.onPress = nil
     }
     
@@ -156,7 +133,6 @@ private extension PostCardLinkPreview {
         self.addSubview(mainStackView)
         
 //        mainStackView.addArrangedSubview(imageStack)
-        mainStackView.addArrangedSubview(iframeStack)
         mainStackView.addArrangedSubview(textStack)
         textStack.addArrangedSubview(self.urlLabel)
         textStack.addArrangedSubview(self.titleLabel)
@@ -166,9 +142,6 @@ private extension PostCardLinkPreview {
 //        imageHeightConstraint?.priority = .defaultHigh
 //        imageHeightConstraint?.isActive = true
         
-        iframeStack.addArrangedSubview(self.iframeView)
-        iframeStack.isHidden = true
-        
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
             mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
@@ -177,9 +150,6 @@ private extension PostCardLinkPreview {
             
 //            imageStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 //            imageView.trailingAnchor.constraint(equalTo: self.imageStack.trailingAnchor),
-            
-            iframeStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            iframeView.trailingAnchor.constraint(equalTo: self.iframeStack.trailingAnchor)
         ])
         
         let urlLabelTrailing = urlLabel.trailingAnchor.constraint(equalTo: textStack.layoutMarginsGuide.trailingAnchor)
@@ -235,16 +205,6 @@ extension PostCardLinkPreview {
 //        } else {
 //            self.imageView.isHidden = true
 //        }
-        
-        if let iframe = postCard.webview {
-            let url_request = URLRequest(url: iframe.url)
-            iframeView.load(url_request)
-            let inverse_ratio = Double(iframe.height) / Double(iframe.width)
-            iframeHeightConstraint = iframeStack.heightAnchor.constraint(equalTo: iframeStack.widthAnchor, multiplier: inverse_ratio)
-            iframeHeightConstraint?.isActive = true
-            iframeStack.isHidden = false
-        }
-        
         if shouldChangeTheme {
             self.onThemeChange()
         }
