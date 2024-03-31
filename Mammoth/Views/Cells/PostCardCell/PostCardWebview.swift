@@ -147,8 +147,8 @@ private extension PostCardWebview {
         iframeView.isHidden = true
         mainStackView.addArrangedSubview(imageView)
         imageView.isHidden = true
-        imageView.addSubview(providerTag)
         imageView.addSubview(pauseIcon)
+        imageView.addSubview(providerTag)
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
