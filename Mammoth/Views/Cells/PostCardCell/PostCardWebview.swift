@@ -44,28 +44,19 @@ class PostCardWebview: UIView {
         imageView.backgroundColor = .custom.background
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    // both of these are borrowed from PostCardVideo:
-    private var pauseIcon: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitle("", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
         
+        // soft background.
+        let bg = UIView()
+        bg.backgroundColor = .custom.OVRLYSoftContrast.withAlphaComponent(0.3)
+        imageView.addSubview(bg)
+        bg.pinEdges()
+        
+        // play button.
         let iconView = BlurredBackground(dimmed: false)
         iconView.translatesAutoresizingMaskIntoConstraints = false
         iconView.layer.cornerRadius = 18
         iconView.clipsToBounds = true
-        
-        button.insertSubview(iconView, aboveSubview: button.imageView!)
-        
-        NSLayoutConstraint.activate([
-            iconView.centerXAnchor.constraint(equalTo: button.centerXAnchor),
-            iconView.centerYAnchor.constraint(equalTo: button.centerYAnchor),
-            iconView.widthAnchor.constraint(equalToConstant: 36),
-            iconView.heightAnchor.constraint(equalToConstant: 36),
-        ])
+        imageView.addSubview(iconView)
         
         let icon = UIImageView(image: FontAwesome.image(fromChar: "\u{f04b}", color: .custom.linkText, size: 16, weight: .bold).withRenderingMode(.alwaysTemplate))
         icon.translatesAutoresizingMaskIntoConstraints = false
@@ -73,36 +64,43 @@ class PostCardWebview: UIView {
         iconView.addSubview(icon)
         
         NSLayoutConstraint.activate([
-            icon.centerXAnchor.constraint(equalTo: iconView.centerXAnchor, constant: 1),
+            iconView.widthAnchor.constraint(equalToConstant: 36),
+            iconView.heightAnchor.constraint(equalToConstant: 36),
+            iconView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+            iconView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+            icon.centerXAnchor.constraint(equalTo: iconView.centerXAnchor),
             icon.centerYAnchor.constraint(equalTo: iconView.centerYAnchor)
         ])
-
-        let bg = UIView()
-        bg.backgroundColor = .custom.OVRLYSoftContrast.withAlphaComponent(0.3)
-        button.insertSubview(bg, belowSubview: button.imageView!)
-        bg.pinEdges()
         
-        return button
-
+        return imageView
     }()
-    private var providerTag: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setTitleColor(.custom.active, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
-        button.layer.cornerCurve = .continuous
-        button.layer.cornerRadius = 7
-        button.clipsToBounds = true
-        button.isHidden = true
-        button.accessibilityElementsHidden = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.contentEdgeInsets = .init(top: 3, left: 5, bottom: 2, right: 5)
-        
-        let bg = BlurredBackground(dimmed: false)
-        button.insertSubview(bg, belowSubview: button.titleLabel!)
-        bg.pinEdges()
-        
-        return button
+    
+    private var titleTag: UILabel = {
+        let tag = UILabel()
+        tag.textColor = .custom.active
+        tag.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        tag.numberOfLines = 1
+        tag.layer.cornerCurve = .continuous
+        tag.layer.cornerRadius = 7
+        tag.clipsToBounds = true
+        tag.isHidden = true
+        tag.accessibilityElementsHidden = true
+        tag.translatesAutoresizingMaskIntoConstraints = false
+        return tag
     }()
+    private var providerTag: UILabel = {
+        let tag = UILabel()
+        tag.textColor = .custom.active
+        tag.font = UIFont.systemFont(ofSize: 13, weight: .semibold)
+        tag.layer.cornerCurve = .continuous
+        tag.layer.cornerRadius = 7
+        tag.clipsToBounds = true
+        tag.isHidden = true
+        tag.accessibilityElementsHidden = true
+        tag.translatesAutoresizingMaskIntoConstraints = false
+        return tag
+    }()
+    
     
     func prepareForReuse() {
         self.status = nil
@@ -147,11 +145,27 @@ private extension PostCardWebview {
         iframeView.isHidden = true
         mainStackView.addArrangedSubview(imageView)
         imageView.isHidden = true
-        imageView.addSubview(pauseIcon)
+        
+        let bg = BlurredBackground(dimmed: false)
+        imageView.addSubview(bg)
         imageView.addSubview(providerTag)
         
+        bg.pinEdges(to: providerTag, padding: -2)
+        bg.layer.cornerCurve = .continuous
+        bg.layer.cornerRadius = 5
+        bg.clipsToBounds = true
+        
+        let bg2 = BlurredBackground(dimmed: false)
+        imageView.addSubview(bg2)
+        imageView.addSubview(titleTag)
+        
+        bg2.pinEdges(to: titleTag, padding: -2)
+        bg2.layer.cornerCurve = .continuous
+        bg2.layer.cornerRadius = 5
+        bg2.clipsToBounds = true
+        
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
+            mainStackView.topAnchor.constraint(equalTo: self.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
@@ -159,10 +173,8 @@ private extension PostCardWebview {
             providerTag.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
             providerTag.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
             
-            pauseIcon.topAnchor.constraint(equalTo: imageView.topAnchor),
-            pauseIcon.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
-            pauseIcon.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            pauseIcon.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
+            titleTag.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+            titleTag.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
             
             iframeView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
@@ -177,23 +189,27 @@ extension PostCardWebview {
         
         self.status = status
         
-        if let iframe = postCard.webview, let image = postCard.linkCard?.image, let provider = postCard.linkCard?.providerName {
+        if let iframe = postCard.webview, let linkCard = postCard.linkCard {
             let inverse_ratio = Double(iframe.height) / Double(iframe.width)
             stackHeightConstraint = mainStackView.heightAnchor.constraint(equalTo: mainStackView.widthAnchor, multiplier: inverse_ratio)
             stackHeightConstraint?.isActive = true
             
             // setup preview image.
-            imageView.sd_setImage(with: image)
+            imageView.sd_setImage(with: linkCard.image)
             imageView.isHidden = false
             
+            // setup video title.
+            titleTag.text = linkCard.title
+            titleTag.isHidden = false
+            
             // setup provider name.
-            providerTag.setTitle(provider, for: .normal)
+            providerTag.text = linkCard.providerName
             providerTag.isHidden = false
             
             // setup webview.
             let url_request = URLRequest(url: iframe.url)
             iframeView.load(url_request)
-            iframeView.isHidden = false
+            iframeView.isHidden = true
         }
     }
 }
