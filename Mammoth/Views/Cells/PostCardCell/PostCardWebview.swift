@@ -175,6 +175,7 @@ private extension PostCardWebview {
             
             titleTag.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
             titleTag.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
+            titleTag.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -5),
             
             iframeView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             imageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
