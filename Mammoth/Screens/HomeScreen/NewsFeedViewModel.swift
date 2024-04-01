@@ -143,7 +143,12 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
                 
             case .mentionsIn:
                 let (result, cursorId) = try await TimelineService.mentions(range: range)
-                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                return (result.enumerated().compactMap({
+                    guard let status = $1.status else { return nil }
+                    let postCardData = PostCardModel(status: status, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)
+                    postCardData.cursorId = $1.id
+                    return .postCard(postCardData)
+                }), cursorId: cursorId)
                 
             case .mentionsOut:
                 let (result, cursorId) = try await AccountService.mentionsSent(range: range)
@@ -339,7 +344,9 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
     
     var shouldPollForListData: Bool {
         switch self {
-        case .activity, .mentionsIn, .mentionsOut:
+        case .activity, .mentionsIn:
+            return true
+        case .mentionsOut:
             return false
         default:
             return true
@@ -363,7 +370,7 @@ class NewsFeedViewModel {
     internal var pollingFrequency: Double { //seconds
         switch self.type {
         case .mentionsIn, .activity:
-            return 10
+            return 30
         case .mentionsOut:
             return 60
         default:
@@ -423,34 +430,32 @@ class NewsFeedViewModel {
                         if let status = notification.status {
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity2"), object: self)
                             let newPost = PostCardModel(status: status)
+                            newPost.cursorId = notification.id
                             let newItem = NewsFeedListItem.postCard(newPost)
-                            
-                            self.insertUnreadIds(ids: [newItem.uniqueId()], forFeed: .mentionsIn)
-                            self.setUnreadEnabled(enabled: true, forFeed: .mentionsIn)
-                            
+                                                        
                             if !self.isItemInSnapshot(newItem) {
+                                self.setUnreadEnabled(enabled: true, forFeed: .mentionsIn)
                                 newPost.preloadQuotePost()
-                                self.insertNewest(items: [newItem], includeLoadMore: false, forType: .mentionsIn)
+                                self.insert(items: [newItem], forType: .mentionsIn)
                             }
                         }
                     } else {
                         if case .activity(let activityType) = type, notification.type == activityType {
-                            let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
-                            
-                            self.insertUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
-                            self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
+                            let activity = ActivityCardModel(notification: notification)
+                            activity.cursorId = notification.id
+                            let newItem = NewsFeedListItem.activity(activity)
                             
                             if !self.isItemInSnapshot(newItem) {
-                                self.insertNewest(items: [newItem], includeLoadMore: false, forType: .activity(activityType))
+                                self.setUnreadEnabled(enabled: true, forFeed: .activity(activityType))
+                                self.insert(items: [newItem], forType: .activity(activityType))
                             }
                         } else if case .activity(let activityType) = type, activityType == nil { // activityType == nil means All activity
-                            let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
-                            
-                            self.insertUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
-                            self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
+                            let activity = ActivityCardModel(notification: notification)
+                            let newItem = NewsFeedListItem.activity(activity)
                             
                             if !self.isItemInSnapshot(newItem) {
-                                self.insertNewest(items: [newItem], includeLoadMore: false, forType: .activity(nil))
+                                self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
+                                self.insert(items: [newItem], forType: .activity(nil))
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: self)
                             }
                         }

@@ -35,7 +35,7 @@ final class PostCardModel {
     var instanceName: String?
     
     let id: String?
-    let cursorId: String?
+    var cursorId: String?
     let uniqueId: String?
     
     let originalId: String?

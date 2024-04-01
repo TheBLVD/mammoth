@@ -109,10 +109,10 @@ struct TimelineService {
         return (result, cursorId: result.last?.id)
     }
     
-    static func mentions(range: RequestRange = .default) async throws -> ([Status], cursorId: String?) {
+    static func mentions(range: RequestRange = .default) async throws -> ([Notificationt], cursorId: String?) {
         let request = Notifications.all(range: range, typesToExclude: [.favourite, .reblog, .follow, .follow_request, .poll, .update, .status])
         let result = try await ClientService.runRequest(request: request)
-        return (result.compactMap({$0.status}), cursorId: result.last?.id)
+        return (result, cursorId: result.last?.id)
     }
     
     static func activity(range: RequestRange = .default, type: NotificationType?) async throws -> ([Notificationt], cursorId: String?) {
