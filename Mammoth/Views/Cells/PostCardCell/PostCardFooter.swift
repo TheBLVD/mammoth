@@ -262,7 +262,9 @@ extension PostFooterButton {
         if let postCard = postCard {
             switch (self.postButtonType) {
             case .more:
-                self.menu = self.createMoreMenu(postCard: postCard)
+                DispatchQueue.main.async { [weak self] in
+                    self?.menu = self?.createMoreMenu(postCard: postCard)
+                }
                 self.showsMenuAsPrimaryAction = true
             default:
                 self.showsMenuAsPrimaryAction = false

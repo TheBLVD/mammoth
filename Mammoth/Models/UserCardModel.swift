@@ -157,28 +157,7 @@ class UserCardModel {
         }
         
         if let _ = self.metaName {
-            let attributedString = NSMutableAttributedString(string: self.metaName!.string)
-            
-            let textAttributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
-                .foregroundColor: UIColor.custom.displayNames
-            ]
-
-            MetaText.setAttributes(
-                for: attributedString,
-                textAttributes: textAttributes,
-                linkAttributes: textAttributes,
-                paragraphStyle: {
-                    let style = NSMutableParagraphStyle()
-                    style.lineSpacing = 5
-                    style.paragraphSpacing = 4
-                    style.paragraphSpacingBefore = 4
-                    return style
-                }(),
-                content: self.metaName!
-            )
-            
-            self.richName = attributedString
+            self.richName = NSMutableAttributedString(string: self.metaName!.string)
         }
         
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil

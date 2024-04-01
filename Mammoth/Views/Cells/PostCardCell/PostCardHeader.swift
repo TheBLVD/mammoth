@@ -105,6 +105,14 @@ class PostCardHeader: UIView {
         label.isUserInteractionEnabled = false
         label.lineBreakMode = .byTruncatingTail
         label.textContainer.lineBreakMode = .byTruncatingTail
+        
+        label.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.displayNames
+        ]
+
+        label.linkAttributes = label.textAttributes
+        
         return label
     }()
     
@@ -350,9 +358,8 @@ extension PostCardHeader {
             let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))
             self.titleLabel.configure(content: content)
         } else {
-            if let richName = postCard?.user?.richName {
-                self.titleLabel.textStorage.setAttributedString(richName)
-                self.titleLabel.attributedText = richName
+            if let metaContent = postCard?.user?.metaName {
+                self.titleLabel.configure(content: metaContent)
             } else {
                 let text = postCard?.user?.name ?? ""
                 let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))

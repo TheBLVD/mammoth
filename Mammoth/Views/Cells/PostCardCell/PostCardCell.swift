@@ -305,6 +305,24 @@ final class PostCardCell: UITableViewCell {
         metaText.numberOfLines = 0
         metaText.textContainer.maximumNumberOfLines = 0
         metaText.textContainer.lineBreakMode = .byTruncatingTail
+        
+        metaText.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+        
+        metaText.linkAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+
+        metaText.paragraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
+            style.paragraphSpacing = 12
+            style.alignment = .natural
+            return style
+        }()
 
         return metaText
     }()
@@ -561,18 +579,18 @@ private extension PostCardCell {
         if self.cellVariant.hasMedia {
             
             if self.cellVariant.mediaVariant == .hidden {
-                contentStackView.addArrangedSubview(hiddenImageIndicator)
+                self.contentStackView.addArrangedSubview(self.hiddenImageIndicator)
             }
             
-            contentStackView.addArrangedSubview(mediaContainer)
-                        
+            self.contentStackView.addArrangedSubview(self.mediaContainer)
+            
             if UIDevice.current.userInterfaceIdiom == .phone {
-                let c = mediaContainer.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor)
+                let c = self.mediaContainer.trailingAnchor.constraint(equalTo: self.contentStackView.trailingAnchor)
                 c.isActive = true
                 self.mediaContainerConstraints = [c]
             } else {
                 // Force media container to fill the parent width - with max width for big displays
-                self.mediaContainerConstraints = mediaContainer.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 320)
+                self.mediaContainerConstraints = self.mediaContainer.addHorizontalFillConstraints(withParent: self.contentStackView, andMaxWidth: 320)
             }
             
             // Setup Image
@@ -580,13 +598,13 @@ private extension PostCardCell {
             case .small:
                 self.image = PostCardImage(variant: .thumbnail)
                 self.image!.translatesAutoresizingMaskIntoConstraints = false
-                textAndSmallMediaStackView.addArrangedSubview(self.image!)
-                imageTrailingConstraint = self.image!.widthAnchor.constraint(equalToConstant: 60)
+                self.textAndSmallMediaStackView.addArrangedSubview(self.image!)
+                self.imageTrailingConstraint = self.image!.widthAnchor.constraint(equalToConstant: 60)
             case .large:
                 self.image = PostCardImage(variant: .fullSize)
                 self.image!.translatesAutoresizingMaskIntoConstraints = false
-                mediaContainer.addArrangedSubview(self.image!)
-                imageTrailingConstraint = self.image!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+                self.mediaContainer.addArrangedSubview(self.image!)
+                self.imageTrailingConstraint = self.image!.trailingAnchor.constraint(equalTo: self.mediaContainer.trailingAnchor)
             default: break
             }
             
@@ -595,13 +613,13 @@ private extension PostCardCell {
             case .small:
                 self.video = PostCardVideo(variant: .thumbnail)
                 self.video!.translatesAutoresizingMaskIntoConstraints = false
-                textAndSmallMediaStackView.addArrangedSubview(self.video!)
-                videoTrailingConstraint = self.video!.widthAnchor.constraint(equalToConstant: 60)
+                self.textAndSmallMediaStackView.addArrangedSubview(self.video!)
+                self.videoTrailingConstraint = self.video!.widthAnchor.constraint(equalToConstant: 60)
             case .large:
                 self.video = PostCardVideo(variant: .fullSize)
                 self.video!.translatesAutoresizingMaskIntoConstraints = false
-                mediaContainer.addArrangedSubview(self.video!)
-                videoTrailingConstraint = self.video!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+                self.mediaContainer.addArrangedSubview(self.video!)
+                self.videoTrailingConstraint = self.video!.trailingAnchor.constraint(equalTo: self.mediaContainer.trailingAnchor)
             default: break
             }
             
@@ -611,35 +629,34 @@ private extension PostCardCell {
             case .small:
                 self.mediaStack = PostCardMediaStack(variant: .thumbnail)
                 self.mediaStack?.translatesAutoresizingMaskIntoConstraints = false
-                textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
-                mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
+                self.textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
+                self.mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
             case .large:
                 self.mediaGallery = PostCardMediaGallery()
                 self.mediaGallery?.translatesAutoresizingMaskIntoConstraints = false
-                mediaContainer.addArrangedSubview(self.mediaGallery!)
-                mediaGalleryTrailingConstraint = self.mediaGallery!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor)
+                self.mediaContainer.addArrangedSubview(self.mediaGallery!)
+                self.mediaGalleryTrailingConstraint = self.mediaGallery!.trailingAnchor.constraint(equalTo: self.mediaContainer.trailingAnchor)
             default: break
             }
-
+            
             // Setup Poll
             self.poll = PostCardPoll()
             self.poll?.translatesAutoresizingMaskIntoConstraints = false
-            mediaContainer.addArrangedSubview(self.poll!)
-            pollTrailingConstraint = self.poll!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
-            pollTrailingConstraint?.isActive = true
+            self.mediaContainer.addArrangedSubview(self.poll!)
+            self.pollTrailingConstraint = self.poll!.trailingAnchor.constraint(equalTo: self.mediaContainer.layoutMarginsGuide.trailingAnchor)
+            self.pollTrailingConstraint?.isActive = true
             
             // Setup Quote Post
             self.quotePost = PostCardQuotePost(mediaVariant: self.cellVariant.mediaVariant)
             self.quotePost?.translatesAutoresizingMaskIntoConstraints = false
-            mediaContainer.addArrangedSubview(self.quotePost!)
-            quotePostTrailingConstraint = self.quotePost!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
+            self.mediaContainer.addArrangedSubview(self.quotePost!)
+            self.quotePostTrailingConstraint = self.quotePost!.trailingAnchor.constraint(equalTo: self.mediaContainer.layoutMarginsGuide.trailingAnchor)
             
             // Setup Link Preview
             self.linkPreview = PostCardLinkPreview()
             self.linkPreview?.translatesAutoresizingMaskIntoConstraints = false
-            mediaContainer.addArrangedSubview(self.linkPreview!)
-            linkPreviewTrailingConstraint = self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
-            
+            self.mediaContainer.addArrangedSubview(self.linkPreview!)
+            self.linkPreviewTrailingConstraint = self.linkPreview!.trailingAnchor.constraint(equalTo: self.mediaContainer.layoutMarginsGuide.trailingAnchor)
         }
         
         contentStackView.addArrangedSubview(footer)
@@ -675,8 +692,10 @@ private extension PostCardCell {
         self.metadata = PostCardMetadata()
         self.contentStackView.insertArrangedSubview(self.metadata!, at: self.contentStackView.arrangedSubviews.firstIndex(of: self.footer) ?? 0)
         
-        setupUIFromSettings()
-        onThemeChange()
+        DispatchQueue.main.async { [weak self] in
+            self?.setupUIFromSettings()
+            self?.onThemeChange()
+        }
     }
     
     @objc func setupUIFromSettings() {
@@ -703,7 +722,10 @@ private extension PostCardCell {
         if footer.isHidden {
             contentView.layoutMargins = .init(top: 16, left: 13, bottom: 10, right: 13)
         } else {
-            contentView.layoutMargins = .init(top: 16, left: 13, bottom: 0, right: 13)
+            let newMargins = UIEdgeInsets.init(top: 16, left: 13, bottom: 0, right: 13)
+            if contentView.layoutMargins != newMargins {
+                contentView.layoutMargins = newMargins
+            }
         }
         
         self.header.setupUIFromSettings()
@@ -949,11 +971,8 @@ extension PostCardCell {
                 self.postTextView.numberOfLines = type!.numberOfLines
             }
             
-            if let postTextContent = postCard?.richPostText {
-                self.postTextView.textStorage.setAttributedString(postTextContent)
-                self.postTextView.attributedText = postTextContent
-                self.postTextView.isHidden = false
-                
+            if let postTextContent = postCard?.metaPostText, !postTextContent.original.isEmpty {
+                self.postTextView.configure(content: postTextContent)
             } else if [.small].contains(self.cellVariant.mediaVariant) {
                 // If there's no post text, but a media attachment,
                 // set the post text to either:

@@ -737,7 +737,7 @@ extension NewsFeedViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
-        self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !self.tableView.visibleCells.isEmpty
+        self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !(self.tableView.indexPathsForVisibleRows ?? []).isEmpty
         
         // scroll past the last item in feed (pull up)
         if (scrollView.contentOffset.y + self.view.safeAreaInsets.top) > max(scrollView.contentSize.height - (scrollView.bounds.height - self.view.safeAreaInsets.top - self.view.safeAreaInsets.bottom), 0) + 130 {
@@ -745,11 +745,14 @@ extension NewsFeedViewController {
         }
         
         // Fetch next again if scrolling past the last elements
-        if self.viewModel.snapshot.numberOfItems > 0, scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height - 600,
-           viewModel.shouldFetchNext(prefetchRowsAt: [IndexPath(row: viewModel.numberOfItems(forSection: .main), section: 0)]) {
-            Task { [weak self] in
-                guard let self else { return }
-                try await viewModel.loadListData(type: nil, fetchType: .nextPage)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if self.viewModel.snapshot.numberOfItems > 0, scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height - 600,
+               viewModel.shouldFetchNext(prefetchRowsAt: [IndexPath(row: viewModel.numberOfItems(forSection: .main), section: 0)]) {
+                Task { [weak self] in
+                    guard let self else { return }
+                    try await viewModel.loadListData(type: nil, fetchType: .nextPage)
+                }
             }
         }
         
