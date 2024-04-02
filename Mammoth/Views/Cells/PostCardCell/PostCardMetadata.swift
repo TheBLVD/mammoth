@@ -216,3 +216,10 @@ final class PostCardMetadata: UIView {
     }
 
 }
+
+// MARK: - Estimated height
+extension PostCardMetadata {
+    static func estimatedHeight() -> CGFloat {
+        return 23
+    }
+}

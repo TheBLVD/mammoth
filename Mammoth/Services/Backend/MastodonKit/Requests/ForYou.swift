@@ -102,7 +102,7 @@ extension Timelines {
         if case .limit(let limit) = range {
             rangeParameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
         } else {
-            rangeParameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
+            rangeParameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
         }
 
         let method = HTTPMethod.get(.parameters(rangeParameters))
@@ -126,7 +126,7 @@ extension Timelines {
          if case .limit(let limit) = range {
              rangeParameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
          } else {
-             rangeParameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
+             rangeParameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
          }
 
          parameters = parameters + rangeParameters

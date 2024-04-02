@@ -20,8 +20,8 @@ class PostCardPoll: UIView {
         stackView.spacing = 12.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
-        stackView.layer.borderWidth = 0.4
-        stackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
+        stackView.layer.borderWidth = 1.0 / UIScreen.main.scale
+        stackView.layer.borderColor = UIColor.custom.outlines.cgColor
         stackView.layer.masksToBounds = true
         stackView.layer.cornerRadius = 6
         stackView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -149,7 +149,7 @@ extension PostCardPoll {
     }
     
     func onThemeChange() {
-        self.mainStackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
+        self.mainStackView.layer.borderColor = UIColor.custom.outlines.cgColor
         
         self.optionsStackView.subviews.forEach { option in
             if let option = option as? PostCardPollOption {

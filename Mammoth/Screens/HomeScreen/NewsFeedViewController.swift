@@ -724,7 +724,7 @@ extension NewsFeedViewController {
         if viewModel.shouldFetchNext(prefetchRowsAt: indexPaths) {
             Task { [weak self] in
                 guard let self else { return }
-                try await viewModel.loadListData(type: nil, fetchType: .nextPage)
+                try await self.viewModel.loadListData(type: nil, fetchType: .nextPage)
             }
         }
 

@@ -12,9 +12,6 @@ class BlurredBackground: UIView {
     static let blurEffectDimmed = UIBlurEffect(style: .regular)
     static let blurEffect = UIBlurEffect(style: .systemUltraThinMaterial)
     
-    static let blurEffectDimmedView = UIVisualEffectView(effect: BlurredBackground.blurEffectDimmed)
-    static let blurEffectViewOriginal = UIVisualEffectView(effect: BlurredBackground.blurEffect)
-    
     private let blurEffectView: UIVisualEffectView
     
     private let underlay: UIView = {
@@ -27,9 +24,9 @@ class BlurredBackground: UIView {
     
     init(dimmed: Bool = false, underlayAlpha: CGFloat? = nil) {
         if dimmed {
-            blurEffectView = Self.blurEffectDimmedView
+            blurEffectView = UIVisualEffectView(effect: BlurredBackground.blurEffectDimmed)
         } else {
-            blurEffectView = Self.blurEffectViewOriginal
+            blurEffectView = UIVisualEffectView(effect: BlurredBackground.blurEffect)
         }
         
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false

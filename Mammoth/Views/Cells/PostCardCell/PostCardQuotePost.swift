@@ -23,9 +23,15 @@ class PostCardQuotePost: UIView {
         stackView.spacing = 4.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.backgroundColor = .custom.background
-
-        stackView.layer.borderWidth = 0.4
-        stackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
+        
+        stackView.layer.borderWidth = 1.0 / UIScreen.main.scale
+        stackView.layer.allowsEdgeAntialiasing = false
+        stackView.layer.edgeAntialiasingMask = [.layerBottomEdge, .layerTopEdge, .layerLeftEdge, .layerRightEdge]
+        stackView.layer.needsDisplayOnBoundsChange = false
+        stackView.layer.rasterizationScale = UIScreen.main.scale
+        stackView.layer.contentsScale = UIScreen.main.scale
+        
+        stackView.layer.borderColor = UIColor.custom.outlines.cgColor
         stackView.layer.masksToBounds = true
         stackView.layer.cornerRadius = 10
         stackView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -406,17 +412,17 @@ extension PostCardQuotePost {
 
             // Display poll if needed
             if quotePostCard.containsPoll {
-                self.poll!.configure(postCard: quotePostCard)
-                self.poll!.isHidden = false
+                self.poll?.configure(postCard: quotePostCard)
+                self.poll?.isHidden = false
                 pollTrailingConstraint?.isActive = true
             }
 
             // Display the link preview if needed
             if quotePostCard.hasLink {
-                self.linkPreview!.configure(postCard: quotePostCard)
-                self.linkPreview!.isHidden = false
+                self.linkPreview?.configure(postCard: quotePostCard)
+                self.linkPreview?.isHidden = false
                 linkPreviewTrailingConstraint?.isActive = true
-                self.linkPreview!.onPress = onPress
+                self.linkPreview?.onPress = onPress
             }
             
             // Display single image if needed
@@ -510,7 +516,7 @@ extension PostCardQuotePost {
         if postCard.quotePostStatus == .loading  {
             // Quote post is being loaded
             self.postLoader?.isHidden = false
-            self.postLoader!.startAnimation()
+            self.postLoader?.startAnimation()
             postLoaderTrailingConstraint?.isActive = true
             mainStackView.directionalLayoutMargins.bottom = 10
             
@@ -524,7 +530,7 @@ extension PostCardQuotePost {
     }
     
     func onThemeChange() {
-        self.mainStackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
+        self.mainStackView.layer.borderColor = UIColor.custom.outlines.cgColor
         
         self.header.onThemeChange()
         self.linkPreview?.onThemeChange()

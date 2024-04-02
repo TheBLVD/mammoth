@@ -19,7 +19,7 @@ public struct Timelines {
         if case .limit(let limit) = range {
             parameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
         } else {
-            parameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
+            parameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
         }
         
         let method = HTTPMethod.get(.parameters(parameters))
@@ -32,7 +32,7 @@ public struct Timelines {
         if case .limit(let limit) = range {
             parameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
         } else {
-            parameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
+            parameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
         }
 
         let method = HTTPMethod.get(.parameters(parameters))
@@ -45,7 +45,7 @@ public struct Timelines {
         if case .limit(let limit) = range {
             parameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
         } else {
-            parameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
+            parameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
         }
 
         let method = HTTPMethod.get(.parameters(parameters))
@@ -64,7 +64,7 @@ public struct Timelines {
         if case .limit(let limit) = range {
             rangeParameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
         } else {
-            rangeParameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
+            rangeParameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
         }
         
         let localParameter = [
@@ -88,7 +88,7 @@ public struct Timelines {
         if case .limit(let limit) = range {
             rangeParameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
         } else {
-            rangeParameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
+            rangeParameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
         }
 
         let localParameter = [Parameter(name: "local", value: local.flatMap(trueOrNil))]

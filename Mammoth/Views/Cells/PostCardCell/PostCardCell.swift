@@ -198,6 +198,8 @@ final class PostCardCell: UITableViewCell {
     
     // MARK: - Properties
     
+    static let paragraphSpacing = 12.0
+    
     // Includes the header extension and the rest of the cell
     private var wrapperStackView: UIStackView = {
         let stackView = UIStackView()
@@ -305,6 +307,8 @@ final class PostCardCell: UITableViewCell {
         metaText.numberOfLines = 0
         metaText.textContainer.maximumNumberOfLines = 0
         metaText.textContainer.lineBreakMode = .byTruncatingTail
+        
+        metaText.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
         metaText.textAttributes = [
             .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
@@ -530,6 +534,8 @@ private extension PostCardCell {
         mainStackView.addSubview(childThread)
 
         mainStackView.addArrangedSubview(profilePic)
+        profilePic.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
         mainStackView.addArrangedSubview(contentStackView)
         
         contentStackView.addArrangedSubview(header)
@@ -580,6 +586,11 @@ private extension PostCardCell {
             
             if self.cellVariant.mediaVariant == .hidden {
                 self.contentStackView.addArrangedSubview(self.hiddenImageIndicator)
+                
+                let height = ceil("1 Image".height(width: 300, font: self.hiddenImageIndicator.font))
+                NSLayoutConstraint.activate([
+                    self.hiddenImageIndicator.heightAnchor.constraint(equalToConstant: height)
+                ])
             }
             
             self.contentStackView.addArrangedSubview(self.mediaContainer)
@@ -692,13 +703,12 @@ private extension PostCardCell {
         self.metadata = PostCardMetadata()
         self.contentStackView.insertArrangedSubview(self.metadata!, at: self.contentStackView.arrangedSubviews.firstIndex(of: self.footer) ?? 0)
         
-        DispatchQueue.main.async { [weak self] in
-            self?.setupUIFromSettings()
-            self?.onThemeChange()
-        }
+        self.setupUIFromSettings()
+        self.onThemeChange()
     }
     
     @objc func setupUIFromSettings() {
+        
         deletedWarningButton.titleLabel?.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
 
         self.postTextView.textAttributes = [
@@ -714,11 +724,11 @@ private extension PostCardCell {
         self.postTextView.paragraphStyle = {
             let style = NSMutableParagraphStyle()
             style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
-            style.paragraphSpacing = 12
+            style.paragraphSpacing = PostCardCell.paragraphSpacing
             style.alignment = .natural
             return style
         }()
-        
+
         if footer.isHidden {
             contentView.layoutMargins = .init(top: 16, left: 13, bottom: 10, right: 13)
         } else {
@@ -733,6 +743,97 @@ private extension PostCardCell {
         self.quotePost?.setupUIFromSettings()
         self.headerExtension?.setupUIFromSettings()
         self.metadata?.setupUIFromSettings()
+    }
+}
+
+// MARK: - Estimated height
+extension PostCardCell {
+    static func estimatedHeight(width: CGFloat, postCard: PostCardModel, cellType: PostCardCell.PostCardCellType) -> CGFloat {
+        
+        let variant = PostCardCell.PostCardVariant.cellVariant(for: postCard, cellType: cellType)
+        let contentMarginTop = 13.0
+        let contentMarginBottom = 0.0
+        let contentMarginLeft = 13.0
+        let contentMarginRight = 13.0
+        let contentColumnSpacing = 12.0
+        let contentSpacing = 2.0
+        
+        var linkBoxHeight = 0.0
+        
+        var height = contentMarginTop
+        let contentWidth = width - PostCardProfilePic.ProfilePicSize.regular.width() - contentMarginLeft - contentMarginRight - contentColumnSpacing
+        
+        let textWidth: CGFloat = {
+            if let variant, variant.hasMedia, variant.mediaVariant == .small {
+                let thumbnailSize = 60.0
+                return contentWidth - thumbnailSize - 12.0
+            }
+            
+            return contentWidth
+        }()
+        
+        var textHeight = 0.0
+        
+        if let variant, variant.hasText {
+            let contentFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+            let maxHeight = contentFont.lineHeight * Double(cellType.numberOfLines == 0 ? 100 : cellType.numberOfLines)
+            let minHeight = variant.mediaVariant == .small ? 60.0 : 0.0
+            textHeight = max(ceil(postCard.richPostText?.string.height(width: textWidth, font: contentFont, maxHeight: maxHeight) ?? 0.0), minHeight)
+            
+            let numberOfParagraphs = postCard.postText.string.numberOfParagraphs()
+            if numberOfParagraphs > 1 {
+                if cellType.numberOfLines == 0 {
+                    for _ in 1...numberOfParagraphs-1 {
+                        textHeight += PostCardCell.paragraphSpacing
+                    }
+                } else {
+                    // if text is trimmed and we find > 1 <p> tag, assume there are 2 paragraphs visible
+                    textHeight += PostCardCell.paragraphSpacing
+                }
+            }
+            
+            height += textHeight
+        }
+        
+        if postCard.hasLink {
+            height += PostCardLinkPreview.estimatedHeight(width: contentWidth, postCard: postCard)
+            height += contentSpacing
+            height += 12
+            
+            linkBoxHeight += PostCardLinkPreview.estimatedHeight(width: contentWidth, postCard: postCard)
+        }
+        
+        if let variant, variant.hasMedia {
+            if variant.mediaVariant == .large {
+                height += 12
+            } else if variant.mediaVariant == .small {
+                if variant.hasText {
+                    height += 14
+                } else {
+                    height += 4
+                }
+            } else if variant.mediaVariant == .hidden {
+                if cellType != .detail && postCard.hasMediaAttachment && !postCard.mediaAttachmentDescription.isEmpty {
+                    let hiddenMediaIndicatorHeight = ceil("1 Image".height(width: 300, font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)))
+                    height += hiddenMediaIndicatorHeight
+                }
+            }
+        }
+        
+        if postCard.isReblogged {
+            height += PostCardHeaderExtension.estimatedHeight()
+            height += 8
+        }
+        
+        height += PostCardHeader.estimatedHeight()
+        height += contentSpacing
+        height += PostCardMetadata.estimatedHeight()
+        height += contentSpacing
+        height += PostCardFooter.estimatedHeight()
+        height += contentMarginBottom
+        height += 1
+
+        return height
     }
 }
 
@@ -973,6 +1074,7 @@ extension PostCardCell {
             
             if let postTextContent = postCard?.metaPostText, !postTextContent.original.isEmpty {
                 self.postTextView.configure(content: postTextContent)
+                self.postCard?.richPostText = self.postTextView.attributedText
             } else if [.small].contains(self.cellVariant.mediaVariant) {
                 // If there's no post text, but a media attachment,
                 // set the post text to either:

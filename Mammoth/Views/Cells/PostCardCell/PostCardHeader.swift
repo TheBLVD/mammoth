@@ -244,6 +244,13 @@ private extension PostCardHeader {
     }
 }
 
+// MARK: - Estimated height
+extension PostCardHeader {
+    static func estimatedHeight() -> CGFloat {
+        return 24
+    }
+}
+
 // MARK: - Configuration
 extension PostCardHeader {
     func configure(postCard: PostCardModel, headerType: PostCardHeaderTypes = .regular, isVerticallyCentered: Bool = false) {
