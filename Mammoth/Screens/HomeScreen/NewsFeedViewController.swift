@@ -852,6 +852,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                            onCompleted: (() -> Void)?) {
         guard !self.switchingAccounts && !self.disableFeedUpdates else { return }
         
+        let shouldFreezeAnimations = (self.isInWindowHierarchy() || updateType == .hydrate)
         let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || (self.isInWindowHierarchy() || updateType == .hydrate)
         
         guard ((!self.tableView.isTracking && !self.tableView.isDecelerating) || updateType == .removeAll),
@@ -877,14 +878,14 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
-            if updateDisplay && self.viewModel.dataSource != nil {
+            if shouldFreezeAnimations && self.viewModel.dataSource != nil {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
             
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
                 guard let self else {
-                    if updateDisplay {
+                    if shouldFreezeAnimations {
                         CATransaction.commit()
                     }
                     return
@@ -904,7 +905,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                         self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                     }
                     
-                    if updateDisplay {
+                    if shouldFreezeAnimations {
                         CATransaction.commit()
                     }
                     
@@ -913,7 +914,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                 
                 // This extra commit is needed when updating with .replaceAll (triggered by refresh snapshot)
                 // Without it the UI feezes.
-                if updateType == .replaceAll && updateDisplay {
+                if updateType == .replaceAll && shouldFreezeAnimations {
                     CATransaction.commit()
                 }
             }
@@ -931,7 +932,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
-            if updateDisplay {
+            if shouldFreezeAnimations {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
@@ -951,7 +952,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                 }
                 
-                if updateDisplay {
+                if shouldFreezeAnimations {
                     CATransaction.commit()
                     UIView.setAnimationsEnabled(false)
                 }
@@ -962,7 +963,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                         self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                     }
                     
-                    if updateDisplay {
+                    if shouldFreezeAnimations {
                         UIView.setAnimationsEnabled(true)
                     }
                 }
@@ -1012,14 +1013,14 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
-            if updateDisplay {
+            if shouldFreezeAnimations {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
 
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
                guard let self else {
-                   if updateDisplay {
+                   if shouldFreezeAnimations {
                        CATransaction.commit()
                    }
                    return
@@ -1031,7 +1032,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                    self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                }
                
-                if updateDisplay {
+                if shouldFreezeAnimations {
                     CATransaction.commit()
                 }
                onCompleted?()
