@@ -2856,12 +2856,12 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         // Compose the string
         if postPieces.count == 1 {
             // Show the # of characters used
-            self.postCharacterCount = self.postCharacterCount2 - postPieces[0].count - contentWarning.count
+            self.postCharacterCount = self.postCharacterCount2 - countWithURL(postPieces[0]) - contentWarning.count
             self.navigationItem.title = "\(postCharacterCount)"
             self.navigationItem.accessibilityLabel = String.localizedStringWithFormat(NSLocalizedString("composer.characterCount", comment: ""), postCharacterCount)
         } else {
             // Show the current number of posts, and the character space *remaining*
-            self.postCharacterCount = self.postCharacterCount2 - postPieces.last!.count
+            self.postCharacterCount = self.postCharacterCount2 - countWithURL(postPieces.last!)
             
             self.navigationItem.title = String.localizedStringWithFormat(NSLocalizedString("composer.characterCount.thread", comment: ""), postPieces.count, postCharacterCount)
             self.navigationItem.accessibilityLabel = String.localizedStringWithFormat(NSLocalizedString("composer.characterCount.thread.description", comment: ""), postPieces.count, postCharacterCount)
@@ -3656,6 +3656,15 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
 #endif
     }
     
+    private func countWithURL(_ postText: String) -> Int {
+        // for mastodon. urls always have 23 characters
+        // content warnings don't have the url rule.
+        let regex = try! NSRegularExpression(pattern: "https?://[^ ]+\\.[^ ][^ ]+", options: .caseInsensitive)
+        let range = NSMakeRange(0, postText.count)
+        // replace with 23 characters.
+        return regex.stringByReplacingMatches(in: postText, options: [], range: range, withTemplate: ".......................").count
+    }
+    
     func postThread(_ postText: String, contentWarning: String) {
         let postPieces = self.postPiecesFromPost(postText, contentWarning: contentWarning)
         
@@ -3677,7 +3686,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         // If threader mode, but text is short, return one item
-        if self.threadingAllowed() && self.postCharacterCount2 > postText.count + contentWarning.count {
+        if self.threadingAllowed() && self.postCharacterCount2 > countWithURL(postText) + contentWarning.count {
             return [postText]
         }
         
@@ -3687,33 +3696,37 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         
         // Split the post into various pieces
         var postPieces: [String] = []
-        var remainingPostText = postText
-        repeat {
-            // Initial split location...
-            var splitLocation = numUserCharsPerPost
-            // The first post should also take the contentWarning text into account
-            if postPieces.count == 0 {
-                splitLocation -= contentWarning.count
+        var currentPiece: String = ""
+        var pieceSize: Int = 0
+        // separate post per word.
+        let allWords = postText.split(separator: " ", omittingEmptySubsequences: false)
+        for word in allWords {
+            let regex = try! NSRegularExpression(pattern: "https?://[^ ]+\\.[^ ][^ ]+", options: .caseInsensitive)
+            let wordSize: Int
+            
+            // links are always 23 characters
+            if regex.firstMatch(in: String(word), range: NSMakeRange(0, word.count)) != nil {
+                // account for space
+                wordSize = 23 + 1
+            } else {
+                // account for space
+                wordSize = word.count + 1
             }
-            var thisPiece = "\(remainingPostText.prefix(splitLocation))"
-            // If not the last piece, walk back looking for a " " to break at...
-            if thisPiece.count != remainingPostText.count {
-                while thisPiece.last != " " {
-                    splitLocation -= 1
-                    thisPiece = "\(remainingPostText.prefix(splitLocation))"
-                }
+            
+            // if this word makes the post too big!
+            if pieceSize + wordSize > numUserCharsPerPost {
+                postPieces.append(currentPiece)
+                currentPiece = String(word) + " "
+                pieceSize = wordSize + 1
             }
-            // Break off this part of the post...
-            remainingPostText = String(remainingPostText.suffix(remainingPostText.count - thisPiece.count))
-            postPieces.append(thisPiece)
-        } while remainingPostText.count > 0
-        
-        // Remove any trailing spaces from each piece
-        for index in 0..<postPieces.count {
-            while postPieces[index].last == " " {
-                postPieces[index] = "\(postPieces[index].prefix(postPieces[index].count-1))"
+            // if not!!!
+            else {
+                currentPiece += word + " "
+                pieceSize += wordSize
             }
         }
+        // append our final part
+        postPieces.append(currentPiece)
         
         // Append footer to each thread piece
         for index in 0..<postPieces.count {
