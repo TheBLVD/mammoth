@@ -22447,8 +22447,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Sembra che l'accesso alla Fotocamera non sia consentito. Consenti l'accesso in Impostazioni per usare questa funzione."
           }
         },
         "ja": {
@@ -23372,8 +23372,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Impossibile fissare post"
           }
         },
         "ja": {
@@ -23742,8 +23742,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "I sondaggi non possono essere aggiunti a post che contengono media."
           }
         },
         "ja": {
@@ -30957,8 +30957,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Continua"
           }
         },
         "ja": {
@@ -32992,8 +32992,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Ops!"
           }
         },
         "ja": {
@@ -41132,8 +41132,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Tieni a mente che modificare un sondaggio resetterà gli attuali voti."
           }
         },
         "ja": {
@@ -42242,8 +42242,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Eliminare questo post?"
           }
         },
         "ja": {
@@ -60557,8 +60557,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Tutte le lingue"
           }
         },
         "ja": {
@@ -60742,8 +60742,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Lingue preferite"
           }
         },
         "ja": {
@@ -76282,8 +76282,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Lingua traduzione"
           }
         },
         "ja": {
@@ -80907,8 +80907,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Ripubblicato da %@"
           }
         },
         "ja": {
