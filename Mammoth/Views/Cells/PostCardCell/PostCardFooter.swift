@@ -75,6 +75,13 @@ private extension PostCardFooter {
     }
 }
 
+// MARK: - Estimated height
+extension PostCardFooter {
+    static func estimatedHeight() -> CGFloat {
+        return 43
+    }
+}
+
 // MARK: - Configuration
 extension PostCardFooter {
     func configure(postCard: PostCardModel, includeMetrics: Bool = true) {
@@ -211,7 +218,7 @@ fileprivate class PostFooterButton: UIButton {
             container.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
             container.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
             container.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
-            container.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
+            container.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor)
         ])
         
         icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons,
@@ -221,6 +228,10 @@ fileprivate class PostFooterButton: UIButton {
         icon.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         container.addArrangedSubview(icon)
+        
+        NSLayoutConstraint.activate([
+            icon.heightAnchor.constraint(equalToConstant: 36)
+        ])
     }
 }
 
@@ -258,7 +269,9 @@ extension PostFooterButton {
         if let postCard = postCard {
             switch (self.postButtonType) {
             case .more:
-                self.menu = self.createMoreMenu(postCard: postCard)
+                DispatchQueue.main.async { [weak self] in
+                    self?.menu = self?.createMoreMenu(postCard: postCard)
+                }
                 self.showsMenuAsPrimaryAction = true
             default:
                 self.showsMenuAsPrimaryAction = false

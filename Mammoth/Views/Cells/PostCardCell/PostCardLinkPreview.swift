@@ -14,6 +14,7 @@ import UnifiedBlurHash
 class PostCardLinkPreview: UIView {
     
     static private let largeImageHeight = 220.0
+    static private let layoutMargins = UIEdgeInsets(top: 8, left: 10, bottom: 10, right: 10)
     
     // MARK: - Properties
     private var mainStackView: UIStackView = {
@@ -25,8 +26,14 @@ class PostCardLinkPreview: UIView {
         stackView.spacing = 0.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
-        stackView.layer.borderWidth = 0.4
-        stackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
+        stackView.layer.borderWidth = 1.0 / UIScreen.main.scale
+        stackView.layer.allowsEdgeAntialiasing = false
+        stackView.layer.edgeAntialiasingMask = [.layerBottomEdge, .layerTopEdge, .layerLeftEdge, .layerRightEdge]
+        stackView.layer.needsDisplayOnBoundsChange = false
+        stackView.layer.rasterizationScale = UIScreen.main.scale
+        stackView.layer.contentsScale = UIScreen.main.scale
+        
+        stackView.layer.borderColor = UIColor.custom.outlines.cgColor
         stackView.layer.masksToBounds = true
         stackView.layer.cornerRadius = 6
         
@@ -52,7 +59,7 @@ class PostCardLinkPreview: UIView {
         stackView.alignment = .top
         stackView.distribution = .fill
         stackView.spacing = 0.0
-        stackView.layoutMargins = UIEdgeInsets(top: 8, left: 10, bottom: 10, right: 10)
+        stackView.layoutMargins = PostCardLinkPreview.layoutMargins
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.setContentHuggingPriority(.defaultLow, for: .horizontal)
         return stackView
@@ -78,6 +85,7 @@ class PostCardLinkPreview: UIView {
         label.isOpaque = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
@@ -89,6 +97,7 @@ class PostCardLinkPreview: UIView {
         label.isOpaque = true
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         return label
     }()
     
@@ -166,6 +175,25 @@ private extension PostCardLinkPreview {
     }
 }
 
+// MARK: - Estimated height
+extension PostCardLinkPreview {
+    static func estimatedHeight(width: CGFloat, postCard: PostCardModel) -> CGFloat {
+        
+        let marginTop = 9.0
+        let urlFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        let titleFont = UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold)
+        
+        var height: CGFloat = marginTop
+        height += PostCardLinkPreview.layoutMargins.top
+        height += PostCardLinkPreview.layoutMargins.bottom
+        
+        height += ceil(postCard.formattedCardUrlStr?.height(width: width, font: urlFont) ?? postCard.linkCard?.url?.height(width: width, font: urlFont) ?? 0.0)
+        height += ceil(postCard.linkCard?.title.height(width: width, font: titleFont) ?? 0.0)
+        
+        return height
+    }
+}
+
 // MARK: - Configuration
 extension PostCardLinkPreview {
     func configure(postCard: PostCardModel) {
@@ -187,10 +215,10 @@ extension PostCardLinkPreview {
         
         // Display the link image if needed
         if !postCard.hideLinkImage, let imageURL = postCard.linkCard?.image {
-            var placeholder: UIImage?
-            if let blurhash = postCard.linkCard?.blurhash {
-                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
-            }
+            var placeholder: UIImage? = nil
+//            if let blurhash = postCard.linkCard?.blurhash {
+//                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+//            }
             self.imageView.ma_setImage(with: imageURL,
                                        cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
                                        placeholder: placeholder,
@@ -211,7 +239,7 @@ extension PostCardLinkPreview {
     }
     
     func onThemeChange() {
-        self.mainStackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
+        self.mainStackView.layer.borderColor = UIColor.custom.outlines.cgColor
         self.urlLabel.textColor = .custom.feintContrast
         let backgroundColor: UIColor = self.isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
         self.urlLabel.backgroundColor = backgroundColor

@@ -145,6 +145,7 @@
 		14C45DEF2B1A4266000171A9 /* Pride@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEC2B1A4266000171A9 /* Pride@3x.png */; };
 		14C45DF02B1A4266000171A9 /* Pride.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DED2B1A4266000171A9 /* Pride.png */; };
 		14C45DF12B1A4266000171A9 /* Pride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEE2B1A4266000171A9 /* Pride@2x.png */; };
+		14D7B7F12BBC1035001EA481 /* String+Height.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D7B7F02BBC1035001EA481 /* String+Height.swift */; };
 		14DA3C542B8CCA66007ECB0C /* JumpToLatest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DA3C532B8CCA66007ECB0C /* JumpToLatest.swift */; };
 		14DA3C5E2B91EB2E007ECB0C /* IntroViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14DA3C602B91EB2E007ECB0C /* IntroViewController.xib */; };
 		14DA3C622B91EB33007ECB0C /* SignUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14DA3C642B91EB33007ECB0C /* SignUpView.xib */; };
@@ -967,6 +968,7 @@
 		14C45DEC2B1A4266000171A9 /* Pride@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@3x.png"; sourceTree = "<group>"; };
 		14C45DED2B1A4266000171A9 /* Pride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pride.png; sourceTree = "<group>"; };
 		14C45DEE2B1A4266000171A9 /* Pride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@2x.png"; sourceTree = "<group>"; };
+		14D7B7F02BBC1035001EA481 /* String+Height.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Height.swift"; sourceTree = "<group>"; };
 		14DA3C532B8CCA66007ECB0C /* JumpToLatest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpToLatest.swift; sourceTree = "<group>"; };
 		14DA3C5F2B91EB2E007ECB0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/IntroViewController.xib; sourceTree = "<group>"; };
 		14DA3C612B91EB2E007ECB0C /* mul */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = mul; path = mul.lproj/IntroViewController.xcstrings; sourceTree = "<group>"; };
@@ -3075,32 +3077,33 @@
 		C3D3C47B2A335D4E007B31EE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				66D091E42A53623F00291B8D /* ViewController */,
-				66D091EC2A5362B300291B8D /* View */,
-				66D091E72A53625F00291B8D /* Layout */,
-				533994FA2914227800560F83 /* Date.swift */,
-				BF0DC4BC2A2039770072C1DA /* UIImage+Utils.swift */,
-				C3D3C47C2A335D69007B31EE /* UIView+Constraints.swift */,
-				C3C22E732A39B79C00C7CB0A /* UITableView+HeaderView.swift */,
-				BF6055812B18F2C000171180 /* UITableView+SafeScrollToRow.swift */,
-				88B9D50B29E9EB9400A7B1BC /* BundleExtension.swift */,
 				53399A8029180FC800560F83 /* AccountExtension.swift */,
-				533995622914227900560F83 /* Disk */,
-				C3F3B0262A4C41A2008FC4B7 /* Task+Sleep.swift */,
-				C37635792A545A7C0008DD21 /* UIControl+AddAction.swift */,
-				C3C7ED272A5D61B70039FB4D /* String+Filename.swift */,
-				C3C7ED232A5C14CB0039FB4D /* NumberFormatter+kNotation.swift */,
+				C3EE65A12AD564C3009489EE /* Array+Diff.swift */,
 				C37E6D442A657E360038B5F6 /* Array+Duplicates.swift */,
+				BFBD97AB2B44ECDA00A0645B /* Bundle+decode.swift */,
+				88B9D50B29E9EB9400A7B1BC /* BundleExtension.swift */,
+				533994FA2914227800560F83 /* Date.swift */,
+				C3C7ED232A5C14CB0039FB4D /* NumberFormatter+kNotation.swift */,
+				BF8598A32AF5634900E2BA8D /* ProcessID.swift */,
 				C37E6D422A6559C30038B5F6 /* Sequence+Async.swift */,
 				C3BBEEEA2A98B6870027C761 /* StatusBar+Height.swift */,
-				C3EE65A12AD564C3009489EE /* Array+Diff.swift */,
+				C3C7ED272A5D61B70039FB4D /* String+Filename.swift */,
+				14D7B7F02BBC1035001EA481 /* String+Height.swift */,
 				14BE1A4F2AEFDAB700C13189 /* String+Image.swift */,
-				BF8598A32AF5634900E2BA8D /* ProcessID.swift */,
-				144DC6C82B14E26200F4EE98 /* UIColor+Gradient.swift */,
-				1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */,
-				BFBD97AB2B44ECDA00A0645B /* Bundle+decode.swift */,
 				146C6A462B48113500A002D7 /* String+StripEmojis.swift */,
+				C3F3B0262A4C41A2008FC4B7 /* Task+Sleep.swift */,
+				144DC6C82B14E26200F4EE98 /* UIColor+Gradient.swift */,
+				C37635792A545A7C0008DD21 /* UIControl+AddAction.swift */,
+				BF0DC4BC2A2039770072C1DA /* UIImage+Utils.swift */,
+				1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */,
 				14E4CAC42B76428200E4D499 /* UILabel+IsTruncated.swift */,
+				C3C22E732A39B79C00C7CB0A /* UITableView+HeaderView.swift */,
+				BF6055812B18F2C000171180 /* UITableView+SafeScrollToRow.swift */,
+				C3D3C47C2A335D69007B31EE /* UIView+Constraints.swift */,
+				533995622914227900560F83 /* Disk */,
+				66D091E72A53625F00291B8D /* Layout */,
+				66D091EC2A5362B300291B8D /* View */,
+				66D091E42A53623F00291B8D /* ViewController */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3899,6 +3902,7 @@
 				BFDCBD1C2A9D689700606234 /* Channel.swift in Sources */,
 				53399A39291526B900560F83 /* CharacterSet.swift in Sources */,
 				C3D3C47A2A30DEB3007B31EE /* PostCardHeader.swift in Sources */,
+				14D7B7F12BBC1035001EA481 /* String+Height.swift in Sources */,
 				BFA71B532AB23547001D1EC1 /* InstanceCell.swift in Sources */,
 				BF7F47012AD4AA32000977EB /* SetupAccountsViewModel.swift in Sources */,
 				C3B693C52A3878AA00E85927 /* ProfileSectionHeader.swift in Sources */,
@@ -4456,7 +4460,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 441;
+				CURRENT_PROJECT_VERSION = 444;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
@@ -4504,7 +4508,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 441;
+				CURRENT_PROJECT_VERSION = 444;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;

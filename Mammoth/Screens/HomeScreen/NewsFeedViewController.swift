@@ -653,18 +653,14 @@ extension NewsFeedViewController {
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if let item = self.viewModel.getItemForIndexPath(indexPath) {
             if case .postCard(let postCardModel) = item {
-                return postCardModel.cellHeight ?? 310
+                return postCardModel.cellHeight ?? UITableView.automaticDimension
             }
         }
         
-        return 310
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -728,7 +724,7 @@ extension NewsFeedViewController {
         if viewModel.shouldFetchNext(prefetchRowsAt: indexPaths) {
             Task { [weak self] in
                 guard let self else { return }
-                try await viewModel.loadListData(type: nil, fetchType: .nextPage)
+                try await self.viewModel.loadListData(type: nil, fetchType: .nextPage)
             }
         }
 
@@ -741,7 +737,7 @@ extension NewsFeedViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
-        self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !self.tableView.visibleCells.isEmpty
+        self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !(self.tableView.indexPathsForVisibleRows ?? []).isEmpty
         
         // scroll past the last item in feed (pull up)
         if (scrollView.contentOffset.y + self.view.safeAreaInsets.top) > max(scrollView.contentSize.height - (scrollView.bounds.height - self.view.safeAreaInsets.top - self.view.safeAreaInsets.bottom), 0) + 130 {
@@ -749,11 +745,14 @@ extension NewsFeedViewController {
         }
         
         // Fetch next again if scrolling past the last elements
-        if self.viewModel.snapshot.numberOfItems > 0, scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height - 600,
-           viewModel.shouldFetchNext(prefetchRowsAt: [IndexPath(row: viewModel.numberOfItems(forSection: .main), section: 0)]) {
-            Task { [weak self] in
-                guard let self else { return }
-                try await viewModel.loadListData(type: nil, fetchType: .nextPage)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if self.viewModel.snapshot.numberOfItems > 0, scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height - 600,
+               viewModel.shouldFetchNext(prefetchRowsAt: [IndexPath(row: viewModel.numberOfItems(forSection: .main), section: 0)]) {
+                Task { [weak self] in
+                    guard let self else { return }
+                    try await viewModel.loadListData(type: nil, fetchType: .nextPage)
+                }
             }
         }
         
@@ -853,6 +852,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                            onCompleted: (() -> Void)?) {
         guard !self.switchingAccounts && !self.disableFeedUpdates else { return }
         
+        let shouldFreezeAnimations = (self.isInWindowHierarchy() || updateType == .hydrate)
         let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || (self.isInWindowHierarchy() || updateType == .hydrate)
         
         guard ((!self.tableView.isTracking && !self.tableView.isDecelerating) || updateType == .removeAll),
@@ -878,14 +878,14 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
-            if updateDisplay && self.viewModel.dataSource != nil {
+            if shouldFreezeAnimations && self.viewModel.dataSource != nil {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
             
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
                 guard let self else {
-                    if updateDisplay {
+                    if shouldFreezeAnimations {
                         CATransaction.commit()
                     }
                     return
@@ -905,7 +905,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                         self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                     }
                     
-                    if updateDisplay {
+                    if shouldFreezeAnimations {
                         CATransaction.commit()
                     }
                     
@@ -914,7 +914,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                 
                 // This extra commit is needed when updating with .replaceAll (triggered by refresh snapshot)
                 // Without it the UI feezes.
-                if updateType == .replaceAll && updateDisplay {
+                if updateType == .replaceAll && shouldFreezeAnimations {
                     CATransaction.commit()
                 }
             }
@@ -932,7 +932,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
-            if updateDisplay {
+            if shouldFreezeAnimations {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
@@ -952,7 +952,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                 }
                 
-                if updateDisplay {
+                if shouldFreezeAnimations {
                     CATransaction.commit()
                     UIView.setAnimationsEnabled(false)
                 }
@@ -963,7 +963,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                         self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                     }
                     
-                    if updateDisplay {
+                    if shouldFreezeAnimations {
                         UIView.setAnimationsEnabled(true)
                     }
                 }
@@ -1013,14 +1013,14 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
-            if updateDisplay {
+            if shouldFreezeAnimations {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
 
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
                guard let self else {
-                   if updateDisplay {
+                   if shouldFreezeAnimations {
                        CATransaction.commit()
                    }
                    return
@@ -1032,7 +1032,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                    self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                }
                
-                if updateDisplay {
+                if shouldFreezeAnimations {
                     CATransaction.commit()
                 }
                onCompleted?()
@@ -1265,29 +1265,51 @@ private extension NewsFeedViewController {
 // MARK: - Jump to newest
 extension NewsFeedViewController: JumpToNewest {
     func jumpToNewest() {
-        self.viewModel.stopPollingListData()
-        self.viewModel.cancelAllItemSyncs()
-        self.deferredSnapshotUpdatesCallbacks = []
-        
-        self.isScrollingProgrammatically = true
-        
-        self.viewModel.clearSnapshot()
-        self.disableFeedUpdates = true
-        self.showLoader(enabled: true)
-        
-        self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
-        self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-        self.didUpdateUnreadState(type: self.viewModel.type)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            guard let self else { return }
-                        
-            Task { [weak self] in
+        if !self.viewModel.pollingReachedTop && (self.displayingIndexPath?.row ?? 0) < 100 {
+            
+            self.viewModel.stopPollingListData()
+            self.viewModel.cancelAllItemSyncs()
+            self.deferredSnapshotUpdatesCallbacks = []
+            
+            self.isScrollingProgrammatically = true
+            
+            self.viewModel.clearSnapshot()
+            self.disableFeedUpdates = true
+            self.showLoader(enabled: true)
+            
+            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+            self.didUpdateUnreadState(type: self.viewModel.type)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 guard let self else { return }
-                try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
+                
+                Task { [weak self] in
+                    guard let self else { return }
+                    try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
+                }
+                
+                self.disableFeedUpdates = false
             }
+        } else {
+            
+            self.viewModel.stopPollingListData()
+            self.viewModel.cancelAllItemSyncs()
+            self.deferredSnapshotUpdatesCallbacks = []
+            
+            self.isScrollingProgrammatically = true
+
+            self.disableFeedUpdates = true
+            
+            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+            self.didUpdateUnreadState(type: self.viewModel.type)
+            
+            self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
             
             self.disableFeedUpdates = false
+            
+            self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
         }
     }
 }

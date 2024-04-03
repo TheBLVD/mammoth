@@ -11,6 +11,7 @@ import SDWebImage
 import Kingfisher
 import Meta
 import MastodonMeta
+import MetaTextKit
 
 class UserCardModel {
     let id: String
@@ -80,7 +81,6 @@ class UserCardModel {
         self.isFollowing = isFollowing
         self.account = account
         
-        self.richName = NSAttributedString(string: self.name)
         
         var emojisDic: MastodonContent.Emojis = [:]
         self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
@@ -88,6 +88,25 @@ class UserCardModel {
             self.metaName = try MastodonMetaContent.convert(document: MastodonContent(content: self.name, emojis: emojisDic))
         } catch {
             self.metaName = MastodonMetaContent.convert(text: MastodonContent(content: self.name, emojis: emojisDic))
+        }
+        
+        if let _ = self.metaName {
+            let attributedString = NSMutableAttributedString(string: self.metaName!.string)
+            
+            let textAttributes: [NSAttributedString.Key: Any] = [
+                .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+                .foregroundColor: UIColor.custom.displayNames
+            ]
+
+            MetaText.setAttributes(
+                for: attributedString,
+                textAttributes: textAttributes,
+                linkAttributes: textAttributes,
+                paragraphStyle: MetaText().paragraphStyle,
+                content: self.metaName!
+            )
+            
+            self.richName = attributedString
         }
         
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil
@@ -127,9 +146,7 @@ class UserCardModel {
         self.isFollowing = isFollowing
         self.emojis = account.emojis
         self.account = account
-        
-        self.richName = NSAttributedString(string: self.name)
-        
+                
         var emojisDic: MastodonContent.Emojis = [:]
         self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
         
@@ -137,6 +154,10 @@ class UserCardModel {
             self.metaName = try MastodonMetaContent.convert(document: MastodonContent(content: self.name, emojis: emojisDic))
         } catch {
             self.metaName = MastodonMetaContent.convert(text: MastodonContent(content: self.name, emojis: emojisDic))
+        }
+        
+        if let _ = self.metaName {
+            self.richName = NSMutableAttributedString(string: self.metaName!.string)
         }
         
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil

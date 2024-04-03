@@ -102,7 +102,7 @@ final class PostCardImage: UIView {
             c1.priority = .defaultHigh
 
             let c2 = imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60)
-            c2.priority = .required
+            c2.priority = .defaultHigh
             
             return [c1, c2]
         }
@@ -247,12 +247,11 @@ final class PostCardImage: UIView {
         if let media = image {
             if let previewURL = media.previewURL, let imageURL = URL(string: previewURL) {
                 var placeholder: UIImage?
-                if let blurhash = media.blurhash {
-                    let blurWidth = media.meta?.small?.width ?? 64
-                    let blurHeight = media.meta?.small?.height ?? 64
-                    placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 64, height: 64))?
-                        .resized(to: .init(width: blurWidth, height: blurHeight))
-                }
+//                if let blurhash = media.blurhash {
+//                    let blurWidth = media.meta?.small?.width ?? 64
+//                    let blurHeight = media.meta?.small?.height ?? 64
+//                    placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+//                }
                 let decodedImage = (media.previewURL != nil) ? postCard.decodedImages[media.previewURL!] as? UIImage : nil
                 self.imageView.ma_setImage(with: imageURL,
                                            cachedImage: decodedImage,
@@ -382,8 +381,7 @@ final class PostCardImage: UIView {
                 if let blurhash = attachment.blurhash, imageFromCache == nil, let currentMedia = self.media, attachment.url != currentMedia.url {
                     let blurWidth = attachment.meta?.small?.width ?? 64
                     let blurHeight = attachment.meta?.small?.height ?? 64
-                    blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: 64, height: 64))?
-                        .resized(to: .init(width: blurWidth, height: blurHeight))
+                    blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
                 }
                 photo.underlyingImage = imageFromCache ?? previewFromCache ?? blurImage
                 return photo

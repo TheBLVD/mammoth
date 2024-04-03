@@ -12,6 +12,7 @@ import Kingfisher
 import AVFoundation
 import Meta
 import MastodonMeta
+import MetaTextKit
 
 final class PostCardModel {
     
@@ -338,7 +339,46 @@ final class PostCardModel {
             self.metaPostText = MastodonMetaContent.convert(text: content)
         }
         
+//        self.richPostText = NSMutableAttributedString(string: self.metaPostText?.string ?? self.postText)
+        
+        let textAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular),
+            .foregroundColor: UIColor.custom.mediumContrast,
+        ]
+        
+        let linkAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.highContrast,
+        ]
+
+        let paragraphStyle: NSMutableParagraphStyle = {
+            let style = NSMutableParagraphStyle()
+            style.lineSpacing = DeviceHelpers.isiOSAppOnMac() ? 1 : 0
+            style.paragraphSpacing = 12
+            style.alignment = .natural
+            return style
+        }()
+        
         self.richPostText = NSMutableAttributedString(string: self.metaPostText?.string ?? self.postText)
+
+        if let _ = self.richPostText, let _ = self.metaPostText {
+            
+            let content = MastodonContent(content: self.postText, emojis: [:])
+            var metaTextWithoutEmojis: MastodonMetaContent
+            do {
+                metaTextWithoutEmojis = try MastodonMetaContent.convert(document: content)
+            } catch {
+                metaTextWithoutEmojis = MastodonMetaContent.convert(text: content)
+            }
+            
+            MetaText.setAttributes(
+                for: NSMutableAttributedString(attributedString: self.richPostText!),
+                textAttributes: textAttributes,
+                linkAttributes: linkAttributes,
+                paragraphStyle: paragraphStyle,
+                content: metaTextWithoutEmojis
+            )
+        }
         
         // Content warning (applies to entire post)
         self.contentWarning = (status.reblog?.spoilerText ?? status.spoilerText).stripHTML()
