@@ -18,8 +18,12 @@ public struct Timelines {
         var parameters: [Parameter]
         if case .limit(let limit) = range {
             parameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
+        } else if case .min(_, let limit) = range, let limit {
+            parameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
+        } else if case .max(_, let limit) = range, let limit {
+            parameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
         } else {
-            parameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
+            parameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
         }
         
         let method = HTTPMethod.get(.parameters(parameters))
@@ -31,8 +35,12 @@ public struct Timelines {
         var parameters: [Parameter]
         if case .limit(let limit) = range {
             parameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
+        } else if case .min(_, let limit) = range, let limit {
+            parameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
+        } else if case .max(_, let limit) = range, let limit {
+            parameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
         } else {
-            parameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
+            parameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
         }
 
         let method = HTTPMethod.get(.parameters(parameters))
@@ -44,8 +52,12 @@ public struct Timelines {
         var parameters: [Parameter]
         if case .limit(let limit) = range {
             parameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
+        } else if case .min(_, let limit) = range, let limit {
+            parameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
+        } else if case .max(_, let limit) = range, let limit {
+            parameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
         } else {
-            parameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
+            parameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
         }
 
         let method = HTTPMethod.get(.parameters(parameters))
@@ -63,8 +75,12 @@ public struct Timelines {
         var rangeParameters: [Parameter]
         if case .limit(let limit) = range {
             rangeParameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
+        } else if case .min(_, let limit) = range, let limit {
+            rangeParameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
+        } else if case .max(_, let limit) = range, let limit {
+            rangeParameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
         } else {
-            rangeParameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
+            rangeParameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
         }
         
         let localParameter = [
@@ -87,8 +103,12 @@ public struct Timelines {
         var rangeParameters: [Parameter]
         if case .limit(let limit) = range {
             rangeParameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
+        } else if case .min(_, let limit) = range, let limit {
+            rangeParameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
+        } else if case .max(_, let limit) = range, let limit {
+            rangeParameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
         } else {
-            rangeParameters = range.parameters(limit: between(1, and: 120, default: 120)) ?? []
+            rangeParameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
         }
 
         let localParameter = [Parameter(name: "local", value: local.flatMap(trueOrNil))]
