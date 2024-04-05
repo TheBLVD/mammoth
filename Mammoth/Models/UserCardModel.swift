@@ -33,7 +33,7 @@ class UserCardModel {
     let isLocked: Bool
     let isBot: Bool
     
-    var richName: NSAttributedString?
+    var richName: NSMutableAttributedString?
     let metaName: MastodonMetaContent?
 
     let metaDescription: MastodonMetaContent?

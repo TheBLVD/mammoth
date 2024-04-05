@@ -16,7 +16,8 @@ import MetaTextKit
 
 final class PostCardModel {
     
-    public static let imageDecodeQueue = DispatchQueue(label: "Decode images queue", qos: .default)
+    public static let imageDecodeQueue = DispatchQueue(label: "app.getmammoth.imageDecodeQueue", qos: .default)
+    public static let postTextComputeQueue = DispatchQueue(label: "app.getmammoth.textQueue")
     
     enum Data {
        case mastodon(Status)
@@ -75,7 +76,7 @@ final class PostCardModel {
     let contentWarning: String
     let isSensitive: Bool
     var postText: String
-    var richPostText: NSAttributedString?
+    var richPostText: NSMutableAttributedString?
     let metaPostText: MastodonMetaContent?
     
     var profileURL: URL?
@@ -106,6 +107,9 @@ final class PostCardModel {
     var imagePrefetchToken: SDWebImagePrefetchToken?
     var decodedImages: [String: UIImage?] = [:]
     var cellHeight: CGFloat?
+    
+    var postTextSize: [CGFloat: CGSize] = [:]
+    var nameTextSize: CGSize = .zero
     
     enum FilterType {
         case warn(String)
@@ -372,7 +376,7 @@ final class PostCardModel {
             }
             
             MetaText.setAttributes(
-                for: NSMutableAttributedString(attributedString: self.richPostText!),
+                for: self.richPostText!,
                 textAttributes: textAttributes,
                 linkAttributes: linkAttributes,
                 paragraphStyle: paragraphStyle,
@@ -921,6 +925,73 @@ extension PostCardModel {
         
         self.decodedImages = [:]
         self.user?.clearCache()
+    }
+    
+    func computePostTextSize(width: CGFloat, cellType: PostCardCell.PostCardCellType) {
+        if let richPostText = self.richPostText {
+            
+            let variant = PostCardCell.PostCardVariant.cellVariant(for: self, cellType: cellType)
+            let contentMarginTop = 13.0
+            let contentMarginLeft = 13.0
+            let contentMarginRight = 13.0
+            let contentColumnSpacing = 12.0
+            let contentWidth = width - PostCardProfilePic.ProfilePicSize.regular.width() - contentMarginLeft - contentMarginRight - contentColumnSpacing
+            
+            let textWidth: CGFloat = {
+                if let variant, variant.hasMedia, variant.mediaVariant == .small {
+                    let thumbnailSize = 60.0
+                    return contentWidth - thumbnailSize - 12.0
+                }
+                
+                return contentWidth
+            }()
+            
+            
+            let textContainer = NSTextContainer(size: .init(width: textWidth, height: .greatestFiniteMagnitude))
+            textContainer.maximumNumberOfLines = cellType.numberOfLines
+            textContainer.lineFragmentPadding = 0
+            let textStorage = NSTextStorage(attributedString: richPostText)
+            
+            let layoutManager = NSLayoutManager()
+            layoutManager.addTextContainer(textContainer)
+            
+            textStorage.addLayoutManager(layoutManager)
+            
+            let size = layoutManager.usedRect(for: textContainer).size
+            
+            DispatchQueue.main.async {
+                self.postTextSize[width] = size
+            }
+        }
+    }
+    
+    func computeNameTextSize(width: CGFloat, cellType: PostCardCell.PostCardCellType) {
+        if let richUsername = self.richUsername {
+            
+            let variant = PostCardCell.PostCardVariant.cellVariant(for: self, cellType: cellType)
+            let contentMarginTop = 13.0
+            let contentMarginLeft = 13.0
+            let contentMarginRight = 13.0
+            let contentColumnSpacing = 12.0
+            let textWidth = width - PostCardProfilePic.ProfilePicSize.regular.width() - contentMarginLeft - contentMarginRight - contentColumnSpacing - 20
+            
+            
+            let textContainer = NSTextContainer(size: .init(width: textWidth, height: .greatestFiniteMagnitude))
+            textContainer.maximumNumberOfLines = 1
+            textContainer.lineFragmentPadding = 0
+            let textStorage = NSTextStorage(attributedString: richUsername)
+            
+            let layoutManager = NSLayoutManager()
+            layoutManager.addTextContainer(textContainer)
+            
+            textStorage.addLayoutManager(layoutManager)
+            
+            let size = layoutManager.usedRect(for: textContainer).size
+            
+            DispatchQueue.main.async {
+                self.nameTextSize = size
+            }
+        }
     }
 }
 

@@ -728,7 +728,7 @@ extension NewsFeedViewController {
             }
         }
 
-        viewModel.preloadCards(atIndexPaths: indexPaths)
+        viewModel.preloadCards(atIndexPaths: indexPaths, cardWidth: tableView.frame.size.width)
     }
     
     func tableView(_ tableView: UITableView, cancelPrefetchingForRowsAt indexPaths: [IndexPath]) {
@@ -939,7 +939,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
                 guard let self else {
-                    if updateDisplay {
+                    if shouldFreezeAnimations {
                         CATransaction.commit()
                     }
                     return

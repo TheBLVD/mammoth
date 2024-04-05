@@ -94,8 +94,8 @@ class PostCardHeader: UIView {
         return stackView
     }()
     
-    private let titleLabel: MetaLabel = {
-        let label = MetaLabel()
+    private let titleLabel: PostCardTextLabel = {
+        let label = PostCardTextLabel()
         label.textColor = .custom.displayNames
         label.numberOfLines = 1
         label.textContainer.maximumNumberOfLines = 1
@@ -367,6 +367,9 @@ extension PostCardHeader {
         } else {
             if let metaContent = postCard?.user?.metaName {
                 self.titleLabel.configure(content: metaContent)
+                if let size = postCard?.nameTextSize {
+                    self.titleLabel.applySize(size: size)
+                }
             } else {
                 let text = postCard?.user?.name ?? ""
                 let content = MastodonMetaContent.convert(text: MastodonContent(content: text, emojis: [:]))

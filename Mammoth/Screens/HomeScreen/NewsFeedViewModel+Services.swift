@@ -171,7 +171,7 @@ extension NewsFeedViewModel {
                     newItems = items
                 }
                 
-                DispatchQueue.main.async { [weak self] in
+                await MainActor.run { [weak self] in
                     guard let self else { return }
 
                     // Abort if user changed in the meantime
@@ -235,7 +235,7 @@ extension NewsFeedViewModel {
                 
                 let response = try await account.api.getTimeline(cursor: nil)
                 
-                DispatchQueue.main.async { [weak self]  in
+                await MainActor.run { [weak self]  in
                     guard let self else { return }
 //                    self.blueskyCursor = response.cursor
                     let postCards = Self.postCardModels(fromBlueskyResponse: response, myUserID: account.userID)
@@ -250,7 +250,7 @@ extension NewsFeedViewModel {
             }
             
         } catch let error {
-            DispatchQueue.main.async { [weak self] in
+            await MainActor.run { [weak self] in
                 guard let self else { return }
                 self.state = .error(error)
                 self.displayError(feedType: self.type)
@@ -555,9 +555,15 @@ extension NewsFeedViewModel {
         }
     }
     
-    func preloadCards(atIndexPaths indexPaths: [IndexPath]) {
+    func preloadCards(atIndexPaths indexPaths: [IndexPath], cardWidth: CGFloat = 0.0) {
         indexPaths.forEach({
             if case .postCard(let postCard) = self.dataSource?.itemIdentifier(for: $0) {
+                
+                PostCardModel.postTextComputeQueue.async {
+                    postCard.computePostTextSize(width: cardWidth, cellType: self.type.postCardCellType())
+                    postCard.computeNameTextSize(width: cardWidth, cellType: self.type.postCardCellType())
+                }
+                
                 if postCard.quotePostStatus == .loading {
                     postCard.preloadQuotePost()
                 }
@@ -766,7 +772,7 @@ extension NewsFeedViewModel {
                     guard !Task.isCancelled else { return }
 
                     let newPostCard = postCard.mergeInOriginalData(status: status)
-                    DispatchQueue.main.async { [weak self] in
+                    await MainActor.run { [weak self] in
                         guard let self else { return }
                         guard !Task.isCancelled else { return }
                         
@@ -798,7 +804,7 @@ extension NewsFeedViewModel {
                             if webfinger == nil || !webfinger!.isEmpty {
                                 let deletedPostCard = postCard
                                 deletedPostCard.isDeleted = true
-                                DispatchQueue.main.async { [weak self] in
+                                await MainActor.run { [weak self] in
                                     guard let self else { return }
                                     self.update(with: .postCard(deletedPostCard), forType: self.type, silently: false)
                                 }

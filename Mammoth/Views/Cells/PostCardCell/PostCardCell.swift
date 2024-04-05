@@ -298,8 +298,8 @@ final class PostCardCell: UITableViewCell {
     }()
     private var deletedWarningConstraints: [NSLayoutConstraint] = []
 
-    private var postTextView: MetaLabel = {
-        let metaText = MetaLabel()
+    private var postTextView: PostCardTextLabel = {
+        let metaText = PostCardTextLabel()
         metaText.isOpaque = true
         metaText.backgroundColor = .custom.background
         metaText.translatesAutoresizingMaskIntoConstraints = false
@@ -570,11 +570,6 @@ private extension PostCardCell {
                     self.contentStackView.setCustomSpacing(4.0, after: self.textAndSmallMediaStackView)
                 }
             }
-            
-            // Force post text to fill the parent width
-            self.postTextTrailingConstraint = postTextView.trailingAnchor.constraint(equalTo: textAndSmallMediaStackView.layoutMarginsGuide.trailingAnchor)
-            postTextTrailingConstraint!.priority = .defaultHigh
-            postTextTrailingConstraint!.isActive = true
             
 //            self.readMoreButton = ReadMoreButton()
 //            self.readMoreButton?.isHidden = true
@@ -1067,14 +1062,22 @@ extension PostCardCell {
     
     func configureMetaTextContent() {
         if self.cellVariant.hasText {
-            if self.postTextView.textContainer.maximumNumberOfLines != type!.numberOfLines {
-                self.postTextView.textContainer.maximumNumberOfLines = type!.numberOfLines
-                self.postTextView.numberOfLines = type!.numberOfLines
-            }
+//            if self.postTextView.textContainer.maximumNumberOfLines != type!.numberOfLines {
+//                self.postTextView.textContainer.maximumNumberOfLines = type!.numberOfLines
+//                self.postTextView.numberOfLines = type!.numberOfLines
+//            }
             
             if let postTextContent = postCard?.metaPostText, !postTextContent.original.isEmpty {
+                
+                if let computedSize = postCard?.postTextSize[self.frame.width] {
+                    self.postTextView.applySize(size: computedSize)
+                }
+                
                 self.postTextView.configure(content: postTextContent)
-                self.postCard?.richPostText = self.postTextView.attributedText
+//                self.postTextView.textStorage.setAttributedString(postCard!.richPostText!)
+                // self.postTextView.attributedText = postCard?.richPostText
+                
+//                self.postCard?.richPostText = self.postTextView.attributedText
             } else if [.small].contains(self.cellVariant.mediaVariant) {
                 // If there's no post text, but a media attachment,
                 // set the post text to either:

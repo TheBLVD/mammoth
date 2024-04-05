@@ -136,22 +136,26 @@ enum PostCardButtonType: Int {
         }
     }
     
+    static let feintContrast = UIColor.custom.feintContrast
+    static let green = UIColor.systemGreen
+    static let pink = UIColor.systemPink
+    
     func tintColor(isActive: Bool) -> UIColor {
         switch(self) {
         case .like:
             if isActive {
-                return UIColor.systemPink
+                return Self.pink
             } else {
-                return .custom.feintContrast
+                return Self.feintContrast
             }
         case .repost:
             if isActive {
-                return UIColor.systemGreen
+                return Self.green
             } else {
-                return .custom.feintContrast
+                return Self.feintContrast
             }
         default:
-            return .custom.feintContrast
+            return Self.feintContrast
         }
     }
 }

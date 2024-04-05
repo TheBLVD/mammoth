@@ -145,6 +145,9 @@
 		14C45DEF2B1A4266000171A9 /* Pride@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEC2B1A4266000171A9 /* Pride@3x.png */; };
 		14C45DF02B1A4266000171A9 /* Pride.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DED2B1A4266000171A9 /* Pride.png */; };
 		14C45DF12B1A4266000171A9 /* Pride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEE2B1A4266000171A9 /* Pride@2x.png */; };
+		14CCE2682BBD68F300E1B9C9 /* PostCardTextLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CCE2672BBD68F300E1B9C9 /* PostCardTextLabel.swift */; };
+		14CCE26B2BBDEB8100E1B9C9 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14CCE26A2BBDEB8100E1B9C9 /* MetaTextKit */; };
+		14CCE26F2BBDED3A00E1B9C9 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = 14CCE26E2BBDED3A00E1B9C9 /* MetaTextKit */; };
 		14D7B7F12BBC1035001EA481 /* String+Height.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D7B7F02BBC1035001EA481 /* String+Height.swift */; };
 		14DA3C542B8CCA66007ECB0C /* JumpToLatest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DA3C532B8CCA66007ECB0C /* JumpToLatest.swift */; };
 		14DA3C5E2B91EB2E007ECB0C /* IntroViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14DA3C602B91EB2E007ECB0C /* IntroViewController.xib */; };
@@ -776,7 +779,6 @@
 		D87449C72A968D39002A0603 /* RotatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87449C62A968D39002A0603 /* RotatingViewController.swift */; };
 		D8CA77612AB90D4000F49ECC /* ShareableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */; };
 		D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DE092E2A3D12D800DD0483 /* Haptics.swift */; };
-		F054D25C2B9C9E07006130A4 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F054D25B2B9C9E07006130A4 /* MetaTextKit */; };
 		F084802D2B8BBF02005201A7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F084802C2B8BBF02005201A7 /* Localizable.xcstrings */; };
 		F0ED082F2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ED082E2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift */; };
 		F0ED08312BB61F380046B9EA /* RelationshipSeveranceEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ED08302BB61F380046B9EA /* RelationshipSeveranceEventType.swift */; };
@@ -968,6 +970,7 @@
 		14C45DEC2B1A4266000171A9 /* Pride@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@3x.png"; sourceTree = "<group>"; };
 		14C45DED2B1A4266000171A9 /* Pride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pride.png; sourceTree = "<group>"; };
 		14C45DEE2B1A4266000171A9 /* Pride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@2x.png"; sourceTree = "<group>"; };
+		14CCE2672BBD68F300E1B9C9 /* PostCardTextLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardTextLabel.swift; sourceTree = "<group>"; };
 		14D7B7F02BBC1035001EA481 /* String+Height.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Height.swift"; sourceTree = "<group>"; };
 		14DA3C532B8CCA66007ECB0C /* JumpToLatest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpToLatest.swift; sourceTree = "<group>"; };
 		14DA3C5F2B91EB2E007ECB0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/IntroViewController.xib; sourceTree = "<group>"; };
@@ -1633,6 +1636,7 @@
 			files = (
 				887B32962A0AC72A00EE7EE3 /* ArkanaKeys in Frameworks */,
 				539F3A2C292282FE0090CD00 /* Kingfisher in Frameworks */,
+				14CCE26F2BBDED3A00E1B9C9 /* MetaTextKit in Frameworks */,
 				88EFEB2D2AC23A3C0040228B /* SwiftJWT in Frameworks */,
 				532F291829476B29003C9FAD /* InputBarAccessoryView in Frameworks */,
 				14780F812AFCEA7000A7ECD9 /* Reachability in Frameworks */,
@@ -1644,7 +1648,7 @@
 				146C6A432B34545B00A002D7 /* UnifiedBlurHash in Frameworks */,
 				F0ED503C2B949A2C00F7525B /* MetaTextKit in Frameworks */,
 				148D496A2B9A071E007DD94F /* CrowdinSDK in Frameworks */,
-				F054D25C2B9C9E07006130A4 /* MetaTextKit in Frameworks */,
+				14CCE26B2BBDEB8100E1B9C9 /* MetaTextKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3147,6 +3151,7 @@
 				C3B693C02A38748300E85927 /* PostCardProfilePic.swift */,
 				C3B5A5D72A30B9AD00427C73 /* PostCardQuotePost.swift */,
 				C311EACF2ACAE1DA005B5708 /* PostCardVideo.swift */,
+				14CCE2672BBD68F300E1B9C9 /* PostCardTextLabel.swift */,
 			);
 			path = PostCardCell;
 			sourceTree = "<group>";
@@ -3200,7 +3205,8 @@
 				146C6A422B34545B00A002D7 /* UnifiedBlurHash */,
 				F0ED503B2B949A2C00F7525B /* MetaTextKit */,
 				148D49692B9A071E007DD94F /* CrowdinSDK */,
-				F054D25B2B9C9E07006130A4 /* MetaTextKit */,
+				14CCE26A2BBDEB8100E1B9C9 /* MetaTextKit */,
+				14CCE26E2BBDED3A00E1B9C9 /* MetaTextKit */,
 			);
 			productName = Mastodon;
 			productReference = 533993DF29141F4600560F83 /* Mammoth.app */;
@@ -3315,7 +3321,7 @@
 				144DC7E02B1773E400F4EE98 /* XCRemoteSwiftPackageReference "OpenSSL" */,
 				146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */,
 				148D49682B9A04F2007DD94F /* XCRemoteSwiftPackageReference "mobile-sdk-ios" */,
-				F054D25A2B9C9E07006130A4 /* XCRemoteSwiftPackageReference "MetaTextKit" */,
+				14CCE26D2BBDED3A00E1B9C9 /* XCRemoteSwiftPackageReference "MetaTextKit" */,
 			);
 			productRefGroup = 533993E029141F4600560F83 /* Products */;
 			projectDirPath = "";
@@ -4102,6 +4108,7 @@
 				53450E452936121600D720EA /* SwiftyGiphyAPI.swift in Sources */,
 				BF0F3BB42A855A310055BB81 /* FloatLabelTextView.swift in Sources */,
 				53450E7B2936127C00D720EA /* ToJSON.swift in Sources */,
+				14CCE2682BBD68F300E1B9C9 /* PostCardTextLabel.swift in Sources */,
 				533996902914227A00560F83 /* Disk+Helpers.swift in Sources */,
 				53450E472936121600D720EA /* GiphySingleGIFResponse.swift in Sources */,
 				C3D3C47F2A336EC6007B31EE /* PostCardHeaderExtension.swift in Sources */,
@@ -4790,6 +4797,14 @@
 				minimumVersion = 1.7.1;
 			};
 		};
+		14CCE26D2BBDED3A00E1B9C9 /* XCRemoteSwiftPackageReference "MetaTextKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/TheBLVD/MetaTextKit";
+			requirement = {
+				kind = exactVersion;
+				version = 2.3.15;
+			};
+		};
 		532F291329476916003C9FAD /* XCRemoteSwiftPackageReference "MessageKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MessageKit/MessageKit.git";
@@ -4838,14 +4853,6 @@
 				minimumVersion = 4.0.1;
 			};
 		};
-		F054D25A2B9C9E07006130A4 /* XCRemoteSwiftPackageReference "MetaTextKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/TheBLVD/MetaTextKit";
-			requirement = {
-				kind = exactVersion;
-				version = 2.3.11;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -4863,6 +4870,15 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 148D49682B9A04F2007DD94F /* XCRemoteSwiftPackageReference "mobile-sdk-ios" */;
 			productName = CrowdinSDK;
+		};
+		14CCE26A2BBDEB8100E1B9C9 /* MetaTextKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MetaTextKit;
+		};
+		14CCE26E2BBDED3A00E1B9C9 /* MetaTextKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 14CCE26D2BBDED3A00E1B9C9 /* XCRemoteSwiftPackageReference "MetaTextKit" */;
+			productName = MetaTextKit;
 		};
 		532F291429476916003C9FAD /* MessageKit */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -4906,11 +4922,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 533993F62914201500560F83 /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
-		};
-		F054D25B2B9C9E07006130A4 /* MetaTextKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = F054D25A2B9C9E07006130A4 /* XCRemoteSwiftPackageReference "MetaTextKit" */;
-			productName = MetaTextKit;
 		};
 		F0ED503B2B949A2C00F7525B /* MetaTextKit */ = {
 			isa = XCSwiftPackageProductDependency;
