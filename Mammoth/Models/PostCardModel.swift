@@ -952,13 +952,14 @@ extension PostCardModel {
         let localCount = hasLocal != nil ? hasLocal! ? 1 : 0 : 0
         let isFavorited = status.reblog?.favourited ?? status.favourited
         let onlineCount = status.reblog?.favouritesCount ?? status.favouritesCount
+        
         // Add 1 to the count:
         //  - when we know the post has static metrics (For You feed) and we know locally the post has been liked
         //  - when we know locally the post has been liked but it's not yet reflected online (optimistic updates)
         //  - when the online post returns 'favorited' but the count is still zero
         // Additionally, make sure the result is never < 0
         if staticMetrics {
-            return max(onlineCount + localCount, 0).formatUsingAbbrevation()
+            return max(onlineCount, 0).formatUsingAbbrevation()
         }
         if localCount > 0 && (isFavorited ?? false) == false {
             return max(onlineCount + localCount, 0).formatUsingAbbrevation()
@@ -981,7 +982,7 @@ extension PostCardModel {
         //  - when the online post returns 'reblogged' but the count is still zero
         // Additionally, make sure the result is never < 0
         if staticMetrics {
-            return max(onlineCount + localCount, 0).formatUsingAbbrevation()
+            return max(onlineCount, 0).formatUsingAbbrevation()
         }
         if localCount > 0 && (isReblogged ?? false) == false {
             return max(onlineCount + localCount, 0).formatUsingAbbrevation()
