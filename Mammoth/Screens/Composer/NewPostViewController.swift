@@ -3772,6 +3772,43 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             spoilerText = self.spoilerText
         }
         log.debug("posting thread piece reply to: \(repId ?? "<no id>"), visiblity: \(whoCanRep)")
+        // First, if necessary, do a search of the post to get it onto
+        // the authenticated user's server.
+        if inReplyTo == "ID Requires Search" {
+            // Get the local post ID, and try again
+            // Checking for url as reblog or original.
+            if let statURL = self.allStatuses.first?.reblog?.url ?? self.allStatuses.first?.url {
+                let request = Search.search(query: statURL, resolve: true)
+                (self.currentAcct as? MastodonAcctData)?.client.run(request) { [weak self] (statuses) in
+                    var successGettingPostID = false
+                    if let error = statuses.error {
+                        log.error("error from Search.search(): \(error)")
+                        // I have seen 500, 503 errors returned when the serer is very busy
+                    }
+                    if let results = statuses.value {
+                        let statuses = results.statuses
+                        if let statID = statuses.first?.id {
+                            successGettingPostID = true
+                            DispatchQueue.main.async {
+                                // Try again
+                                self?.postNextThreadPiece(postPieces, inReplyTo: statID)
+                            }
+                        } else {
+                            log.error("Expected a status")
+                        }
+                    }
+                    // Put an alert to retry if needed.
+                    if !successGettingPostID {
+                        DispatchQueue.main.async { [weak self] in
+                            self?.setPostFailure()
+                        }
+                    }
+                }
+            } else {
+                log.error("unable to get a stat url")
+            }
+            return
+        }
         let request = Statuses.create(status: thisPostPiece, replyToID: repId, mediaIDs: self.mediaIdStrings, sensitive: self.isSensitive, spoilerText: spoilerText, scheduledAt: self.scheduledTime, language: PostLanguages.shared.postLanguage, poll: GlobalStruct.newPollPost, visibility: whoCanRep)
         (self.currentAcct as? MastodonAcctData)?.client.run(request) { (statuses) in
             if let error = statuses.error {
