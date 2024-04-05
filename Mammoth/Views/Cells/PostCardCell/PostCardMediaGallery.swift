@@ -112,9 +112,10 @@ extension PostCardMediaGallery {
                     let ratio = Double(media.meta?.small?.width ?? 16) / Double(media.meta?.small?.height ?? 9)
                     
                     let heightAnchor = image.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight)
-                    let widthAnchor = image.widthAnchor.constraint(equalTo: image.heightAnchor, multiplier: ratio)
                     heightAnchor.priority = .defaultHigh
                     heightAnchor.isActive = true
+                    let widthAnchor = image.widthAnchor.constraint(equalTo: image.heightAnchor, multiplier: ratio)
+                    widthAnchor.isActive = true
                 }
                 
                 if media.type == .video || media.type == .gifv || media.type == .audio {
