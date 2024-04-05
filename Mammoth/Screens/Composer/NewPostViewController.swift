@@ -3766,7 +3766,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             // Checking for url as reblog or original.
             if let statURL = self.allStatuses.first?.reblog?.url ?? self.allStatuses.first?.url {
                 let request = Search.search(query: statURL, resolve: true)
-                (self.currentAcct as? MastodonAcctData)?.client.run(request) { (statuses) in
+                (self.currentAcct as? MastodonAcctData)?.client.run(request) { [weak self] (statuses) in
                     var successGettingPostID = false
                     if let error = statuses.error {
                         log.error("error from Search.search(): \(error)")
@@ -3778,7 +3778,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                             successGettingPostID = true
                             DispatchQueue.main.async {
                                 // Try again
-                                self.postNextThreadPiece(postPieces, inReplyTo: statID)
+                                self?.postNextThreadPiece(postPieces, inReplyTo: statID)
                             }
                         } else {
                             log.error("Expected a status")
