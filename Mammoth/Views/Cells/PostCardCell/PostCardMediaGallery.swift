@@ -116,6 +116,7 @@ extension PostCardMediaGallery {
                     heightAnchor.isActive = true
                     let widthAnchor = image.widthAnchor.constraint(equalTo: image.heightAnchor, multiplier: ratio)
                     widthAnchor.isActive = true
+                    widthAnchor.priority = .defaultHigh
                 }
                 
                 if media.type == .video || media.type == .gifv || media.type == .audio {
