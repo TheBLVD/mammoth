@@ -109,7 +109,10 @@ extension PostCardMediaGallery {
                     image.galleryDelegate = self
                     self.stackView.addArrangedSubview(image)
                     
+                    let ratio = Double(media.meta?.small?.width ?? 16) / Double(media.meta?.small?.height ?? 9)
+                    
                     let heightAnchor = image.heightAnchor.constraint(equalToConstant: PostCardMediaGalleryHeight)
+                    let widthAnchor = image.widthAnchor.constraint(equalTo: image.heightAnchor, multiplier: ratio)
                     heightAnchor.priority = .defaultHigh
                     heightAnchor.isActive = true
                 }
