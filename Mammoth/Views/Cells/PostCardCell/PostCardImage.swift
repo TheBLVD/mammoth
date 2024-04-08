@@ -8,7 +8,6 @@
 
 import UIKit
 import SDWebImage
-import UnifiedBlurHash
 
 final class PostCardImage: UIView {
     
@@ -247,11 +246,9 @@ final class PostCardImage: UIView {
         if let media = image {
             if let previewURL = media.previewURL, let imageURL = URL(string: previewURL) {
                 var placeholder: UIImage?
-//                if let blurhash = media.blurhash {
-//                    let blurWidth = media.meta?.small?.width ?? 64
-//                    let blurHeight = media.meta?.small?.height ?? 64
-//                    placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
-//                }
+                if let blurhash = media.blurhash, let blurImage = postCard.decodedBlurhashes[blurhash] {
+                    placeholder = blurImage
+                }
                 let decodedImage = (media.previewURL != nil) ? postCard.decodedImages[media.previewURL!] as? UIImage : nil
                 self.imageView.ma_setImage(with: imageURL,
                                            cachedImage: decodedImage,
@@ -378,10 +375,8 @@ final class PostCardImage: UIView {
                 let previewFromCache = SDImageCache.shared.imageFromCache(forKey: attachment.previewURL)
                 
                 var blurImage: UIImage? = nil
-                if let blurhash = attachment.blurhash, imageFromCache == nil, let currentMedia = self.media, attachment.url != currentMedia.url {
-                    let blurWidth = attachment.meta?.small?.width ?? 64
-                    let blurHeight = attachment.meta?.small?.height ?? 64
-                    blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+                if let blurhash = attachment.blurhash, imageFromCache == nil, let currentMedia = self.media, attachment.url != currentMedia.url, let decodedBlurImage = self.postCard?.decodedBlurhashes[blurhash] {
+                    blurImage = decodedBlurImage
                 }
                 photo.underlyingImage = imageFromCache ?? previewFromCache ?? blurImage
                 return photo

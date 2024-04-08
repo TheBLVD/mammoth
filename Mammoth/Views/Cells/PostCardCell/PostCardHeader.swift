@@ -491,15 +491,6 @@ extension PostCardHeader {
                         }
                     }
                 }
-                
-                if let status = self.status {
-                    let newTime = PostCardModel.formattedTime(status: status, formatter: GlobalStruct.dateFormatter)
-                    await MainActor.run { [weak self] in
-                        guard let self else { return }
-                        self.postCard?.time = newTime
-                        self.dateLabel.text = newTime
-                    }
-                }
             }
         }
     }

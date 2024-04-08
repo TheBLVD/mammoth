@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 import SDWebImage
-import UnifiedBlurHash
 
 class PostCardLinkPreview: UIView {
     
@@ -215,13 +214,9 @@ extension PostCardLinkPreview {
         
         // Display the link image if needed
         if !postCard.hideLinkImage, let imageURL = postCard.linkCard?.image {
-            var placeholder: UIImage? = nil
-//            if let blurhash = postCard.linkCard?.blurhash {
-//                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
-//            }
             self.imageView.ma_setImage(with: imageURL,
                                        cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
-                                       placeholder: placeholder,
+                                       placeholder: nil,
                                               imageTransformer: PostCardImage.transformer) { [weak self] image in
                 if self?.status == status {
                     postCard.decodedImages[imageURL.absoluteString] = image

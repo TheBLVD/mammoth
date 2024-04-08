@@ -81,7 +81,6 @@ class UserCardModel {
         self.isFollowing = isFollowing
         self.account = account
         
-        
         var emojisDic: MastodonContent.Emojis = [:]
         self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
         do {
@@ -90,24 +89,7 @@ class UserCardModel {
             self.metaName = MastodonMetaContent.convert(text: MastodonContent(content: self.name, emojis: emojisDic))
         }
         
-        if let _ = self.metaName {
-            let attributedString = NSMutableAttributedString(string: self.metaName!.string)
-            
-            let textAttributes: [NSAttributedString.Key: Any] = [
-                .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
-                .foregroundColor: UIColor.custom.displayNames
-            ]
-
-            MetaText.setAttributes(
-                for: attributedString,
-                textAttributes: textAttributes,
-                linkAttributes: textAttributes,
-                paragraphStyle: MetaText().paragraphStyle,
-                content: self.metaName!
-            )
-            
-            self.richName = attributedString
-        }
+        self.richName = NSMutableAttributedString(string: self.metaName!.string)
         
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil
         
