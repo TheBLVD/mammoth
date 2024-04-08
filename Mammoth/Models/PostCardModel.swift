@@ -386,11 +386,11 @@ final class PostCardModel {
         // Sensitive content
         self.isSensitive = status.reblog?.sensitive ?? status.sensitive ?? false
 
-        // Contains poll?
-        self.containsPoll = PostCardModel.containsPoll(status: status)
-        
         // The poll to display
         self.poll = status.reblog?.poll ?? status.poll
+        
+        // Contains poll?
+        self.containsPoll = poll != nil
         
         // Should show reply indicator?
         self.isAReply = PostCardModel.isAReply(status: status)
@@ -1080,14 +1080,6 @@ extension PostCardModel {
         text = text.replacingOccurrences(of: "<br></p>", with: "</p>", options: NSString.CompareOptions.regularExpression, range: nil)
         
         return text
-    }
-    
-    static func containsPoll(status: Status) -> Bool {
-        if let _ = status.reblog?.poll ?? status.poll {
-            return true
-        } else {
-            return false
-        }
     }
     
     static func isAReply(status: Status) -> Bool {
