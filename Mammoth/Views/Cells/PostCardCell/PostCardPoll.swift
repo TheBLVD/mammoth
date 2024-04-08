@@ -82,25 +82,7 @@ private extension PostCardPoll {
         self.addSubview(mainStackView)
         
         mainStackView.addArrangedSubview(optionsStackView)
-        if let postCard = self.postCard {
-            if let poll = postCard.poll {
-                for (index, option) in poll.options.enumerated() {
-                    let data = PostCardPollOption.PollOption(index: index,
-                                                             title: option.title.trimmingCharacters(in: .whitespacesAndNewlines),
-                                                             percentage: Float(option.votesCount ?? 0) / Float(max(poll.votesCount, 1)),
-                                                             isActive: !poll.expired
-                    )
-                    let optionView = PostCardPollOption(option: data, onTap: { [weak self] option in
-                        // On vote tap
-                         PostActions.onVote(postCard: postCard, choices: [option.index])
-                        
-                        guard let self else { return }
-                        self.updateOnVote(voteOptionIndex: data.index)
-                    })
-                    optionsStackView.addArrangedSubview(optionView)
-                }
-            }
-        }
+
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
             mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
