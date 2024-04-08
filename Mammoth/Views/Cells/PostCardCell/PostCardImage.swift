@@ -140,7 +140,7 @@ final class PostCardImage: UIView {
             return [c1, c2]
         } else {
             let c1 = imageView.widthAnchor.constraint(lessThanOrEqualTo: self.widthAnchor)
-            c1.priority = .required
+            c1.priority = .defaultHigh
             
             let c2 = imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 420)
             c2.priority = .required

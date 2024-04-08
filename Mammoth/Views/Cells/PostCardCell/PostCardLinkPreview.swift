@@ -224,7 +224,8 @@ extension PostCardLinkPreview {
             }
             
             self.imageView.isHidden = false
-        } else {
+            
+        } else if self.imageView.isHidden == false {
             self.imageView.isHidden = true
         }
         
