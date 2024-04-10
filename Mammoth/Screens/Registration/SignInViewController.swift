@@ -128,12 +128,11 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     class func loadInstances(isFromSignIn: Bool) {
-        let urlStr = "https://feature.\(GlobalHostServer())/api/v1/instances/list"
+        let urlStr = "https://feature.moth.social/api/v1/instances/list"
         let url: URL = URL(string: urlStr)!
         var request = URLRequest(url: url)
         var components = URLComponents(url: request.url!, resolvingAgainstBaseURL: false)!
-        let language = NSLocale.preferredLanguages[0]
-        if GlobalStruct.supportedLocalizations.contains(language) {
+        if let language = NSLocale.current.languageCode, GlobalStruct.supportedLocalizations.contains(language) {
             components.queryItems = [URLQueryItem(name: "language", value: NSLocale.current.languageCode)]
         }
         request.url = components.url
@@ -146,9 +145,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
             do {
                 let json = try JSONDecoder().decode(tagInstances.self, from: data ?? Data())
                 DispatchQueue.main.async {
-                    SignInViewController.allInstances = json.instances.sorted(by: { x, y in
-                        Int(x.users ?? "0") ?? 0 > Int(y.users ?? "0") ?? 0
-                    })
+                    SignInViewController.allInstances = json.instances
                     
                     if !isFromSignIn {
                         let currentInstance = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.instanceData
