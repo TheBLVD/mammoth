@@ -666,11 +666,14 @@ extension NewsFeedViewModel {
                             guard !Task.isCancelled else { return }
                             
                             if !fetchedItems.isEmpty {
+                                
+                                await MainActor.run { [weak self] in
+                                    self?.pollingReachedTop = false
+                                }
 
                                 // Show the JumpToNow pill if the feed is old
                                 if fetchedItems.count >= 40 {
                                     await MainActor.run { [weak self] in
-                                        self?.pollingReachedTop = false
                                         self?.setShowJumpToNow(enabled: true, forFeed: type)
                                     }
                                 }
