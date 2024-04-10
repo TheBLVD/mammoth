@@ -402,22 +402,6 @@ extension PostCardHeader {
         rightAttributesStack.backgroundColor = backgroundColor
         headerMainTitleStackView.backgroundColor = backgroundColor
         headerTitleStackView.backgroundColor = backgroundColor
-    }
-    
-    func willDisplay() {
-        self.profilePic?.willDisplay()
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        // Update all items that use .custom colors
-        configureMetaTextContent()
-        titleLabel.textColor = .custom.displayNames
-        let config = UIImage.SymbolConfiguration(pointSize: GlobalStruct.smallerFontSize, weight: .light)
-        pinIcon.image = UIImage(systemName: "pin.fill", withConfiguration: config)?.withTintColor(.custom.feintContrast, renderingMode: .alwaysTemplate)
-        pinIcon.tintColor = .custom.feintContrast
-        userTagLabel.textColor = .custom.feintContrast
-        dateLabel.textColor = .custom.feintContrast
         
         if headerType == .mentions {
             self.titleLabel.isHidden = false
@@ -442,7 +426,23 @@ extension PostCardHeader {
             }
         }
         
-        self.heightConstraint?.constant = Self.estimatedHeight()
+        self.heightConstraint?.constant = self.estimatedHeight()
+    }
+    
+    func willDisplay() {
+        self.profilePic?.willDisplay()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Update all items that use .custom colors
+        configureMetaTextContent()
+        titleLabel.textColor = .custom.displayNames
+        let config = UIImage.SymbolConfiguration(pointSize: GlobalStruct.smallerFontSize, weight: .light)
+        pinIcon.image = UIImage(systemName: "pin.fill", withConfiguration: config)?.withTintColor(.custom.feintContrast, renderingMode: .alwaysTemplate)
+        pinIcon.tintColor = .custom.feintContrast
+        userTagLabel.textColor = .custom.feintContrast
+        dateLabel.textColor = .custom.feintContrast
         
         setupUIFromSettings()
     }

@@ -238,6 +238,8 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
             cell.configure(postCard: postCard) {type,isActive,data in
                 // Do nothing
             }
+            
+            cell.willDisplay()
             cell.layer.borderColor = UIColor.custom.outlines.cgColor
             cell.layer.borderWidth = 0.5
             cell.isUserInteractionEnabled = false // ignore tapping on the sample post
