@@ -132,7 +132,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
         let url: URL = URL(string: urlStr)!
         var request = URLRequest(url: url)
         var components = URLComponents(url: request.url!, resolvingAgainstBaseURL: false)!
-        if let language = NSLocale.current.languageCode, GlobalStruct.supportedLocalizations.contains(language) {
+        if let language = NSLocale.current.languageCode, l10n.isCurrentLanguageSupported() {
             components.queryItems = [URLQueryItem(name: "language", value: NSLocale.current.languageCode)]
         }
         request.url = components.url
