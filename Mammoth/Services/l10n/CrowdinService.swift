@@ -22,6 +22,27 @@ struct l10n {
         CrowdinSDK.startWithConfig(crowdinSDKConfig, completion: { })
     }
     
+    public static func isCurrentLanguageSupported() -> Bool {
+        let supported = GlobalStruct.supportedLocalizations
+        if let currentLocale = self.getCurrentLocale() {
+            if !supported.contains(currentLocale) {
+                if let range = currentLocale.range(of: "-") {
+                    let languageCode = String(currentLocale[currentLocale.startIndex..<range.lowerBound])
+                    if supported.contains(languageCode) {
+                        return true
+                    }
+                }
+                
+                return false
+                
+            } else {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
     public static func checkForSupportedLanguage() {
         // Fallback to root localization if current device language is not supported
         let supported = GlobalStruct.supportedLocalizations
