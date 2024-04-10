@@ -616,6 +616,7 @@ extension NewsFeedViewModel {
         // In the For You case, we want to force a check of the ForYou status
         // the first time through this loop.
         let forceFYCheck: Bool = type == .forYou
+        self.pollingReachedTop = true
         
         if self.pollingTask == nil || self.pollingTask!.isCancelled {
             self.pollingTask = Task(priority: .medium) { [weak self] in
@@ -665,29 +666,27 @@ extension NewsFeedViewModel {
                             guard !Task.isCancelled else { return }
                             
                             if !fetchedItems.isEmpty {
-                                
-                                await MainActor.run { [weak self] in
-                                    self?.pollingReachedTop = false
-                                }
-                                
+
                                 // Show the JumpToNow pill if the feed is old
                                 if fetchedItems.count >= 40 {
                                     await MainActor.run { [weak self] in
+                                        self?.pollingReachedTop = false
                                         self?.setShowJumpToNow(enabled: true, forFeed: type)
                                     }
                                 }
                                 
                                 while fetchingNewItems && pageToFetchLimit > 0 {
+                                    guard !Task.isCancelled else { break }
                                     log.debug("Calling loadListData(previousPage) for feedType: \(type)")
                                     let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
-                                                                        
+                                       
+                                    guard !Task.isCancelled else { break }
+                                    
                                     if fetchedItems.isEmpty {
                                         break
                                     } else {
                                         pageToFetchLimit -= 1
                                     }
-                                    
-                                    guard !Task.isCancelled else { break }
                                 }
                             } else {
                                 await MainActor.run { [weak self] in

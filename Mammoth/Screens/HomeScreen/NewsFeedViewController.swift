@@ -1265,7 +1265,7 @@ private extension NewsFeedViewController {
 // MARK: - Jump to newest
 extension NewsFeedViewController: JumpToNewest {
     func jumpToNewest() {
-        if !self.viewModel.pollingReachedTop && (self.displayingIndexPath?.row ?? 0) < 100 {
+        if !self.viewModel.pollingReachedTop {
             
             self.viewModel.stopPollingListData()
             self.viewModel.cancelAllItemSyncs()
