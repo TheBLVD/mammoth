@@ -616,12 +616,15 @@ extension NewsFeedViewModel {
         // In the For You case, we want to force a check of the ForYou status
         // the first time through this loop.
         let forceFYCheck: Bool = type == .forYou
-        self.pollingReachedTop = true
         
         if self.pollingTask == nil || self.pollingTask!.isCancelled {
             self.pollingTask = Task(priority: .medium) { [weak self] in
                 guard let self else { return }
                 guard !Task.isCancelled else { return }
+                
+                await MainActor.run { [weak self] in
+                    self?.pollingReachedTop = true
+                }
                 
                 var fetchingNewItems = false
 
