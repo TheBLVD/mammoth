@@ -56,7 +56,8 @@ class FontAwesome {
         let label = UILabel(frame: .zero)
         
         if let font = UIFont(name: "Font Awesome 6 Pro", size: size),
-           isSupported(unicode: char.unicodeScalars.first!, font: font) {
+           let unicode = char.unicodeScalars.first,
+           isSupported(unicode: unicode, font: font) {
             switch weight {
             case .bold:
                 label.font = font.bold
