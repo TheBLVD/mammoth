@@ -320,7 +320,15 @@ private extension PostFooterButton {
             if !self.isActive {
                 self.icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons, renderingMode: .alwaysOriginal)
             } else {
-                self.icon.image = self.postButtonType.activeIcon(symbolConfig: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+                self.icon.image = self.postButtonType.activeIcon(symbolConfig: symbolConfig)?.withTintColor(self.postButtonType.tintColor(isActive: true), renderingMode: .alwaysOriginal)
+            }
+            
+        case .repost:
+            // Update button appearance
+            if !self.isActive {
+                self.icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons, renderingMode: .alwaysOriginal)
+            } else {
+                self.icon.image = self.postButtonType.activeIcon(symbolConfig: symbolConfig)?.withTintColor(self.postButtonType.tintColor(isActive: true), renderingMode: .alwaysOriginal)
             }
             
         default:
