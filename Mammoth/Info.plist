@@ -6,330 +6,6 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>AppIconFoilDark</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Foil Dark</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconDarkMode</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Dark Mode</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPaperDark</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Paper Dark</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconStealth</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Stealth</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconGold</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Gold-Icon</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconFoil</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Foil</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconNewsprint</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Newsprint</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSoft</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Soft</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconBlueJay</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Blue Jay</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconGrannySmith</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Granny Smith</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconNicholas</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Nicholas</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconMargot</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Margot</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconCarroll</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Carroll</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconBenson</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Benson</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconBurton</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Burton</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSchultz</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Schultz</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconBlueprints</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Blueprints</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSticker</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Sticker</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconLayout</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Layout</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPaperLight</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Paper Light</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPride</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Pride</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPrideSlant</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Pride Slant</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPrideDark</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Pride Dark</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPrideLight</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Pride Light</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSixColors</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Six Colors</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSixColorsSlant</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Six Colors Slant</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSixColorsDark</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Six Colors Dark</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSixColorsLight</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Six Colors Light</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOG</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGMonochrome</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Monochrome</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGLight</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Light</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGWhite</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG White</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGPride</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Pride</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGSixColors</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Six Colors</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGPumpkin</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Pumpkin</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGMargot</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Margot</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
 			<key>AppIcon1</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -456,11 +132,47 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
+			<key>AppIconBenson</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Benson</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
 			<key>AppIconBlack</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>IconBlack</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconBlueJay</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Blue Jay</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconBlueprints</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Blueprints</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconBurton</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Burton</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -533,6 +245,294 @@
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>IconCBlack</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconCarroll</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Carroll</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconDarkMode</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Dark Mode</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconFoil</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Foil</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconFoilDark</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Foil Dark</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconGold</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Gold-Icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconGrannySmith</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Granny Smith</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconLayout</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Layout</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconMargot</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Margot</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconNewsprint</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Newsprint</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconNicholas</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Nicholas</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOG</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGLight</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Light</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGMargot</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Margot</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGMonochrome</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Monochrome</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGPride</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Pride</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGPumpkin</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Pumpkin</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGSixColors</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Six Colors</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGWhite</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG White</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPaperDark</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Paper Dark</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPaperLight</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Paper Light</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPride</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Pride</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPrideDark</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Pride Dark</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPrideLight</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Pride Light</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPrideSlant</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Pride Slant</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSchultz</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Schultz</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSixColors</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Six Colors</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSixColorsDark</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Six Colors Dark</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSixColorsLight</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Six Colors Light</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSixColorsSlant</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Six Colors Slant</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSoft</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Soft</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconStealth</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Stealth</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSticker</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Sticker</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -552,330 +552,6 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>AppIconFoilDark</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Foil Dark</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconDarkMode</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Dark Mode</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPaperDark</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Paper Dark</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconStealth</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Stealth</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconGold</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Gold-Icon</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconFoil</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Foil</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconNewsprint</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Newsprint</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSoft</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Soft</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconBlueJay</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Blue Jay</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconGrannySmith</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Granny Smith</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconNicholas</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Nicholas</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconMargot</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Margot</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconCarroll</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Carroll</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconBenson</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Benson</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconBurton</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Burton</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSchultz</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Schultz</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconBlueprints</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Blueprints</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSticker</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Sticker</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconLayout</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Layout</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPaperLight</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Paper Light</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPride</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Pride</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPrideSlant</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Pride Slant</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPrideDark</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Pride Dark</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconPrideLight</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Pride Light</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSixColors</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Six Colors</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSixColorsSlant</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Six Colors Slant</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSixColorsDark</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Six Colors Dark</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconSixColorsLight</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>Six Colors Light</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOG</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGMonochrome</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Monochrome</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGLight</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Light</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGWhite</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG White</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGPride</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Pride</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGSixColors</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Six Colors</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGPumpkin</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Pumpkin</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
-			<key>AppIconOGMargot</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>OG Margot</string>
-				</array>
-				<key>UIPrerenderedIcon</key>
-				<false/>
-			</dict>
 			<key>AppIcon1</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -1002,11 +678,47 @@
 				<key>UIPrerenderedIcon</key>
 				<false/>
 			</dict>
+			<key>AppIconBenson</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Benson</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
 			<key>AppIconBlack</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>IconBlack</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconBlueJay</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Blue Jay</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconBlueprints</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Blueprints</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconBurton</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Burton</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -1079,6 +791,294 @@
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>IconCBlack</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconCarroll</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Carroll</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconDarkMode</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Dark Mode</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconFoil</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Foil</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconFoilDark</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Foil Dark</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconGold</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Gold-Icon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconGrannySmith</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Granny Smith</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconLayout</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Layout</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconMargot</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Margot</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconNewsprint</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Newsprint</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconNicholas</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Nicholas</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOG</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGLight</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Light</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGMargot</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Margot</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGMonochrome</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Monochrome</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGPride</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Pride</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGPumpkin</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Pumpkin</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGSixColors</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG Six Colors</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconOGWhite</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>OG White</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPaperDark</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Paper Dark</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPaperLight</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Paper Light</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPride</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Pride</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPrideDark</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Pride Dark</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPrideLight</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Pride Light</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconPrideSlant</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Pride Slant</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSchultz</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Schultz</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSixColors</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Six Colors</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSixColorsDark</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Six Colors Dark</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSixColorsLight</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Six Colors Light</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSixColorsSlant</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Six Colors Slant</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSoft</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Soft</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconStealth</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Stealth</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>AppIconSticker</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>Sticker</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
 				<false/>
@@ -1125,6 +1125,7 @@
 	</array>
 	<key>UIAppFonts</key>
 	<array>
+		<string>fa-brand.otf</string>
 		<string>fa-solid-900.ttf</string>
 		<string>custom-icons.ttf</string>
 		<string>fa-regular-400.ttf</string>

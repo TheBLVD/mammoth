@@ -47,6 +47,13 @@ class FontAwesome {
                              size: CGFloat = 19.0,
                              weight: UIFont.Weight = .regular) -> UIImage {
         
+        var char = char
+        var isBrand = false
+        if char.contains("brand-") {
+            char = char.replacingOccurrences(of: "brand-", with: "")
+            isBrand = true
+        }
+        
         let cacheKey = char + "-" + StringFromUIColor(color) + " - \(size) - \(weight)"
         if let cachedValue = cachedImages[cacheKey] {
             // log.debug("got image from cache: \(cacheKey)")
@@ -54,14 +61,18 @@ class FontAwesome {
         }
         
         let label = UILabel(frame: .zero)
-        switch weight {
-        case .bold:
-            label.font = UIFont(name: "Font Awesome 6 Pro", size: size)?.bold
-        case .regular:
-            label.font = UIFont(name: "Font Awesome 6 Pro", size: size)
-        default:
-            label.font = UIFont(name: "Font Awesome 6 Pro", size: size)
-            log.error("unexpected font weight")
+        if isBrand {
+            label.font = UIFont(name: "Font Awesome 6 Brands", size: size)
+        } else {
+            switch weight {
+            case .bold:
+                label.font = UIFont(name: "Font Awesome 6 Pro", size: size)?.bold
+            case .regular:
+                label.font = UIFont(name: "Font Awesome 6 Pro", size: size)
+            default:
+                label.font = UIFont(name: "Font Awesome 6 Pro", size: size)
+                log.error("unexpected font weight")
+            }
         }
 
         if color != nil  {
@@ -71,6 +82,7 @@ class FontAwesome {
                 label.textColor = systemColorTheme == ColorTheme.light ? UIColor.black : UIColor.white //light or dark
             }
         }
+        
         label.text = char
         label.sizeToFit()
         let renderer = UIGraphicsImageRenderer(size: label.frame.size)
