@@ -46,14 +46,7 @@ class FontAwesome {
                              color: UIColor? = nil,
                              size: CGFloat = 19.0,
                              weight: UIFont.Weight = .regular) -> UIImage {
-        
-        var char = char
-        var isBrand = false
-        if char.contains("brand-") {
-            char = char.replacingOccurrences(of: "brand-", with: "")
-            isBrand = true
-        }
-        
+
         let cacheKey = char + "-" + StringFromUIColor(color) + " - \(size) - \(weight)"
         if let cachedValue = cachedImages[cacheKey] {
             // log.debug("got image from cache: \(cacheKey)")
@@ -61,18 +54,22 @@ class FontAwesome {
         }
         
         let label = UILabel(frame: .zero)
-        if isBrand {
-            label.font = UIFont(name: "Font Awesome 6 Brands", size: size)
-        } else {
+        
+        if let font = UIFont(name: "Font Awesome 6 Pro", size: size),
+           isSupported(unicode: char.unicodeScalars.first!, font: font) {
             switch weight {
             case .bold:
-                label.font = UIFont(name: "Font Awesome 6 Pro", size: size)?.bold
+                label.font = font.bold
             case .regular:
-                label.font = UIFont(name: "Font Awesome 6 Pro", size: size)
+                label.font = font
             default:
-                label.font = UIFont(name: "Font Awesome 6 Pro", size: size)
+                label.font = font
                 log.error("unexpected font weight")
             }
+        } else {
+            // Fallback to Font Awesome 6 Brand font if this glyph is
+            // not supported by "Font Awesome 6 Pro"
+            label.font = UIFont(name: "Font Awesome 6 Brands", size: size)
         }
 
         if color != nil  {
@@ -114,6 +111,12 @@ func StringFromUIColor(_ color: UIColor?) -> String {
         }
     }
 }
+
+func isSupported(unicode: UnicodeScalar, font: UIFont) -> Bool {
+    let coreFont: CTFont = font
+    let characterSet: CharacterSet = CTFontCopyCharacterSet(coreFont) as CharacterSet
+    return characterSet.contains(unicode)
+ }
 
 
 extension UIFont {
