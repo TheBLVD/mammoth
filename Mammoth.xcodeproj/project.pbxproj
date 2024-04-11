@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1440C9022BC8006800799A4F /* fa-brand.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1440C9012BC8006800799A4F /* fa-brand.otf */; };
 		144173572B21E0480058AFCC /* TutorialOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144173562B21E0480058AFCC /* TutorialOverlay.swift */; };
 		1441735A2B21E4490058AFCC /* TextBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144173592B21E4490058AFCC /* TextBubbleView.swift */; };
 		1441736D2B2B1FDA0058AFCC /* SDImageTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */; };
@@ -832,6 +833,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1440C9012BC8006800799A4F /* fa-brand.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-brand.otf"; sourceTree = "<group>"; };
 		144173562B21E0480058AFCC /* TutorialOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialOverlay.swift; sourceTree = "<group>"; };
 		144173592B21E4490058AFCC /* TextBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBubbleView.swift; sourceTree = "<group>"; };
 		1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDImageTransformers.swift; sourceTree = "<group>"; };
@@ -2714,6 +2716,7 @@
 				BF4D709829EE589B0059C250 /* FontAwesome.swift */,
 				BF4D709429EE55E90059C250 /* fa-regular-400.ttf */,
 				BF4D709229EE55E90059C250 /* fa-solid-900.ttf */,
+				1440C9012BC8006800799A4F /* fa-brand.otf */,
 				BF4D709329EE55E90059C250 /* custom-icons.ttf */,
 				BF14812B2B180D9C008DFA9D /* InstrumentSerif-Regular.ttf */,
 			);
@@ -3455,6 +3458,7 @@
 				5383F1E529796808005F1B20 /* Icon.png in Resources */,
 				14C45DAD2B1A1F8C000171A9 /* Burton@2x.png in Resources */,
 				5383F232297968C4005F1B20 /* IconBBlack@2x.png in Resources */,
+				1440C9022BC8006800799A4F /* fa-brand.otf in Resources */,
 				14C45DE92B1A3891000171A9 /* Pride Dark.png in Resources */,
 				14C45D7C2B1A1F8C000171A9 /* Carroll.png in Resources */,
 				14C45DE42B1A1F8C000171A9 /* Newsprint@2x.png in Resources */,
@@ -4460,7 +4464,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 454;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
@@ -4508,7 +4512,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 453;
+				CURRENT_PROJECT_VERSION = 454;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
