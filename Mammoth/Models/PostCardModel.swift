@@ -25,7 +25,7 @@ final class PostCardModel {
     }
     
     var data: Data
-    var preSyncData: Data?
+    var remoteData: Data?
     
     /// staticMetrics should be true when posts are coming from a pre-defined
     /// server, e.g. the For You feed. For these posts metrics will not update
@@ -65,7 +65,6 @@ final class PostCardModel {
     let rebloggerUsername: String
     var richRebloggerUsername: NSAttributedString?
     
-    var applicationName: String?
     let visibility: String?
     
     var account: Account?
@@ -179,12 +178,22 @@ final class PostCardModel {
     // Computed / dynamic properties
     
     var likeCount: String {
-        switch data {
-        case .mastodon(let status):
-            return PostCardModel.formattedLikeCount(status: status, withStaticMetrics: self.staticMetrics)
-            
-        case .bluesky(let postVM):
-            return (postVM.post.likeCount ?? 0).formatUsingAbbrevation()
+        if let remote = remoteData {
+            switch remote {
+            case .mastodon(let status):
+                return PostCardModel.formattedLikeCount(status: status, withStaticMetrics: self.staticMetrics)
+                
+            case .bluesky(let postVM):
+                return (postVM.post.likeCount ?? 0).formatUsingAbbrevation()
+            }
+        } else {
+            switch data {
+            case .mastodon(let status):
+                return PostCardModel.formattedLikeCount(status: status, withStaticMetrics: self.staticMetrics)
+                
+            case .bluesky(let postVM):
+                return (postVM.post.likeCount ?? 0).formatUsingAbbrevation()
+            }
         }
     }
     
@@ -204,12 +213,22 @@ final class PostCardModel {
     }
     
     var replyCount: String {
-        switch data {
-        case .mastodon(let status):
-            return max((status.reblog?.repliesCount ?? status.repliesCount), 0).formatUsingAbbrevation()
-            
-        case .bluesky(let postVM):
-            return (postVM.post.replyCount ?? 0).formatUsingAbbrevation()
+        if let remote = remoteData {
+            switch remote {
+            case .mastodon(let status):
+                return max((status.reblog?.repliesCount ?? status.repliesCount), 0).formatUsingAbbrevation()
+                
+            case .bluesky(let postVM):
+                return (postVM.post.replyCount ?? 0).formatUsingAbbrevation()
+            }
+        } else {
+            switch data {
+            case .mastodon(let status):
+                return max((status.reblog?.repliesCount ?? status.repliesCount), 0).formatUsingAbbrevation()
+                
+            case .bluesky(let postVM):
+                return (postVM.post.replyCount ?? 0).formatUsingAbbrevation()
+            }
         }
     }
     
@@ -224,12 +243,22 @@ final class PostCardModel {
     }
     
     var repostCount: String {
-        switch data {
-        case .mastodon(let status):
-            return PostCardModel.formattedRepostCount(status: status, withStaticMetrics: self.staticMetrics)
-            
-        case .bluesky(let postVM):
-            return (postVM.post.repostCount ?? 0).formatUsingAbbrevation()
+        if let remote = remoteData {
+            switch remote {
+            case .mastodon(let status):
+                return PostCardModel.formattedRepostCount(status: status, withStaticMetrics: self.staticMetrics)
+                
+            case .bluesky(let postVM):
+                return (postVM.post.repostCount ?? 0).formatUsingAbbrevation()
+            }
+        } else {
+            switch data {
+            case .mastodon(let status):
+                return PostCardModel.formattedRepostCount(status: status, withStaticMetrics: self.staticMetrics)
+                
+            case .bluesky(let postVM):
+                return (postVM.post.repostCount ?? 0).formatUsingAbbrevation()
+            }
         }
     }
     
@@ -261,6 +290,29 @@ final class PostCardModel {
         }
     }
 
+    var applicationName: String? {
+        if let server = originalInstanceName {
+            if server == "www.threads.net" || server == "threads.net" {
+                return "Threads"
+            }
+        }
+        if let remote = remoteData {
+            switch remote {
+            case .mastodon(let status):
+                return status.application?.name
+            case .bluesky:
+                return nil
+            }
+        } else {
+            switch data {
+            case .mastodon(let status):
+                return status.application?.name
+            case .bluesky:
+                return nil
+            }
+        }
+    }
+    
     var time: String
         
     var source: String {
@@ -488,12 +540,6 @@ final class PostCardModel {
             self.formattedCardUrlStr = nil
         }
         
-        self.applicationName = ((status.reblog?.application ?? status.application)?.name.stripHTML() ?? status.reblog?.application?.name ?? status.application?.name)
-        
-        if self.applicationName == nil && status.serverName == "www.threads.net" {
-            self.applicationName = "Threads"
-        }
-        
         self.visibility = (status.reblog?.visibility ?? status.visibility).toLocalizedString().lowercased()
         
         // Status
@@ -592,7 +638,6 @@ final class PostCardModel {
         self.hideLinkImage = false
         self.formattedCardUrlStr = nil
         
-        self.applicationName = ""
         self.visibility = ""
         
         self.hasQuotePost = postVM.quotedPost != nil
@@ -700,57 +745,7 @@ final class PostCardModel {
     
     /// Only merge in parts of the original status we're interested in (metrics and applicationName)
     func mergeInOriginalData(status newStatus: Status) -> Self {
-        if self.preSyncData == nil {
-            self.preSyncData = self.data
-        }
-        
-        // bookmarked status is local authoritative only, so remote fetched data will always be wrong
-        if (self.isBookmarked) {
-            newStatus.bookmarked = true
-        }
-        
-        // Same with if a toot has been liked outside the app, and hasLocalMetric() cannot override it
-        if (self.isLiked) {
-            newStatus.favourited = true
-        }
-
-        // updating the data object so that computed properties
-        // e.g. likesCount is getting updated
-        if self.isReblogged {
-            if case .mastodon(let status) = data {
-                status.reblog = newStatus
-                self.data = .mastodon(status)
-            }
-        } else {
-            self.data = .mastodon(newStatus)
-        }
-        // application name is only known by the original post
-        self.applicationName = ((newStatus.reblog?.application ?? newStatus.application)?.name.stripHTML() ?? newStatus.reblog?.application?.name ?? newStatus.application?.name)
-        
-        if self.applicationName == nil && newStatus.serverName == "www.threads.net" {
-            self.applicationName = "Threads"
-        }
-        
-        // Filters
-        self.filterType = newStatus.filtered?.reduce(FilterType.none) { result, current in
-            if case .hide(_) = result { return result }
-            if current.filter.filterAction == "hide" { return .hide(current.filter.title) }
-            return .warn(current.filter.title)
-        } ?? FilterType.none
-        
-        // Muted and Blocked
-        let blockedIds = ModerationManager.shared.blockedUsers.map { $0.remoteFullOriginalAcct }
-        let mutedIds = ModerationManager.shared.mutedUsers.map { $0.remoteFullOriginalAcct }
-        
-        if let acctID = self.account?.remoteFullOriginalAcct {
-            self.isBlocked = blockedIds.contains(acctID)
-            self.isMuted = mutedIds.contains(acctID)
-        } else {
-            self.isBlocked = false
-            self.isMuted = false
-        }
-        
-        self.isSyncedWithOriginal = true
+        self.remoteData = .mastodon(newStatus)
         return self
     }
 }

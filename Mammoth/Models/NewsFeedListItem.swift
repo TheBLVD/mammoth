@@ -49,7 +49,7 @@ extension NewsFeedListItem {
     
     func extractData() -> Any? {
         if case .postCard(let postCard) = self {
-            let data = postCard.preSyncData ?? postCard.data
+            let data = postCard.data
             if case .mastodon(let status) = data  {
                 return status
             }

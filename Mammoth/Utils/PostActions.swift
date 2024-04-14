@@ -313,7 +313,7 @@ extension PostActions {
     
     // Handler call when pressing the reply button on a post
     static func onReply(target: UIViewController, postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         let vc = NewPostViewController()
         vc.isModalInPresentation = true
@@ -427,7 +427,7 @@ extension PostActions {
     
     // Handler call when pressing the bookmark button on a post
     static func onBookmark(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         if let uniqueId = postCard.uniqueId {
             // Optimistically update local cache
@@ -456,7 +456,7 @@ extension PostActions {
     
     // Handler call when pressing the unbookmark button on a post
     static func onUnbookmark(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         if let uniqueId = postCard.uniqueId {
             // Optimistically update local cache
@@ -484,7 +484,7 @@ extension PostActions {
     }
     
     static func onEditPost(target: UIViewController, postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         triggerHapticImpact(style: .light)
         
@@ -496,7 +496,7 @@ extension PostActions {
     }
     
     static func onDeletePost(target: UIViewController, postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         let alert = UIAlertController(title: nil, message: NSLocalizedString("post.delete.confirm", comment: ""), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("generic.delete", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
@@ -536,7 +536,7 @@ extension PostActions {
     
     // Handler call when pressing the pin post button on a post
     static func onPinPost(target: UIViewController, postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         triggerHaptic3Notification()
         
         // HTTP request
@@ -561,7 +561,7 @@ extension PostActions {
     
     // Handler call when pressing the unpin post button on a post
     static func onUnpinPost(target: UIViewController, postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         triggerHaptic3Notification()
 
@@ -581,7 +581,7 @@ extension PostActions {
     }
     
     static func onShare(target: UIViewController, postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         let text = URL(string: "\(status.reblog?.url ?? status.url ?? "")")!
         self.onShare(target: target, url: text)
@@ -595,7 +595,7 @@ extension PostActions {
     }
     
     static func onViewInBrowser(postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         if let str = status.reblog?.url ?? status.url {
             if let url = URL(string: str) {
@@ -976,7 +976,7 @@ extension PostActions {
     }
     
     static func report(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard let accountID = postCard.account?.id, case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard let accountID = postCard.account?.id, case .mastodon(let status) = postCard.data else { return }
         
         let alert = UIAlertController(title: NSLocalizedString("post.report.title", comment: ""), message: NSLocalizedString("post.report.text", comment: ""), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("post.report", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
