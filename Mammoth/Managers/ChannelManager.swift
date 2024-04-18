@@ -183,6 +183,8 @@ extension ChannelManager {
                         DispatchQueue.main.async {
                             NotificationCenter.default.post(name: ToastNotificationManager.toast.subscribed, object: nil)
                         }
+                        
+                        AnalyticsManager.track(event: .channelSubscribed)
                     }
                     AccountsManager.shared.updateCurrentAccountForYou(forYouInfo, writeToServer: false)
                 } catch {
@@ -213,6 +215,8 @@ extension ChannelManager {
                         NotificationCenter.default.post(name: didChangeChannelStatusNotification, object: self, userInfo: nil)
                         NotificationCenter.default.post(name: ToastNotificationManager.toast.unsubscribed, object: nil)
                     }
+                    
+                    AnalyticsManager.track(event: .channelUnsubscribed)
                 }
                 AccountsManager.shared.updateCurrentAccountForYou(result, writeToServer: false)
             }

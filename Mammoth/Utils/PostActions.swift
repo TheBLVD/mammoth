@@ -446,6 +446,8 @@ extension PostActions {
                     DispatchQueue.main.async {
                         // Display toast
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "postBookmarked"), object: nil)
+                        
+                        AnalyticsManager.track(event: .postBookmarked)
                     }
                 } catch {
                     log.error("onBookmark error: \(error)")

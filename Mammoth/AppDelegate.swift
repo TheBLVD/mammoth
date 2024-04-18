@@ -69,6 +69,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // deviceToken and currentAccount.
         let tokenDidChange = (GlobalStruct.deviceToken != deviceToken)
         GlobalStruct.deviceToken = deviceToken
+        AccountsManager.shared.syncIdentityData()
+        
         UserDefaults.standard.setValue(deviceToken, forKey: "deviceToken")
         
         let currentAccount = AccountsManager.shared.currentAccount as? MastodonAcctData

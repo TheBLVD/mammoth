@@ -67,7 +67,7 @@ struct l10n {
         CrowdinSDK.currentLocalization = GlobalStruct.rootLocalization
     }
     
-    private static func getCurrentLocale() -> String? {
+    public static func getCurrentLocale() -> String? {
         return Locale.preferredLanguages[0]
     }
 }
