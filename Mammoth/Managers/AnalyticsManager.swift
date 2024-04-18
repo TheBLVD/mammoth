@@ -32,7 +32,7 @@ class AnalyticsManager {
             #if DEBUG
             let key = ArkanaKeys.Staging().analyticsKey
             let config = Configuration(writeKey: key)
-                .trackApplicationLifecycleEvents(false)
+                .trackApplicationLifecycleEvents(true)
                 .flushAt(3)
                 .flushInterval(10)
             
@@ -41,7 +41,7 @@ class AnalyticsManager {
             #else
             let key = ArkanaKeys.Production().analyticsKey
             let config = Configuration(writeKey: key)
-                .trackApplicationLifecycleEvents(false)
+                .trackApplicationLifecycleEvents(true)
                 .flushAt(3)
                 .flushInterval(10)
             
@@ -50,9 +50,11 @@ class AnalyticsManager {
     }
     
     func prepareForUse() {
-        let _ = self.analytics
         NotificationCenter.default.addObserver(self, selector: #selector(self.didSwitchAccount), name: didSwitchCurrentAccountNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.didUpdatePurchase), name: didUpdatePurchaseStatus, object: nil)
+        
+        let analytics = self.analytics
+        analytics.add(plugin: DeviceToken())
     }
     
     @objc func didSwitchAccount(_ notification: NSNotification) {

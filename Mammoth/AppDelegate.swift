@@ -69,13 +69,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // deviceToken and currentAccount.
         let tokenDidChange = (GlobalStruct.deviceToken != deviceToken)
         GlobalStruct.deviceToken = deviceToken
-        AccountsManager.shared.syncIdentityData()
         
         UserDefaults.standard.setValue(deviceToken, forKey: "deviceToken")
         
         let currentAccount = AccountsManager.shared.currentAccount as? MastodonAcctData
         if currentAccount == nil {
             log.error("currentAccount is nil in didRegisterForRemoteNotificationsWithDeviceToken")
+        } else {
+            AccountsManager.shared.syncIdentityData()
         }
         
         let accountDidChange = (GlobalStruct.deviceTokenAccountUID != currentAccount?.uniqueID)

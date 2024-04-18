@@ -17,18 +17,13 @@ struct IdentityData: Codable {
     let followingCount: Int
     let statusesCount: Int
     let numberOfSubscribedChannels: Int
+    let subscribedChannels: [String]
     let numberOfAccounts: Int
     let theme: String
     let isGoldMember: Bool
     let appLanguage: String
     let isLanguageSupported: Bool
     let pushEnabled: Bool
-    
-    struct IOS: Codable {
-        let pushToken: String?
-    }
-        
-    let ios: IOS
     
     init(from acctData: MastodonAcctData, allAccounts: [any AcctDataType]) {
         self.id = acctData.account.id
@@ -39,6 +34,7 @@ struct IdentityData: Codable {
         self.lastStatusAt = acctData.account.lastStatusAt
         self.accountCreatedAt = acctData.account.createdAt
         self.numberOfSubscribedChannels = acctData.forYou.subscribedChannels.count
+        self.subscribedChannels = acctData.forYou.subscribedChannels.map({ $0.title })
         self.numberOfAccounts = allAccounts.count
         self.isGoldMember = IAPManager.isGoldMember
         
@@ -61,7 +57,5 @@ struct IdentityData: Codable {
         } else {
             self.pushEnabled = true
         }
-        
-        self.ios = IOS(pushToken: GlobalStruct.deviceToken?.hexString)
     }
 }
