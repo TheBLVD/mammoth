@@ -290,7 +290,7 @@ class AccountsManager {
             AccountCacher.clearCache(forAccount: mastodonAcctData.account)
         }
         
-        AnalyticsManager.logout()
+        AnalyticsManager.unsubscribe()
 
         // • remove from data structures
         let isCurrentAccount = self.currentAccount?.isEqualTo(other: acctData) ?? false

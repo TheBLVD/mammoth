@@ -26,9 +26,10 @@ struct IdentityData: Codable {
     let appLanguage: String
     let isLanguageSupported: Bool
     let pushEnabled: Bool
+    let unsubscribed: Bool
     
     init(from acctData: MastodonAcctData, allAccounts: [any AcctDataType]) {
-        self.id = acctData.account.id
+        self.id = acctData.account.fullAcct.sha256
         self.created_at = acctData.account.createdAt
         
         self.server = acctData.account.server
@@ -61,5 +62,7 @@ struct IdentityData: Codable {
         } else {
             self.pushEnabled = true
         }
+        
+        self.unsubscribed = false
     }
 }

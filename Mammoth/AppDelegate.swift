@@ -229,6 +229,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.scrollDirectionDown = UserDefaults.standard.value(forKey: "scrollDirectionDown") as? Bool ?? true
         GlobalStruct.openLinksInBrowser = UserDefaults.standard.value(forKey: "openLinksInBrowser") as? Bool ?? false
         GlobalStruct.appLock = UserDefaults.standard.value(forKey: "appLock") as? Bool ?? false
+        GlobalStruct.shareAnalytics = UserDefaults.standard.value(forKey: "shareAnalytics") as? Bool ?? true
         
         GlobalStruct.tab2 = UserDefaults.standard.value(forKey: "tab2") as? Bool ?? true
         GlobalStruct.tab3 = UserDefaults.standard.value(forKey: "tab3") as? Bool ?? true

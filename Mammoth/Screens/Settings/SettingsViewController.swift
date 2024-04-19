@@ -30,6 +30,8 @@ private enum Item {
     case openSourceCredits
     
     case openLinks
+    case analytics
+    case sourceCode
     
     case appLock
     
@@ -50,6 +52,8 @@ private enum Item {
         case .openSourceCredits: return NSLocalizedString("settings.about", comment: "")
         case .openLinks: return NSLocalizedString("settings.openLinks", comment: "")
         case .appLock: return NSLocalizedString("settings.appLock", comment: "")
+        case .analytics: return NSLocalizedString("settings.analytics", comment: "")
+        case .sourceCode: return NSLocalizedString("settings.sourceCode", comment: "")
         case .clearData: return NSLocalizedString("settings.clearData", comment: "")
         }
     }
@@ -69,6 +73,8 @@ private enum Item {
         case .openSourceCredits: return "\u{f15c}"
         case .openLinks: return "\u{f08e}"
         case .appLock: return "\u{f023}"
+        case .analytics: return "\u{f681}"
+        case .sourceCode: return "\u{f121}"
         case .clearData: return "\u{f1f8}"
         }
     }
@@ -114,15 +120,15 @@ class SettingsViewController: UIViewController {
                     .siriShortcuts
                 ].compactMap{$0}),
                 Section(items: [
+                    .openLinks,
+                    .appLock
+                ]),
+                Section(items: [
                     .getInTouch,
                     .subscriptions,
                     .openSourceCredits,
-                ]),
-                Section(items: [
-                    .openLinks
-                ]),
-                Section(items: [
-                    .appLock
+                    .sourceCode,
+                    .analytics
                 ]),
                 Section(
                     items: [.clearData],
@@ -145,14 +151,14 @@ class SettingsViewController: UIViewController {
                     .siriShortcuts
                 ].compactMap{$0}),
                 Section(items: [
+                    .openLinks,
+                    .appLock
+                ]),
+                Section(items: [
                     .getInTouch,
                     .openSourceCredits,
-                ]),
-                Section(items: [
-                    .openLinks
-                ]),
-                Section(items: [
-                    .appLock
+                    .sourceCode,
+                    .analytics
                 ]),
                 Section(
                     items: [.clearData],
@@ -272,7 +278,6 @@ class SettingsViewController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.backgroundColor = UIColor.clear
         self.tableView.layer.masksToBounds = true
-//        self.tableView.estimatedRowHeight = 89
         self.tableView.rowHeight = UITableView.automaticDimension
         
         if #available(iOS 15.0, *) {
@@ -304,6 +309,20 @@ class SettingsViewController: UIViewController {
         } else {
             GlobalStruct.appLock = false
             UserDefaults.standard.set(false, forKey: "appLock")
+        }
+    }
+    
+    @objc func switchAnalytics(_ sender: UISwitch) {
+        if sender.isOn {
+            GlobalStruct.shareAnalytics = true
+            AnalyticsManager.initClient()
+            AccountsManager.shared.syncIdentityData()
+            AnalyticsManager.subscribe()
+            UserDefaults.standard.set(true, forKey: "shareAnalytics")
+        } else {
+            GlobalStruct.shareAnalytics = false
+            AnalyticsManager.unsubscribe()
+            UserDefaults.standard.set(false, forKey: "shareAnalytics")
         }
     }
     
@@ -386,6 +405,29 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.textLabel?.textAlignment = .left
+        } else if item == .analytics {
+            let switchView = UISwitch(frame: .zero)
+            if GlobalStruct.shareAnalytics {
+                switchView.setOn(true, animated: false)
+            } else {
+                switchView.setOn(false, animated: false)
+            }
+            switchView.onTintColor = .custom.gold
+
+            switchView.addTarget(self, action: #selector(switchAnalytics), for: .valueChanged)
+            cell.accessoryView = switchView
+            cell.accessoryType = .none
+            cell.selectionStyle = .none
+            cell.textLabel?.textAlignment = .left
+            
+            var config = cell.defaultContentConfiguration()
+            config.text = item.title
+            config.textProperties.color = .custom.highContrast
+            config.image = settingsFontAwesomeImage(item.imageName)
+            config.secondaryText = NSLocalizedString("settings.analytics.description", comment: "")
+            config.secondaryTextProperties.color = .custom.highContrast
+            cell.contentConfiguration = config
+            
         } else if item == .clearData {
             cell.accessoryView = nil
             cell.accessoryType = .none
@@ -447,6 +489,9 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         case .subscriptions:
             let url = URL(string: "https://apps.apple.com/account/subscriptions")
             UIApplication.shared.open(url!, options: [:])
+            return
+        case .sourceCode:
+            PostActions.openLinks2("https://github.com/TheBLVD/mammoth")
             return
         case .clearData:
             vc = nil
