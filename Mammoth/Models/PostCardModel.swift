@@ -391,12 +391,12 @@ final class PostCardModel {
         // Hide the link image if there is a media attachment
         self.hideLinkImage = true //self.hasMediaAttachment
         
-        // Contains quote post?
-        self.hasQuotePost = (status.reblog?.quotePostCard() ?? status.quotePostCard()) != nil
-        
         // Quote post card
         self.quotePostCard = status.reblog?.quotePostCard() ?? status.quotePostCard()
         
+        // Contains quote post?
+        self.hasQuotePost = self.quotePostCard != nil
+
         // Quote post status data
         if self.hasQuotePost {
             if let urlStr = self.quotePostCard?.url,

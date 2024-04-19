@@ -894,7 +894,7 @@ extension PostCardCell {
             }
             
             // Display the quote post preview if needed
-            if postCard.hasQuotePost {
+            if postCard.hasQuotePost && postCard.quotePostStatus != .notFound {
                 self.quotePost?.configure(postCard: postCard)
                 self.quotePost?.onPress = onButtonPress
                 self.quotePost?.isHidden = false
@@ -903,7 +903,7 @@ extension PostCardCell {
             }
             
             // Display the link preview if needed
-            if postCard.hasLink && !postCard.hasQuotePost {
+            if postCard.hasLink && (!postCard.hasQuotePost || postCard.quotePostStatus == .notFound ) {
                 self.linkPreview?.configure(postCard: postCard)
                 self.linkPreview?.onPress = onButtonPress
                 self.linkPreview?.isHidden = false
@@ -1126,7 +1126,7 @@ extension PostCardCell {
             }
             
             // Display the quote post preview if needed
-            if postCard.hasQuotePost {
+            if postCard.hasQuotePost && postCard.quotePostStatus != .notFound {
                 if let constraint = self.quotePostTrailingConstraint, !constraint.isActive {
                     NSLayoutConstraint.activate([self.quotePostTrailingConstraint!])
                 }
@@ -1137,7 +1137,7 @@ extension PostCardCell {
             }
             
             // Display the link preview if needed
-            if postCard.hasLink && !postCard.hasQuotePost {
+            if postCard.hasLink && (!postCard.hasQuotePost || postCard.quotePostStatus == .notFound ) {
                 if let constraint = self.linkPreviewTrailingConstraint, !constraint.isActive {
                     NSLayoutConstraint.activate([constraint])
                 }
