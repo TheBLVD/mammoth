@@ -10,6 +10,8 @@ import Foundation
 
 struct IdentityData: Codable {
     let id: String
+    let created_at: String?
+
     let server: String
     let lastStatusAt: String?
     let accountCreatedAt: String?
@@ -27,6 +29,8 @@ struct IdentityData: Codable {
     
     init(from acctData: MastodonAcctData, allAccounts: [any AcctDataType]) {
         self.id = acctData.account.id
+        self.created_at = acctData.account.createdAt
+        
         self.server = acctData.account.server
         self.followersCount = acctData.account.followersCount
         self.followingCount = acctData.account.followingCount

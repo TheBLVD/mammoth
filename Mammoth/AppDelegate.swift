@@ -58,6 +58,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             GlobalStruct.curIDNoti = "\(id)"
             self.checkNotificationTypeForID(GlobalStruct.curIDNoti, alsoGoToTab: true)
         }
+        
+        // Open URL in customer.io push notifications
+        if let urlStr = (info as? Dictionary<String, Any>)?[keyPath: "CIO.push.link"] as? String, let url = URL(string: urlStr) {
+            let prevValue = GlobalStruct.openLinksInBrowser
+            GlobalStruct.openLinksInBrowser = false
+            PostActions.openLink(url)
+            GlobalStruct.openLinksInBrowser = prevValue
+        }
     }
         
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -262,6 +270,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: .mixWithOthers)
+        
+        if let userInfo = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] {
+            if let urlStr = (userInfo as? Dictionary<String, Any>)?[keyPath: "CIO.push.link"] as? String, let url = URL(string: urlStr) {
+                let prevValue = GlobalStruct.openLinksInBrowser
+                GlobalStruct.openLinksInBrowser = false
+                PostActions.openLink(url)
+                GlobalStruct.openLinksInBrowser = prevValue
+            }
+        }
 
         return true
     }
