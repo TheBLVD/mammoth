@@ -63205,6 +63205,23 @@
         }
       }
     },
+    "settings.development" : {
+      "comment" : "Item title in settings list. Also used as the screen title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Development"
+          }
+        },
+        "nl" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Development"
+          }
+        }
+      }
+    },
     "settings.getInTouch" : {
       "comment" : "As in, 'to get in touch'",
       "localizations" : {

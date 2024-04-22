@@ -9,90 +9,6 @@
 import UIKit
 import SDWebImage
 
-private enum Item {
-    
-    enum Style {
-        case normal
-        case destructive
-    }
-    
-    case upgrade
-    case appIcon
-    case postAppearance
-    case soundsAndHaptics
-    case composer
-    case accounts
-    case pushNotifications
-    case siriShortcuts
-    
-    case getInTouch
-    case subscriptions
-    case openSourceCredits
-    
-    case openLinks
-    case analytics
-    case sourceCode
-    
-    case appLock
-    
-    case clearData
-    
-    var title: String {
-        switch self {
-        case .upgrade: return ""
-        case .appIcon: return NSLocalizedString("settings.appIcon", comment: "Button in settings.")
-        case .postAppearance: return NSLocalizedString("settings.appearance", comment: "Button in settings.")
-        case .soundsAndHaptics: return NSLocalizedString("settings.soundsAndHaptics", comment: "Button in settings.")
-        case .composer: return NSLocalizedString("settings.composer", comment: "Button in settings.")
-        case .accounts: return NSLocalizedString("settings.accounts", comment: "Button in settings.")
-        case .pushNotifications: return NSLocalizedString("settings.notifications", comment: "")
-        case .siriShortcuts: return NSLocalizedString("settings.siriShortcuts", comment: "")
-        case .getInTouch: return NSLocalizedString("settings.getInTouch", comment: "As in, 'to get in touch'")
-        case .subscriptions: return NSLocalizedString("settings.manageSubscriptions", comment: "")
-        case .openSourceCredits: return NSLocalizedString("settings.about", comment: "")
-        case .openLinks: return NSLocalizedString("settings.openLinks", comment: "")
-        case .appLock: return NSLocalizedString("settings.appLock", comment: "")
-        case .analytics: return NSLocalizedString("settings.analytics", comment: "")
-        case .sourceCode: return NSLocalizedString("settings.sourceCode", comment: "")
-        case .clearData: return NSLocalizedString("settings.clearData", comment: "")
-        }
-    }
-    
-    var imageName: String {
-        switch self {
-        case .upgrade: return ""
-        case .appIcon: return "\u{e269}"
-        case .postAppearance: return "\u{f1fc}"
-        case .soundsAndHaptics: return "\u{f8f2}"
-        case .composer: return "\u{f14b}"
-        case .accounts: return "\u{e1b9}"
-        case .pushNotifications: return "\u{f0f3}"
-        case .siriShortcuts: return "\u{f130}"
-        case .getInTouch: return "\u{f0e0}"
-        case .subscriptions: return "\u{f336}"
-        case .openSourceCredits: return "\u{f15c}"
-        case .openLinks: return "\u{f08e}"
-        case .appLock: return "\u{f023}"
-        case .analytics: return "\u{f681}"
-        case .sourceCode: return "\u{f121}"
-        case .clearData: return "\u{f1f8}"
-        }
-    }
-    
-    var style: Style {
-        switch self {
-        case .clearData: return .destructive
-        default: return .normal
-        }
-    }
-    
-}
-
-private struct Section {
-    var items: [Item]
-    var footerTitle: String? = nil
-}
-
 private let version = String.localizedStringWithFormat(NSLocalizedString("settings.version", comment: ""), Bundle.main.appVersion) + "\n" + String.localizedStringWithFormat(NSLocalizedString("settings.build", comment: ""), Bundle.main.appBuild)
 private let bottomFooterText = NSLocalizedString("settings.clearData.footer", comment: "") + "\n\n" + version
 
@@ -102,16 +18,16 @@ class SettingsViewController: UIViewController {
     let btn0 = UIButton(type: .custom)
     var upgradeCell: UpgradeCell?
     
-    private var sections: [Section] {
+    private var sections: [SettingsSection] {
         if IAPManager.isGoldMember {
             return [
-                Section(items: [
+                SettingsSection(items: [
                     .upgrade
                 ]),
-                Section(items: [
+                SettingsSection(items: [
                     .accounts
                 ]),
-                Section(items: [
+                SettingsSection(items: [
                     .postAppearance,
                     UIApplication.shared.supportsAlternateIcons ? .appIcon : nil,
                     .composer,
@@ -119,30 +35,28 @@ class SettingsViewController: UIViewController {
                     .soundsAndHaptics,
                     .siriShortcuts
                 ].compactMap{$0}),
-                Section(items: [
+                SettingsSection(items: [
                     .openLinks,
                     .appLock
                 ]),
-                Section(items: [
+                SettingsSection(items: [
                     .getInTouch,
                     .subscriptions,
-                    .openSourceCredits,
-                    .sourceCode,
-                    .analytics
+                    .development
                 ]),
-                Section(
+                SettingsSection(
                     items: [.clearData],
                     footerTitle: bottomFooterText)
             ]
         } else {
             return [
-                Section(items: [
+                SettingsSection(items: [
                     .upgrade
                 ]),
-                Section(items: [
+                SettingsSection(items: [
                     .accounts
                 ]),
-                Section(items: [
+                SettingsSection(items: [
                     .postAppearance,
                     UIApplication.shared.supportsAlternateIcons ? .appIcon : nil,
                     .composer,
@@ -150,17 +64,15 @@ class SettingsViewController: UIViewController {
                     .soundsAndHaptics,
                     .siriShortcuts
                 ].compactMap{$0}),
-                Section(items: [
+                SettingsSection(items: [
                     .openLinks,
                     .appLock
                 ]),
-                Section(items: [
+                SettingsSection(items: [
                     .getInTouch,
-                    .openSourceCredits,
-                    .sourceCode,
-                    .analytics
+                    .development
                 ]),
-                Section(
+                SettingsSection(
                     items: [.clearData],
                     footerTitle: bottomFooterText)
             ]
@@ -312,20 +224,6 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    @objc func switchAnalytics(_ sender: UISwitch) {
-        if sender.isOn {
-            GlobalStruct.shareAnalytics = true
-            AnalyticsManager.initClient()
-            AccountsManager.shared.syncIdentityData()
-            AnalyticsManager.subscribe()
-            UserDefaults.standard.set(true, forKey: "shareAnalytics")
-        } else {
-            GlobalStruct.shareAnalytics = false
-            AnalyticsManager.unsubscribe()
-            UserDefaults.standard.set(false, forKey: "shareAnalytics")
-        }
-    }
-    
 }
 
 // MARK: - UITableView
@@ -405,29 +303,6 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.accessoryType = .none
             cell.selectionStyle = .none
             cell.textLabel?.textAlignment = .left
-        } else if item == .analytics {
-            let switchView = UISwitch(frame: .zero)
-            if GlobalStruct.shareAnalytics {
-                switchView.setOn(true, animated: false)
-            } else {
-                switchView.setOn(false, animated: false)
-            }
-            switchView.onTintColor = .custom.gold
-
-            switchView.addTarget(self, action: #selector(switchAnalytics), for: .valueChanged)
-            cell.accessoryView = switchView
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
-            cell.textLabel?.textAlignment = .left
-            
-            var config = cell.defaultContentConfiguration()
-            config.text = item.title
-            config.textProperties.color = .custom.highContrast
-            config.image = settingsFontAwesomeImage(item.imageName)
-            config.secondaryText = NSLocalizedString("settings.analytics.description", comment: "")
-            config.secondaryTextProperties.color = .custom.highContrast
-            cell.contentConfiguration = config
-            
         } else if item == .clearData {
             cell.accessoryView = nil
             cell.accessoryType = .none
@@ -484,14 +359,11 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             vc = SiriSettingsViewController()
         case .getInTouch:
             vc = ContactSettingsViewController()
-        case .openSourceCredits:
-            vc = TextFileViewController(filename: "About")
+        case .development:
+            vc = DevelopmentViewController()
         case .subscriptions:
             let url = URL(string: "https://apps.apple.com/account/subscriptions")
             UIApplication.shared.open(url!, options: [:])
-            return
-        case .sourceCode:
-            PostActions.openLinks2("https://github.com/TheBLVD/mammoth")
             return
         case .clearData:
             vc = nil
