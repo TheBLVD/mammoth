@@ -3868,7 +3868,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                         var successGettingPostID = false
                         if let error = statuses.error {
                             log.error("error from Search.search(): \(error)")
-                            AnalyticsManager.track(event: self.inReplyId.isEmpty ? .newPostFailed : .newReplyFailed)
+                            AnalyticsManager.track(event: self.inReplyId.isEmpty ? .newPostFailed : .newReplyFailed, props: ["isQuotePost": self.isQuotePost])
                             AnalyticsManager.reportError(error)
                             // I have seen 500, 503 errors returned when the serer is very busy
                         }
@@ -3916,13 +3916,15 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                     AnalyticsManager.reportError(error)
                 }
                 if let _ = statuses.value {
-                    AnalyticsManager.track(event: self.inReplyId.isEmpty ? .newPost : .newReply, props:
+                    AnalyticsManager.track(event: .newPost, props:
                                             [
                                                 "postLanguage": PostLanguages.shared.postLanguage,
                                                 "poll": (GlobalStruct.newPollPost?.isEmpty as? Bool) ?? false,
                                                 "hasMedia": self.mediaIdStrings.count > 0,
                                                 "numberOfMedia": self.mediaIdStrings.count,
-                                                "visibility": (self.whoCanReply ?? .public).rawValue
+                                                "visibility": (self.whoCanReply ?? .public).rawValue,
+                                                "isQuotePost": self.isQuotePost,
+                                                "isReply": !self.inReplyId.isEmpty
                                             ])
                     successSendingPost = true
                     DispatchQueue.main.async {

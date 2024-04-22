@@ -32,6 +32,7 @@
 		146C6A472B48113500A002D7 /* String+StripEmojis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C6A462B48113500A002D7 /* String+StripEmojis.swift */; };
 		14740AFF2BD68E9600DE2440 /* DevelopmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14740AFE2BD68E9600DE2440 /* DevelopmentViewController.swift */; };
 		14740B012BD6941700DE2440 /* SettingsTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14740B002BD6941700DE2440 /* SettingsTypes.swift */; };
+		14740B032BD6C15A00DE2440 /* UIKitScreenTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14740B022BD6C15A00DE2440 /* UIKitScreenTracking.swift */; };
 		14780F7B2AFBD6A700A7ECD9 /* RealtimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */; };
 		14780F812AFCEA7000A7ECD9 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 14780F802AFCEA7000A7ECD9 /* Reachability */; };
 		148D496A2B9A071E007DD94F /* CrowdinSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 148D49692B9A071E007DD94F /* CrowdinSDK */; };
@@ -861,6 +862,7 @@
 		146C6A462B48113500A002D7 /* String+StripEmojis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+StripEmojis.swift"; sourceTree = "<group>"; };
 		14740AFE2BD68E9600DE2440 /* DevelopmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevelopmentViewController.swift; sourceTree = "<group>"; };
 		14740B002BD6941700DE2440 /* SettingsTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTypes.swift; sourceTree = "<group>"; };
+		14740B022BD6C15A00DE2440 /* UIKitScreenTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitScreenTracking.swift; sourceTree = "<group>"; };
 		14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeManager.swift; sourceTree = "<group>"; };
 		149A68232AD6A1FE00E72A83 /* Mute-master */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "Mute-master"; path = "../Mute-master"; sourceTree = "<group>"; };
 		149A68282AD6A4E200E72A83 /* Mute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mute.swift; sourceTree = "<group>"; };
@@ -2847,6 +2849,7 @@
 				14E08C692B20BF9C00EF5A55 /* DeviceHelpers.swift */,
 				1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */,
 				BF45FDE92B34FF1800246C54 /* SettingsIcons.swift */,
+				14740B022BD6C15A00DE2440 /* UIKitScreenTracking.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -3807,6 +3810,7 @@
 				C3BBEEDF2A97577C0027C761 /* Carousel.swift in Sources */,
 				5339968F2914227A00560F83 /* Disk+Errors.swift in Sources */,
 				533996D82914227A00560F83 /* TOCroppedImageAttributes.m in Sources */,
+				14740B032BD6C15A00DE2440 /* UIKitScreenTracking.swift in Sources */,
 				662B612C2A4A245000CB331F /* BlueskyPostViewModel.swift in Sources */,
 				53399A73291526B900560F83 /* Trending.swift in Sources */,
 				533994B52914214A00560F83 /* ExploreViewController.swift in Sources */,

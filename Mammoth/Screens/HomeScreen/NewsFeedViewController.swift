@@ -83,7 +83,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         return self.viewModel.type
     }
     
-    private var isActiveFeed: Bool {
+    public var isActiveFeed: Bool {
         if let isActive = self.delegate?.isActiveFeed(self.type){
             return isActive
         }

@@ -12,7 +12,6 @@ import ArkanaKeys
 
 enum Events: String {
     case newPost
-    case newReply
     case newPostFailed
     case newReplyFailed
     case upgradedToGold
@@ -22,6 +21,14 @@ enum Events: String {
     case channelSubscribed
     case channelUnsubscribed
     case navigateToChannel
+    
+    case follow
+    case unfollow
+    
+    case like
+    case unlike
+    case repost
+    case unrepost
 }
 
 class AnalyticsManager {
@@ -57,6 +64,7 @@ class AnalyticsManager {
         
         if let analytics = self.analytics {
             analytics.add(plugin: DeviceToken())
+            analytics.add(plugin: UIKitScreenTracking())
         }
     }
     

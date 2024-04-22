@@ -90,6 +90,37 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
         }
     }
     
+    func trackingTitle() -> String {
+        switch self {
+        case .forYou:
+            return "ForYou"
+        case .following:
+            return "Following"
+        case .federated:
+            return "Federated"
+        case .community(let name):
+            return name.capitalized
+        case .trending(let instance):
+            return "Trending:\(instance)"
+        case .hashtag(let hashtag):
+            return "Hashtag:\(hashtag.name.capitalized)"
+        case .list(let list):
+            return list.title.capitalized
+        case .likes:
+            return "Likes"
+        case .bookmarks:
+            return "Bookmarks"
+        case .mentionsIn:
+            return "Mentions:In"
+        case .mentionsOut:
+            return "Mentions:Out"
+        case .activity(let type):
+            return "Activity:\(type?.rawValue.capitalized ?? "All")"
+        case .channel(let channel):
+            return channel.title.capitalized
+        }
+    }
+    
     func plainTitle() -> String {
         switch self {
         case .channel(let channel):
