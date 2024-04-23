@@ -341,6 +341,8 @@ extension PostActions {
                     
                     // Enable this for Bluesky
                     // NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
+                    
+                    AnalyticsManager.track(event: .like)
                 } catch {
                     log.error("onLike error: \(error)")
                     StatusCache.shared.removeLocalMetric(metricType: .like, statusId: uniqueId)
@@ -366,6 +368,8 @@ extension PostActions {
                     
                     // Enable this for Bluesky
                     // NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
+                    
+                    AnalyticsManager.track(event: .unlike)
                 } catch {
                     log.error("onUnlike error: \(error)")
                 }
@@ -395,6 +399,8 @@ extension PostActions {
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "actionFrom"), object: nil)
                         }
                     }
+                    
+                    AnalyticsManager.track(event: .repost)
                 } catch let error {
                     log.error("onRepost error: \(error)")
                 }
@@ -417,6 +423,8 @@ extension PostActions {
             Task {
                 do {
                     let _ = try await StatusService.unRepost(postCard: postCard, withPolicy: fetchPolicy)
+                    
+                    AnalyticsManager.track(event: .unrepost)
                     
                 } catch {
                     log.error("onUnrepost error: \(error)")
@@ -446,6 +454,8 @@ extension PostActions {
                     DispatchQueue.main.async {
                         // Display toast
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "postBookmarked"), object: nil)
+                        
+                        AnalyticsManager.track(event: .postBookmarked)
                     }
                 } catch {
                     log.error("onBookmark error: \(error)")

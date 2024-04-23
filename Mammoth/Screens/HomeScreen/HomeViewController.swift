@@ -110,7 +110,9 @@ class HomeViewController : UIViewController {
                 if let currentTabBarController = getTabBarController(),
                    let item = currentTabBarController.animatedTabBar.tabBarItems.first {
                     currentTabBarController.selectedIndex = 0
-                    TutorialOverlay.showOverlay(type: .quickFeedSwitcher, onRef: item)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        TutorialOverlay.showOverlay(type: .quickFeedSwitcher, onRef: item)
+                    }
                 }
             }
         } else {

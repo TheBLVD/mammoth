@@ -89,6 +89,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 self.setupWindows(forScene: windowScene)
                 
                 if connectionOptions.urlContexts.first?.url != nil {
+                    
+                    if let url = connectionOptions.urlContexts.first?.url {
+                        AnalyticsManager.openURL(url: url)
+                    }
+                    
                     let theURL = connectionOptions.urlContexts.first?.url.absoluteString ?? ""
                     if theURL.contains("shareExtensionMedia") {
                         // open composer with media from Share Extension
@@ -187,6 +192,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
         GlobalStruct.canLoadLink = true
+        
+        if let url = URLContexts.first?.url {
+            AnalyticsManager.openURL(url: url)
+        }
+        
         let theURL = URLContexts.first?.url.absoluteString ?? ""
         if theURL.contains("shareExtensionMedia") {
             // open composer with media from Share Extension

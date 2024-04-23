@@ -42,6 +42,12 @@ class NotificationService: UNNotificationServiceExtension {
         if let bestAttemptContent0 = bestAttemptContent {
             var bestAttemptContent = bestAttemptContent0
             
+            // Handle customer.io notifications
+            if let fromCustomerIO = bestAttemptContent.userInfo["CIO-Delivery-ID"] as? String, !fromCustomerIO.isEmpty {
+                contentHandler(bestAttemptContent)
+                return
+            }
+            
             // This will iterate through the various accounts until one
             // of them is able to decrypt the content.
             log.debug("\(processID()) " + "attempting to decrypt: \(request.identifier)")
