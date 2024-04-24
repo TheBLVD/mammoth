@@ -55,7 +55,6 @@ class DevelopmentViewController: UIViewController, UITableViewDataSource, UITabl
     @objc func switchAnalytics(_ sender: UISwitch) {
         if sender.isOn {
             GlobalStruct.shareAnalytics = true
-            AnalyticsManager.initClient()
             AccountsManager.shared.syncIdentityData()
             AnalyticsManager.subscribe()
             UserDefaults.standard.set(true, forKey: "shareAnalytics")

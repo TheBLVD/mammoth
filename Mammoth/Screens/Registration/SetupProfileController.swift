@@ -18,6 +18,7 @@ class SetupProfileController: UIViewController {
     
     var displayName: String? = nil
     var photoImage: UIImage? = nil
+    var pickedImage: UIImage? = nil
     var compressionQuality: CGFloat = 1
     var photoPicker = PhotoPicker()
     
@@ -121,8 +122,8 @@ class SetupProfileController: UIViewController {
     
     
     func updateAvatarAndUserName() {
-        if let photoImage {
-            AccountsManager.shared.updateCurrentAccountAvatar(photoImage)
+        if let pickedImage {
+            AccountsManager.shared.updateCurrentAccountAvatar(pickedImage)
         }
         if let displayName {
             AccountsManager.shared.updateCurrentAccountDisplayName(displayName)
@@ -137,6 +138,7 @@ extension SetupProfileController: PhotoPickerDelegate {
 
     func didUpdateImage(image: UIImage) {
         photoImage = image
+        pickedImage = image
         pictureButton.setImage(photoImage, for: .normal)
     }
     

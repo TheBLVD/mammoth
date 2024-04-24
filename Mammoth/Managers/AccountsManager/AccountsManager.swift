@@ -115,6 +115,11 @@ class AccountsManager {
         RealtimeManager.shared.disconnect()
         RealtimeManager.shared.clearAllListeners()
         
+        if currentAccount != nil {
+            AnalyticsManager.track(event: .switchingAccount)
+            AnalyticsManager.reset()
+        }
+        
         currentAccount = acctData
         if currentAccount != nil {
             if let acctHandler = acctHandlerForAcctData(acctData) {
@@ -153,6 +158,7 @@ class AccountsManager {
     
     @MainActor public func syncIdentityData() {
         if let identity = self.sanitizedCurrentIdentityData {
+            AnalyticsManager.alias(userId: identity.id)
             AnalyticsManager.identity(userId: identity.id, identity: identity)
             
             if let token = GlobalStruct.deviceToken {
@@ -194,6 +200,8 @@ class AccountsManager {
                     // Save account info
                     self.storeAccountsToDisk()
                     
+                    AnalyticsManager.track(event: .loggedIn)
+                    
                     // Make this the current account
                     self.switchToAccount(acctData, forceUIRefresh: false)
 
@@ -222,6 +230,8 @@ class AccountsManager {
 
                     // Save account info
                     self.storeAccountsToDisk()
+                    
+                    AnalyticsManager.track(event: .verifiedEmail)
                     
                     // Make this the current account
                     self.switchToAccount(acctData, forceUIRefresh: false)
@@ -612,7 +622,7 @@ extension AccountsManager {
     }
 
     
-    public func updateCurrentAccountAvatar(_ avatar: UIImage) {
+    public func updateCurrentAccountAvatar(_ avatar: UIImage, silently: Bool = false) {
         if let account = self.currentAccount,
            let acctHandler = acctHandlerForAcctData(account) {
             Task {
@@ -626,8 +636,10 @@ extension AccountsManager {
                 }
                 NotificationCenter.default.post(name: didUpdateAccountAvatar, object: self, userInfo: ["account":updatedAccount, "image":avatar])
                 
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: ToastNotificationManager.toast.imageSaved, object: nil)
+                if !silently {
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: ToastNotificationManager.toast.imageSaved, object: nil)
+                    }
                 }
             }
         }
