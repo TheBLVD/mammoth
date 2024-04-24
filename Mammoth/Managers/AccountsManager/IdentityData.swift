@@ -25,6 +25,9 @@ struct IdentityData: Codable {
     let isGoldMember: Bool
     let appLanguage: String
     let isLanguageSupported: Bool
+    let hasAvatar: Bool
+    let hasBio: Bool
+    let isBot: Bool
     let pushEnabled: Bool
     let unsubscribed: Bool
     
@@ -42,6 +45,9 @@ struct IdentityData: Codable {
         self.subscribedChannels = acctData.forYou.subscribedChannels.map({ $0.title })
         self.numberOfAccounts = allAccounts.count
         self.isGoldMember = IAPManager.isGoldMember
+        self.hasAvatar = !acctData.account.avatar.isEmpty && !acctData.account.avatar.contains("original/missing.png")
+        self.hasBio = !acctData.account.note.isEmpty
+        self.isBot = acctData.account.bot
         
         let themePrefix = GlobalStruct.overrideThemeHighContrast ? "HC:" : ""
         switch GlobalStruct.overrideTheme {
