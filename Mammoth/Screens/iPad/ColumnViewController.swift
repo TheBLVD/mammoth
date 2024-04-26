@@ -27,7 +27,7 @@ class ColumnViewController: UIViewController {
     private var sidebarViewController = SidebarViewController.shared
 
     // The main (left) column
-    private var mainColumnNavVC: UINavigationController? = nil
+    public var mainColumnNavVC: UINavigationController? = nil
     private var mainColumnPlaceholderView = ExtendedTouchView()
     // The auxilary (right) column
     private var auxColumnNavVC: UINavigationController? = nil

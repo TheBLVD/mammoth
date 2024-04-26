@@ -23,8 +23,10 @@ class UIKitScreenTracking: UtilityPlugin {
         "UIPageViewController",
         "UIInputWindowController",
         "UINavigationController",
-        "UIInputWindowController",
-        "Mammoth.HomeViewController"
+        "UIPressAndHoldPopoverController",
+        "Mammoth.HomeViewController",
+        "Mammoth.ColumnViewController",
+        "Mammoth.SidebarViewController"
     ]
     
     let type = PluginType.utility
@@ -86,8 +88,15 @@ extension UIViewController {
     }
     
     internal func captureScreen() {
+        var rootController = viewIfLoaded?.window?.rootViewController
+        if rootController == nil {
+            rootController = activeController()
+        }
+        
+        guard let top = Self.seg__visibleViewController(activeController()) else { return }
+        
         let isIgnoredVC = UIKitScreenTracking.ignoredViewControllers.reduce(false) { result, current in
-            if self.isOfType(className: current) {
+            if top.isOfType(className: current) || self.isOfType(className: current) {
                 return true
             }
             
@@ -95,13 +104,7 @@ extension UIViewController {
         }
         
         guard !isIgnoredVC else { return }
-        
-        var rootController = viewIfLoaded?.window?.rootViewController
-        if rootController == nil {
-            rootController = activeController()
-        }
-        guard let top = Self.seg__visibleViewController(activeController()) else { return }
-        
+
         var name = String(describing: top.self.classForCoder).replacingOccurrences(of: "ViewController", with: "")
         if let newsFeedVC = top as? NewsFeedViewController {
             name = newsFeedVC.type.trackingTitle()
@@ -150,6 +153,9 @@ extension UIViewController {
         }
         if let mentionsVC = controller as? MentionsViewController {
             return seg__visibleViewController(mentionsVC.currentPage())
+        }
+        if let column = controller as? ColumnViewController {
+            return seg__visibleViewController(column.mainColumnNavVC)
         }
         return controller
     }
