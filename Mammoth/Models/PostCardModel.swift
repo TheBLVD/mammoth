@@ -178,22 +178,12 @@ final class PostCardModel {
     // Computed / dynamic properties
     
     var likeCount: String {
-        if let remote = remoteData {
-            switch remote {
-            case .mastodon(let status):
-                return PostCardModel.formattedLikeCount(status: status, withStaticMetrics: self.staticMetrics)
-                
-            case .bluesky(let postVM):
-                return (postVM.post.likeCount ?? 0).formatUsingAbbrevation()
-            }
-        } else {
-            switch data {
-            case .mastodon(let status):
-                return PostCardModel.formattedLikeCount(status: status, withStaticMetrics: self.staticMetrics)
-                
-            case .bluesky(let postVM):
-                return (postVM.post.likeCount ?? 0).formatUsingAbbrevation()
-            }
+        switch remoteData ?? data {
+        case .mastodon(let status):
+            return PostCardModel.formattedLikeCount(status: status, withStaticMetrics: self.staticMetrics)
+            
+        case .bluesky(let postVM):
+            return (postVM.post.likeCount ?? 0).formatUsingAbbrevation()
         }
     }
     
@@ -213,22 +203,12 @@ final class PostCardModel {
     }
     
     var replyCount: String {
-        if let remote = remoteData {
-            switch remote {
-            case .mastodon(let status):
-                return max((status.reblog?.repliesCount ?? status.repliesCount), 0).formatUsingAbbrevation()
-                
-            case .bluesky(let postVM):
-                return (postVM.post.replyCount ?? 0).formatUsingAbbrevation()
-            }
-        } else {
-            switch data {
-            case .mastodon(let status):
-                return max((status.reblog?.repliesCount ?? status.repliesCount), 0).formatUsingAbbrevation()
-                
-            case .bluesky(let postVM):
-                return (postVM.post.replyCount ?? 0).formatUsingAbbrevation()
-            }
+        switch remoteData ?? data {
+        case .mastodon(let status):
+            return max((status.reblog?.repliesCount ?? status.repliesCount), 0).formatUsingAbbrevation()
+            
+        case .bluesky(let postVM):
+            return (postVM.post.replyCount ?? 0).formatUsingAbbrevation()
         }
     }
     
@@ -243,22 +223,12 @@ final class PostCardModel {
     }
     
     var repostCount: String {
-        if let remote = remoteData {
-            switch remote {
-            case .mastodon(let status):
-                return PostCardModel.formattedRepostCount(status: status, withStaticMetrics: self.staticMetrics)
-                
-            case .bluesky(let postVM):
-                return (postVM.post.repostCount ?? 0).formatUsingAbbrevation()
-            }
-        } else {
-            switch data {
-            case .mastodon(let status):
-                return PostCardModel.formattedRepostCount(status: status, withStaticMetrics: self.staticMetrics)
-                
-            case .bluesky(let postVM):
-                return (postVM.post.repostCount ?? 0).formatUsingAbbrevation()
-            }
+        switch remoteData ?? data {
+        case .mastodon(let status):
+            return PostCardModel.formattedRepostCount(status: status, withStaticMetrics: self.staticMetrics)
+            
+        case .bluesky(let postVM):
+            return (postVM.post.repostCount ?? 0).formatUsingAbbrevation()
         }
     }
     
@@ -292,24 +262,16 @@ final class PostCardModel {
 
     var applicationName: String? {
         if let server = originalInstanceName {
-            if server == "www.threads.net" || server == "threads.net" {
+            if server == "www.threads.net" {
                 return "Threads"
             }
         }
-        if let remote = remoteData {
-            switch remote {
-            case .mastodon(let status):
-                return status.application?.name
-            case .bluesky:
-                return nil
-            }
-        } else {
-            switch data {
-            case .mastodon(let status):
-                return status.application?.name
-            case .bluesky:
-                return nil
-            }
+        
+        switch remoteData ?? data  {
+        case .mastodon(let status):
+            return status.application?.name
+        case .bluesky:
+            return nil
         }
     }
     
