@@ -49,7 +49,7 @@ extension NewsFeedViewModel {
                     } else if case .channel = currentType {
                         newItems = items.removeMutesAndBlocks().removeFiltered()
                     } else {
-                        newItems = items
+                        newItems = items.removeFiltered()
                     }
                     
                     return await MainActor.run { [weak self] in
@@ -118,7 +118,7 @@ extension NewsFeedViewModel {
                     } else if case .channel = currentType {
                         newItems = items.removeMutesAndBlocks().removeFiltered()
                     } else {
-                        newItems = items
+                        newItems = items.removeFiltered()
                     }
 
                     return await MainActor.run { [weak self] in
@@ -362,7 +362,7 @@ extension NewsFeedViewModel {
             } else if case .channel = feedType {
                 newItems = items.removeMutesAndBlocks().removeFiltered()
             } else {
-                newItems = items
+                newItems = items.removeFiltered()
             }
             
             // Abort if user changed in the meantime
@@ -499,7 +499,7 @@ extension NewsFeedViewModel {
                 } else if case .channel = feedType {
                     newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered()
                 } else {
-                    newItemsSlice = newItems
+                    newItemsSlice = newItems.removeFiltered()
                 }
                 
                 // only keep older posts - trim away what's already in the feed

@@ -139,12 +139,6 @@ extension Array where Element == NewsFeedListItem {
                 if case .hide(_) = postCard.filterType {
                     return false
                 }
-                
-               return true
-            }
-            
-            else if case .activity(_) = $0 {
-                return true
             }
             
             return true
