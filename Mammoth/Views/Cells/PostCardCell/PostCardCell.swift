@@ -969,7 +969,7 @@ extension PostCardCell {
             self.contentWarningButton.isUserInteractionEnabled = true
         } else if case .warn(let filterName) = postCard.filterType {
             NSLayoutConstraint.activate(self.contentWarningConstraints)
-            self.contentWarningButton.setTitle("Content filter: \(filterName)", for: .normal)
+            self.contentWarningButton.setTitle(String.localizedStringWithFormat(NSLocalizedString("filter.overlay", comment: ""), filterName), for: .normal)
             self.contentWarningButton.isHidden = false
             self.contentWarningButton.isUserInteractionEnabled = true
         }
@@ -983,7 +983,7 @@ extension PostCardCell {
             NSLayoutConstraint.activate(self.deletedWarningConstraints)
             self.deletedWarningButton.isHidden = false
             self.profilePic.optimisticUpdate(image: UIImage())
-            deletedWarningButton.setTitle("Content filter: \(filterName)", for: .normal)
+            deletedWarningButton.setTitle("\(filterName)", for: .normal)
         } else if postCard.isBlocked {
             NSLayoutConstraint.activate(self.deletedWarningConstraints)
             self.deletedWarningButton.isHidden = false
