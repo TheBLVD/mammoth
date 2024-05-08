@@ -83,7 +83,7 @@ class EmailVerificationViewController: UIViewController {
     }
     
     func setupUI() {
-        envelopeImageView.image = FontAwesome.image(fromChar: "\u{f0e0}", size: 28, weight: .bold)
+        envelopeImageView.image = FontAwesome.image(fromChar: "\u{f0e0}", size: 28, weight: .bold).withRenderingMode(.alwaysTemplate)
         let title = NSAttributedString(string: (resendEmailButton.titleLabel?.text)!, attributes: [NSAttributedString.Key.foregroundColor: UIColor.custom.mediumContrast, NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15, weight: .semibold)])
         resendEmailButton.setAttributedTitle(title, for: .normal)
     }

@@ -77,7 +77,7 @@ class AccountsManager {
                 acctData.uniqueID == previousAcctIdentifier
             }
             
-            log.debug("switching to saved account: \(String(describing: previousAcctData))")
+            log.debug("switching to saved account: \(String(describing: previousAcctData?.fullAcct))")
             switchToAccount(previousAcctData, forceUIRefresh: false)
             
             if currentAccount == nil && allAccounts.count > 0 {
@@ -115,6 +115,11 @@ class AccountsManager {
         RealtimeManager.shared.disconnect()
         RealtimeManager.shared.clearAllListeners()
         
+        if currentAccount != nil {
+            AnalyticsManager.track(event: .switchingAccount)
+            AnalyticsManager.reset()
+        }
+        
         currentAccount = acctData
         if currentAccount != nil {
             if let acctHandler = acctHandlerForAcctData(acctData) {
@@ -124,6 +129,8 @@ class AccountsManager {
                     } else {
                         // Store current account to disk
                         UserDefaults.standard.set(acctData?.uniqueID, forKey: "currentAccountIdentifier")
+                        
+                        self.syncIdentityData()
 
                         // Let the rest of the app know
                         AccountsManagerShim.shared.didSwitchCurrentAccount(forceUIRefresh: forceUIRefresh)
@@ -149,6 +156,17 @@ class AccountsManager {
         }
     }
     
+    @MainActor public func syncIdentityData() {
+        if let identity = self.sanitizedCurrentIdentityData {
+            AnalyticsManager.alias(userId: identity.id)
+            AnalyticsManager.identity(userId: identity.id, identity: identity)
+            
+            if let token = GlobalStruct.deviceToken {
+                AnalyticsManager.setDeviceToken(token: token)
+            }
+        }
+    }
+    
     public func updateAccount(_ acctData: (any AcctDataType)) {
         let existingAcctIndex = allAccounts.firstIndex(where: {$0.uniqueID == acctData.uniqueID})
         if existingAcctIndex != nil {
@@ -159,6 +177,10 @@ class AccountsManager {
         }
         if acctData.uniqueID == currentAccount?.uniqueID {
             currentAccount = acctData
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.syncIdentityData()
+            }
         }
     }
     
@@ -177,6 +199,8 @@ class AccountsManager {
 
                     // Save account info
                     self.storeAccountsToDisk()
+                    
+                    AnalyticsManager.track(event: .loggedIn)
                     
                     // Make this the current account
                     self.switchToAccount(acctData, forceUIRefresh: false)
@@ -206,6 +230,8 @@ class AccountsManager {
 
                     // Save account info
                     self.storeAccountsToDisk()
+                    
+                    AnalyticsManager.track(event: .verifiedEmail)
                     
                     // Make this the current account
                     self.switchToAccount(acctData, forceUIRefresh: false)
@@ -273,6 +299,8 @@ class AccountsManager {
         if let mastodonAcctData = acctData as? MastodonAcctData {
             AccountCacher.clearCache(forAccount: mastodonAcctData.account)
         }
+        
+        AnalyticsManager.unsubscribe()
 
         // • remove from data structures
         let isCurrentAccount = self.currentAccount?.isEqualTo(other: acctData) ?? false
@@ -413,7 +441,7 @@ class AccountsManager {
                         try Disk.remove("drafts/\(acctData.account.id)/drafts.json", from: .documents)
                     }
                 } catch {
-                    log.error("unable to migrate drafts: \(error)")
+                    // unable to migrate drafts
                 }
             }
         }
@@ -476,6 +504,15 @@ extension AccountsManager {
     var currentAccountBlueskyAPI: BlueskyAPI? {
         let account = currentAccount as? BlueskyAcctData
         return account?.api
+    }
+    
+    // Used for analytics
+    var sanitizedCurrentIdentityData: IdentityData? {
+        if let mastodonAccount = (self.currentAccount as? MastodonAcctData) {
+            return IdentityData(from: mastodonAccount, allAccounts: self.allAccounts)
+        }
+        
+        return nil
     }
 
 }
@@ -585,7 +622,7 @@ extension AccountsManager {
     }
 
     
-    public func updateCurrentAccountAvatar(_ avatar: UIImage) {
+    public func updateCurrentAccountAvatar(_ avatar: UIImage, silently: Bool = false) {
         if let account = self.currentAccount,
            let acctHandler = acctHandlerForAcctData(account) {
             Task {
@@ -599,8 +636,10 @@ extension AccountsManager {
                 }
                 NotificationCenter.default.post(name: didUpdateAccountAvatar, object: self, userInfo: ["account":updatedAccount, "image":avatar])
                 
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: ToastNotificationManager.toast.imageSaved, object: nil)
+                if !silently {
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(name: ToastNotificationManager.toast.imageSaved, object: nil)
+                    }
                 }
             }
         }

@@ -467,6 +467,7 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                  feedType: feedType,
                                                  updateType: .hydrate,
+                                                 scrollPosition: retrievedPosition,
                                                  onCompleted: completed)
             }
         } else {
@@ -485,6 +486,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: feedType,
                                              updateType: .hydrate,
+                                             scrollPosition: nil,
                                              onCompleted: completed)
         }
     }
@@ -508,6 +510,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
                                              updateType: .replaceAll,
+                                             scrollPosition: nil,
                                              onCompleted: nil)
         }
     }
@@ -532,6 +535,7 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                  feedType: type,
                                                  updateType: .update,
+                                                 scrollPosition: nil,
                                                  onCompleted: nil)
             }
         } else {
@@ -567,6 +571,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
                                              updateType: .update,
+                                             scrollPosition: nil,
                                              onCompleted: nil)
         }
     }
@@ -596,12 +601,14 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                     feedType: type,
                                                     updateType: .inject,
+                                                    scrollPosition: nil,
                                                     onCompleted: nil)
             } else {
                 self.snapshot.appendItems(uniques, toSection: .main)
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                     feedType: type,
                                                     updateType: .append,
+                                                    scrollPosition: nil,
                                                     onCompleted: nil)
             }
         } else {
@@ -611,6 +618,7 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                     feedType: type,
                                                     updateType: .remove,
+                                                    scrollPosition: nil,
                                                     onCompleted: nil)
             }
         }
@@ -635,7 +643,8 @@ extension NewsFeedViewModel {
 
         self.delegate?.didUpdateSnapshot(self.snapshot,
                                             feedType: type,
-                                            updateType: .insert) { [weak self] in
+                                            updateType: .insert,
+                                         scrollPosition: nil) { [weak self] in
             guard let self else { return }
             self.insertUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
             self.delegate?.didUpdateUnreadState(type: type)
@@ -694,7 +703,8 @@ extension NewsFeedViewModel {
         } else {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
-                                             updateType: .insert) {
+                                             updateType: .insert,
+                                             scrollPosition: nil) {
                 
                 // Set the unread state after updating the data source.
                 // This will show the unread pill/indicator
@@ -733,6 +743,7 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                  feedType: type,
                                                  updateType: .remove,
+                                                 scrollPosition: nil,
                                                  onCompleted: nil)
             }
         }
@@ -777,6 +788,7 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                  feedType: type,
                                                  updateType: .remove,
+                                                 scrollPosition: nil,
                                                  onCompleted: nil)
             }
         }
@@ -804,6 +816,7 @@ extension NewsFeedViewModel {
                 self.snapshot,
                 feedType: self.type,
                 updateType: .remove,
+                scrollPosition: nil,
                 onCompleted: nil)
         }
     }
@@ -827,6 +840,7 @@ extension NewsFeedViewModel {
         self.delegate?.didUpdateSnapshot(self.snapshot,
                                          feedType: feedType,
                                          updateType: .replaceAll,
+                                         scrollPosition: nil,
                                          onCompleted: nil)
     }
     
@@ -838,6 +852,7 @@ extension NewsFeedViewModel {
             self.snapshot,
             feedType: type,
             updateType: .removeAll,
+            scrollPosition: nil,
             onCompleted: nil)
     }
     
@@ -859,6 +874,7 @@ extension NewsFeedViewModel {
             self.snapshot,
             feedType: type,
             updateType: .removeAll,
+            scrollPosition: nil,
             onCompleted: nil)
     }
     
@@ -1022,6 +1038,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
                                              updateType: .append,
+                                             scrollPosition: nil,
                                              onCompleted: nil)
         }
     }
@@ -1040,6 +1057,7 @@ extension NewsFeedViewModel {
         self.delegate?.didUpdateSnapshot(self.snapshot,
                                          feedType: type,
                                          updateType: .append,
+                                         scrollPosition: nil,
                                          onCompleted: nil)
     }
     
@@ -1058,6 +1076,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
                                              updateType: .append,
+                                             scrollPosition: nil,
                                              onCompleted: nil)
         }
     }
@@ -1070,6 +1089,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
                                              updateType: .append,
+                                             scrollPosition: nil,
                                              onCompleted: nil)
         }
     }

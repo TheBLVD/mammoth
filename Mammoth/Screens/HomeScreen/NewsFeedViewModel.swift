@@ -28,6 +28,7 @@ protocol NewsFeedViewModelDelegate: AnyObject {
     func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot,
                            feedType: NewsFeedTypes,
                            updateType: NewsFeedSnapshotUpdateType,
+                           scrollPosition: NewsFeedScrollPosition?,
                            onCompleted: (() -> Void)?)
     func willChangeFeed(fromType: NewsFeedTypes, toType: NewsFeedTypes)
     func didChangeFeed(type: NewsFeedTypes)
@@ -89,6 +90,37 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
         }
     }
     
+    func trackingTitle() -> String {
+        switch self {
+        case .forYou:
+            return "ForYou"
+        case .following:
+            return "Following"
+        case .federated:
+            return "Federated"
+        case .community(let name):
+            return name.capitalized
+        case .trending(let instance):
+            return "Trending:\(instance)"
+        case .hashtag(let hashtag):
+            return "Hashtag:\(hashtag.name.capitalized)"
+        case .list(let list):
+            return list.title.capitalized
+        case .likes:
+            return "Likes"
+        case .bookmarks:
+            return "Bookmarks"
+        case .mentionsIn:
+            return "Mentions:In"
+        case .mentionsOut:
+            return "Mentions:Out"
+        case .activity(let type):
+            return "Activity:\(type?.rawValue.capitalized ?? "All")"
+        case .channel(let channel):
+            return channel.title.capitalized
+        }
+    }
+    
     func plainTitle() -> String {
         switch self {
         case .channel(let channel):
@@ -142,7 +174,12 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
                 
             case .mentionsIn:
                 let (result, cursorId) = try await TimelineService.mentions(range: range)
-                return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
+                return (result.enumerated().compactMap({
+                    guard let status = $1.status else { return nil }
+                    let postCardData = PostCardModel(status: status, withStaticMetrics: false, batchId: batchName, batchItemIndex: $0)
+                    postCardData.cursorId = $1.id
+                    return .postCard(postCardData)
+                }), cursorId: cursorId)
                 
             case .mentionsOut:
                 let (result, cursorId) = try await AccountService.mentionsSent(range: range)
@@ -338,7 +375,9 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
     
     var shouldPollForListData: Bool {
         switch self {
-        case .activity, .mentionsIn, .mentionsOut:
+        case .activity, .mentionsIn:
+            return true
+        case .mentionsOut:
             return false
         default:
             return true
@@ -359,10 +398,11 @@ class NewsFeedViewModel {
     internal var isLoadMoreEnabled: Bool = true
         
     internal var pollingTask: Task<Void, Error>?
+    public var pollingReachedTop: Bool = true
     internal var pollingFrequency: Double { //seconds
         switch self.type {
         case .mentionsIn, .activity:
-            return 10
+            return 30
         case .mentionsOut:
             return 60
         default:
@@ -422,34 +462,32 @@ class NewsFeedViewModel {
                         if let status = notification.status {
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity2"), object: self)
                             let newPost = PostCardModel(status: status)
+                            newPost.cursorId = notification.id
                             let newItem = NewsFeedListItem.postCard(newPost)
-                            
-                            self.insertUnreadIds(ids: [newItem.uniqueId()], forFeed: .mentionsIn)
-                            self.setUnreadEnabled(enabled: true, forFeed: .mentionsIn)
-                            
+                                                        
                             if !self.isItemInSnapshot(newItem) {
+                                self.setUnreadEnabled(enabled: true, forFeed: .mentionsIn)
                                 newPost.preloadQuotePost()
-                                self.insertNewest(items: [newItem], includeLoadMore: false, forType: .mentionsIn)
+                                self.insert(items: [newItem], forType: .mentionsIn)
                             }
                         }
                     } else {
                         if case .activity(let activityType) = type, notification.type == activityType {
-                            let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
-                            
-                            self.insertUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
-                            self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
+                            let activity = ActivityCardModel(notification: notification)
+                            activity.cursorId = notification.id
+                            let newItem = NewsFeedListItem.activity(activity)
                             
                             if !self.isItemInSnapshot(newItem) {
-                                self.insertNewest(items: [newItem], includeLoadMore: false, forType: .activity(activityType))
+                                self.setUnreadEnabled(enabled: true, forFeed: .activity(activityType))
+                                self.insert(items: [newItem], forType: .activity(activityType))
                             }
                         } else if case .activity(let activityType) = type, activityType == nil { // activityType == nil means All activity
-                            let newItem = NewsFeedListItem.activity(ActivityCardModel(notification: notification))
-                            
-                            self.insertUnreadIds(ids: [newItem.uniqueId()], forFeed: .activity(nil))
-                            self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
+                            let activity = ActivityCardModel(notification: notification)
+                            let newItem = NewsFeedListItem.activity(activity)
                             
                             if !self.isItemInSnapshot(newItem) {
-                                self.insertNewest(items: [newItem], includeLoadMore: false, forType: .activity(nil))
+                                self.setUnreadEnabled(enabled: true, forFeed: .activity(nil))
+                                self.insert(items: [newItem], forType: .activity(nil))
                                 NotificationCenter.default.post(name: Notification.Name(rawValue: "showIndActivity"), object: self)
                             }
                         }

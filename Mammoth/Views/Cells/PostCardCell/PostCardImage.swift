@@ -8,7 +8,6 @@
 
 import UIKit
 import SDWebImage
-import UnifiedBlurHash
 
 final class PostCardImage: UIView {
     
@@ -102,7 +101,7 @@ final class PostCardImage: UIView {
             c1.priority = .defaultHigh
 
             let c2 = imageView.heightAnchor.constraint(greaterThanOrEqualToConstant: 60)
-            c2.priority = .required
+            c2.priority = .defaultHigh
             
             return [c1, c2]
         }
@@ -141,7 +140,7 @@ final class PostCardImage: UIView {
             return [c1, c2]
         } else {
             let c1 = imageView.widthAnchor.constraint(lessThanOrEqualTo: self.widthAnchor)
-            c1.priority = .required
+            c1.priority = .defaultHigh
             
             let c2 = imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 420)
             c2.priority = .required
@@ -247,11 +246,8 @@ final class PostCardImage: UIView {
         if let media = image {
             if let previewURL = media.previewURL, let imageURL = URL(string: previewURL) {
                 var placeholder: UIImage?
-                if let blurhash = media.blurhash {
-                    let blurWidth = media.meta?.small?.width ?? 64
-                    let blurHeight = media.meta?.small?.height ?? 64
-                    placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 64, height: 64))?
-                        .resized(to: .init(width: blurWidth, height: blurHeight))
+                if let blurhash = media.blurhash, let blurImage = postCard.decodedBlurhashes[blurhash] {
+                    placeholder = blurImage
                 }
                 let decodedImage = (media.previewURL != nil) ? postCard.decodedImages[media.previewURL!] as? UIImage : nil
                 self.imageView.ma_setImage(with: imageURL,
@@ -379,11 +375,8 @@ final class PostCardImage: UIView {
                 let previewFromCache = SDImageCache.shared.imageFromCache(forKey: attachment.previewURL)
                 
                 var blurImage: UIImage? = nil
-                if let blurhash = attachment.blurhash, imageFromCache == nil, let currentMedia = self.media, attachment.url != currentMedia.url {
-                    let blurWidth = attachment.meta?.small?.width ?? 64
-                    let blurHeight = attachment.meta?.small?.height ?? 64
-                    blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: 64, height: 64))?
-                        .resized(to: .init(width: blurWidth, height: blurHeight))
+                if let blurhash = attachment.blurhash, imageFromCache == nil, let currentMedia = self.media, attachment.url != currentMedia.url, let decodedBlurImage = self.postCard?.decodedBlurhashes[blurhash] {
+                    blurImage = decodedBlurImage
                 }
                 photo.underlyingImage = imageFromCache ?? previewFromCache ?? blurImage
                 return photo

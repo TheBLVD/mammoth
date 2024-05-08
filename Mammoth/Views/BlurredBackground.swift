@@ -24,9 +24,9 @@ class BlurredBackground: UIView {
     
     init(dimmed: Bool = false, underlayAlpha: CGFloat? = nil) {
         if dimmed {
-            blurEffectView = UIVisualEffectView(effect: Self.blurEffectDimmed)
+            blurEffectView = UIVisualEffectView(effect: BlurredBackground.blurEffectDimmed)
         } else {
-            blurEffectView = UIVisualEffectView(effect: Self.blurEffect)
+            blurEffectView = UIVisualEffectView(effect: BlurredBackground.blurEffect)
         }
         
         blurEffectView.translatesAutoresizingMaskIntoConstraints = false

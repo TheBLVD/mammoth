@@ -41,8 +41,11 @@ public struct Lists {
     ///
     /// - Parameter title: The title of the list.
     /// - Returns: Request for `List`.
-    public static func create(title: String) -> Request<List> {
-        let parameter = [Parameter(name: "title", value: title)]
+    public static func create(title: String, exclusive: Bool = false) -> Request<List> {
+        let parameter = [
+            Parameter(name: "title", value: title),
+            Parameter(name: "exclusive", value: String(exclusive))
+        ]
         let method = HTTPMethod.post(.parameters(parameter))
 
         return Request<List>(path: "/api/v1/lists", method: method)
@@ -54,8 +57,11 @@ public struct Lists {
     ///   - id: The list ID.
     ///   - title: The title of the list.
     /// - Returns: Request for `List`.
-    public static func update(id: String, title: String) -> Request<List> {
-        let parameter = [Parameter(name: "title", value: title)]
+    public static func update(id: String, title: String, exclusive: Bool = false) -> Request<List> {
+        let parameter = [
+            Parameter(name: "title", value: title),
+            Parameter(name: "exclusive", value: String(exclusive))
+        ]
         let method = HTTPMethod.put(.parameters(parameter))
 
         return Request<List>(path: "/api/v1/lists/\(id)", method: method)
