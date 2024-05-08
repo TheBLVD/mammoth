@@ -44217,6 +44217,28 @@
         }
       }
     },
+    "post.quote.notFound" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post could not be found"
+          }
+        }
+      }
+    },
+    "post.quote.quoting" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "quotes another post"
+          }
+        }
+      }
+    },
     "post.reply" : {
       "localizations" : {
         "af" : {
