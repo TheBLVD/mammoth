@@ -28,6 +28,7 @@ final class PostCardMetadata: UIView {
         stackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return stackView
     }()
+    var heightConstraint: NSLayoutConstraint?
     
     private let metricsStackView: UIStackView = {
         let stack = UIStackView()
@@ -84,13 +85,14 @@ final class PostCardMetadata: UIView {
         self.addSubview(mainStackView)
         self.layoutMargins = .zero
         
+        heightConstraint = mainStackView.heightAnchor.constraint(equalToConstant: 23)
+        heightConstraint?.isActive = true
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
-            mainStackView.heightAnchor.constraint(equalToConstant: 23)
         ])
         
         mainStackView.addArrangedSubview(metricsStackView)
@@ -121,6 +123,7 @@ final class PostCardMetadata: UIView {
         self.isPrivateMention = postCard.isPrivateMention
         
         if type.shouldShowSourceAndApplicationName {
+            heightConstraint?.isActive = false
             var description = postCard.source
             if !description.isEmpty {
                 description += " - "
