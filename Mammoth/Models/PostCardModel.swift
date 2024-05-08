@@ -12,6 +12,8 @@ import Kingfisher
 import AVFoundation
 import Meta
 import MastodonMeta
+import MetaTextKit
+import UnifiedBlurHash
 
 final class PostCardModel {
     
@@ -35,7 +37,7 @@ final class PostCardModel {
     var instanceName: String?
     
     let id: String?
-    let cursorId: String?
+    var cursorId: String?
     let uniqueId: String?
     
     let originalId: String?
@@ -104,6 +106,7 @@ final class PostCardModel {
     
     var imagePrefetchToken: SDWebImagePrefetchToken?
     var decodedImages: [String: UIImage?] = [:]
+    var decodedBlurhashes: [String: UIImage] = [:]
     var cellHeight: CGFloat?
     
     enum FilterType {
@@ -346,11 +349,11 @@ final class PostCardModel {
         // Sensitive content
         self.isSensitive = status.reblog?.sensitive ?? status.sensitive ?? false
 
-        // Contains poll?
-        self.containsPoll = PostCardModel.containsPoll(status: status)
-        
         // The poll to display
         self.poll = status.reblog?.poll ?? status.poll
+        
+        // Contains poll?
+        self.containsPoll = poll != nil
         
         // Should show reply indicator?
         self.isAReply = PostCardModel.isAReply(status: status)
@@ -388,12 +391,12 @@ final class PostCardModel {
         // Hide the link image if there is a media attachment
         self.hideLinkImage = true //self.hasMediaAttachment
         
-        // Contains quote post?
-        self.hasQuotePost = (status.reblog?.quotePostCard() ?? status.quotePostCard()) != nil
-        
         // Quote post card
         self.quotePostCard = status.reblog?.quotePostCard() ?? status.quotePostCard()
         
+        // Contains quote post?
+        self.hasQuotePost = self.quotePostCard != nil
+
         // Quote post status data
         if self.hasQuotePost {
             if let urlStr = self.quotePostCard?.url,
@@ -513,6 +516,8 @@ final class PostCardModel {
             self.isBlocked = false
             self.isMuted = false
         }
+        
+        self.decodeBlurhashes()
     }
     
     convenience init(status: Status, withStaticMetrics staticMetrics: Bool = false, instanceName: String? = nil, batchId: String? = nil, batchItemIndex: Int? = nil) {
@@ -863,6 +868,15 @@ extension PostCardModel {
         }
     }
     
+    func decodeBlurhashes() {
+        self.mediaAttachments.forEach({
+            if let blurhash = $0.blurhash {
+                let blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+                decodedBlurhashes[blurhash] = blurImage
+            }
+        })
+    }
+    
     func cancelAllPreloadTasks() {
         self.videoPlayer?.pause()
         self.videoPlayer = nil
@@ -912,13 +926,14 @@ extension PostCardModel {
         let localCount = hasLocal != nil ? hasLocal! ? 1 : 0 : 0
         let isFavorited = status.reblog?.favourited ?? status.favourited
         let onlineCount = status.reblog?.favouritesCount ?? status.favouritesCount
+        
         // Add 1 to the count:
         //  - when we know the post has static metrics (For You feed) and we know locally the post has been liked
         //  - when we know locally the post has been liked but it's not yet reflected online (optimistic updates)
         //  - when the online post returns 'favorited' but the count is still zero
         // Additionally, make sure the result is never < 0
         if staticMetrics {
-            return max(onlineCount + localCount, 0).formatUsingAbbrevation()
+            return max(onlineCount, 0).formatUsingAbbrevation()
         }
         if localCount > 0 && (isFavorited ?? false) == false {
             return max(onlineCount + localCount, 0).formatUsingAbbrevation()
@@ -941,7 +956,7 @@ extension PostCardModel {
         //  - when the online post returns 'reblogged' but the count is still zero
         // Additionally, make sure the result is never < 0
         if staticMetrics {
-            return max(onlineCount + localCount, 0).formatUsingAbbrevation()
+            return max(onlineCount, 0).formatUsingAbbrevation()
         }
         if localCount > 0 && (isReblogged ?? false) == false {
             return max(onlineCount + localCount, 0).formatUsingAbbrevation()
@@ -1039,14 +1054,6 @@ extension PostCardModel {
         text = text.replacingOccurrences(of: "<br></p>", with: "</p>", options: NSString.CompareOptions.regularExpression, range: nil)
         
         return text
-    }
-    
-    static func containsPoll(status: Status) -> Bool {
-        if let _ = status.reblog?.poll ?? status.poll {
-            return true
-        } else {
-            return false
-        }
     }
     
     static func isAReply(status: Status) -> Bool {

@@ -35,7 +35,7 @@ class AccountsManagerShim {
             do {
                 GlobalStruct.drafts = try Disk.retrieve("\(currentAccount?.diskFolderName() ?? "")/drafts.json", from: .documents, as: [Draft].self)
             } catch {
-                log.debug("unable to create drafts; perhaps there were none")
+                // unable to create drafts; perhaps there were none
             }
 
             // Delete any app-related storage if there is no current acccount

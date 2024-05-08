@@ -42,6 +42,12 @@ class NotificationService: UNNotificationServiceExtension {
         if let bestAttemptContent0 = bestAttemptContent {
             var bestAttemptContent = bestAttemptContent0
             
+            // Handle customer.io notifications
+            if let fromCustomerIO = bestAttemptContent.userInfo["CIO-Delivery-ID"] as? String, !fromCustomerIO.isEmpty {
+                contentHandler(bestAttemptContent)
+                return
+            }
+            
             // This will iterate through the various accounts until one
             // of them is able to decrypt the content.
             log.debug("\(processID()) " + "attempting to decrypt: \(request.identifier)")
@@ -54,7 +60,7 @@ class NotificationService: UNNotificationServiceExtension {
                 }
                 
                 bestAttemptContent.userInfo["id"] = content.notificationId
-                bestAttemptContent.title = content.title.replacingOccurrences(of: "favourited your post", with: "liked").replacingOccurrences(of: "boosted your post", with: "reposted").replacingOccurrences(of: "is now following you", with: "followed you").replacingOccurrences(of: "You were mentioned by ", with: "")
+                bestAttemptContent.title = content.title.replacingOccurrences(of: "favourited your post", with: "liked").replacingOccurrences(of: "favorited your post", with: "liked").replacingOccurrences(of: "boosted your post", with: "reposted").replacingOccurrences(of: "is now following you", with: "followed you").replacingOccurrences(of: "You were mentioned by ", with: "")
                 bestAttemptContent.body = content.body.replacingOccurrences(of: "&#39;", with: "'").replacingOccurrences(of: "&lt;", with: "<").replacingOccurrences(of: "&gt;", with: ">").replacingOccurrences(of: "&amp;", with: "&").replacingOccurrences(of: "&quot;", with: "\"")
                 
                 bestAttemptContent.sound = UNNotificationSound.init(named: UNNotificationSoundName(rawValue: "soundPush.wav"))

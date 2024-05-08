@@ -46,7 +46,7 @@ class FontAwesome {
                              color: UIColor? = nil,
                              size: CGFloat = 19.0,
                              weight: UIFont.Weight = .regular) -> UIImage {
-        
+
         let cacheKey = char + "-" + StringFromUIColor(color) + " - \(size) - \(weight)"
         if let cachedValue = cachedImages[cacheKey] {
             // log.debug("got image from cache: \(cacheKey)")
@@ -54,14 +54,23 @@ class FontAwesome {
         }
         
         let label = UILabel(frame: .zero)
-        switch weight {
-        case .bold:
-            label.font = UIFont(name: "Font Awesome 6 Pro", size: size)?.bold
-        case .regular:
-            label.font = UIFont(name: "Font Awesome 6 Pro", size: size)
-        default:
-            label.font = UIFont(name: "Font Awesome 6 Pro", size: size)
-            log.error("unexpected font weight")
+        
+        if let font = UIFont(name: "Font Awesome 6 Pro", size: size),
+           let unicode = char.unicodeScalars.first,
+           isSupported(unicode: unicode, font: font) {
+            switch weight {
+            case .bold:
+                label.font = font.bold
+            case .regular:
+                label.font = font
+            default:
+                label.font = font
+                log.error("unexpected font weight")
+            }
+        } else {
+            // Fallback to Font Awesome 6 Brand font if this glyph is
+            // not supported by "Font Awesome 6 Pro"
+            label.font = UIFont(name: "Font Awesome 6 Brands", size: size)
         }
 
         if color != nil  {
@@ -71,6 +80,7 @@ class FontAwesome {
                 label.textColor = systemColorTheme == ColorTheme.light ? UIColor.black : UIColor.white //light or dark
             }
         }
+        
         label.text = char
         label.sizeToFit()
         let renderer = UIGraphicsImageRenderer(size: label.frame.size)
@@ -102,6 +112,12 @@ func StringFromUIColor(_ color: UIColor?) -> String {
         }
     }
 }
+
+func isSupported(unicode: UnicodeScalar, font: UIFont) -> Bool {
+    let coreFont: CTFont = font
+    let characterSet: CharacterSet = CTFontCopyCharacterSet(coreFont) as CharacterSet
+    return characterSet.contains(unicode)
+ }
 
 
 extension UIFont {

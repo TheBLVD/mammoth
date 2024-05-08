@@ -31,6 +31,7 @@ func EnablePushNotificationSetting(checkOnlyOnceFlag: Bool,  completionHandler: 
         UNUserNotificationCenter.current().requestAuthorization(options: authOptions) { (success, error) in
             if let error = error {
                 log.error("Error: \(error)")
+                AnalyticsManager.failedToRegisterForPushNotifications(error: error)
             }
             if success {
                 DispatchQueue.main.async {

@@ -49,7 +49,7 @@ extension NewsFeedViewModel {
                     } else if case .channel = currentType {
                         newItems = items.removeMutesAndBlocks().removeFiltered()
                     } else {
-                        newItems = items
+                        newItems = items.removeFiltered()
                     }
                     
                     return await MainActor.run { [weak self] in
@@ -107,7 +107,7 @@ extension NewsFeedViewModel {
             case .previousPage:
                 
                 if let firstId = await MainActor.run(body: { [weak self] in return self?.newestItemId(forType: currentType) }) {
-                    let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.min(id: firstId, limit: 40), batchName: "previous-page_batch")
+                    let (items, cursorId) = try await currentType.fetchAll(range: RequestRange.min(id: firstId, limit: 100), batchName: "previous-page_batch")
                     
                     // only remove mutes and blocks in remote feeds.
                     let newItems: [NewsFeedListItem]
@@ -118,7 +118,7 @@ extension NewsFeedViewModel {
                     } else if case .channel = currentType {
                         newItems = items.removeMutesAndBlocks().removeFiltered()
                     } else {
-                        newItems = items
+                        newItems = items.removeFiltered()
                     }
 
                     return await MainActor.run { [weak self] in
@@ -171,7 +171,7 @@ extension NewsFeedViewModel {
                     newItems = items
                 }
                 
-                await MainActor.run { [weak self] in
+                DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
 
                     // Abort if user changed in the meantime
@@ -185,6 +185,8 @@ extension NewsFeedViewModel {
                     } else {
                         self.hideEmpty(forType: currentType)
                     }
+                    
+                    self.pollingReachedTop = true
                     
                     self.set(withItems: newItems, forType: currentType)
                     self.state = .success
@@ -360,7 +362,7 @@ extension NewsFeedViewModel {
             } else if case .channel = feedType {
                 newItems = items.removeMutesAndBlocks().removeFiltered()
             } else {
-                newItems = items
+                newItems = items.removeFiltered()
             }
             
             // Abort if user changed in the meantime
@@ -497,7 +499,7 @@ extension NewsFeedViewModel {
                 } else if case .channel = feedType {
                     newItemsSlice = newItems.removeMutesAndBlocks().removeFiltered()
                 } else {
-                    newItemsSlice = newItems
+                    newItemsSlice = newItems.removeFiltered()
                 }
                 
                 // only keep older posts - trim away what's already in the feed
@@ -620,6 +622,10 @@ extension NewsFeedViewModel {
                 guard let self else { return }
                 guard !Task.isCancelled else { return }
                 
+                await MainActor.run { [weak self] in
+                    self?.pollingReachedTop = true
+                }
+                
                 var fetchingNewItems = false
 
                 try await self.recursiveTask(retryCount: 5, frequency: self.pollingFrequency, delay: delay) { [weak self] in
@@ -652,7 +658,8 @@ extension NewsFeedViewModel {
                             try await self.loadLatest(feedType: type)
                             fetchingNewItems = false
                         } else {
-                            var pageToFetchLimit = 10
+                            let maxPagesToFetch = 10
+                            var pageToFetchLimit = maxPagesToFetch
                             fetchingNewItems = true
                                                         
                             log.debug("Calling loadListData(previousPage) for feedType: \(type)")
@@ -663,6 +670,10 @@ extension NewsFeedViewModel {
                             
                             if !fetchedItems.isEmpty {
                                 
+                                await MainActor.run { [weak self] in
+                                    self?.pollingReachedTop = false
+                                }
+
                                 // Show the JumpToNow pill if the feed is old
                                 if fetchedItems.count >= 40 {
                                     await MainActor.run { [weak self] in
@@ -671,16 +682,21 @@ extension NewsFeedViewModel {
                                 }
                                 
                                 while fetchingNewItems && pageToFetchLimit > 0 {
+                                    guard !Task.isCancelled else { break }
                                     log.debug("Calling loadListData(previousPage) for feedType: \(type)")
                                     let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
-                                                                        
+                                       
+                                    guard !Task.isCancelled else { break }
+                                    
                                     if fetchedItems.isEmpty {
                                         break
                                     } else {
                                         pageToFetchLimit -= 1
                                     }
-                                    
-                                    guard !Task.isCancelled else { break }
+                                }
+                            } else {
+                                await MainActor.run { [weak self] in
+                                    self?.pollingReachedTop = true
                                 }
                             }
                             
@@ -695,8 +711,9 @@ extension NewsFeedViewModel {
                                         self.delegate?.didUpdateUnreadState(type: type)
                                     }
                                 }
-                            } else if pageToFetchLimit >= 9 {
+                            } else if pageToFetchLimit >= maxPagesToFetch-1 {
                                 await MainActor.run { [weak self] in
+                                    self?.pollingReachedTop = true
                                     self?.setShowJumpToNow(enabled: false, forFeed: type)
                                     self?.delegate?.didUpdateUnreadState(type: type)
                                 }
@@ -754,7 +771,7 @@ extension NewsFeedViewModel {
                     guard !Task.isCancelled else { return }
 
                     let newPostCard = postCard.mergeInOriginalData(status: status)
-                    await MainActor.run { [weak self] in
+                    DispatchQueue.main.async { [weak self] in
                         guard let self else { return }
                         guard !Task.isCancelled else { return }
                         
@@ -786,7 +803,7 @@ extension NewsFeedViewModel {
                             if webfinger == nil || !webfinger!.isEmpty {
                                 let deletedPostCard = postCard
                                 deletedPostCard.isDeleted = true
-                                await MainActor.run { [weak self] in
+                                DispatchQueue.main.async { [weak self] in
                                     guard let self else { return }
                                     self.update(with: .postCard(deletedPostCard), forType: self.type, silently: false)
                                 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1440C9022BC8006800799A4F /* fa-brand.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1440C9012BC8006800799A4F /* fa-brand.otf */; };
+		1440C9062BCD811C00799A4F /* Segment in Frameworks */ = {isa = PBXBuildFile; productRef = 1440C9052BCD811C00799A4F /* Segment */; };
+		1440C90B2BD00FBE00799A4F /* IdentityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1440C90A2BD00FBE00799A4F /* IdentityData.swift */; };
 		144173572B21E0480058AFCC /* TutorialOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144173562B21E0480058AFCC /* TutorialOverlay.swift */; };
 		1441735A2B21E4490058AFCC /* TextBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144173592B21E4490058AFCC /* TextBubbleView.swift */; };
 		1441736D2B2B1FDA0058AFCC /* SDImageTransformers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */; };
@@ -27,6 +30,9 @@
 		146C6A432B34545B00A002D7 /* UnifiedBlurHash in Frameworks */ = {isa = PBXBuildFile; productRef = 146C6A422B34545B00A002D7 /* UnifiedBlurHash */; };
 		146C6A452B456EFB00A002D7 /* CarouselNavigationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C6A442B456EFB00A002D7 /* CarouselNavigationHeader.swift */; };
 		146C6A472B48113500A002D7 /* String+StripEmojis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C6A462B48113500A002D7 /* String+StripEmojis.swift */; };
+		14740AFF2BD68E9600DE2440 /* DevelopmentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14740AFE2BD68E9600DE2440 /* DevelopmentViewController.swift */; };
+		14740B012BD6941700DE2440 /* SettingsTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14740B002BD6941700DE2440 /* SettingsTypes.swift */; };
+		14740B032BD6C15A00DE2440 /* UIKitScreenTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14740B022BD6C15A00DE2440 /* UIKitScreenTracking.swift */; };
 		14780F7B2AFBD6A700A7ECD9 /* RealtimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */; };
 		14780F812AFCEA7000A7ECD9 /* Reachability in Frameworks */ = {isa = PBXBuildFile; productRef = 14780F802AFCEA7000A7ECD9 /* Reachability */; };
 		148D496A2B9A071E007DD94F /* CrowdinSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 148D49692B9A071E007DD94F /* CrowdinSDK */; };
@@ -145,6 +151,7 @@
 		14C45DEF2B1A4266000171A9 /* Pride@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEC2B1A4266000171A9 /* Pride@3x.png */; };
 		14C45DF02B1A4266000171A9 /* Pride.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DED2B1A4266000171A9 /* Pride.png */; };
 		14C45DF12B1A4266000171A9 /* Pride@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 14C45DEE2B1A4266000171A9 /* Pride@2x.png */; };
+		14D7B7F12BBC1035001EA481 /* String+Height.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D7B7F02BBC1035001EA481 /* String+Height.swift */; };
 		14DA3C542B8CCA66007ECB0C /* JumpToLatest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14DA3C532B8CCA66007ECB0C /* JumpToLatest.swift */; };
 		14DA3C5E2B91EB2E007ECB0C /* IntroViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14DA3C602B91EB2E007ECB0C /* IntroViewController.xib */; };
 		14DA3C622B91EB33007ECB0C /* SignUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14DA3C642B91EB33007ECB0C /* SignUpView.xib */; };
@@ -831,6 +838,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1440C9012BC8006800799A4F /* fa-brand.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fa-brand.otf"; sourceTree = "<group>"; };
+		1440C90A2BD00FBE00799A4F /* IdentityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityData.swift; sourceTree = "<group>"; };
 		144173562B21E0480058AFCC /* TutorialOverlay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialOverlay.swift; sourceTree = "<group>"; };
 		144173592B21E4490058AFCC /* TextBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBubbleView.swift; sourceTree = "<group>"; };
 		1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDImageTransformers.swift; sourceTree = "<group>"; };
@@ -851,6 +860,9 @@
 		1455B8F52B9B33A200630F46 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		146C6A442B456EFB00A002D7 /* CarouselNavigationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselNavigationHeader.swift; sourceTree = "<group>"; };
 		146C6A462B48113500A002D7 /* String+StripEmojis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+StripEmojis.swift"; sourceTree = "<group>"; };
+		14740AFE2BD68E9600DE2440 /* DevelopmentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevelopmentViewController.swift; sourceTree = "<group>"; };
+		14740B002BD6941700DE2440 /* SettingsTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTypes.swift; sourceTree = "<group>"; };
+		14740B022BD6C15A00DE2440 /* UIKitScreenTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitScreenTracking.swift; sourceTree = "<group>"; };
 		14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeManager.swift; sourceTree = "<group>"; };
 		149A68232AD6A1FE00E72A83 /* Mute-master */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "Mute-master"; path = "../Mute-master"; sourceTree = "<group>"; };
 		149A68282AD6A4E200E72A83 /* Mute.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mute.swift; sourceTree = "<group>"; };
@@ -967,6 +979,7 @@
 		14C45DEC2B1A4266000171A9 /* Pride@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@3x.png"; sourceTree = "<group>"; };
 		14C45DED2B1A4266000171A9 /* Pride.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pride.png; sourceTree = "<group>"; };
 		14C45DEE2B1A4266000171A9 /* Pride@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pride@2x.png"; sourceTree = "<group>"; };
+		14D7B7F02BBC1035001EA481 /* String+Height.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Height.swift"; sourceTree = "<group>"; };
 		14DA3C532B8CCA66007ECB0C /* JumpToLatest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpToLatest.swift; sourceTree = "<group>"; };
 		14DA3C5F2B91EB2E007ECB0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/IntroViewController.xib; sourceTree = "<group>"; };
 		14DA3C612B91EB2E007ECB0C /* mul */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; name = mul; path = mul.lproj/IntroViewController.xcstrings; sourceTree = "<group>"; };
@@ -1635,6 +1648,7 @@
 				532F291829476B29003C9FAD /* InputBarAccessoryView in Frameworks */,
 				14780F812AFCEA7000A7ECD9 /* Reachability in Frameworks */,
 				533993F82914201500560F83 /* SDWebImage in Frameworks */,
+				1440C9062BCD811C00799A4F /* Segment in Frameworks */,
 				144DC6CF2B17552400F4EE98 /* StoreKit.framework in Frameworks */,
 				5339970F291422D400560F83 /* OrderedCollections in Frameworks */,
 				532F291529476916003C9FAD /* MessageKit in Frameworks */,
@@ -1828,6 +1842,8 @@
 				5339940C2914214A00560F83 /* ContactSettingsViewController.swift */,
 				BFDE45942B16CAA20055480A /* TextFileViewController.swift */,
 				BFDE45962B16CFB30055480A /* About.rtf */,
+				14740AFE2BD68E9600DE2440 /* DevelopmentViewController.swift */,
+				14740B002BD6941700DE2440 /* SettingsTypes.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2702,6 +2718,7 @@
 				BF2451F12A4B3C9500B409D4 /* AcctData.swift */,
 				BF6A77E82A533C85001727A9 /* AcctDataViewModel.swift */,
 				BF2451F32A4B3D6300B409D4 /* AcctHandler.swift */,
+				1440C90A2BD00FBE00799A4F /* IdentityData.swift */,
 			);
 			path = AccountsManager;
 			sourceTree = "<group>";
@@ -2712,6 +2729,7 @@
 				BF4D709829EE589B0059C250 /* FontAwesome.swift */,
 				BF4D709429EE55E90059C250 /* fa-regular-400.ttf */,
 				BF4D709229EE55E90059C250 /* fa-solid-900.ttf */,
+				1440C9012BC8006800799A4F /* fa-brand.otf */,
 				BF4D709329EE55E90059C250 /* custom-icons.ttf */,
 				BF14812B2B180D9C008DFA9D /* InstrumentSerif-Regular.ttf */,
 			);
@@ -2831,6 +2849,7 @@
 				14E08C692B20BF9C00EF5A55 /* DeviceHelpers.swift */,
 				1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */,
 				BF45FDE92B34FF1800246C54 /* SettingsIcons.swift */,
+				14740B022BD6C15A00DE2440 /* UIKitScreenTracking.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -3075,32 +3094,33 @@
 		C3D3C47B2A335D4E007B31EE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				66D091E42A53623F00291B8D /* ViewController */,
-				66D091EC2A5362B300291B8D /* View */,
-				66D091E72A53625F00291B8D /* Layout */,
-				533994FA2914227800560F83 /* Date.swift */,
-				BF0DC4BC2A2039770072C1DA /* UIImage+Utils.swift */,
-				C3D3C47C2A335D69007B31EE /* UIView+Constraints.swift */,
-				C3C22E732A39B79C00C7CB0A /* UITableView+HeaderView.swift */,
-				BF6055812B18F2C000171180 /* UITableView+SafeScrollToRow.swift */,
-				88B9D50B29E9EB9400A7B1BC /* BundleExtension.swift */,
 				53399A8029180FC800560F83 /* AccountExtension.swift */,
-				533995622914227900560F83 /* Disk */,
-				C3F3B0262A4C41A2008FC4B7 /* Task+Sleep.swift */,
-				C37635792A545A7C0008DD21 /* UIControl+AddAction.swift */,
-				C3C7ED272A5D61B70039FB4D /* String+Filename.swift */,
-				C3C7ED232A5C14CB0039FB4D /* NumberFormatter+kNotation.swift */,
+				C3EE65A12AD564C3009489EE /* Array+Diff.swift */,
 				C37E6D442A657E360038B5F6 /* Array+Duplicates.swift */,
+				BFBD97AB2B44ECDA00A0645B /* Bundle+decode.swift */,
+				88B9D50B29E9EB9400A7B1BC /* BundleExtension.swift */,
+				533994FA2914227800560F83 /* Date.swift */,
+				C3C7ED232A5C14CB0039FB4D /* NumberFormatter+kNotation.swift */,
+				BF8598A32AF5634900E2BA8D /* ProcessID.swift */,
 				C37E6D422A6559C30038B5F6 /* Sequence+Async.swift */,
 				C3BBEEEA2A98B6870027C761 /* StatusBar+Height.swift */,
-				C3EE65A12AD564C3009489EE /* Array+Diff.swift */,
+				C3C7ED272A5D61B70039FB4D /* String+Filename.swift */,
+				14D7B7F02BBC1035001EA481 /* String+Height.swift */,
 				14BE1A4F2AEFDAB700C13189 /* String+Image.swift */,
-				BF8598A32AF5634900E2BA8D /* ProcessID.swift */,
-				144DC6C82B14E26200F4EE98 /* UIColor+Gradient.swift */,
-				1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */,
-				BFBD97AB2B44ECDA00A0645B /* Bundle+decode.swift */,
 				146C6A462B48113500A002D7 /* String+StripEmojis.swift */,
+				C3F3B0262A4C41A2008FC4B7 /* Task+Sleep.swift */,
+				144DC6C82B14E26200F4EE98 /* UIColor+Gradient.swift */,
+				C37635792A545A7C0008DD21 /* UIControl+AddAction.swift */,
+				BF0DC4BC2A2039770072C1DA /* UIImage+Utils.swift */,
+				1441736E2B2C6C600058AFCC /* UIImageView+Caching.swift */,
 				14E4CAC42B76428200E4D499 /* UILabel+IsTruncated.swift */,
+				C3C22E732A39B79C00C7CB0A /* UITableView+HeaderView.swift */,
+				BF6055812B18F2C000171180 /* UITableView+SafeScrollToRow.swift */,
+				C3D3C47C2A335D69007B31EE /* UIView+Constraints.swift */,
+				533995622914227900560F83 /* Disk */,
+				66D091E72A53625F00291B8D /* Layout */,
+				66D091EC2A5362B300291B8D /* View */,
+				66D091E42A53623F00291B8D /* ViewController */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3198,6 +3218,7 @@
 				F0ED503B2B949A2C00F7525B /* MetaTextKit */,
 				148D49692B9A071E007DD94F /* CrowdinSDK */,
 				F054D25B2B9C9E07006130A4 /* MetaTextKit */,
+				1440C9052BCD811C00799A4F /* Segment */,
 			);
 			productName = Mastodon;
 			productReference = 533993DF29141F4600560F83 /* Mammoth.app */;
@@ -3313,6 +3334,7 @@
 				146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */,
 				148D49682B9A04F2007DD94F /* XCRemoteSwiftPackageReference "mobile-sdk-ios" */,
 				F054D25A2B9C9E07006130A4 /* XCRemoteSwiftPackageReference "MetaTextKit" */,
+				1440C9042BCD811C00799A4F /* XCRemoteSwiftPackageReference "analytics-swift" */,
 			);
 			productRefGroup = 533993E029141F4600560F83 /* Products */;
 			projectDirPath = "";
@@ -3452,6 +3474,7 @@
 				5383F1E529796808005F1B20 /* Icon.png in Resources */,
 				14C45DAD2B1A1F8C000171A9 /* Burton@2x.png in Resources */,
 				5383F232297968C4005F1B20 /* IconBBlack@2x.png in Resources */,
+				1440C9022BC8006800799A4F /* fa-brand.otf in Resources */,
 				14C45DE92B1A3891000171A9 /* Pride Dark.png in Resources */,
 				14C45D7C2B1A1F8C000171A9 /* Carroll.png in Resources */,
 				14C45DE42B1A1F8C000171A9 /* Newsprint@2x.png in Resources */,
@@ -3689,6 +3712,7 @@
 				C37E6D432A6559C30038B5F6 /* Sequence+Async.swift in Sources */,
 				BFDCBD1A2A9D61BB00606234 /* ChannelsViewModel.swift in Sources */,
 				533996DA2914227A00560F83 /* CropViewController.swift in Sources */,
+				14740B012BD6941700DE2440 /* SettingsTypes.swift in Sources */,
 				C3BBEEF02A9F933D0027C761 /* MentionsViewController.swift in Sources */,
 				BFBD97AC2B44ECDA00A0645B /* Bundle+decode.swift in Sources */,
 				533996492914227A00560F83 /* BioMetricAuthenticator.swift in Sources */,
@@ -3720,6 +3744,7 @@
 				BF32F9DB2A3CB64400AE4291 /* NewPostButton.swift in Sources */,
 				533994AC2914214A00560F83 /* SettingsViewController.swift in Sources */,
 				53450E722936127C00D720EA /* DictionaryTransform.swift in Sources */,
+				14740AFF2BD68E9600DE2440 /* DevelopmentViewController.swift in Sources */,
 				5339967A2914227A00560F83 /* SKPhotoBrowserOptions.swift in Sources */,
 				53411857295DFBFC00696DDA /* Familiar.swift in Sources */,
 				BF6055822B18F2C000171180 /* UITableView+SafeScrollToRow.swift in Sources */,
@@ -3785,6 +3810,7 @@
 				C3BBEEDF2A97577C0027C761 /* Carousel.swift in Sources */,
 				5339968F2914227A00560F83 /* Disk+Errors.swift in Sources */,
 				533996D82914227A00560F83 /* TOCroppedImageAttributes.m in Sources */,
+				14740B032BD6C15A00DE2440 /* UIKitScreenTracking.swift in Sources */,
 				662B612C2A4A245000CB331F /* BlueskyPostViewModel.swift in Sources */,
 				53399A73291526B900560F83 /* Trending.swift in Sources */,
 				533994B52914214A00560F83 /* ExploreViewController.swift in Sources */,
@@ -3899,6 +3925,7 @@
 				BFDCBD1C2A9D689700606234 /* Channel.swift in Sources */,
 				53399A39291526B900560F83 /* CharacterSet.swift in Sources */,
 				C3D3C47A2A30DEB3007B31EE /* PostCardHeader.swift in Sources */,
+				14D7B7F12BBC1035001EA481 /* String+Height.swift in Sources */,
 				BFA71B532AB23547001D1EC1 /* InstanceCell.swift in Sources */,
 				BF7F47012AD4AA32000977EB /* SetupAccountsViewModel.swift in Sources */,
 				C3B693C52A3878AA00E85927 /* ProfileSectionHeader.swift in Sources */,
@@ -3990,6 +4017,7 @@
 				53399A70291526B900560F83 /* Clients.swift in Sources */,
 				C3B693BF2A3866C000E85927 /* ProfileViewModel.swift in Sources */,
 				5339967F2914227A00560F83 /* SKCache.swift in Sources */,
+				1440C90B2BD00FBE00799A4F /* IdentityData.swift in Sources */,
 				53399A72291526B900560F83 /* Search.swift in Sources */,
 				533994CD2914214A00560F83 /* GalleryViewController.swift in Sources */,
 				533996F52914227A00560F83 /* PlainButtonCell.swift in Sources */,
@@ -4456,7 +4484,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 441;
+				CURRENT_PROJECT_VERSION = 461;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
@@ -4480,7 +4508,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.11;
+				MARKETING_VERSION = 2.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.theblvd.mammoth;
 				PRODUCT_NAME = Mammoth;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4504,7 +4532,7 @@
 				CODE_SIGN_ENTITLEMENTS = Mammoth/Mammoth.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 441;
+				CURRENT_PROJECT_VERSION = 461;
 				DEVELOPMENT_TEAM = W44P88K5SB;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
@@ -4528,7 +4556,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 2.11;
+				MARKETING_VERSION = 2.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.theblvd.mammoth;
 				PRODUCT_NAME = Mammoth;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -4746,6 +4774,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		1440C9042BCD811C00799A4F /* XCRemoteSwiftPackageReference "analytics-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/segmentio/analytics-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.9;
+			};
+		};
 		144DC74E2B17698200F4EE98 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
@@ -4845,6 +4881,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		1440C9052BCD811C00799A4F /* Segment */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1440C9042BCD811C00799A4F /* XCRemoteSwiftPackageReference "analytics-swift" */;
+			productName = Segment;
+		};
 		146C6A422B34545B00A002D7 /* UnifiedBlurHash */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 146C6A412B3453E000A002D7 /* XCRemoteSwiftPackageReference "UnifiedBlurHash" */;

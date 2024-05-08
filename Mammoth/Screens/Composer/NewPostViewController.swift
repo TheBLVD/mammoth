@@ -2856,12 +2856,12 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         // Compose the string
         if postPieces.count == 1 {
             // Show the # of characters used
-            self.postCharacterCount = self.postCharacterCount2 - postPieces[0].count - contentWarning.count
+            self.postCharacterCount = self.postCharacterCount2 - countWithURL(postPieces[0]) - contentWarning.count
             self.navigationItem.title = "\(postCharacterCount)"
             self.navigationItem.accessibilityLabel = String.localizedStringWithFormat(NSLocalizedString("composer.characterCount", comment: ""), postCharacterCount)
         } else {
             // Show the current number of posts, and the character space *remaining*
-            self.postCharacterCount = self.postCharacterCount2 - postPieces.last!.count
+            self.postCharacterCount = self.postCharacterCount2 - countWithURL(postPieces.last!)
             
             self.navigationItem.title = String.localizedStringWithFormat(NSLocalizedString("composer.characterCount.thread", comment: ""), postPieces.count, postCharacterCount)
             self.navigationItem.accessibilityLabel = String.localizedStringWithFormat(NSLocalizedString("composer.characterCount.thread.description", comment: ""), postPieces.count, postCharacterCount)
@@ -3656,6 +3656,15 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
 #endif
     }
     
+    private func countWithURL(_ postText: String) -> Int {
+        // for mastodon. urls always have 23 characters
+        // content warnings don't have the url rule.
+        let regex = try! NSRegularExpression(pattern: "https?://[^ ]+\\.[^ ][^ ]+", options: .caseInsensitive)
+        let range = NSMakeRange(0, postText.count)
+        // replace with 23 characters.
+        return regex.stringByReplacingMatches(in: postText, options: [], range: range, withTemplate: ".......................").count
+    }
+    
     func postThread(_ postText: String, contentWarning: String) {
         let postPieces = self.postPiecesFromPost(postText, contentWarning: contentWarning)
         
@@ -3677,7 +3686,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         // If threader mode, but text is short, return one item
-        if self.threadingAllowed() && self.postCharacterCount2 > postText.count + contentWarning.count {
+        if self.threadingAllowed() && self.postCharacterCount2 > countWithURL(postText) + contentWarning.count {
             return [postText]
         }
         
@@ -3687,33 +3696,37 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         
         // Split the post into various pieces
         var postPieces: [String] = []
-        var remainingPostText = postText
-        repeat {
-            // Initial split location...
-            var splitLocation = numUserCharsPerPost
-            // The first post should also take the contentWarning text into account
-            if postPieces.count == 0 {
-                splitLocation -= contentWarning.count
+        var currentPiece: String = ""
+        var pieceSize: Int = 0
+        // separate post per word.
+        let allWords = postText.split(separator: " ", omittingEmptySubsequences: false)
+        for word in allWords {
+            let regex = try! NSRegularExpression(pattern: "https?://[^ ]+\\.[^ ][^ ]+", options: .caseInsensitive)
+            let wordSize: Int
+            
+            // links are always 23 characters
+            if regex.firstMatch(in: String(word), range: NSMakeRange(0, word.count)) != nil {
+                // account for space
+                wordSize = 23 + 1
+            } else {
+                // account for space
+                wordSize = word.count + 1
             }
-            var thisPiece = "\(remainingPostText.prefix(splitLocation))"
-            // If not the last piece, walk back looking for a " " to break at...
-            if thisPiece.count != remainingPostText.count {
-                while thisPiece.last != " " {
-                    splitLocation -= 1
-                    thisPiece = "\(remainingPostText.prefix(splitLocation))"
-                }
+            
+            // if this word makes the post too big!
+            if pieceSize + wordSize > numUserCharsPerPost {
+                postPieces.append(currentPiece)
+                currentPiece = String(word) + " "
+                pieceSize = wordSize + 1
             }
-            // Break off this part of the post...
-            remainingPostText = String(remainingPostText.suffix(remainingPostText.count - thisPiece.count))
-            postPieces.append(thisPiece)
-        } while remainingPostText.count > 0
-        
-        // Remove any trailing spaces from each piece
-        for index in 0..<postPieces.count {
-            while postPieces[index].last == " " {
-                postPieces[index] = "\(postPieces[index].prefix(postPieces[index].count-1))"
+            // if not!!!
+            else {
+                currentPiece += word + " "
+                pieceSize += wordSize
             }
         }
+        // append our final part
+        postPieces.append(currentPiece)
         
         // Append footer to each thread piece
         for index in 0..<postPieces.count {
@@ -3759,6 +3772,43 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             spoilerText = self.spoilerText
         }
         log.debug("posting thread piece reply to: \(repId ?? "<no id>"), visiblity: \(whoCanRep)")
+        // First, if necessary, do a search of the post to get it onto
+        // the authenticated user's server.
+        if inReplyTo == "ID Requires Search" {
+            // Get the local post ID, and try again
+            // Checking for url as reblog or original.
+            if let statURL = self.allStatuses.first?.reblog?.url ?? self.allStatuses.first?.url {
+                let request = Search.search(query: statURL, resolve: true)
+                (self.currentAcct as? MastodonAcctData)?.client.run(request) { [weak self] (statuses) in
+                    var successGettingPostID = false
+                    if let error = statuses.error {
+                        log.error("error from Search.search(): \(error)")
+                        // I have seen 500, 503 errors returned when the serer is very busy
+                    }
+                    if let results = statuses.value {
+                        let statuses = results.statuses
+                        if let statID = statuses.first?.id {
+                            successGettingPostID = true
+                            DispatchQueue.main.async {
+                                // Try again
+                                self?.postNextThreadPiece(postPieces, inReplyTo: statID)
+                            }
+                        } else {
+                            log.error("Expected a status")
+                        }
+                    }
+                    // Put an alert to retry if needed.
+                    if !successGettingPostID {
+                        DispatchQueue.main.async { [weak self] in
+                            self?.setPostFailure()
+                        }
+                    }
+                }
+            } else {
+                log.error("unable to get a stat url")
+            }
+            return
+        }
         let request = Statuses.create(status: thisPostPiece, replyToID: repId, mediaIDs: self.mediaIdStrings, sensitive: self.isSensitive, spoilerText: spoilerText, scheduledAt: self.scheduledTime, language: PostLanguages.shared.postLanguage, poll: GlobalStruct.newPollPost, visibility: whoCanRep)
         (self.currentAcct as? MastodonAcctData)?.client.run(request) { (statuses) in
             if let error = statuses.error {
@@ -3818,6 +3868,8 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                         var successGettingPostID = false
                         if let error = statuses.error {
                             log.error("error from Search.search(): \(error)")
+                            AnalyticsManager.track(event: self.inReplyId.isEmpty ? .newPostFailed : .newReplyFailed, props: ["isQuotePost": self.isQuotePost])
+                            AnalyticsManager.reportError(error)
                             // I have seen 500, 503 errors returned when the serer is very busy
                         }
                         if let results = statuses.value {
@@ -3860,8 +3912,20 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 print("new post - \(statuses)")
                 if let error = statuses.error {
                     log.error("Unable to post; error: \(error)")
+                    AnalyticsManager.track(event: self.inReplyId.isEmpty ? .newPostFailed : .newReplyFailed)
+                    AnalyticsManager.reportError(error)
                 }
                 if let _ = statuses.value {
+                    AnalyticsManager.track(event: .newPost, props:
+                                            [
+                                                "postLanguage": PostLanguages.shared.postLanguage,
+                                                "poll": (GlobalStruct.newPollPost?.isEmpty as? Bool) ?? false,
+                                                "hasMedia": self.mediaIdStrings.count > 0,
+                                                "numberOfMedia": self.mediaIdStrings.count,
+                                                "visibility": (self.whoCanReply ?? .public).rawValue,
+                                                "isQuotePost": self.isQuotePost,
+                                                "isReply": !self.inReplyId.isEmpty
+                                            ])
                     successSendingPost = true
                     DispatchQueue.main.async {
                         if self.scheduledTime == nil {
