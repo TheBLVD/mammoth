@@ -20,8 +20,14 @@ class PostCardWebview: UIView {
         stackView.spacing = 0.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        stackView.layer.borderWidth = 0.4
-        stackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
+        stackView.layer.borderWidth = 1.0 / UIScreen.main.scale
+        stackView.layer.allowsEdgeAntialiasing = false
+        stackView.layer.edgeAntialiasingMask = [.layerBottomEdge, .layerTopEdge, .layerLeftEdge, .layerRightEdge]
+        stackView.layer.needsDisplayOnBoundsChange = false
+        stackView.layer.rasterizationScale = UIScreen.main.scale
+        stackView.layer.contentsScale = UIScreen.main.scale
+        
+        stackView.layer.borderColor = UIColor.custom.outlines.cgColor
         stackView.layer.masksToBounds = true
         stackView.layer.cornerRadius = 6
         
@@ -194,9 +200,12 @@ extension PostCardWebview {
             let inverse_ratio = Double(iframe.height) / Double(iframe.width)
             stackHeightConstraint = mainStackView.heightAnchor.constraint(equalTo: mainStackView.widthAnchor, multiplier: inverse_ratio)
             stackHeightConstraint?.isActive = true
-            
+            var placeholder: UIImage? = nil
+            if let blurhash = linkCard.blurhash {
+                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+            }
             // setup preview image.
-            imageView.sd_setImage(with: linkCard.image)
+            imageView.sd_setImage(with: linkCard.image, placeholderImage: placeholder)
             imageView.isHidden = false
             
             // setup video title.

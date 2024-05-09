@@ -412,7 +412,7 @@ final class PostCardModel {
         self.hasLink = self.linkCard?.url != nil
         
         // get iframe.
-        if let html = self.linkCard?.html, self.linkCard?.image != nil, !self.hasMediaAttachment {
+        if let html = self.linkCard?.html, !(self.linkCard?.image == nil && self.linkCard?.blurhash == nil), !self.hasMediaAttachment {
             if let url = URL(string: html.slice(from: "src=\"", to: "\" ") ?? ""), let width = self.linkCard?.width ?? Int(html.slice(from: "width=\"", to: "\"") ?? ""), let height = self.linkCard?.height ?? Int(html.slice(from: "height=\"", to: "\"") ?? "")  {
                 self.webview = Webview.init(url: url, width: width, height: height)
             }
