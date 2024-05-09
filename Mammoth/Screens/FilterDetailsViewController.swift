@@ -539,7 +539,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "AltTextCell", for: indexPath) as! AltTextCell
-            cell.altText.placeholder = "Filter title..."
+            cell.altText.placeholder = NSLocalizedString("filters.title.placeholder", comment: "")
             cell.altText.text = self.filter?.title ?? ""
             cell.altText.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
             cell.altText.returnKeyType = .done
@@ -587,7 +587,7 @@ class FilterDetailsViewController: UIViewController, UITableViewDataSource, UITa
             if let _ = self.filter {
                 cell.textLabel?.text = NSLocalizedString("filters.duration.expiresAt", comment: "")
             } else {
-                cell.textLabel?.text = "Expire after..."
+                cell.textLabel?.text = NSLocalizedString("filters.duration.expiresAt", comment: "")
             }
             cell.imageView?.image = UIImage(systemName: "clock")
             

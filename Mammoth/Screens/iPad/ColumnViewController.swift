@@ -27,7 +27,7 @@ class ColumnViewController: UIViewController {
     private var sidebarViewController = SidebarViewController.shared
 
     // The main (left) column
-    private var mainColumnNavVC: UINavigationController? = nil
+    public var mainColumnNavVC: UINavigationController? = nil
     private var mainColumnPlaceholderView = ExtendedTouchView()
     // The auxilary (right) column
     private var auxColumnNavVC: UINavigationController? = nil
@@ -347,7 +347,7 @@ class ColumnViewController: UIViewController {
             goTo5.wantsPriorityOverSystemBehavior = true
         }
         let goTo6 = UIKeyCommand(input: "6", modifierFlags: .command, action: #selector(scrollTo6))
-        goTo6.discoverabilityTitle = "Likes"
+        goTo6.discoverabilityTitle = NSLocalizedString("title.likes", comment: "")
         if #available(iOS 15, *) {
             goTo6.wantsPriorityOverSystemBehavior = true
         }

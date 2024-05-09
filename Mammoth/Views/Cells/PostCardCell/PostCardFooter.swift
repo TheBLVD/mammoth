@@ -75,6 +75,13 @@ private extension PostCardFooter {
     }
 }
 
+// MARK: - Estimated height
+extension PostCardFooter {
+    static func estimatedHeight() -> CGFloat {
+        return 43
+    }
+}
+
 // MARK: - Configuration
 extension PostCardFooter {
     func configure(postCard: PostCardModel, includeMetrics: Bool = true) {
@@ -106,6 +113,17 @@ extension PostCardFooter {
         quoteButton.onThemeChange()
         likeButton.onThemeChange()
         moreButton.onThemeChange()
+    }
+}
+
+extension PostCardFooter {
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let pointForTargetView = self.likeButton.convert(point, from: self)
+        if CGRectContainsPoint(self.likeButton.bounds, pointForTargetView) {
+            return self.likeButton
+        }
+        
+        return super.hitTest(point, with: event)
     }
 }
 
@@ -177,9 +195,9 @@ fileprivate class PostFooterButton: UIButton {
         self.setupUI()
 
         if [.like, .reply, .repost, .quote].contains(where: { $0 == type }) {
-            let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap))
-            self.addGestureRecognizer(tap)
+            self.addTarget(self, action: #selector(self.handleTap), for: .touchUpInside)
         }
+        
         self.accessibilityLabel = String(describing: type)
     }
     
@@ -189,16 +207,18 @@ fileprivate class PostFooterButton: UIButton {
     
     private func setupUI() {
         self.isOpaque = true
+        self.isUserInteractionEnabled = true
         self.addSubview(container)
         self.layoutMargins = .init(top: 0, left: 12, bottom: 0, right: 12)
         
         self.container.layoutMargins = .zero
+        self.container.isUserInteractionEnabled = false
         
         NSLayoutConstraint.activate([
             container.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
             container.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
             container.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
-            container.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
+            container.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor)
         ])
         
         icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons,
@@ -208,6 +228,10 @@ fileprivate class PostFooterButton: UIButton {
         icon.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         container.addArrangedSubview(icon)
+        
+        NSLayoutConstraint.activate([
+            icon.heightAnchor.constraint(equalToConstant: 36)
+        ])
     }
 }
 
@@ -245,7 +269,9 @@ extension PostFooterButton {
         if let postCard = postCard {
             switch (self.postButtonType) {
             case .more:
-                self.menu = self.createMoreMenu(postCard: postCard)
+                DispatchQueue.main.async { [weak self] in
+                    self?.menu = self?.createMoreMenu(postCard: postCard)
+                }
                 self.showsMenuAsPrimaryAction = true
             default:
                 self.showsMenuAsPrimaryAction = false
@@ -294,7 +320,15 @@ private extension PostFooterButton {
             if !self.isActive {
                 self.icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons, renderingMode: .alwaysOriginal)
             } else {
-                self.icon.image = self.postButtonType.activeIcon(symbolConfig: symbolConfig)?.withTintColor(UIColor.systemPink, renderingMode: .alwaysOriginal)
+                self.icon.image = self.postButtonType.activeIcon(symbolConfig: symbolConfig)?.withTintColor(self.postButtonType.tintColor(isActive: true), renderingMode: .alwaysOriginal)
+            }
+            
+        case .repost:
+            // Update button appearance
+            if !self.isActive {
+                self.icon.image = self.postButtonType.icon(symbolConfig: symbolConfig)?.withTintColor(.custom.actionButtons, renderingMode: .alwaysOriginal)
+            } else {
+                self.icon.image = self.postButtonType.activeIcon(symbolConfig: symbolConfig)?.withTintColor(self.postButtonType.tintColor(isActive: true), renderingMode: .alwaysOriginal)
             }
             
         default:

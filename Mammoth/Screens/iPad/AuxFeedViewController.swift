@@ -10,7 +10,7 @@ import UIKit
 
 class AuxFeedViewController : UIViewController {
     private let newsFeedViewController = NewsFeedViewController(type: .following)
-    private lazy var activityViewController = ActivityViewController()
+    private lazy var activityViewController = ActivityViewController(screenPosition: .aux)
     private lazy var sentMessagesViewController = NewsFeedViewController(type: .mentionsOut)
     private lazy var receivedMessagesViewController = NewsFeedViewController(type: .mentionsIn)
     private lazy var likesViewController = NewsFeedViewController(type: .likes)

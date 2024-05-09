@@ -313,7 +313,7 @@ extension PostActions {
     
     // Handler call when pressing the reply button on a post
     static func onReply(target: UIViewController, postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         let vc = NewPostViewController()
         vc.isModalInPresentation = true
@@ -327,6 +327,7 @@ extension PostActions {
         if let uniqueId = postCard.uniqueId {
             // Optimistically update local cache
             StatusCache.shared.addLocalMetric(metricType: .like, statusId: uniqueId)
+            postCard.likeTap()
             
             // Consolidate list data with updated post card data and request a cell refresh
             NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
@@ -340,6 +341,8 @@ extension PostActions {
                     
                     // Enable this for Bluesky
                     // NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
+                    
+                    AnalyticsManager.track(event: .like)
                 } catch {
                     log.error("onLike error: \(error)")
                     StatusCache.shared.removeLocalMetric(metricType: .like, statusId: uniqueId)
@@ -353,6 +356,7 @@ extension PostActions {
         if let uniqueId = postCard.uniqueId {
             // Optimistically update local cache
             StatusCache.shared.removeLocalMetric(metricType: .like, statusId: uniqueId)
+            postCard.unlikeTap()
             
             // Consolidate list data with updated post card data and request a cell refresh
             NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
@@ -364,6 +368,8 @@ extension PostActions {
                     
                     // Enable this for Bluesky
                     // NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
+                    
+                    AnalyticsManager.track(event: .unlike)
                 } catch {
                     log.error("onUnlike error: \(error)")
                 }
@@ -377,6 +383,8 @@ extension PostActions {
             // Optimistically update local cache
             StatusCache.shared.addLocalMetric(metricType: .repost, statusId: uniqueId)
             
+            postCard.repostTap()
+            
             // Consolidate list data with updated post card data and request a cell refresh
             NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
             
@@ -387,10 +395,12 @@ extension PostActions {
                     
                     DispatchQueue.main.async {
                         if let returnedText = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.instanceData.returnedText {
-                            GlobalStruct.actionFromInstance = "Reposted from \(returnedText)"
+                            GlobalStruct.actionFromInstance = String.localizedStringWithFormat(NSLocalizedString("toast.repostedFrom", comment: ""), returnedText)
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "actionFrom"), object: nil)
                         }
                     }
+                    
+                    AnalyticsManager.track(event: .repost)
                 } catch let error {
                     log.error("onRepost error: \(error)")
                 }
@@ -404,6 +414,8 @@ extension PostActions {
             // Optimistically update local cache
             StatusCache.shared.removeLocalMetric(metricType: .repost, statusId: uniqueId)
             
+            postCard.unrepostTap()
+            
             // Consolidate list data with updated post card data and request a cell refresh
             NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
             
@@ -411,6 +423,8 @@ extension PostActions {
             Task {
                 do {
                     let _ = try await StatusService.unRepost(postCard: postCard, withPolicy: fetchPolicy)
+                    
+                    AnalyticsManager.track(event: .unrepost)
                     
                 } catch {
                     log.error("onUnrepost error: \(error)")
@@ -421,7 +435,7 @@ extension PostActions {
     
     // Handler call when pressing the bookmark button on a post
     static func onBookmark(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         if let uniqueId = postCard.uniqueId {
             // Optimistically update local cache
@@ -440,6 +454,8 @@ extension PostActions {
                     DispatchQueue.main.async {
                         // Display toast
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "postBookmarked"), object: nil)
+                        
+                        AnalyticsManager.track(event: .postBookmarked)
                     }
                 } catch {
                     log.error("onBookmark error: \(error)")
@@ -450,7 +466,7 @@ extension PostActions {
     
     // Handler call when pressing the unbookmark button on a post
     static func onUnbookmark(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         if let uniqueId = postCard.uniqueId {
             // Optimistically update local cache
@@ -478,7 +494,7 @@ extension PostActions {
     }
     
     static func onEditPost(target: UIViewController, postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         triggerHapticImpact(style: .light)
         
@@ -490,10 +506,10 @@ extension PostActions {
     }
     
     static func onDeletePost(target: UIViewController, postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
-        let alert = UIAlertController(title: nil, message: "Are you sure you want to delete this post?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Delete", style: .destructive , handler:{ (UIAlertAction) in
+        let alert = UIAlertController(title: nil, message: NSLocalizedString("post.delete.confirm", comment: ""), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.delete", comment: ""), style: .destructive , handler:{ (UIAlertAction) in
             
             Task {
                 do {
@@ -530,7 +546,7 @@ extension PostActions {
     
     // Handler call when pressing the pin post button on a post
     static func onPinPost(target: UIViewController, postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         triggerHaptic3Notification()
         
         // HTTP request
@@ -545,7 +561,7 @@ extension PostActions {
             } catch {
                 log.error("onPin post error: \(error)")
                 DispatchQueue.main.async {
-                    let alert = UIAlertController(title: "Unable to pin post", message: error.localizedDescription, preferredStyle: .alert)
+                    let alert = UIAlertController(title: NSLocalizedString("error.pin", comment: ""), message: error.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: NSLocalizedString("generic.ok", comment: ""), style: .default, handler: nil))
                     target.present(alert, animated: true)
                 }
@@ -555,7 +571,7 @@ extension PostActions {
     
     // Handler call when pressing the unpin post button on a post
     static func onUnpinPost(target: UIViewController, postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         triggerHaptic3Notification()
 
@@ -575,7 +591,7 @@ extension PostActions {
     }
     
     static func onShare(target: UIViewController, postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         let text = URL(string: "\(status.reblog?.url ?? status.url ?? "")")!
         self.onShare(target: target, url: text)
@@ -589,7 +605,7 @@ extension PostActions {
     }
     
     static func onViewInBrowser(postCard: PostCardModel) {
-        guard case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard case .mastodon(let status) = postCard.data else { return }
         
         if let str = status.reblog?.url ?? status.url {
             if let url = URL(string: str) {
@@ -904,70 +920,73 @@ extension PostActions {
     }
     
     static func onVote(postCard: PostCardModel, choices: [Int]) {
-        if let pollId = postCard.poll?.id {
-            Task {
-                do {
-                    let poll = try await PollService.vote(pollId: pollId, choices: choices)
-                    log.debug("Vote Sent")
-                    DispatchQueue.main.async {
-                        triggerHapticNotification()
-                        
-                        GlobalStruct.votedOnPolls[pollId] = poll
-                        do {
-                            try Disk.save(GlobalStruct.votedOnPolls, to: .documents, as: "votedOnPolls.json")
-                        } catch {
-                            log.error("error saving votedOnPolls to Disk")
-                        }
-
-                        // Consolidate list data with updated post card data and request a cell refresh
-                        NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard.withNewPoll(poll: poll)])
-                        
-                        // Display success toast
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: "pollVoted"), object: nil)
-                    }
-                } catch let error {
-                    if "\(error)".contains("ended") {
+        Task {
+            do {
+                if case .mastodon(let status) = postCard.data {
+                    let localStatus = try await StatusService.getLocalStatus(status: status)
+                    if let pollId = localStatus?.reblog?.poll?.id ?? localStatus?.poll?.id {
+                        let poll = try await PollService.vote(pollId: pollId, choices: choices)
+                        log.debug("Vote Sent")
                         DispatchQueue.main.async {
-                            triggerHapticNotification(feedback: .warning)
-                            let alert = UIAlertController(title: NSLocalizedString("poll.ended.title", comment: ""),
-                                                          message: NSLocalizedString("poll.ended.message", comment: ""),
-                                                          preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
+                            triggerHapticNotification()
                             
-                            if let presenter = alert.popoverPresentationController {
-                                presenter.sourceView = getTopMostViewController()?.view
-                                presenter.sourceRect = getTopMostViewController()?.view.bounds ?? .zero
+                            GlobalStruct.votedOnPolls[pollId] = poll
+                            do {
+                                try Disk.save(GlobalStruct.votedOnPolls, to: .documents, as: "votedOnPolls.json")
+                            } catch {
+                                log.error("error saving votedOnPolls to Disk")
                             }
-                            getTopMostViewController()?.present(alert, animated: true, completion: nil)
-                        }
-                    } else if "\(error)".contains("already voted") {
-                        DispatchQueue.main.async {
-                            triggerHapticNotification(feedback: .warning)
                             
-                            let alert = UIAlertController(title: NSLocalizedString("poll.already.title", comment: ""),
-                                                          message: NSLocalizedString("poll.already.message", comment: ""),
-                                                          preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
+                            // Consolidate list data with updated post card data and request a cell refresh
+                            NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard.withNewPoll(poll: poll)])
                             
-                            if let presenter = alert.popoverPresentationController {
-                                presenter.sourceView = getTopMostViewController()?.view
-                                presenter.sourceRect = getTopMostViewController()?.view.bounds ?? .zero
-                            }
-                            getTopMostViewController()?.present(alert, animated: true, completion: nil)
+                            // Display success toast
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: "pollVoted"), object: nil)
                         }
                     }
-                    
+                }
+            } catch let error {
+                if "\(error)".contains("ended") {
                     DispatchQueue.main.async {
-                        // Consolidate list data with updated post card data and request a cell refresh
-                        NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
+                        triggerHapticNotification(feedback: .warning)
+                        let alert = UIAlertController(title: NSLocalizedString("poll.ended.title", comment: ""),
+                                                      message: NSLocalizedString("poll.ended.message", comment: ""),
+                                                      preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
+                        
+                        if let presenter = alert.popoverPresentationController {
+                            presenter.sourceView = getTopMostViewController()?.view
+                            presenter.sourceRect = getTopMostViewController()?.view.bounds ?? .zero
+                        }
+                        getTopMostViewController()?.present(alert, animated: true, completion: nil)
                     }
+                } else if "\(error)".contains("already voted") {
+                    DispatchQueue.main.async {
+                        triggerHapticNotification(feedback: .warning)
+                        
+                        let alert = UIAlertController(title: NSLocalizedString("poll.already.title", comment: ""),
+                                                      message: NSLocalizedString("poll.already.message", comment: ""),
+                                                      preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: NSLocalizedString("generic.dismiss", comment: ""), style: .cancel , handler: nil))
+                        
+                        if let presenter = alert.popoverPresentationController {
+                            presenter.sourceView = getTopMostViewController()?.view
+                            presenter.sourceRect = getTopMostViewController()?.view.bounds ?? .zero
+                        }
+                        getTopMostViewController()?.present(alert, animated: true, completion: nil)
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    // Consolidate list data with updated post card data and request a cell refresh
+                    NotificationCenter.default.post(name: didUpdatePostCardNotification, object: nil, userInfo: ["postCard": postCard])
                 }
             }
         }
     }
     
     static func report(postCard: PostCardModel, withFetchPolicy fetchPolicy: StatusService.FetchPolicy = .retryLocally) {
-        guard let accountID = postCard.account?.id, case .mastodon(let status) = postCard.preSyncData ?? postCard.data else { return }
+        guard let accountID = postCard.account?.id, case .mastodon(let status) = postCard.data else { return }
         
         let alert = UIAlertController(title: NSLocalizedString("post.report.title", comment: ""), message: NSLocalizedString("post.report.text", comment: ""), preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("post.report", comment: ""), style: .destructive , handler:{ (UIAlertAction) in

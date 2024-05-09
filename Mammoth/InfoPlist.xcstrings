@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Mammoth"
           }
         },
         "ja": {
@@ -156,8 +156,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Mammoth"
           }
         },
         "sv": {
@@ -281,8 +281,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Mammoth"
           }
         },
         "ja": {
@@ -341,8 +341,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Mammoth"
           }
         },
         "sv": {
@@ -466,8 +466,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Consenti a Mammoth di accedere alla Fotocamera per allegare le immagini ai post."
           }
         },
         "ja": {
@@ -526,8 +526,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Permitir a Mammoth usar la cámara para adjuntar imágenes a tus mensajes."
           }
         },
         "sv": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Consenti a Mammoth di utilizzare Face ID per l'autenticazione."
           }
         },
         "ja": {
@@ -711,8 +711,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Permitir a Mammoth autenticarse con FaceID."
           }
         },
         "sv": {
@@ -836,8 +836,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Mammoth richiede l'accesso alla posizione attuale per aggiungerla ai post quando selezionata, indicando dove il post è stato scritto (mostrata quando viene visualizzato il post)."
           }
         },
         "ja": {
@@ -896,8 +896,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Mammoth quiere usar tu ubicación actual para añadirla a las publicaciones cuando se selecciona, sugiriendo de dónde se originó la publicación (mostrado cuando se visualiza la publicación)."
           }
         },
         "sv": {
@@ -1021,8 +1021,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Mammoth richiede l'accesso alla posizione attuale per aggiungerla ai post quando selezionata, indicando dove il post è stato scritto (mostrata quando viene visualizzato il post)."
           }
         },
         "ja": {
@@ -1081,8 +1081,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Mammoth quiere usar tu ubicación actual para añadirla a las publicaciones cuando se selecciona, sugiriendo de dónde se originó la publicación (mostrado cuando se visualiza la publicación)."
           }
         },
         "sv": {
@@ -1206,8 +1206,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Consenti a Mammoth di accedere al Microfono per registrare l'audio."
           }
         },
         "ja": {
@@ -1266,8 +1266,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Permitir a Mammoth utilizar el micrófono para grabar audio."
           }
         },
         "sv": {
@@ -1391,8 +1391,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Consenti a Mammoth di salvare media nella Libreria."
           }
         },
         "ja": {
@@ -1451,8 +1451,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Permitir a Mammoth guardar archivos multimedia en la galería."
           }
         },
         "sv": {

@@ -8,7 +8,6 @@
 
 import UIKit
 import SDWebImage
-import UnifiedBlurHash
 import AVFoundation
 
 final class PostCardMediaStack: UIView {
@@ -148,12 +147,8 @@ final class PostCardMediaStack: UIView {
                     }
                 }
                 
-                if let second = (postCard.mediaAttachments.count > 1 ? postCard.mediaAttachments[1] : nil), let blurHash = second.blurhash {
-                    let blurWidth = second.meta?.small?.width ?? 64
-                    let blurHeight = second.meta?.small?.height ?? 64
-                    let blurImage = UnifiedImage(blurHash: blurHash, size: .init(width: 64, height: 64))?
-                        .resized(to: .init(width: blurWidth, height: blurHeight))
-                    self.backgroundCard.image = blurImage
+                if let second = (postCard.mediaAttachments.count > 1 ? postCard.mediaAttachments[1] : nil), let blurhash = second.blurhash, let decodedBlurImage = postCard.decodedBlurhashes[blurhash] {
+                    self.backgroundCard.image = decodedBlurImage
                 }
             }
         }
@@ -169,14 +164,13 @@ final class PostCardMediaStack: UIView {
                 photo.shouldCachePhotoURLImage = false
                 
                 let imageFromCache = SDImageCache.shared.imageFromCache(forKey: attachment.url)
+                let previewFromCache = SDImageCache.shared.imageFromCache(forKey: attachment.previewURL)
                 
                 var blurImage: UIImage? = nil
-                if let blurhash = attachment.blurhash, imageFromCache == nil, let currentMedia = self.media, attachment.url != currentMedia.url {
-                    let blurWidth = attachment.meta?.original?.width != nil ? attachment.meta!.original!.width! / 20 : 32
-                    let blurHeight = attachment.meta?.original?.height != nil ? attachment.meta!.original!.height! / 20 : 32
-                    blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: blurWidth, height: blurHeight))
+                if let blurhash = attachment.blurhash, imageFromCache == nil, let currentMedia = self.media, attachment.url != currentMedia.url, let decodedBlurImage = postCard?.decodedBlurhashes[blurhash] {
+                    blurImage = decodedBlurImage
                 }
-                photo.underlyingImage = imageFromCache ?? blurImage
+                photo.underlyingImage = imageFromCache ?? previewFromCache ?? blurImage
                 return photo
             } ?? [SKPhoto()]
             

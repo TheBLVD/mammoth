@@ -12,6 +12,8 @@ import Kingfisher
 import AVFoundation
 import Meta
 import MastodonMeta
+import MetaTextKit
+import UnifiedBlurHash
 
 final class PostCardModel {
     
@@ -23,7 +25,7 @@ final class PostCardModel {
     }
     
     var data: Data
-    var preSyncData: Data?
+    var remoteData: Data?
     
     /// staticMetrics should be true when posts are coming from a pre-defined
     /// server, e.g. the For You feed. For these posts metrics will not update
@@ -35,7 +37,7 @@ final class PostCardModel {
     var instanceName: String?
     
     let id: String?
-    let cursorId: String?
+    var cursorId: String?
     let uniqueId: String?
     
     let originalId: String?
@@ -63,7 +65,6 @@ final class PostCardModel {
     let rebloggerUsername: String
     var richRebloggerUsername: NSAttributedString?
     
-    var applicationName: String?
     let visibility: String?
     
     var account: Account?
@@ -98,12 +99,22 @@ final class PostCardModel {
     let mediaDisplayType: MediaDisplayType
     var linkCard: Card?
     var hasLink: Bool
+    
+    struct Webview {
+        let url: URL
+        let width: Int
+        let height: Int
+    }
+    
+    var webview: Webview?
+    var hasWebview: Bool
     let hideLinkImage: Bool
     let formattedCardUrlStr: String?
     var statusSource: [StatusSource]?
     
     var imagePrefetchToken: SDWebImagePrefetchToken?
     var decodedImages: [String: UIImage?] = [:]
+    var decodedBlurhashes: [String: UIImage] = [:]
     var cellHeight: CGFloat?
     
     enum FilterType {
@@ -176,7 +187,7 @@ final class PostCardModel {
     // Computed / dynamic properties
     
     var likeCount: String {
-        switch data {
+        switch remoteData ?? data {
         case .mastodon(let status):
             return PostCardModel.formattedLikeCount(status: status, withStaticMetrics: self.staticMetrics)
             
@@ -201,7 +212,7 @@ final class PostCardModel {
     }
     
     var replyCount: String {
-        switch data {
+        switch remoteData ?? data {
         case .mastodon(let status):
             return max((status.reblog?.repliesCount ?? status.repliesCount), 0).formatUsingAbbrevation()
             
@@ -221,7 +232,7 @@ final class PostCardModel {
     }
     
     var repostCount: String {
-        switch data {
+        switch remoteData ?? data {
         case .mastodon(let status):
             return PostCardModel.formattedRepostCount(status: status, withStaticMetrics: self.staticMetrics)
             
@@ -258,6 +269,21 @@ final class PostCardModel {
         }
     }
 
+    var applicationName: String? {
+        if let server = originalInstanceName {
+            if server == "www.threads.net" {
+                return "Threads"
+            }
+        }
+        
+        switch remoteData ?? data  {
+        case .mastodon(let status):
+            return status.application?.name
+        case .bluesky:
+            return nil
+        }
+    }
+    
     var time: String
         
     var source: String {
@@ -346,11 +372,11 @@ final class PostCardModel {
         // Sensitive content
         self.isSensitive = status.reblog?.sensitive ?? status.sensitive ?? false
 
-        // Contains poll?
-        self.containsPoll = PostCardModel.containsPoll(status: status)
-        
         // The poll to display
         self.poll = status.reblog?.poll ?? status.poll
+        
+        // Contains poll?
+        self.containsPoll = poll != nil
         
         // Should show reply indicator?
         self.isAReply = PostCardModel.isAReply(status: status)
@@ -385,15 +411,26 @@ final class PostCardModel {
         // Post has a link to display
         self.hasLink = self.linkCard?.url != nil
         
-        // Hide the link image if there is a media attachment
-        self.hideLinkImage = true //self.hasMediaAttachment
+        // get iframe.
+        if let html = self.linkCard?.html, self.linkCard?.image != nil, !self.hasMediaAttachment {
+            if let url = URL(string: html.slice(from: "src=\"", to: "\" ") ?? ""), let width = self.linkCard?.width ?? Int(html.slice(from: "width=\"", to: "\"") ?? ""), let height = self.linkCard?.height ?? Int(html.slice(from: "height=\"", to: "\"") ?? "")  {
+                self.webview = Webview.init(url: url, width: width, height: height)
+            }
+            
+        }
         
-        // Contains quote post?
-        self.hasQuotePost = (status.reblog?.quotePostCard() ?? status.quotePostCard()) != nil
+        // post has an iframe.
+        self.hasWebview = self.webview != nil
+        
+        // Hide the link image if there is a media attachment
+        self.hideLinkImage = self.hasMediaAttachment
         
         // Quote post card
         self.quotePostCard = status.reblog?.quotePostCard() ?? status.quotePostCard()
         
+        // Contains quote post?
+        self.hasQuotePost = self.quotePostCard != nil
+
         // Quote post status data
         if self.hasQuotePost {
             if let urlStr = self.quotePostCard?.url,
@@ -485,12 +522,6 @@ final class PostCardModel {
             self.formattedCardUrlStr = nil
         }
         
-        self.applicationName = ((status.reblog?.application ?? status.application)?.name.stripHTML() ?? status.reblog?.application?.name ?? status.application?.name)
-        
-        if self.applicationName == nil && status.serverName == "www.threads.net" {
-            self.applicationName = "Threads"
-        }
-        
         self.visibility = (status.reblog?.visibility ?? status.visibility).toLocalizedString().lowercased()
         
         // Status
@@ -513,6 +544,8 @@ final class PostCardModel {
             self.isBlocked = false
             self.isMuted = false
         }
+        
+        self.decodeBlurhashes()
     }
     
     convenience init(status: Status, withStaticMetrics staticMetrics: Bool = false, instanceName: String? = nil, batchId: String? = nil, batchItemIndex: Int? = nil) {
@@ -586,8 +619,9 @@ final class PostCardModel {
         self.linkCard = nil
         self.hideLinkImage = false
         self.formattedCardUrlStr = nil
+        self.webview = nil
+        self.hasWebview = false
         
-        self.applicationName = ""
         self.visibility = ""
         
         self.hasQuotePost = postVM.quotedPost != nil
@@ -695,57 +729,7 @@ final class PostCardModel {
     
     /// Only merge in parts of the original status we're interested in (metrics and applicationName)
     func mergeInOriginalData(status newStatus: Status) -> Self {
-        if self.preSyncData == nil {
-            self.preSyncData = self.data
-        }
-        
-        // bookmarked status is local authoritative only, so remote fetched data will always be wrong
-        if (self.isBookmarked) {
-            newStatus.bookmarked = true
-        }
-        
-        // Same with if a toot has been liked outside the app, and hasLocalMetric() cannot override it
-        if (self.isLiked) {
-            newStatus.favourited = true
-        }
-
-        // updating the data object so that computed properties
-        // e.g. likesCount is getting updated
-        if self.isReblogged {
-            if case .mastodon(let status) = data {
-                status.reblog = newStatus
-                self.data = .mastodon(status)
-            }
-        } else {
-            self.data = .mastodon(newStatus)
-        }
-        // application name is only known by the original post
-        self.applicationName = ((newStatus.reblog?.application ?? newStatus.application)?.name.stripHTML() ?? newStatus.reblog?.application?.name ?? newStatus.application?.name)
-        
-        if self.applicationName == nil && newStatus.serverName == "www.threads.net" {
-            self.applicationName = "Threads"
-        }
-        
-        // Filters
-        self.filterType = newStatus.filtered?.reduce(FilterType.none) { result, current in
-            if case .hide(_) = result { return result }
-            if current.filter.filterAction == "hide" { return .hide(current.filter.title) }
-            return .warn(current.filter.title)
-        } ?? FilterType.none
-        
-        // Muted and Blocked
-        let blockedIds = ModerationManager.shared.blockedUsers.map { $0.remoteFullOriginalAcct }
-        let mutedIds = ModerationManager.shared.mutedUsers.map { $0.remoteFullOriginalAcct }
-        
-        if let acctID = self.account?.remoteFullOriginalAcct {
-            self.isBlocked = blockedIds.contains(acctID)
-            self.isMuted = mutedIds.contains(acctID)
-        } else {
-            self.isBlocked = false
-            self.isMuted = false
-        }
-        
-        self.isSyncedWithOriginal = true
+        self.remoteData = .mastodon(newStatus)
         return self
     }
 }
@@ -806,9 +790,10 @@ extension PostCardModel {
     }
     
     func preloadEmojis() {
-        self.emojis?.forEach({
-            ImageDownloader.default.downloadImage(with: $0.url)
-        })
+        if let emojis = self.emojis, !emojis.isEmpty {
+            let prefetcher = SDWebImagePrefetcher.shared
+            prefetcher.prefetchURLs(emojis.map({$0.url}), context: [.animatedImageClass: SDAnimatedImageView.self], progress: nil)
+        }
     }
     
     func preloadImages() {
@@ -862,6 +847,15 @@ extension PostCardModel {
         }
     }
     
+    func decodeBlurhashes() {
+        self.mediaAttachments.forEach({
+            if let blurhash = $0.blurhash {
+                let blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+                decodedBlurhashes[blurhash] = blurImage
+            }
+        })
+    }
+    
     func cancelAllPreloadTasks() {
         self.videoPlayer?.pause()
         self.videoPlayer = nil
@@ -885,18 +879,40 @@ extension PostCardModel {
 
 // MARK: - Formatters
 extension PostCardModel {
+    
+    public func likeTap() -> Void {
+        guard case .mastodon(let status) = data, (status.reblog?.favourited ?? status.favourited ?? false) == false else { return }
+        (status.reblog ?? status).likeTap()
+    }
+    
+    public func unlikeTap() -> Void {
+        guard case .mastodon(let status) = data, (status.reblog?.favourited ?? status.favourited ?? false) == true else { return }
+        (status.reblog ?? status).unlikeTap()
+    }
+    
+    public func repostTap() -> Void {
+        guard case .mastodon(let status) = data, (status.reblog?.reblogged ?? status.reblogged ?? false) == false else { return }
+        (status.reblog ?? status).repostTap()
+    }
+    
+    public func unrepostTap() -> Void {
+        guard case .mastodon(let status) = data, (status.reblog?.reblogged ?? status.reblogged ?? false) == true else { return }
+        (status.reblog ?? status).unrepostTap()
+    }
+    
     static func formattedLikeCount(status: Status, withStaticMetrics staticMetrics: Bool = false) -> String {
         let hasLocal = StatusCache.shared.hasLocalMetric(metricType: .like, forStatusId: status.uniqueId)
         let localCount = hasLocal != nil ? hasLocal! ? 1 : 0 : 0
         let isFavorited = status.reblog?.favourited ?? status.favourited
         let onlineCount = status.reblog?.favouritesCount ?? status.favouritesCount
+        
         // Add 1 to the count:
         //  - when we know the post has static metrics (For You feed) and we know locally the post has been liked
         //  - when we know locally the post has been liked but it's not yet reflected online (optimistic updates)
         //  - when the online post returns 'favorited' but the count is still zero
         // Additionally, make sure the result is never < 0
         if staticMetrics {
-            return max(onlineCount + localCount, 0).formatUsingAbbrevation()
+            return max(onlineCount, 0).formatUsingAbbrevation()
         }
         if localCount > 0 && (isFavorited ?? false) == false {
             return max(onlineCount + localCount, 0).formatUsingAbbrevation()
@@ -919,7 +935,7 @@ extension PostCardModel {
         //  - when the online post returns 'reblogged' but the count is still zero
         // Additionally, make sure the result is never < 0
         if staticMetrics {
-            return max(onlineCount + localCount, 0).formatUsingAbbrevation()
+            return max(onlineCount, 0).formatUsingAbbrevation()
         }
         if localCount > 0 && (isReblogged ?? false) == false {
             return max(onlineCount + localCount, 0).formatUsingAbbrevation()
@@ -994,7 +1010,7 @@ extension PostCardModel {
 
         if let url = status.reblog?.quotePostCard()?.url ?? status.quotePostCard()?.url {
             // Remove quote post url from text
-            let regex = try! NSRegularExpression(pattern: "RE: <a[^>]*href=\"\(url)\"[^>]*>(?!.*<a[^>]*href=\"\(url)\"[^>]*>).*?</a>", options: .caseInsensitive)
+            let regex = try! NSRegularExpression(pattern: "RE:( )*(?:</span>)?<a[^>]*href=\"\(url)\"[^>]*>(?!.*<a[^>]*href=\"\(url)\"[^>]*>).*?</a>", options: .caseInsensitive)
             let range = NSMakeRange(0, text.count)
             text = regex.stringByReplacingMatches(in: text, options: [], range: range, withTemplate: "")
         }
@@ -1017,14 +1033,6 @@ extension PostCardModel {
         text = text.replacingOccurrences(of: "<br></p>", with: "</p>", options: NSString.CompareOptions.regularExpression, range: nil)
         
         return text
-    }
-    
-    static func containsPoll(status: Status) -> Bool {
-        if let _ = status.reblog?.poll ?? status.poll {
-            return true
-        } else {
-            return false
-        }
     }
     
     static func isAReply(status: Status) -> Bool {

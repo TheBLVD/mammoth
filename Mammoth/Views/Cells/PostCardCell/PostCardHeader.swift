@@ -105,6 +105,14 @@ class PostCardHeader: UIView {
         label.isUserInteractionEnabled = false
         label.lineBreakMode = .byTruncatingTail
         label.textContainer.lineBreakMode = .byTruncatingTail
+        
+        label.textAttributes = [
+            .font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold),
+            .foregroundColor: UIColor.custom.displayNames
+        ]
+
+        label.linkAttributes = label.textAttributes
+        
         return label
     }()
     
@@ -135,6 +143,7 @@ class PostCardHeader: UIView {
         return label
     }()
     
+    private var heightConstraint: NSLayoutConstraint? = nil
     private var followButton: FollowButton?
     
     private var status: Status?
@@ -194,12 +203,15 @@ private extension PostCardHeader {
         self.isOpaque = true
         self.directionalLayoutMargins = .zero
         self.addSubview(mainStackView)
+        
+        self.heightConstraint = mainStackView.heightAnchor.constraint(equalToConstant: self.estimatedHeight())
                 
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: self.layoutMarginsGuide.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor)
+            mainStackView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
+            self.heightConstraint!
         ])
         
         mainStackView.addArrangedSubview(headerTitleStackView)
@@ -227,11 +239,25 @@ private extension PostCardHeader {
         headerTitleStackView.addArrangedSubview(headerMainTitleStackView)
         headerTitleStackView.addArrangedSubview(userTagLabel)
         
-        NSLayoutConstraint.activate([
-            headerMainTitleStackView.heightAnchor.constraint(equalToConstant: 23)
-        ])
-        
         setupUIFromSettings()
+    }
+}
+
+// MARK: - Estimated height
+extension PostCardHeader {
+    static func estimatedHeight() -> CGFloat {
+        return 24
+    }
+    
+    func estimatedHeight() -> CGFloat {
+        let nameHeight = max(ceil(UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .semibold).lineHeight) + 1, 24)
+        
+        if self.headerType.showUsertagUnderneath && GlobalStruct.displayName == .full {
+            let tagHeight = ceil(UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular).lineHeight)
+            return CGFloat(nameHeight + tagHeight)
+        }
+        
+        return nameHeight
     }
 }
 
@@ -376,6 +402,31 @@ extension PostCardHeader {
         rightAttributesStack.backgroundColor = backgroundColor
         headerMainTitleStackView.backgroundColor = backgroundColor
         headerTitleStackView.backgroundColor = backgroundColor
+        
+        if headerType == .mentions {
+            self.titleLabel.isHidden = false
+            self.userTagLabel.isHidden = false
+            titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        } else {
+            if GlobalStruct.displayName == .full {
+                self.titleLabel.isHidden = false
+                self.userTagLabel.isHidden = false
+                titleLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+            } else if GlobalStruct.displayName == .usernameOnly {
+                self.titleLabel.isHidden = false
+                self.userTagLabel.isHidden = true
+                titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+            } else if GlobalStruct.displayName == .usertagOnly {
+                self.titleLabel.isHidden = false
+                self.userTagLabel.isHidden = true
+                titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+            } else {                              // .none
+                self.titleLabel.isHidden = true
+                self.userTagLabel.isHidden = true
+            }
+        }
+        
+        self.heightConstraint?.constant = self.estimatedHeight()
     }
     
     func willDisplay() {
@@ -398,42 +449,48 @@ extension PostCardHeader {
     
     func startTimeUpdates() {
         if let createdAt = self.postCard?.createdAt {
-            var interval: Double = 60*60
-            var delay: Double = 60*15
-            let now = Date()
-            
-            let secondsRange = now.addingTimeInterval(-60)...now
-            let minutesRange = now.addingTimeInterval(-60*60)...now
-            let hoursRange = now.addingTimeInterval(-60*60*24)...now
-            
-            if secondsRange ~= createdAt {
-                interval = 5
-                delay = 2
-            } else if minutesRange ~= createdAt {
-                interval = 30
-                delay = 15
-            } else if hoursRange ~= createdAt {
-                interval = 60*60
-                delay = 60*15
-            }
-            
-            self.subscription = RunLoop.main.schedule(
-                after: .init(Date(timeIntervalSinceNow: delay)),
-                interval: .seconds(interval),
-                tolerance: .seconds(1)
-            ) { [weak self] in
+            Task { [weak self] in
                 guard let self else { return }
-                if let status = self.status {
-                    let newTime = PostCardModel.formattedTime(status: status, formatter: GlobalStruct.dateFormatter)
-                    self.postCard?.time = newTime
-                    self.dateLabel.text = newTime
+                var interval: Double = 60*60
+                var delay: Double = 60*15
+                let now = Date()
+                
+                let secondsRange = now.addingTimeInterval(-60)...now
+                let minutesRange = now.addingTimeInterval(-60*60)...now
+                let hoursRange = now.addingTimeInterval(-60*60*24)...now
+                
+                if secondsRange ~= createdAt {
+                    interval = 5
+                    delay = 2
+                } else if minutesRange ~= createdAt {
+                    interval = 30
+                    delay = 15
+                } else if hoursRange ~= createdAt {
+                    interval = 60*60
+                    delay = 60*15
                 }
-            }
-            
-            if let status = self.status {
-                let newTime = PostCardModel.formattedTime(status: status, formatter: GlobalStruct.dateFormatter)
-                self.postCard?.time = newTime
-                self.dateLabel.text = newTime
+                
+                await MainActor.run { [weak self] in
+                    guard let self else { return }
+                    self.subscription = RunLoop.main.schedule(
+                        after: .init(Date(timeIntervalSinceNow: delay)),
+                        interval: .seconds(interval),
+                        tolerance: .seconds(1)
+                    ) { [weak self] in
+                        guard let self else { return }
+                        if let status = self.status {
+                            Task { [weak self] in
+                                guard let self else { return }
+                                let newTime = PostCardModel.formattedTime(status: status, formatter: GlobalStruct.dateFormatter)
+                                await MainActor.run { [weak self] in
+                                    guard let self else { return }
+                                    self.postCard?.time = newTime
+                                    self.dateLabel.text = newTime
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -156,7 +156,12 @@ class ProfileHeader: UIView {
     
     private let statsStack: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = .horizontal
+        
+        if UIScreen.main.bounds.width < 380 {
+            stackView.axis = .vertical
+        } else {
+            stackView.axis = .horizontal
+        }
         stackView.alignment = .center
         stackView.distribution = .fillProportionally
         stackView.spacing = 0
@@ -395,7 +400,12 @@ extension ProfileHeader {
             }
         }
         let joined_on = user.joinedOn?.toString(dateStyle: .short, timeStyle: .none) ?? ""
-        self.statsLabel.text = " - " + String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joined_on)
+        if UIScreen.main.bounds.width < 380 {
+            self.statsLabel.text = String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joined_on)
+        } else {
+            self.statsLabel.text = " - " + String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joined_on)
+        }
+        
         self.followersButton.setTitle(String.localizedStringWithFormat(user.followersCount == "1" ? NSLocalizedString("profile.followers.singular", comment: "") : NSLocalizedString("profile.followers.plural", comment: ""), user.followersCount), for: .normal)
         
         // Clear all fields
@@ -532,6 +542,8 @@ extension ProfileHeader {
                         self.user?.syncFollowStatus()
                     }
                     
+                    AnalyticsManager.track(event: .follow)
+                    
                     if userCard.followStatus != .followRequested {
                         DispatchQueue.main.async {
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadTableSuggestions"), object: nil)
@@ -557,6 +569,8 @@ extension ProfileHeader {
                         self.user?.syncFollowStatus()
                         NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadTableSuggestions"), object: nil)
                     }
+                    
+                    AnalyticsManager.track(event: .unfollow)
                 } catch let error {
                     log.error("Unfollow error: \(error)")
                 }

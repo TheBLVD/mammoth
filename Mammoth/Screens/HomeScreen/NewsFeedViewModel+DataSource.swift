@@ -467,6 +467,7 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                  feedType: feedType,
                                                  updateType: .hydrate,
+                                                 scrollPosition: retrievedPosition,
                                                  onCompleted: completed)
             }
         } else {
@@ -485,6 +486,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: feedType,
                                              updateType: .hydrate,
+                                             scrollPosition: nil,
                                              onCompleted: completed)
         }
     }
@@ -498,11 +500,7 @@ extension NewsFeedViewModel {
 
         // Don't update data source if this feed is not currently viewed
         guard type == self.type else { return }
-        
-        // Save cards to disk
-//        let scrollPosition = self.getScrollPosition(forFeed: type)
-//        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-        
+
         self.snapshot.deleteSections([.main])
         self.snapshot.appendSections([.main])
         
@@ -512,6 +510,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
                                              updateType: .replaceAll,
+                                             scrollPosition: nil,
                                              onCompleted: nil)
         }
     }
@@ -525,10 +524,6 @@ extension NewsFeedViewModel {
         guard type == self.type else { return }
         guard let _ = self.listData.forType(type: type)?.first(where: { $0.uniqueId() == item.uniqueId() }) else { return }
         
-        // Save cards to disk
-        let scrollPosition = self.getScrollPosition(forFeed: type)
-        self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-
         if self.snapshot.indexOfItem(item) != nil {
             if #available(iOS 15.0, *) {
                 self.snapshot.reconfigureItems([item])
@@ -540,6 +535,7 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                  feedType: type,
                                                  updateType: .update,
+                                                 scrollPosition: nil,
                                                  onCompleted: nil)
             }
         } else {
@@ -575,6 +571,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
                                              updateType: .update,
+                                             scrollPosition: nil,
                                              onCompleted: nil)
         }
     }
@@ -604,12 +601,14 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                     feedType: type,
                                                     updateType: .inject,
+                                                    scrollPosition: nil,
                                                     onCompleted: nil)
             } else {
                 self.snapshot.appendItems(uniques, toSection: .main)
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                     feedType: type,
                                                     updateType: .append,
+                                                    scrollPosition: nil,
                                                     onCompleted: nil)
             }
         } else {
@@ -619,6 +618,7 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                     feedType: type,
                                                     updateType: .remove,
+                                                    scrollPosition: nil,
                                                     onCompleted: nil)
             }
         }
@@ -643,7 +643,8 @@ extension NewsFeedViewModel {
 
         self.delegate?.didUpdateSnapshot(self.snapshot,
                                             feedType: type,
-                                            updateType: .insert) { [weak self] in
+                                            updateType: .insert,
+                                         scrollPosition: nil) { [weak self] in
             guard let self else { return }
             self.insertUnreadIds(ids: items.map({$0.uniqueId()}), forFeed: type)
             self.delegate?.didUpdateUnreadState(type: type)
@@ -702,7 +703,8 @@ extension NewsFeedViewModel {
         } else {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
-                                             updateType: .insert) {
+                                             updateType: .insert,
+                                             scrollPosition: nil) {
                 
                 // Set the unread state after updating the data source.
                 // This will show the unread pill/indicator
@@ -741,6 +743,7 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                  feedType: type,
                                                  updateType: .remove,
+                                                 scrollPosition: nil,
                                                  onCompleted: nil)
             }
         }
@@ -777,10 +780,6 @@ extension NewsFeedViewModel {
         DispatchQueue.main.async {
             self.listData.remove(item: .loadMore)
             
-            // Save cards to disk
-            let scrollPosition = self.getScrollPosition(forFeed: type)
-            self.saveToDisk(items: self.listData.forType(type: type), position: scrollPosition, feedType: type, mode: .cards)
-            
             // Don't update data source if this feed is not currently viewed
             guard type == self.type else { return }
             let item = NewsFeedListItem.postCard(card)
@@ -789,6 +788,7 @@ extension NewsFeedViewModel {
                 self.delegate?.didUpdateSnapshot(self.snapshot,
                                                  feedType: type,
                                                  updateType: .remove,
+                                                 scrollPosition: nil,
                                                  onCompleted: nil)
             }
         }
@@ -816,6 +816,7 @@ extension NewsFeedViewModel {
                 self.snapshot,
                 feedType: self.type,
                 updateType: .remove,
+                scrollPosition: nil,
                 onCompleted: nil)
         }
     }
@@ -839,6 +840,7 @@ extension NewsFeedViewModel {
         self.delegate?.didUpdateSnapshot(self.snapshot,
                                          feedType: feedType,
                                          updateType: .replaceAll,
+                                         scrollPosition: nil,
                                          onCompleted: nil)
     }
     
@@ -850,6 +852,7 @@ extension NewsFeedViewModel {
             self.snapshot,
             feedType: type,
             updateType: .removeAll,
+            scrollPosition: nil,
             onCompleted: nil)
     }
     
@@ -871,6 +874,7 @@ extension NewsFeedViewModel {
             self.snapshot,
             feedType: type,
             updateType: .removeAll,
+            scrollPosition: nil,
             onCompleted: nil)
     }
     
@@ -1034,6 +1038,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
                                              updateType: .append,
+                                             scrollPosition: nil,
                                              onCompleted: nil)
         }
     }
@@ -1052,6 +1057,7 @@ extension NewsFeedViewModel {
         self.delegate?.didUpdateSnapshot(self.snapshot,
                                          feedType: type,
                                          updateType: .append,
+                                         scrollPosition: nil,
                                          onCompleted: nil)
     }
     
@@ -1070,6 +1076,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
                                              updateType: .append,
+                                             scrollPosition: nil,
                                              onCompleted: nil)
         }
     }
@@ -1082,6 +1089,7 @@ extension NewsFeedViewModel {
             self.delegate?.didUpdateSnapshot(self.snapshot,
                                              feedType: type,
                                              updateType: .append,
+                                             scrollPosition: nil,
                                              onCompleted: nil)
         }
     }

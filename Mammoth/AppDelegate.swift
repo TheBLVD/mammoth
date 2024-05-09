@@ -58,6 +58,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             GlobalStruct.curIDNoti = "\(id)"
             self.checkNotificationTypeForID(GlobalStruct.curIDNoti, alsoGoToTab: true)
         }
+        
+        // Open URL in customer.io push notifications
+        if let urlStr = (info as? Dictionary<String, Any>)?[keyPath: "CIO.push.link"] as? String, let url = URL(string: urlStr) {
+            let prevValue = GlobalStruct.openLinksInBrowser
+            GlobalStruct.openLinksInBrowser = false
+            PostActions.openLink(url)
+            GlobalStruct.openLinksInBrowser = prevValue
+        }
     }
         
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -69,11 +77,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // deviceToken and currentAccount.
         let tokenDidChange = (GlobalStruct.deviceToken != deviceToken)
         GlobalStruct.deviceToken = deviceToken
+        
         UserDefaults.standard.setValue(deviceToken, forKey: "deviceToken")
         
         let currentAccount = AccountsManager.shared.currentAccount as? MastodonAcctData
         if currentAccount == nil {
             log.error("currentAccount is nil in didRegisterForRemoteNotificationsWithDeviceToken")
+        } else {
+            AccountsManager.shared.syncIdentityData()
         }
         
         let accountDidChange = (GlobalStruct.deviceTokenAccountUID != currentAccount?.uniqueID)
@@ -218,6 +229,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.scrollDirectionDown = UserDefaults.standard.value(forKey: "scrollDirectionDown") as? Bool ?? true
         GlobalStruct.openLinksInBrowser = UserDefaults.standard.value(forKey: "openLinksInBrowser") as? Bool ?? false
         GlobalStruct.appLock = UserDefaults.standard.value(forKey: "appLock") as? Bool ?? false
+        GlobalStruct.shareAnalytics = UserDefaults.standard.value(forKey: "shareAnalytics") as? Bool ?? true
         
         GlobalStruct.tab2 = UserDefaults.standard.value(forKey: "tab2") as? Bool ?? true
         GlobalStruct.tab3 = UserDefaults.standard.value(forKey: "tab3") as? Bool ?? true
@@ -259,6 +271,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: .mixWithOthers)
+        
+        if let userInfo = launchOptions?[UIApplication.LaunchOptionsKey.remoteNotification] {
+            if let urlStr = (userInfo as? Dictionary<String, Any>)?[keyPath: "CIO.push.link"] as? String, let url = URL(string: urlStr) {
+                let prevValue = GlobalStruct.openLinksInBrowser
+                GlobalStruct.openLinksInBrowser = false
+                PostActions.openLink(url)
+                GlobalStruct.openLinksInBrowser = prevValue
+            }
+        }
 
         return true
     }
@@ -331,7 +352,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         let command05 = UIKeyCommand(input: "5", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo5))
         command05.title =  NSLocalizedString("navigator.profile", comment: "")
         let command06 = UIKeyCommand(input: "6", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo6))
-        command06.title =  "Likes"
+        command06.title =  NSLocalizedString("title.likes", comment: "")
         let command07 = UIKeyCommand(input: "7", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo7))
         command07.title =  "Bookmarks"
         let command08 = UIKeyCommand(input: "8", modifierFlags: [.command], action: #selector(ColumnViewController.shared.scrollTo8))

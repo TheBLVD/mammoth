@@ -28,6 +28,7 @@ final class PostCardMetadata: UIView {
         stackView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         return stackView
     }()
+    var heightConstraint: NSLayoutConstraint?
     
     private let metricsStackView: UIStackView = {
         let stack = UIStackView()
@@ -84,6 +85,8 @@ final class PostCardMetadata: UIView {
         self.addSubview(mainStackView)
         self.layoutMargins = .zero
         
+        heightConstraint = mainStackView.heightAnchor.constraint(equalToConstant: 23)
+        heightConstraint?.isActive = true
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
@@ -94,6 +97,7 @@ final class PostCardMetadata: UIView {
         
         mainStackView.addArrangedSubview(metricsStackView)
         
+        likesLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         likesLabel.tag = MetricButtons.likes.rawValue
         repostsLabel.tag = MetricButtons.reposts.rawValue
         repliesLabel.tag = MetricButtons.replies.rawValue
@@ -119,6 +123,7 @@ final class PostCardMetadata: UIView {
         self.isPrivateMention = postCard.isPrivateMention
         
         if type.shouldShowSourceAndApplicationName {
+            heightConstraint?.isActive = false
             var description = postCard.source
             if !description.isEmpty {
                 description += " - "
@@ -213,4 +218,11 @@ final class PostCardMetadata: UIView {
         self.onThemeChange()
     }
 
+}
+
+// MARK: - Estimated height
+extension PostCardMetadata {
+    static func estimatedHeight() -> CGFloat {
+        return 23
+    }
 }

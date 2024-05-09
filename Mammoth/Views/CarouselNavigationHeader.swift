@@ -57,7 +57,6 @@ private extension CarouselNavigationHeader {
         title.clipsToBounds = false
         carousel.translatesAutoresizingMaskIntoConstraints = false
         
-        titleStackView.addArrangedSubview(title)
         
         if UIDevice.current.userInterfaceIdiom == .phone {
             self.layoutMargins = .init(top: 0, left: 16, bottom: 0, right: 16)
@@ -65,7 +64,16 @@ private extension CarouselNavigationHeader {
             self.layoutMargins = .init(top: 9, left: 16, bottom: 0, right: 16)
         }
         
-        mainStackView.addArrangedSubview(titleStackView)
+        if let text = self.title.titleLabel.text, !text.isEmpty {
+            titleStackView.addArrangedSubview(title)
+            mainStackView.addArrangedSubview(titleStackView)
+            
+            NSLayoutConstraint.activate([
+                title.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
+                title.heightAnchor.constraint(equalToConstant: 28),
+            ])
+        }
+        
         mainStackView.addArrangedSubview(carousel)
 
         self.addSubview(mainStackView)
@@ -75,9 +83,6 @@ private extension CarouselNavigationHeader {
             mainStackView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
             mainStackView.topAnchor.constraint(equalTo: self.layoutMarginsGuide.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: self.layoutMarginsGuide.bottomAnchor),
-            
-            title.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
-            title.heightAnchor.constraint(equalToConstant: 28),
 
             carousel.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor, constant: -3),
             carousel.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant:  3),

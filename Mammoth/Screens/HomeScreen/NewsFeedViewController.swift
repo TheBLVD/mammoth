@@ -69,6 +69,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     private var didInitializeOnce = false
     private var isInsertingContent: Bool = false
     private var isScrollingProgrammatically: Bool = false
+    private var disableFeedUpdates: Bool = false
     
     // switchingAccounts is set to true in the period between
     // willSwitchAccount and didSwitchAccount, when currentAccount
@@ -76,14 +77,13 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     private var switchingAccounts = false
     
     weak var delegate: NewsFeedViewControllerDelegate?
-    private var deferredSnapshotUpdates: [NewsFeedSnapshotUpdateType: () -> Void] = [:]
     private var deferredSnapshotUpdatesCallbacks: [(() -> Void)] = []
     
     public var type: NewsFeedTypes {
         return self.viewModel.type
     }
     
-    private var isActiveFeed: Bool {
+    public var isActiveFeed: Bool {
         if let isActive = self.delegate?.isActiveFeed(self.type){
             return isActive
         }
@@ -214,40 +214,45 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         if !self.didInitializeOnce {
             self.didInitializeOnce = true
             log.debug("[NewsFeedViewController] Sync data source from `viewDidAppear` - \(self.viewModel.type)")
-            self.viewModel.syncDataSource(type: self.viewModel.type) { [weak self] in
-                guard let self else { return }
-                Task {
-                    self.viewModel.snapshot = self.viewModel.appendMainSectionToSnapshot(snapshot: self.viewModel.snapshot)
-                    self.viewModel.dataSource?.apply(self.viewModel.snapshot, animatingDifferences: false)
-                    
-                    if self.viewModel.snapshot.itemIdentifiers(inSection: .main).isEmpty {
-                        let type = self.viewModel.type
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                            self.viewModel.displayLoader(forType: type)
-                        }
+            
+            // This `DispatchQueue.main.async` allows the runloop to complete once before hydration.
+            // If removed the tableview is not correctly initialized and will not be restored correctly.
+            DispatchQueue.main.async {
+                self.viewModel.syncDataSource(type: self.viewModel.type) { [weak self] in
+                    guard let self else { return }
+                    Task {
+                        self.viewModel.snapshot = self.viewModel.appendMainSectionToSnapshot(snapshot: self.viewModel.snapshot)
+                        self.viewModel.dataSource?.apply(self.viewModel.snapshot, animatingDifferences: false)
                         
-                        Task { [weak self] in
-                            guard let self else { return }
-                            if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
-                                try await self.viewModel.loadListData(type: type, fetchType: .refresh)
-                            } else {
-                                if GlobalStruct.feedReadDirection == .bottomUp {
-                                    try await self.viewModel.loadListData(type: type, fetchType: .previousPage)
+                        if self.viewModel.snapshot.itemIdentifiers(inSection: .main).isEmpty {
+                            let type = self.viewModel.type
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                self.viewModel.displayLoader(forType: type)
+                            }
+                            
+                            Task { [weak self] in
+                                guard let self else { return }
+                                if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
+                                    try await self.viewModel.loadListData(type: type, fetchType: .refresh)
                                 } else {
-                                    try await self.viewModel.loadLatest(feedType: type, threshold: 1)
+                                    if GlobalStruct.feedReadDirection == .bottomUp {
+                                        try await self.viewModel.loadListData(type: type, fetchType: .previousPage)
+                                    } else {
+                                        try await self.viewModel.loadLatest(feedType: type, threshold: 1)
+                                    }
                                 }
                             }
+                        } else {
+                            self.showLoader(enabled: false)
+                            
+                            self.tableView.visibleCells.forEach({
+                                if let cell = $0 as? PostCardCell {
+                                    cell.willDisplay()
+                                } else if let cell = $0 as? ActivityCardCell {
+                                    cell.willDisplay()
+                                }
+                            })
                         }
-                    } else {
-                        self.showLoader(enabled: false)
-                        
-                        self.tableView.visibleCells.forEach({
-                            if let cell = $0 as? PostCardCell {
-                                cell.willDisplay()
-                            } else if let cell = $0 as? ActivityCardCell {
-                                cell.willDisplay()
-                            }
-                        })
                     }
                 }
             }
@@ -260,6 +265,8 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         // If the user disabled the JumpToNow button (pressed the close button)
         // re-enable it now
         self.viewModel.isJumpToNowButtonDisabled = false
+        
+        self.didUpdateSnapshot(self.viewModel.snapshot, feedType: self.viewModel.type, updateType: .insert, scrollPosition: nil, onCompleted: nil)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -318,7 +325,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     }
     
     @objc private func willSwitchAccount() {
-        self.deferredSnapshotUpdates = [:]
         self.deferredSnapshotUpdatesCallbacks = []
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         self.viewModel.removeAll(type: self.viewModel.type, clearScrollPosition: false)
@@ -378,24 +384,27 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     @objc func onJumpToNow() {
         self.viewModel.stopPollingListData()
         self.viewModel.cancelAllItemSyncs()
-        
-        self.deferredSnapshotUpdates = [:]
         self.deferredSnapshotUpdatesCallbacks = []
+        
+        self.isScrollingProgrammatically = true
+        
+        self.viewModel.clearSnapshot()
+        self.disableFeedUpdates = true
+        self.showLoader(enabled: true)
         
         self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
         self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
         self.didUpdateUnreadState(type: self.viewModel.type)
         
-        self.isScrollingProgrammatically = false
-        
-        self.viewModel.clearSnapshot()
-        self.showLoader(enabled: true)
-        
-        DispatchQueue.main.async {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let self else { return }
+                        
             Task { [weak self] in
                 guard let self else { return }
                 try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
             }
+            
+            self.disableFeedUpdates = false
         }
     }
     
@@ -458,9 +467,9 @@ private extension NewsFeedViewController {
         view.addSubview(tableView)
         view.addSubview(latestPill)
         view.addSubview(unreadIndicator)
-        view.addSubview(jumpToNow)
+//        view.addSubview(jumpToNow)
         
-        jumpToNow.delegate = self
+//        jumpToNow.delegate = self
         
         if ![.mentionsIn, .mentionsOut].contains(self.viewModel.type) && !NewsFeedTypes.allActivityTypes.contains(self.viewModel.type)  {
             self.tableView.tableHeaderView = UIView()
@@ -480,8 +489,8 @@ private extension NewsFeedViewController {
             self.latestPill.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
             self.latestPill.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 9),
             
-            self.jumpToNow.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
-            self.jumpToNow.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 9),
+//            self.jumpToNow.centerXAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.centerXAnchor),
+//            self.jumpToNow.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 9),
             
             self.unreadIndicator.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -10),
             self.unreadIndicator.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 9),
@@ -539,7 +548,7 @@ extension NewsFeedViewController {
             case .empty:
                 if let cell = self.tableView.dequeueReusableCell(withIdentifier: EmptyFeedCell.reuseIdentifier, for: indexPath) as? EmptyFeedCell {
                     if case .list(_) = self.viewModel.type {
-                        cell.configure(label: "Lists will start populating once members start posting content")
+                        cell.configure(label: NSLocalizedString("list.hint", comment: ""))
                     } else {
                         cell.configure()
                     }
@@ -644,18 +653,14 @@ extension NewsFeedViewController {
         }
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         if let item = self.viewModel.getItemForIndexPath(indexPath) {
             if case .postCard(let postCardModel) = item {
-                return postCardModel.cellHeight ?? 310
+                return postCardModel.cellHeight ?? UITableView.automaticDimension
             }
         }
         
-        return 310
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -719,7 +724,7 @@ extension NewsFeedViewController {
         if viewModel.shouldFetchNext(prefetchRowsAt: indexPaths) {
             Task { [weak self] in
                 guard let self else { return }
-                try await viewModel.loadListData(type: nil, fetchType: .nextPage)
+                try await self.viewModel.loadListData(type: nil, fetchType: .nextPage)
             }
         }
 
@@ -732,7 +737,7 @@ extension NewsFeedViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
-        self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !self.tableView.visibleCells.isEmpty
+        self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !(self.tableView.indexPathsForVisibleRows ?? []).isEmpty
         
         // scroll past the last item in feed (pull up)
         if (scrollView.contentOffset.y + self.view.safeAreaInsets.top) > max(scrollView.contentSize.height - (scrollView.bounds.height - self.view.safeAreaInsets.top - self.view.safeAreaInsets.bottom), 0) + 130 {
@@ -740,11 +745,14 @@ extension NewsFeedViewController {
         }
         
         // Fetch next again if scrolling past the last elements
-        if self.viewModel.snapshot.numberOfItems > 0, scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height - 600,
-           viewModel.shouldFetchNext(prefetchRowsAt: [IndexPath(row: viewModel.numberOfItems(forSection: .main), section: 0)]) {
-            Task { [weak self] in
-                guard let self else { return }
-                try await viewModel.loadListData(type: nil, fetchType: .nextPage)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if self.viewModel.snapshot.numberOfItems > 0, scrollView.contentOffset.y > scrollView.contentSize.height - scrollView.bounds.height - 600,
+               viewModel.shouldFetchNext(prefetchRowsAt: [IndexPath(row: viewModel.numberOfItems(forSection: .main), section: 0)]) {
+                Task { [weak self] in
+                    guard let self else { return }
+                    try await viewModel.loadListData(type: nil, fetchType: .nextPage)
+                }
             }
         }
         
@@ -760,9 +768,12 @@ extension NewsFeedViewController {
         
         if scrollView.contentOffset.y < 0 - self.view.safeAreaInsets.top + 60 {
             // Clean unread indicator when close to top
-            if self.viewModel.getUnreadCount(forFeed: self.viewModel.type) == 1 {
-                self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
-                self.didUpdateUnreadState(type: self.viewModel.type)
+            if self.viewModel.getUnreadCount(forFeed: self.viewModel.type) > 0 {
+                if let firstIndexPath = self.tableView.indexPathsForVisibleRows?.first,
+                   let model = self.viewModel.getItemForIndexPath(firstIndexPath) {
+                    self.viewModel.removeUnreadId(id: model.uniqueId(), forFeed: self.viewModel.type)
+                    self.didUpdateUnreadState(type: self.viewModel.type)
+                }
             }
             
             self.delegate?.didScrollToTop()
@@ -814,19 +825,18 @@ extension NewsFeedViewController {
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.isScrollingProgrammatically = false
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.7) { [weak self] in
             guard let self else { return }
             
             guard !self.tableView.isTracking, !self.tableView.isDecelerating else { return }
-            let tasks = Array(self.deferredSnapshotUpdates.values)
-            self.deferredSnapshotUpdates = [:]
-            tasks.forEach({ $0() })
-            
             let callbacks = self.deferredSnapshotUpdatesCallbacks
             self.deferredSnapshotUpdatesCallbacks = []
             callbacks.forEach({ $0() })
+            
+            self.didUpdateSnapshot(self.viewModel.snapshot, feedType: self.viewModel.type, updateType: .insert, scrollPosition: nil, onCompleted: nil)
         }
     }
 }
@@ -838,27 +848,21 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
     func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot,
                            feedType: NewsFeedTypes,
                            updateType: NewsFeedSnapshotUpdateType,
+                           scrollPosition: NewsFeedScrollPosition?,
                            onCompleted: (() -> Void)?) {
-        guard !self.switchingAccounts else { return }
+        guard !self.switchingAccounts && !self.disableFeedUpdates else { return }
         
-        let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || self.isInWindowHierarchy()
+        let shouldFreezeAnimations = (self.isInWindowHierarchy() || updateType == .hydrate)
+        let updateDisplay = (NewsFeedTypes.allActivityTypes + [.mentionsIn, .mentionsOut]).contains(feedType) || (self.isInWindowHierarchy() || updateType == .hydrate)
         
-        guard !self.tableView.isTracking, !self.tableView.isDecelerating, updateDisplay, !(updateType == .update && self.isScrollingProgrammatically) else {
-            let deferredJob = {  [weak self] in
-                guard let self else { return }
-                self.didUpdateSnapshot(snapshot, feedType: feedType, updateType: updateType, onCompleted: nil)
-            }
-            self.deferredSnapshotUpdates[updateType] = deferredJob
-            
+        guard ((!self.tableView.isTracking && !self.tableView.isDecelerating) || updateType == .removeAll),
+                updateDisplay,
+                !(updateType == .update && self.isScrollingProgrammatically) else {
             if let callback = onCompleted {
                 self.deferredSnapshotUpdatesCallbacks.append(callback)
             }
             return
         }
-        
-        let tasks = Array(self.deferredSnapshotUpdates.values)
-        self.deferredSnapshotUpdates = [:]
-        tasks.forEach({ $0() })
         
         let callbacks = self.deferredSnapshotUpdatesCallbacks
         self.deferredSnapshotUpdatesCallbacks = []
@@ -869,21 +873,19 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
 
             log.debug("tableview change: \(updateType) for \(feedType)")
             
-            if updateType == .insert {
-                self.isInsertingContent = true
-            }
+            self.isInsertingContent = true
             
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
-            if updateDisplay && self.viewModel.dataSource != nil {
+            if shouldFreezeAnimations && self.viewModel.dataSource != nil {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
             
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
                 guard let self else {
-                    if updateDisplay {
+                    if shouldFreezeAnimations {
                         CATransaction.commit()
                     }
                     return
@@ -903,18 +905,16 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                         self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                     }
                     
-                    if updateDisplay {
+                    if shouldFreezeAnimations {
                         CATransaction.commit()
-                        
-                        if updateType == .insert {
-                            self.isInsertingContent = false
-                        }
                     }
+                    
+                    self.isInsertingContent = false
                 }
                 
                 // This extra commit is needed when updating with .replaceAll (triggered by refresh snapshot)
                 // Without it the UI feezes.
-                if updateType == .replaceAll && updateDisplay {
+                if updateType == .replaceAll && shouldFreezeAnimations {
                     CATransaction.commit()
                 }
             }
@@ -932,7 +932,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
-            if updateDisplay {
+            if shouldFreezeAnimations {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
@@ -952,7 +952,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                 }
                 
-                if updateDisplay {
+                if shouldFreezeAnimations {
                     CATransaction.commit()
                     UIView.setAnimationsEnabled(false)
                 }
@@ -963,7 +963,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                         self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                     }
                     
-                    if updateDisplay {
+                    if shouldFreezeAnimations {
                         UIView.setAnimationsEnabled(true)
                     }
                 }
@@ -999,26 +999,28 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             
         case .hydrate:
             log.debug("tableview change: \(updateType) for \(feedType)")
-            let scrollPosition = self.viewModel.getScrollPosition(forFeed: feedType)
+            let scrollPosition = scrollPosition ?? self.viewModel.getScrollPosition(forFeed: feedType)
             
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
                 guard let self else { return }
                 self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                 onCompleted?()
             }
+            
+            self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
 
        case .append:
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
-            if updateDisplay {
+            if shouldFreezeAnimations {
                 CATransaction.begin()
                 CATransaction.disableActions()
             }
 
             self.viewModel.dataSource?.apply(snapshot, animatingDifferences: false) { [weak self] in
                guard let self else {
-                   if updateDisplay {
+                   if shouldFreezeAnimations {
                        CATransaction.commit()
                    }
                    return
@@ -1030,7 +1032,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                    self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
                }
                
-                if updateDisplay {
+                if shouldFreezeAnimations {
                     CATransaction.commit()
                 }
                onCompleted?()
@@ -1210,6 +1212,7 @@ private extension NewsFeedViewController {
                         // we need to include an inset when the background is translucent
                         var additionalOffset = 0.0
                         
+                        UIView.setAnimationsEnabled(false)
                         if UIDevice.current.userInterfaceIdiom == .phone && !self.additionalSafeAreaInsets.top.isZero {
                             additionalOffset = 176
                             tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top + additionalOffset
@@ -1219,6 +1222,7 @@ private extension NewsFeedViewController {
                         } else {
                             tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top
                         }
+                        UIView.setAnimationsEnabled(true)
                     }
                 } else {
                     log.error("#scrollToPosition2: no indexpath found")
@@ -1261,27 +1265,52 @@ private extension NewsFeedViewController {
 // MARK: - Jump to newest
 extension NewsFeedViewController: JumpToNewest {
     func jumpToNewest() {
-        DispatchQueue.main.async {
-            self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            Task { [weak self] in
+        if !self.viewModel.pollingReachedTop {
+            
+            self.viewModel.stopPollingListData()
+            self.viewModel.cancelAllItemSyncs()
+            self.deferredSnapshotUpdatesCallbacks = []
+            
+            self.isScrollingProgrammatically = true
+            
+            self.viewModel.clearSnapshot()
+            self.disableFeedUpdates = true
+            self.showLoader(enabled: true)
+            
+            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+            self.didUpdateUnreadState(type: self.viewModel.type)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 guard let self else { return }
-                if [.mentionsIn].contains(type) || NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) {
+                
+                Task { [weak self] in
+                    guard let self else { return }
                     try await self.viewModel.loadListData(type: self.viewModel.type, fetchType: .refresh)
-                } else {
-                    if GlobalStruct.feedReadDirection == .bottomUp {
-                        try await self.viewModel.loadListData(type: type, fetchType: .previousPage)
-                    } else {
-                        try await self.viewModel.loadLatest(feedType: type, threshold: 1)
-                    }
                 }
+                
+                self.disableFeedUpdates = false
             }
+        } else {
+            
+            self.viewModel.stopPollingListData()
+            self.viewModel.cancelAllItemSyncs()
+            self.deferredSnapshotUpdatesCallbacks = []
+            
+            self.isScrollingProgrammatically = true
+
+            self.disableFeedUpdates = true
+            
+            self.viewModel.setShowJumpToNow(enabled: false, forFeed: self.viewModel.type)
+            self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
+            self.didUpdateUnreadState(type: self.viewModel.type)
+            
+            self.tableView.safeScrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+            
+            self.disableFeedUpdates = false
+            
+            self.viewModel.startPollingListData(forFeed: self.viewModel.type, delay: 1)
         }
-        
-        // If the user disabled the JumpToNow button (pressed the close button)
-        // re-enable it now
-        self.viewModel.isJumpToNowButtonDisabled = false
     }
 }
 

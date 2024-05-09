@@ -11,6 +11,7 @@ import SDWebImage
 import Kingfisher
 import Meta
 import MastodonMeta
+import MetaTextKit
 
 class UserCardModel {
     let id: String
@@ -80,8 +81,6 @@ class UserCardModel {
         self.isFollowing = isFollowing
         self.account = account
         
-        self.richName = NSAttributedString(string: self.name)
-        
         var emojisDic: MastodonContent.Emojis = [:]
         self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
         do {
@@ -89,6 +88,8 @@ class UserCardModel {
         } catch {
             self.metaName = MastodonMetaContent.convert(text: MastodonContent(content: self.name, emojis: emojisDic))
         }
+        
+        self.richName = NSMutableAttributedString(string: self.metaName!.string)
         
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil
         
@@ -127,9 +128,7 @@ class UserCardModel {
         self.isFollowing = isFollowing
         self.emojis = account.emojis
         self.account = account
-        
-        self.richName = NSAttributedString(string: self.name)
-        
+                
         var emojisDic: MastodonContent.Emojis = [:]
         self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
         
@@ -137,6 +136,10 @@ class UserCardModel {
             self.metaName = try MastodonMetaContent.convert(document: MastodonContent(content: self.name, emojis: emojisDic))
         } catch {
             self.metaName = MastodonMetaContent.convert(text: MastodonContent(content: self.name, emojis: emojisDic))
+        }
+        
+        if let _ = self.metaName {
+            self.richName = NSMutableAttributedString(string: self.metaName!.string)
         }
         
         self.richPreviewDescription = self.description != nil ? removeTrailingLinebreaks(string: NSAttributedString(string: self.description!)) : nil
@@ -243,9 +246,10 @@ extension UserCardModel {
             self.imagePrefetchToken = prefetcher.prefetchURLs([profilePicURL], context: [.imageTransformer: PostCardProfilePic.transformer], progress: nil)
         }
         
-        self.emojis?.forEach({
-            ImageDownloader.default.downloadImage(with: $0.url)
-        })
+        if let emojis = self.emojis, !emojis.isEmpty {
+            let prefetcher = SDWebImagePrefetcher.shared
+            prefetcher.prefetchURLs(emojis.map({$0.url}), context: [.animatedImageClass: SDAnimatedImageView.self], progress: nil)
+        }
     }
     
     func cancelAllPreloadTasks() {

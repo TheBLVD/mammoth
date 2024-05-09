@@ -17,7 +17,7 @@ public typealias GiphySimpleSingleGIFResponseBlock = (_ error: NSError?, _ respo
 
 fileprivate typealias GiphyAPIResponseBlock = (_ error: NSError?, _ response: [String : AnyObject]?) -> Void
 
-fileprivate let kGiphyUnknownResponseError = "The server returned an unknown response."
+fileprivate let kGiphyUnknownResponseError = NSLocalizedString("composer.giphy.error", comment: "")
 
 fileprivate let kGiphyDefaultAPIBase = URL(string: "https://api.giphy.com/v1/gifs/")!
 fileprivate let kGiphyDefaultStickerAPIBase = URL(string: "https://api.giphy.com/v1/stickers/")!

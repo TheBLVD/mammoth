@@ -96,8 +96,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Conferma la tua email"
           }
         },
         "ja": {
@@ -156,8 +156,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Confirma tu email"
           }
         },
         "sv": {
@@ -281,8 +281,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Bottone"
           }
         },
         "ja": {
@@ -341,8 +341,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Botón"
           }
         },
         "sv": {
@@ -466,8 +466,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Fai clic sul link nell'email che abbiamo inviato a\n%@ e torna su Mammoth"
           }
         },
         "ja": {
@@ -526,8 +526,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Haz clic en el enlace del email que hemos enviado a\n%@ y luego vuelve a Mammoth"
           }
         },
         "sv": {
@@ -651,8 +651,8 @@
         },
         "it": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "Non hai ricevuto nulla?"
           }
         },
         "ja": {
@@ -711,8 +711,8 @@
         },
         "es": {
           "stringUnit": {
-            "state": "needs_review",
-            "value": ""
+            "state": "translated",
+            "value": "¿No lo ves?"
           }
         },
         "sv": {

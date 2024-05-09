@@ -49,7 +49,7 @@ extension NewsFeedListItem {
     
     func extractData() -> Any? {
         if case .postCard(let postCard) = self {
-            let data = postCard.preSyncData ?? postCard.data
+            let data = postCard.data
             if case .mastodon(let status) = data  {
                 return status
             }
@@ -139,12 +139,6 @@ extension Array where Element == NewsFeedListItem {
                 if case .hide(_) = postCard.filterType {
                     return false
                 }
-                
-               return true
-            }
-            
-            else if case .activity(_) = $0 {
-                return true
             }
             
             return true

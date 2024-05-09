@@ -23,7 +23,7 @@ public struct GlobalStruct {
     static let shared = GlobalStruct()
     
     // The supported localizations / app languages
-    static let supportedLocalizations = ["en", "de", "nl", "nl-BE", "pt-BR"]
+    static let supportedLocalizations = ["en", "pt-BR", "de", "es", "nl", "it"]
     static let rootLocalization = "en"
     
     static var clientID = ""
@@ -151,6 +151,7 @@ public struct GlobalStruct {
     static var scrollDirectionDown: Bool = true
     static var openLinksInBrowser: Bool = false
     static var appLock: Bool = false
+    static var shareAnalytics: Bool = true
     
     // composer
     static var keyboardType: Int = 0

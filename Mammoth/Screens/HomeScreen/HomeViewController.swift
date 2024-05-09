@@ -110,7 +110,9 @@ class HomeViewController : UIViewController {
                 if let currentTabBarController = getTabBarController(),
                    let item = currentTabBarController.animatedTabBar.tabBarItems.first {
                     currentTabBarController.selectedIndex = 0
-                    TutorialOverlay.showOverlay(type: .quickFeedSwitcher, onRef: item)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        TutorialOverlay.showOverlay(type: .quickFeedSwitcher, onRef: item)
+                    }
                 }
             }
         } else {
@@ -327,13 +329,22 @@ extension HomeViewController {
     }
     
     private func jumpToContextMenu() -> UIMenu {
-        let jumpToMenu = UIMenu(title: NSLocalizedString("home.jumpToAList", comment: "Appears when holding in the 'home' button, before a list of feeds."), options: [.displayInline], children: FeedsManager.shared.feeds.filter({ $0.isEnabled }).map { item in
+        let jumpToMenu = UIMenu(title: NSLocalizedString("home.jumpToAList", comment: "Appears when holding in the 'home' button, before a list of feeds."), options: [.displayInline], children: FeedsManager.shared.feeds.sorted(by: { (_, right) in !right.isEnabled }).map { item in
             return UIAction(title: item.type.plainTitle(), image: item.type.icon, identifier: nil) { [weak self] _ in
                 guard let self else { return }
                 
-                if let index = self.indexOfCarouselItem(item: item.type) {
-                    self.feedCarousel.scrollTo(index: index)
-                    self.carouselItemPressed(withIndex: index)
+                if item.isEnabled {
+                    if let index = self.indexOfCarouselItem(item: item.type) {
+                        self.feedCarousel.scrollTo(index: index)
+                        self.carouselItemPressed(withIndex: index)
+                    }
+                    
+                    if self.navigationController?.parent != nil {
+                        self.navigationController?.popToRootViewController(animated: true)
+                    }
+                } else {
+                    let feedView = NewsFeedViewController(type: item.type)
+                    self.navigationController?.pushViewController(feedView, animated: true)
                 }
                 
                 // Navigate to home if needed
@@ -350,7 +361,9 @@ extension HomeViewController {
 // MARK: - Jump to newest
 extension HomeViewController: JumpToNewest {
     @objc func jumpToNewest() {
-        self.currentPage().jumpToNewest()
+        if let currentPage = self.pageViewController.viewControllers?.first as? NewsFeedViewController {
+            currentPage.jumpToNewest()
+        }
     }
 }
 

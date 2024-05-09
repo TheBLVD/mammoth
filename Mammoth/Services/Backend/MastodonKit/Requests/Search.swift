@@ -24,10 +24,20 @@ public struct Search {
         let method = HTTPMethod.get(.parameters(parameters))
         return Request<Results>(path: "/api/v2/search", method: method)
     }
+    
+    public static func searchOne(query: String, resolve: Bool? = nil) -> Request<Results> {
+        let parameters = [
+            Parameter(name: "q", value: query),
+            Parameter(name: "limit", value: "1"),
+            Parameter(name: "resolve", value: resolve.flatMap(trueOrNil))
+        ]
+        let method = HTTPMethod.get(.parameters(parameters))
+        return Request<Results>(path: "/api/v2/search", method: method)
+    }
 
     public static func searchAccounts(query: String, limit: Int? = nil, following: Bool? = nil) -> Request<Results
     > {
-        let toLimitBounds = between(1, and: 80, default: 40)
+        let toLimitBounds = between(1, and: 80, default: 80)
         let parameters = [
             Parameter(name: "q", value: query),
             Parameter(name: "resolve", value: "true"),

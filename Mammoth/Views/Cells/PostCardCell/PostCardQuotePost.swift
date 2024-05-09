@@ -23,9 +23,15 @@ class PostCardQuotePost: UIView {
         stackView.spacing = 4.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.backgroundColor = .custom.background
-
-        stackView.layer.borderWidth = 0.4
-        stackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
+        
+        stackView.layer.borderWidth = 1.0 / UIScreen.main.scale
+        stackView.layer.allowsEdgeAntialiasing = false
+        stackView.layer.edgeAntialiasingMask = [.layerBottomEdge, .layerTopEdge, .layerLeftEdge, .layerRightEdge]
+        stackView.layer.needsDisplayOnBoundsChange = false
+        stackView.layer.rasterizationScale = UIScreen.main.scale
+        stackView.layer.contentsScale = UIScreen.main.scale
+        
+        stackView.layer.borderColor = UIColor.custom.outlines.cgColor
         stackView.layer.masksToBounds = true
         stackView.layer.cornerRadius = 10
         stackView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -65,7 +71,7 @@ class PostCardQuotePost: UIView {
         stackView.preservesSuperviewLayoutMargins = false
         return stackView
     }()
-
+    
     private var header = PostCardHeader()
     private var headerTrailingConstraint: NSLayoutConstraint?
     
@@ -80,10 +86,9 @@ class PostCardQuotePost: UIView {
         metaText.numberOfLines = 4
         metaText.textContainer.maximumNumberOfLines = 4
         metaText.textContainer.lineBreakMode = .byTruncatingTail
-
         return metaText
     }()
-        
+    
     // Contains image attachment, poll, and/or link preview if needed
     private var mediaContainer: UIStackView = {
         let stackView = UIStackView()
@@ -125,6 +130,9 @@ class PostCardQuotePost: UIView {
     
     private var linkPreview: PostCardLinkPreview?
     private var linkPreviewTrailingConstraint: NSLayoutConstraint?
+    
+    private var quoteIndicator: PostCardQuoteIndicator?
+    private var quoteIndicatorTrailingConstraint: NSLayoutConstraint?
     
     private var postNotFound: PostCardQuoteNotFound?
     private var postNotFoundTrailingConstraint: NSLayoutConstraint?
@@ -214,6 +222,11 @@ class PostCardQuotePost: UIView {
             self.linkPreviewTrailingConstraint?.isActive = false
         }
         
+        if let quoteIndicator = self.quoteIndicator {
+            quoteIndicator.isHidden = true
+            self.quoteIndicatorTrailingConstraint?.isActive = false
+        }
+        
         if let postNotFound = self.postNotFound {
             postNotFound.isHidden = true
             self.postNotFoundTrailingConstraint?.isActive = false
@@ -266,91 +279,100 @@ private extension PostCardQuotePost {
         
         mainStackView.addArrangedSubview(mediaContainer)
         
-        // Poll
-        self.poll = PostCardPoll()
-        self.poll!.isUserInteractionEnabled = false
-        self.poll!.isHidden = true
-        mediaContainer.addArrangedSubview(self.poll!)
-        pollTrailingConstraint = self.poll!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            // Poll
+            self.poll = PostCardPoll()
+            self.poll!.isUserInteractionEnabled = false
+            self.poll!.isHidden = true
+            self.mediaContainer.addArrangedSubview(self.poll!)
+            self.pollTrailingConstraint = self.poll!.trailingAnchor.constraint(equalTo: self.mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+            
+            // Thumbnail image
+            self.thumbnailImage = PostCardImage(variant: .thumbnail)
+            self.thumbnailImage!.translatesAutoresizingMaskIntoConstraints = false
+            self.thumbnailImage!.isHidden = true
+            self.textAndSmallMediaStackView.addArrangedSubview(self.thumbnailImage!)
+            self.thumbnailImageTrailingConstraint = self.thumbnailImage!.widthAnchor.constraint(equalToConstant: 60)
+            
+            // Fullsize image
+            self.image = PostCardImage(variant: .fullSize)
+            self.image!.translatesAutoresizingMaskIntoConstraints = false
+            self.image!.isHidden = true
+            self.mediaContainer.addArrangedSubview(self.image!)
+            self.imageTrailingConstraint = self.image!.trailingAnchor.constraint(equalTo: self.mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+            
+            // Thumbnail video
+            self.thumbnailVideo = PostCardVideo(variant: .thumbnail)
+            self.thumbnailVideo!.translatesAutoresizingMaskIntoConstraints = false
+            self.thumbnailVideo!.isHidden = true
+            self.textAndSmallMediaStackView.addArrangedSubview(self.thumbnailVideo!)
+            self.thumbnailVideoTrailingConstraint = self.thumbnailVideo!.widthAnchor.constraint(equalToConstant: 60)
+            
+            // Fullsize video
+            self.video = PostCardVideo(variant: .fullSize)
+            self.video!.translatesAutoresizingMaskIntoConstraints = false
+            self.video!.isHidden = true
+            self.mediaContainer.addArrangedSubview(self.video!)
+            self.videoTrailingConstraint = self.video!.trailingAnchor.constraint(equalTo: self.mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+            
+            // Media stack
+            self.mediaStack = PostCardMediaStack(variant: .thumbnail)
+            self.mediaStack?.translatesAutoresizingMaskIntoConstraints = false
+            self.mediaStack?.isHidden = true
+            self.textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
+            self.mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
+            
+            // Media gallery
+            self.mediaGallery = PostCardMediaGallery()
+            self.mediaGallery?.isHidden = true
+            self.mediaGallery?.translatesAutoresizingMaskIntoConstraints = false
+            self.mediaContainer.addArrangedSubview(self.mediaGallery!)
+            self.mediaGalleryTrailingConstraint = self.mediaGallery!.trailingAnchor.constraint(equalTo: self.mediaContainer.layoutMarginsGuide.trailingAnchor)
+            
+            // Link
+            self.linkPreview = PostCardLinkPreview()
+            self.linkPreview!.isUserInteractionEnabled = false
+            self.linkPreview!.isHidden = true
+            self.mediaContainer.addArrangedSubview(self.linkPreview!)
+            self.linkPreviewTrailingConstraint = self.linkPreview!.trailingAnchor.constraint(equalTo: self.mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+            
+            NSLayoutConstraint.activate([
+                // Force content container to fill the parent width
+                self.contentStackView.trailingAnchor.constraint(equalTo: self.mainStackView.trailingAnchor),
+                self.textAndSmallMediaStackView.trailingAnchor.constraint(equalTo: self.contentStackView.layoutMarginsGuide.trailingAnchor),
+                
+                // Force media container to fill the parent width
+                self.mediaContainer.trailingAnchor.constraint(equalTo: self.mainStackView.trailingAnchor)
+            ])
+        }
         
-        // Thumbnail image
-        self.thumbnailImage = PostCardImage(variant: .thumbnail)
-        self.thumbnailImage!.translatesAutoresizingMaskIntoConstraints = false
-        self.thumbnailImage!.isHidden = true
-        textAndSmallMediaStackView.addArrangedSubview(self.thumbnailImage!)
-        thumbnailImageTrailingConstraint = self.thumbnailImage!.widthAnchor.constraint(equalToConstant: 60)
-        
-        // Fullsize image
-        self.image = PostCardImage(variant: .fullSize)
-        self.image!.translatesAutoresizingMaskIntoConstraints = false
-        self.image!.isHidden = true
-        mediaContainer.addArrangedSubview(self.image!)
-        imageTrailingConstraint = self.image!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
-        
-        // Thumbnail video
-        self.thumbnailVideo = PostCardVideo(variant: .thumbnail)
-        self.thumbnailVideo!.translatesAutoresizingMaskIntoConstraints = false
-        self.thumbnailVideo!.isHidden = true
-        textAndSmallMediaStackView.addArrangedSubview(self.thumbnailVideo!)
-        thumbnailVideoTrailingConstraint = self.thumbnailVideo!.widthAnchor.constraint(equalToConstant: 60)
-        
-        // Fullsize video
-        self.video = PostCardVideo(variant: .fullSize)
-        self.video!.translatesAutoresizingMaskIntoConstraints = false
-        self.video!.isHidden = true
-        mediaContainer.addArrangedSubview(self.video!)
-        videoTrailingConstraint = self.video!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
-        
-        // Media stack
-        self.mediaStack = PostCardMediaStack(variant: .thumbnail)
-        self.mediaStack?.translatesAutoresizingMaskIntoConstraints = false
-        self.mediaStack?.isHidden = true
-        textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
-        mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
-        
-        // Media gallery
-        self.mediaGallery = PostCardMediaGallery()
-        self.mediaGallery?.isHidden = true
-        self.mediaGallery?.translatesAutoresizingMaskIntoConstraints = false
-        mediaContainer.addArrangedSubview(self.mediaGallery!)
-        mediaGalleryTrailingConstraint = self.mediaGallery!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
-        
-        // Link
-        self.linkPreview = PostCardLinkPreview()
-        self.linkPreview!.isUserInteractionEnabled = false
-        self.linkPreview!.isHidden = true
-        mediaContainer.addArrangedSubview(self.linkPreview!)
-        linkPreviewTrailingConstraint = self.linkPreview!.trailingAnchor.constraint(equalTo: mediaContainer.trailingAnchor, constant: -self.mediaContainer.directionalLayoutMargins.trailing)
+        self.quoteIndicator = PostCardQuoteIndicator()
+        self.quoteIndicator!.isUserInteractionEnabled = false
+        self.quoteIndicator!.isHidden = true
+        contentStackView.addArrangedSubview(self.quoteIndicator!)
+        quoteIndicatorTrailingConstraint = self.quoteIndicator!.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
         
         // Post loader
         self.postLoader = PostCardQuoteActivityIndicator()
         self.postLoader!.isUserInteractionEnabled = false
         self.postLoader!.isHidden = true
-        contentStackView.addArrangedSubview(self.postLoader!)
-        postLoaderTrailingConstraint = self.postLoader!.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
+        self.contentStackView.addArrangedSubview(self.postLoader!)
+        self.postLoaderTrailingConstraint = self.postLoader!.trailingAnchor.constraint(equalTo: self.contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
         
         // Post not found
         self.postNotFound = PostCardQuoteNotFound()
         self.postNotFound!.isHidden = true
         self.postNotFound!.isUserInteractionEnabled = false
         self.postNotFound!.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView.addArrangedSubview(self.postNotFound!)
-        postNotFoundTrailingConstraint = self.postNotFound!.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
+        self.contentStackView.addArrangedSubview(self.postNotFound!)
+        self.postNotFoundTrailingConstraint = self.postNotFound!.trailingAnchor.constraint(equalTo: self.contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
             mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-        ])
-        
-        NSLayoutConstraint.activate([
-            // Force content container to fill the parent width
-            contentStackView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
-            textAndSmallMediaStackView.trailingAnchor.constraint(equalTo: contentStackView.layoutMarginsGuide.trailingAnchor),
-            
-            // Force media container to fill the parent width
-            mediaContainer.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor)
         ])
         
         setupUIFromSettings()
@@ -403,21 +425,27 @@ extension PostCardQuotePost {
 
             // Display poll if needed
             if quotePostCard.containsPoll {
-                self.poll!.configure(postCard: quotePostCard)
-                self.poll!.isHidden = false
+                self.poll?.configure(postCard: quotePostCard)
+                self.poll?.isHidden = false
                 pollTrailingConstraint?.isActive = true
             }
 
             // Display the link preview if needed
-            if quotePostCard.hasLink {
-                self.linkPreview!.configure(postCard: quotePostCard)
-                self.linkPreview!.isHidden = false
+            if quotePostCard.hasLink  && !quotePostCard.hasQuotePost {
+                self.linkPreview?.configure(postCard: quotePostCard)
+                self.linkPreview?.isHidden = false
                 linkPreviewTrailingConstraint?.isActive = true
-                self.linkPreview!.onPress = onPress
+                self.linkPreview?.onPress = onPress
+            }
+            
+            // display recursive quote indicator.
+            if quotePostCard.hasQuotePost {
+                self.quoteIndicator!.isHidden = false
+                quoteIndicatorTrailingConstraint?.isActive = true
             }
             
             // Display single image if needed
-            if quotePostCard.hasMediaAttachment && quotePostCard.mediaDisplayType == .singleImage {
+            if quotePostCard.hasMediaAttachment && quotePostCard.mediaDisplayType == .singleImage && !quotePostCard.hasWebview {
                 switch self.mediaVariant {
                 case .small:
                     self.thumbnailImage?.configure(postCard: quotePostCard)
@@ -507,7 +535,7 @@ extension PostCardQuotePost {
         if postCard.quotePostStatus == .loading  {
             // Quote post is being loaded
             self.postLoader?.isHidden = false
-            self.postLoader!.startAnimation()
+            self.postLoader?.startAnimation()
             postLoaderTrailingConstraint?.isActive = true
             mainStackView.directionalLayoutMargins.bottom = 10
             
@@ -521,7 +549,7 @@ extension PostCardQuotePost {
     }
     
     func onThemeChange() {
-        self.mainStackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
+        self.mainStackView.layer.borderColor = UIColor.custom.outlines.cgColor
         
         self.header.onThemeChange()
         self.linkPreview?.onThemeChange()
@@ -621,7 +649,7 @@ fileprivate class PostCardQuoteNotFound: UIStackView {
         self.isLayoutMarginsRelativeArrangement = true
         self.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 4, leading: 0, bottom: 0, trailing: 0)
         
-        self.titleLabel.text = "Post could not be found"
+        self.titleLabel.text = NSLocalizedString("post.quote.notFound", comment: "")
         
         self.addArrangedSubview(self.leftAttribute)
         self.addArrangedSubview(self.titleLabel)
@@ -684,4 +712,51 @@ fileprivate class PostCardQuoteActivityIndicator: UIStackView {
     func onThemeChange() {
         
     }
+}
+
+fileprivate class PostCardQuoteIndicator: UIStackView {
+    private var leftAttribute: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = FontAwesome.image(fromChar: "\u{f10d}", color: .custom.feintContrast, size: 15, weight: .bold)
+        return imageView
+    }()
+    var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .custom.feintContrast
+        label.text = NSLocalizedString("post.quote.quoting", comment: "")
+        label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        return label
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.setupUI()
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        self.axis = .horizontal
+        self.alignment = .center
+        self.distribution = .fill
+        self.spacing = 8.0
+        
+        self.isLayoutMarginsRelativeArrangement = true
+        self.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 4, leading: 0, bottom: 0, trailing: 0)
+        
+        self.addArrangedSubview(self.leftAttribute)
+        self.addArrangedSubview(self.titleLabel)
+        
+        // Don't compress but let siblings fill the space
+        leftAttribute.setContentHuggingPriority(UILayoutPriority(rawValue: 251), for: .horizontal)
+        leftAttribute.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .horizontal)
+        
+    }
+    func onThemeChange() {
+        self.titleLabel.textColor = .custom.feintContrast
+        self.leftAttribute.image = FontAwesome.image(fromChar: "\u{f10d}", color: .custom.feintContrast, size: 15, weight: .bold)
+    }
+    
 }

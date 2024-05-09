@@ -117,8 +117,8 @@ class PostCardImageCollectionCell: UICollectionViewCell {
         self.bgImage.layer.cornerRadius = 6
         contentView.addSubview(bgImage)
 
-        self.imageView.layer.borderWidth = 0.4
-        self.imageView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
+        self.imageView.layer.borderWidth = 1.0 / UIScreen.main.scale
+        self.imageView.layer.borderColor = UIColor.custom.outlines.cgColor
         
         self.imageView.backgroundColor = .custom.background
         self.imageView.layer.cornerRadius = 6
