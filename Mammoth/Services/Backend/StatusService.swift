@@ -17,7 +17,7 @@ struct StatusService {
     }
     
     static func like(postCard: PostCardModel, withPolicy fetchPolicy: FetchPolicy = FetchPolicy.regular) async throws -> PostCardModel? {
-        switch postCard.preSyncData ?? postCard.data {
+        switch postCard.data {
         case .mastodon(let status):
             switch(fetchPolicy) {
             case .regular:
@@ -61,7 +61,7 @@ struct StatusService {
     }
     
     static func unlike(postCard: PostCardModel, withPolicy fetchPolicy: FetchPolicy = FetchPolicy.regular) async throws -> PostCardModel? {
-        switch postCard.preSyncData ?? postCard.data {
+        switch postCard.data {
         case .mastodon(let status):
             switch(fetchPolicy) {
             case .regular:
