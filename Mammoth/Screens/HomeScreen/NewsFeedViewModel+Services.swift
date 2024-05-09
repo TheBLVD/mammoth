@@ -186,6 +186,7 @@ extension NewsFeedViewModel {
                         self.hideEmpty(forType: currentType)
                     }
                     
+                    // always assume newest post after refresh.
                     self.pollingReachedTop = true
                     
                     self.set(withItems: newItems, forType: currentType)
@@ -622,9 +623,6 @@ extension NewsFeedViewModel {
                 guard let self else { return }
                 guard !Task.isCancelled else { return }
                 
-                await MainActor.run { [weak self] in
-                    self?.pollingReachedTop = true
-                }
                 
                 var fetchingNewItems = false
 
@@ -669,7 +667,6 @@ extension NewsFeedViewModel {
                             guard !Task.isCancelled else { return }
                             
                             if !fetchedItems.isEmpty {
-                                
                                 await MainActor.run { [weak self] in
                                     self?.pollingReachedTop = false
                                 }
@@ -696,6 +693,7 @@ extension NewsFeedViewModel {
                                 }
                             } else {
                                 await MainActor.run { [weak self] in
+                                    // returned posts are empty, so we can assume we're up-to-date.
                                     self?.pollingReachedTop = true
                                 }
                             }

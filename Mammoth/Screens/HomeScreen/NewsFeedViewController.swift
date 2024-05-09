@@ -266,6 +266,9 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         // re-enable it now
         self.viewModel.isJumpToNowButtonDisabled = false
         
+        // reset polling status when switching feed.
+        self.viewModel.pollingReachedTop = false
+        
         self.didUpdateSnapshot(self.viewModel.snapshot, feedType: self.viewModel.type, updateType: .insert, scrollPosition: nil, onCompleted: nil)
     }
 
@@ -451,6 +454,9 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                 cell.willDisplay()
             }
         })
+        
+        // user just opened the app, assume an outdated feed.
+        self.viewModel.pollingReachedTop = false
     }
     
     override func didReceiveMemoryWarning() {
@@ -1266,7 +1272,7 @@ private extension NewsFeedViewController {
 extension NewsFeedViewController: JumpToNewest {
     func jumpToNewest() {
         if !self.viewModel.pollingReachedTop {
-            
+            // refresh because we didn't reach the top of the feed.
             self.viewModel.stopPollingListData()
             self.viewModel.cancelAllItemSyncs()
             self.deferredSnapshotUpdatesCallbacks = []
@@ -1281,6 +1287,8 @@ extension NewsFeedViewController: JumpToNewest {
             self.viewModel.clearAllUnreadIds(forFeed: self.viewModel.type)
             self.didUpdateUnreadState(type: self.viewModel.type)
             
+            self.unreadIndicator.configure(unreadCount: 0)
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
                 guard let self else { return }
                 
@@ -1292,7 +1300,7 @@ extension NewsFeedViewController: JumpToNewest {
                 self.disableFeedUpdates = false
             }
         } else {
-            
+            // just scroll to the top.
             self.viewModel.stopPollingListData()
             self.viewModel.cancelAllItemSyncs()
             self.deferredSnapshotUpdatesCallbacks = []
