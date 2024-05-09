@@ -378,6 +378,9 @@ final class PostCardCell: UITableViewCell {
     private var linkPreview: PostCardLinkPreview?
     private var linkPreviewTrailingConstraint: NSLayoutConstraint? = nil
     
+    private var webview: PostCardWebview?
+    private var webviewTrailingConstraint: NSLayoutConstraint? = nil
+    
     private var quotePost: PostCardQuotePost?
     private var quotePostTrailingConstraint: NSLayoutConstraint? = nil
     
@@ -482,6 +485,7 @@ final class PostCardCell: UITableViewCell {
         self.video?.prepareForReuse()
         self.poll?.prepareForReuse()
         self.linkPreview?.prepareForReuse()
+        self.webview?.prepareForReuse()
         self.mediaStack?.prepareForReuse()
         self.mediaGallery?.prepareForReuse()
     }
@@ -668,6 +672,13 @@ private extension PostCardCell {
             self.linkPreview?.translatesAutoresizingMaskIntoConstraints = false
             self.mediaContainer.addArrangedSubview(self.linkPreview!)
             self.linkPreviewTrailingConstraint = self.linkPreview!.trailingAnchor.constraint(equalTo: self.mediaContainer.layoutMarginsGuide.trailingAnchor)
+            
+            // setup webview.
+            self.webview = PostCardWebview()
+            self.webview?.translatesAutoresizingMaskIntoConstraints = false
+            self.webview?.isHidden = true
+            mediaContainer.addArrangedSubview(self.webview!)
+            webviewTrailingConstraint = self.webview!.trailingAnchor.constraint(equalTo: mediaContainer.layoutMarginsGuide.trailingAnchor)
         }
         
         contentStackView.addArrangedSubview(footer)
@@ -878,7 +889,7 @@ extension PostCardCell {
         if self.cellVariant.hasMedia {
             
             if type != .detail && postCard.hasMediaAttachment && !postCard.mediaAttachmentDescription.isEmpty {
-                self.hiddenImageIndicator.text = "(\(postCard.mediaAttachmentDescription))"
+                self.hiddenImageIndicator.text = postCard.mediaAttachmentDescription
                 self.hiddenImageIndicator.isHidden = false
             } else {
                 self.hiddenImageIndicator.isHidden = true
@@ -903,7 +914,7 @@ extension PostCardCell {
             }
             
             // Display the link preview if needed
-            if postCard.hasLink && (!postCard.hasQuotePost || postCard.quotePostStatus == .notFound ) {
+            if postCard.hasLink && (!postCard.hasQuotePost || postCard.quotePostStatus == .notFound ) && !postCard.hasWebview {
                 self.linkPreview?.configure(postCard: postCard)
                 self.linkPreview?.onPress = onButtonPress
                 self.linkPreview?.isHidden = false
@@ -911,8 +922,18 @@ extension PostCardCell {
                 self.linkPreview?.isHidden = true
             }
             
+            // display webview. don't configure twice.
+            if postCard.hasWebview {
+                if self.webview?.isHidden == true {
+                    self.webview?.configure(postCard: postCard)
+                    self.webview?.isHidden = false
+                }
+            } else {
+                self.webview?.isHidden = true
+            }
+            
             // Display single image if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage {
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage && !postCard.hasWebview {
                 self.image?.configure(postCard: postCard)
                 self.image?.isHidden = false
             } else {
@@ -1147,8 +1168,19 @@ extension PostCardCell {
                 }
             }
             
+            // display webview if needed.
+            if postCard.hasWebview {
+                if let constraint = self.webviewTrailingConstraint, !constraint.isActive {
+                    NSLayoutConstraint.activate([constraint])
+                }
+            } else {
+                if let constraint = self.webviewTrailingConstraint, constraint.isActive {
+                    NSLayoutConstraint.deactivate([constraint])
+                }
+            }
+            
             // Display single image if needed
-            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage {
+            if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage && !postCard.hasWebview {
                 if let constraint = self.imageTrailingConstraint, !constraint.isActive {
                     NSLayoutConstraint.activate([self.imageTrailingConstraint!])
                 }
@@ -1279,6 +1311,13 @@ extension PostCardCell {
                 self.mediaContainer.removeArrangedSubview(linkPreview)
                 linkPreview.removeFromSuperview()
                 linkPreview.prepareForReuse()
+            }
+            
+            if let webview = self.webview {
+                self.webviewTrailingConstraint?.isActive = false
+                self.mediaContainer.removeArrangedSubview(webview)
+                webview.removeFromSuperview()
+                webview.prepareForReuse()
             }
             
             if let poll = self.poll {

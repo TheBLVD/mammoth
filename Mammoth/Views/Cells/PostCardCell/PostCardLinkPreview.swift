@@ -139,15 +139,15 @@ private extension PostCardLinkPreview {
         self.isOpaque = true
         self.addSubview(mainStackView)
         
-        mainStackView.addArrangedSubview(imageStack)
+//        mainStackView.addArrangedSubview(imageStack)
         mainStackView.addArrangedSubview(textStack)
         textStack.addArrangedSubview(self.urlLabel)
         textStack.addArrangedSubview(self.titleLabel)
         
-        imageStack.addArrangedSubview(self.imageView)
-        imageHeightConstraint = imageHeightConstraint ?? self.imageView.heightAnchor.constraint(equalToConstant: PostCardLinkPreview.largeImageHeight)
-        imageHeightConstraint?.priority = .defaultHigh
-        imageHeightConstraint?.isActive = true
+//        imageStack.addArrangedSubview(self.imageView)
+//        imageHeightConstraint = imageHeightConstraint ?? self.imageView.heightAnchor.constraint(equalToConstant: PostCardLinkPreview.largeImageHeight)
+//        imageHeightConstraint?.priority = .defaultHigh
+//        imageHeightConstraint?.isActive = true
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 9),
@@ -155,8 +155,8 @@ private extension PostCardLinkPreview {
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            imageStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: self.imageStack.trailingAnchor)
+//            imageStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+//            imageView.trailingAnchor.constraint(equalTo: self.imageStack.trailingAnchor),
         ])
         
         let urlLabelTrailing = urlLabel.trailingAnchor.constraint(equalTo: textStack.layoutMarginsGuide.trailingAnchor)
@@ -211,23 +211,23 @@ extension PostCardLinkPreview {
         }
         
         self.titleLabel.text = postCard.linkCard?.title
-        
-        // Display the link image if needed
-        if !postCard.hideLinkImage, let imageURL = postCard.linkCard?.image {
-            self.imageView.ma_setImage(with: imageURL,
-                                       cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
-                                       placeholder: nil,
-                                              imageTransformer: PostCardImage.transformer) { [weak self] image in
-                if self?.status == status {
-                    postCard.decodedImages[imageURL.absoluteString] = image
-                }
-            }
-            
-            self.imageView.isHidden = false
-            
-        } else if self.imageView.isHidden == false {
-            self.imageView.isHidden = true
-        }
+       
+//        // Display the link image if needed
+//        if !postCard.hideLinkImage, let imageURL = postCard.linkCard?.image {
+//            self.imageView.ma_setImage(with: imageURL,
+//                                       cachedImage: postCard.decodedImages[imageURL.absoluteString] as? UIImage,
+//                                       placeholder: nil,
+//                                              imageTransformer: PostCardImage.transformer) { [weak self] image in
+//                if self?.status == status {
+//                    postCard.decodedImages[imageURL.absoluteString] = image
+//                }
+//            }
+//            
+//            self.imageView.isHidden = false
+//            
+//        } else if self.imageView.isHidden == false {
+//            self.imageView.isHidden = true
+//        }
         
         if shouldChangeTheme {
             self.onThemeChange()

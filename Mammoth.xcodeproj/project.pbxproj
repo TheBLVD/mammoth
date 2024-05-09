@@ -783,6 +783,7 @@
 		D8CA77612AB90D4000F49ECC /* ShareableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */; };
 		D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DE092E2A3D12D800DD0483 /* Haptics.swift */; };
 		F054D25C2B9C9E07006130A4 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F054D25B2B9C9E07006130A4 /* MetaTextKit */; };
+		F07766192BB76F310049F022 /* PostCardWebview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07766182BB76F310049F022 /* PostCardWebview.swift */; };
 		F084802D2B8BBF02005201A7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F084802C2B8BBF02005201A7 /* Localizable.xcstrings */; };
 		F0ED082F2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ED082E2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift */; };
 		F0ED08312BB61F380046B9EA /* RelationshipSeveranceEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ED08302BB61F380046B9EA /* RelationshipSeveranceEventType.swift */; };
@@ -1623,6 +1624,7 @@
 		D87449C62A968D39002A0603 /* RotatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotatingViewController.swift; sourceTree = "<group>"; };
 		D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableViewController.swift; sourceTree = "<group>"; };
 		D8DE092E2A3D12D800DD0483 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		F07766182BB76F310049F022 /* PostCardWebview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardWebview.swift; sourceTree = "<group>"; };
 		F084802C2B8BBF02005201A7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		F0ED082E2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSeveranceEvent.swift; sourceTree = "<group>"; };
 		F0ED08302BB61F380046B9EA /* RelationshipSeveranceEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSeveranceEventType.swift; sourceTree = "<group>"; };
@@ -3164,6 +3166,7 @@
 				C3B693C02A38748300E85927 /* PostCardProfilePic.swift */,
 				C3B5A5D72A30B9AD00427C73 /* PostCardQuotePost.swift */,
 				C311EACF2ACAE1DA005B5708 /* PostCardVideo.swift */,
+				F07766182BB76F310049F022 /* PostCardWebview.swift */,
 			);
 			path = PostCardCell;
 			sourceTree = "<group>";
@@ -3854,6 +3857,7 @@
 				BF2451F42A4B3D6300B409D4 /* AcctHandler.swift in Sources */,
 				533996E72914227A00560F83 /* DetailCell.swift in Sources */,
 				BFDCBD182A9D5EEB00606234 /* ChannelsViewController.swift in Sources */,
+				F07766192BB76F310049F022 /* PostCardWebview.swift in Sources */,
 				53399A46291526B900560F83 /* Attachment.swift in Sources */,
 				C33DC38D2AA203EC00B18AB1 /* ActivityCardModel.swift in Sources */,
 				53450E462936121600D720EA /* SwiftyGiphyCollectionViewCell.swift in Sources */,

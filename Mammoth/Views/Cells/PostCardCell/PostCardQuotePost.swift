@@ -426,7 +426,7 @@ extension PostCardQuotePost {
             }
             
             // Display single image if needed
-            if quotePostCard.hasMediaAttachment && quotePostCard.mediaDisplayType == .singleImage {
+            if quotePostCard.hasMediaAttachment && quotePostCard.mediaDisplayType == .singleImage && !quotePostCard.hasWebview {
                 switch self.mediaVariant {
                 case .small:
                     self.thumbnailImage?.configure(postCard: quotePostCard)
