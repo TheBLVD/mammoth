@@ -71,7 +71,7 @@ class PostCardQuotePost: UIView {
         stackView.preservesSuperviewLayoutMargins = false
         return stackView
     }()
-
+    
     private var header = PostCardHeader()
     private var headerTrailingConstraint: NSLayoutConstraint?
     
@@ -86,10 +86,9 @@ class PostCardQuotePost: UIView {
         metaText.numberOfLines = 4
         metaText.textContainer.maximumNumberOfLines = 4
         metaText.textContainer.lineBreakMode = .byTruncatingTail
-
         return metaText
     }()
-        
+    
     // Contains image attachment, poll, and/or link preview if needed
     private var mediaContainer: UIStackView = {
         let stackView = UIStackView()
@@ -131,6 +130,9 @@ class PostCardQuotePost: UIView {
     
     private var linkPreview: PostCardLinkPreview?
     private var linkPreviewTrailingConstraint: NSLayoutConstraint?
+    
+    private var quoteIndicator: PostCardQuoteIndicator?
+    private var quoteIndicatorTrailingConstraint: NSLayoutConstraint?
     
     private var postNotFound: PostCardQuoteNotFound?
     private var postNotFoundTrailingConstraint: NSLayoutConstraint?
@@ -218,6 +220,11 @@ class PostCardQuotePost: UIView {
             linkPreview.prepareForReuse()
             linkPreview.isHidden = true
             self.linkPreviewTrailingConstraint?.isActive = false
+        }
+        
+        if let quoteIndicator = self.quoteIndicator {
+            quoteIndicator.isHidden = true
+            self.quoteIndicatorTrailingConstraint?.isActive = false
         }
         
         if let postNotFound = self.postNotFound {
@@ -340,6 +347,12 @@ private extension PostCardQuotePost {
             ])
         }
         
+        self.quoteIndicator = PostCardQuoteIndicator()
+        self.quoteIndicator!.isUserInteractionEnabled = false
+        self.quoteIndicator!.isHidden = true
+        contentStackView.addArrangedSubview(self.quoteIndicator!)
+        quoteIndicatorTrailingConstraint = self.quoteIndicator!.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
+        
         // Post loader
         self.postLoader = PostCardQuoteActivityIndicator()
         self.postLoader!.isUserInteractionEnabled = false
@@ -418,11 +431,17 @@ extension PostCardQuotePost {
             }
 
             // Display the link preview if needed
-            if quotePostCard.hasLink {
+            if quotePostCard.hasLink  && !quotePostCard.hasQuotePost {
                 self.linkPreview?.configure(postCard: quotePostCard)
                 self.linkPreview?.isHidden = false
                 linkPreviewTrailingConstraint?.isActive = true
                 self.linkPreview?.onPress = onPress
+            }
+            
+            // display recursive quote indicator.
+            if quotePostCard.hasQuotePost {
+                self.quoteIndicator!.isHidden = false
+                quoteIndicatorTrailingConstraint?.isActive = true
             }
             
             // Display single image if needed
@@ -630,7 +649,7 @@ fileprivate class PostCardQuoteNotFound: UIStackView {
         self.isLayoutMarginsRelativeArrangement = true
         self.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 4, leading: 0, bottom: 0, trailing: 0)
         
-        self.titleLabel.text = "Post could not be found"
+        self.titleLabel.text = NSLocalizedString("post.quote.notFound", comment: "")
         
         self.addArrangedSubview(self.leftAttribute)
         self.addArrangedSubview(self.titleLabel)
@@ -693,4 +712,51 @@ fileprivate class PostCardQuoteActivityIndicator: UIStackView {
     func onThemeChange() {
         
     }
+}
+
+fileprivate class PostCardQuoteIndicator: UIStackView {
+    private var leftAttribute: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = FontAwesome.image(fromChar: "\u{f10d}", color: .custom.feintContrast, size: 15, weight: .bold)
+        return imageView
+    }()
+    var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .custom.feintContrast
+        label.text = NSLocalizedString("post.quote.quoting", comment: "")
+        label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize, weight: .regular)
+        return label
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.setupUI()
+    }
+    
+    required init(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupUI() {
+        self.axis = .horizontal
+        self.alignment = .center
+        self.distribution = .fill
+        self.spacing = 8.0
+        
+        self.isLayoutMarginsRelativeArrangement = true
+        self.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 4, leading: 0, bottom: 0, trailing: 0)
+        
+        self.addArrangedSubview(self.leftAttribute)
+        self.addArrangedSubview(self.titleLabel)
+        
+        // Don't compress but let siblings fill the space
+        leftAttribute.setContentHuggingPriority(UILayoutPriority(rawValue: 251), for: .horizontal)
+        leftAttribute.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 751), for: .horizontal)
+        
+    }
+    func onThemeChange() {
+        self.titleLabel.textColor = .custom.feintContrast
+        self.leftAttribute.image = FontAwesome.image(fromChar: "\u{f10d}", color: .custom.feintContrast, size: 15, weight: .bold)
+    }
+    
 }
