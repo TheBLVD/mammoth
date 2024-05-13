@@ -102,6 +102,7 @@ final class PostCardModel {
     
     struct Webview {
         let url: URL
+        let blurhash: String?
         let width: Int
         let height: Int
     }
@@ -439,9 +440,8 @@ final class PostCardModel {
         // no media attachment, because then it looks ugly. no quote post, because mastodon posts have iframes and they conflict.
         if let html = self.linkCard?.html, !(self.linkCard?.image == nil && self.linkCard?.blurhash == nil), !self.hasMediaAttachment, !self.hasQuotePost {
             if let url = URL(string: html.slice(from: "src=\"", to: "\" ") ?? ""), let width = self.linkCard?.width ?? Int(html.slice(from: "width=\"", to: "\"") ?? ""), let height = self.linkCard?.height ?? Int(html.slice(from: "height=\"", to: "\"") ?? "")  {
-                self.webview = Webview.init(url: url, width: width, height: height)
+                self.webview = Webview.init(url: url, blurhash: self.linkCard?.blurhash, width: width, height: height)
             }
-            
         }
         
         // post has an iframe.
@@ -855,6 +855,11 @@ extension PostCardModel {
                 decodedBlurhashes[blurhash] = blurImage
             }
         })
+        // also blurhash link card image.
+        if let blurhash = self.linkCard?.blurhash {
+            let blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+            decodedBlurhashes[blurhash] = blurImage
+        }
     }
     
     func cancelAllPreloadTasks() {
