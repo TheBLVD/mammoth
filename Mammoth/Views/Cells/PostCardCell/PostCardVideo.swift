@@ -521,58 +521,60 @@ final class PostCardVideo: UIView {
             }
             
             if shouldUpdate {
-                // the aspect value might be nil
-                if self.media?.meta?.original?.aspect == nil {
-                    self.media?.meta?.original?.aspect = Double(self.media?.meta?.original?.width ?? 10) / Double(self.media?.meta?.original?.height ?? 10)
+                // meta itself might be nil
+                var aspect: Double? = nil
+                if let width = self.media?.meta?.original?.width, let height = self.media?.meta?.original?.height {
+                    aspect = Double(width) / Double(height)
+                } else {
+                    previewImage.contentMode = .scaleAspectFit
                 }
+                let ratio = self.media?.meta?.original?.aspect ?? aspect ?? (self.media?.type == .audio ? 1.0 : 16.0 / 9.0)
         
-                if let ratio = self.media?.meta?.original?.aspect {
-                    // square
-                    if self.variant == .thumbnail || fabs(ratio - 1.0) < 0.01 {
-                        self.deactivateAllImageConstraints()
-                        NSLayoutConstraint.activate(self.squareConstraints)
+                // square
+                if self.variant == .thumbnail || fabs(ratio - 1.0) < 0.01 {
+                    self.deactivateAllImageConstraints()
+                    NSLayoutConstraint.activate(self.squareConstraints)
+                }
+
+                // landscape
+                else if ratio > 1 {
+                    self.deactivateAllImageConstraints()
+                    
+                    if self.inGallery {
+                        if ratio < 16.0/9.0 {
+                            self.dynamicWidthConstraint = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor, multiplier: ratio)
+                            self.dynamicWidthConstraint!.priority = .defaultHigh + 1
+                            self.dynamicWidthConstraint!.isActive = true
+                        }
+                    } else {
+                        self.dynamicHeightConstraint = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor, multiplier: 1.0 / ratio)
+                        self.dynamicHeightConstraint!.priority = .defaultHigh + 1
+                        self.dynamicHeightConstraint!.isActive = true
                     }
 
-                    // landscape
-                    else if ratio > 1 {
+                    
+                    NSLayoutConstraint.activate(self.landscapeConstraints)
+                }
+
+                // portrait
+                else if ratio < 1 {
+                    if ratio < tallAspectRatio {
+                        self.deactivateAllImageConstraints()
+                        NSLayoutConstraint.activate(self.tallPortraitConstraints)
+                    } else {
                         self.deactivateAllImageConstraints()
                         
                         if self.inGallery {
-                            if ratio < 16.0/9.0 {
-                                self.dynamicWidthConstraint = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor, multiplier: ratio)
-                                self.dynamicWidthConstraint!.priority = .defaultHigh + 1
-                                self.dynamicWidthConstraint!.isActive = true
-                            }
+                            self.dynamicWidthConstraint = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor, multiplier: ratio)
+                            self.dynamicWidthConstraint!.priority = .defaultHigh
+                            self.dynamicWidthConstraint!.isActive = true
                         } else {
-                            self.dynamicHeightConstraint = videoView.heightAnchor.constraint(equalTo: videoView.widthAnchor, multiplier: 1.0 / ratio)
-                            self.dynamicHeightConstraint!.priority = .defaultHigh + 1
+                            self.dynamicHeightConstraint = videoView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0 / ratio)
+                            self.dynamicHeightConstraint!.priority = .defaultHigh
                             self.dynamicHeightConstraint!.isActive = true
                         }
-
                         
-                        NSLayoutConstraint.activate(self.landscapeConstraints)
-                    }
-
-                    // portrait
-                    else if ratio < 1 {
-                        if ratio < tallAspectRatio {
-                            self.deactivateAllImageConstraints()
-                            NSLayoutConstraint.activate(self.tallPortraitConstraints)
-                        } else {
-                            self.deactivateAllImageConstraints()
-                            
-                            if self.inGallery {
-                                self.dynamicWidthConstraint = videoView.widthAnchor.constraint(equalTo: videoView.heightAnchor, multiplier: ratio)
-                                self.dynamicWidthConstraint!.priority = .defaultHigh
-                                self.dynamicWidthConstraint!.isActive = true
-                            } else {
-                                self.dynamicHeightConstraint = videoView.heightAnchor.constraint(equalTo: self.widthAnchor, multiplier: 1.0 / ratio)
-                                self.dynamicHeightConstraint!.priority = .defaultHigh
-                                self.dynamicHeightConstraint!.isActive = true
-                            }
-                            
-                            NSLayoutConstraint.activate(self.portraitConstraints)
-                        }
+                        NSLayoutConstraint.activate(self.portraitConstraints)
                     }
                 }
                 

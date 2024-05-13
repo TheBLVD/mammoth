@@ -168,7 +168,10 @@ class PostCardImageCollectionCell: UICollectionViewCell {
         if model.mediaAttachment.previewURL != nil {
             var placeholder: UIImage?
             if let blurhash = model.mediaAttachment.blurhash {
-                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+                let blurWidth = model.mediaAttachment.meta?.small?.width ?? 64
+                let blurHeight = model.mediaAttachment.meta?.small?.height ?? 64
+                placeholder = UnifiedImage(blurHash: blurhash, size: .init(width: 64, height: 64))?
+                    .resized(to: .init(width: blurWidth, height: blurHeight))
             }
             
             self.imageView.ma_setImage(with: URL(string: model.mediaAttachment.previewURL!)!,
