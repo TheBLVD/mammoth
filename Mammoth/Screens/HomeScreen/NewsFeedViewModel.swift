@@ -392,6 +392,7 @@ class NewsFeedViewModel {
     public var snapshot = NewsFeedSnapshot()
     
     var isJumpToNowButtonDisabled: Bool = false
+    var viewedDate: Date
     
     internal var state: ViewState
     internal var listData = NewsFeedListData()
@@ -435,6 +436,7 @@ class NewsFeedViewModel {
     init(_ type: NewsFeedTypes = .forYou) {
         self.state = .idle
         self.type = type
+        self.viewedDate = NSDate.now
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.onPostCardUpdate),

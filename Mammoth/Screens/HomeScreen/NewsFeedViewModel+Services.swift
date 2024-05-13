@@ -667,10 +667,16 @@ extension NewsFeedViewModel {
                             guard !Task.isCancelled else { return }
                             
                             if !fetchedItems.isEmpty {
-                                await MainActor.run { [weak self] in
-                                    self?.pollingReachedTop = false
+                                // if we have an update with <= 3 posts, we can assume we're still up-to-date.
+                                if fetchedItems.count <= 3 {
+                                    await MainActor.run { [weak self] in
+                                        self?.pollingReachedTop = true
+                                    }
+                                } else {
+                                    await MainActor.run { [weak self] in
+                                        self?.pollingReachedTop = false
+                                    }
                                 }
-
                                 // Show the JumpToNow pill if the feed is old
                                 if fetchedItems.count >= 40 {
                                     await MainActor.run { [weak self] in

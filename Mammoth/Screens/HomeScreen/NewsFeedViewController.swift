@@ -266,8 +266,11 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         // re-enable it now
         self.viewModel.isJumpToNowButtonDisabled = false
         
-        // reset polling status when switching feed.
-        self.viewModel.pollingReachedTop = false
+        // reset polling status when switching feed if they've left for > 10 seconds.
+        let secsSinceViewed = self.viewModel.viewedDate.distance(to: NSDate.now)
+        if secsSinceViewed > 10.0 {
+            self.viewModel.pollingReachedTop = false
+        }
         
         self.didUpdateSnapshot(self.viewModel.snapshot, feedType: self.viewModel.type, updateType: .insert, scrollPosition: nil, onCompleted: nil)
     }
@@ -288,6 +291,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        self.viewModel.viewedDate = NSDate.now
         if !self.switchingAccounts {
             if !NewsFeedTypes.allActivityTypes.contains(self.viewModel.type) && self.viewModel.type != .mentionsIn {
                 self.viewModel.stopPollingListData()
@@ -434,6 +438,8 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     }
     
     @objc func appWillResignActive() {
+        // store when the app was closed.
+        self.viewModel.viewedDate = NSDate.now
         self.viewModel.stopPollingListData()
         if self.viewModel.type.shouldSyncItems {
             self.viewModel.cancelAllItemSyncs()
@@ -455,8 +461,11 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
             }
         })
         
-        // user just opened the app, assume an outdated feed.
-        self.viewModel.pollingReachedTop = false
+        // user just opened the app, assume an outdated feed if they've been out for > 10 seconds.
+        let secsSinceViewed = self.viewModel.viewedDate.distance(to: NSDate.now)
+        if secsSinceViewed > 10.0 {
+            self.viewModel.pollingReachedTop = false
+        }
     }
     
     override func didReceiveMemoryWarning() {
