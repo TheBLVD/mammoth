@@ -145,7 +145,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
         self.client = AccountsManager.shared.currentAccountClient
 
         view.backgroundColor = .custom.backgroundTint
-        self.navigationItem.title = "Explore"
+        self.navigationItem.title = NSLocalizedString("title.explore", comment: "")
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.updateClient), name: NSNotification.Name(rawValue: "updateClient"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.reloadAll), name: NSNotification.Name(rawValue: "reloadAll"), object: nil)
@@ -456,7 +456,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
             let lab = UILabel()
             lab.frame = bg.frame
             
-            lab.attributedText = NSAttributedString(string: "Explore")
+            lab.attributedText = NSAttributedString(string: NSLocalizedString("title.explore", comment: ""))
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
             lab.textColor = UIColor.label
@@ -469,7 +469,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                 let lab = UILabel()
                 lab.frame = bg.frame
                 
-                lab.attributedText = NSAttributedString(string: "Trending Tags")
+                lab.attributedText = NSAttributedString(string: NSLocalizedString("explore.trendingTags", comment: ""))
 
                 lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
                 lab.textColor = UIColor.label
@@ -487,7 +487,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                 image1Attachment.image = UIImage(systemName: "list.bullet.circle.fill", withConfiguration: symbolConfig)?.withTintColor(.custom.baseTint, renderingMode: .alwaysTemplate)
                 let image1String = NSAttributedString(attachment: image1Attachment)
                 fullString.append(image1String)
-                fullString.append(NSAttributedString(string: "  Lists"))
+                fullString.append(NSAttributedString(string: "  " + NSLocalizedString("explore.lists", comment: "")))
                 lab.attributedText = fullString
                 
                 lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -508,7 +508,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                 image1Attachment.image = UIImage(systemName: "chart.bar.fill", withConfiguration: symbolConfig)?.withTintColor(.custom.baseTint, renderingMode: .alwaysTemplate)
                 let image1String = NSAttributedString(attachment: image1Attachment)
                 fullString.append(image1String)
-                fullString.append(NSAttributedString(string: "  Trending Tags"))
+                fullString.append(NSAttributedString(string: "  " + NSLocalizedString("explore.trendingTags", comment: "")))
                 lab.attributedText = fullString
                 
                 lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -530,7 +530,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                     image1Attachment.image = UIImage(systemName: "number.circle.fill", withConfiguration: symbolConfig)?.withTintColor(.custom.baseTint, renderingMode: .alwaysTemplate)
                     let image1String = NSAttributedString(attachment: image1Attachment)
                     fullString.append(image1String)
-                    fullString.append(NSAttributedString(string: "  Followed Tags"))
+                    fullString.append(NSAttributedString(string: "  " + NSLocalizedString("explore.followedTags", comment: "")))
                     lab.attributedText = fullString
                     
                     lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -551,7 +551,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
             image1Attachment.image = UIImage(systemName: "chart.bar.fill", withConfiguration: symbolConfig)?.withTintColor(.custom.baseTint, renderingMode: .alwaysTemplate)
             let image1String = NSAttributedString(attachment: image1Attachment)
             fullString.append(image1String)
-            fullString.append(NSAttributedString(string: "  Trending Tags"))
+            fullString.append(NSAttributedString(string: "  " + NSLocalizedString("explore.trendingTags", comment: "")))
             lab.attributedText = fullString
             
             lab.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -647,7 +647,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
         } else if indexPath.section == 1 {
             if self.fromOtherCommunity {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "TrendsCellExtra3", for: indexPath) as! TrendsCellExtra
-                cell.configure("Trending Posts")
+                cell.configure(NSLocalizedString("explore.trendingPosts", comment: ""))
                 cell.separatorInset = .zero
                 let bgColorView = UIView()
                 bgColorView.backgroundColor = .custom.baseTint.withAlphaComponent(0.2)
@@ -1001,7 +1001,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                     return cell
                 } else if indexPath.row == 1 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "TrendsCellExtra3", for: indexPath) as! TrendsCellExtra
-                    cell.configure("Trending Posts")
+                    cell.configure(NSLocalizedString("explore.trendingPosts", comment: ""))
                     cell.separatorInset = .zero
                     let bgColorView = UIView()
                     bgColorView.backgroundColor = .custom.baseTint.withAlphaComponent(0.2)
@@ -1011,7 +1011,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                     return cell
                 } else if indexPath.row == 2 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "TrendsCellExtra01", for: indexPath) as! TrendsCellExtra
-                    cell.configure("Follow Suggestions")
+                    cell.configure(NSLocalizedString("explore.followSuggestions", comment: ""))
                     cell.separatorInset = .zero
                     let bgColorView = UIView()
                     bgColorView.backgroundColor = .custom.baseTint.withAlphaComponent(0.2)
@@ -1021,7 +1021,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                     return cell
                 } else if indexPath.row == 3 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "TrendsCellExtra", for: indexPath) as! TrendsCellExtra
-                    cell.configure("Profile Directory")
+                    cell.configure(NSLocalizedString("explore.profileDirectory", comment: ""))
                     cell.separatorInset = .zero
                     let bgColorView = UIView()
                     bgColorView.backgroundColor = .custom.baseTint.withAlphaComponent(0.2)
@@ -1031,7 +1031,7 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                     return cell
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "TrendsCellExtra2", for: indexPath) as! TrendsCellExtra
-                    cell.configure("Browse Other Communities")
+                    cell.configure(NSLocalizedString("explore.browseCommunities", comment: ""))
                     cell.separatorInset = .zero
                     let bgColorView = UIView()
                     bgColorView.backgroundColor = .custom.baseTint.withAlphaComponent(0.2)
@@ -1055,9 +1055,9 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                 let downImage1 = UIImage(systemName: "megaphone.fill", withConfiguration: symbolConfig1) ?? UIImage()
                 attachment1.image = downImage1.withTintColor(UIColor.secondaryLabel, renderingMode: .alwaysOriginal)
                 let attStringNewLine000 = NSMutableAttributedString()
-                var talkingAboutText: String = " \(talkingAbout.withCommas()) people"
+                var talkingAboutText: String = " " + String.localizedStringWithFormat(NSLocalizedString("explore.people", comment: ""), talkingAbout.withCommas())
                 if talkingAbout <= 10 {
-                    talkingAboutText = " Some people"
+                    talkingAboutText = " " + NSLocalizedString("explore.somePeople", comment: "")
                 }
                 let attStringNewLine00 = NSMutableAttributedString(string: talkingAboutText, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 2, weight: .regular), NSAttributedString.Key.foregroundColor : UIColor.secondaryLabel])
                 let attString00 = NSAttributedString(attachment: attachment1)
@@ -1109,9 +1109,9 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
                 let downImage1 = UIImage(systemName: "megaphone.fill", withConfiguration: symbolConfig1) ?? UIImage()
                 attachment1.image = downImage1.withTintColor(UIColor.secondaryLabel, renderingMode: .alwaysOriginal)
                 let attStringNewLine000 = NSMutableAttributedString()
-                var talkingAboutText: String = " \(talkingAbout.withCommas()) people"
+                var talkingAboutText: String = " " + String.localizedStringWithFormat(NSLocalizedString("explore.people", comment: ""), talkingAbout.withCommas())
                 if talkingAbout <= 10 {
-                    talkingAboutText = " Some people"
+                    talkingAboutText = " " + NSLocalizedString("explore.somePeople", comment: "")
                 }
                 let attStringNewLine00 = NSMutableAttributedString(string: talkingAboutText, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 2, weight: .regular), NSAttributedString.Key.foregroundColor : UIColor.secondaryLabel])
                 let attString00 = NSAttributedString(attachment: attachment1)
@@ -1152,9 +1152,9 @@ class ExploreViewController: UIViewController, UITableViewDataSource, UITableVie
             let downImage1 = UIImage(systemName: "megaphone.fill", withConfiguration: symbolConfig1) ?? UIImage()
             attachment1.image = downImage1.withTintColor(UIColor.secondaryLabel, renderingMode: .alwaysOriginal)
             let attStringNewLine000 = NSMutableAttributedString()
-            var talkingAboutText: String = " \(talkingAbout.withCommas()) people"
+            var talkingAboutText: String = " " + String.localizedStringWithFormat(NSLocalizedString("explore.people", comment: ""), talkingAbout.withCommas())
             if talkingAbout <= 10 {
-                talkingAboutText = " Some people"
+                talkingAboutText = " " + NSLocalizedString("explore.somePeople", comment: "")
             }
             let attStringNewLine00 = NSMutableAttributedString(string: talkingAboutText, attributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize - 2, weight: .regular), NSAttributedString.Key.foregroundColor : UIColor.secondaryLabel])
             let attString00 = NSAttributedString(attachment: attachment1)
