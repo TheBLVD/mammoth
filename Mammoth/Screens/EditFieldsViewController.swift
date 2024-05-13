@@ -16,6 +16,7 @@ class EditFieldsViewController: UIViewController, UITableViewDataSource, UITable
     var tableView = UITableView()
     var fields: [HashType] = []
     var keyHeight: CGFloat = 0
+    var cells: [IndexPath:UITableViewCell] = [:]
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -52,35 +53,35 @@ class EditFieldsViewController: UIViewController, UITableViewDataSource, UITable
     @objc func addTap() {
         triggerHapticNotification()
         var label1: String? = nil
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AltTextMultiCell {
+        if let cell = self.cells[IndexPath(row: 0, section: 0)] as? AltTextMultiCell {
             label1 = cell.altText.text ?? ""
         }
         var content1: String? = nil
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? AltTextMultiCell {
+        if let cell = self.cells[IndexPath(row: 1, section: 0)] as? AltTextMultiCell {
             content1 = cell.altText.text ?? ""
         }
         var label2: String? = nil
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 1)) as? AltTextMultiCell {
+        if let cell = self.cells[IndexPath(row: 0, section: 1)] as? AltTextMultiCell {
             label2 = cell.altText.text ?? ""
         }
         var content2: String? = nil
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 1)) as? AltTextMultiCell {
+        if let cell = self.cells[IndexPath(row: 1, section: 1)] as? AltTextMultiCell {
             content2 = cell.altText.text ?? ""
         }
         var label3: String? = nil
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 2)) as? AltTextMultiCell {
+        if let cell = self.cells[IndexPath(row: 0, section: 2)] as? AltTextMultiCell {
             label3 = cell.altText.text ?? ""
         }
         var content3: String? = nil
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 2)) as? AltTextMultiCell {
+        if let cell = self.cells[IndexPath(row: 1, section: 2)] as? AltTextMultiCell {
             content3 = cell.altText.text ?? ""
         }
         var label4: String? = nil
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: 3)) as? AltTextMultiCell {
+        if let cell = self.cells[IndexPath(row: 0, section: 3)] as? AltTextMultiCell {
             label4 = cell.altText.text ?? ""
         }
         var content4: String? = nil
-        if let cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 3)) as? AltTextMultiCell {
+        if let cell = self.cells[IndexPath(row: 1, section: 3)] as? AltTextMultiCell {
             content4 = cell.altText.text ?? ""
         }
         
@@ -294,6 +295,11 @@ class EditFieldsViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if let cell = self.cells[indexPath] {
+            return cell
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "AltTextMultiCell", for: indexPath) as! AltTextMultiCell
         if indexPath.row == 0 {
             cell.altText.placeholder = NSLocalizedString("profile.edit.label", comment: "")
@@ -313,6 +319,9 @@ class EditFieldsViewController: UIViewController, UITableViewDataSource, UITable
         bgColorView.backgroundColor = .clear
         cell.selectedBackgroundView = bgColorView
         cell.backgroundColor = .custom.quoteTint
+        
+        self.cells[indexPath] = cell
+        
         return cell
     }
     
