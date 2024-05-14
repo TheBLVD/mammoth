@@ -20,8 +20,14 @@ class PostCardWebview: UIView {
         stackView.spacing = 0.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        stackView.layer.borderWidth = 0.4
-        stackView.layer.borderColor = UIColor.label.withAlphaComponent(0.2).cgColor
+        stackView.layer.borderWidth = 1.0 / UIScreen.main.scale
+        stackView.layer.allowsEdgeAntialiasing = false
+        stackView.layer.edgeAntialiasingMask = [.layerBottomEdge, .layerTopEdge, .layerLeftEdge, .layerRightEdge]
+        stackView.layer.needsDisplayOnBoundsChange = false
+        stackView.layer.rasterizationScale = UIScreen.main.scale
+        stackView.layer.contentsScale = UIScreen.main.scale
+        
+        stackView.layer.borderColor = UIColor.custom.outlines.cgColor
         stackView.layer.masksToBounds = true
         stackView.layer.cornerRadius = 6
         
@@ -32,7 +38,7 @@ class PostCardWebview: UIView {
     private var iframeView: WKWebView = {
         let iframeConfig = WKWebViewConfiguration()
         iframeConfig.allowsInlineMediaPlayback = true
-        iframeConfig.allowsPictureInPictureMediaPlayback = true
+        iframeConfig.applicationNameForUserAgent = "Mammoth App"
         let iframeView = WKWebView(frame: .zero, configuration: iframeConfig)
         iframeView.isOpaque = true
         return iframeView
@@ -101,6 +107,7 @@ class PostCardWebview: UIView {
         return tag
     }()
     
+    private var urlRequest: URLRequest? = nil
     
     func prepareForReuse() {
         self.status = nil
@@ -191,12 +198,21 @@ extension PostCardWebview {
         self.status = status
         
         if let iframe = postCard.webview, let linkCard = postCard.linkCard {
-            let inverse_ratio = Double(iframe.height) / Double(iframe.width)
-            stackHeightConstraint = mainStackView.heightAnchor.constraint(equalTo: mainStackView.widthAnchor, multiplier: inverse_ratio)
+            var inverseRatio = Double(iframe.height) / Double(iframe.width)
+            // sometimes mastodon may give us a width/height of 0.
+            if !(inverseRatio.isFinite && inverseRatio.isZero) {
+                // default to 16:9.
+                inverseRatio = 9.0/16.0
+            }
+                
+            stackHeightConstraint = mainStackView.heightAnchor.constraint(equalTo: mainStackView.widthAnchor, multiplier: inverseRatio)
             stackHeightConstraint?.isActive = true
-            
+            var placeholder: UIImage? = nil
+            if let blurhash = iframe.blurhash {
+                placeholder = postCard.decodedBlurhashes[blurhash]
+            }
             // setup preview image.
-            imageView.sd_setImage(with: linkCard.image)
+            imageView.sd_setImage(with: linkCard.image, placeholderImage: placeholder)
             imageView.isHidden = false
             
             // setup video title.
@@ -207,9 +223,8 @@ extension PostCardWebview {
             providerTag.text = linkCard.providerName
             providerTag.isHidden = false
             
-            // setup webview.
-            let url_request = URLRequest(url: iframe.url)
-            iframeView.load(url_request)
+            // setup url request.
+            urlRequest = URLRequest(url: iframe.url)
             iframeView.isHidden = true
         }
     }
@@ -218,7 +233,10 @@ extension PostCardWebview {
 // MARK: - Handlers
 extension PostCardWebview {
     @objc func onTapped() {
-        if imageView.isHidden == false {
+        if let urlRequest = urlRequest, imageView.isHidden == false {
+            // setup webview only on tap so that there's no performance penalty.
+            iframeView.load(urlRequest)
+            
             imageView.isHidden = true
             iframeView.isHidden = false
         }

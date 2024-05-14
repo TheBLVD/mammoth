@@ -102,6 +102,7 @@ final class PostCardModel {
     
     struct Webview {
         let url: URL
+        let blurhash: String?
         let width: Int
         let height: Int
     }
@@ -411,17 +412,6 @@ final class PostCardModel {
         // Post has a link to display
         self.hasLink = self.linkCard?.url != nil
         
-        // get iframe.
-        if let html = self.linkCard?.html, self.linkCard?.image != nil, !self.hasMediaAttachment {
-            if let url = URL(string: html.slice(from: "src=\"", to: "\" ") ?? ""), let width = self.linkCard?.width ?? Int(html.slice(from: "width=\"", to: "\"") ?? ""), let height = self.linkCard?.height ?? Int(html.slice(from: "height=\"", to: "\"") ?? "")  {
-                self.webview = Webview.init(url: url, width: width, height: height)
-            }
-            
-        }
-        
-        // post has an iframe.
-        self.hasWebview = self.webview != nil
-        
         // Hide the link image if there is a media attachment
         self.hideLinkImage = self.hasMediaAttachment
         
@@ -445,7 +435,18 @@ final class PostCardModel {
                 self.quotePostStatus = .loading
             }
         }
-
+        
+        // get iframe. requirements: link card with an url AND and image OR blurhash.
+        // no media attachment, because then it looks ugly. no quote post, because mastodon posts have iframes and they conflict.
+        if let html = self.linkCard?.html, !(self.linkCard?.image == nil && self.linkCard?.blurhash == nil), !self.hasMediaAttachment, !self.hasQuotePost {
+            if let url = URL(string: html.slice(from: "src=\"", to: "\" ") ?? ""), let width = self.linkCard?.width ?? Int(html.slice(from: "width=\"", to: "\"") ?? ""), let height = self.linkCard?.height ?? Int(html.slice(from: "height=\"", to: "\"") ?? "")  {
+                self.webview = Webview.init(url: url, blurhash: self.linkCard?.blurhash, width: width, height: height)
+            }
+        }
+        
+        // post has an iframe.
+        self.hasWebview = self.webview != nil
+        
         if self.mediaAttachments.count > 1 {
             self.mediaDisplayType = .carousel
             let types = Set(self.mediaAttachments.map({$0.type}))
@@ -854,6 +855,11 @@ extension PostCardModel {
                 decodedBlurhashes[blurhash] = blurImage
             }
         })
+        // also blurhash link card image.
+        if let blurhash = self.linkCard?.blurhash {
+            let blurImage = UnifiedImage(blurHash: blurhash, size: .init(width: 32, height: 32))
+            decodedBlurhashes[blurhash] = blurImage
+        }
     }
     
     func cancelAllPreloadTasks() {
