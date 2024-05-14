@@ -559,6 +559,15 @@ class NewsFeedViewModel {
             }
         })
     }
+    
+    public var didViewRecently: Bool {
+        let secsSinceViewed = self.viewedDate.distance(to: NSDate.now)
+        if secsSinceViewed > 10.0 {
+            return false
+        }
+        
+        return true
+    }
 }
 
 // MARK: - Force reload ForYou feed
