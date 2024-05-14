@@ -562,11 +562,8 @@ class NewsFeedViewModel {
     
     public var didViewRecently: Bool {
         let secsSinceViewed = self.viewedDate.distance(to: NSDate.now)
-        if secsSinceViewed > 10.0 {
-            return false
-        }
-        
-        return true
+        // check if the feed was opened in the last 10 seconds.
+        return secsSinceViewed < 10.0
     }
 }
 

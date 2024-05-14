@@ -266,6 +266,11 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         // re-enable it now
         self.viewModel.isJumpToNowButtonDisabled = false
         
+        // reset polling status when switching feed if they've left for > 10 seconds.
+        if !self.viewModel.didViewRecently {
+            self.viewModel.pollingReachedTop = false
+        }
+        
         self.didUpdateSnapshot(self.viewModel.snapshot, feedType: self.viewModel.type, updateType: .insert, scrollPosition: nil, onCompleted: nil)
     }
 
@@ -454,6 +459,11 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                 cell.willDisplay()
             }
         })
+        
+        // user just opened the app, assume an outdated feed if they've been out for > 10 seconds.
+        if !self.viewModel.didViewRecently {
+            self.viewModel.pollingReachedTop = false
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -1268,7 +1278,7 @@ private extension NewsFeedViewController {
 // MARK: - Jump to newest
 extension NewsFeedViewController: JumpToNewest {
     func jumpToNewest() {
-        if !self.viewModel.pollingReachedTop && !self.viewModel.didViewRecently {
+        if !self.viewModel.pollingReachedTop {
             // refresh because we didn't reach the top of the feed.
             self.viewModel.stopPollingListData()
             self.viewModel.cancelAllItemSyncs()
