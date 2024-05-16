@@ -3,6 +3,7 @@
   "strings": {
     "CFBundleDisplayName": {
       "comment": "Bundle display name",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -188,6 +189,7 @@
     },
     "CFBundleName": {
       "comment": "Bundle name",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -373,6 +375,7 @@
     },
     "NSCameraUsageDescription": {
       "comment": "Privacy - Camera Usage Description",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -558,6 +561,7 @@
     },
     "NSFaceIDUsageDescription": {
       "comment": "Privacy - Face ID Usage Description",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -743,6 +747,7 @@
     },
     "NSLocationUsageDescription": {
       "comment": "Privacy - Location Usage Description",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -928,6 +933,7 @@
     },
     "NSLocationWhenInUseUsageDescription": {
       "comment": "Privacy - Location When In Use Usage Description",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1113,6 +1119,7 @@
     },
     "NSMicrophoneUsageDescription": {
       "comment": "Privacy - Microphone Usage Description",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1298,6 +1305,7 @@
     },
     "NSPhotoLibraryAddUsageDescription": {
       "comment": "Privacy - Photo Library Additions Usage Description",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {

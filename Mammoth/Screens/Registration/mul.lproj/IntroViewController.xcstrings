@@ -3,6 +3,7 @@
   "strings": {
     "B5m-ag-pqO.configuration.title": {
       "comment": "Class = \"UIButton\"; configuration.title = \"Create moth.social account\"; ObjectID = \"B5m-ag-pqO\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -188,6 +189,7 @@
     },
     "B5m-ag-pqO.normalTitle": {
       "comment": "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"B5m-ag-pqO\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -373,6 +375,7 @@
     },
     "chB-SK-Zhc.configuration.title": {
       "comment": "Class = \"UIButton\"; configuration.title = \"Login with Mastodon / Moth\"; ObjectID = \"chB-SK-Zhc\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -558,6 +561,7 @@
     },
     "chB-SK-Zhc.normalTitle": {
       "comment": "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"chB-SK-Zhc\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -743,6 +747,7 @@
     },
     "NQ2-VB-8CC.configuration.title": {
       "comment": "Class = \"UIButton\"; configuration.title = \"Close\"; ObjectID = \"NQ2-VB-8CC\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -928,6 +933,7 @@
     },
     "NQ2-VB-8CC.normalTitle": {
       "comment": "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"NQ2-VB-8CC\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -1113,6 +1119,7 @@
     },
     "T46-Id-HW3.text": {
       "comment": "Class = \"UILabel\"; text = \"You can sign into additional\\naccounts in settings.\"; ObjectID = \"T46-Id-HW3\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
