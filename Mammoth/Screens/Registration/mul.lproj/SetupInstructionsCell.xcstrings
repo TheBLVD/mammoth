@@ -3,6 +3,7 @@
   "strings": {
     "sek-yR-qsQ.text": {
       "comment": "Class = \"UILabel\"; text = \"Some instructions to help the user find cool accounts, and meet cool people.\"; ObjectID = \"sek-yR-qsQ\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {

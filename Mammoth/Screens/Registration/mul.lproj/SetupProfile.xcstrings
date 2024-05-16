@@ -3,6 +3,7 @@
   "strings": {
     "2zk-Me-fek.text": {
       "comment": "Class = \"UILabel\"; text = \"You can pick something fun or use your real name\"; ObjectID = \"2zk-Me-fek\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -188,6 +189,7 @@
     },
     "COv-0h-44m.text": {
       "comment": "Class = \"UILabel\"; text = \"%1@ %2@\"; ObjectID = \"COv-0h-44m\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -373,6 +375,7 @@
     },
     "d8T-wc-Ss7.placeholder": {
       "comment": "Class = \"UITextField\"; placeholder = \"display name\"; ObjectID = \"d8T-wc-Ss7\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -558,6 +561,7 @@
     },
     "idJ-cm-z0Y.configuration.title": {
       "comment": "Class = \"UIButton\"; configuration.title = \"Done\"; ObjectID = \"idJ-cm-z0Y\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -743,6 +747,7 @@
     },
     "idJ-cm-z0Y.normalTitle": {
       "comment": "Class = \"UIButton\"; normalTitle = \"Done\"; ObjectID = \"idJ-cm-z0Y\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
@@ -928,6 +933,7 @@
     },
     "O19-oE-faw.normalTitle": {
       "comment": "Class = \"UIButton\"; normalTitle = \"Button\"; ObjectID = \"O19-oE-faw\";",
+      "extractionState": "manual",
       "localizations": {
         "en": {
           "stringUnit": {
