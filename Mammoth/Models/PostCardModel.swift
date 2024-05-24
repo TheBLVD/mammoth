@@ -70,7 +70,7 @@ final class PostCardModel {
     var account: Account?
     var user: UserCardModel?
     
-    let userTag: String
+    var userTag: String
     let fullUserTag: String
     let contentWarning: String
     let isSensitive: Bool

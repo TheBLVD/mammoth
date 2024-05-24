@@ -257,6 +257,9 @@ extension DetailViewModel {
                 
                 // Handle results for `fetchContext`
                 if let (parents, replies) = result[1] as? (parents: [PostCardModel]?, replies: [PostCardModel]?) {
+                    let userInstance = AccountsManager.shared.currentAccountClient.baseHost
+                    let parents = parents?.map { self.fixUsername(postCard: $0, userInstance: userInstance) }
+                    let replies = replies?.map { self.fixUsername(postCard: $0, userInstance: userInstance) }
                     self.listData = ListData(parents: parents, post: self.listData.post, replies: replies)
                     self.isScrollIndicatorDismissed = false
                     
@@ -339,5 +342,28 @@ private extension DetailViewModel {
                 }
             }
         }
+    }
+}
+
+private extension DetailViewModel {
+    func fixUsername(postCard: PostCardModel, userInstance: String) -> PostCardModel {
+        // two occasions: we need the instance name and don't have it, and we don't need it and have it.
+        
+        // separate the usertag from the instance.
+        let separatedUsertag = postCard.userTag.split(separator: "@")
+        // check if there's a domain name attached.
+        let usertagHasInstance = separatedUsertag.count > 1
+        
+        // post is from our instance + post has domain name = remove it.
+        if let newUsertag = separatedUsertag.first, usertagHasInstance && postCard.account?.server == userInstance {
+            postCard.userTag = String(newUsertag)
+        }
+        
+        // post is not from our instance + post is missing domain name = add it.
+        if let postInstance = postCard.account?.server, !usertagHasInstance && postInstance != userInstance {
+            postCard.userTag = postCard.userTag + "@" + postInstance
+        }
+        
+        return postCard
     }
 }
