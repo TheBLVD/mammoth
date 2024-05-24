@@ -887,22 +887,22 @@ extension PostCardModel {
 extension PostCardModel {
     
     public func likeTap() -> Void {
-        guard case .mastodon(let status) = data, (status.reblog?.favourited ?? status.favourited ?? false) == false else { return }
+        guard case .mastodon(let status) = remoteData ?? data, (status.reblog?.favourited ?? status.favourited ?? false) == false else { return }
         (status.reblog ?? status).likeTap()
     }
     
     public func unlikeTap() -> Void {
-        guard case .mastodon(let status) = data, (status.reblog?.favourited ?? status.favourited ?? false) == true else { return }
+        guard case .mastodon(let status) = remoteData ?? data, (status.reblog?.favourited ?? status.favourited ?? false) == true else { return }
         (status.reblog ?? status).unlikeTap()
     }
     
     public func repostTap() -> Void {
-        guard case .mastodon(let status) = data, (status.reblog?.reblogged ?? status.reblogged ?? false) == false else { return }
+        guard case .mastodon(let status) = remoteData ?? data, (status.reblog?.reblogged ?? status.reblogged ?? false) == false else { return }
         (status.reblog ?? status).repostTap()
     }
     
     public func unrepostTap() -> Void {
-        guard case .mastodon(let status) = data, (status.reblog?.reblogged ?? status.reblogged ?? false) == true else { return }
+        guard case .mastodon(let status) = remoteData ?? data, (status.reblog?.reblogged ?? status.reblogged ?? false) == true else { return }
         (status.reblog ?? status).unrepostTap()
     }
     
