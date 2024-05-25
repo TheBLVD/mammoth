@@ -70,8 +70,10 @@ final class PostCardModel {
     var account: Account?
     var user: UserCardModel?
     
-    var userTag: String
+    let userTag: String
     let fullUserTag: String
+    // this should look exactly like how the usertag would in a local request. MAM-3683
+    var normalizedUserTag: String?
     let contentWarning: String
     let isSensitive: Bool
     var postText: String
@@ -1046,6 +1048,28 @@ extension PostCardModel {
             return true
         } else {
             return false
+        }
+    }
+}
+
+extension PostCardModel {
+    static func normalizeUsertag(_ postCard: PostCardModel) {
+        let userInstance = AccountsManager.shared.currentAccountClient.baseHost
+        // two occasions: we need the instance name and don't have it, and we don't need it and have it.
+        
+        // separate the usertag from the instance.
+        let separatedUsertag = postCard.userTag.split(separator: "@")
+        // check if there's a domain name attached.
+        let usertagHasInstance = separatedUsertag.count > 1
+        
+        // post is from our instance + post has domain name = remove it.
+        if let newUsertag = separatedUsertag.first, usertagHasInstance && postCard.account?.server == userInstance {
+            postCard.normalizedUserTag = String(newUsertag)
+        }
+        
+        // post is not from our instance + post is missing domain name = add it.
+        if let postInstance = postCard.account?.server, !usertagHasInstance && postInstance != userInstance {
+            postCard.normalizedUserTag = postCard.userTag + "@" + postInstance
         }
     }
 }
