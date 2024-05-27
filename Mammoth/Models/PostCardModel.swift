@@ -1061,15 +1061,29 @@ extension PostCardModel {
         let separatedUsertag = postCard.userTag.split(separator: "@")
         // check if there's a domain name attached.
         let usertagHasInstance = separatedUsertag.count > 1
-        
         // post is from our instance + post has domain name = remove it.
         if let newUsertag = separatedUsertag.first, usertagHasInstance && postCard.account?.server == userInstance {
             postCard.normalizedUserTag = String(newUsertag)
         }
-        
         // post is not from our instance + post is missing domain name = add it.
         if let postInstance = postCard.account?.server, !usertagHasInstance && postInstance != userInstance {
             postCard.normalizedUserTag = postCard.userTag + "@" + postInstance
+        }
+        
+        // when fetching the replies remotely, the mentions won't include the full address for users in that instance.
+        // so when the user tries replying, the mention will go to a local user with the same handle.
+        // the solution here is always adding the instance to a mention.
+        switch postCard.data {
+        case .mastodon(let status):
+            for mention in status.mentions {
+                if mention.acct == mention.username {
+                    if let instance = URL(string: mention.url)?.host {
+                        mention.acct += "@" + instance
+                    }
+                }
+            }
+        case .bluesky:
+            break
         }
     }
 }
