@@ -350,8 +350,8 @@ private extension PostCardQuotePost {
         self.quoteIndicator = PostCardQuoteIndicator()
         self.quoteIndicator!.isUserInteractionEnabled = false
         self.quoteIndicator!.isHidden = true
-        contentStackView.addArrangedSubview(self.quoteIndicator!)
-        quoteIndicatorTrailingConstraint = self.quoteIndicator!.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: -self.contentStackView.directionalLayoutMargins.trailing)
+        mainStackView.addArrangedSubview(self.quoteIndicator!)
+        quoteIndicatorTrailingConstraint = self.quoteIndicator!.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor, constant: -self.mainStackView.directionalLayoutMargins.trailing)
         
         // Post loader
         self.postLoader = PostCardQuoteActivityIndicator()
@@ -744,7 +744,7 @@ fileprivate class PostCardQuoteIndicator: UIStackView {
         self.spacing = 8.0
         
         self.isLayoutMarginsRelativeArrangement = true
-        self.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 4, leading: 0, bottom: 0, trailing: 0)
+        self.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 4, leading: 12, bottom: 0, trailing: 0)
         
         self.addArrangedSubview(self.leftAttribute)
         self.addArrangedSubview(self.titleLabel)
