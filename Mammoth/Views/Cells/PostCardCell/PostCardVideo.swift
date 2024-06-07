@@ -527,6 +527,7 @@ final class PostCardVideo: UIView {
                     aspect = Double(width) / Double(height)
                 } else {
                     previewImage.contentMode = .scaleAspectFit
+                    playerLayer?.videoGravity = .resizeAspect
                 }
                 let ratio = self.media?.meta?.original?.aspect ?? aspect ?? (self.media?.type == .audio ? 1.0 : 16.0 / 9.0)
         
