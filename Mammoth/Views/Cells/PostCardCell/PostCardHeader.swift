@@ -338,7 +338,7 @@ extension PostCardHeader {
         
         self.configureMetaTextContent()
         
-        self.userTagLabel.text = headerType == .detail ? postCard.fullUserTag.lowercased() : postCard.userTag.lowercased()
+        self.userTagLabel.text = headerType == .detail ? postCard.fullUserTag.lowercased() : postCard.normalizedUserTag?.lowercased() ?? postCard.userTag.lowercased()
         self.dateLabel.text = postCard.time
         
         if headerType.showUsertagUnderneath {

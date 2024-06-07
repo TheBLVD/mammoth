@@ -257,6 +257,9 @@ extension DetailViewModel {
                 
                 // Handle results for `fetchContext`
                 if let (parents, replies) = result[1] as? (parents: [PostCardModel]?, replies: [PostCardModel]?) {
+                    // workaround for MAM-3683. basically we make sure remote usertags look like local usertags.
+                    parents?.forEach { PostCardModel.normalizeUsertag($0) }
+                    replies?.forEach { PostCardModel.normalizeUsertag($0) }
                     self.listData = ListData(parents: parents, post: self.listData.post, replies: replies)
                     self.isScrollIndicatorDismissed = false
                     

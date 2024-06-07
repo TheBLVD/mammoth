@@ -3657,12 +3657,20 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     private func countWithURL(_ postText: String) -> Int {
+        var newString: String
         // for mastodon. urls always have 23 characters
         // content warnings don't have the url rule.
-        let regex = try! NSRegularExpression(pattern: "https?://[^ ]+\\.[^ ][^ ]+", options: .caseInsensitive)
-        let range = NSMakeRange(0, postText.count)
-        // replace with 23 characters.
-        return regex.stringByReplacingMatches(in: postText, options: [], range: range, withTemplate: ".......................").count
+        let urlRegex = try! NSRegularExpression(pattern: #"https?://[^ ]+\.[^ ][^ ]+"#, options: .caseInsensitive)
+        let urlRange = NSMakeRange(0, postText.count)
+        // replace with 23 characters
+        newString = urlRegex.stringByReplacingMatches(in: postText, options: [], range: urlRange, withTemplate: ".......................")
+        
+        // the composer ignores the domain name in mentions when counting.
+        // closest regex i derived from mastodon's:
+        let mentionRegex = try! NSRegularExpression(pattern: #"(@[^ \n]+)@\.*[a-zA-Z0-9](\.*[a-zA-Z0-9]+)+"#, options: .caseInsensitive)
+        let mentionRange = NSMakeRange(0, newString.count)
+        newString = mentionRegex.stringByReplacingMatches(in: newString, range: mentionRange, withTemplate: "$1")
+        return newString.count
     }
     
     func postThread(_ postText: String, contentWarning: String) {

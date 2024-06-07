@@ -72,6 +72,8 @@ final class PostCardModel {
     
     let userTag: String
     let fullUserTag: String
+    // this should look exactly like how the usertag would in a local request. MAM-3683
+    var normalizedUserTag: String?
     let contentWarning: String
     let isSensitive: Bool
     var postText: String
@@ -1046,6 +1048,42 @@ extension PostCardModel {
             return true
         } else {
             return false
+        }
+    }
+}
+
+extension PostCardModel {
+    static func normalizeUsertag(_ postCard: PostCardModel) {
+        let userInstance = AccountsManager.shared.currentAccountClient.baseHost
+        // two occasions: we need the instance name and don't have it, and we don't need it and have it.
+        
+        // separate the usertag from the instance.
+        let separatedUsertag = postCard.userTag.split(separator: "@")
+        // check if there's a domain name attached.
+        let usertagHasInstance = separatedUsertag.count > 1
+        // post is from our instance + post has domain name = remove it.
+        if let newUsertag = separatedUsertag.first, usertagHasInstance && postCard.account?.server == userInstance {
+            postCard.normalizedUserTag = String(newUsertag)
+        }
+        // post is not from our instance + post is missing domain name = add it.
+        if let postInstance = postCard.account?.server, !usertagHasInstance && postInstance != userInstance {
+            postCard.normalizedUserTag = postCard.userTag + "@" + postInstance
+        }
+        
+        // when fetching the replies remotely, the mentions won't include the full address for users in that instance.
+        // so when the user tries replying, the mention will go to a local user with the same handle.
+        // the solution here is always adding the instance to a mention.
+        switch postCard.data {
+        case .mastodon(let status):
+            for mention in status.mentions {
+                if mention.acct == mention.username {
+                    if let instance = URL(string: mention.url)?.host {
+                        mention.acct += "@" + instance
+                    }
+                }
+            }
+        case .bluesky:
+            break
         }
     }
 }
