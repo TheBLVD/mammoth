@@ -168,7 +168,7 @@ extension NewsFeedViewModel {
                 } else if case .channel = currentType {
                     newItems = items.removeMutesAndBlocks().removeFiltered()
                 } else {
-                    newItems = items
+                    newItems = items.removeFiltered()
                 }
                 
                 DispatchQueue.main.async { [weak self] in
