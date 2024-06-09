@@ -526,6 +526,7 @@
 		53B15867293F72B00026E90B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B15846293F623F0026E90B /* NotificationService.swift */; };
 		53B15869294227650026E90B /* FilterDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53B15868294227650026E90B /* FilterDetailsViewController.swift */; };
 		53EB77EE29D2EAC80036CDE1 /* NavigationHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EB77ED29D2EAC80036CDE1 /* NavigationHelpers.swift */; };
+		655609B62C162F80004233BC /* ArkanaKeys in Frameworks */ = {isa = PBXBuildFile; productRef = 655609B52C162F80004233BC /* ArkanaKeys */; };
 		662B60CE2A4A1E8600CB331F /* Embed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662B60C52A4A1E8600CB331F /* Embed.swift */; };
 		662B60CF2A4A1E8600CB331F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662B60C62A4A1E8600CB331F /* Model.swift */; };
 		662B60D02A4A1E8600CB331F /* Graph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662B60C72A4A1E8600CB331F /* Graph.swift */; };
@@ -1648,6 +1649,7 @@
 				539F3A2C292282FE0090CD00 /* Kingfisher in Frameworks */,
 				88EFEB2D2AC23A3C0040228B /* SwiftJWT in Frameworks */,
 				532F291829476B29003C9FAD /* InputBarAccessoryView in Frameworks */,
+				655609B62C162F80004233BC /* ArkanaKeys in Frameworks */,
 				14780F812AFCEA7000A7ECD9 /* Reachability in Frameworks */,
 				533993F82914201500560F83 /* SDWebImage in Frameworks */,
 				1440C9062BCD811C00799A4F /* Segment in Frameworks */,
@@ -3222,6 +3224,7 @@
 				148D49692B9A071E007DD94F /* CrowdinSDK */,
 				F054D25B2B9C9E07006130A4 /* MetaTextKit */,
 				1440C9052BCD811C00799A4F /* Segment */,
+				655609B52C162F80004233BC /* ArkanaKeys */,
 			);
 			productName = Mastodon;
 			productReference = 533993DF29141F4600560F83 /* Mammoth.app */;
@@ -3338,6 +3341,7 @@
 				148D49682B9A04F2007DD94F /* XCRemoteSwiftPackageReference "mobile-sdk-ios" */,
 				F054D25A2B9C9E07006130A4 /* XCRemoteSwiftPackageReference "MetaTextKit" */,
 				1440C9042BCD811C00799A4F /* XCRemoteSwiftPackageReference "analytics-swift" */,
+				655609B42C162F80004233BC /* XCLocalSwiftPackageReference "ArkanaKeys/ArkanaKeys" */,
 			);
 			productRefGroup = 533993E029141F4600560F83 /* Products */;
 			projectDirPath = "";
@@ -4777,6 +4781,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		655609B42C162F80004233BC /* XCLocalSwiftPackageReference "ArkanaKeys/ArkanaKeys" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ArkanaKeys/ArkanaKeys;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		1440C9042BCD811C00799A4F /* XCRemoteSwiftPackageReference "analytics-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -4928,6 +4939,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 539F3A2A292282FE0090CD00 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		655609B52C162F80004233BC /* ArkanaKeys */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ArkanaKeys;
 		};
 		662B60EE2A4A1F6D00CB331F /* JWTDecode */ = {
 			isa = XCSwiftPackageProductDependency;
