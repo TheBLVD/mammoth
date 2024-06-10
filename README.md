@@ -11,7 +11,9 @@ The Mammoth Team
 
 ## Getting Started
 
-**Requirements:**
+### Requirements:
+
+We use [Arkana](https://github.com/rogerluan/arkana) to obfuscate API keys and secrets in Mammoth, which requires the following versions:
 
 - Ruby 3.1+
 - Node.js 16+
@@ -19,12 +21,72 @@ The Mammoth Team
 - Swift 5+
 
 1. Clone the repo
-1. Copy the `sample.env` to `.env`
-1. Run `bundle install` to get the needed gems
-1. From the root of the application still run `bin/arkana` This will generated
-   the needed 'ArkanaKeys' package that is a local swift package dependency.
 
-**Troubleshooting**
+```zsh
+% git clone https://github.com/TheBLVD/mammoth.git
+```
+
+2. Navigate to the repo, and copy the `sample.env` to `.env`:
+
+```zsh
+% cd mammoth
+% cp sample.env .env
+```
+
+3. Install `rbenv` if not already installed. See [Installing `rbenv`](#installing-rbenv) below for instructions.
+4. Install a compatible version of ruby:
+
+```zsh
+% rbenv install
+```
+
+5. Install ruby dependencies to get the needed gems:
+
+```zsh
+% bundle install
+```
+
+6. Regenerate the `ArkanaKeys` package for managing API keys and secrets. This step can be repeated as whenever you change your `.env` file's contents:
+
+```zsh
+% bin/arkana
+```
+
+### Installing `rbenv`
+
+1. Install [Homebrew](https://brew.sh) if you don't already have it:
+
+```zsh
+% /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+2. Install [rbenv](https://github.com/rbenv/rbenv) using Homebrew:
+
+```zsh
+% brew install rbenv ruby-build
+```
+
+3. Initialize `rbenv` by installing it in your zsh profile, and reload the profile (this assumes you are using `zsh` by default — if you aren't, please run `rbenv init` instead and follow instructions):
+
+```
+% echo "eval \"\$(rbenv init - zsh)\"" >> ~/.zshrc
+% exec zsh
+```
+
+4. Install a compatible version of ruby, and continue the steps [above](#requirements):
+
+```zsh
+% rbenv install
+```
+
+5. You can verify the right version of Ruby is installed by running `ruby --version`:
+
+```zsh
+% ruby --version
+ruby 3.2.1 (2023-02-08 revision 31819e82c8) [arm64-darwin22]
+```
+
+### Troubleshooting
 
 - If you run `bin/arkana` and see the following, it can't find a valid `.env`
   file. Make sure you've copied the provided sample correctly and that it is in
@@ -43,31 +105,11 @@ The Mammoth Team
 You must use Bundler 2 or greater with this lockfile.
 ```
 
-Ruby 3 is required. Check your ruby version `ruby --version`.
+Ruby 3 is required. Check your ruby version `ruby --version`, and check [Installing `rbenv`](#installing-rbenv) above for instructions on installing a new version.
 
-1. install brew [(see web page instructions)](https://brew.sh)
-2. install rbenv
-   [(brew install rbenv ruby-build)](https://github.com/rbenv/rbenv/blob/master/README.md)
-3. run `rbenv init` and follow the printed instructions
-4. install current Ruby version `rbenv install 3.2.1`
-5. set version to global or local.
+### Adding Private Keys
 
-```sh
-rbenv global 3.2.1   # set the default Ruby version for this machine
-# or:
-rbenv local 3.2.1    # set the Ruby version for this directory
-```
-
-6. verify Ruby is installed `ruby --version` should return something like this.
-   Your minor version may differ.
-
-```sh
-➜ ruby --version
-ruby 3.2.1 (2023-02-08 revision 31819e82c8) [arm64-darwin22]
-```
-
-**Adding Private Keys** Steps to adding a new key/value to the project using
-Arkana. Upfront there are two options.
+Steps to adding a new key/value to the project using Arkana. Upfront there are two options.
 
 1. Global: same key/value for staging and production
 2. Environment: one value for staging, and separate value for production. Both
