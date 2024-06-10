@@ -1373,6 +1373,7 @@
 		53B1585C293F66D20026E90B /* Decode85.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Decode85.swift; sourceTree = "<group>"; };
 		53B15868294227650026E90B /* FilterDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterDetailsViewController.swift; sourceTree = "<group>"; };
 		53EB77ED29D2EAC80036CDE1 /* NavigationHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationHelpers.swift; sourceTree = "<group>"; };
+		655609B72C1757AA004233BC /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		662B60C52A4A1E8600CB331F /* Embed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Embed.swift; sourceTree = "<group>"; };
 		662B60C62A4A1E8600CB331F /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		662B60C72A4A1E8600CB331F /* Graph.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Graph.swift; sourceTree = "<group>"; };
@@ -1746,6 +1747,7 @@
 		533993D629141F4600560F83 = {
 			isa = PBXGroup;
 			children = (
+				655609B72C1757AA004233BC /* README.md */,
 				887B328E2A0AC07000EE7EE3 /* Packages */,
 				533993E129141F4600560F83 /* Mammoth */,
 				53B15845293F623F0026E90B /* MammothNotificationServiceExtension */,
