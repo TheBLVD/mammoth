@@ -791,14 +791,15 @@ extension PostCardCell {
             let minHeight = variant.mediaVariant == .small ? 60.0 : 0.0
             textHeight = max(ceil(postCard.richPostText?.string.height(width: textWidth, font: contentFont, maxHeight: maxHeight) ?? 0.0), minHeight)
             
-            let numberOfParagraphs = postCard.postText.string.numberOfParagraphs()
+            // use rich-text so that we can detect general line breaks.
+            let numberOfParagraphs = postCard.richPostText?.string.numberOfParagraphs() ?? 1
             if numberOfParagraphs > 1 {
                 if cellType.numberOfLines == 0 {
                     for _ in 1...numberOfParagraphs-1 {
                         textHeight += PostCardCell.paragraphSpacing
                     }
                 } else {
-                    // if text is trimmed and we find > 1 <p> tag, assume there are 2 paragraphs visible
+                    // if text is trimmed and we find > 1 line break, assume there are 2 paragraphs visible
                     textHeight += PostCardCell.paragraphSpacing
                 }
             }

@@ -28,6 +28,6 @@ extension String {
     }
     
     func numberOfParagraphs() -> Int {
-        self.components(separatedBy: "<p>").count-1
+        self.components(separatedBy: "\u{2029}").count
     }
 }
