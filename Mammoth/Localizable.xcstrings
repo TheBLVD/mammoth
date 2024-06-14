@@ -15000,6 +15000,9 @@
         }
       }
     },
+    "d8T-wc-Ss7.placeholder" : {
+      "comment" : "display name"
+    },
     "date.futureDays" : {
       "comment" : "Date format",
       "extractionState" : "manual",
@@ -44413,6 +44416,17 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : ""
+          }
+        }
+      }
+    },
+    "post.fromTipped" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "from tipped account"
           }
         }
       }

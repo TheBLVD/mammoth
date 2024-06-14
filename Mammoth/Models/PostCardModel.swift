@@ -271,7 +271,7 @@ final class PostCardModel {
             return false
         }
     }
-
+    
     var applicationName: String? {
         if let server = originalInstanceName {
             if server == "www.threads.net" {
@@ -314,6 +314,15 @@ final class PostCardModel {
             }
         }
         return sourceDescription
+    }
+    
+    // check if the post is from a tip account.
+    var tipAccount: Bool {
+        if let server = originalInstanceName {
+            return server == "social-proxy.com"
+        } else {
+            return false
+        }
     }
     
     init(status: Status, withStaticMetrics staticMetrics: Bool = false, instanceName: String? = nil) {

@@ -67,6 +67,8 @@ class UserCardModel {
         return ModerationManager.shared.blockedUsers.first(where: {$0.remoteFullOriginalAcct == self.uniqueId}) != nil
     }
     
+    let tippable: Bool
+    
     // deprecated initializer
     init(name: String, userTag: String, imageURL: String?, description: String?, isFollowing: Bool, emojis: [Emoji]?, account: Account?) {
         self.id = account?.id ?? ""
@@ -115,6 +117,7 @@ class UserCardModel {
         self.fields = account?.fields
         self.fields?.forEach({$0.configureMetaContent(with: emojisDic)})
         self.joinedOn = account?.createdAt?.toDate()
+        self.tippable = instanceName == "social-proxy.com"
     }
     
     init(account: Account, instanceName: String? = nil, requestFollowStatusUpdate: FollowManager.NetworkUpdateType = .none, isFollowing: Bool = false) {
@@ -166,6 +169,7 @@ class UserCardModel {
         self.fields = account.fields
         self.fields?.forEach({$0.configureMetaContent(with: emojisDic)})
         self.joinedOn = account.createdAt?.toDate()
+        self.tippable = account.acct.hasSuffix("social-proxy.com") 
     }
     
     // Return an instance without description

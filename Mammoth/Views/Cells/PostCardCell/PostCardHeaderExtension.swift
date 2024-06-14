@@ -101,10 +101,15 @@ extension PostCardHeaderExtension {
             self.titleLabel.text = "[replace with hashtag]"
         }
         
+        
+        
         if postCard.isPrivateMention {
             self.titleLabel.text = NSLocalizedString("post.privateMention", comment: "Shows up over a post in the timeline indicating that it's been sent privately.")
+        } else if postCard.tipAccount {
+            self.titleLabel.text = NSLocalizedString("post.fromTipped", comment: "Shows up over a post in the timeline indicating that it's been sent privately.")
         }
         
+
         if let postCard = self.postCard, postCard.isPrivateMention {
             titleLabel.backgroundColor = .custom.OVRLYSoftContrast
         } else {
