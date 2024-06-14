@@ -420,6 +420,7 @@ extension ProfileHeader {
         // add subscribe button.
         if user.tippable && user.followStatus != .following {
             tipButton.isHidden = false
+            tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
         }
         let joined_on = user.joinedOn?.toString(dateStyle: .short, timeStyle: .none) ?? ""
         if UIScreen.main.bounds.width < 380 {
@@ -598,6 +599,14 @@ extension ProfileHeader {
                 }
             }
         }
+    }
+    
+    @objc func subscribeTapped() {
+        triggerHapticImpact(style: .light)
+        if let username = user?.username, let url = URL(string: "https://social-proxy.com/subscribe/to/\(username)?amount=500&currency=USD") {
+            PostActions.openLink(url)
+        }
+        
     }
     
     func formatUserTag(user: UserCardModel) -> NSAttributedString {
