@@ -196,6 +196,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         self.tableView.register(TextSizeCell.self, forCellReuseIdentifier: "TextSizeCell")
         self.tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textOnly))
+        self.tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.fullWidth)))
         self.tableView.register(SelectionCell.self, forCellReuseIdentifier: "SelectionCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -233,7 +234,8 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0: // sample post cell
-            let cell = tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: .textOnly), for: indexPath) as! PostCardCell
+            let identifier = GlobalStruct.mediaSize == .fullWidth ? PostCardCell.reuseIdentifier(for: .textAndMedia(.fullWidth)) : PostCardCell.reuseIdentifier(for: .textOnly)
+            let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! PostCardCell
             let postCard = PostCardModel(status: sampleStatus)
             cell.configure(postCard: postCard) {type,isActive,data in
                 // Do nothing

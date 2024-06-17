@@ -18,6 +18,7 @@ final class PostCardCell: UITableViewCell {
     enum PostCardMediaVariant: String, Equatable, CaseIterable {
 //        UNCOMMENT TO SUPPORT DYNAMIC MEDIA SIZE MODE
 //        case auto
+        case fullWidth
         case large
         case small
         case hidden
@@ -27,6 +28,7 @@ final class PostCardCell: UITableViewCell {
 //            UNCOMMENT TO SUPPORT DYNAMIC MEDIA SIZE MODE
 //            case .auto: return "Dynamic"
                 
+            case .fullWidth: return NSLocalizedString("settings.appearance.mediaSize.fullWidth", comment: "")
             case .large: return NSLocalizedString("settings.appearance.mediaSize.large", comment: "")
             case .small: return NSLocalizedString("settings.appearance.mediaSize.small", comment: "")
             case .hidden: return NSLocalizedString("settings.appearance.mediaSize.hidden", comment: "")
@@ -58,9 +60,11 @@ final class PostCardCell: UITableViewCell {
         case "PostCardCell.TextAndMedia(variant=hidden)": return .textAndMedia(.hidden)
         case "PostCardCell.TextAndMedia(variant=small)": return .textAndMedia(.small)
         case "PostCardCell.TextAndMedia(variant=large)": return .textAndMedia(.large)
+        case "PostCardCell.TextAndMedia(variant=fullWidth)": return .textAndMedia(.fullWidth)
         case "PostCardCell.MediaOnly(variant=hidden)": return .mediaOnly(.hidden)
         case "PostCardCell.MediaOnly(variant=small)": return .mediaOnly(.small)
         case "PostCardCell.MediaOnly(variant=large)": return .mediaOnly(.large)
+        case "PostCardCell.MediaOnly(variant=fullWidth)": return .mediaOnly(.fullWidth)
         default:
             log.error("PostCardCell fallback to .textOnly")
             return .textOnly
@@ -72,9 +76,11 @@ final class PostCardCell: UITableViewCell {
         tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.hidden)))
         tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.small)))
         tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.large)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.fullWidth)))
         tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.hidden)))
         tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.small)))
         tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.large)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.fullWidth)))
     }
     
     enum PostCardCellType {
@@ -162,7 +168,7 @@ final class PostCardCell: UITableViewCell {
         static func cellVariant(for postCard: PostCardModel, cellType: PostCardCellType) -> Self? {
             let hasText = !postCard.postText.isEmpty
             
-            if postCard.containsPoll || postCard.hasQuotePost || postCard.hasLink || postCard.hasMediaAttachment {
+            if postCard.containsPoll || postCard.hasQuotePost || postCard.hasLink || postCard.hasMediaAttachment || cellType.mediaVariant == .fullWidth {
                 let mediaVariant = cellType.mediaVariant
 
 //                UNCOMMENT TO SUPPORT DYNAMIC MEDIA SIZE MODE
@@ -249,6 +255,21 @@ final class PostCardCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.preservesSuperviewLayoutMargins = false
         stackView.isLayoutMarginsRelativeArrangement = true
+        return stackView
+    }()
+    
+    // Includes profile and header in extra large media mode
+    private var headerStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.isOpaque = true
+        stackView.axis = .horizontal
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        stackView.spacing = 12
+        stackView.isOpaque = true
+        stackView.layoutMargins = .zero
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.preservesSuperviewLayoutMargins = false
         return stackView
     }()
     
@@ -523,7 +544,7 @@ private extension PostCardCell {
         self.contentView.preservesSuperviewLayoutMargins = false
         self.isOpaque = true
         self.contentView.isOpaque = true
-                
+        
         contentView.addSubview(wrapperStackView)
         
         headerExtension = PostCardHeaderExtension()
@@ -533,7 +554,7 @@ private extension PostCardCell {
         if self.headerExtension == nil {
             self.headerExtension = PostCardHeaderExtension()
         }
-                
+        
         NSLayoutConstraint.activate([
             wrapperStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             wrapperStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
@@ -546,14 +567,28 @@ private extension PostCardCell {
         
         mainStackView.addSubview(parentThread)
         mainStackView.addSubview(childThread)
-
-        mainStackView.addArrangedSubview(profilePic)
+        
+        if self.cellVariant.mediaVariant == .fullWidth {
+            headerStackView.addArrangedSubview(profilePic)
+        } else {
+            mainStackView.addArrangedSubview(profilePic)
+        }
+        
         profilePic.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         mainStackView.addArrangedSubview(contentStackView)
         
-        contentStackView.addArrangedSubview(header)
+        /// Only center the header content if the display name is two files and in full width mode.
+        header.isCenterAligned = self.cellVariant.mediaVariant == .fullWidth && GlobalStruct.displayName == .full
+        headerStackView.addArrangedSubview(header)
+        
+        contentStackView.addArrangedSubview(headerStackView)
         contentStackView.addArrangedSubview(textAndSmallMediaStackView)
+        
+        if self.cellVariant.mediaVariant == .fullWidth {
+            contentStackView.layoutMargins = .zero
+            contentStackView.setCustomSpacing(12, after: headerStackView)
+        }
         
         NSLayoutConstraint.activate([
             parentThread.widthAnchor.constraint(equalToConstant: 1),
@@ -578,7 +613,7 @@ private extension PostCardCell {
             postTextView.linkDelegate = self
 
             if self.cellVariant.hasMedia {
-                if self.cellVariant.mediaVariant == .large {
+                if self.cellVariant.mediaVariant == .large || self.cellVariant.mediaVariant == .fullWidth {
                     self.contentStackView.setCustomSpacing(12.0, after: self.textAndSmallMediaStackView)
                 } else if self.cellVariant.mediaVariant == .small {
                     self.contentStackView.setCustomSpacing(4.0, after: self.textAndSmallMediaStackView)
@@ -597,7 +632,6 @@ private extension PostCardCell {
         }
         
         if self.cellVariant.hasMedia {
-            
             if self.cellVariant.mediaVariant == .hidden {
                 self.contentStackView.addArrangedSubview(self.hiddenImageIndicator)
                 
@@ -609,10 +643,12 @@ private extension PostCardCell {
             
             self.contentStackView.addArrangedSubview(self.mediaContainer)
             
-            if UIDevice.current.userInterfaceIdiom == .phone {
-                let c = self.mediaContainer.trailingAnchor.constraint(equalTo: self.contentStackView.trailingAnchor)
-                c.isActive = true
-                self.mediaContainerConstraints = [c]
+            // TODO: Make sure this happens on iPad and Mac as well when we don't use the sidebar buttons, ie. when the app is in split view.
+            if UIDevice.current.userInterfaceIdiom == .phone || self.cellVariant.mediaVariant == .fullWidth {
+                let trailingConstraint = self.mediaContainer.trailingAnchor.constraint(equalTo: self.contentStackView.trailingAnchor)
+                trailingConstraint.isActive = true
+                
+                self.mediaContainerConstraints = [trailingConstraint]
             } else {
                 // Force media container to fill the parent width - with max width for big displays
                 self.mediaContainerConstraints = self.mediaContainer.addHorizontalFillConstraints(withParent: self.contentStackView, andMaxWidth: 320)
@@ -625,7 +661,7 @@ private extension PostCardCell {
                 self.image!.translatesAutoresizingMaskIntoConstraints = false
                 self.textAndSmallMediaStackView.addArrangedSubview(self.image!)
                 self.imageTrailingConstraint = self.image!.widthAnchor.constraint(equalToConstant: 60)
-            case .large:
+            case .large, .fullWidth:
                 self.image = PostCardImage(variant: .fullSize)
                 self.image!.translatesAutoresizingMaskIntoConstraints = false
                 self.mediaContainer.addArrangedSubview(self.image!)
@@ -640,7 +676,7 @@ private extension PostCardCell {
                 self.video!.translatesAutoresizingMaskIntoConstraints = false
                 self.textAndSmallMediaStackView.addArrangedSubview(self.video!)
                 self.videoTrailingConstraint = self.video!.widthAnchor.constraint(equalToConstant: 60)
-            case .large:
+            case .large, .fullWidth:
                 self.video = PostCardVideo(variant: .fullSize)
                 self.video!.translatesAutoresizingMaskIntoConstraints = false
                 self.mediaContainer.addArrangedSubview(self.video!)
@@ -656,7 +692,7 @@ private extension PostCardCell {
                 self.mediaStack?.translatesAutoresizingMaskIntoConstraints = false
                 self.textAndSmallMediaStackView.addArrangedSubview(self.mediaStack!)
                 self.mediaStackTrailingConstraint = self.mediaStack!.widthAnchor.constraint(equalToConstant: 60)
-            case .large:
+            case .large, .fullWidth:
                 self.mediaGallery = PostCardMediaGallery()
                 self.mediaGallery?.translatesAutoresizingMaskIntoConstraints = false
                 self.mediaContainer.addArrangedSubview(self.mediaGallery!)
@@ -825,7 +861,7 @@ extension PostCardCell {
         }
         
         if let variant, variant.hasMedia {
-            if variant.mediaVariant == .large {
+            if variant.mediaVariant == .large || variant.mediaVariant == .fullWidth {
                 height += 12
             } else if variant.mediaVariant == .small {
                 if variant.hasText {
@@ -889,8 +925,10 @@ extension PostCardCell {
         let isVerticallyCentered = postCard.mediaDisplayType == .carousel
                                     && postCard.postText.isEmpty
                                     && type.headerType != .quotePost
-                                    && self.cellVariant.mediaVariant == .large
+                                    && (self.cellVariant.mediaVariant == .large || self.cellVariant.mediaVariant == .fullWidth)
         
+        /// Only center the header content if the display name is two files and in full width mode.
+        self.header.isCenterAligned = self.cellVariant.mediaVariant == .fullWidth && GlobalStruct.displayName == .full
         self.header.configure(postCard: postCard, headerType: type.headerType, isVerticallyCentered: isVerticallyCentered)
         self.header.onPress = onButtonPress
         
@@ -1221,7 +1259,7 @@ extension PostCardCell {
                     NSLayoutConstraint.deactivate([
                         self.mediaGalleryTrailingConstraint,
                     ].compactMap({$0}))
-                case .large:
+                case .large, .fullWidth:
                     if let constraint = self.mediaGalleryTrailingConstraint, !constraint.isActive {
                         NSLayoutConstraint.activate([
                             self.mediaGalleryTrailingConstraint!
