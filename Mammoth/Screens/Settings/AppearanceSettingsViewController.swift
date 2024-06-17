@@ -471,19 +471,19 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f03e}")
                 cell.detailTextLabel?.text = GlobalStruct.mediaSize.displayName
                 
-                let gestureActions: [UIAction] = PostCardCell.PostCardMediaVariant.allCases.map({ mediaVariant in
-                    let op = UIAction(title: mediaVariant.displayName , image: nil, identifier: nil) { action in
+                let gestureActions = PostCardCell.PostCardMediaVariant.allCases.map { mediaVariant in
+                    UIAction(
+                        title: mediaVariant.displayName,
+                        state: GlobalStruct.mediaSize == mediaVariant ? .on : .off
+                    ) { _ in
                         // Call on next runloop for smooth menu animation
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                             GlobalStruct.mediaSize = mediaVariant
                             UserDefaults.standard.set(GlobalStruct.mediaSize.rawValue, forKey: "mediaSize")
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadAll"), object: nil)
                         }
-                  }
-                    if GlobalStruct.mediaSize == mediaVariant { op.state = .on }
-                    
-                    return op
-                })
+                    }
+                }
                 
                 cell.backgroundButton.menu = UIMenu(title: "", image: nil, options: [.displayInline], children: gestureActions)
                 return cell
