@@ -67,6 +67,16 @@ final class PostCardCell: UITableViewCell {
         }
     }
     
+    static func registerForReuseIdentifierVariants(on tableView: UITableView) {
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textOnly))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.hidden)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.small)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.large)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.hidden)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.small)))
+        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.large)))
+    }
+    
     enum PostCardCellType {
         case regular    // regular post cell
         case forYou     // post in the For You feed
