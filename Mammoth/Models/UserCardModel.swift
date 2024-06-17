@@ -68,6 +68,7 @@ class UserCardModel {
     }
     
     let tippable: Bool
+    let tippableAccount: String?
     
     // deprecated initializer
     init(name: String, userTag: String, imageURL: String?, description: String?, isFollowing: Bool, emojis: [Emoji]?, account: Account?) {
@@ -118,6 +119,7 @@ class UserCardModel {
         self.fields?.forEach({$0.configureMetaContent(with: emojisDic)})
         self.joinedOn = account?.createdAt?.toDate()
         self.tippable = instanceName == "social-proxy.com"
+        self.tippableAccount = nil
     }
     
     init(account: Account, instanceName: String? = nil, requestFollowStatusUpdate: FollowManager.NetworkUpdateType = .none, isFollowing: Bool = false) {
@@ -131,7 +133,7 @@ class UserCardModel {
         self.isFollowing = isFollowing
         self.emojis = account.emojis
         self.account = account
-                
+        
         var emojisDic: MastodonContent.Emojis = [:]
         self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
         
@@ -169,7 +171,16 @@ class UserCardModel {
         self.fields = account.fields
         self.fields?.forEach({$0.configureMetaContent(with: emojisDic)})
         self.joinedOn = account.createdAt?.toDate()
-        self.tippable = account.acct.hasSuffix("social-proxy.com") 
+        self.tippable = account.acct.hasSuffix("social-proxy.com")
+        // detect tippable link in profile fields.
+        var acct: String? = nil
+        for field in account.fields {
+            if let s = field.value.matchingStrings(regex: "https://social-proxy.com/users/([a-z0-9-_]+)").first?[1] {
+                acct = s + "@social-proxy.com"
+                break
+            }
+        }
+        self.tippableAccount = acct
     }
     
     // Return an instance without description

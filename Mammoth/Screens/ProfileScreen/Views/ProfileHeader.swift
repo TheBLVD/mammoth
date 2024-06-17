@@ -355,7 +355,7 @@ extension ProfileHeader {
         } else {
             self.descriptionLabel.textView.text = user.description
         }
-                
+        
         if let description = user.description, !description.isEmpty {
             if !contentStackView.arrangedSubviews.contains(descriptionLabel.textView) {
                 contentStackView.insertArrangedSubview(descriptionLabel.textView, at: 0)
@@ -417,8 +417,10 @@ extension ProfileHeader {
             }
         }
         
-        // add subscribe button.
-        if user.tippable && user.followStatus != .following {
+        // add subscribe button if:
+        // 1. user is a tippable account and isn't already subcribed to.
+        // 2. user has a tippable account linked.
+        if (user.tippable && user.followStatus != .following) || user.tippableAccount != nil {
             tipButton.isHidden = false
             tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
         }
@@ -603,10 +605,18 @@ extension ProfileHeader {
     
     @objc func subscribeTapped() {
         triggerHapticImpact(style: .light)
-        if let username = user?.username, let url = URL(string: "https://social-proxy.com/subscribe/to/\(username)?amount=500&currency=USD") {
-            PostActions.openLink(url)
+        if let user = user {
+            switch user.tippable {
+            case true:
+                if let url = URL(string: "https://social-proxy.com/subscribe/to/\(user.username)?amount=500&currency=USD") {
+                    PostActions.openLink(url)
+                }
+            case false:
+                if let username = user.tippableAccount, let url = URL(string: "https://social-proxy.com/subscribe/to/\(username)?amount=500&currency=USD") {
+                    PostActions.openLink(url)
+                }
+            }
         }
-        
     }
     
     func formatUserTag(user: UserCardModel) -> NSAttributedString {
