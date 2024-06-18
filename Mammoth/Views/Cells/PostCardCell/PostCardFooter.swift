@@ -67,10 +67,10 @@ private extension PostCardFooter {
             mainStackView.trailingAnchor.constraint(equalTo: self.layoutMarginsGuide.trailingAnchor),
         ])
         
-        mainStackView.addArrangedSubview(likeButton)
         mainStackView.addArrangedSubview(replyButton)
-        mainStackView.addArrangedSubview(repostButton)
         mainStackView.addArrangedSubview(quoteButton)
+        mainStackView.addArrangedSubview(repostButton)
+        mainStackView.addArrangedSubview(likeButton)
         mainStackView.addArrangedSubview(moreButton)
     }
 }

@@ -53,7 +53,7 @@ enum PostCardButtonType: Int {
     func icon(symbolConfig: UIImage.SymbolConfiguration?) -> UIImage? {
         switch(self) {
         case .reply:
-            return FontAwesome.image(fromChar: "\u{f075}", size: 16, weight: .regular)
+            return FontAwesome.image(fromChar: "\u{f3e5}", size: 16, weight: .regular)
         case .repost:
             return FontAwesome.image(fromChar: "\u{f361}", size: 16, weight: .regular)
         case .like:
