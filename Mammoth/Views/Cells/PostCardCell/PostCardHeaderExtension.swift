@@ -105,12 +105,14 @@ extension PostCardHeaderExtension {
         
         if postCard.isPrivateMention {
             self.titleLabel.text = NSLocalizedString("post.privateMention", comment: "Shows up over a post in the timeline indicating that it's been sent privately.")
+            self.titleLabel.textColor = .custom.feintContrast
         } else if postCard.tipAccount {
             self.titleLabel.text = NSLocalizedString("post.fromTipped", comment: "Shows up over a post in the timeline indicating that it's been sent privately.")
+            self.titleLabel.textColor = .custom.gold
         }
         
 
-        if let postCard = self.postCard, postCard.isPrivateMention {
+        if let postCard = self.postCard, postCard.isPrivateMention || postCard.tipAccount {
             titleLabel.backgroundColor = .custom.OVRLYSoftContrast
         } else {
             titleLabel.backgroundColor = .custom.background
@@ -118,8 +120,7 @@ extension PostCardHeaderExtension {
     }
     
     func onThemeChange() {
-        self.titleLabel.textColor = .custom.feintContrast
-        if let postCard = self.postCard, postCard.isPrivateMention {
+        if let postCard = self.postCard, postCard.isPrivateMention || postCard.tipAccount {
             titleLabel.backgroundColor = .custom.OVRLYSoftContrast
         } else {
             titleLabel.backgroundColor = .custom.background

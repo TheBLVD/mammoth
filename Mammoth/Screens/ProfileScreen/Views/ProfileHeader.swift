@@ -112,7 +112,7 @@ class ProfileHeader: UIView {
         label.isUserInteractionEnabled = false
         return label
     }()
-
+    
     private let userTagLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 2, weight: .regular)
@@ -156,7 +156,7 @@ class ProfileHeader: UIView {
     
     private let tipButton: UIButton = {
         let button = UIButton(type: .custom)
-        button.setTitleColor(.custom.highContrast, for: .normal)
+        button.setTitleColor(.custom.gold, for: .normal)
         button.setTitle(NSLocalizedString("profile.subscribe", comment: ""), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .semibold)
         button.layer.borderWidth = 0.5
@@ -167,6 +167,15 @@ class ProfileHeader: UIView {
         button.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
         button.isHidden = true
         return button
+    }()
+    
+    private let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillEqually
+        stackView.spacing = 12
+        return stackView
     }()
     
     private let statsStack: UIStackView = {
@@ -272,8 +281,9 @@ private extension ProfileHeader {
         headerTitleStackView.addArrangedSubview(userTagLabel)
         
         mainStackView.addArrangedSubview(contentStackView)
-        contentStackView.addArrangedSubview(followButton)
-        contentStackView.addArrangedSubview(tipButton)
+        contentStackView.addArrangedSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(followButton)
+        buttonStackView.addArrangedSubview(tipButton)
         
         contentStackView.addArrangedSubview(statsStack)
         
@@ -420,10 +430,12 @@ extension ProfileHeader {
         // add subscribe button if:
         // 1. user is a tippable account and isn't already subcribed to.
         // 2. user has a tippable account linked.
-        if (user.tippable && user.followStatus != .following) || user.tippableAccount != nil {
+        // not add button on own account.
+        if ((user.tippable && user.followStatus != .following) || user.tippableAccount != nil) && !user.isSelf {
             tipButton.isHidden = false
             tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
         }
+        
         let joined_on = user.joinedOn?.toString(dateStyle: .short, timeStyle: .none) ?? ""
         if UIScreen.main.bounds.width < 380 {
             self.statsLabel.text = String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joined_on)

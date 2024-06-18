@@ -117,7 +117,7 @@ final class PostCardMediaStack: UIView {
         self.media = postCard.mediaAttachments.first
         self.postCard = postCard
         
-        if postCard.isPrivateMention {
+        if postCard.isPrivateMention || postCard.tipAccount {
             self.backgroundColor = .custom.OVRLYSoftContrast
         } else {
             self.backgroundColor = .custom.background

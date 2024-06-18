@@ -151,6 +151,7 @@ class PostCardHeader: UIView {
     private var headerType: PostCardHeaderTypes = .regular
     public var onPress: PostCardButtonCallback?
     private var isPrivateMention: Bool = false
+    private var tipAccount: Bool = false
     
     private var subscription: Cancellable?
 
@@ -271,8 +272,9 @@ extension PostCardHeader {
             self.status = status
         }
         
-        let shouldChangeTheme = self.isPrivateMention != postCard.isPrivateMention
+        let shouldChangeTheme = self.isPrivateMention != postCard.isPrivateMention || self.tipAccount != postCard.tipAccount
         self.isPrivateMention = postCard.isPrivateMention
+        self.tipAccount = postCard.tipAccount
         
         if headerType == .mentions {
             self.titleLabel.isHidden = false
@@ -389,7 +391,7 @@ extension PostCardHeader {
         self.profilePic?.onThemeChange()
         var backgroundColor = UIColor.custom.background
         
-        if let postCard = self.postCard, postCard.isPrivateMention {
+        if let postCard = self.postCard, postCard.isPrivateMention || postCard.tipAccount {
             backgroundColor = .custom.OVRLYSoftContrast
         }
         

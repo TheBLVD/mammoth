@@ -422,6 +422,7 @@ final class PostCardCell: UITableViewCell {
     
     private var textLongPressGesture: UILongPressGestureRecognizer?
     private var isPrivateMention: Bool = false
+    private var tipAccount: Bool = false
     
     private enum MetricButtons: Int {
         case likes
@@ -853,15 +854,16 @@ extension PostCardCell {
     func configure(postCard: PostCardModel, type: PostCardCellType = .regular, hasParent: Bool = false, hasChild: Bool = false, onButtonPress: @escaping PostCardButtonCallback) {        
         let mediaHasChanged = postCard.mediaAttachments != self.postCard?.mediaAttachments
         
-        let shouldUpdateTheme = self.isPrivateMention != postCard.isPrivateMention
+        let shouldUpdateTheme = (self.isPrivateMention != postCard.isPrivateMention || self.postCard?.tipAccount != postCard.tipAccount)
         self.isPrivateMention = postCard.isPrivateMention
+        self.tipAccount = postCard.tipAccount
         
         self.postCard = postCard
         self.type = type
         self.onButtonPress = onButtonPress
         
         // Display header extension (reblogged or hashtagged indicator)
-        if ((postCard.isReblogged && type != .detail) || postCard.isHashtagged || postCard.isPrivateMention) && type != .forYou {
+        if ((postCard.isReblogged && type != .detail) || postCard.isHashtagged || postCard.isPrivateMention || postCard.tipAccount) && type != .forYou {
             self.headerExtension?.onPress = onButtonPress
             self.headerExtension!.configure(postCard: postCard)
             self.headerExtension?.isHidden = false
@@ -871,7 +873,7 @@ extension PostCardCell {
         
         if let user = postCard.user, !postCard.isDeleted, !postCard.isMuted, !postCard.isBlocked {
             if case .hide(_) = postCard.filterType {} else {
-                self.profilePic.configure(user: user, isPrivateMention: postCard.isPrivateMention)
+                self.profilePic.configure(user: user, isPrivateMention: postCard.isPrivateMention || postCard.tipAccount)
                 self.profilePic.onPress = onButtonPress
             }
         }
@@ -1341,7 +1343,7 @@ extension PostCardCell {
     
     func onThemeChange() {
         var backgroundColor = UIColor.custom.background
-        if let postCard = self.postCard, postCard.isPrivateMention {
+        if let postCard = self.postCard, postCard.isPrivateMention || postCard.tipAccount {
             backgroundColor = .custom.OVRLYSoftContrast
         }
         

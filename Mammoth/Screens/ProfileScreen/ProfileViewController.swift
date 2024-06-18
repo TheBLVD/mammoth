@@ -28,6 +28,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
         tableView.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
         tableView.register(EmptyFeedCell.self, forCellReuseIdentifier: EmptyFeedCell.reuseIdentifier)
         tableView.register(ProfileSectionHeader.self, forHeaderFooterViewReuseIdentifier: ProfileSectionHeader.reuseIdentifier)
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.prefetchDataSource = self
@@ -563,12 +564,14 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDataSourcePre
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if self.viewModel.hasHeader(forSection: section),
             let sectionHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier: ProfileSectionHeader.reuseIdentifier) as? ProfileSectionHeader {
-           sectionHeader.delegate = self.viewModel
-           sectionHeader.onThemeChange()
-           return sectionHeader
-       }
+            sectionHeader.hasSubscription = viewModel.user?.tippableAccount != nil
+            sectionHeader.delegate = self.viewModel
+            sectionHeader.configure()
+            sectionHeader.onThemeChange()
+            return sectionHeader
+        }
        
-       return nil
+        return nil
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

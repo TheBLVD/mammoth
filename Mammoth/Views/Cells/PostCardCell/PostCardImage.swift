@@ -351,7 +351,7 @@ final class PostCardImage: UIView {
     }
     
     public func onThemeChange() {
-        let backgroundColor: UIColor = (self.postCard?.isPrivateMention ?? false) ? .custom.OVRLYSoftContrast : .custom.background
+        let backgroundColor: UIColor = (self.postCard?.isPrivateMention ?? false || self.postCard?.tipAccount ?? false) ? .custom.OVRLYSoftContrast : .custom.background
         self.backgroundColor = backgroundColor
     }
     

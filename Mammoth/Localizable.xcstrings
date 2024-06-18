@@ -57218,6 +57218,16 @@
         }
       }
     },
+    "profile.subscription" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscription"
+          }
+        }
+      }
+    },
     "profile.unfollow" : {
       "extractionState" : "manual",
       "localizations" : {
