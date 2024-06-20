@@ -652,10 +652,10 @@ opt_in_rules: # some rules are only opt-in
   - legacy_multiple  
 
 excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - bin
+  - ArkanaKeys
   - MammothTests
   - MammothUITests
-  - ArkanaKeys
-  - bin
 
 custom_rules:
   force_https:
