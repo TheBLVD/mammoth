@@ -9,6 +9,7 @@
 import UIKit
 import Meta
 import MetaTextKit
+import ArkanaKeys
 
 class ProfileHeader: UIView {
     
@@ -431,7 +432,7 @@ extension ProfileHeader {
         // 1. user is a tippable account and isn't already subcribed to.
         // 2. user has a tippable account linked.
         // not add button on own account.
-        if ((user.tippable && user.followStatus != .following) || user.tippableAccount != nil) && !user.isSelf {
+        if ((user.isTippable && user.followStatus != .following) || user.tippableAccount != nil) && !user.isSelf {
             tipButton.isHidden = false
             tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
         }
@@ -618,13 +619,13 @@ extension ProfileHeader {
     @objc func subscribeTapped() {
         triggerHapticImpact(style: .light)
         if let user = user {
-            switch user.tippable {
+            switch user.isTippable {
             case true:
-                if let url = URL(string: "https://social-proxy.com/subscribe/to/\(user.username)?amount=500&currency=USD") {
+                if let url = URL(string: "https://" + ArkanaKeys.Global().subClubDomain + "/@\(user.username)/subscribe?callback=mammoth://social-proxy=\(user.username)&amount=500&currency=USD") {
                     PostActions.openLink(url)
                 }
             case false:
-                if let username = user.tippableAccount, let url = URL(string: "https://social-proxy.com/subscribe/to/\(username)?amount=500&currency=USD") {
+                if let username = user.tippableAccount, let url = URL(string: "https://" + ArkanaKeys.Global().subClubDomain + "/@\(username)/subscribe?callback=mammoth://social-proxy=\(username)&amount=500&currency=USD") {
                     PostActions.openLink(url)
                 }
             }

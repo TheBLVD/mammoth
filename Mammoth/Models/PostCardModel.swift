@@ -14,6 +14,7 @@ import Meta
 import MastodonMeta
 import MetaTextKit
 import UnifiedBlurHash
+import ArkanaKeys
 
 final class PostCardModel {
     
@@ -317,9 +318,9 @@ final class PostCardModel {
     }
     
     // check if the post is from a tip account.
-    var tipAccount: Bool {
+    var isTipAccount: Bool {
         if let server = originalInstanceName {
-            return server == "social-proxy.com"
+            return server == ArkanaKeys.Global().subClubDomain
         } else {
             return false
         }

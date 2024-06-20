@@ -103,7 +103,7 @@ class PostCardLinkPreview: UIView {
     private var status: Status?
     public var onPress: PostCardButtonCallback?
     private var isPrivateMention = false
-    private var tipAccount = false
+    private var isTipAccount = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -202,9 +202,9 @@ extension PostCardLinkPreview {
         
         self.status = status
         
-        let shouldChangeTheme = self.isPrivateMention != postCard.isPrivateMention || self.tipAccount != postCard.tipAccount
+        let shouldChangeTheme = self.isPrivateMention != postCard.isPrivateMention || self.isTipAccount != postCard.isTipAccount
         self.isPrivateMention = postCard.isPrivateMention
-        self.tipAccount = postCard.tipAccount
+        self.isTipAccount = postCard.isTipAccount
         
         if let urlString = postCard.formattedCardUrlStr {
             self.urlLabel.text = urlString
@@ -239,7 +239,7 @@ extension PostCardLinkPreview {
     func onThemeChange() {
         self.mainStackView.layer.borderColor = UIColor.custom.outlines.cgColor
         self.urlLabel.textColor = .custom.feintContrast
-        let backgroundColor: UIColor = self.isPrivateMention || self.tipAccount ? .custom.OVRLYSoftContrast : .custom.background
+        let backgroundColor: UIColor = self.isPrivateMention || self.isTipAccount ? .custom.OVRLYSoftContrast : .custom.background
         self.urlLabel.backgroundColor = backgroundColor
         self.titleLabel.backgroundColor = backgroundColor
         self.backgroundColor = backgroundColor

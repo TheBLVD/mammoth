@@ -12,6 +12,7 @@ import Kingfisher
 import Meta
 import MastodonMeta
 import MetaTextKit
+import ArkanaKeys
 
 class UserCardModel {
     let id: String
@@ -67,7 +68,9 @@ class UserCardModel {
         return ModerationManager.shared.blockedUsers.first(where: {$0.remoteFullOriginalAcct == self.uniqueId}) != nil
     }
     
-    let tippable: Bool
+    // if self is tippable.
+    let isTippable: Bool
+    // if a tippable account is detected in metadata.
     let tippableAccount: String?
     
     // deprecated initializer
@@ -118,7 +121,7 @@ class UserCardModel {
         self.fields = account?.fields
         self.fields?.forEach({$0.configureMetaContent(with: emojisDic)})
         self.joinedOn = account?.createdAt?.toDate()
-        self.tippable = instanceName == "social-proxy.com"
+        self.isTippable = instanceName == ArkanaKeys.Global().subClubDomain
         self.tippableAccount = nil
     }
     
@@ -171,12 +174,12 @@ class UserCardModel {
         self.fields = account.fields
         self.fields?.forEach({$0.configureMetaContent(with: emojisDic)})
         self.joinedOn = account.createdAt?.toDate()
-        self.tippable = account.acct.hasSuffix("social-proxy.com")
+        self.isTippable = account.acct.hasSuffix(ArkanaKeys.Global().subClubDomain)
         // detect tippable link in profile fields.
         var acct: String? = nil
         for field in account.fields {
-            if let s = field.value.matchingStrings(regex: "https://social-proxy.com/users/([a-z0-9-_]+)").first?[1] {
-                acct = s + "@social-proxy.com"
+            if let s = field.value.matchingStrings(regex: "https://" + ArkanaKeys.Global().subClubDomain + "/users/([a-z0-9-_]+)").first?[1] {
+                acct = s + "@" + ArkanaKeys.Global().subClubDomain
                 break
             }
         }

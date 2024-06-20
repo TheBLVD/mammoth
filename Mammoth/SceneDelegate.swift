@@ -231,6 +231,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "newInstanceLogged"), object: nil)
         } else if theURL.contains("undo000") {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "undoTapped"), object: self)
+        } else if theURL.contains("social-proxy"), let x = theURL.removingPercentEncoding {
+            print("Response ==> \(x)")
+            let z = x.split(separator: "=")
+            if let y = z.last {
+                // TODO: TEST THIS.
+                let username = String(y)
+                let request = Search.searchOne(query: username, resolve: true)
+                let currentClient = AccountsManager.shared.currentAccountClient
+                currentClient.run(request) { (statuses) in
+                    if let error = statuses.error {
+                        // TODO: ask user to manually follow account.
+                        log.error("error searching for \(username) : \(error)")
+                    }
+                    if let account = (statuses.value)?.accounts.first {
+                        print("following \(username): \(account.id)")
+                        FollowManager.shared.followAccount(account)
+                    } else {
+                        // TODO: ask user to manually follow account.
+                    }
+                }
+            }
         } else {
             print("Response ==> \(theURL)")
             let x = theURL
