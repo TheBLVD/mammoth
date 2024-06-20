@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// swiftlint:disable:next type_body_length
 class AlertsSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIColorPickerViewControllerDelegate {
     
     var tableView = UITableView()

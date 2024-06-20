@@ -11,17 +11,16 @@ import UIKit
 import Vision
 import NaturalLanguage
 
-
 protocol AltTextViewControllerDelegate : AnyObject {
     func didConfirmText(updatedText: String)
 }
-
 
 // This is used for
 //      - editing image ALT text
 //      - creating/editing list names
 //      - creating/editing filter names
 
+// swiftlint:disable:next type_body_length
 class AltTextViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SKPhotoBrowserDelegate, UITextViewDelegate {
 
     let btn0 = UIButton(type: .custom)

@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import SDWebImage
 
+// swiftlint:disable:next type_body_length
 class AppearanceSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIColorPickerViewControllerDelegate {
     
     private enum AppearanceOptions: Int, CaseIterable {

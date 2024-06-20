@@ -19,7 +19,7 @@ import LinkPresentation
 import ActivityKit
 #endif
 
-
+// swiftlint:disable:next type_body_length
 class NewPostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UITextFieldDelegate, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SKPhotoBrowserDelegate, AVPlayerViewControllerDelegate, UIDocumentPickerDelegate, SwiftyGiphyViewControllerDelegate, UIDropInteractionDelegate {
     
     let kButtonSide = 70.0

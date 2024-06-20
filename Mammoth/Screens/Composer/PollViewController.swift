@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// swiftlint:disable:next type_body_length
 class PollViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let btn0 = UIButton(type: .custom)

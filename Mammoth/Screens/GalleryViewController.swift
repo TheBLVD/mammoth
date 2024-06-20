@@ -18,6 +18,7 @@ import NaturalLanguage
 import Photos
 import LinkPresentation
 
+// swiftlint:disable:next type_body_length
 class GalleryViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UICollisionBehaviorDelegate, SKPhotoBrowserDelegate, AVPlayerViewControllerDelegate, UIActivityItemSource {
     
     let emptyView = UIImageView()

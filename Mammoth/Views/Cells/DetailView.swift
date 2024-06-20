@@ -16,6 +16,7 @@ import AVKit
 import LinkPresentation
 import Kingfisher
 
+// swiftlint:disable:next type_body_length
 class DetailView: UIView, SKPhotoBrowserDelegate, UIActivityItemSource, UIContextMenuInteractionDelegate {
     
     var pipView = UIPiPView()

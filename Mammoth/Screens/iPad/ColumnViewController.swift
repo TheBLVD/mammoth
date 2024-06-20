@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// swiftlint:disable:next type_body_length
 class ColumnViewController: UIViewController {
     
     public static var shared = ColumnViewController()

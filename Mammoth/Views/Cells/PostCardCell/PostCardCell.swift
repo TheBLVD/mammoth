@@ -13,6 +13,7 @@ import MetaTextKit
 
 let screenWidth = UIScreen.main.bounds.width
 
+// swiftlint:disable:next type_body_length
 final class PostCardCell: UITableViewCell {
     
     enum PostCardMediaVariant: String, Equatable, CaseIterable {

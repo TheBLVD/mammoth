@@ -54,6 +54,7 @@ protocol PostCellDelegate : AnyObject {
     func notificationForCell(_ cell: UITableViewCell) -> Notificationt?
 }
 
+// swiftlint:disable:next type_body_length
 class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SKPhotoBrowserDelegate, AVPlayerViewControllerDelegate, UIContextMenuInteractionDelegate, UICollectionViewDragDelegate, UIDragInteractionDelegate, UIActivityItemSource {
     
     weak var delegate: PostCellDelegate? = nil

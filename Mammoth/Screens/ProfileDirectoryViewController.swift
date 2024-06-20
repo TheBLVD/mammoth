@@ -13,6 +13,7 @@ import SafariServices
 import AVFoundation
 import MobileCoreServices
 
+// swiftlint:disable:next type_body_length
 class ProfileDirectoryViewController: LiveTableViewController, UITableViewDataSource, UIContextMenuInteractionDelegate, UITableViewDragDelegate {
     
     var currentUserID: String? = nil

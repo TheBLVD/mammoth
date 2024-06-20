@@ -16,6 +16,7 @@ public protocol ActiveLabelDelegate: AnyObject {
 public typealias ConfigureLinkAttribute = (ActiveType, [NSAttributedString.Key : Any], Bool) -> ([NSAttributedString.Key : Any])
 public typealias ElementTuple = (range: NSRange, element: ActiveElement, type: ActiveType)
 
+// swiftlint:disable:next type_body_length
 @IBDesignable open class ActiveLabel: UILabel {
     
     // MARK: - public properties

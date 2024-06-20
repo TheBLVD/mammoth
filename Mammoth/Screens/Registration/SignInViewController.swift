@@ -12,6 +12,7 @@ import AuthenticationServices
 import SafariServices
 import ArkanaKeys
 
+// swiftlint:disable:next type_body_length
 class SignInViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     static var allInstances: [tagInstance] = []
