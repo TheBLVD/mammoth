@@ -363,7 +363,7 @@ extension AccountService {
         repeat {
             computedSize = image.jpegData(compressionQuality: quality)?.count ?? 0
             if computedSize > sizeLimit {
-                quality = quality - 0.1
+                quality -= 0.1
             }
         } while (computedSize > sizeLimit)
         log.debug("Computed image quality of \(quality) for image size \(computedSize)")

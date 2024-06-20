@@ -237,7 +237,7 @@ public extension Disk {
             let justDirectoryPath = try createURL(for: nil, in: directory).absoluteString
             var currentFilePath = currentUrl.absoluteString.replacingOccurrences(of: justDirectoryPath, with: "")
             if isFolder(currentUrl) && currentFilePath.suffix(1) != "/" {
-                currentFilePath = currentFilePath + "/"
+                currentFilePath += "/"
             }
             let currentValidFilePath = try getValidFilePath(from: path)
             let newValidFilePath = try getValidFilePath(from: newPath)

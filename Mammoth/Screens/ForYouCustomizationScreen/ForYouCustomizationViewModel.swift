@@ -110,7 +110,7 @@ extension ForYouCustomizationViewModel {
         case .beta:
             var numRows = 2
             if self.showBetaSignUpRow {
-                numRows = numRows+1
+                numRows += 1
             }
             return numRows
         case .none:
@@ -179,7 +179,7 @@ extension ForYouCustomizationViewModel {
             // three possible rows: sign up (0) / trending (1) / friends of friends (2)
             var index = indexPath.item
             if !showBetaSignUpRow {
-               index = index + 1
+               index += 1
             }
             switch BetaItem(rawValue: index) {
             case .signUpForBeta:
@@ -226,7 +226,7 @@ extension ForYouCustomizationViewModel {
         case .beta:
             var index = indexPath.item
             if !showBetaSignUpRow {
-                index = index + 1
+                index += 1
             }
             switch BetaItem(rawValue: index) {
             case .signUpForBeta:

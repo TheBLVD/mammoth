@@ -57,10 +57,10 @@ public extension Disk {
                 #endif
                 if let data = pngData {
                     imageData = data
-                    imageName = imageName + ".png"
+                    imageName += ".png"
                 } else if let data = jpegData {
                     imageData = data
-                    imageName = imageName + ".jpg"
+                    imageName += ".jpg"
                 } else {
                     throw createError(
                         .serialization,
@@ -117,10 +117,10 @@ public extension Disk {
                 #endif
                 if let data = pngData {
                     imageData = data
-                    imageName = imageName + ".png"
+                    imageName += ".png"
                 } else if let data = jpegData {
                     imageData = data
-                    imageName = imageName + ".jpg"
+                    imageName += ".jpg"
                 } else {
                     throw createError(
                         .serialization,

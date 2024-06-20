@@ -150,10 +150,10 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.options = opts
                 self.tempOptions = self.options
                 if self.tempOptions.count == 2 {
-                    self.tempOptions = self.tempOptions + ["", ""]
+                    self.tempOptions += ["", ""]
                 }
                 if self.tempOptions.count == 3 {
-                    self.tempOptions = self.tempOptions + [""]
+                    self.tempOptions += [""]
                 }
             }
         }

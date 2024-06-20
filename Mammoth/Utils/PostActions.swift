@@ -651,7 +651,7 @@ extension PostActions {
                     let json = try JSONSerialization.jsonObject(with: usableData, options: .mutableContainers) as! [Any]
                     var translatedText = ""
                     for i in (json[0] as! [Any]) {
-                        translatedText = translatedText + ((i as! [Any])[0] as? String ?? "")
+                        translatedText += ((i as! [Any])[0] as? String ?? "")
                     }
                     translatedText = translatedText.removingUrls()
                     if translatedText == "" {
@@ -1030,7 +1030,7 @@ extension PostActions {
                     let json = try JSONSerialization.jsonObject(with: usableData, options: .mutableContainers) as! [Any]
                     var translatedText = ""
                     for i in (json[0] as! [Any]) {
-                        translatedText = translatedText + ((i as! [Any])[0] as? String ?? "")
+                        translatedText += ((i as! [Any])[0] as? String ?? "")
                     }
                     translatedText = translatedText.removingUrls()
                     if translatedText == "" {

@@ -512,7 +512,7 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
                         let json = try JSONSerialization.jsonObject(with: usableData, options: .mutableContainers) as! [Any]
                         var translatedText = ""
                         for i in (json[0] as! [Any]) {
-                            translatedText = translatedText + ((i as! [Any])[0] as? String ?? "")
+                            translatedText += ((i as! [Any])[0] as? String ?? "")
                         }
                         if translatedText == "" {
                             translatedText = "No text to translate."
