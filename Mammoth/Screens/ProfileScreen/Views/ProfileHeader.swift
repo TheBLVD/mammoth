@@ -536,6 +536,7 @@ extension ProfileHeader {
         self.userTagLabel.textColor = .custom.softContrast
         self.followButton.setTitleColor(.custom.highContrast, for: .normal)
         self.followButton.layer.borderColor = UIColor.custom.outlines.cgColor
+        self.tipButton.layer.borderColor = UIColor.custom.outlines.cgColor
         self.followersButton.setTitleColor(.custom.softContrast, for: .normal)
         self.statsLabel.textColor = .custom.softContrast
         
@@ -618,14 +619,14 @@ extension ProfileHeader {
     
     @objc func subscribeTapped() {
         triggerHapticImpact(style: .light)
-        if let user = user {
+        if let user = user, let currentAccount = AccountsManager.shared.currentAccount?.fullAcct {
             switch user.isTippable {
             case true:
-                if let url = URL(string: "https://" + ArkanaKeys.Global().subClubDomain + "/@\(user.username)/subscribe?callback=mammoth://social-proxy=\(user.username)&amount=500&currency=USD") {
+                if let username = user.username.split(separator: "@").first, let url = URL(string: "https://" + ArkanaKeys.Global().subClubDomain + "/@\(user.username)/subscribe?callback=mammoth://subclub=\(user.username)&id=\(currentAccount)&amount=500&currency=USD") {
                     PostActions.openLink(url)
                 }
             case false:
-                if let username = user.tippableAccount, let url = URL(string: "https://" + ArkanaKeys.Global().subClubDomain + "/@\(username)/subscribe?callback=mammoth://social-proxy=\(username)&amount=500&currency=USD") {
+                if let username = user.tippableAccount?.split(separator: "@").first, let url = URL(string: "https://" + ArkanaKeys.Global().subClubDomain + "/@\(username)/subscribe?callback=mammoth://subclub=\(username)&\(currentAccount)&amount=500&currency=USD") {
                     PostActions.openLink(url)
                 }
             }
