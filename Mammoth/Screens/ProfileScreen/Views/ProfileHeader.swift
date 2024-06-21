@@ -622,11 +622,11 @@ extension ProfileHeader {
         if let user = user, let currentAccount = AccountsManager.shared.currentAccount?.fullAcct {
             switch user.isTippable {
             case true:
-                if let username = user.username.split(separator: "@").first, let url = URL(string: "https://" + ArkanaKeys.Global().subClubDomain + "/@\(user.username)/subscribe?callback=mammoth://subclub=\(user.username)&id=\(currentAccount)&amount=500&currency=USD") {
+                if let username = user.username.split(separator: "@").first, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(user.username)/subscribe?callback=mammoth://subclub=\(user.username)@&id=\(currentAccount)&amount=500&currency=USD") {
                     PostActions.openLink(url)
                 }
             case false:
-                if let username = user.tippableAccount?.split(separator: "@").first, let url = URL(string: "https://" + ArkanaKeys.Global().subClubDomain + "/@\(username)/subscribe?callback=mammoth://subclub=\(username)&\(currentAccount)&amount=500&currency=USD") {
+                if let username = user.tippableAccount, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(username)/subscribe?callback=mammoth://subclub=\(username)&id=\(currentAccount)&amount=500&currency=USD") {
                     PostActions.openLink(url)
                 }
             }
