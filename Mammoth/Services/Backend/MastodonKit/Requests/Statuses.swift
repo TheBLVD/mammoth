@@ -108,7 +108,7 @@ public struct Statuses {
                     Parameter(name: "poll[multiple]", value: (poll[2] as? Bool).flatMap(trueOrNil)),
                     Parameter(name: "poll[hide_totals]", value: (poll[3] as? Bool).flatMap(trueOrNil))
                     ] + (poll[0] as! [String]).map(toArrayOfParameters(withName: "poll[options]"))
-                parameters = parameters + newParams
+                parameters += newParams
             }
         }
 
@@ -137,7 +137,7 @@ public struct Statuses {
                     Parameter(name: "media_attributes[][id]", value: mediaAttributes[0]),
                     Parameter(name: "media_attributes[][description]", value: mediaAttributes[1]),
                 ]
-                parameters = parameters + newParams
+                parameters += newParams
             }
         }
         
@@ -150,7 +150,7 @@ public struct Statuses {
                     Parameter(name: "poll[multiple]", value: (poll[2] as? Bool).flatMap(trueOrNil)),
                     Parameter(name: "poll[hide_totals]", value: (poll[3] as? Bool).flatMap(trueOrNil))
                     ] + (poll[0] as! [String]).map(toArrayOfParameters(withName: "poll[options]"))
-                parameters = parameters + newParams
+                parameters += newParams
             }
         }
 

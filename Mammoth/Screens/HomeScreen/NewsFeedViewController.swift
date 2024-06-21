@@ -16,6 +16,7 @@ protocol NewsFeedViewControllerDelegate: AnyObject {
     func isActiveFeed(_ type: NewsFeedTypes) -> Bool
 }
 
+// swiftlint:disable:next type_body_length
 class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSourcePrefetching {
     
     private lazy var tableView: UITableView = {

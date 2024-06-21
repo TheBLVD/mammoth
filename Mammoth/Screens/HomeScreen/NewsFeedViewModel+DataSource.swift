@@ -14,6 +14,7 @@ internal enum NewsFeedSections {
     case empty
 }
 
+// swiftlint:disable:next type_body_length
 internal struct NewsFeedListData {
     var forYou: [NewsFeedListItem]?
     var following: [NewsFeedListItem]?

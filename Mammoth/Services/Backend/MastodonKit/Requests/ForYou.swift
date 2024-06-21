@@ -137,7 +137,7 @@ extension Timelines {
              rangeParameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
          }
 
-         parameters = parameters + rangeParameters
+         parameters += rangeParameters
          let method = HTTPMethod.get(.parameters(parameters))
 
          return Request<[Status]>(path: "/api/v4/timelines/for_you", method: method)

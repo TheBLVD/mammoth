@@ -3203,6 +3203,7 @@
 				533993DC29141F4600560F83 /* Frameworks */,
 				533993DD29141F4600560F83 /* Resources */,
 				53B1584F293F623F0026E90B /* Embed Foundation Extensions */,
+				EBE9F3B12C2465AB00F653C4 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -3616,6 +3617,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EBE9F3B12C2465AB00F653C4 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		532567F82976FA3A004E7636 /* Sources */ = {
@@ -4496,6 +4519,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 468;
 				DEVELOPMENT_TEAM = W44P88K5SB;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mammoth;
@@ -4544,6 +4568,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 468;
 				DEVELOPMENT_TEAM = W44P88K5SB;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Mammoth/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Mammoth;

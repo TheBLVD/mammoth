@@ -15,6 +15,7 @@ import Photos
 import NaturalLanguage
 import LinkPresentation
 
+// swiftlint:disable:next type_body_length
 class DetailImageView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SKPhotoBrowserDelegate, AVPlayerViewControllerDelegate, UICollectionViewDragDelegate, UIActivityItemSource {
     
     var collectionView1: UICollectionView!

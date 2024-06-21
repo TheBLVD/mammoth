@@ -18,6 +18,7 @@ import SDWebImage
 import MessageKit
 import InputBarAccessoryView
 
+// swiftlint:disable:next type_body_length
 class ChatMessagesViewController: MessagesViewController, MessagesDataSource, MessagesLayoutDelegate, MessagesDisplayDelegate, MessageCellDelegate, MessageLabelDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, AVPlayerViewControllerDelegate, SKPhotoBrowserDelegate, UIDocumentPickerDelegate, UITextFieldDelegate, PHPickerViewControllerDelegate {
     
     var currentSender: MessageKit.SenderType = MockUser(senderId: "1", displayName: "\(AccountsManager.shared.currentUser()?.id ?? "")")

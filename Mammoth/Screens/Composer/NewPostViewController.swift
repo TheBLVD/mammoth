@@ -19,7 +19,7 @@ import LinkPresentation
 import ActivityKit
 #endif
 
-
+// swiftlint:disable:next type_body_length
 class NewPostViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UITextFieldDelegate, PHPickerViewControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, SKPhotoBrowserDelegate, AVPlayerViewControllerDelegate, UIDocumentPickerDelegate, SwiftyGiphyViewControllerDelegate, UIDropInteractionDelegate {
     
     let kButtonSide = 70.0
@@ -1651,7 +1651,6 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         
-        
         // Only allow a single video, or multiple images;
         // note that the 'if / else' structure here mirrors
         // the code below.
@@ -1659,13 +1658,13 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         var imageCount = 0
         for result in results {
             if result.itemProvider.hasItemConformingToTypeIdentifier(kUTTypeGIF as String) {
-                videoCount = videoCount + 1
+                videoCount += 1
             } else {
                 if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
-                    imageCount = imageCount + 1
+                    imageCount += 1
                 }
                 if result.itemProvider.hasItemConformingToTypeIdentifier(UTType.movie.identifier) {
-                    videoCount = videoCount + 1
+                    videoCount += 1
                 }
             }
         }
@@ -3754,7 +3753,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 threadSuffix = ""
                 log.error("Unexpected threading style")
             }
-            postPieces[index] = postPieces[index] + threadSuffix
+            postPieces[index] += threadSuffix
         }
         return postPieces
     }

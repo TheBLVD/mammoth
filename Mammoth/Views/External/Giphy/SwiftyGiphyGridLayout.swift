@@ -92,7 +92,7 @@ public class SwiftyGiphyGridLayout: UICollectionViewLayout {
                 cellAttributeCache.append(attributes)
                 
                 contentHeight = max(contentHeight, frame.maxY)
-                yOffset[column] = yOffset[column] + height
+                yOffset[column] += height
                 
                 var columnWithLeastHeight = 0
                 

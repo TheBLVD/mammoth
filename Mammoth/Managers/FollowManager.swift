@@ -18,7 +18,6 @@ import Foundation
 //          (can't use currentUser.id as that could be the same # for two accounts
 //          on two different servers)
 
-
 /// Called when the status of a Follow relationship changes.
 /// userInfo dictionary:
 /// - "localID": The local ID of the 'other person' (OPTIONAL)
@@ -30,7 +29,7 @@ import Foundation
 /// - "followedByStatus" - FollowStatus of the updated relationship to the current Account
 public let didChangeFollowStatusNotification = Notification.Name("didChangeFollowStatusNotification")
 
-
+// swiftlint:disable:next type_body_length
 class FollowManager {
 
     static let shared = FollowManager()

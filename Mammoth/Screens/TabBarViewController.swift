@@ -14,6 +14,7 @@ import AVKit
 import ActivityKit
 #endif
 
+// swiftlint:disable:next type_body_length
 class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, UIDropInteractionDelegate, ASWebAuthenticationPresentationContextProviding, ShareableViewController {
     
     let undoButton = UIButton()

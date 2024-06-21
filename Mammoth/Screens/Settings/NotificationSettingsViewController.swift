@@ -61,7 +61,7 @@ func DisablePushNotificationsSetting(completionHandler: @escaping () -> Void) {
     }
 }
 
-
+// swiftlint:disable:next type_body_length
 class NotificationSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var tableView = UITableView()

@@ -19,6 +19,7 @@ internal struct NewsFeedUnreadState {
     var showJumpToNow: Bool = false
 }
 
+// swiftlint:disable:next type_body_length
 internal struct NewsFeedUnreadStates {
     var forYou = NewsFeedUnreadState()
     var following = NewsFeedUnreadState()

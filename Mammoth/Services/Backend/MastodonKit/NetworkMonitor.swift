@@ -83,7 +83,7 @@ final class NetworkMonitor {
             self.updateStateFromResponse(httpURLResponse)
             
             // Check for approaching rate limit once every 10 network calls
-            self.rateLimitCheckCounter = self.rateLimitCheckCounter + 1
+            self.rateLimitCheckCounter += 1
             if (self.rateLimitCheckCounter % 10) == 0 {
                 self.checkRemainingRateLimitFromResponse(httpURLResponse)
             }

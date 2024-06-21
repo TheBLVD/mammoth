@@ -40,7 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
         if application.applicationState == .inactive || application.applicationState == .background {
-            UIApplication.shared.applicationIconBadgeNumber = UIApplication.shared.applicationIconBadgeNumber + 1
+            UIApplication.shared.applicationIconBadgeNumber += 1
             NotificationCenter.default.post(name: Notification.Name(rawValue: "fetchFromNotif"), object: self)
         }
         completionHandler(.noData)

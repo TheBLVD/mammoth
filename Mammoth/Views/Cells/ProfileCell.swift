@@ -58,7 +58,7 @@ class SpinnerButton: UIButton {
     
 }
 
-
+// swiftlint:disable:next type_body_length
 class ProfileCell: UITableViewCell, SKPhotoBrowserDelegate {
     
     enum FollowButtonState {

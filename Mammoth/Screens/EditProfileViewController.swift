@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// swiftlint:disable:next type_body_length
 class EditProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UITextViewDelegate {
     
     let btn1 = UIButton(type: .custom)

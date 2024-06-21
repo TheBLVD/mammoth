@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import MobileCoreServices
 
+// swiftlint:disable:next type_body_length
 class ScheduledPostsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let btn0 = UIButton(type: .custom)

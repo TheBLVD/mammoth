@@ -193,7 +193,7 @@ private extension PostCardPoll {
             mVote = "\(diff) minute"
         }
         if diff > 60 {
-            diff = diff/60
+            diff /= 60
             mVote = "\(diff) hours"
             if diff == 1 {
                 mVote = "\(diff) hour"
@@ -201,25 +201,25 @@ private extension PostCardPoll {
         } else if diff < 0 {
             tText = "ended"
             tText2 = "ago"
-            diff = diff * -1
+            diff *= -1
             mVote = "\(diff) minutes"
             if diff == 1 {
                 mVote = "\(diff) minute"
             }
             if diff > 60 {
-                diff = diff/60
+                diff /= 60
                 mVote = "\(diff) hours"
                 if diff == 1 {
                     mVote = "\(diff) hour"
                 }
                 if diff > 24 {
-                    diff = diff/24
+                    diff /= 24
                     mVote = "\(diff) days"
                     if diff == 1 {
                         mVote = "\(diff) day"
                     }
                     if diff > 30 {
-                        diff = diff/30
+                        diff /= 30
                         mVote = "\(diff) months"
                         if diff == 1 {
                             mVote = "\(diff) month"

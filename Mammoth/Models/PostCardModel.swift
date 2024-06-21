@@ -15,6 +15,7 @@ import MastodonMeta
 import MetaTextKit
 import UnifiedBlurHash
 
+// swiftlint:disable:next type_body_length
 final class PostCardModel {
     
     public static let imageDecodeQueue = DispatchQueue(label: "Decode images queue", qos: .default)
