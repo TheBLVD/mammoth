@@ -633,6 +633,8 @@ extension NewsFeedViewController {
                         let pics = self.viewModel.getUnreadPics(forFeed: self.viewModel.type)
                         self.latestPill.configure(unreadCount: count, picUrls: pics)
                     }
+#warning("Bill - Send our sync id here for type")
+                    CloudSyncManager.sharedManager.saveSyncStatus(for: self.viewModel.type, uniqueId: item.uniqueId())
                 } else {
                     self.unreadIndicator.isEnabled = true
                     self.unreadIndicator.configure(unreadCount: count)
