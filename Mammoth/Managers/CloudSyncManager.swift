@@ -24,6 +24,7 @@ struct CloudSyncConstants {
 class CloudSyncManager {
     static let sharedManager = CloudSyncManager()
     private var syncDebouncer: Timer?
+    private var cloudStore = NSUbiquitousKeyValueStore.default
 
     init() {
         // monitor for changes to cloud sync data
@@ -47,10 +48,9 @@ class CloudSyncManager {
         let (itemKey, dateKey) = keys(for: type)
         guard !itemKey.isEmpty, !dateKey.isEmpty else { return }
 
-        let store = NSUbiquitousKeyValueStore.default
-        store.set(uniqueId, forKey: itemKey)
-        store.set(Date(), forKey: dateKey)
-        store.synchronize()
+        cloudStore.set(uniqueId, forKey: itemKey)
+        cloudStore.set(Date(), forKey: dateKey)
+        cloudStore.synchronize()
     }
 
     private func keys(for type: NewsFeedTypes) -> (itemKey: String, dateKey: String) {
