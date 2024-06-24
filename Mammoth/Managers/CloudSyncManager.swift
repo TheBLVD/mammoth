@@ -49,7 +49,7 @@ class CloudSyncManager {
 
         let store = NSUbiquitousKeyValueStore.default
         store.set(uniqueId, forKey: itemKey)
-        store.set(Date().timeIntervalSince1970, forKey: dateKey)
+        store.set(Date(), forKey: dateKey)
         store.synchronize()
     }
 
