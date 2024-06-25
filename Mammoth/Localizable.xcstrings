@@ -57218,6 +57218,17 @@
         }
       }
     },
+    "profile.subscribed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribed"
+          }
+        }
+      }
+    },
     "profile.subscription" : {
       "localizations" : {
         "en" : {

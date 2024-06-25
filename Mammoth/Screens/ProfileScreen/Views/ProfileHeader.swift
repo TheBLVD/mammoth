@@ -283,8 +283,8 @@ private extension ProfileHeader {
         
         mainStackView.addArrangedSubview(contentStackView)
         contentStackView.addArrangedSubview(buttonStackView)
-        buttonStackView.addArrangedSubview(followButton)
         buttonStackView.addArrangedSubview(tipButton)
+        buttonStackView.addArrangedSubview(followButton)
         
         contentStackView.addArrangedSubview(statsStack)
         
@@ -428,20 +428,29 @@ extension ProfileHeader {
             }
         }
         
-        // add subscribe button if:
-        // 1. user is a tippable account and isn't already subcribed to.
-        // 2. user has a tippable account linked.
-        // not add button on own account.
-        if ((user.isTippable && user.followStatus != .following) || user.tippableAccount?.isFollowed == false) && !user.isSelf {
+        // configure subscribe button. the self check is separate to prevent
+        if !user.isSelf && user.isTippable {
             tipButton.isHidden = false
             tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+            // user is subscribed:
+            if user.followStatus == .following {
+                followButton.isHidden = true
+                tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
+            }
+        } else if !user.isSelf && user.tippableAccount != nil {
+            tipButton.isHidden = false
+            tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+            // user is subscribed:
+            if user.tippableAccount?.isFollowed == true {
+                tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
+            }
         }
         
-        let joined_on = user.joinedOn?.toString(dateStyle: .short, timeStyle: .none) ?? ""
+        let joinedOn = user.joinedOn?.toString(dateStyle: .short, timeStyle: .none) ?? ""
         if UIScreen.main.bounds.width < 380 {
-            self.statsLabel.text = String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joined_on)
+            self.statsLabel.text = String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joinedOn)
         } else {
-            self.statsLabel.text = " - " + String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joined_on)
+            self.statsLabel.text = " - " + String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joinedOn)
         }
         
         self.followersButton.setTitle(String.localizedStringWithFormat(user.followersCount == "1" ? NSLocalizedString("profile.followers.singular", comment: "") : NSLocalizedString("profile.followers.plural", comment: ""), user.followersCount), for: .normal)
@@ -622,11 +631,17 @@ extension ProfileHeader {
         if let user = user, let currentAccount = AccountsManager.shared.currentAccount?.fullAcct {
             switch user.isTippable {
             case true:
-                if let username = user.username.split(separator: "@").first, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(user.username)/subscribe?callback=mammoth://subclub=\(user.username)@&id=\(currentAccount)&amount=500&currency=USD") {
+                if let username = user.username.split(separator: "@").first, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(user.username)/subscribe?callback=mammoth://subclub&id=\(currentAccount)&amount=500&currency=USD") {
+                    if let acct = user.account {
+                        FollowManager.shared.followAccount(acct)
+                    }
                     PostActions.openLink(url)
                 }
             case false:
-                if let username = user.tippableAccount, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(username)/subscribe?callback=mammoth://subclub=\(username)&id=\(currentAccount)&amount=500&currency=USD") {
+                if let tippableAcct = user.tippableAccount, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tippableAcct.accountname)/subscribe?callback=mammoth://subclub&id=\(currentAccount)&amount=500&currency=USD") {
+                    if let acct = tippableAcct.acct {
+                        FollowManager.shared.followAccount(acct)
+                    }
                     PostActions.openLink(url)
                 }
             }
