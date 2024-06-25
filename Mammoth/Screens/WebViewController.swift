@@ -3,7 +3,7 @@
 //  Mammoth
 //
 //  Created by Benoit Nolens on 30/11/2023.
-//
+//  
 
 import UIKit
 import WebKit
@@ -64,7 +64,11 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let url = navigationAction.request.url, let scheme = url.scheme?.lowercased() {
             if scheme != "https" && scheme != "http" {
-                if UIApplication.shared.canOpenURL(url){
+                if url.absoluteString == "mammoth://subclub" {
+                    self.dismiss(animated: true)
+                    return
+                }
+                if UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url)
                 }
             }

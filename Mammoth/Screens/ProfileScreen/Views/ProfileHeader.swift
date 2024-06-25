@@ -635,14 +635,20 @@ extension ProfileHeader {
                     if let acct = user.account {
                         FollowManager.shared.followAccount(acct)
                     }
-                    PostActions.openLink(url)
+                    let vc = WebViewController(url: url.absoluteString)
+                    if let presentingVC = getTopMostViewController() {
+                        presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
+                    }
                 }
             case false:
                 if let tippableAcct = user.tippableAccount, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tippableAcct.accountname)/subscribe?callback=mammoth://subclub&id=\(currentAccount)&amount=500&currency=USD") {
                     if let acct = tippableAcct.acct {
                         FollowManager.shared.followAccount(acct)
                     }
-                    PostActions.openLink(url)
+                    let vc = WebViewController(url: url.absoluteString)
+                    if let presentingVC = getTopMostViewController() {
+                        presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
+                    }
                 }
             }
         }
