@@ -432,7 +432,7 @@ extension ProfileHeader {
         // 1. user is a tippable account and isn't already subcribed to.
         // 2. user has a tippable account linked.
         // not add button on own account.
-        if ((user.isTippable && user.followStatus != .following) || user.tippableAccount != nil) && !user.isSelf {
+        if ((user.isTippable && user.followStatus != .following) || user.tippableAccount?.isFollowed == false) && !user.isSelf {
             tipButton.isHidden = false
             tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
         }

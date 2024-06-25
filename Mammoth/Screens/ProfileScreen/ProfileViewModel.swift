@@ -311,7 +311,7 @@ extension ProfileViewModel {
             case .postsAndReplies:
                 return try await AccountService.profilePostsAndReplies(user: user, range: range, serverName: user.instanceName)
             case .subscription:
-                if let s = user.tippableAccount, let acct = try await SearchService.searchAccounts(query: s).first {
+                if let acct = user.tippableAccount?.acct {
                     let user = UserCardModel(account: acct)
                     return try await AccountService.profilePosts(user: user, range: range)
                 } else {
@@ -346,7 +346,7 @@ extension ProfileViewModel {
                 }
                 return result
             case .subscription:
-                if let s = user.tippableAccount, let acct = try await SearchService.searchAccounts(query: s).first {
+                if let acct = user.tippableAccount?.acct {
                     let user = UserCardModel(account: acct)
                     return try await AccountService.profilePosts(user: user, range: range)
                 } else {

@@ -71,7 +71,13 @@ class UserCardModel {
     // if self is tippable.
     let isTippable: Bool
     // if a tippable account is detected in metadata.
-    let tippableAccount: String?
+    struct TippableAccount {
+        var accountname: String
+        var acct: Account?
+        var isFollowed: Bool?
+    }
+    var tippableAccount: TippableAccount?
+    
     
     // deprecated initializer
     init(name: String, userTag: String, imageURL: String?, description: String?, isFollowing: Bool, emojis: [Emoji]?, account: Account?) {
@@ -183,7 +189,25 @@ class UserCardModel {
                 break
             }
         }
-        self.tippableAccount = acct
+        if let acct = acct {
+            self.tippableAccount = TippableAccount(accountname: acct)
+        }
+        // use this to sync acct from tippable profile. is this expensive?
+        if let acct = self.tippableAccount {
+            let currentClient = AccountsManager.shared.currentAccountClient
+            let request = Search.search(query: acct.accountname, resolve: true)
+            currentClient.run(request) { (statuses) in
+                if let error = statuses.error {
+                    log.error("error searching for \(account.acct) : \(error)")
+                }
+                if let account = (statuses.value?.accounts.first) {
+                    DispatchQueue.main.async {
+                        self.tippableAccount?.acct = account
+                        self.tippableAccount?.isFollowed = FollowManager.shared.followStatusForAccount(account, requestUpdate: .whenUncertain) == .following
+                    }
+                }
+            }
+        }
     }
     
     // Return an instance without description
