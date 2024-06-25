@@ -628,10 +628,18 @@ extension ProfileHeader {
     
     @objc func subscribeTapped() {
         triggerHapticImpact(style: .light)
+        
         if let user = user, let currentAccount = AccountsManager.shared.currentAccount?.fullAcct {
+            // get user theme.
+            var theme = "light"
+            if GlobalStruct.overrideTheme == 1 || self.traitCollection.userInterfaceStyle == .light {
+                theme = "light"
+            } else if GlobalStruct.overrideTheme == 2 || self.traitCollection.userInterfaceStyle == .dark  {
+                theme = "dark"
+            }
             switch user.isTippable {
             case true:
-                if let username = user.username.split(separator: "@").first, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(user.username)/subscribe?callback=mammoth://subclub&id=\(currentAccount)&amount=500&currency=USD") {
+                if let username = user.username.split(separator: "@").first, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(username)/subscribe?callback=mammoth://subclub&id=\(currentAccount)&theme=\(theme)&amount=500&currency=USD") {
                     if let acct = user.account {
                         FollowManager.shared.followAccount(acct)
                     }
@@ -641,7 +649,7 @@ extension ProfileHeader {
                     }
                 }
             case false:
-                if let tippableAcct = user.tippableAccount, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tippableAcct.accountname)/subscribe?callback=mammoth://subclub&id=\(currentAccount)&amount=500&currency=USD") {
+                if let tippableAcct = user.tippableAccount, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tippableAcct.accountname)/subscribe?callback=mammoth://subclub&id=\(currentAccount)&theme=\(theme)&amount=500&currency=USD") {
                     if let acct = tippableAcct.acct {
                         FollowManager.shared.followAccount(acct)
                     }
