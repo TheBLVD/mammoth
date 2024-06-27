@@ -189,6 +189,14 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
     @objc func hideNewContent2() {
         self.newContent2.alpha = 0
     }
+
+    @objc func showNewPostButton() {
+        self.view.bringSubviewToFront(self.newPostButton)
+    }
+
+    @objc func hideNewPostButton() {
+        self.view.sendSubviewToBack(self.newPostButton)
+    }
     
     @objc func showComposer() {
         // show composer
@@ -249,6 +257,8 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
         NotificationCenter.default.addObserver(self, selector: #selector(self.hideNewContent1), name: NSNotification.Name(rawValue: "hideNewContent1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showNewContent2), name: NSNotification.Name(rawValue: "showNewContent2"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.hideNewContent2), name: NSNotification.Name(rawValue: "hideNewContent2"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showNewPostButton), name: NSNotification.Name(rawValue: "showNewPostButton"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.hideNewPostButton), name: NSNotification.Name(rawValue: "hideNewPostButton"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.fetchPost0), name: NSNotification.Name(rawValue: "fetchPost"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.fetchUser0), name: NSNotification.Name(rawValue: "fetchUser"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.restoreFromDrafts2), name: NSNotification.Name(rawValue: "restoreFromDrafts2"), object: nil)
