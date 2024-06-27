@@ -29,6 +29,7 @@ public enum SettingsItem {
     case openSourceCredits
     
     case openLinks
+    case readerView
     case development
     
     case analytics
@@ -52,6 +53,7 @@ public enum SettingsItem {
         case .subscriptions: return NSLocalizedString("settings.manageSubscriptions", comment: "")
         case .openSourceCredits: return NSLocalizedString("settings.about", comment: "")
         case .openLinks: return NSLocalizedString("settings.openLinks", comment: "")
+        case .readerView: return NSLocalizedString("settings.readerView", comment: "")
         case .appLock: return NSLocalizedString("settings.appLock", comment: "")
         case .development: return NSLocalizedString("settings.development", comment: "")
         case .analytics: return NSLocalizedString("settings.analytics", comment: "")
@@ -74,6 +76,7 @@ public enum SettingsItem {
         case .subscriptions: return "\u{f336}"
         case .openSourceCredits: return "\u{f15c}"
         case .openLinks: return "\u{f08e}"
+        case .readerView: return "\u{e1d8}"
         case .appLock: return "\u{f023}"
         case .development: return "\u{f121}"
         case .analytics: return "\u{f681}"

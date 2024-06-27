@@ -37,6 +37,7 @@ class SettingsViewController: UIViewController {
                 ].compactMap{$0}),
                 SettingsSection(items: [
                     .openLinks,
+                    .readerView,
                     .appLock
                 ]),
                 SettingsSection(items: [
@@ -66,6 +67,7 @@ class SettingsViewController: UIViewController {
                 ].compactMap{$0}),
                 SettingsSection(items: [
                     .openLinks,
+                    .readerView,
                     .appLock
                 ]),
                 SettingsSection(items: [
@@ -214,6 +216,16 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    @objc func switchReaderView(_ sender: UISwitch) {
+        if sender.isOn {
+            GlobalStruct.openLinksInReaderView = true
+            UserDefaults.standard.set(true, forKey: "openLinksInReaderView")
+        } else {
+            GlobalStruct.openLinksInReaderView = false
+            UserDefaults.standard.set(false, forKey: "openLinksInReaderView")
+        }
+    }
+    
     @objc func switchAppLock(_ sender: UISwitch) {
         if sender.isOn {
             GlobalStruct.appLock = true
@@ -281,6 +293,24 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             switchView.onTintColor = .custom.gold
 
             switchView.addTarget(self, action: #selector(switchOpenLinks), for: .valueChanged)
+            cell.accessoryView = switchView
+            cell.accessoryType = .none
+            cell.selectionStyle = .none
+            cell.textLabel?.textAlignment = .left
+        } else if item == .readerView {
+            let switchView = UISwitch(frame: .zero)
+            if UserDefaults.standard.value(forKey: "openLinksInReaderView") as? Bool != nil {
+                if UserDefaults.standard.value(forKey: "openLinksInReaderView") as? Bool == false {
+                    switchView.setOn(false, animated: false)
+                } else {
+                    switchView.setOn(true, animated: false)
+                }
+            } else {
+                switchView.setOn(false, animated: false)
+            }
+            switchView.onTintColor = .custom.gold
+
+            switchView.addTarget(self, action: #selector(switchReaderView), for: .valueChanged)
             cell.accessoryView = switchView
             cell.accessoryType = .none
             cell.selectionStyle = .none

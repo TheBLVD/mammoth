@@ -910,6 +910,7 @@ extension PostActions {
                 GlobalStruct.canLoadLink = true
             } else {
                 let config = SFSafariViewController.Configuration()
+                config.entersReaderIfAvailable = GlobalStruct.openLinksInReaderView
                 let vc = SFSafariViewController(url: urlToOpen, configuration: config)
                 getTopMostViewController()?.present(vc, animated: true)
                 GlobalStruct.canLoadLink = true
