@@ -643,7 +643,7 @@ extension ProfileHeader {
                     if let acct = user.account {
                         FollowManager.shared.followAccount(acct)
                     }
-                    let vc = WebViewController(url: url.absoluteString)
+                    let vc = WebViewController(url: url.absoluteString, user)
                     if let presentingVC = getTopMostViewController() {
                         presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
                     }
@@ -652,10 +652,11 @@ extension ProfileHeader {
                 if let tippableAcct = user.tippableAccount, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tippableAcct.accountname)/subscribe?callback=mammoth://subclub&id=\(currentAccount)&theme=\(theme)&amount=500&currency=USD") {
                     if let acct = tippableAcct.acct {
                         FollowManager.shared.followAccount(acct)
-                    }
-                    let vc = WebViewController(url: url.absoluteString)
-                    if let presentingVC = getTopMostViewController() {
-                        presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
+                        let userModel = UserCardModel(account: acct)
+                        let vc = WebViewController(url: url.absoluteString, userModel)
+                        if let presentingVC = getTopMostViewController() {
+                            presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
+                        }
                     }
                 }
             }

@@ -11,9 +11,12 @@ import WebKit
 class WebViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     let urlString: String
+    // user to refresh after closing webview.
+    let user: UserCardModel?
     
-    init(url: String) {
+    init(url: String, _ user: UserCardModel? = nil) {
         urlString = url
+        self.user = user
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -66,7 +69,9 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             if scheme != "https" && scheme != "http" {
                 if url.absoluteString == "mammoth://subclub" {
                     self.dismiss(animated: true)
-                    return
+                    if let user = self.user {
+                        user.syncFollowStatus(.force)
+                    }
                 }
                 if UIApplication.shared.canOpenURL(url) {
                     UIApplication.shared.open(url)
