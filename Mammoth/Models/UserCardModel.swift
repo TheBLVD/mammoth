@@ -195,7 +195,7 @@ class UserCardModel {
         // use this to sync acct from tippable profile. is this expensive?
         if let acct = self.tippableAccount {
             let currentClient = AccountsManager.shared.currentAccountClient
-            let request = Search.search(query: acct.accountname, resolve: true)
+            let request = Search.search(query: acct.accountname + "@" + ArkanaKeys.Global().subClubDomain, resolve: true)
             currentClient.run(request) { (statuses) in
                 if let error = statuses.error {
                     log.error("error searching for \(account.acct) : \(error)")
