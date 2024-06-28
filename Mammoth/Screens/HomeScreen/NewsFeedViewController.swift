@@ -145,6 +145,10 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                                                selector: #selector(self.didSwitchAccount),
                                                name: didSwitchCurrentAccountNotification,
                                                object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.cloudPositionDidChange),
+                                               name: NSNotification.Name(rawValue: CloudSyncConstants.Keys.kCloudSyncFeedDidChange),
+                                               object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -466,7 +470,11 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
             self.viewModel.pollingReachedTop = false
         }
     }
-    
+
+    @objc func cloudPositionDidChange(notification: Notification) {
+        print("NewsFeedViewController - cloudPositionDidChange")
+    }
+
     override func didReceiveMemoryWarning() {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         self.viewModel.cleanUpMemoryOfCurrentFeed()
@@ -637,7 +645,9 @@ extension NewsFeedViewController {
                     self.unreadIndicator.isEnabled = true
                     self.unreadIndicator.configure(unreadCount: count)
 
-                    CloudSyncManager.sharedManager.saveSyncStatus(for: self.viewModel.type, uniqueId: item.uniqueId())
+                    if case .postCard(let postCardModel) = item {
+                        CloudSyncManager.sharedManager.saveSyncStatus(for: self.viewModel.type, uniqueId: postCardModel.id!)
+                    }
                 }
             }
         }
@@ -860,7 +870,7 @@ extension NewsFeedViewController {
 
 // MARK: NewsFeedViewModelDelegate
 extension NewsFeedViewController: NewsFeedViewModelDelegate {
-
+#warning ("Bill - Likely need to call this method on changes to cloud data")
     func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot,
                            feedType: NewsFeedTypes,
                            updateType: NewsFeedSnapshotUpdateType,

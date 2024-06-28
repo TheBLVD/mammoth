@@ -1155,6 +1155,10 @@ extension NewsFeedViewModel {
     
     // Last item id in the feed
     func oldestItemId(forType type: NewsFeedTypes) -> String? {
+        if let cloudId = CloudSyncManager.sharedManager.cloudSavedPostId(for: type) {
+            return cloudId
+        }
+
         guard let _ = self.snapshot.indexOfSection(.main) else { return nil }
         
         if self.cursorId != nil {

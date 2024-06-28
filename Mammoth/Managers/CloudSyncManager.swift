@@ -18,6 +18,8 @@ struct CloudSyncConstants {
         static let kLastMentionsInSyncId = "com.theblvd.mammoth.icloud.mentionsIn.syncid"
         static let kLastMentionsOutSyncDate = "com.theblvd.mammoth.icloud.mentionsOut.lastsync"
         static let kLastMentionsOutSyncId = "com.theblvd.mammoth.icloud.mentionsOut.syncid"
+
+        static let kCloudSyncFeedDidChange = "com.theblvd.mammoth.icloud.feedDidChange"
     }
 }
 
@@ -25,6 +27,7 @@ class CloudSyncManager {
     static let sharedManager = CloudSyncManager()
     private var syncDebouncer: Timer?
     private var cloudStore = NSUbiquitousKeyValueStore.default
+    private let valueDidChangeNotification = NSNotification.Name(rawValue: CloudSyncConstants.Keys.kCloudSyncFeedDidChange)
 
     init() {
         // monitor for changes to cloud sync data
@@ -32,15 +35,39 @@ class CloudSyncManager {
     }
 
     @objc func didChangeExternally(notification: Notification) {
-        if let keys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] {
-            print("keys changed: \(keys)")
+        if let reason = notification.userInfo?[NSUbiquitousKeyValueStoreChangeReasonKey] {
+            print("reason changed: \(reason)")
+
+            if reason as! Int == NSUbiquitousKeyValueStoreInitialSyncChange {
+                // first time getting sync values from another device
+                print("InitialStoreSyncChange")
+            }
+
+            guard let changedKeys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] else {
+                return
+            }
+
+            for changedKey in changedKeys {
+                // iterate all changed keys
+                print("changed key: \(changedKey)")
+                // post notification for type of change
+                NotificationCenter.default.post(name: valueDidChangeNotification, object: nil) // send type change at some point
+            }
         }
     }
 
     public func saveSyncStatus(for type: NewsFeedTypes, uniqueId: String) {
         syncDebouncer?.invalidate()
-        syncDebouncer = Timer.scheduledTimer(withTimeInterval: 0.4, repeats: false) { [weak self] _ in
+        syncDebouncer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { [weak self] _ in
             self?.setSyncStatus(for: type, uniqueId: uniqueId)
+        }
+    }
+
+    public func cloudSavedPostId(for type: NewsFeedTypes) -> String? {
+        if let postId = cloudStore.string(forKey: keyFor(type: type)) {
+            return postId
+        } else {
+            return nil
         }
     }
 
@@ -67,6 +94,41 @@ class CloudSyncManager {
             return (CloudSyncConstants.Keys.kLastMentionsOutSyncId, CloudSyncConstants.Keys.kLastMentionsOutSyncDate)
         default:
             return ("", "")
+        }
+    }
+
+    private func typeFor(key: String) -> NewsFeedTypes {
+        switch key {
+        case CloudSyncConstants.Keys.kLastFollowingSyncId:
+            return .following
+        case CloudSyncConstants.Keys.kLastForYouSyncId:
+            return .forYou
+        case CloudSyncConstants.Keys.kLastFederatedSyncId:
+            return .federated
+        case CloudSyncConstants.Keys.kLastMentionsInSyncId:
+            return .mentionsIn
+        case CloudSyncConstants.Keys.kLastMentionsOutSyncId:
+            return .mentionsOut
+        default:
+            return .activity(nil) // unsupported type
+        }
+
+    }
+
+    private func keyFor(type: NewsFeedTypes) -> String {
+        switch type {
+        case .following:
+            return CloudSyncConstants.Keys.kLastFollowingSyncId
+        case .forYou:
+            return CloudSyncConstants.Keys.kLastForYouSyncId
+        case .federated:
+            return CloudSyncConstants.Keys.kLastFederatedSyncId
+        case .mentionsIn:
+            return CloudSyncConstants.Keys.kLastMentionsInSyncId
+        case .mentionsOut:
+            return CloudSyncConstants.Keys.kLastMentionsOutSyncId
+        default:
+            return ""
         }
     }
 }
