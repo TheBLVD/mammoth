@@ -198,7 +198,7 @@ class UserCardModel {
             let request = Search.search(query: acct.accountname + "@" + ArkanaKeys.Global().subClubDomain, resolve: true)
             currentClient.run(request) { (statuses) in
                 if let error = statuses.error {
-                    log.error("error searching for \(account.acct) : \(error)")
+                    log.error("error searching subclub account for \(account.acct) : \(error)")
                 }
                 if let account = (statuses.value?.accounts.first) {
                     DispatchQueue.main.async {
