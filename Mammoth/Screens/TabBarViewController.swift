@@ -38,6 +38,9 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
     let indActivity2 = UIImageView() // adds a small dot indicator under the messages tab when new direct messages come in
     let counter = UIButton()
     var timer = Timer()
+    var postButtonShown: Bool = true
+    var postButtonAnimator: UIViewPropertyAnimator!
+    var lastPostButtonAnimation: CFAbsoluteTime = 0
     
     var customTabsImagesUnselected2: [String] = ["heart.text.square", "bell", "tray.full", "binoculars", "heart", "bookmark", "line.3.horizontal.decrease.circle", "gear"]
     var customTabsImages2: [String] = ["heart.text.square.fill", "bell.fill", "tray.full.fill", "binoculars.fill", "heart.fill", "bookmark.fill", "line.horizontal.3.decrease.circle.fill", "gear"]
@@ -190,12 +193,51 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
         self.newContent2.alpha = 0
     }
 
+    func _handleToggleNewPostButton(show: Bool) {
+        let alpha = show ? 1.0 : 0.0
+        let durationFactor = 1.0 - postButtonAnimator.fractionComplete
+
+        postButtonAnimator.stopAnimation(false)
+        postButtonAnimator.finishAnimation(at: .end)
+
+        postButtonAnimator.addAnimations {
+            self.newPostButton.alpha = alpha
+            if show {
+                self.newPostButton.frame.origin.y -= 20
+            } else {
+                self.newPostButton.frame.origin.y += 20
+            }
+        }
+
+        postButtonAnimator.startAnimation()
+        postButtonAnimator.pauseAnimation()
+        postButtonAnimator.continueAnimation(withTimingParameters: nil, durationFactor: durationFactor)
+    }
+
     @objc func showNewPostButton() {
-        self.view.bringSubviewToFront(self.newPostButton)
+        if lastPostButtonAnimation >= CFAbsoluteTimeGetCurrent() - 1.0 {
+            // Don't allow more than one animation per second if user is quickly 'flicking'.
+            return
+        }
+
+        if !postButtonShown {
+            postButtonShown = true
+            lastPostButtonAnimation = CFAbsoluteTimeGetCurrent()
+            _handleToggleNewPostButton(show: true)
+        }
     }
 
     @objc func hideNewPostButton() {
-        self.view.sendSubviewToBack(self.newPostButton)
+        if lastPostButtonAnimation >= CFAbsoluteTimeGetCurrent() - 1.0 {
+            // Don't allow more than one animation per second if user is quickly 'flicking'.
+            return
+        }
+
+        if postButtonShown {
+            postButtonShown = false
+            lastPostButtonAnimation = CFAbsoluteTimeGetCurrent()
+            _handleToggleNewPostButton(show: false)
+        }
     }
     
     @objc func showComposer() {
@@ -234,6 +276,8 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
         
         let dropInteraction = UIDropInteraction(delegate: self)
         self.view.addInteraction(dropInteraction)
+
+        postButtonAnimator = UIViewPropertyAnimator(duration: 0.75, curve: UIView.AnimationCurve.easeIn)
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.gotoH), name: NSNotification.Name(rawValue: "gotoH"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.gotoC), name: NSNotification.Name(rawValue: "gotoC"), object: nil)
