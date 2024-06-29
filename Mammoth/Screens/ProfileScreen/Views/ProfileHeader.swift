@@ -429,6 +429,7 @@ extension ProfileHeader {
         }
         
         // configure subscribe button. the self check is separate to prevent
+        user.getTipInfo()
         if !user.isSelf && user.isTippable {
             tipButton.isHidden = false
             tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)

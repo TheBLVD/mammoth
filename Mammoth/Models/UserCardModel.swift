@@ -192,22 +192,6 @@ class UserCardModel {
         if let acct = acct {
             self.tippableAccount = TippableAccount(accountname: acct)
         }
-        // use this to sync acct from tippable profile. is this expensive?
-        if let acct = self.tippableAccount, acct.acct == nil {
-            let currentClient = AccountsManager.shared.currentAccountClient
-            let request = Search.search(query: acct.accountname + "@" + ArkanaKeys.Global().subClubDomain, resolve: true)
-            currentClient.run(request) { (statuses) in
-                if let error = statuses.error {
-                    log.error("error searching subclub account for \(account.acct) : \(error)")
-                }
-                if let account = (statuses.value?.accounts.first) {
-                    DispatchQueue.main.async {
-                        self.tippableAccount?.acct = account
-                        self.tippableAccount?.isFollowed = FollowManager.shared.followStatusForAccount(account, requestUpdate: .whenUncertain) == .following
-                    }
-                }
-            }
-        }
     }
     
     // Return an instance without description
@@ -301,5 +285,25 @@ extension UserCardModel {
     
     func clearCache() {
         self.decodedProfilePic = nil
+    }
+}
+
+extension UserCardModel {
+    func getTipInfo() {
+        if let acct = self.tippableAccount, acct.acct == nil {
+            let currentClient = AccountsManager.shared.currentAccountClient
+            let request = Search.search(query: acct.accountname + "@" + ArkanaKeys.Global().subClubDomain, resolve: true)
+            currentClient.run(request) { (statuses) in
+                if let error = statuses.error {
+                    log.error("error searching subclub account for \(acct.accountname) : \(error)")
+                }
+                if let account = (statuses.value?.accounts.first) {
+                    DispatchQueue.main.async {
+                        self.tippableAccount?.acct = account
+                        self.tippableAccount?.isFollowed = FollowManager.shared.followStatusForAccount(account, requestUpdate: .whenUncertain) == .following
+                    }
+                }
+            }
+        }
     }
 }

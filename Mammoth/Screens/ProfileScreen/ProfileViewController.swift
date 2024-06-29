@@ -564,6 +564,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDataSourcePre
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if self.viewModel.hasHeader(forSection: section),
             let sectionHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier: ProfileSectionHeader.reuseIdentifier) as? ProfileSectionHeader {
+            self.viewModel.user?.getTipInfo()
             sectionHeader.hasSubscription = viewModel.user?.tippableAccount?.isFollowed == true
             sectionHeader.delegate = self.viewModel
             sectionHeader.configure()
