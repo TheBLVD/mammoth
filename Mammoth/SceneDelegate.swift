@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ArkanaKeys
 
 /// Called when the scene did become active
 /// Used to fetch data on app launch
@@ -232,9 +231,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "newInstanceLogged"), object: nil)
         } else if theURL.contains("undo000") {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "undoTapped"), object: self)
-        } else if theURL.contains("subclub"), let x = theURL.removingPercentEncoding {
-            print("Response ==> \(x)")
-            // callback integration.
         } else {
             print("Response ==> \(theURL)")
             let x = theURL
