@@ -71,13 +71,13 @@ class UserCardModel {
     // if self is tippable.
     let isTippable: Bool
     // if a tippable account is detected in metadata.
-    struct TippableAccount {
+    struct TippableAccount: Equatable {
         var accountname: String
         var acct: Account?
         var isFollowed: Bool?
     }
     var tippableAccount: TippableAccount?
-    
+
     
     // deprecated initializer
     init(name: String, userTag: String, imageURL: String?, description: String?, isFollowing: Bool, emojis: [Emoji]?, account: Account?) {
@@ -193,7 +193,7 @@ class UserCardModel {
             self.tippableAccount = TippableAccount(accountname: acct)
         }
         // use this to sync acct from tippable profile. is this expensive?
-        if let acct = self.tippableAccount {
+        if let acct = self.tippableAccount, acct.acct == nil {
             let currentClient = AccountsManager.shared.currentAccountClient
             let request = Search.search(query: acct.accountname + "@" + ArkanaKeys.Global().subClubDomain, resolve: true)
             currentClient.run(request) { (statuses) in
@@ -257,7 +257,8 @@ extension UserCardModel: Equatable {
         lhs.fields == rhs.fields &&
         lhs.isBot == rhs.isBot &&
         lhs.isLocked == rhs.isLocked &&
-        lhs.emojis == rhs.emojis
+        lhs.emojis == rhs.emojis &&
+        lhs.tippableAccount == rhs.tippableAccount
     }
 }
 
