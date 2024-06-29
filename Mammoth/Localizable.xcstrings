@@ -72595,7 +72595,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Link im Browser öffnen"
           }
         },
@@ -72608,12 +72608,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open links in browser"
+            "value" : "Open links in"
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Abrir enlaces en el navegador"
           }
         },
@@ -72643,7 +72643,7 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Apri link nel browser"
           }
         },
@@ -72667,7 +72667,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Open links in browser"
           }
         },
@@ -72685,7 +72685,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Abrir links no navegador"
           }
         },

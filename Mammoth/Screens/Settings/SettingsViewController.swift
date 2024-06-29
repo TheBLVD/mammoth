@@ -206,16 +206,6 @@ class SettingsViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @objc func switchOpenLinks(_ sender: UISwitch) {
-        if sender.isOn {
-            GlobalStruct.openLinksInBrowser = true
-            UserDefaults.standard.set(true, forKey: "openLinksInBrowser")
-        } else {
-            GlobalStruct.openLinksInBrowser = false
-            UserDefaults.standard.set(false, forKey: "openLinksInBrowser")
-        }
-    }
-    
     @objc func switchReaderView(_ sender: UISwitch) {
         if sender.isOn {
             GlobalStruct.openLinksInReaderView = true
@@ -278,26 +268,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.backgroundColor = .custom.destructive
             cell.imageView?.image = nil
         }
-        
-        if item == .openLinks {
-            let switchView = UISwitch(frame: .zero)
-            if UserDefaults.standard.value(forKey: "openLinksInBrowser") as? Bool != nil {
-                if UserDefaults.standard.value(forKey: "openLinksInBrowser") as? Bool == false {
-                    switchView.setOn(false, animated: false)
-                } else {
-                    switchView.setOn(true, animated: false)
-                }
-            } else {
-                switchView.setOn(false, animated: false)
-            }
-            switchView.onTintColor = .custom.gold
-
-            switchView.addTarget(self, action: #selector(switchOpenLinks), for: .valueChanged)
-            cell.accessoryView = switchView
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
-            cell.textLabel?.textAlignment = .left
-        } else if item == .readerView {
+        if item == .readerView {
             let switchView = UISwitch(frame: .zero)
             if UserDefaults.standard.value(forKey: "openLinksInReaderView") as? Bool != nil {
                 if UserDefaults.standard.value(forKey: "openLinksInReaderView") as? Bool == false {
@@ -398,6 +369,8 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         case .clearData:
             vc = nil
             postClearCacheAlert()
+        case .openLinks:
+            vc = OpenLinksSettingsViewController()
         default:
             vc = nil
         }

@@ -903,16 +903,18 @@ extension PostActions {
             urlString = "https://\(urlString)"
         }
 
-        // Open URL in a window, or the browser
+        // Open URL in a window, or the preferred browser
         if let urlToOpen = URL(string: urlString) {
-            if GlobalStruct.openLinksInBrowser {
-                UIApplication.shared.open(urlToOpen)
-                GlobalStruct.canLoadLink = true
-            } else {
+            let browser = LinkOpener.getSelectedBrowser()
+            if browser == .mammoth {
                 let config = SFSafariViewController.Configuration()
                 config.entersReaderIfAvailable = GlobalStruct.openLinksInReaderView
                 let vc = SFSafariViewController(url: urlToOpen, configuration: config)
                 getTopMostViewController()?.present(vc, animated: true)
+                GlobalStruct.canLoadLink = true
+            } else {
+                let url = browser.deeplink(to: urlToOpen)
+                UIApplication.shared.open(url)
                 GlobalStruct.canLoadLink = true
             }
         } else {
