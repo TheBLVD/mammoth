@@ -71,7 +71,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
     private var isInsertingContent: Bool = false
     private var isScrollingProgrammatically: Bool = false
     private var disableFeedUpdates: Bool = false
-    private var lastScrollPos: CGPoint = CGPointZero
     
     // switchingAccounts is set to true in the period between
     // willSwitchAccount and didSwitchAccount, when currentAccount
@@ -461,9 +460,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                 cell.willDisplay()
             }
         })
-
-        // Ensure that the New Post button show/hide code knows where we are.
-        self.lastScrollPos = self.tableView.contentOffset
         
         // user just opened the app, assume an outdated feed if they've been out for > 10 seconds.
         if !self.viewModel.didViewRecently {
