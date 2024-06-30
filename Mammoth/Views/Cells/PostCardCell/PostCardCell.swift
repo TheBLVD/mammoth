@@ -579,13 +579,14 @@ private extension PostCardCell {
         mainStackView.addArrangedSubview(contentStackView)
         
         /// Only center the header content if the display name is two files and in full width mode.
-        header.isCenterAligned = self.cellVariant.mediaVariant == .fullWidth && GlobalStruct.displayName == .full
+        header.isCenterAligned = self.cellVariant.mediaVariant == .fullWidth
         headerStackView.addArrangedSubview(header)
         
         contentStackView.addArrangedSubview(headerStackView)
         contentStackView.addArrangedSubview(textAndSmallMediaStackView)
         
         if self.cellVariant.mediaVariant == .fullWidth {
+            headerStackView.alignment = .center
             contentStackView.layoutMargins = .zero
             contentStackView.setCustomSpacing(12, after: headerStackView)
         }
