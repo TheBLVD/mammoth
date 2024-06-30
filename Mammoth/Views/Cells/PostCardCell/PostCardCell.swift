@@ -735,10 +735,10 @@ private extension PostCardCell {
         contentWarningButton.isHidden = true
         contentWarningButton.addTarget(self, action: #selector(self.contentWarningButtonTapped), for: .touchUpInside)
         contentWarningConstraints = [
-            contentWarningButton.topAnchor.constraint(equalTo: header.bottomAnchor, constant: -1),
+            textAndSmallMediaStackView.topAnchor.constraint(equalTo: contentWarningButton.topAnchor, constant: 0),
             contentWarningButton.bottomAnchor.constraint(equalTo: contentStackView.bottomAnchor, constant: -48),
-            contentWarningButton.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor, constant: 6),
-            contentWarningButton.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor, constant: 3),
+            textAndSmallMediaStackView.leadingAnchor.constraint(equalTo: contentWarningButton.leadingAnchor, constant: 3),
+            contentWarningButton.trailingAnchor.constraint(equalTo: textAndSmallMediaStackView.trailingAnchor, constant: 3),
         ]
         
         // Make sure the deleted warning covers entire post text, image, link (just not the header, footer)
