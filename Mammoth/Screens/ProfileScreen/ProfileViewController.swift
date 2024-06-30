@@ -18,13 +18,7 @@ class ProfileViewController: UIViewController, UIScrollViewDelegate, UITableView
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textOnly))
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.hidden)))
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.small)))
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.large)))
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.hidden)))
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.small)))
-        tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .mediaOnly(.large)))
+        PostCardCell.registerForReuseIdentifierVariants(on: tableView)
         tableView.register(LoadingCell.self, forCellReuseIdentifier: LoadingCell.reuseIdentifier)
         tableView.register(EmptyFeedCell.self, forCellReuseIdentifier: EmptyFeedCell.reuseIdentifier)
         tableView.register(ProfileSectionHeader.self, forHeaderFooterViewReuseIdentifier: ProfileSectionHeader.reuseIdentifier)

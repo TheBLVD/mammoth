@@ -94,7 +94,7 @@ final class PostCardProfilePic: UIButton {
         
     private var user: UserCardModel?
     private var isPrivateMention: Bool = false
-    private var size: ProfilePicSize = ProfilePicSize.regular
+    var size: ProfilePicSize = ProfilePicSize.regular
     public var onPress: PostCardButtonCallback?
     public var isContextMenuEnabled = true
         
