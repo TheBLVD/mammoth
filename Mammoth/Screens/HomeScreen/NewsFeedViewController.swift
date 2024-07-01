@@ -145,10 +145,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                                                selector: #selector(self.didSwitchAccount),
                                                name: didSwitchCurrentAccountNotification,
                                                object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.cloudPositionDidChange),
-                                               name: NSNotification.Name(rawValue: CloudSyncConstants.Keys.kCloudSyncFeedDidChange),
-                                               object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -469,10 +465,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         if !self.viewModel.didViewRecently {
             self.viewModel.pollingReachedTop = false
         }
-    }
-
-    @objc func cloudPositionDidChange(notification: Notification) {
-        print("NewsFeedViewController - cloudPositionDidChange")
     }
 
     override func didReceiveMemoryWarning() {
