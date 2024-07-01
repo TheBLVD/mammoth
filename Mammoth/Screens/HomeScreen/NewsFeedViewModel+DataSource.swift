@@ -1156,6 +1156,8 @@ extension NewsFeedViewModel {
     // Last item id in the feed
     func oldestItemId(forType type: NewsFeedTypes) -> String? {
         if let cloudId = CloudSyncManager.sharedManager.cloudSavedPostId(for: type) {
+            // if we get a cloudId here, we should clear our scroll position
+            self.setScrollPosition(model: self, offset: 0, forFeed: type)
             return cloudId
         }
 
