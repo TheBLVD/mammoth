@@ -18,8 +18,6 @@ struct CloudSyncConstants {
         static let kLastMentionsInSyncId = "com.theblvd.mammoth.icloud.mentionsIn.syncid"
         static let kLastMentionsOutSyncDate = "com.theblvd.mammoth.icloud.mentionsOut.lastsync"
         static let kLastMentionsOutSyncId = "com.theblvd.mammoth.icloud.mentionsOut.syncid"
-
-        static let kCloudSyncFeedDidChange = "com.theblvd.mammoth.icloud.feedDidChange"
     }
 }
 
@@ -27,33 +25,10 @@ class CloudSyncManager {
     static let sharedManager = CloudSyncManager()
     private var syncDebouncer: Timer?
     private var cloudStore = NSUbiquitousKeyValueStore.default
-    private let valueDidChangeNotification = NSNotification.Name(rawValue: CloudSyncConstants.Keys.kCloudSyncFeedDidChange)
+    private var userDefaults = UserDefaults.standard
 
     init() {
-        // monitor for changes to cloud sync data
-        NotificationCenter.default.addObserver(self, selector: #selector(self.didChangeExternally), name: NSUbiquitousKeyValueStore.didChangeExternallyNotification, object: NSUbiquitousKeyValueStore.default)
-    }
 
-    @objc func didChangeExternally(notification: Notification) {
-        if let reason = notification.userInfo?[NSUbiquitousKeyValueStoreChangeReasonKey] {
-            print("reason changed: \(reason)")
-
-            if reason as! Int == NSUbiquitousKeyValueStoreInitialSyncChange {
-                // first time getting sync values from another device
-                print("InitialStoreSyncChange")
-            }
-
-            guard let changedKeys = notification.userInfo?[NSUbiquitousKeyValueStoreChangedKeysKey] as? [String] else {
-                return
-            }
-
-            for changedKey in changedKeys {
-                // iterate all changed keys
-                print("changed key: \(changedKey)")
-                // post notification for type of change
-                NotificationCenter.default.post(name: valueDidChangeNotification, object: nil) // send type change at some point
-            }
-        }
     }
 
     public func saveSyncStatus(for type: NewsFeedTypes, uniqueId: String) {
@@ -64,7 +39,18 @@ class CloudSyncManager {
     }
 
     public func cloudSavedPostId(for type: NewsFeedTypes) -> String? {
-        if let postId = cloudStore.string(forKey: keyFor(type: type)) {
+        let (itemKey, dateKey) = keys(for: type)
+        guard !itemKey.isEmpty, !dateKey.isEmpty else { return nil }
+
+        guard let localDate: Date = userDefaults.object(forKey: dateKey) as? Date else { return nil }
+        guard let cloudDate: Date = cloudStore.object(forKey: dateKey) as? Date else { return nil }
+
+        if cloudDate.timeIntervalSince1970 <= localDate.timeIntervalSince1970 {
+            // local values are newer than the cloud
+            return nil
+        }
+
+        if let postId = cloudStore.string(forKey: itemKey) {
             return postId
         } else {
             return nil
@@ -75,9 +61,15 @@ class CloudSyncManager {
         let (itemKey, dateKey) = keys(for: type)
         guard !itemKey.isEmpty, !dateKey.isEmpty else { return }
 
+        let syncDate = Date()
         cloudStore.set(uniqueId, forKey: itemKey)
-        cloudStore.set(Date(), forKey: dateKey)
+        cloudStore.set(syncDate, forKey: dateKey)
         cloudStore.synchronize()
+
+        // testing idea of matching last saved id in user defaults and comparing last saved time
+        userDefaults.set(uniqueId, forKey: itemKey)
+        userDefaults.set(syncDate, forKey: dateKey)
+        userDefaults.synchronize()
     }
 
     private func keys(for type: NewsFeedTypes) -> (itemKey: String, dateKey: String) {
@@ -113,22 +105,5 @@ class CloudSyncManager {
             return .activity(nil) // unsupported type
         }
 
-    }
-
-    private func keyFor(type: NewsFeedTypes) -> String {
-        switch type {
-        case .following:
-            return CloudSyncConstants.Keys.kLastFollowingSyncId
-        case .forYou:
-            return CloudSyncConstants.Keys.kLastForYouSyncId
-        case .federated:
-            return CloudSyncConstants.Keys.kLastFederatedSyncId
-        case .mentionsIn:
-            return CloudSyncConstants.Keys.kLastMentionsInSyncId
-        case .mentionsOut:
-            return CloudSyncConstants.Keys.kLastMentionsOutSyncId
-        default:
-            return ""
-        }
     }
 }
