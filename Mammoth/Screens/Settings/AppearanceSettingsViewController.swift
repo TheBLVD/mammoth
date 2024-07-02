@@ -369,14 +369,11 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.accessibilityLabel = NSLocalizedString("settings.appearance.names", comment: "")
                 
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f5b7}")
-                if GlobalStruct.displayName == .full {
-                    cell.detailTextLabel?.text = NSLocalizedString("settings.appearance.names.full", comment: "")
-                } else if GlobalStruct.displayName == .usernameOnly {
-                    cell.detailTextLabel?.text = NSLocalizedString("settings.appearance.names.username", comment: "")
-                } else if GlobalStruct.displayName == .usertagOnly {
-                    cell.detailTextLabel?.text = NSLocalizedString("generic.none", comment: "")
-                } else {
-                    cell.detailTextLabel?.text = "None" // .none
+                cell.detailTextLabel?.text = switch GlobalStruct.displayName {
+                case .full:         NSLocalizedString("settings.appearance.names.full", comment: "")
+                case .usernameOnly: NSLocalizedString("settings.appearance.names.username", comment: "")
+                case .usertagOnly:  NSLocalizedString("settings.appearance.names.usertag", comment: "")
+                case .none:         NSLocalizedString("generic.none", comment: "")
                 }
                 
                 var gestureActions: [UIAction] = []
