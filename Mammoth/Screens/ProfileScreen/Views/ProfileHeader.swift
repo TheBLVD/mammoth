@@ -428,24 +428,7 @@ extension ProfileHeader {
             }
         }
         
-        // configure subscribe button. the self check is separate to prevent
-        user.getTipInfo()
-        if !user.isSelf && user.isTippable {
-            tipButton.isHidden = false
-            tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
-            // user is subscribed:
-            if user.followStatus == .following {
-                followButton.isHidden = true
-                tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
-            }
-        } else if !user.isSelf && user.tippableAccount != nil {
-            tipButton.isHidden = false
-            tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
-            // user is subscribed:
-            if user.tippableAccount?.isFollowed == true {
-                tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
-            }
-        }
+        self.loadSubscribeButton()
         
         let joinedOn = user.joinedOn?.toString(dateStyle: .short, timeStyle: .none) ?? ""
         if UIScreen.main.bounds.width < 380 {
@@ -689,6 +672,29 @@ extension ProfileHeader {
         userTag.append(NSAttributedString(string: user.userTag))
         
         return userTag
+    }
+    
+    func loadSubscribeButton() {
+        // configure subscribe button.
+        if let user = self.user {
+            user.getTipInfo()
+            if !user.isSelf && user.isTippable {
+                tipButton.isHidden = false
+                tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                // user is subscribed:
+                if user.followStatus == .following {
+                    followButton.isHidden = true
+                    tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
+                }
+            } else if !user.isSelf && user.tippableAccount != nil {
+                tipButton.isHidden = false
+                tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                // user is subscribed:
+                if user.tippableAccount?.isFollowed == true {
+                    tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
+                }
+            }
+        }
     }
 }
 
