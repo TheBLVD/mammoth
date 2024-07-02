@@ -125,6 +125,14 @@ final class PostCardModel {
         case warn(String)
         case hide(String)
         case none
+        
+        var isHide: Bool {
+            switch self {
+            case .warn: false
+            case .hide: true
+            case .none: false
+            }
+        }
     }
     
     var filterType: FilterType

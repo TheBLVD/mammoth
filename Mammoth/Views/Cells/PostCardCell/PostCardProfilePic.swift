@@ -94,9 +94,19 @@ final class PostCardProfilePic: UIButton {
         
     private var user: UserCardModel?
     private var isPrivateMention: Bool = false
-    private var size: ProfilePicSize = ProfilePicSize.regular
+    var size: ProfilePicSize = ProfilePicSize.regular {
+        didSet {
+            imageWidthConstraint?.constant = size.width()
+            imageHeightConstraint?.constant = size.height()
+            onThemeChange()
+        }
+    }
+    
     public var onPress: PostCardButtonCallback?
     public var isContextMenuEnabled = true
+    
+    private var imageWidthConstraint: NSLayoutConstraint?
+    private var imageHeightConstraint: NSLayoutConstraint?
         
     init(withSize profilePicSize: ProfilePicSize) {
         super.init(frame: .zero)
@@ -127,15 +137,15 @@ private extension PostCardProfilePic {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.profileTapped))
         self.profileImageView.addGestureRecognizer(tapGesture)
                 
-        let widthImageC = profileImageView.widthAnchor.constraint(equalToConstant: self.size.width())
-        widthImageC.priority = .required
+        imageWidthConstraint = profileImageView.widthAnchor.constraint(equalToConstant: self.size.width())
+        imageWidthConstraint?.priority = .required
         
-        let heightImageC = profileImageView.heightAnchor.constraint(equalToConstant: self.size.height())
-        heightImageC.priority = .required
+        imageHeightConstraint = profileImageView.heightAnchor.constraint(equalToConstant: self.size.height())
+        imageHeightConstraint?.priority = .required
         
         NSLayoutConstraint.activate([
-            widthImageC,
-            heightImageC,
+            imageWidthConstraint!,
+            imageHeightConstraint!,
             profileImageView.topAnchor.constraint(equalTo: self.topAnchor),
             profileImageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             profileImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
