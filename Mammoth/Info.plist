@@ -1112,6 +1112,17 @@
 		<string>readdle-spark</string>
 		<string>ymail</string>
 		<string>discord</string>
+		<string>ddgQuickLink</string>
+		<string>firefox</string>
+		<string>firefox-focus</string>
+		<string>googlechrome</string>
+		<string>googlechromes</string>
+		<string>microsoft-edge-http</string>
+		<string>microsoft-edge-https</string>
+		<string>opera-http</string>
+		<string>opera-https</string>
+		<string>touch-http</string>
+		<string>touch-https</string>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>

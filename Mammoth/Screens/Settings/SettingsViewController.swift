@@ -37,6 +37,7 @@ class SettingsViewController: UIViewController {
                 ].compactMap{$0}),
                 SettingsSection(items: [
                     .openLinks,
+                    .readerView,
                     .appLock
                 ]),
                 SettingsSection(items: [
@@ -66,6 +67,7 @@ class SettingsViewController: UIViewController {
                 ].compactMap{$0}),
                 SettingsSection(items: [
                     .openLinks,
+                    .readerView,
                     .appLock
                 ]),
                 SettingsSection(items: [
@@ -204,13 +206,13 @@ class SettingsViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    @objc func switchOpenLinks(_ sender: UISwitch) {
+    @objc func switchReaderView(_ sender: UISwitch) {
         if sender.isOn {
-            GlobalStruct.openLinksInBrowser = true
-            UserDefaults.standard.set(true, forKey: "openLinksInBrowser")
+            GlobalStruct.openLinksInReaderView = true
+            UserDefaults.standard.set(true, forKey: "openLinksInReaderView")
         } else {
-            GlobalStruct.openLinksInBrowser = false
-            UserDefaults.standard.set(false, forKey: "openLinksInBrowser")
+            GlobalStruct.openLinksInReaderView = false
+            UserDefaults.standard.set(false, forKey: "openLinksInReaderView")
         }
     }
     
@@ -266,11 +268,10 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.backgroundColor = .custom.destructive
             cell.imageView?.image = nil
         }
-        
-        if item == .openLinks {
+        if item == .readerView {
             let switchView = UISwitch(frame: .zero)
-            if UserDefaults.standard.value(forKey: "openLinksInBrowser") as? Bool != nil {
-                if UserDefaults.standard.value(forKey: "openLinksInBrowser") as? Bool == false {
+            if UserDefaults.standard.value(forKey: "openLinksInReaderView") as? Bool != nil {
+                if UserDefaults.standard.value(forKey: "openLinksInReaderView") as? Bool == false {
                     switchView.setOn(false, animated: false)
                 } else {
                     switchView.setOn(true, animated: false)
@@ -280,7 +281,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             }
             switchView.onTintColor = .custom.gold
 
-            switchView.addTarget(self, action: #selector(switchOpenLinks), for: .valueChanged)
+            switchView.addTarget(self, action: #selector(switchReaderView), for: .valueChanged)
             cell.accessoryView = switchView
             cell.accessoryType = .none
             cell.selectionStyle = .none
@@ -368,6 +369,8 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         case .clearData:
             vc = nil
             postClearCacheAlert()
+        case .openLinks:
+            vc = OpenLinksSettingsViewController()
         default:
             vc = nil
         }
