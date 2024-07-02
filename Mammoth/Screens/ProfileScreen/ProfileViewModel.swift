@@ -417,11 +417,13 @@ extension ProfileViewModel {
                         let followStatus = self.user?.followStatus
                         let cachedProfilePic = self.user?.decodedProfilePic
                         let preSyncAccount = self.user?.account
+                        let tipInfo = self.user?.tippableAccount
                         
                         self.user = UserCardModel(account: account, instanceName: instanceName)
                         self.user?.followStatus = followStatus
                         self.user?.decodedProfilePic = cachedProfilePic
                         self.user?.preSyncAccount = preSyncAccount
+                        self.user?.tippableAccount = tipInfo
                         self.state = .success
                         return self.user
                     }
