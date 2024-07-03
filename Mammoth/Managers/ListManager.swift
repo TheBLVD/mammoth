@@ -273,7 +273,9 @@ class ListManager {
     
     public func updateListExclusivePosts(_ listID: String, exclusive: Bool, completion: @escaping ((_ success: Bool) -> Void)) {
         let request = Lists.update(id: listID, exclusive: exclusive)
-        AccountsManager.shared.currentAccountClient.run(request) { (statuses) in
+        AccountsManager.shared.currentAccountClient.run(request) { [weak self] (statuses) in
+            guard let self = self else {return}
+            
             if let error = statuses.error {
                 log.error("error trying to update list exclusive post setting: \(listID) : \(error)")
             }
