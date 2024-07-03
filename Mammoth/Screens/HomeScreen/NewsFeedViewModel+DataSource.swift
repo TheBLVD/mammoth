@@ -1142,6 +1142,10 @@ extension NewsFeedViewModel {
     
     // First item id in the feed
     func newestItemId(forType type: NewsFeedTypes) -> String? {
+        if let cloudId = CloudSyncManager.sharedManager.cloudSavedPostId(for: type) {
+            return cloudId
+        }
+
         guard let _ = self.snapshot.indexOfSection(.main) else { return nil }
         if case .postCard(let postCard) = self.snapshot.itemIdentifiers(inSection: .main).filter({ $0.extractPostCard() != nil }).first {
             return postCard.cursorId
@@ -1155,12 +1159,6 @@ extension NewsFeedViewModel {
     
     // Last item id in the feed
     func oldestItemId(forType type: NewsFeedTypes) -> String? {
-        if let cloudId = CloudSyncManager.sharedManager.cloudSavedPostId(for: type) {
-            // if we get a cloudId here, we should clear our scroll position
-            self.setScrollPosition(model: self, offset: 0, forFeed: type)
-            return cloudId
-        }
-
         guard let _ = self.snapshot.indexOfSection(.main) else { return nil }
         
         if self.cursorId != nil {
