@@ -239,7 +239,14 @@ extension PostCardLinkPreview {
     func onThemeChange() {
         self.mainStackView.layer.borderColor = UIColor.custom.outlines.cgColor
         self.urlLabel.textColor = .custom.feintContrast
-        let backgroundColor: UIColor = self.isPrivateMention || self.isTipAccount ? .custom.OVRLYSoftContrast : .custom.background
+        let backgroundColor: UIColor = if self.isPrivateMention {
+            .custom.OVRLYSoftContrast
+        } else if self.isTipAccount {
+            // tip background.
+            .custom.background
+        } else {
+            .custom.background
+        }
         self.urlLabel.backgroundColor = backgroundColor
         self.titleLabel.backgroundColor = backgroundColor
         self.backgroundColor = backgroundColor

@@ -102,9 +102,11 @@ extension PostCardFooter {
     }
     
     func onThemeChange() {
-        if self.isPrivateMention || self.isTipAccount {
+        if self.isPrivateMention {
             self.backgroundColor = .custom.OVRLYSoftContrast
             mainStackView.backgroundColor = .custom.OVRLYSoftContrast
+        } else if self.isTipAccount {
+            // tip background.
         } else {
             self.backgroundColor = .custom.background
             mainStackView.backgroundColor = .custom.background
@@ -136,8 +138,11 @@ internal extension PostCardFooter {
         
          if #available(iOS 13.0, *) {
              if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                 if self.isPrivateMention || self.isTipAccount {
+                 if self.isPrivateMention {
                      self.backgroundColor = .custom.OVRLYSoftContrast
+                     mainStackView.backgroundColor = .custom.OVRLYSoftContrast
+                 } else if self.isTipAccount {
+                     // tip background.
                  } else {
                      self.backgroundColor = .custom.background
                  }
@@ -289,7 +294,14 @@ extension PostFooterButton {
     
     func onThemeChange() {
         self.label.textColor = .custom.actionButtons
-        let backgroundColor: UIColor = self.isPrivateMention || self.isTipAccount ? .custom.OVRLYSoftContrast : .custom.background
+        let backgroundColor: UIColor = if self.isPrivateMention {
+            .custom.OVRLYSoftContrast
+        } else if self.isTipAccount {
+            // tip background.
+            .custom.background
+        } else {
+            .custom.background
+        }
         self.backgroundColor = backgroundColor
         container.backgroundColor = backgroundColor
         label.textColor = .custom.actionButtons

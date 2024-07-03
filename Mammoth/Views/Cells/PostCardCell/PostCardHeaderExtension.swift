@@ -112,16 +112,24 @@ extension PostCardHeaderExtension {
         }
         
 
-        if let postCard = self.postCard, postCard.isPrivateMention || postCard.isTipAccount {
-            titleLabel.backgroundColor = .custom.OVRLYSoftContrast
+        if let postCard = self.postCard {
+            if postCard.isPrivateMention {
+                backgroundColor = .custom.OVRLYSoftContrast
+            } else if postCard.isTipAccount {
+                // tip background.
+            }
         } else {
             titleLabel.backgroundColor = .custom.background
         }
     }
     
     func onThemeChange() {
-        if let postCard = self.postCard, postCard.isPrivateMention || postCard.isTipAccount {
-            titleLabel.backgroundColor = .custom.OVRLYSoftContrast
+        if let postCard = self.postCard {
+            if postCard.isPrivateMention {
+                backgroundColor = .custom.OVRLYSoftContrast
+            } else if postCard.isTipAccount {
+                // tip background.
+            }
         } else {
             titleLabel.backgroundColor = .custom.background
         }

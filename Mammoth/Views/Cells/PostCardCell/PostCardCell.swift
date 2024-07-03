@@ -1343,8 +1343,12 @@ extension PostCardCell {
     
     func onThemeChange() {
         var backgroundColor = UIColor.custom.background
-        if let postCard = self.postCard, postCard.isPrivateMention || postCard.isTipAccount {
-            backgroundColor = .custom.OVRLYSoftContrast
+        if let postCard = self.postCard {
+            if postCard.isPrivateMention {
+                backgroundColor = .custom.OVRLYSoftContrast
+            } else if postCard.isTipAccount {
+                // tip background.
+            }
         }
         
         self.backgroundColor = backgroundColor
