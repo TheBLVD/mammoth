@@ -38118,28 +38118,6 @@
         }
       }
     },
-    "list.exclusive.off" : {
-      "comment" : "title for toggle to SHOW list posts in home timeline",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show list posts in Following"
-          }
-        }
-      }
-    },
-    "list.exclusive.on" : {
-      "comment" : "title for toggle to HIDE list posts from home timeline",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hide list posts from Following"
-          }
-        }
-      }
-    },
     "list.hint" : {
       "extractionState" : "manual",
       "localizations" : {
