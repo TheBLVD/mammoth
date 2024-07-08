@@ -72595,7 +72595,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Link im Browser öffnen"
           }
         },
@@ -72608,12 +72608,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Open links in"
+            "value" : "Open links in browser"
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Abrir enlaces en el navegador"
           }
         },
@@ -72643,7 +72643,7 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Apri link nel browser"
           }
         },
@@ -72667,7 +72667,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Open links in browser"
           }
         },
@@ -72685,7 +72685,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Abrir links no navegador"
           }
         },
@@ -72741,17 +72741,6 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : ""
-          }
-        }
-      }
-    },
-    "settings.readerView" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reader View"
           }
         }
       }
