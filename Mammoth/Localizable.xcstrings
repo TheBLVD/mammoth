@@ -60578,7 +60578,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Media size"
+            "value" : "Media & content size"
           }
         },
         "es" : {
@@ -60711,6 +60711,17 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : ""
+          }
+        }
+      }
+    },
+    "settings.appearance.mediaSize.fullWidth" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Full width"
           }
         }
       }
