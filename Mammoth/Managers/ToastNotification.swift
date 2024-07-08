@@ -177,7 +177,7 @@ class ToastNotificationManager {
     }
 
     private func postListUpdated(notification: Notification) {
-        self.postNotification(title: NSLocalizedString("toast.listUpdated", comment: ""), sound: "soundMallet", notificationType: .destructive)
+        self.postNotification(title: NSLocalizedString("toast.listUpdated", comment: ""), sound: "soundMallet")
     }
     
     private func postListFollowed(notification: Notification) {

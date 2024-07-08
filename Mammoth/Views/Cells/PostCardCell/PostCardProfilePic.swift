@@ -94,6 +94,7 @@ final class PostCardProfilePic: UIButton {
         
     private var user: UserCardModel?
     private var isPrivateMention: Bool = false
+
     var size: ProfilePicSize = ProfilePicSize.regular {
         didSet {
             imageWidthConstraint?.constant = size.width()
