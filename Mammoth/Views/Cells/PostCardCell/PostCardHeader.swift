@@ -60,6 +60,11 @@ class PostCardHeader: UIView {
         return stackView
     }()
     
+    var isCenterAligned: Bool {
+        get { mainStackView.alignment == .center }
+        set { mainStackView.alignment = newValue ? .center : .leading }
+    }
+    
     private var profilePic: PostCardProfilePic?
     
     private let headerTitleStackView: UIStackView = {
