@@ -1430,7 +1430,17 @@ extension NewsFeedViewController {
         case .community(let name):
             options = self.communityNavBarContextOptions(instanceName: name)
         case .list(let list):
-            options = self.listNavBarContextOptions(list: list)
+            var exclusiveListMenuDeferred: UIDeferredMenuElement
+            if #available(iOS 15.0, *) {
+                exclusiveListMenuDeferred = UIDeferredMenuElement.uncached { (completion) in
+                    completion(self.listNavBarContextOptions(list: list))
+                }
+            } else {
+                exclusiveListMenuDeferred = UIDeferredMenuElement { (completion) in
+                    completion(self.listNavBarContextOptions(list: list))
+                }
+            }
+            return UIMenu(title: "", options: [.displayInline], children: [exclusiveListMenuDeferred])
         default:
             break
         }
@@ -1584,7 +1594,18 @@ extension NewsFeedViewController {
             editTitleMenu.attributes = .disabled
         }
         editTitleMenu.accessibilityLabel = edit_list_title
-
+        
+        let sortingList: List = ListManager.shared.allLists(includeTopFriends: false).filter { $0.id == list.id }[0]
+        let exclusive_list = sortingList.exclusive! ? NSLocalizedString("list.exclusive.off", comment: "title for toggle to SHOW list posts in home timeline") : NSLocalizedString("list.exclusive.on", comment: "title for toggle to HIDE list posts from home timeline")
+        let exclusiveListMenu = UIAction(title: exclusive_list, image: FontAwesome.image(fromChar: sortingList.exclusive! ? "\u{f06e}" : "\u{f070}", size: 16, weight: .regular).withRenderingMode(.alwaysTemplate), identifier: nil) { _ in
+            ListManager.shared.updateListExclusivePosts(sortingList.id, exclusive: !sortingList.exclusive!) { success in
+                if success {
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: "postListUpdated"), object: nil)
+                }
+            }
+        }
+        exclusiveListMenu.accessibilityLabel = exclusive_list
+        
         let delete_list = NSLocalizedString("list.delete", comment: "")
         let deleteMenu = UIAction(title: delete_list, image: FontAwesome.image(fromChar: "\u{f1f8}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
             guard let self else { return }
@@ -1609,7 +1630,7 @@ extension NewsFeedViewController {
         deleteMenu.accessibilityLabel = delete_list
         deleteMenu.attributes = .destructive
     
-        return [viewMembersMenu, editTitleMenu, deleteMenu]
+        return [viewMembersMenu, editTitleMenu, exclusiveListMenu, deleteMenu]
     }
     
     private func forYouNavBarItems() -> [UIBarButtonItem] {
