@@ -642,7 +642,6 @@ private extension PostCardCell {
             
             self.contentStackView.addArrangedSubview(self.mediaContainer)
             
-            // TODO: Make sure this happens on iPad and Mac as well when we don't use the sidebar buttons, ie. when the app is in split view.
             if UIDevice.current.userInterfaceIdiom == .phone || self.cellVariant.mediaVariant == .fullWidth {
                 let trailingConstraint = self.mediaContainer.trailingAnchor.constraint(equalTo: self.contentStackView.trailingAnchor)
                 trailingConstraint.isActive = true
@@ -939,10 +938,12 @@ extension PostCardCell {
         self.configureMetaTextContent()
         
         if self.cellVariant.hasMedia {
+            var isDisplayingMedia = false
             
             if type != .detail && postCard.hasMediaAttachment && !postCard.mediaAttachmentDescription.isEmpty {
                 self.hiddenImageIndicator.text = postCard.mediaAttachmentDescription
                 self.hiddenImageIndicator.isHidden = false
+                isDisplayingMedia = true
             } else {
                 self.hiddenImageIndicator.isHidden = true
             }
@@ -952,6 +953,7 @@ extension PostCardCell {
                 self.poll?.prepareForReuse()
                 self.poll?.configure(postCard: postCard)
                 self.poll?.isHidden = false
+                isDisplayingMedia = true
             } else {
                 self.poll?.isHidden = true
             }
@@ -961,6 +963,7 @@ extension PostCardCell {
                 self.quotePost?.configure(postCard: postCard)
                 self.quotePost?.onPress = onButtonPress
                 self.quotePost?.isHidden = false
+                isDisplayingMedia = true
             } else {
                 self.quotePost?.isHidden = true
             }
@@ -970,6 +973,7 @@ extension PostCardCell {
                 self.linkPreview?.configure(postCard: postCard)
                 self.linkPreview?.onPress = onButtonPress
                 self.linkPreview?.isHidden = false
+                isDisplayingMedia = true
             } else {
                 self.linkPreview?.isHidden = true
             }
@@ -980,6 +984,7 @@ extension PostCardCell {
                     self.webview?.configure(postCard: postCard)
                     self.webview?.isHidden = false
                 }
+                isDisplayingMedia = true
             } else {
                 self.webview?.isHidden = true
             }
@@ -988,6 +993,7 @@ extension PostCardCell {
             if postCard.hasMediaAttachment && postCard.mediaDisplayType == .singleImage && !postCard.hasWebview {
                 self.image?.configure(postCard: postCard)
                 self.image?.isHidden = false
+                isDisplayingMedia = true
             } else {
                 self.image?.isHidden = true
             }
@@ -1009,6 +1015,7 @@ extension PostCardCell {
                     
                     self.video?.isHidden = false
                 }
+                isDisplayingMedia = true
             } else {
                 self.video?.isHidden = true
             }
@@ -1024,10 +1031,14 @@ extension PostCardCell {
                     self.mediaGallery?.isHidden = false
                     self.mediaStack?.isHidden = true
                 }
-                
+                isDisplayingMedia = true
             } else {
                 self.mediaGallery?.isHidden = true
                 self.mediaStack?.isHidden = true
+            }
+            
+            if self.cellVariant.mediaVariant == .fullWidth {
+                self.contentStackView.setCustomSpacing(isDisplayingMedia ? 12.0 : 0.0, after: self.textAndSmallMediaStackView)
             }
         }
         
