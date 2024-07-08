@@ -419,7 +419,7 @@ final class PostCardCell: UITableViewCell {
     private var postCard: PostCardModel?
     private var type: PostCardCellType?
     private var onButtonPress: PostCardButtonCallback?
-    private var headerExtension: PostCardHeaderExtension?
+    private var headerExtension = PostCardHeaderExtension()
     private var metadata: PostCardMetadata?
     
 //    private var readMoreButton: ReadMoreButton?
@@ -548,8 +548,7 @@ private extension PostCardCell {
         
         contentView.addSubview(wrapperStackView)
         
-        headerExtension = PostCardHeaderExtension()
-        wrapperStackView.addArrangedSubview(headerExtension!)
+        wrapperStackView.addArrangedSubview(headerExtension)
         wrapperStackView.addArrangedSubview(mainStackView)
         
         if self.headerExtension == nil {
@@ -593,6 +592,8 @@ private extension PostCardCell {
         }
         
         NSLayoutConstraint.activate([
+            headerExtension.leadingMarginAnchor.constraint(equalTo: header.leadingAnchor),
+            
             parentThread.widthAnchor.constraint(equalToConstant: 1),
             parentThread.topAnchor.constraint(equalTo: self.topAnchor),
             parentThread.bottomAnchor.constraint(equalTo: profilePic.topAnchor),
@@ -800,7 +801,7 @@ private extension PostCardCell {
         self.header.setupUIFromSettings()
         self.linkPreview?.setupUIFromSettings()
         self.quotePost?.setupUIFromSettings()
-        self.headerExtension?.setupUIFromSettings()
+        self.headerExtension.setupUIFromSettings()
         self.metadata?.setupUIFromSettings()
     }
 }
@@ -910,18 +911,23 @@ extension PostCardCell {
         
         // Display header extension (reblogged or hashtagged indicator)
         if ((postCard.isReblogged && type != .detail) || postCard.isHashtagged || postCard.isPrivateMention) && type != .forYou {
-            self.headerExtension?.onPress = onButtonPress
-            self.headerExtension!.configure(postCard: postCard)
-            self.headerExtension?.isHidden = false
+            self.headerExtension.onPress = onButtonPress
+            self.headerExtension.configure(postCard: postCard)
+            self.headerExtension.isHidden = false
         } else {
-            self.headerExtension?.isHidden = true
+            self.headerExtension.isHidden = true
         }
         
-        if let user = postCard.user, !postCard.isDeleted, !postCard.isMuted, !postCard.isBlocked {
-            if case .hide(_) = postCard.filterType {} else {
-                self.profilePic.configure(user: user, isPrivateMention: postCard.isPrivateMention)
-                self.profilePic.onPress = onButtonPress
-            }
+        if let user = postCard.user, !postCard.isDeleted, !postCard.isMuted, !postCard.isBlocked, !postCard.filterType.isHide {
+            self.profilePic.configure(user: user, isPrivateMention: postCard.isPrivateMention)
+            self.profilePic.onPress = onButtonPress
+        }
+        
+        switch GlobalStruct.displayName {
+        case .full:
+            profilePic.size = .regular
+        case .usernameOnly, .usertagOnly, .none:
+            profilePic.size = .small
         }
         
         let isVerticallyCentered = postCard.mediaDisplayType == .carousel
