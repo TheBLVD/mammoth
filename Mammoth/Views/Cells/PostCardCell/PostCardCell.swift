@@ -551,10 +551,6 @@ private extension PostCardCell {
         wrapperStackView.addArrangedSubview(headerExtension)
         wrapperStackView.addArrangedSubview(mainStackView)
         
-        if self.headerExtension == nil {
-            self.headerExtension = PostCardHeaderExtension()
-        }
-        
         NSLayoutConstraint.activate([
             wrapperStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             wrapperStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
