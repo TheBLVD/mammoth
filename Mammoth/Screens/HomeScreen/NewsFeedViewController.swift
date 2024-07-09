@@ -460,7 +460,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
             self.viewModel.pollingReachedTop = false
         }
     }
-    
+
     override func didReceiveMemoryWarning() {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         self.viewModel.cleanUpMemoryOfCurrentFeed()
@@ -630,6 +630,10 @@ extension NewsFeedViewController {
                 } else {
                     self.unreadIndicator.isEnabled = true
                     self.unreadIndicator.configure(unreadCount: count)
+
+                    if case .postCard(let postCardModel) = item {
+                        CloudSyncManager.sharedManager.saveSyncStatus(for: self.viewModel.type, uniqueId: postCardModel.id!)
+                    }
                 }
             }
         }
@@ -852,7 +856,7 @@ extension NewsFeedViewController {
 
 // MARK: NewsFeedViewModelDelegate
 extension NewsFeedViewController: NewsFeedViewModelDelegate {
-
+#warning ("Bill - Likely need to call this method on changes to cloud data")
     func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot,
                            feedType: NewsFeedTypes,
                            updateType: NewsFeedSnapshotUpdateType,

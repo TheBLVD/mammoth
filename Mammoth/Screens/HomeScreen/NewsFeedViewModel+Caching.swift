@@ -216,6 +216,7 @@ extension NewsFeedViewModel {
                             shouldUseOriginalServer = false
                         }
                         
+                        #warning ("Bill - We want to clear these items out if cloud sync is newer.")
                         let items = statuses.enumerated().map({ NewsFeedListItem.postCard(PostCardModel(status: $1, withStaticMetrics: hasStaticMetrics, instanceName: shouldUseOriginalServer ? $1.serverName : instanceName, batchId: batchName, batchItemIndex: $0)) })
                         
                         continuation.resume(returning: items)
