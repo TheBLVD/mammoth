@@ -72778,6 +72778,17 @@
         }
       }
     },
+    "settings.readerView" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reader View"
+          }
+        }
+      }
+    },
     "settings.siriShortcuts" : {
       "extractionState" : "manual",
       "localizations" : {
