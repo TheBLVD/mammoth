@@ -38118,6 +38118,28 @@
         }
       }
     },
+    "list.exclusive.off" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show list posts in Following"
+          }
+        }
+      }
+    },
+    "list.exclusive.on" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide list posts from Following"
+          }
+        }
+      }
+    },
     "list.hint" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -60565,7 +60587,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Mediengröße"
           }
         },
@@ -60578,12 +60600,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Media size"
+            "value" : "Media & content size"
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Tamaño multimedia"
           }
         },
@@ -60613,7 +60635,7 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Dimensione media"
           }
         },
@@ -60637,7 +60659,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Mediaformaat"
           }
         },
@@ -60655,7 +60677,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Tamanho da mídia"
           }
         },
@@ -60711,6 +60733,17 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : ""
+          }
+        }
+      }
+    },
+    "settings.appearance.mediaSize.fullWidth" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Full width"
           }
         }
       }
