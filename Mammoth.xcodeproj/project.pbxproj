@@ -783,6 +783,11 @@
 		D87449C72A968D39002A0603 /* RotatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87449C62A968D39002A0603 /* RotatingViewController.swift */; };
 		D8CA77612AB90D4000F49ECC /* ShareableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */; };
 		D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DE092E2A3D12D800DD0483 /* Haptics.swift */; };
+		EF44AFA12C30C9C5009084DC /* LinkOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF44AFA02C30C9C5009084DC /* LinkOpener.swift */; };
+		EF44AFA32C30D340009084DC /* LinkOpenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF44AFA22C30D340009084DC /* LinkOpenerTests.swift */; };
+		EF44AFA52C30D4A4009084DC /* ProcessInfo+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF44AFA42C30D4A4009084DC /* ProcessInfo+.swift */; };
+		EF44AFA72C30D50D009084DC /* CharacterSet+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF44AFA62C30D50D009084DC /* CharacterSet+.swift */; };
+		EF5B099E2C2E2AEC004759EE /* OpenLinksSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5B099D2C2E2AEC004759EE /* OpenLinksSettingsViewController.swift */; };
 		F054D25C2B9C9E07006130A4 /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F054D25B2B9C9E07006130A4 /* MetaTextKit */; };
 		F07766192BB76F310049F022 /* PostCardWebview.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07766182BB76F310049F022 /* PostCardWebview.swift */; };
 		F084802D2B8BBF02005201A7 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = F084802C2B8BBF02005201A7 /* Localizable.xcstrings */; };
@@ -1626,6 +1631,11 @@
 		D87449C62A968D39002A0603 /* RotatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotatingViewController.swift; sourceTree = "<group>"; };
 		D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableViewController.swift; sourceTree = "<group>"; };
 		D8DE092E2A3D12D800DD0483 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		EF44AFA02C30C9C5009084DC /* LinkOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOpener.swift; sourceTree = "<group>"; };
+		EF44AFA22C30D340009084DC /* LinkOpenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOpenerTests.swift; sourceTree = "<group>"; };
+		EF44AFA42C30D4A4009084DC /* ProcessInfo+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+.swift"; sourceTree = "<group>"; };
+		EF44AFA62C30D50D009084DC /* CharacterSet+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CharacterSet+.swift"; sourceTree = "<group>"; };
+		EF5B099D2C2E2AEC004759EE /* OpenLinksSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenLinksSettingsViewController.swift; sourceTree = "<group>"; };
 		F07766182BB76F310049F022 /* PostCardWebview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardWebview.swift; sourceTree = "<group>"; };
 		F084802C2B8BBF02005201A7 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		F0ED082E2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSeveranceEvent.swift; sourceTree = "<group>"; };
@@ -1850,6 +1860,7 @@
 				BFDE45962B16CFB30055480A /* About.rtf */,
 				14740AFE2BD68E9600DE2440 /* DevelopmentViewController.swift */,
 				14740B002BD6941700DE2440 /* SettingsTypes.swift */,
+				EF5B099D2C2E2AEC004759EE /* OpenLinksSettingsViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2780,6 +2791,7 @@
 			isa = PBXGroup;
 			children = (
 				BFCC9AB829AAF86E0081CE3B /* FollowManagerTest.swift */,
+				EF44AFA22C30D340009084DC /* LinkOpenerTests.swift */,
 			);
 			path = MammothTests;
 			sourceTree = "<group>";
@@ -2856,6 +2868,7 @@
 				1441736C2B2B1FDA0058AFCC /* SDImageTransformers.swift */,
 				BF45FDE92B34FF1800246C54 /* SettingsIcons.swift */,
 				14740B022BD6C15A00DE2440 /* UIKitScreenTracking.swift */,
+				EF44AFA02C30C9C5009084DC /* LinkOpener.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -3127,6 +3140,8 @@
 				66D091E72A53625F00291B8D /* Layout */,
 				66D091EC2A5362B300291B8D /* View */,
 				66D091E42A53623F00291B8D /* ViewController */,
+				EF44AFA42C30D4A4009084DC /* ProcessInfo+.swift */,
+				EF44AFA62C30D50D009084DC /* CharacterSet+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -3884,6 +3899,7 @@
 				BF23F6002A88592700D638D1 /* UIColor+Asset.swift in Sources */,
 				53450E752936127C00D720EA /* ImmutableMappable.swift in Sources */,
 				BF2451F42A4B3D6300B409D4 /* AcctHandler.swift in Sources */,
+				EF5B099E2C2E2AEC004759EE /* OpenLinksSettingsViewController.swift in Sources */,
 				533996E72914227A00560F83 /* DetailCell.swift in Sources */,
 				BFDCBD182A9D5EEB00606234 /* ChannelsViewController.swift in Sources */,
 				F07766192BB76F310049F022 /* PostCardWebview.swift in Sources */,
@@ -3942,6 +3958,7 @@
 				BF0F3B9A2A82AFEB0055BB81 /* AnimatedTabBar.swift in Sources */,
 				BFA71B572AB3CBBB001D1EC1 /* InstanceManager.swift in Sources */,
 				533993E529141F4700560F83 /* SceneDelegate.swift in Sources */,
+				EF44AFA12C30C9C5009084DC /* LinkOpener.swift in Sources */,
 				BF193DBE2AC2305B00D0F6F7 /* DiscoverSuggestionsViewController.swift in Sources */,
 				C33DC38F2AA20BFA00B18AB1 /* ActivityCardCell.swift in Sources */,
 				5339966D2914227A00560F83 /* ActiveLabel.swift in Sources */,
@@ -4146,6 +4163,7 @@
 				53B1585D293F66D20026E90B /* SwiftGCM.swift in Sources */,
 				BFF8FA502AF1AD85004D3553 /* ForYouCustomizationHeader.swift in Sources */,
 				C354D60D2A0D809800F8AC04 /* Appearance.swift in Sources */,
+				EF44AFA52C30D4A4009084DC /* ProcessInfo+.swift in Sources */,
 				BF2451F22A4B3C9500B409D4 /* AcctData.swift in Sources */,
 				BF34B1A62A0E9774002F3FED /* HashtagManager.swift in Sources */,
 				BFA71B4F2AB22D4B001D1EC1 /* InstancesViewController.swift in Sources */,
@@ -4165,6 +4183,7 @@
 				C3A834C52AB30BFF007E4A12 /* FeedEditorCell.swift in Sources */,
 				5339966F2914227A00560F83 /* StringTrimExtension.swift in Sources */,
 				533996F72914227A00560F83 /* MessageCell.swift in Sources */,
+				EF44AFA72C30D50D009084DC /* CharacterSet+.swift in Sources */,
 				C360A9052AA75E9000E17556 /* DetailViewModel.swift in Sources */,
 				533996832914227A00560F83 /* SKLocalPhoto.swift in Sources */,
 				C37881D32A214D450053A586 /* PostCardImageAttachment.swift in Sources */,
@@ -4207,6 +4226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF44AFA32C30D340009084DC /* LinkOpenerTests.swift in Sources */,
 				BFCC9AB929AAF86E0081CE3B /* FollowManagerTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

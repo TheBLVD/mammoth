@@ -150,6 +150,8 @@ public struct GlobalStruct {
     static var hideNavBars2: Bool = false
     static var scrollDirectionDown: Bool = true
     static var openLinksInBrowser: Bool = false
+    static var openLinksInReaderView: Bool = false
+    static var preferredBrowser: String = "Safari"
     static var appLock: Bool = false
     static var shareAnalytics: Bool = true
     
