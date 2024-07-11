@@ -371,7 +371,7 @@ final class PostCardImage: UIView {
             // Open fullscreen image preview
             let images = self.postCard?.mediaAttachments.compactMap { attachment in
                 guard attachment.type == .image else { return SKPhoto() }
-                let photo = SKPhoto.photoWithImageURL(attachment.url)
+                let photo = SKPhoto.photoWithImageURL(attachment.url ?? attachment.previewURL!)
                 photo.contentMode = imageView.contentMode
                 photo.shouldCachePhotoURLImage = false
                 
@@ -410,11 +410,11 @@ final class PostCardImage: UIView {
             PostCardModel.imageDecodeQueue.async { [weak self] in
                 guard let self else { return }
                 let prefetcher = SDWebImagePrefetcher.shared
-                let urls = self.postCard?.mediaAttachments.compactMap { URL(string: $0.url) }
+                let urls = self.postCard?.mediaAttachments.compactMap { URL(string: $0.url ?? $0.previewURL!) }
                 prefetcher.prefetchURLs(urls, progress: nil) { _, _ in
                     let images = self.postCard?.mediaAttachments.compactMap { attachment in
                         guard attachment.type == .image else { return nil }
-                        let photo = SKPhoto.photoWithImageURL(attachment.url)
+                        let photo = SKPhoto.photoWithImageURL(attachment.url ?? attachment.previewURL!)
                         photo.contentMode = self.imageView.contentMode
                         photo.shouldCachePhotoURLImage = false
                         photo.underlyingImage = SDImageCache.shared.imageFromCache(forKey: attachment.url)
