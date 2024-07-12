@@ -402,7 +402,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
 
                             self.mediaIdStrings.append(stat.mediaAttachments[index].id)
                             if stat.mediaAttachments[index].type == .video || stat.mediaAttachments[index].type == .gifv {
-                                if let ur = URL(string: stat.mediaAttachments[index].url) {
+                                if let ur = URL(string: stat.mediaAttachments[index].url ?? stat.mediaAttachments[index].previewURL!) {
                                     self.videoAttached = true
                                     self.vUrl = ur
                                     self.tryDisplayThumbnail(url: self.vUrl)
@@ -419,14 +419,14 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                                 }, completion: { x in
                                     
                                 })
-                                if let ur = URL(string: stat.mediaAttachments[0].url) {
+                                if let ur = URL(string: stat.mediaAttachments[0].url ?? stat.mediaAttachments[0].previewURL!) {
                                     self.audioAttached = true
                                     self.videoAttached = false
                                     self.vUrl = ur
                                     self.createToolbar()
                                 }
                             } else {
-                                self.imageButton[index].sd_setImage(with: URL(string: stat.mediaAttachments[index].url), for: .normal)
+                                self.imageButton[index].sd_setImage(with: URL(string: stat.mediaAttachments[index].url ?? stat.mediaAttachments[index].previewURL!), for: .normal)
                             }
                             if stat.mediaAttachments[index].type == .gifv {
                                 self.videoAttached = false

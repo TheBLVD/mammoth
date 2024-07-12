@@ -202,7 +202,7 @@ extension PostCardImageAttachment: UICollectionViewDataSource {
         
         if model.usesMediaPlayer {
             // Open fullscreen video player
-            let mediaURLString = model.mediaAttachment.url
+            let mediaURLString = model.mediaAttachment.url ?? model.mediaAttachment.previewURL!
             
             if let mediaURL = URL(string: mediaURLString) {
                 let player = AVPlayer(url: mediaURL)
@@ -218,7 +218,7 @@ extension PostCardImageAttachment: UICollectionViewDataSource {
         } else {
             // Open fullscreen image preview
             let images = self.mediaAttachments.map { attachment in
-                let photo = SKPhoto.photoWithImageURL(attachment.url)
+                let photo = SKPhoto.photoWithImageURL(attachment.url ?? attachment.previewURL!)
                 photo.shouldCachePhotoURLImage = true
                 return photo
             }

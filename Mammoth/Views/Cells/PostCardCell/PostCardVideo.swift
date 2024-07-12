@@ -451,7 +451,7 @@ final class PostCardVideo: UIView {
             guard self.media != media else { return }
             
             self.media = media
-            if let videoURL = URL(string: media.remoteURL ?? media.url) {
+            if let videoURL = URL(string: media.remoteURL ?? media.url ?? media.previewURL!) {
                 
                 loadingIndicator.startAnimating()
                 

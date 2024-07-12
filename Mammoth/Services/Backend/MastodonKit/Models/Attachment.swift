@@ -14,7 +14,7 @@ public class Attachment: Codable, Equatable {
     /// Type of the attachment.
     public let type: AttachmentType
     /// URL of the locally hosted version of the image.
-    public let url: String
+    public let url: String?
     /// For remote images, the remote URL of the original image.
     public let remoteURL: String?
     /// URL of the preview image.

@@ -87,7 +87,7 @@ public class Client: NSObject, ClientType, URLSessionTaskDelegate {
                 
                 guard
                     let httpResponse = response as? HTTPURLResponse,
-                    httpResponse.statusCode == 200
+                    httpResponse.statusCode >= 200 && httpResponse.statusCode < 300
                 else {
                     log.error("error in response/status from: \(url)")
                     let statusCode = (response as? HTTPURLResponse)?.statusCode
