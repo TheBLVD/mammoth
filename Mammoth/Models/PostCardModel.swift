@@ -817,10 +817,9 @@ extension PostCardModel {
     func preloadVideo() {
         if GlobalStruct.autoPlayVideos {
             // Don't attempt to preload videos that haven't finished processing. It would only have a previewURL that's just an image and won't be useful anyways
-            if self.videoPlayer == nil, let media = self.mediaAttachments.first, media.url != nil {
+            if self.videoPlayer == nil, let media = self.mediaAttachments.first, let mediaURLString = media.url, let videoURL = URL(string: mediaURLString) {
                 DispatchQueue.global(qos: .default).async {
-                    let videoURL = URL(string: media.url!)
-                    let playerItem = AVPlayerItem(url: videoURL!)
+                    let playerItem = AVPlayerItem(url: videoURL)
                     let player = AVPlayer(playerItem: playerItem)
                     player.isMuted = true
                     DispatchQueue.main.async {
