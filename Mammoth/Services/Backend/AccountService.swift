@@ -65,7 +65,7 @@ struct AccountService {
     }
     
     static func lookup(_ fullAcct: String, serverName: String = AccountsManager.shared.currentAccountClient.baseHost) async -> Account? {
-        let request = Accounts.lookup(acct: fullAcct)
+        let request = Search.searchOne(query: fullAcct, resolve: true)
         let client = Client(baseURL: "https://\(serverName)")
         return await withCheckedContinuation { continuation in
             // Do the account look up
@@ -76,7 +76,7 @@ struct AccountService {
                     continuation.resume(returning: nil)
                     return
                 }
-                if let account = (statuses.value) {
+                if let account = (statuses.value)?.accounts.first {
                     continuation.resume(returning: account)
                 } else {
                     continuation.resume(returning: nil)
