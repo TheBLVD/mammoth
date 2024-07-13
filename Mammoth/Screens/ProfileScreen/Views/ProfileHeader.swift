@@ -621,26 +621,51 @@ extension ProfileHeader {
             } else if GlobalStruct.overrideTheme == 2 || self.traitCollection.userInterfaceStyle == .dark  {
                 theme = "dark"
             }
+            var tip_account: Account?
+            var tip_username: String?
             switch user.isTippable {
             case true:
-                if let username = user.username.split(separator: "@").first, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(username)/subscribe?callback=mammoth://subclub&id=@\(currentAccount)&theme=\(theme)&amount=500&currency=USD") {
-                    if let acct = user.account {
-                        FollowManager.shared.followAccount(acct)
-                    }
-                    let vc = WebViewController(url: url.absoluteString, user)
-                    if let presentingVC = getTopMostViewController() {
-                        presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
-                    }
-                }
+                tip_account = user.account
+                tip_username = user.username
             case false:
-                if let tippableAcct = user.tippableAccount, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tippableAcct.accountname)/subscribe?callback=mammoth://subclub&id=@\(currentAccount)&theme=\(theme)&amount=500&currency=USD") {
-                    if let acct = tippableAcct.acct {
-                        FollowManager.shared.followAccount(acct)
-                        let vc = WebViewController(url: url.absoluteString, user)
-                        if let presentingVC = getTopMostViewController() {
-                            presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
-                        }
-                    }
+                tip_account = user.tippableAccount?.acct
+                tip_username = user.tippableAccount?.accountname
+            }
+            if let tip_account = tip_account, let tip_username = tip_username, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tip_username)/subscribe?callback=mammoth://subclub&id=@\(currentAccount)&theme=\(theme)") {
+                FollowManager.shared.followAccount(tip_account)
+                let vc = WebViewController(url: url.absoluteString, user)
+                if let presentingVC = getTopMostViewController() {
+                    presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
+                }
+            }
+        }
+    }
+    
+    @objc func unsubscribeTapped() {
+        triggerHapticImpact(style: .light)
+        
+        if let user = user, let currentAccount = AccountsManager.shared.currentAccount?.fullAcct {
+            var tip_account: Account?
+            var tip_username: String?
+            switch user.isTippable {
+            case true:
+                tip_account = user.account
+                tip_username = user.userTag
+            case false:
+                tip_account = user.tippableAccount?.acct
+                // using this username here because of the domain.
+                tip_username = user.tippableAccount?.acct?.username
+            }
+            if let tip_account = tip_account, let tip_username = tip_username {
+                FollowManager.shared.unfollowAccount(tip_account)
+                user.syncFollowStatus()
+                let vc = NewPostViewController()
+                vc.isModalInPresentation = true
+                vc.fromPro = true
+                vc.proText = "@\(tip_username) unsubscribe"
+                vc.canPost = true
+                if let presentingVC = getTopMostViewController() {
+                    presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
                 }
             }
         }
@@ -680,18 +705,26 @@ extension ProfileHeader {
             user.getTipInfo()
             if !user.isSelf && user.isTippable {
                 tipButton.isHidden = false
-                tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
                 // user is subscribed:
                 if user.followStatus == .following {
                     followButton.isHidden = true
+                    followButton.removeTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                    tipButton.addTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
                     tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
+                } else {
+                    followButton.removeTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
+                    tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
                 }
             } else if !user.isSelf && user.tippableAccount != nil {
                 tipButton.isHidden = false
-                tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
                 // user is subscribed:
                 if user.tippableAccount?.isFollowed == true {
+                    followButton.removeTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                    tipButton.addTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
                     tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
+                } else {
+                    followButton.removeTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
+                    tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
                 }
             }
         }
