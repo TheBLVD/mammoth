@@ -712,8 +712,10 @@ extension ProfileHeader {
                     tipButton.addTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
                     tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
                 } else {
+                    followButton.isHidden = false
                     tipButton.removeTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
                     tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                    tipButton.setTitle(NSLocalizedString("profile.subscribe", comment: ""), for: .normal)
                 }
             } else if !user.isSelf && user.tippableAccount != nil {
                 tipButton.isHidden = false
@@ -725,6 +727,7 @@ extension ProfileHeader {
                 } else {
                     tipButton.removeTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
                     tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                    tipButton.setTitle(NSLocalizedString("profile.subscribe", comment: ""), for: .normal)
                 }
             }
         }
