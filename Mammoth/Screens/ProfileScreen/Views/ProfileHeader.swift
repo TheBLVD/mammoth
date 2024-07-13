@@ -644,7 +644,7 @@ extension ProfileHeader {
     @objc func unsubscribeTapped() {
         triggerHapticImpact(style: .light)
         
-        if let user = user, let currentAccount = AccountsManager.shared.currentAccount?.fullAcct {
+        if let user = user {
             var tip_account: Account?
             var tip_username: String?
             switch user.isTippable {
@@ -708,22 +708,22 @@ extension ProfileHeader {
                 // user is subscribed:
                 if user.followStatus == .following {
                     followButton.isHidden = true
-                    followButton.removeTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                    tipButton.removeTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
                     tipButton.addTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
                     tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
                 } else {
-                    followButton.removeTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
+                    tipButton.removeTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
                     tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
                 }
             } else if !user.isSelf && user.tippableAccount != nil {
                 tipButton.isHidden = false
                 // user is subscribed:
                 if user.tippableAccount?.isFollowed == true {
-                    followButton.removeTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                    tipButton.removeTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
                     tipButton.addTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
                     tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
                 } else {
-                    followButton.removeTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
+                    tipButton.removeTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
                     tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
                 }
             }
