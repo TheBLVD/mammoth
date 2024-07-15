@@ -37,9 +37,9 @@ class SettingsViewController: UIViewController {
                 ].compactMap{$0}),
                 SettingsSection(items: [
                     .openLinks,
-                    .readerView,
+                    GlobalStruct.preferredBrowser == "In-app browser" ? .readerView : nil,
                     .appLock
-                ]),
+                ].compactMap{$0}),
                 SettingsSection(items: [
                     .getInTouch,
                     .subscriptions,
@@ -67,9 +67,9 @@ class SettingsViewController: UIViewController {
                 ].compactMap{$0}),
                 SettingsSection(items: [
                     .openLinks,
-                    .readerView,
+                    GlobalStruct.preferredBrowser == "In-app browser" ? .readerView : nil,
                     .appLock
-                ]),
+                ].compactMap{$0}),
                 SettingsSection(items: [
                     .getInTouch,
                     .development
@@ -371,6 +371,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             postClearCacheAlert()
         case .openLinks:
             vc = OpenLinksSettingsViewController()
+            (vc as! OpenLinksSettingsViewController).delegate = self
         default:
             vc = nil
         }
@@ -464,5 +465,11 @@ internal extension SettingsViewController {
              }
          }
          self.reloadAll()
+    }
+}
+
+extension SettingsViewController: OpenLinksSettingsViewDelegate {
+    func didChangeBrowserSettings() {
+        self.reloadAll()
     }
 }
