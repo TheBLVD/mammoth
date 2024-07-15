@@ -8,8 +8,13 @@
 
 import UIKit
 
+protocol OpenLinksSettingsViewDelegate: AnyObject {
+    func didChangeBrowserSettings()
+}
+
 class OpenLinksSettingsViewController: UITableViewController {
 
+    weak var delegate: OpenLinksSettingsViewDelegate?
     var browsers: [String] = []
     let userDefaultsKey = "PreferredBrowser"
     
@@ -69,7 +74,7 @@ class OpenLinksSettingsViewController: UITableViewController {
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.text = browsers[indexPath.row]
         
-        let preferredBrowser = UserDefaults.standard.string(forKey: userDefaultsKey)
+        let preferredBrowser = GlobalStruct.preferredBrowser
         if browsers[indexPath.row] == preferredBrowser {
             cell.accessoryType = .checkmark
         } else {
@@ -92,6 +97,7 @@ class OpenLinksSettingsViewController: UITableViewController {
         UserDefaults.standard.set(selectedBrowser, forKey: userDefaultsKey.value)
         GlobalStruct.preferredBrowser = selectedBrowser
         tableView.reloadData()
+        self.delegate?.didChangeBrowserSettings()
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
