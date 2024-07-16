@@ -135,6 +135,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     var fromCamera: Bool = false
     var hasUpdatedReplyingTo: Bool = false
     var instanceCanEditAltText: Bool = true
+    var isProcessingMediaServerside: Bool = false
     
     var isProcessingVideo: Bool = false
     
@@ -631,7 +632,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         self.videoAttached = true
         self.mediaData = fileContent
         Task {
-            await self.attachVideo()
+            await self.attachAnimatedMedia()
         }
         
         self.cellPostTextView?.resignFirstResponder()
@@ -889,7 +890,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                             self.videoAttached = true
                             self.mediaData = data ?? Data()
                             Task {
-                                await self.attachVideo()
+                                await self.attachAnimatedMedia()
                             }
                         }
                     }
@@ -1752,7 +1753,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                             self.videoAttached = true
                             self.mediaData = data ?? Data()
                             Task {
-                                await self.attachVideo()
+                                await self.attachAnimatedMedia()
                             }
                         }
                     }
@@ -1840,7 +1841,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                             let videoData = try NSData(contentsOf: url as URL, options: .mappedIfSafe)
                             self.mediaData = videoData as Data
                             Task {
-                                await self.attachVideo()
+                                await self.attachAnimatedMedia()
                             }
                         } catch {
                             return
@@ -2009,7 +2010,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         } else if videoAttached {
             // This is a video
             Task {
-                await self.attachVideo()
+                await self.attachAnimatedMedia()
             }
         } else if audioAttached {
             // This is audio
@@ -2041,6 +2042,47 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
 
+    func checkMediaValid(id: String, completion: @escaping (Bool) -> Void) {
+        let request = Media.getMedia(id: id)
+        (self.currentAcct as? MastodonAcctData)?.client.run(request, completion: { result in
+            if let error = result.error {
+                log.error("Error checking isMediaValid: \(error)")
+                DispatchQueue.main.async {
+                    completion(false)
+                }
+            }
+            if let attachment = result.value {
+                guard attachment.url != nil else {
+                    // url is not there yet so media not yet processed
+                    completion(false)
+                    return
+                }
+                // if url is present, that means media finished processing
+                completion(true)
+            } else {
+                completion(false)
+            }
+        })
+    }
+    
+    func tryCheckingMediaValidity(id: String, retries: Int, delay: TimeInterval, completion: @escaping (Bool) -> Void) {
+        checkMediaValid(id: id) { success in
+            if success {
+                self.isProcessingMediaServerside = false
+                completion(true)
+            } else if retries > 0 {
+                log.debug("Media not done processing serverside.\nRetry \(retries) in \(delay)...")
+                // We don't want exponential backoff in this case as media is imminently ready.
+                DispatchQueue.global().asyncAfter(deadline: .now() + delay) {
+                    self.tryCheckingMediaValidity(id: id, retries: retries - 1, delay: delay, completion: completion)
+                }
+            } else {
+                // We can assume the media processing has failed.
+                self.isProcessingMediaServerside = false
+                completion(false)
+            }
+        }
+    }
     
     func attachPhoto() {
         self.hasEditedMedia = true
@@ -2185,7 +2227,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
-    func attachVideo() async {
+    func attachAnimatedMedia() async {
         self.hasEditedMedia = true
         self.isProcessingVideo = true
         self.imageButton[0].addSubview(progressRing[0])
@@ -2222,36 +2264,85 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                 request = Media.upload(media: .video(mediaData))
             }
             
-            (self.currentAcct as? MastodonAcctData)?.client.run(request) { (statuses) in
+            (self.currentAcct as? MastodonAcctData)?.client.run(request) { [weak self] (statuses) in
+                guard let self = self else { return }
                 if let err = (statuses.error) {
-                    log.error("error attaching video - \(err.localizedDescription)")
+                    log.error("error attaching media - \(err.localizedDescription)")
                     DispatchQueue.main.async {
-                        self.setToolBarMediaItemStates(disabled: false)
-                        self.imageButton[0].alpha = 0
-                        self.imageButton[0].setImage(UIImage(), for: .normal)
-                        self.visibleImages = 0
-                        self.updatePostButton()
+                        self.updateComposerStateForState(success: false)
                         self.mediaFailure(message: err.localizedDescription)
                     }
                 }
                 if let stat = (statuses.value) {
-                    self.setToolBarMediaItemStates(disabled: false)
-                    self.mediaIdStrings = [stat.id]
-                    
-                    DispatchQueue.main.async {
-                        self.progressRing[0].layer.removeAllAnimations()
-                        self.progressRing[0].setProgress(1, animated: true)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                            self.progressRing[0].removeFromSuperview()
-                        }
-                        self.mediaAttached = true
-                        self.isProcessingVideo = false
-                        if self.imageButton[0].alpha == 1 {
+                    // If there's no url, that means the server is still processing the media and won't accept a post with the still-processing media.
+                    guard stat.url != nil else {
+                        log.debug("Server needs to process media")
+                        self.isProcessingMediaServerside = true
+                        DispatchQueue.main.async {
+                            self.progressRing[0].layer.removeAllAnimations()
+                            self.progressRing[0].setProgress(1, animated: true)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                self.progressRing[0].setProgress(0.5, animated: true)
+                                self.progressRing[0].rotate360Degrees()
+                            }
                             self.updatePostButton()
                         }
+                        
+                        // After testing various media uploads, I've determined that generally it should be done in ~30 seconds for ~30MB media, with margin.
+                        // Anything more than that we can assume it's not going to succeed. This can be adjusted if users say differently.
+                        // Masto:web does a check ever 1 second after the previous check returns
+                        log.debug("Start checking uploaded media validity")
+                        self.tryCheckingMediaValidity(id: stat.id, retries: 20, delay: 1) { [weak self] success in
+                            guard let self = self else { return }
+                            if success {
+                                log.debug("Serviceside media validity succeeded")
+                                self.mediaIdStrings = [stat.id]
+                                DispatchQueue.main.async {
+                                    self.updateComposerStateForState(success: true)
+                                }
+                            } else {
+                                log.error("Serverside media validity failed")
+                                DispatchQueue.main.async {
+                                    self.updateComposerStateForState(success: false)
+                                    self.mediaFailure(message: NSLocalizedString("error.composer.mediaFailedServerProcessing", comment: "The uploaded media failed serverside processing"))
+                                }
+                            }
+                        }
+                        return
+                    }
+                    
+                    // There seems to be a valid media url, carry on...
+                    self.mediaIdStrings = [stat.id]
+                    DispatchQueue.main.async {
+                        self.updateComposerStateForState(success: true)
                     }
                 }
             }
+        }
+    }
+    
+    func updateComposerStateForState(success: Bool) {
+        // This is a temp function for controlling actionable view states, for sanity
+        // An overall NewPostVC refactor ticket is at MAM-4165, comments welcome!
+        if success {
+            self.progressRing[0].layer.removeAllAnimations()
+            self.progressRing[0].setProgress(1, animated: true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                self.progressRing[0].removeFromSuperview()
+            }
+            self.mediaAttached = true
+            self.isProcessingVideo = false
+            if self.imageButton[0].alpha == 1 {
+                self.updatePostButton()
+            }
+        } else {
+            self.progressRing[0].layer.removeAllAnimations()
+            self.progressRing[0].removeFromSuperview()
+            self.setToolBarMediaItemStates(disabled: false)
+            self.imageButton[0].alpha = 0
+            self.imageButton[0].setImage(UIImage(), for: .normal)
+            self.visibleImages = 0
+            self.updatePostButton()
         }
     }
     
@@ -3542,14 +3633,12 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
             
             // Is there any media at all?
             let hasAnyMedia = self.imageButton[0].alpha == 1
-
-            
             let hasAnyValidContent = hasValidText || hasAnyMedia
             
             // Enable if (1) there is any valid content, AND
             //           (2) any editing has happened
-            let canSend = hasAnyValidContent &&
-                            (self.hasEditedText || self.hasEditedMedia || self.hasEditedMetadata || self.hasEditedPoll)
+            let canSend = hasAnyValidContent && (self.hasEditedText || self.hasEditedMedia || self.hasEditedMetadata || self.hasEditedPoll) && !self.isProcessingMediaServerside
+            
             if canSend {
                 let symbolConfig0 = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold)
                 self.canPost = true
