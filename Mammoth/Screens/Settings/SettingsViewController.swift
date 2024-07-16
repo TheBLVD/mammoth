@@ -37,7 +37,7 @@ class SettingsViewController: UIViewController {
                 ].compactMap{$0}),
                 SettingsSection(items: [
                     .openLinks,
-                    GlobalStruct.preferredBrowser == "In-app browser" ? .readerView : nil,
+                    GlobalStruct.preferredBrowser == "In-App Browser" ? .readerView : nil,
                     .appLock
                 ].compactMap{$0}),
                 SettingsSection(items: [
@@ -67,7 +67,7 @@ class SettingsViewController: UIViewController {
                 ].compactMap{$0}),
                 SettingsSection(items: [
                     .openLinks,
-                    GlobalStruct.preferredBrowser == "In-app browser" ? .readerView : nil,
+                    GlobalStruct.preferredBrowser == "In-App Browser" ? .readerView : nil,
                     .appLock
                 ].compactMap{$0}),
                 SettingsSection(items: [

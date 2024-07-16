@@ -34,7 +34,7 @@ import UIKit
 enum LinkOpener: String, CaseIterable {
     
     case safari = "Safari"
-    case mammoth = "In-app browser"
+    case mammoth = "In-App Browser"
     case brave = "Brave"
     case chrome = "Chrome"
     case duckDuckGo = "DuckDuckGo"
@@ -61,7 +61,7 @@ enum LinkOpener: String, CaseIterable {
     var title: String {
         switch self {
         case .safari: return "System Default"
-        case .mammoth: return "In-app browser"
+        case .mammoth: return "In-App Browser"
         case .brave: return "Brave"
         case .chrome: return "Chrome"
         case .duckDuckGo: return "DuckDuckGo"
