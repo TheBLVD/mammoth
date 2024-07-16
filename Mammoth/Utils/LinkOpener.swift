@@ -34,7 +34,7 @@ import UIKit
 enum LinkOpener: String, CaseIterable {
     
     case safari = "Safari"
-    case mammoth = "Mammoth"
+    case mammoth = "In-app browser"
     case brave = "Brave"
     case chrome = "Chrome"
     case duckDuckGo = "DuckDuckGo"
