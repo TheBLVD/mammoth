@@ -151,7 +151,7 @@ public struct GlobalStruct {
     static var scrollDirectionDown: Bool = true
     static var openLinksInBrowser: Bool = false
     static var openLinksInReaderView: Bool = false
-    static var preferredBrowser: String = "In-app browser"
+    static var preferredBrowser: String = "In-App Browser"
     static var appLock: Bool = false
     static var shareAnalytics: Bool = true
     

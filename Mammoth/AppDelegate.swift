@@ -229,7 +229,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.scrollDirectionDown = UserDefaults.standard.value(forKey: "scrollDirectionDown") as? Bool ?? true
         GlobalStruct.openLinksInBrowser = UserDefaults.standard.value(forKey: "openLinksInBrowser") as? Bool ?? false
         GlobalStruct.openLinksInReaderView = UserDefaults.standard.value(forKey: "openLinksInReaderView") as? Bool ?? false
-        GlobalStruct.preferredBrowser = UserDefaults.standard.string(forKey: "PreferredBrowser") ?? "In-app browser"
+        GlobalStruct.preferredBrowser = UserDefaults.standard.string(forKey: "PreferredBrowser") ?? "In-App Browser"
         GlobalStruct.appLock = UserDefaults.standard.value(forKey: "appLock") as? Bool ?? false
         GlobalStruct.shareAnalytics = UserDefaults.standard.value(forKey: "shareAnalytics") as? Bool ?? true
         
