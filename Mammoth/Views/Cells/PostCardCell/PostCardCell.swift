@@ -159,6 +159,15 @@ final class PostCardCell: UITableViewCell {
                 return false
             }
         }
+        
+        var shouldShowFullWidthLayout: Bool {
+            switch self {
+            case .detail, .parent, .reply, .regular:
+                return false
+            default:
+                return true
+            }
+        }
     }
     
     enum PostCardVariant: Equatable {
@@ -169,7 +178,16 @@ final class PostCardCell: UITableViewCell {
         static func cellVariant(for postCard: PostCardModel, cellType: PostCardCellType) -> Self? {
             let hasText = !postCard.postText.isEmpty
             
-            if postCard.containsPoll || postCard.hasQuotePost || postCard.hasLink || postCard.hasMediaAttachment || cellType.mediaVariant == .fullWidth {
+            guard cellType.shouldShowFullWidthLayout else {
+                // In details feed, don't show full width
+                if cellType.mediaVariant == .fullWidth {
+                    return hasText ? .textAndMedia(.large) : .mediaOnly(.large)
+                } else {
+                    return hasText ? .textAndMedia(cellType.mediaVariant) : .mediaOnly(cellType.mediaVariant)
+                }
+            }
+            
+            if postCard.containsPoll || postCard.hasQuotePost || postCard.hasLink || postCard.hasMediaAttachment || (cellType.shouldShowFullWidthLayout && cellType.mediaVariant == .fullWidth) {
                 let mediaVariant = cellType.mediaVariant
 
 //                UNCOMMENT TO SUPPORT DYNAMIC MEDIA SIZE MODE
@@ -926,12 +944,12 @@ extension PostCardCell {
         }
         
         let isVerticallyCentered = postCard.mediaDisplayType == .carousel
-                                    && postCard.postText.isEmpty
-                                    && type.headerType != .quotePost
-                                    && (self.cellVariant.mediaVariant == .large || self.cellVariant.mediaVariant == .fullWidth)
+        && postCard.postText.isEmpty
+        && type.headerType != .quotePost
+        && (self.cellVariant.mediaVariant == .large || (self.cellVariant.mediaVariant == .fullWidth && type.shouldShowFullWidthLayout))
         
-        /// Only center the header content if the display name is two files and in full width mode.
-        self.header.isCenterAligned = self.cellVariant.mediaVariant == .fullWidth && GlobalStruct.displayName == .full
+        /// Only center the header content if the display name is two lines and in full width mode.
+        self.header.isCenterAligned = self.cellVariant.mediaVariant == .fullWidth && type.shouldShowFullWidthLayout && GlobalStruct.displayName == .full
         self.header.configure(postCard: postCard, headerType: type.headerType, isVerticallyCentered: isVerticallyCentered)
         self.header.onPress = onButtonPress
         
@@ -1037,7 +1055,7 @@ extension PostCardCell {
                 self.mediaStack?.isHidden = true
             }
             
-            if self.cellVariant.mediaVariant == .fullWidth {
+            if self.cellVariant.mediaVariant == .fullWidth && type.shouldShowFullWidthLayout {
                 self.contentStackView.setCustomSpacing(isDisplayingMedia ? 12.0 : 0.0, after: self.textAndSmallMediaStackView)
             }
         }
