@@ -93,7 +93,7 @@ enum LinkOpener: String, CaseIterable {
         if let rawValue = UserDefaults.standard.string(forKey: "PreferredBrowser") {
             return LinkOpener(rawValue: rawValue) ?? .safari
         }
-        return .safari
+        return .mammoth
     }
 
     func deeplink(to url: URL) -> URL {
