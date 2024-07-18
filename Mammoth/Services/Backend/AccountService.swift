@@ -115,27 +115,53 @@ struct AccountService {
         return result
     }
     
-    static func followers(userId: String, instanceName: String? = nil, range: RequestRange = .default) async throws -> ([Account], Pagination?) {
+    static func followers(userId: String, instanceName: String? = nil, range: RequestRange = .default) async throws -> ([Account], [Relationship?], Pagination?) {
         if let instanceName, !instanceName.isEmpty {
             let accessToken = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.instanceData.accessToken
             let client = Client(baseURL: "https://\(instanceName)", accessToken: accessToken)
-            let request = Accounts.followers(id: userId, range: range)
-            return try await ClientService.runPaginatedRequest(client: client, request: request)
+            let accounts_request = Accounts.followers(id: userId, range: range)
+            let (users, pagination) = try await ClientService.runPaginatedRequest(client: client, request: accounts_request)
+            let relationships_request = Accounts.relationships(ids: users.map({$0.id}))
+            let relationships: [Relationship?]
+            do {
+                // we can only do this request on local instances
+                relationships = try await ClientService.runRequest(client: client, request: relationships_request)
+            } catch {
+                // so we fallback to a nil array
+                relationships = Array<Relationship?>(repeating: nil, count: users.count)
+            }
+            return (users, relationships, pagination)
         } else {
-            let request = Accounts.followers(id: userId, range: range)
-            return try await ClientService.runPaginatedRequest(request: request)
+            let accounts_request = Accounts.followers(id: userId, range: range)
+            let (users, pagination) = try await ClientService.runPaginatedRequest(request: accounts_request)
+            let relationships_request = Accounts.relationships(ids: users.map({$0.id}))
+            let relationships = try await ClientService.runRequest(request: relationships_request)
+            return (users, relationships, pagination)
         }
     }
     
-    static func following(userId: String, instanceName: String? = nil, range: RequestRange = .default) async throws -> ([Account], Pagination?) {
+    static func following(userId: String, instanceName: String? = nil, range: RequestRange = .default) async throws -> ([Account], [Relationship?], Pagination?) {
         if let instanceName, !instanceName.isEmpty {
             let accessToken = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.instanceData.accessToken
             let client = Client(baseURL: "https://\(instanceName)", accessToken: accessToken)
-            let request = Accounts.following(id: userId, range: range)
-            return try await ClientService.runPaginatedRequest(client: client, request: request)
+            let accounts_request = Accounts.following(id: userId, range: range)
+            let (users, pagination) = try await ClientService.runPaginatedRequest(client: client, request: accounts_request)
+            let relationships_request = Accounts.relationships(ids: users.map({$0.id}))
+            let relationships: [Relationship?]
+            do {
+                // we can only do this request on local instances
+                relationships = try await ClientService.runRequest(client: client, request: relationships_request)
+            } catch {
+                // so we fallback to a nil array
+                relationships = Array<Relationship?>(repeating: nil, count: users.count)
+            }
+            return (users, relationships, pagination)
         } else {
-            let request = Accounts.following(id: userId, range: range)
-            return try await ClientService.runPaginatedRequest(request: request)
+            let accounts_request = Accounts.following(id: userId, range: range)
+            let (users, pagination) = try await ClientService.runPaginatedRequest(request: accounts_request)
+            let relationships_request = Accounts.relationships(ids: users.map({$0.id}))
+            let relationships = try await ClientService.runRequest(request: relationships_request)
+            return (users, relationships, pagination)
         }
     }
     
