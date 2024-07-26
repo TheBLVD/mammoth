@@ -162,7 +162,7 @@ final class PostCardCell: UITableViewCell {
         
         var shouldShowFullWidthLayout: Bool {
             switch self {
-            case .detail, .parent, .reply, .regular:
+            case .detail, .parent, .reply:
                 return false
             default:
                 return true
