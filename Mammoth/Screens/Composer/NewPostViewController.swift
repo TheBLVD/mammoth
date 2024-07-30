@@ -3372,17 +3372,16 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     func searchForUsers(_ user0: String) {
-        let request = Search.search(query: user0, resolve: true)
+        let request = Search.searchAutocompleteAccounts(query: user0)
         self.formatToolbar2.sizeToFit()
-        (self.currentAcct as? MastodonAcctData)?.client.run(request) { (statuses) in
-            if let stat = (statuses.value) {
+        (self.currentAcct as? MastodonAcctData)?.client.run(request) { (accounts) in
+            if var accountsArray = (accounts.value) {
                 DispatchQueue.main.async {
                     self.formatToolbar2.items = []
                     var allWidths: CGFloat = 0
-                    var zz = stat.accounts
-                    zz = zz.removingDuplicates()
-                    self.userItemsAll = zz
-                    for (c,_) in zz.enumerated() {
+                    accountsArray = accountsArray.removingDuplicates()
+                    self.userItemsAll = accountsArray
+                    for (c,_) in accountsArray.enumerated() {
                         let view = UIButton()
                         
                         let im = UIButton()
@@ -3390,14 +3389,14 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                         im.frame = CGRect(x: 0, y: 10, width: (self.formatToolbar2.frame.size.height) - 20, height: (self.formatToolbar2.frame.size.height) - 20)
                         im.layer.cornerRadius = ((self.formatToolbar2.frame.size.height) - 20)/2
                         im.imageView?.contentMode = .scaleAspectFill
-                        if let ur = URL(string: zz[c].avatar) {
+                        if let ur = URL(string: accountsArray[c].avatar) {
                             im.sd_setImage(with: ur, for: .normal)
                         }
                         im.layer.masksToBounds = true
                         view.addSubview(im)
                         
                         let titl = UILabel()
-                        titl.text = "@\(zz[c].acct)"
+                        titl.text = "@\(accountsArray[c].acct)"
                         titl.textColor = .custom.baseTint
                         titl.frame = CGRect(x: (self.formatToolbar2.frame.size.height) - 10, y: 0, width: (self.view.bounds.width) - (self.formatToolbar2.frame.size.height), height: (self.formatToolbar2.frame.size.height))
                         titl.sizeToFit()
@@ -3412,7 +3411,7 @@ class NewPostViewController: UIViewController, UITableViewDataSource, UITableVie
                         let x0 = UIBarButtonItem(customView: view)
                         x0.width = wid
                         allWidths += wid
-                        x0.accessibilityLabel = "@\(zz[c].acct)"
+                        x0.accessibilityLabel = "@\(accountsArray[c].acct)"
                         
                         self.formatToolbar2.items?.append(x0)
                     }

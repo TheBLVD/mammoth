@@ -71,4 +71,16 @@ public struct Search {
         return Request<Results>(path: "/api/v2/search", method: method)
     }
     
+    public static func searchAutocompleteAccounts(query: String) -> Request<[Account]> {
+        // https://moth.social/api/v1/accounts/search?q=stro&resolve=false&limit=4
+        // Using a v1 api for account autocomplete because there seems to be compatibility issues with moth.social and mastodon.social.
+        // If this breaks, we should check what masto:web is doing. If they move account search in composer back to v2, we should as well.
+        let parameters = [
+            Parameter(name: "q", value: query),
+            Parameter(name: "resolve", value: "true"),
+            Parameter(name: "limit", value: "5")
+        ]
+        let method = HTTPMethod.get(.parameters(parameters))
+        return Request<[Account]>(path: "/api/v1/accounts/search", method: method)
+    }
 }
