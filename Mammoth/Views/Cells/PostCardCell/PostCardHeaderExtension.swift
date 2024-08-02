@@ -108,21 +108,35 @@ extension PostCardHeaderExtension {
             self.titleLabel.text = "[replace with hashtag]"
         }
         
+        
+        
         if postCard.isPrivateMention {
             self.titleLabel.text = NSLocalizedString("post.privateMention", comment: "Shows up over a post in the timeline indicating that it's been sent privately.")
+            self.titleLabel.textColor = .custom.feintContrast
+        } else if postCard.isTipAccount {
+            self.titleLabel.text = NSLocalizedString("post.fromTipped", comment: "Shows up over a post in the timeline indicating that it's been sent privately.")
+            self.titleLabel.textColor = .custom.gold
         }
         
-        if let postCard = self.postCard, postCard.isPrivateMention {
-            titleLabel.backgroundColor = .custom.OVRLYSoftContrast
+
+        if let postCard = self.postCard {
+            if postCard.isPrivateMention {
+                backgroundColor = .custom.OVRLYSoftContrast
+            } else if postCard.isTipAccount {
+                // tip background.
+            }
         } else {
             titleLabel.backgroundColor = .custom.background
         }
     }
     
     func onThemeChange() {
-        self.titleLabel.textColor = .custom.feintContrast
-        if let postCard = self.postCard, postCard.isPrivateMention {
-            titleLabel.backgroundColor = .custom.OVRLYSoftContrast
+        if let postCard = self.postCard {
+            if postCard.isPrivateMention {
+                backgroundColor = .custom.OVRLYSoftContrast
+            } else if postCard.isTipAccount {
+                // tip background.
+            }
         } else {
             titleLabel.backgroundColor = .custom.background
         }

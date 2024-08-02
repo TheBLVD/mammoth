@@ -44793,6 +44793,17 @@
         }
       }
     },
+    "post.fromTipped" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "from tipped account"
+          }
+        }
+      }
+    },
     "post.like" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -57565,6 +57576,38 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : ""
+          }
+        }
+      }
+    },
+    "profile.subscribe" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribe"
+          }
+        }
+      }
+    },
+    "profile.subscribed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscribed"
+          }
+        }
+      }
+    },
+    "profile.subscription" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscription"
           }
         }
       }
