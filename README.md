@@ -86,6 +86,12 @@ We use [Arkana](https://github.com/rogerluan/arkana) to obfuscate API keys and s
 ruby 3.2.1 (2023-02-08 revision 31819e82c8) [arm64-darwin22]
 ```
 
+6. Install SwiftLint
+
+```zsh
+brew install swiftlint
+```
+
 ### Troubleshooting
 
 - If you run `bin/arkana` and see the following, it can't find a valid `.env`
@@ -98,7 +104,7 @@ ruby 3.2.1 (2023-02-08 revision 31819e82c8) [arm64-darwin22]
   the repo.
   ![XcodeArkanaBuildError](https://github.com/TheBLVD/mammoth-app/assets/76360/ec0fd8a9-285f-41dd-817d-60fc41d94e54)
 
-- If you run `bin/arckan` and see the following:
+- If you run `bin/arkana` and see the following:
 
 ```sh
 /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0/universal-darwin22/rbconfig.rb:21: warning: Insecure world writable dir /usr/local/bin in PATH, mode 040777

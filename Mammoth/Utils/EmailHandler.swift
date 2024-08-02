@@ -91,14 +91,14 @@ class EmailHandler: NSObject {
                                     log.debug("success emailing with app at index \(EmailHandler.emailAppURLIndex)")
                                 } else {
                                     log.debug("failed emailing with app at index \(EmailHandler.emailAppURLIndex)")
-                                    EmailHandler.emailAppURLIndex = EmailHandler.emailAppURLIndex + 1
+                                    EmailHandler.emailAppURLIndex += 1
                                     tryNextAppPrefix()
                                 }
                             }
                         }
                     } else {
                         log.error("invalid email app url at index \(EmailHandler.emailAppURLIndex)")
-                        EmailHandler.emailAppURLIndex = EmailHandler.emailAppURLIndex + 1
+                        EmailHandler.emailAppURLIndex += 1
                         tryNextAppPrefix()
                     }
                 } else {

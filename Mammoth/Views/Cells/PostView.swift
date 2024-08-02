@@ -54,6 +54,7 @@ protocol PostCellDelegate : AnyObject {
     func notificationForCell(_ cell: UITableViewCell) -> Notificationt?
 }
 
+// swiftlint:disable:next type_body_length
 class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SKPhotoBrowserDelegate, AVPlayerViewControllerDelegate, UIContextMenuInteractionDelegate, UICollectionViewDragDelegate, UIDragInteractionDelegate, UIActivityItemSource {
     
     weak var delegate: PostCellDelegate? = nil
@@ -1293,7 +1294,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                                 mVote = "\(diff) minute"
                             }
                             if diff > 60 {
-                                diff = diff/60
+                                diff /= 60
                                 mVote = "\(diff) hours"
                                 if diff == 1 {
                                     mVote = "\(diff) hour"
@@ -1301,25 +1302,25 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                             } else if diff < 0 {
                                 tText = "ended"
                                 tText2 = "ago"
-                                diff = diff * -1
+                                diff *= -1
                                 mVote = "\(diff) minutes"
                                 if diff == 1 {
                                     mVote = "\(diff) minute"
                                 }
                                 if diff > 60 {
-                                    diff = diff/60
+                                    diff /= 60
                                     mVote = "\(diff) hours"
                                     if diff == 1 {
                                         mVote = "\(diff) hour"
                                     }
                                     if diff > 24 {
-                                        diff = diff/24
+                                        diff /= 24
                                         mVote = "\(diff) days"
                                         if diff == 1 {
                                             mVote = "\(diff) day"
                                         }
                                         if diff > 30 {
-                                            diff = diff/30
+                                            diff /= 30
                                             mVote = "\(diff) months"
                                             if diff == 1 {
                                                 mVote = "\(diff) month"
@@ -2828,7 +2829,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url ?? x.previewURL!)
                                 photo.shouldCachePhotoURLImage = true
                                 images.append(photo)
                             }
@@ -2853,7 +2854,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCellActivity {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url ?? x.previewURL!)
                                 photo.shouldCachePhotoURLImage = true
                                 images.append(photo)
                             }
@@ -2878,7 +2879,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCellS {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url ?? x.previewURL!)
                                 photo.shouldCachePhotoURLImage = true
                                 images.append(photo)
                             }
@@ -2903,7 +2904,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell2 {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url ?? x.previewURL!)
                                 photo.shouldCachePhotoURLImage = true
                                 images.append(photo)
                             }
@@ -2928,7 +2929,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell3 {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url ?? x.previewURL!)
                                 photo.shouldCachePhotoURLImage = true
                                 images.append(photo)
                             }

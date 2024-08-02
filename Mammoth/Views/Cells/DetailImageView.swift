@@ -15,6 +15,7 @@ import Photos
 import NaturalLanguage
 import LinkPresentation
 
+// swiftlint:disable:next type_body_length
 class DetailImageView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SKPhotoBrowserDelegate, AVPlayerViewControllerDelegate, UICollectionViewDragDelegate, UIActivityItemSource {
     
     var collectionView1: UICollectionView!
@@ -403,7 +404,7 @@ class DetailImageView: UIView, UICollectionViewDataSource, UICollectionViewDeleg
                 if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCellD {
                     if let originImage = cell.image.image {
                         for x in self.imagesFull {
-                            let photo = SKPhoto.photoWithImageURL(x.url)
+                            let photo = SKPhoto.photoWithImageURL(x.url ?? x.previewURL!)
                             photo.shouldCachePhotoURLImage = true
                             images.append(photo)
                         }

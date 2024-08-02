@@ -110,6 +110,7 @@ class AccountSwitcherButton: UIButton {
             let accountAction = UIAction(title: "@\(item.fullAcct)", image: isSelected ? FontAwesome.image(fromChar: "\u{f00c}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate) : nil, identifier: nil) { action in
                 // switch account
                 DispatchQueue.main.async {
+                    triggerHapticImpact(style: .light)
                     let account = item
                     // Only switch if not already the current account
                     if account.uniqueID != AccountsManager.shared.currentAccount?.uniqueID {

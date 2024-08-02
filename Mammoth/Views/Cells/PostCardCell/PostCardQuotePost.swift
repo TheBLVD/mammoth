@@ -454,7 +454,7 @@ extension PostCardQuotePost {
                     
                     self.image?.isHidden = true
                     self.imageTrailingConstraint?.isActive = false
-                case .large:
+                case .large, .fullWidth:
                     self.image?.configure(postCard: quotePostCard)
                     self.image?.isHidden = false
                     self.imageTrailingConstraint?.isActive = true
@@ -476,7 +476,7 @@ extension PostCardQuotePost {
                     
                     self.video?.isHidden = true
                     videoTrailingConstraint?.isActive = false
-                case .large:
+                case .large, .fullWidth:
                     self.video?.isHidden = false
                     self.video?.configure(postCard: quotePostCard)
                     videoTrailingConstraint?.isActive = true
@@ -501,7 +501,7 @@ extension PostCardQuotePost {
                     
                     self.mediaGallery?.isHidden = true
                     mediaGalleryTrailingConstraint?.isActive = false
-                case .large:
+                case .large, .fullWidth:
                     self.mediaGallery?.isHidden = false
                     self.mediaGallery?.configure(postCard: quotePostCard)
                     mediaGalleryTrailingConstraint?.isActive = true

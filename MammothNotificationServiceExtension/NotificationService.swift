@@ -144,7 +144,7 @@ class NotificationService: UNNotificationServiceExtension {
                 log.debug("\(processID()) " + "push notification \(request.identifier) type: \(bestAttemptContent.threadIdentifier)")
             } else {
                 log.debug("\(processID()) " + "unable to decrypt: \(request.identifier)")
-                bestAttemptContent.body = bestAttemptContent.body + " (unable to decode)"
+                bestAttemptContent.body += " (unable to decode)"
             }
             log.debug("\(processID()) " + "calling contentHandler: \(request.identifier)")
             contentHandler(bestAttemptContent)
@@ -167,7 +167,7 @@ class NotificationService: UNNotificationServiceExtension {
                 
                 bestAttemptContent.sound = UNNotificationSound.init(named: UNNotificationSoundName(rawValue: "soundPush.wav"))
             } else {
-                bestAttemptContent.body = bestAttemptContent.body + " (expired)"
+                bestAttemptContent.body += " (expired)"
             }
             contentHandler(bestAttemptContent)
         }

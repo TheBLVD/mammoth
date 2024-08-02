@@ -11,17 +11,16 @@ import UIKit
 import Vision
 import NaturalLanguage
 
-
 protocol AltTextViewControllerDelegate : AnyObject {
     func didConfirmText(updatedText: String)
 }
-
 
 // This is used for
 //      - editing image ALT text
 //      - creating/editing list names
 //      - creating/editing filter names
 
+// swiftlint:disable:next type_body_length
 class AltTextViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SKPhotoBrowserDelegate, UITextViewDelegate {
 
     let btn0 = UIButton(type: .custom)
@@ -513,7 +512,7 @@ class AltTextViewController: UIViewController, UITableViewDataSource, UITableVie
                         let json = try JSONSerialization.jsonObject(with: usableData, options: .mutableContainers) as! [Any]
                         var translatedText = ""
                         for i in (json[0] as! [Any]) {
-                            translatedText = translatedText + ((i as! [Any])[0] as? String ?? "")
+                            translatedText += ((i as! [Any])[0] as? String ?? "")
                         }
                         if translatedText == "" {
                             translatedText = "No text to translate."

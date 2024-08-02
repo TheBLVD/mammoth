@@ -13,6 +13,7 @@ import SafariServices
 import AVFoundation
 import MobileCoreServices
 
+// swiftlint:disable:next type_body_length
 class LikedByMutedBlockedViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIContextMenuInteractionDelegate, UITableViewDragDelegate {
     
     var currentUserID: String? = nil

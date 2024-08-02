@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// swiftlint:disable:next type_body_length
 class PollViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     let btn0 = UIButton(type: .custom)
@@ -149,10 +150,10 @@ class PollViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 self.options = opts
                 self.tempOptions = self.options
                 if self.tempOptions.count == 2 {
-                    self.tempOptions = self.tempOptions + ["", ""]
+                    self.tempOptions += ["", ""]
                 }
                 if self.tempOptions.count == 3 {
-                    self.tempOptions = self.tempOptions + [""]
+                    self.tempOptions += [""]
                 }
             }
         }

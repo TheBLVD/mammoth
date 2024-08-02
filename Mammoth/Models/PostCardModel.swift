@@ -16,6 +16,7 @@ import MetaTextKit
 import UnifiedBlurHash
 import ArkanaKeys
 
+// swiftlint:disable:next type_body_length
 final class PostCardModel {
     
     public static let imageDecodeQueue = DispatchQueue(label: "Decode images queue", qos: .default)
@@ -125,6 +126,14 @@ final class PostCardModel {
         case warn(String)
         case hide(String)
         case none
+        
+        var isHide: Bool {
+            switch self {
+            case .warn: false
+            case .hide: true
+            case .none: false
+            }
+        }
     }
     
     var filterType: FilterType
@@ -817,7 +826,8 @@ extension PostCardModel {
     
     func preloadVideo() {
         if GlobalStruct.autoPlayVideos {
-            if self.videoPlayer == nil, let media = self.mediaAttachments.first, let videoURL = URL(string: media.url) {
+            // Don't attempt to preload videos that haven't finished processing. It would only have a previewURL that's just an image and won't be useful anyways
+            if self.videoPlayer == nil, let media = self.mediaAttachments.first, let mediaURLString = media.url, let videoURL = URL(string: mediaURLString) {
                 DispatchQueue.global(qos: .default).async {
                     let playerItem = AVPlayerItem(url: videoURL)
                     let player = AVPlayer(playerItem: playerItem)

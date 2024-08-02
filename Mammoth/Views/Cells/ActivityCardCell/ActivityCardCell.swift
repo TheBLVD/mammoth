@@ -519,7 +519,7 @@ extension ActivityCardCell {
                         self.thumbnailImage?.configure(postCard: postCard)
                         self.thumbnailImage?.isHidden = false
                         thumbnailImageTrailingConstraint?.isActive = true
-                    case .large:
+                    case .large, .fullWidth:
                         self.image?.configure(postCard: postCard)
                         self.image?.isHidden = false
                         imageTrailingConstraint?.isActive = true
@@ -550,7 +550,7 @@ extension ActivityCardCell {
                         self.thumbnailVideo?.configure(postCard: postCard)
                         self.thumbnailVideo?.isHidden = false
                         thumbnailVideoTrailingConstraint?.isActive = true
-                    case .large:
+                    case .large, .fullWidth:
                         self.video?.configure(postCard: postCard)
                         self.video?.isHidden = false
                         videoTrailingConstraint?.isActive = true
@@ -581,7 +581,7 @@ extension ActivityCardCell {
                         self.mediaStack?.configure(postCard: postCard)
                         self.mediaStack?.isHidden = false
                         mediaStackTrailingConstraint?.isActive = true
-                    case .large:
+                    case .large, .fullWidth:
                         self.mediaGallery?.configure(postCard: postCard)
                         self.mediaGallery?.isHidden = false
                         mediaGalleryTrailingConstraint?.isActive = true

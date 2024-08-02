@@ -332,24 +332,28 @@ extension HomeViewController {
         let jumpToMenu = UIMenu(title: NSLocalizedString("home.jumpToAList", comment: "Appears when holding in the 'home' button, before a list of feeds."), options: [.displayInline], children: FeedsManager.shared.feeds.sorted(by: { (_, right) in !right.isEnabled }).map { item in
             return UIAction(title: item.type.plainTitle(), image: item.type.icon, identifier: nil) { [weak self] _ in
                 guard let self else { return }
-                
-                if item.isEnabled {
-                    if let index = self.indexOfCarouselItem(item: item.type) {
-                        self.feedCarousel.scrollTo(index: index)
-                        self.carouselItemPressed(withIndex: index)
+
+                DispatchQueue.main.async {
+                    triggerHapticImpact(style: .light)
+
+                    if item.isEnabled {
+                        if let index = self.indexOfCarouselItem(item: item.type) {
+                            self.feedCarousel.scrollTo(index: index)
+                            self.carouselItemPressed(withIndex: index)
+                        }
+
+                        if self.navigationController?.parent != nil {
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }
+                    } else {
+                        let feedView = NewsFeedViewController(type: item.type)
+                        self.navigationController?.pushViewController(feedView, animated: true)
                     }
-                    
-                    if self.navigationController?.parent != nil {
-                        self.navigationController?.popToRootViewController(animated: true)
+
+                    // Navigate to home if needed
+                    if let currentTabBarController = getTabBarController(), currentTabBarController.selectedIndex != 0 {
+                        currentTabBarController.selectedIndex = 0
                     }
-                } else {
-                    let feedView = NewsFeedViewController(type: item.type)
-                    self.navigationController?.pushViewController(feedView, animated: true)
-                }
-                
-                // Navigate to home if needed
-                if let currentTabBarController = getTabBarController(), currentTabBarController.selectedIndex != 0 {
-                    currentTabBarController.selectedIndex = 0
                 }
             }
         })

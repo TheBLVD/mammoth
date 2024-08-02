@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import CoreLocation
 
+// swiftlint:disable:next type_body_length
 class ExploreViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIContextMenuInteractionDelegate {
     
     var currentUserID: String? = nil

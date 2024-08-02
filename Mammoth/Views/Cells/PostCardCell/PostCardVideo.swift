@@ -9,6 +9,7 @@
 import UIKit
 import AVFoundation
 
+// swiftlint:disable:next type_body_length
 final class PostCardVideo: UIView {
     
     enum PostCardVideoVariant {
@@ -450,7 +451,7 @@ final class PostCardVideo: UIView {
             guard self.media != media else { return }
             
             self.media = media
-            if let videoURL = URL(string: media.remoteURL ?? media.url) {
+            if let videoURL = URL(string: media.remoteURL ?? media.url ?? media.previewURL!) {
                 
                 loadingIndicator.startAnimating()
                 
