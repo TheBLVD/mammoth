@@ -34,7 +34,11 @@ class AnimatedTabBarController : UITabBarController {
         return view
     }()
     
-    //private let tabBarVariableBlurView:
+    private let tabBarVariableBlurView: VariableBlurView = {
+        let view = VariableBlurView(gradientMask: UIImage(named: "Variable Blur Gradient")!, maxBlurRadius: 10)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -63,11 +67,17 @@ class AnimatedTabBarController : UITabBarController {
     
     private func setupUI() {
         //self.view.addSubview(tabBarBackground)
+        self.view.addSubview(tabBarVariableBlurView)
         self.view.addSubview(tabBarGradientBackground)
         self.view.addSubview(animatedTabBar)
         animatedTabBar.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            tabBarVariableBlurView.topAnchor.constraint(equalTo: tabBar.topAnchor),
+            tabBarVariableBlurView.leadingAnchor.constraint(equalTo: tabBar.leadingAnchor),
+            tabBarVariableBlurView.trailingAnchor.constraint(equalTo: tabBar.trailingAnchor),
+            tabBarVariableBlurView.bottomAnchor.constraint(equalTo: tabBar.bottomAnchor),
+            
             tabBarGradientBackground.topAnchor.constraint(equalTo: tabBar.topAnchor),
             tabBarGradientBackground.leadingAnchor.constraint(equalTo: tabBar.leadingAnchor),
             tabBarGradientBackground.trailingAnchor.constraint(equalTo: tabBar.trailingAnchor),
@@ -148,7 +158,7 @@ class AnimatedTabBarView : UIView {
     var tabBarItems = [AnimatedTabBarItem]()
     let itemsStackView = UIStackView()
     let selectionPill: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterialLight)
+        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterialDark)
         let view = UIVisualEffectView(effect: blurEffect)
         view.layer.cornerRadius = pillHeight / 2
         //view.layer.opacity = 0.85

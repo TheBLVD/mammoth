@@ -564,6 +564,7 @@
 		66D091F42A53653800291B8D /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D091F32A53653800291B8D /* UIViewController+Alert.swift */; };
 		66D091F62A53692F00291B8D /* RoundedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D091F52A53692F00291B8D /* RoundedTextField.swift */; };
 		6C9560D52C5C693B00B5BF66 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9560D42C5C693B00B5BF66 /* GradientView.swift */; };
+		6CE2C9C22C5DAE630008EBC2 /* VariableBlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE2C9C12C5DAE630008EBC2 /* VariableBlurView.swift */; };
 		88330AC429F09BA40019AA62 /* MAMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88330AC329F09BA40019AA62 /* MAMenu.swift */; };
 		88722D9629FC5A7200988277 /* PostActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88722D9529FC5A7200988277 /* PostActions.swift */; };
 		887B32962A0AC72A00EE7EE3 /* ArkanaKeys in Frameworks */ = {isa = PBXBuildFile; productRef = 887B32952A0AC72A00EE7EE3 /* ArkanaKeys */; };
@@ -1416,6 +1417,8 @@
 		66D091F32A53653800291B8D /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		66D091F52A53692F00291B8D /* RoundedTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedTextField.swift; sourceTree = "<group>"; };
 		6C9560D42C5C693B00B5BF66 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		6CE2C9C12C5DAE630008EBC2 /* VariableBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableBlurView.swift; sourceTree = "<group>"; };
+		6CE2C9C42C5DFAED0008EBC2 /* CAFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAFilter.h; sourceTree = "<group>"; };
 		88330AC329F09BA40019AA62 /* MAMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAMenu.swift; sourceTree = "<group>"; };
 		88722D9529FC5A7200988277 /* PostActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostActions.swift; sourceTree = "<group>"; };
 		887B32992A0AD22000EE7EE3 /* ArkanaKeys */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ArkanaKeys; path = ArkanaKeys/ArkanaKeys; sourceTree = "<group>"; };
@@ -1839,6 +1842,7 @@
 				BF33A0F32AA946AF0008D9DF /* ThinSlider.swift */,
 				146C6A442B456EFB00A002D7 /* CarouselNavigationHeader.swift */,
 				14E4CAC72B76435C00E4D499 /* ReadMoreButton.swift */,
+				6CE2C9C02C5DAE270008EBC2 /* Variable Blur */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2683,6 +2687,15 @@
 				BF23F5FF2A88592700D638D1 /* UIColor+Asset.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		6CE2C9C02C5DAE270008EBC2 /* Variable Blur */ = {
+			isa = PBXGroup;
+			children = (
+				6CE2C9C12C5DAE630008EBC2 /* VariableBlurView.swift */,
+				6CE2C9C42C5DFAED0008EBC2 /* CAFilter.h */,
+			);
+			path = "Variable Blur";
 			sourceTree = "<group>";
 		};
 		887B328E2A0AC07000EE7EE3 /* Packages */ = {
@@ -3793,6 +3806,7 @@
 				533996462914227A00560F83 /* ColumnFlowLayout.swift in Sources */,
 				BF32F9DB2A3CB64400AE4291 /* NewPostButton.swift in Sources */,
 				533994AC2914214A00560F83 /* SettingsViewController.swift in Sources */,
+				6CE2C9C22C5DAE630008EBC2 /* VariableBlurView.swift in Sources */,
 				53450E722936127C00D720EA /* DictionaryTransform.swift in Sources */,
 				14740AFF2BD68E9600DE2440 /* DevelopmentViewController.swift in Sources */,
 				5339967A2914227A00560F83 /* SKPhotoBrowserOptions.swift in Sources */,
