@@ -563,6 +563,7 @@
 		66D091F22A5362E900291B8D /* SignInPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D091F02A5362E900291B8D /* SignInPasswordVC.swift */; };
 		66D091F42A53653800291B8D /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D091F32A53653800291B8D /* UIViewController+Alert.swift */; };
 		66D091F62A53692F00291B8D /* RoundedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D091F52A53692F00291B8D /* RoundedTextField.swift */; };
+		6C9560D52C5C693B00B5BF66 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9560D42C5C693B00B5BF66 /* GradientView.swift */; };
 		88330AC429F09BA40019AA62 /* MAMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88330AC329F09BA40019AA62 /* MAMenu.swift */; };
 		88722D9629FC5A7200988277 /* PostActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88722D9529FC5A7200988277 /* PostActions.swift */; };
 		887B32962A0AC72A00EE7EE3 /* ArkanaKeys in Frameworks */ = {isa = PBXBuildFile; productRef = 887B32952A0AC72A00EE7EE3 /* ArkanaKeys */; };
@@ -1414,6 +1415,7 @@
 		66D091F02A5362E900291B8D /* SignInPasswordVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInPasswordVC.swift; sourceTree = "<group>"; };
 		66D091F32A53653800291B8D /* UIViewController+Alert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		66D091F52A53692F00291B8D /* RoundedTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedTextField.swift; sourceTree = "<group>"; };
+		6C9560D42C5C693B00B5BF66 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		88330AC329F09BA40019AA62 /* MAMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAMenu.swift; sourceTree = "<group>"; };
 		88722D9529FC5A7200988277 /* PostActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostActions.swift; sourceTree = "<group>"; };
 		887B32992A0AD22000EE7EE3 /* ArkanaKeys */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ArkanaKeys; path = ArkanaKeys/ArkanaKeys; sourceTree = "<group>"; };
@@ -1820,6 +1822,7 @@
 				BF93257D2A4262C80034CAE7 /* ExtendedTouchView.swift */,
 				C3C9977C2A4996590079457D /* External */,
 				BF0F3B9D2A855A310055BB81 /* FloatLabelFields */,
+				6C9560D42C5C693B00B5BF66 /* GradientView.swift */,
 				C3E470A72ABDC04D006D0DD6 /* FollowButton.swift */,
 				144DC6C62B14E20200F4EE98 /* GradientBorderView.swift */,
 				144DC6CA2B14FCCF00F4EE98 /* GradientButton.swift */,
@@ -4096,6 +4099,7 @@
 				53399A60291526B900560F83 /* HTTPMethod.swift in Sources */,
 				BFBBDB0F2AC61097008D6352 /* HashtagsViewModel.swift in Sources */,
 				66D091F62A53692F00291B8D /* RoundedTextField.swift in Sources */,
+				6C9560D52C5C693B00B5BF66 /* GradientView.swift in Sources */,
 				BF33A0F42AA946AF0008D9DF /* ThinSlider.swift in Sources */,
 				533996EB2914227A00560F83 /* PollCell.swift in Sources */,
 				53399A5F291526B900560F83 /* RequestError.swift in Sources */,

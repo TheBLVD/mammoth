@@ -53,6 +53,10 @@ extension UIColor {
         static var FABForeground: UIColor { return appColorNamed("FAB Foreground") }
         static var pollBarText: UIColor { return appColorNamed("Poll Bar Text") }
         static var pollBars: UIColor { return appColorNamed("Poll Bars") }
+        
+        // Tab bar redesign
+        static var tabBarForeground: UIColor { return appColorNamed("Tab Bar Foreground") }
+        static var tabBarSelected: UIColor { return appColorNamed("Tab Bar Selected") }
     }
     
     func greenTintedColor() -> UIColor {

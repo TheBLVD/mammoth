@@ -8,11 +8,17 @@
 
 import UIKit
 
-fileprivate let animationDuration = 0.26
-fileprivate let pillHorizontalMargin = 15.0
-fileprivate let pillVerticalMargin = 12.0
-fileprivate let gapBetweenButtons = 5.0
-fileprivate let gapBetweenImageAndTitle = 7.0
+private let animationDuration = 0.3
+private let animationSpringDampening = 0.8
+private let animationInitialVelocity = 0.9
+
+private let tabBarIconTouchedScaleFactor = 1.2
+
+private let pillHeight = 35.0
+private let pillHorizontalMargin = 15.0
+private let pillVerticalMargin = 12.0
+private let gapBetweenButtons = 5.0
+private let gapBetweenImageAndTitle = 7.0
 
 class AnimatedTabBarController : UITabBarController {
     let animatedTabBar = AnimatedTabBarView()
@@ -21,6 +27,14 @@ class AnimatedTabBarController : UITabBarController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    private let tabBarGradientBackground: GradientView = {
+        let view = GradientView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    //private let tabBarVariableBlurView:
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -48,15 +62,16 @@ class AnimatedTabBarController : UITabBarController {
     }
     
     private func setupUI() {
-        self.view.addSubview(tabBarBackground)
+        //self.view.addSubview(tabBarBackground)
+        self.view.addSubview(tabBarGradientBackground)
         self.view.addSubview(animatedTabBar)
         animatedTabBar.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            tabBarBackground.topAnchor.constraint(equalTo: tabBar.topAnchor),
-            tabBarBackground.leadingAnchor.constraint(equalTo: tabBar.leadingAnchor),
-            tabBarBackground.trailingAnchor.constraint(equalTo: tabBar.trailingAnchor),
-            tabBarBackground.bottomAnchor.constraint(equalTo: tabBar.bottomAnchor),
+            tabBarGradientBackground.topAnchor.constraint(equalTo: tabBar.topAnchor),
+            tabBarGradientBackground.leadingAnchor.constraint(equalTo: tabBar.leadingAnchor),
+            tabBarGradientBackground.trailingAnchor.constraint(equalTo: tabBar.trailingAnchor),
+            tabBarGradientBackground.bottomAnchor.constraint(equalTo: tabBar.bottomAnchor),
             
             animatedTabBar.topAnchor.constraint(equalTo: tabBar.topAnchor),
             animatedTabBar.leadingAnchor.constraint(equalTo: tabBar.leadingAnchor),
@@ -64,7 +79,6 @@ class AnimatedTabBarController : UITabBarController {
             animatedTabBar.bottomAnchor.constraint(equalTo: tabBar.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-    
     
     // When setViewControllers is called, create the related
     // AnimatedTabBarView buttons.
@@ -129,17 +143,17 @@ class AnimatedTabBarController : UITabBarController {
     }
 }
 
-
 class AnimatedTabBarView : UIView {
     
     var tabBarItems = [AnimatedTabBarItem]()
     let itemsStackView = UIStackView()
-    let selectionPill: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 13.5
-        view.layer.opacity = 0.85
+    let selectionPill: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterialLight)
+        let view = UIVisualEffectView(effect: blurEffect)
+        view.layer.cornerRadius = pillHeight / 2
+        //view.layer.opacity = 0.85
         view.clipsToBounds = true
-        view.backgroundColor = .custom.OVRLYMedContrast
+        //view.backgroundColor = .custom.OVRLYMedContrast
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = false
         return view
@@ -173,7 +187,6 @@ class AnimatedTabBarView : UIView {
         }
     }
     
-    
     private func setupUI() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(itemsStackView)
@@ -204,23 +217,24 @@ class AnimatedTabBarView : UIView {
             pillLeadingConstraint!,
             pillWidthConstraint!,
             selectionPill.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            selectionPill.heightAnchor.constraint(equalToConstant: 27)
+            selectionPill.heightAnchor.constraint(equalToConstant: pillHeight)
         ])
         self.bringSubviewToFront(itemsStackView)
     }
     
-    
     func indexOfTabBarItem(_ animatedTabBarItem: AnimatedTabBarItem) -> Int? {
         return tabBarItems.firstIndex(of: animatedTabBarItem)
     }
-    
     
     func selectTabBarItemAtIndex(_ itemIndex: Int) {
         self.layoutIfNeeded()
         for (index, tabBarItem) in self.tabBarItems.enumerated() {
             tabBarItem.isSelected = (index == itemIndex)
         }
-        UIView.animate(withDuration: animationDuration, delay: 0.0, usingSpringWithDamping: 0.77, initialSpringVelocity: 2, options: [.curveEaseOut, .allowUserInteraction], animations: {
+        
+#warning("take out animation on selection itself")
+        
+        UIView.animate(withDuration: animationDuration, delay: 0.0, usingSpringWithDamping: animationSpringDampening, initialSpringVelocity: animationInitialVelocity, options: [.curveEaseOut, .allowUserInteraction], animations: {
             self.layoutIfNeeded()
         })
         
@@ -231,7 +245,7 @@ class AnimatedTabBarView : UIView {
                 
                 self.pillLeadingConstraint!.constant = tabBarItemOrigin.x
                 self.pillWidthConstraint!.constant = tabBarItemFrame.size.width
-                UIView.animate(withDuration: animationDuration, delay: 0.0, usingSpringWithDamping: 0.77, initialSpringVelocity: 2, options: [.curveEaseOut, .allowUserInteraction], animations: {
+                UIView.animate(withDuration: animationDuration, delay: 0.0, usingSpringWithDamping: animationSpringDampening, initialSpringVelocity: animationInitialVelocity, options: [.beginFromCurrentState], animations: {
                     self.layoutIfNeeded()
                 })
             }
@@ -251,7 +265,6 @@ internal extension AnimatedTabBarView {
          }
     }
 }
-
 
 class AnimatedTabBarItem: UIButton {
     private let itemTitle: String
@@ -274,7 +287,7 @@ class AnimatedTabBarItem: UIButton {
         self.adjustsImageWhenHighlighted = false
         
         self.setImage(icon.withRenderingMode(.alwaysTemplate), for: .normal)
-        self.tintColor = .custom.mediumContrast
+        self.tintColor = .custom.tabBarForeground
 
         // Setting the title during init is needed to
         // correctly set the frame. If not done, the label animates in
@@ -289,7 +302,7 @@ class AnimatedTabBarItem: UIButton {
             self.alpha = 1
         }
         
-        self.setTitleColor(.custom.mediumContrast, for: .normal)
+        self.setTitleColor(.custom.tabBarForeground, for: .normal)
         
         self.unreadDot.isHidden = !isUnread
         
@@ -340,7 +353,58 @@ class AnimatedTabBarItem: UIButton {
         let biggerFrame = bounds.insetBy(dx: -20, dy: -30)
         return biggerFrame.contains(point)
     }
-
+    
+    // MARK: Interaction Animations
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        log.debug("VIEW TEST: began")
+        
+        accentImageView(self)
+        
+        super.touchesBegan(touches, with: event)
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        guard let touch = touches.first else { return }
+        let viewTestingTouch = touch.location(in: self)
+        
+        log.debug("VIEW TEST: \(viewTestingTouch)")
+        if self.bounds.contains(viewTestingTouch) {
+            accentImageView(self)
+            log.debug("VIEW TEST: moved contains")
+        } else {
+            unaccentImageView(self)
+        }
+        
+        super.touchesMoved(touches, with: event)
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        log.debug("VIEW TEST: ended")
+        unaccentImageView(self)
+        
+        super.touchesEnded(touches, with: event)
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        log.debug("VIEW TEST: cancelled")
+        
+        unaccentImageView(self)
+        
+        super.touchesCancelled(touches, with: event)
+    }
+    
+    func accentImageView(_ view: UIView) {
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.9, options: .beginFromCurrentState, animations: {
+            view.transform = CGAffineTransform(scaleX: tabBarIconTouchedScaleFactor, y: tabBarIconTouchedScaleFactor)
+        }, completion: nil)
+    }
+    
+    func unaccentImageView(_ view: UIView) {
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.9, options: .beginFromCurrentState, animations: {
+            view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }, completion: nil)
+    }
 }
 
 internal extension AnimatedTabBarItem {
