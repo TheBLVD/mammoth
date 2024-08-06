@@ -1822,8 +1822,8 @@
 				BF193DC52AC4D66800D0F6F7 /* ChannelPic.swift */,
 				533995042914227800560F83 /* CustomVideoPlayer.swift */,
 				BF93257D2A4262C80034CAE7 /* ExtendedTouchView.swift */,
-				C3C9977C2A4996590079457D /* External */,
 				BF0F3B9D2A855A310055BB81 /* FloatLabelFields */,
+				6CE2C9C12C5DAE630008EBC2 /* VariableBlurView.swift */,
 				6C9560D42C5C693B00B5BF66 /* GradientView.swift */,
 				C3E470A72ABDC04D006D0DD6 /* FollowButton.swift */,
 				144DC6C62B14E20200F4EE98 /* GradientBorderView.swift */,
@@ -1841,7 +1841,7 @@
 				BF33A0F32AA946AF0008D9DF /* ThinSlider.swift */,
 				146C6A442B456EFB00A002D7 /* CarouselNavigationHeader.swift */,
 				14E4CAC72B76435C00E4D499 /* ReadMoreButton.swift */,
-				6CE2C9C02C5DAE270008EBC2 /* Variable Blur */,
+				C3C9977C2A4996590079457D /* External */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -2686,14 +2686,6 @@
 				BF23F5FF2A88592700D638D1 /* UIColor+Asset.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		6CE2C9C02C5DAE270008EBC2 /* Variable Blur */ = {
-			isa = PBXGroup;
-			children = (
-				6CE2C9C12C5DAE630008EBC2 /* VariableBlurView.swift */,
-			);
-			path = "Variable Blur";
 			sourceTree = "<group>";
 		};
 		887B328E2A0AC07000EE7EE3 /* Packages */ = {
