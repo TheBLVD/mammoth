@@ -11,10 +11,10 @@ import UIKit
 
 let FOR_YOU_FEED_TYPE = "ForYouFeedType"
 
-class HomeViewController : UIViewController {
+class HomeViewController: UIViewController {
 
     private var feedCarousel = Carousel()
-    private var accountsBarButton: UIBarButtonItem? = nil
+    private var accountsBarButton: UIBarButtonItem?
 
     enum HomeViewSegment: Int {
         case feeds = 0
@@ -22,7 +22,7 @@ class HomeViewController : UIViewController {
     }
     
     private let pageViewController: UIPageViewController
-    private var cachedPages: [NewsFeedTypes:NewsFeedViewController] = [:]
+    private var cachedPages: [NewsFeedTypes: NewsFeedViewController] = [: ]
     private var currentFeedType: NewsFeedTypes = .following {
         didSet {
             self.updateNavBarButtons()
@@ -227,7 +227,7 @@ extension HomeViewController: UIPageViewControllerDataSource, UIPageViewControll
     }
 }
 
-//MARK: - NewsFeedViewControllerDelegate
+// MARK: - NewsFeedViewControllerDelegate
 extension HomeViewController: NewsFeedViewControllerDelegate {
     func didScrollToTop() {}
     
@@ -502,7 +502,7 @@ internal extension HomeViewController {
 /// Keeps track of the current user's ForYou feed type as a
 extension HomeViewController {
     
-    func forYouUserSettingKey() -> String  {
+    func forYouUserSettingKey() -> String {
         if let currentUser  = AccountsManager.shared.currentAccount?.remoteFullOriginalAcct {
             return "\(currentUser):\(FOR_YOU_FEED_TYPE)"
         } else {
@@ -512,14 +512,14 @@ extension HomeViewController {
     
      func forYouUserSetting() -> String? {
          let key: String = forYouUserSettingKey()
-         return UserDefaults.standard.object(forKey:key) as? String
+         return UserDefaults.standard.object(forKey: key) as? String
         }
     
-    func updateForYouUserSetting(type: String) -> Void {
+    func updateForYouUserSetting(type: String) {
         UserDefaults.standard.set(type, forKey: self.forYouUserSettingKey())
     }
     
-    func triggerPersonalFeedAlert(remoteFullOriginalAcct: String) -> Void {
+    func triggerPersonalFeedAlert(remoteFullOriginalAcct: String) {
         let dialogMessage = UIAlertController(title: "Success", message: "You're now able to see posts from friends of friends.", preferredStyle: .alert)
         dialogMessage.addAction(UIAlertAction(title: "Done", style: .default))
         self.present(dialogMessage, animated: true, completion: nil)
@@ -527,7 +527,7 @@ extension HomeViewController {
     
     // We want to check type of the ForYou Feed (public | personal)
     // On return of 'personal' set user default and launch confetti!
-    private func updateForYouFeedType() -> Void {
+    private func updateForYouFeedType() {
         // Only for For You feed
         guard self.currentFeedType == .forYou else { return }
         // Don't check if state is already personal
