@@ -27,7 +27,7 @@ class GradientView: UIView {
         
         gradientLayer.colors = [
             UIColor.black.withAlphaComponent(0.0).cgColor,
-            UIColor.black.withAlphaComponent(0.6).cgColor
+            UIColor.black.withAlphaComponent(0.8).cgColor
         ]
         
         gradientLayer.locations = [0.0, 1.0].map { NSNumber(value: $0) }

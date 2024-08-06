@@ -1418,7 +1418,6 @@
 		66D091F52A53692F00291B8D /* RoundedTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundedTextField.swift; sourceTree = "<group>"; };
 		6C9560D42C5C693B00B5BF66 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
 		6CE2C9C12C5DAE630008EBC2 /* VariableBlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariableBlurView.swift; sourceTree = "<group>"; };
-		6CE2C9C42C5DFAED0008EBC2 /* CAFilter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CAFilter.h; sourceTree = "<group>"; };
 		88330AC329F09BA40019AA62 /* MAMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAMenu.swift; sourceTree = "<group>"; };
 		88722D9529FC5A7200988277 /* PostActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostActions.swift; sourceTree = "<group>"; };
 		887B32992A0AD22000EE7EE3 /* ArkanaKeys */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = ArkanaKeys; path = ArkanaKeys/ArkanaKeys; sourceTree = "<group>"; };
@@ -2693,7 +2692,6 @@
 			isa = PBXGroup;
 			children = (
 				6CE2C9C12C5DAE630008EBC2 /* VariableBlurView.swift */,
-				6CE2C9C42C5DFAED0008EBC2 /* CAFilter.h */,
 			);
 			path = "Variable Blur";
 			sourceTree = "<group>";

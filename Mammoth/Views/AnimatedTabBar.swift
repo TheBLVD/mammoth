@@ -35,7 +35,7 @@ class AnimatedTabBarController : UITabBarController {
     }()
     
     private let tabBarVariableBlurView: VariableBlurView = {
-        let view = VariableBlurView(gradientMask: UIImage(named: "Variable Blur Gradient")!, maxBlurRadius: 10)
+        let view = VariableBlurView(maxBlurRadius: 10, direction: .blurredBottomClearTop, startOffset: 0.1)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -158,7 +158,7 @@ class AnimatedTabBarView : UIView {
     var tabBarItems = [AnimatedTabBarItem]()
     let itemsStackView = UIStackView()
     let selectionPill: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .systemUltraThinMaterialDark)
+        let blurEffect = UIBlurEffect(style: UIScreen.main.traitCollection.userInterfaceStyle == .dark ? .systemUltraThinMaterialDark : .systemUltraThinMaterialLight)
         let view = UIVisualEffectView(effect: blurEffect)
         view.layer.cornerRadius = pillHeight / 2
         //view.layer.opacity = 0.85
@@ -242,8 +242,6 @@ class AnimatedTabBarView : UIView {
             tabBarItem.isSelected = (index == itemIndex)
         }
         
-#warning("take out animation on selection itself")
-        
         UIView.animate(withDuration: animationDuration, delay: 0.0, usingSpringWithDamping: animationSpringDampening, initialSpringVelocity: animationInitialVelocity, options: [.curveEaseOut, .allowUserInteraction], animations: {
             self.layoutIfNeeded()
         })
@@ -256,6 +254,18 @@ class AnimatedTabBarView : UIView {
                 self.pillLeadingConstraint!.constant = tabBarItemOrigin.x
                 self.pillWidthConstraint!.constant = tabBarItemFrame.size.width
                 UIView.animate(withDuration: animationDuration, delay: 0.0, usingSpringWithDamping: animationSpringDampening, initialSpringVelocity: animationInitialVelocity, options: [.beginFromCurrentState], animations: {
+                    tabBarItem.tintColor = .custom.tabBarSelected
+                    tabBarItem.setTitleColor(.custom.tabBarSelected, for: .normal)
+                    tabBarItem.unreadDot.backgroundColor = .custom.tabBarSelected
+                    
+                    self.layoutIfNeeded()
+                })
+            } else {
+                UIView.animate(withDuration: animationDuration, delay: 0.0, usingSpringWithDamping: animationSpringDampening, initialSpringVelocity: animationInitialVelocity, options: [.beginFromCurrentState], animations: {
+                    tabBarItem.tintColor = .custom.tabBarForeground
+                    tabBarItem.setTitleColor(.custom.tabBarForeground, for: .normal)
+                    tabBarItem.unreadDot.backgroundColor = .custom.tabBarForeground
+                    
                     self.layoutIfNeeded()
                 })
             }
@@ -270,7 +280,8 @@ internal extension AnimatedTabBarView {
         
          if #available(iOS 13.0, *) {
              if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                 self.selectionPill.backgroundColor = .custom.OVRLYMedContrast
+                 let blurEffect = UIBlurEffect(style: UIScreen.main.traitCollection.userInterfaceStyle == .dark ? .systemUltraThinMaterialDark : .systemUltraThinMaterial)
+                 self.selectionPill.effect = blurEffect
              }
          }
     }
@@ -280,7 +291,7 @@ class AnimatedTabBarItem: UIButton {
     private let itemTitle: String
     let unreadDot: UIView = {
         let view = UIView()
-        view.backgroundColor = .custom.mediumContrast
+        //view.backgroundColor = .custom.mediumContrast
         view.clipsToBounds = true
         view.layer.cornerRadius = 2.5
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -296,7 +307,7 @@ class AnimatedTabBarItem: UIButton {
         self.clipsToBounds = true
         self.adjustsImageWhenHighlighted = false
         
-        self.setImage(icon.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.setImage(icon.withRenderingMode(.alwaysTemplate)/*.withShadow()*/, for: .normal)
         self.tintColor = .custom.tabBarForeground
 
         // Setting the title during init is needed to
@@ -423,9 +434,15 @@ internal extension AnimatedTabBarItem {
         
          if #available(iOS 13.0, *) {
              if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                 self.tintColor = .custom.mediumContrast
-                 self.setTitleColor(.custom.mediumContrast, for: .normal)
-                 self.unreadDot.backgroundColor = .custom.mediumContrast
+                 if self.isSelected {
+                     self.tintColor = .custom.tabBarSelected
+                     self.setTitleColor(.custom.tabBarSelected, for: .normal)
+                     self.unreadDot.backgroundColor = .custom.tabBarSelected
+                 } else {
+                     self.tintColor = .custom.tabBarForeground
+                     self.setTitleColor(.custom.tabBarForeground, for: .normal)
+                     self.unreadDot.backgroundColor = .custom.tabBarForeground
+                 }
              }
          }
     }
@@ -448,5 +465,48 @@ fileprivate extension UIButton {
             bottom: 0,
             right: -imageTitlePadding
         )
+    }
+}
+
+extension UIImage {
+    // Returns a new image with the specified shadow properties.
+    // This will increase the size of the image to fit the shadow and the original image.
+    func withShadow(blur: CGFloat = 3, offset: CGSize = .zero, color: UIColor = UIColor(white: 1, alpha: 0.8)) -> UIImage {
+
+        let shadowRect = CGRect(
+            x: offset.width - blur,
+            y: offset.height - blur,
+            width: size.width + blur * 2,
+            height: size.height + blur * 2
+        )
+        
+        UIGraphicsBeginImageContextWithOptions(
+            CGSize(
+                width: max(shadowRect.maxX, size.width) - min(shadowRect.minX, 0),
+                height: max(shadowRect.maxY, size.height) - min(shadowRect.minY, 0)
+            ),
+            false, 0
+        )
+        
+        let context = UIGraphicsGetCurrentContext()!
+
+        context.setShadow(
+            offset: offset,
+            blur: blur,
+            color: color.cgColor
+        )
+        
+        draw(
+            in: CGRect(
+                x: max(0, -shadowRect.origin.x),
+                y: max(0, -shadowRect.origin.y),
+                width: size.width,
+                height: size.height
+            )
+        )
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        
+        UIGraphicsEndImageContext()
+        return image
     }
 }

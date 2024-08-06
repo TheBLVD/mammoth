@@ -6,4 +6,3 @@
 //
 
 #import "TOCropViewController.h"
-#import "CAFilter.h"
