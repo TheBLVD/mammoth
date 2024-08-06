@@ -60,13 +60,13 @@ class VariableBlurView: UIVisualEffectView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    open override func didMoveToWindow() {
+    override func didMoveToWindow() {
         // Set the window's resolution scale to fix visible pixelization at unblurred edge
         guard let window, let backdropLayer = subviews.first?.layer else { return }
         backdropLayer.setValue(window.screen.scale, forKey: "scale")
     }
     
-    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         // `super.traitCollectionDidChange(previousTraitCollection)` crashes the app
     }
     
