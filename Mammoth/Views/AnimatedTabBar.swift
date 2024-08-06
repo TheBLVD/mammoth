@@ -20,7 +20,7 @@ private let pillVerticalMargin = 12.0
 private let gapBetweenButtons = 5.0
 private let gapBetweenImageAndTitle = 7.0
 
-class AnimatedTabBarController : UITabBarController {
+class AnimatedTabBarController: UITabBarController {
     let animatedTabBar = AnimatedTabBarView()
     private let tabBarBackground: BlurredBackground = {
         let view = BlurredBackground(dimmed: true)
@@ -66,7 +66,7 @@ class AnimatedTabBarController : UITabBarController {
     }
     
     private func setupUI() {
-        //self.view.addSubview(tabBarBackground)
+        // self.view.addSubview(tabBarBackground)
         self.view.addSubview(tabBarVariableBlurView)
         self.view.addSubview(tabBarGradientBackground)
         self.view.addSubview(animatedTabBar)
@@ -86,7 +86,7 @@ class AnimatedTabBarController : UITabBarController {
             animatedTabBar.topAnchor.constraint(equalTo: tabBar.topAnchor),
             animatedTabBar.leadingAnchor.constraint(equalTo: tabBar.leadingAnchor),
             animatedTabBar.trailingAnchor.constraint(equalTo: tabBar.trailingAnchor),
-            animatedTabBar.bottomAnchor.constraint(equalTo: tabBar.safeAreaLayoutGuide.bottomAnchor),
+            animatedTabBar.bottomAnchor.constraint(equalTo: tabBar.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -153,7 +153,7 @@ class AnimatedTabBarController : UITabBarController {
     }
 }
 
-class AnimatedTabBarView : UIView {
+class AnimatedTabBarView: UIView {
     
     var tabBarItems = [AnimatedTabBarItem]()
     let itemsStackView = UIStackView()
@@ -161,16 +161,16 @@ class AnimatedTabBarView : UIView {
         let blurEffect = UIBlurEffect(style: UIScreen.main.traitCollection.userInterfaceStyle == .dark ? .systemUltraThinMaterialDark : .systemUltraThinMaterialLight)
         let view = UIVisualEffectView(effect: blurEffect)
         view.layer.cornerRadius = pillHeight / 2
-        //view.layer.opacity = 0.85
+        // view.layer.opacity = 0.85
         view.clipsToBounds = true
-        //view.backgroundColor = .custom.OVRLYMedContrast
+        // view.backgroundColor = .custom.OVRLYMedContrast
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = false
         return view
     }()
     
-    var pillLeadingConstraint: NSLayoutConstraint? = nil
-    var pillWidthConstraint: NSLayoutConstraint? = nil
+    var pillLeadingConstraint: NSLayoutConstraint?
+    var pillWidthConstraint: NSLayoutConstraint?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -291,7 +291,7 @@ class AnimatedTabBarItem: UIButton {
     private let itemTitle: String
     let unreadDot: UIView = {
         let view = UIView()
-        //view.backgroundColor = .custom.mediumContrast
+        // view.backgroundColor = .custom.mediumContrast
         view.clipsToBounds = true
         view.layer.cornerRadius = 2.5
         view.translatesAutoresizingMaskIntoConstraints = false
