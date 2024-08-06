@@ -377,22 +377,17 @@ class AnimatedTabBarItem: UIButton {
     
     // MARK: Interaction Animations
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        log.debug("VIEW TEST: began")
-        
         accentImageView(self)
         
         super.touchesBegan(touches, with: event)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         guard let touch = touches.first else { return }
         let viewTestingTouch = touch.location(in: self)
         
-        log.debug("VIEW TEST: \(viewTestingTouch)")
         if self.bounds.contains(viewTestingTouch) {
             accentImageView(self)
-            log.debug("VIEW TEST: moved contains")
         } else {
             unaccentImageView(self)
         }
@@ -401,15 +396,12 @@ class AnimatedTabBarItem: UIButton {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        log.debug("VIEW TEST: ended")
         unaccentImageView(self)
         
         super.touchesEnded(touches, with: event)
     }
     
     override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        log.debug("VIEW TEST: cancelled")
-        
         unaccentImageView(self)
         
         super.touchesCancelled(touches, with: event)
