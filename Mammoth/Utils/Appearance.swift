@@ -49,8 +49,8 @@ func configureNavigationBarLayout(navigationController: UINavigationController?,
     let appearance = UINavigationBarAppearance()
     appearance.configureWithTransparentBackground()
     
-    appearance.backgroundColor = NavBarBackgroundColor(userInterfaceStyle: userInterfaceStyle)
-    appearance.backgroundEffect = NavBarBlurEffect()
+    appearance.backgroundColor = .clear//NavBarBackgroundColor(userInterfaceStyle: userInterfaceStyle)
+    //appearance.backgroundEffect = NavBarBlurEffect()
     appearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize, weight: .semibold)]
 
     UINavigationBar.appearance().standardAppearance = appearance
@@ -61,5 +61,5 @@ func configureNavigationBarLayout(navigationController: UINavigationController?,
     navigationController?.navigationBar.scrollEdgeAppearance = appearance
     navigationController?.navigationBar.compactAppearance = appearance
     
-    navigationController?.navigationBar.tintColor = .custom.highContrast
+    //navigationController?.navigationBar.tintColor = .custom.highContrast
 }

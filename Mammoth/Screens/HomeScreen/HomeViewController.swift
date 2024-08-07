@@ -33,7 +33,7 @@ class HomeViewController: UIViewController {
     }
     
     required init() {
-
+        log.debug("LAYOUT: home")
         pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
 
         super.init(nibName: nil, bundle: nil)

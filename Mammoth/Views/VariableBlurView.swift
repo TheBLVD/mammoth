@@ -23,11 +23,11 @@ class VariableBlurView: UIVisualEffectView {
         
         // `CAFilter` is a private QuartzCore class that dynamically create using Objective-C runtime.
         guard let CAFilter = NSClassFromString("CAFilter")! as? NSObject.Type else {
-            print("[VariableBlur] Error: Can't find CAFilter class")
+            print("[VariableBlurView] Error: Can't find CAFilter class")
             return
         }
         guard let variableBlur = CAFilter.self.perform(NSSelectorFromString("filterWithType:"), with: "variableBlur").takeUnretainedValue() as? NSObject else {
-            print("[VariableBlur] Error: CAFilter can't create filterWithType: variableBlur")
+            print("[VariableBlurView] Error: CAFilter can't create filterWithType: variableBlur")
             return
         }
         
@@ -71,6 +71,7 @@ class VariableBlurView: UIVisualEffectView {
     }
     
     private func makeGradientImage(width: CGFloat = 200, height: CGFloat = 200, startOffset: CGFloat, direction: VariableBlurDirection) -> CGImage { // use a higher resolution for more refined gradient transition that won't chew up text
+        #warning("make gradient adjustable to compensate for large navbar area")
         // let ciGradientFilter =  CIFilter.linearGradient()
         let ciGradientFilter =  CIFilter.smoothLinearGradient() // we want to use smooth linear gradient vs normal gradient to take advantage of the sigmoid curve blend type
         ciGradientFilter.color0 = CIColor.init(string: "0.0 0.0 0.0 0.4")

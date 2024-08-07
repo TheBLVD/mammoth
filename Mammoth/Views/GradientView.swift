@@ -14,8 +14,14 @@ public enum GradientType {
     case dark
 }
 
+public enum GradientDirection {
+    case solidBottomClearTop
+    case solidTopClearBottom
+}
+
 class GradientView: UIView {
     private let gradientLayer = CAGradientLayer()
+    private var gradientDirection: GradientDirection = .solidBottomClearTop
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,29 +32,49 @@ class GradientView: UIView {
         super.init(coder: coder)
         setupGradientLayer(gradientType: gradientStyleForCurrentInterface())
     }
-
-    private func setupGradientLayer(gradientType: GradientType = .dark) {
-        self.backgroundColor = UIColor.clear
+    
+    convenience init(frame: CGRect, gradientDirection: GradientDirection) {
+        self.init(frame: frame)
         
-        updateGradientType(gradientType: gradientType)
+        setupGradientLayer(gradientType: gradientStyleForCurrentInterface(), gradientDirection: gradientDirection)
+    }
+
+    private func setupGradientLayer(gradientType: GradientType = .dark, gradientDirection: GradientDirection = .solidBottomClearTop) {
+        self.backgroundColor = UIColor.clear
+        self.gradientDirection = gradientDirection
+        
+        updateGradientType(gradientType: gradientType, gradientDirection: gradientDirection)
         
         layer.insertSublayer(gradientLayer, at: 0)
     }
     
-    public func updateGradientType(gradientType: GradientType) {
+    public func updateGradientType(gradientType: GradientType, gradientDirection: GradientDirection) {
+        #warning("make fades adjustable to compensate for navbar area")
         if gradientType == .dark {
-            gradientLayer.colors = [
-                UIColor.black.withAlphaComponent(0.0).cgColor,
-                UIColor.black.withAlphaComponent(0.8).cgColor
-            ]
+            if gradientDirection == .solidBottomClearTop {
+                gradientLayer.colors = [
+                    UIColor.black.withAlphaComponent(0.0).cgColor,
+                    UIColor.black.withAlphaComponent(0.8).cgColor
+                ]
+            } else {
+                gradientLayer.colors = [
+                    UIColor.black.withAlphaComponent(0.8).cgColor,
+                    UIColor.black.withAlphaComponent(0.0).cgColor
+                ]
+            }
         } else {
-            gradientLayer.colors = [
-                UIColor.white.withAlphaComponent(0.0).cgColor,
-                UIColor.white.withAlphaComponent(0.8).cgColor
-            ]
+            if gradientDirection == .solidBottomClearTop {
+                gradientLayer.colors = [
+                    UIColor.white.withAlphaComponent(0.0).cgColor,
+                    UIColor.white.withAlphaComponent(0.8).cgColor
+                ]
+            } else {
+                gradientLayer.colors = [
+                    UIColor.white.withAlphaComponent(0.8).cgColor,
+                    UIColor.white.withAlphaComponent(0.0).cgColor
+                ]
+            }
         }
-        
-        gradientLayer.locations = [0.0, 1.0].map { NSNumber(value: $0) }
     }
     
     private func gradientStyleForCurrentInterface() -> GradientType {
@@ -60,7 +86,7 @@ class GradientView: UIView {
         
         if #available(iOS 13.0, *) {
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                updateGradientType(gradientType: gradientStyleForCurrentInterface())
+                updateGradientType(gradientType: gradientStyleForCurrentInterface(), gradientDirection: self.gradientDirection)
             }
         }
     }
