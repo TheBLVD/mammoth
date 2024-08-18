@@ -116,8 +116,21 @@ class SetupProfileController: UIViewController {
             updateAvatarAndUserName()
         }
         
-        let vc = SetupChannelsViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        /*let vc = SetupChannelsViewController()
+        self.navigationController?.pushViewController(vc, animated: true)*/
+        
+        // Skip smart lists after sign up
+        if SetupMammothViewModel.shared.shouldShow() {
+            // Go to the next screen
+            let vc = SetupMammothViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            // All done
+            // Clear out the onboarding flag
+            AccountsManager.shared.didShowOnboardingForCurrentAccount()
+            // Exit the signup flow
+            NotificationCenter.default.post(name: shouldChangeRootViewController, object: nil)
+        }
     }
     
     
