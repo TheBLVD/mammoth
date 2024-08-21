@@ -68,8 +68,6 @@ class SetupProfileController: UIViewController {
         doneButton.layer.cornerRadius = 8
         
         // Give these a chance to preload
-        SetupChannelsViewModel.preload()
-        SetupAccountsViewModel.preload()
         SetupMammothViewModel.preload()
     }
 

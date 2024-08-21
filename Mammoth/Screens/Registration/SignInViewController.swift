@@ -651,12 +651,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
                             // option to subscribe to a smart list.
 
                             // Give these a chance to preload
-                            SetupChannelsViewModel.preload()
-                            SetupAccountsViewModel.preload()
                             SetupMammothViewModel.preload()
-
-                            /*let vc = SetupChannelsViewController()
-                            self.navigationController?.pushViewController(vc, animated: true)*/
                             
                             // Skip moth.social onboarding services
                             // Exit the signup flow

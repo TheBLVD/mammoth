@@ -629,11 +629,7 @@
 		BF7E7AE12979EADC00F207C7 /* SetupProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7E7ADF2979EADC00F207C7 /* SetupProfileController.swift */; };
 		BF7F46F32AD07A51000977EB /* PostResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7F46F22AD07A51000977EB /* PostResultsViewController.swift */; };
 		BF7F46F52AD07AF6000977EB /* PostResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7F46F42AD07AF6000977EB /* PostResultsViewModel.swift */; };
-		BF7F46F72AD48783000977EB /* SetupChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7F46F62AD48783000977EB /* SetupChannelsViewController.swift */; };
-		BF7F46F92AD48AEB000977EB /* SetupChannelsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7F46F82AD48AEB000977EB /* SetupChannelsViewModel.swift */; };
 		BF7F46FD2AD48FA0000977EB /* SetupInstructionsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7F46FC2AD48FA0000977EB /* SetupInstructionsCell.swift */; };
-		BF7F46FF2AD4A73F000977EB /* SetupAccountsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7F46FE2AD4A73F000977EB /* SetupAccountsViewController.swift */; };
-		BF7F47012AD4AA32000977EB /* SetupAccountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7F47002AD4AA32000977EB /* SetupAccountsViewModel.swift */; };
 		BF8598A42AF5634900E2BA8D /* ProcessID.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8598A32AF5634900E2BA8D /* ProcessID.swift */; };
 		BF8598A52AF5652200E2BA8D /* ProcessID.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8598A32AF5634900E2BA8D /* ProcessID.swift */; };
 		BF8D23F02A099AEF00D61419 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D23EF2A099AEF00D61419 /* PostView.swift */; };
@@ -1479,11 +1475,7 @@
 		BF7E7ADF2979EADC00F207C7 /* SetupProfileController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupProfileController.swift; sourceTree = "<group>"; };
 		BF7F46F22AD07A51000977EB /* PostResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostResultsViewController.swift; sourceTree = "<group>"; };
 		BF7F46F42AD07AF6000977EB /* PostResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostResultsViewModel.swift; sourceTree = "<group>"; };
-		BF7F46F62AD48783000977EB /* SetupChannelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupChannelsViewController.swift; sourceTree = "<group>"; };
-		BF7F46F82AD48AEB000977EB /* SetupChannelsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupChannelsViewModel.swift; sourceTree = "<group>"; };
 		BF7F46FC2AD48FA0000977EB /* SetupInstructionsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupInstructionsCell.swift; sourceTree = "<group>"; };
-		BF7F46FE2AD4A73F000977EB /* SetupAccountsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAccountsViewController.swift; sourceTree = "<group>"; };
-		BF7F47002AD4AA32000977EB /* SetupAccountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAccountsViewModel.swift; sourceTree = "<group>"; };
 		BF8598A32AF5634900E2BA8D /* ProcessID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessID.swift; sourceTree = "<group>"; };
 		BF8D23EF2A099AEF00D61419 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		BF8D23F12A09BCA300D61419 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
@@ -2251,10 +2243,6 @@
 				14DA3C642B91EB33007ECB0C /* SignUpView.xib */,
 				BF7E7ADF2979EADC00F207C7 /* SetupProfileController.swift */,
 				14DA3C682B91EB38007ECB0C /* SetupProfile.xib */,
-				BF7F46F62AD48783000977EB /* SetupChannelsViewController.swift */,
-				BF7F46F82AD48AEB000977EB /* SetupChannelsViewModel.swift */,
-				BF7F46FE2AD4A73F000977EB /* SetupAccountsViewController.swift */,
-				BF7F47002AD4AA32000977EB /* SetupAccountsViewModel.swift */,
 				BFEA73272B2A4A5600A0D032 /* SetupMammothViewController.swift */,
 				BFEA73282B2A4A5600A0D032 /* SetupMammothViewModel.swift */,
 				BF7F46FC2AD48FA0000977EB /* SetupInstructionsCell.swift */,
@@ -3672,7 +3660,6 @@
 				533996EA2914227A00560F83 /* TrendsTopCell.swift in Sources */,
 				53399A7A291526B900560F83 /* Payload.swift in Sources */,
 				533994A82914214A00560F83 /* SiriSettingsViewController.swift in Sources */,
-				BF7F46F92AD48AEB000977EB /* SetupChannelsViewModel.swift in Sources */,
 				BF8598A42AF5634900E2BA8D /* ProcessID.swift in Sources */,
 				533996DD2914227A00560F83 /* TOCropOverlayView.m in Sources */,
 				53399A47291526B900560F83 /* Poll.swift in Sources */,
@@ -3939,7 +3926,6 @@
 				BF28B68F29D3884D00AB5A48 /* InstanceFeatures.swift in Sources */,
 				53399A66291526B900560F83 /* Polls.swift in Sources */,
 				BF2451F62A4B91A500B409D4 /* AccountsManagerShim.swift in Sources */,
-				BF7F46F72AD48783000977EB /* SetupChannelsViewController.swift in Sources */,
 				D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */,
 				53450E482936121600D720EA /* GiphyPagination.swift in Sources */,
 				BFBD41EC2ACB2C20009BA818 /* ForYouCustomizationViewModel.swift in Sources */,
@@ -3977,7 +3963,6 @@
 				C3D3C47A2A30DEB3007B31EE /* PostCardHeader.swift in Sources */,
 				14D7B7F12BBC1035001EA481 /* String+Height.swift in Sources */,
 				BFA71B532AB23547001D1EC1 /* InstanceCell.swift in Sources */,
-				BF7F47012AD4AA32000977EB /* SetupAccountsViewModel.swift in Sources */,
 				C3B693C52A3878AA00E85927 /* ProfileSectionHeader.swift in Sources */,
 				D87449C72A968D39002A0603 /* RotatingViewController.swift in Sources */,
 				662B60D52A4A1E8600CB331F /* RichText.swift in Sources */,
@@ -4071,7 +4056,6 @@
 				53399A72291526B900560F83 /* Search.swift in Sources */,
 				533994CD2914214A00560F83 /* GalleryViewController.swift in Sources */,
 				533996F52914227A00560F83 /* PlainButtonCell.swift in Sources */,
-				BF7F46FF2AD4A73F000977EB /* SetupAccountsViewController.swift in Sources */,
 				53B1585F293F66D20026E90B /* PushNotificationReceiver.swift in Sources */,
 				662B61212A4A1FFC00CB331F /* HTTP.swift in Sources */,
 				53450E742936127C00D720EA /* CodableTransform.swift in Sources */,
