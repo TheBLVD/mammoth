@@ -114,9 +114,6 @@ class SetupProfileController: UIViewController {
             updateAvatarAndUserName()
         }
         
-        /*let vc = SetupChannelsViewController()
-        self.navigationController?.pushViewController(vc, animated: true)*/
-        
         // Skip smart lists after sign up
         if SetupMammothViewModel.shared.shouldShow() {
             // Go to the next screen
