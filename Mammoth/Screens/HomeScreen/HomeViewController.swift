@@ -273,22 +273,11 @@ extension HomeViewController {
         let addList = UIAction(title: NSLocalizedString("list.add", comment: ""), image: FontAwesome.image(fromChar: "\u{2b}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] action in
             guard let self else { return }
             DispatchQueue.main.async {
-                let alert = UIAlertController(title: NSLocalizedString("list.add", comment: ""), message: NSLocalizedString("list.prompt", comment: ""), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: NSLocalizedString("list.smart.browse", comment: ""), style: .default, handler: { _ in
-                    let vc = ChannelsViewController(viewModel: ChannelsViewModel(singleSection: true)) { [weak self] in
-                        self?.showTutorialIfNeeded()
-                    }
-                    self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
-                }))
-                alert.addAction(UIAlertAction(title: NSLocalizedString("list.create", comment: ""), style: .default, handler: { _ in
-                    let vc = AltTextViewController() { [weak self] in
-                        self?.showTutorialIfNeeded()
-                    }
-                    vc.newList = true
-                    self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
-                }))
-                alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .destructive, handler: nil))
-                self.present(alert, animated: true)
+                let vc = AltTextViewController { [weak self] in
+                    self?.showTutorialIfNeeded()
+                }
+                vc.newList = true
+                self.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
             }
         }
         
@@ -303,16 +292,6 @@ extension HomeViewController {
                 }
             }
         }
-        let customize_string = NSLocalizedString("feed.customize", comment: "Button for customizing the 'for you' page.")
-        let forYou = UIAction(title: customize_string, image: FontAwesome.image(fromChar: "\u{f890}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
-            guard let self else { return }
-            
-            triggerHapticImpact(style: .light)
-            let vc = ForYouCustomizationViewController()
-            vc.isModalInPresentation = true
-            self.navigationController?.present(vc, animated: true)
-        }
-        forYou.accessibilityLabel = customize_string
 
         let settings_string = NSLocalizedString("title.settings", comment: "Button for opening the settings menu.")
         let settings = UIAction(title: settings_string, image: FontAwesome.image(fromChar: "\u{f013}", size: 16, weight: .bold).withRenderingMode(.alwaysTemplate), identifier: nil) { [weak self] _ in
@@ -323,9 +302,9 @@ extension HomeViewController {
                 UIApplication.topViewController()?.present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
             }
         }
-        forYou.accessibilityLabel = settings_string
+        settings.accessibilityLabel = settings_string
 
-        return UIMenu(title: "", options: [.displayInline], children: [forYou, organize, addList, settings])
+        return UIMenu(title: "", options: [.displayInline], children: [organize, addList, settings])
     }
     
     private func jumpToContextMenu() -> UIMenu {
