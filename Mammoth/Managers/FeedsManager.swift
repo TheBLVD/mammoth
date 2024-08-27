@@ -73,8 +73,16 @@ class FeedsManager {
     
     private func initialFeedItems() -> [FeedTypeItem] {
         do {
-            let cachedFeeds = try self.readFeedsFromDisk()
+            var cachedFeeds = try self.readFeedsFromDisk()
             if !cachedFeeds.isEmpty {
+                // Remove all previously saved FeedTypeItems that are NewsFeedTypes.channel
+                cachedFeeds.removeAll {
+                    if case .channel = $0.type {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
                 return cachedFeeds
             }
         } catch {}
