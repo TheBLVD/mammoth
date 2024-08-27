@@ -186,7 +186,6 @@ extension DiscoverSuggestionsViewModel {
 
         if let fullAcct = AccountsManager.shared.currentUser()?.fullAcct {
             // Make requests for…
-            //      - smart lists
             //      - trending hashtags
             //      - suggested follows
             
