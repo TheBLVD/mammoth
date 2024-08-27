@@ -32,7 +32,6 @@ class ForYouCustomizationViewModel {
     
     enum Section: Int {
         case mammothPicks
-        case smartLists
         case beta
     }
     
@@ -57,8 +56,6 @@ class ForYouCustomizationViewModel {
         }
     }
     
-    private var subscribedChannels: [Channel] = []
-    
     private var showBetaSignUpRow: Bool {
         return self.betaStatus == .unknown || self.betaStatus == .notSignedUp
     }
@@ -80,10 +77,8 @@ class ForYouCustomizationViewModel {
     
     init() {
         self.state = .idle
-        self.subscribedChannels = ChannelManager.shared.subscribedChannels()
         self.serverForYouInfo = (AccountsManager.shared.currentAccount as? MastodonAcctData)?.forYou.forYou
         self.updatedForYouInfo = self.serverForYouInfo
-        NotificationCenter.default.addObserver(self, selector: #selector(self.onSubscribedChannelsDidChange), name: didChangeChannelsNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.onForYouDidChange), name: didUpdateAccountForYou, object: nil)
         Task {
             await self.loadRecommendations()
@@ -101,12 +96,6 @@ extension ForYouCustomizationViewModel {
         switch Section(rawValue: section) {
         case .mammothPicks:
             return 1
-        case .smartLists:
-            if updatedForYouInfo?.fromYourChannels == 0 {
-                return 1
-            } else {
-                return self.subscribedChannels.count + 1
-            }
         case .beta:
             var numRows = 2
             if self.showBetaSignUpRow {
@@ -130,8 +119,6 @@ extension ForYouCustomizationViewModel {
         switch Section(rawValue: sectionIndex) {
         case .mammothPicks:
             return true
-        case .smartLists:
-            return false
         case .beta:
             return true
         case .none:
@@ -144,8 +131,6 @@ extension ForYouCustomizationViewModel {
         switch Section(rawValue: sectionIndex) {
         case .mammothPicks:
             return NSLocalizedString("customize.title", comment: "")
-        case .smartLists:
-            return ""
         case .beta:
             if showBetaSignUpRow {
                 return "Beta features - Toggle this on to join the waitlist"
@@ -166,15 +151,6 @@ extension ForYouCustomizationViewModel {
         case .mammothPicks:
             let isOn = self.updatedForYouInfo?.curatedByMammoth == 1
             forYouRowInfo = ForYouRowInfo(title: NSLocalizedString("customize.mammothPicks.title", comment: ""), description: NSLocalizedString("customize.mammothPicks", comment: ""), isOn: isOn, isEnabled: true)
-        case .smartLists:
-            if indexPath.item == 0 {
-                let isOn = self.updatedForYouInfo?.fromYourChannels == 1
-                forYouRowInfo = ForYouRowInfo(title: NSLocalizedString("customize.smartLists.title", comment: ""), description: NSLocalizedString("customize.smartLists", comment: ""), isOn: isOn, isEnabled: true)
-            } else {
-                let subscribedChannel = self.subscribedChannels[indexPath.item-1]
-                let isOn = self.updatedForYouInfo?.enabledChannelIDs.contains(subscribedChannel.id) ?? false
-                forYouRowInfo = ForYouRowInfo(title: subscribedChannel.title, description: "", isOn: isOn, isEnabled: true)
-            }
         case .beta:
             // three possible rows: sign up (0) / trending (1) / friends of friends (2)
             var index = indexPath.item
@@ -204,25 +180,6 @@ extension ForYouCustomizationViewModel {
         case .mammothPicks:
             updatedForYouInfo?.curatedByMammoth = value ? 1 : 0
             self.updateStatusFromForYouData(forYouInfo: updatedForYouInfo!)
-        case .smartLists:
-            if indexPath.item == 0 {
-                updatedForYouInfo?.fromYourChannels = value ? 1 : 0
-                self.updateStatusFromForYouData(forYouInfo: updatedForYouInfo!)
-            } else {
-                // Toggle a channel off/on
-                let channel = subscribedChannels[indexPath.row-1]
-                if value {
-                    // add to enabled channels
-                    var updatedChannelIDs = updatedForYouInfo?.enabledChannelIDs ?? []
-                    updatedChannelIDs.append(channel.id)
-                    updatedForYouInfo?.enabledChannelIDs = updatedChannelIDs
-                } else {
-                    // remove from enabled channels
-                    var updatedChannelIDs = updatedForYouInfo?.enabledChannelIDs ?? []
-                    updatedChannelIDs = updatedChannelIDs.filter({$0 != channel.id})
-                    updatedForYouInfo?.enabledChannelIDs = updatedChannelIDs
-                }
-            }
         case .beta:
             var index = indexPath.item
             if !showBetaSignUpRow {
@@ -318,13 +275,6 @@ extension ForYouCustomizationViewModel {
 
 // MARK: - Notification handlers
 private extension ForYouCustomizationViewModel {
-    @objc func onSubscribedChannelsDidChange(notification: Notification) {
-        DispatchQueue.main.async {
-            self.subscribedChannels = ChannelManager.shared.subscribedChannels()
-            self.delegate?.didUpdate(with: self.state)
-        }
-    }
-    
     @objc func onForYouDidChange(notification: Notification) {
         // Get the updated account info
         let mastodonAcctData = notification.userInfo!["account"] as! MastodonAcctData

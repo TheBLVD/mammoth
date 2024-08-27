@@ -187,20 +187,6 @@ extension ForYouCustomizationViewController: UITableViewDataSource & UITableView
                 cell.enabledSwitch.isEnabled = true
                 cell.configure(forYouRowInfo: forYouRowInfo, section: .mammothPicks, hasChildCells: false)
                 return cell
-            case .smartLists:
-                if indexPath.row == 0 {
-                    let cell = self.tableView.dequeueReusableCell(withIdentifier: ForYouCustomizationCell.reuseIdentifier, for: indexPath) as! ForYouCustomizationCell
-                    cell.delegate = self
-                    let hasChildCells = self.tableView.numberOfRows(inSection: indexPath.section) > 1
-                    cell.enabledSwitch.isEnabled = true
-                    cell.configure(forYouRowInfo: forYouRowInfo, section: .smartLists, hasChildCells: hasChildCells)
-                    return cell
-                } else {
-                    let cell = self.tableView.dequeueReusableCell(withIdentifier: ForYouChannelCell.reuseIdentifier, for: indexPath) as! ForYouChannelCell
-                    let isBottomCell = self.tableView.numberOfRows(inSection: indexPath.section) == indexPath.row + 1
-                    cell.configure(forYouRowInfo: forYouRowInfo, index: indexPath.row, isBottomCell: isBottomCell)
-                    return cell
-                }
             case .beta:
                 let cell = self.tableView.dequeueReusableCell(withIdentifier: ForYouCustomizationCell.reuseIdentifier, for: indexPath) as! ForYouCustomizationCell
                 cell.delegate = self
@@ -236,26 +222,14 @@ extension ForYouCustomizationViewController: UITableViewDataSource & UITableView
 
     
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        if ForYouCustomizationViewModel.Section(rawValue: indexPath.section) == .smartLists && indexPath.row != 0 {
-            return true
-        } else {
-            return false
-        }
+        return false
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if ForYouCustomizationViewModel.Section(rawValue: indexPath.section) == .smartLists && indexPath.row != 0 {
-            return indexPath
-        } else {
-            return nil
-        }
+        return nil
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard ForYouCustomizationViewModel.Section(rawValue: indexPath.section) == .smartLists && indexPath.row != 0 else {
-            log.error("unexpected section")
-            return
-        }
         // Toggle the checkbox
         if let forYouRowInfo = viewModel.getInfo(forIndexPath: indexPath) {
             self.viewModel.setForYouRowInfoOn(indexPath: indexPath, value: !forYouRowInfo.isOn)
@@ -342,6 +316,3 @@ extension ForYouCustomizationViewController {
         self.dismiss(animated: true, completion: nil)
     }
 }
-
-
-

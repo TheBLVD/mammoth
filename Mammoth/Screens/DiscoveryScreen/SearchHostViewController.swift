@@ -28,7 +28,6 @@ class SearchHostViewController: UIViewController {
     private let pages: [UIViewController] = [
         DiscoverSuggestionsViewController(viewModel: DiscoverSuggestionsViewModel()),
         DiscoveryViewController(viewModel: DiscoveryViewModel()),
-        ChannelsViewController(viewModel: ChannelsViewModel()),
         HashtagsViewController(viewModel: HashtagsViewModel(allHashtags: [])),
         PostResultsViewController(viewModel: PostResultsViewModel()),
         InstancesViewController(viewModel: InstancesViewModel())

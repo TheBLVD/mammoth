@@ -587,8 +587,6 @@
 		BF14812C2B180D9C008DFA9D /* InstrumentSerif-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF14812B2B180D9C008DFA9D /* InstrumentSerif-Regular.ttf */; };
 		BF193DBE2AC2305B00D0F6F7 /* DiscoverSuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF193DBD2AC2305B00D0F6F7 /* DiscoverSuggestionsViewController.swift */; };
 		BF193DC02AC245BE00D0F6F7 /* DiscoverSuggestionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF193DBF2AC245BE00D0F6F7 /* DiscoverSuggestionsViewModel.swift */; };
-		BF193DC22AC4A03A00D0F6F7 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF193DC12AC4A03A00D0F6F7 /* ChannelCell.swift */; };
-		BF193DC42AC4C97800D0F6F7 /* ChannelSummaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF193DC32AC4C97800D0F6F7 /* ChannelSummaryCell.swift */; };
 		BF193DC62AC4D66800D0F6F7 /* ChannelPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF193DC52AC4D66800D0F6F7 /* ChannelPic.swift */; };
 		BF193DC82AC4DF6A00D0F6F7 /* HashtagCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF193DC72AC4DF6A00D0F6F7 /* HashtagCell.swift */; };
 		BF193DCA2AC4E09000D0F6F7 /* StaticPic.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF193DC92AC4E09000D0F6F7 /* StaticPic.swift */; };
@@ -635,7 +633,6 @@
 		BF8D23F02A099AEF00D61419 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D23EF2A099AEF00D61419 /* PostView.swift */; };
 		BF8D23F22A09BCA300D61419 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D23F12A09BCA300D61419 /* DetailView.swift */; };
 		BF90967129AD60BC0015155F /* FollowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF90967029AD60BC0015155F /* FollowManager.swift */; };
-		BF92CE022AABED0200EB25FA /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF92CE012AABED0200EB25FA /* ChannelManager.swift */; };
 		BF93257E2A4262C80034CAE7 /* ExtendedTouchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF93257D2A4262C80034CAE7 /* ExtendedTouchView.swift */; };
 		BF9325802A451B280034CAE7 /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF93257F2A451B280034CAE7 /* ProfileImage.swift */; };
 		BF96F7DD2AA117E0004020A4 /* SearchHostHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF96F7DC2AA117E0004020A4 /* SearchHostHeaderView.swift */; };
@@ -669,8 +666,6 @@
 		BFDB560929D8D4F700FC6F92 /* MammothUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDB560829D8D4F700FC6F92 /* MammothUITestsLaunchTests.swift */; };
 		BFDCBD122A9D268000606234 /* SearchHostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDCBD112A9D268000606234 /* SearchHostViewController.swift */; };
 		BFDCBD142A9D26D200606234 /* SearchHostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDCBD132A9D26D200606234 /* SearchHostViewModel.swift */; };
-		BFDCBD182A9D5EEB00606234 /* ChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDCBD172A9D5EEB00606234 /* ChannelsViewController.swift */; };
-		BFDCBD1A2A9D61BB00606234 /* ChannelsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDCBD192A9D61BB00606234 /* ChannelsViewModel.swift */; };
 		BFDCBD1C2A9D689700606234 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDCBD1B2A9D689700606234 /* Channel.swift */; };
 		BFDCBD202A9EA1AE00606234 /* ChannelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDCBD1F2A9EA1AE00606234 /* ChannelService.swift */; };
 		BFDCBD252A9EBCF100606234 /* Channels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDCBD242A9EBCF100606234 /* Channels.swift */; };
@@ -1433,8 +1428,6 @@
 		BF14812B2B180D9C008DFA9D /* InstrumentSerif-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "InstrumentSerif-Regular.ttf"; sourceTree = "<group>"; };
 		BF193DBD2AC2305B00D0F6F7 /* DiscoverSuggestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverSuggestionsViewController.swift; sourceTree = "<group>"; };
 		BF193DBF2AC245BE00D0F6F7 /* DiscoverSuggestionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverSuggestionsViewModel.swift; sourceTree = "<group>"; };
-		BF193DC12AC4A03A00D0F6F7 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
-		BF193DC32AC4C97800D0F6F7 /* ChannelSummaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelSummaryCell.swift; sourceTree = "<group>"; };
 		BF193DC52AC4D66800D0F6F7 /* ChannelPic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelPic.swift; sourceTree = "<group>"; };
 		BF193DC72AC4DF6A00D0F6F7 /* HashtagCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagCell.swift; sourceTree = "<group>"; };
 		BF193DC92AC4E09000D0F6F7 /* StaticPic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticPic.swift; sourceTree = "<group>"; };
@@ -1480,7 +1473,6 @@
 		BF8D23EF2A099AEF00D61419 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		BF8D23F12A09BCA300D61419 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		BF90967029AD60BC0015155F /* FollowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowManager.swift; sourceTree = "<group>"; };
-		BF92CE012AABED0200EB25FA /* ChannelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
 		BF93257D2A4262C80034CAE7 /* ExtendedTouchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedTouchView.swift; sourceTree = "<group>"; };
 		BF93257F2A451B280034CAE7 /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
 		BF96F7DC2AA117E0004020A4 /* SearchHostHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHostHeaderView.swift; sourceTree = "<group>"; };
@@ -1515,8 +1507,6 @@
 		BFDB560829D8D4F700FC6F92 /* MammothUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MammothUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		BFDCBD112A9D268000606234 /* SearchHostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHostViewController.swift; sourceTree = "<group>"; };
 		BFDCBD132A9D26D200606234 /* SearchHostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHostViewModel.swift; sourceTree = "<group>"; };
-		BFDCBD172A9D5EEB00606234 /* ChannelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsViewController.swift; sourceTree = "<group>"; };
-		BFDCBD192A9D61BB00606234 /* ChannelsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelsViewModel.swift; sourceTree = "<group>"; };
 		BFDCBD1B2A9D689700606234 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		BFDCBD1F2A9EA1AE00606234 /* ChannelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelService.swift; sourceTree = "<group>"; };
 		BFDCBD242A9EBCF100606234 /* Channels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channels.swift; sourceTree = "<group>"; };
@@ -2101,8 +2091,6 @@
 				532F2925294B3771003C9FAD /* VIPCell.swift */,
 				C3FD24EB2A45DC3100AAAFE4 /* EmptyFeedCell.swift */,
 				C31677492A71873700D3CD63 /* ErrorCell.swift */,
-				BF193DC12AC4A03A00D0F6F7 /* ChannelCell.swift */,
-				BF193DC32AC4C97800D0F6F7 /* ChannelSummaryCell.swift */,
 				BF193DC72AC4DF6A00D0F6F7 /* HashtagCell.swift */,
 				C3A834C42AB30BFF007E4A12 /* FeedEditorCell.swift */,
 				BFA71B522AB23547001D1EC1 /* InstanceCell.swift */,
@@ -2821,8 +2809,6 @@
 				BF193DBF2AC245BE00D0F6F7 /* DiscoverSuggestionsViewModel.swift */,
 				C354D5FC2A0D172300F8AC04 /* DiscoveryViewController.swift */,
 				C354D5FF2A0D177E00F8AC04 /* DiscoveryViewModel.swift */,
-				BFDCBD172A9D5EEB00606234 /* ChannelsViewController.swift */,
-				BFDCBD192A9D61BB00606234 /* ChannelsViewModel.swift */,
 				BFBBDB102AC610A3008D6352 /* HashtagsViewController.swift */,
 				BFBBDB0E2AC61097008D6352 /* HashtagsViewModel.swift */,
 				BFA71B4E2AB22D4B001D1EC1 /* InstancesViewController.swift */,
@@ -3072,7 +3058,6 @@
 				BF90967029AD60BC0015155F /* FollowManager.swift */,
 				BF34B1A52A0E9774002F3FED /* HashtagManager.swift */,
 				BF0DC4B82A1D5A5D0072C1DA /* ListManager.swift */,
-				BF92CE012AABED0200EB25FA /* ChannelManager.swift */,
 				BFA71B562AB3CBBB001D1EC1 /* InstanceManager.swift */,
 				BF1F9741298C9C920041A666 /* ProfileCacher.swift */,
 				BF492DB129F33550004100B8 /* StatusCache.swift */,
@@ -3729,7 +3714,6 @@
 				53450E6E2936127C00D720EA /* DataTransform.swift in Sources */,
 				C34475602AB0A080000FB335 /* FeedEditorViewModel.swift in Sources */,
 				C3CAA9362A122F0300EECBC2 /* ParseTextAttachments.swift in Sources */,
-				BF193DC42AC4C97800D0F6F7 /* ChannelSummaryCell.swift in Sources */,
 				53399A64291526B900560F83 /* FollowRequests.swift in Sources */,
 				144DC6C92B14E26200F4EE98 /* UIColor+Gradient.swift in Sources */,
 				53399A45291526B900560F83 /* ScheduledStatus.swift in Sources */,
@@ -3744,7 +3728,6 @@
 				533994D32914214A00560F83 /* FiltersViewController.swift in Sources */,
 				14F47F452B517DAB008F45CE /* PostCardMediaStack.swift in Sources */,
 				C37E6D432A6559C30038B5F6 /* Sequence+Async.swift in Sources */,
-				BFDCBD1A2A9D61BB00606234 /* ChannelsViewModel.swift in Sources */,
 				533996DA2914227A00560F83 /* CropViewController.swift in Sources */,
 				14740B012BD6941700DE2440 /* SettingsTypes.swift in Sources */,
 				C3BBEEF02A9F933D0027C761 /* MentionsViewController.swift in Sources */,
@@ -3888,7 +3871,6 @@
 				BF2451F42A4B3D6300B409D4 /* AcctHandler.swift in Sources */,
 				EF5B099E2C2E2AEC004759EE /* OpenLinksSettingsViewController.swift in Sources */,
 				533996E72914227A00560F83 /* DetailCell.swift in Sources */,
-				BFDCBD182A9D5EEB00606234 /* ChannelsViewController.swift in Sources */,
 				F07766192BB76F310049F022 /* PostCardWebview.swift in Sources */,
 				53399A46291526B900560F83 /* Attachment.swift in Sources */,
 				C33DC38D2AA203EC00B18AB1 /* ActivityCardModel.swift in Sources */,
@@ -4024,7 +4006,6 @@
 				66D091E32A5360FB00291B8D /* BlueskySignInViewController.swift in Sources */,
 				533996712914227A00560F83 /* ActiveType.swift in Sources */,
 				14E08C6A2B20BF9C00EF5A55 /* DeviceHelpers.swift in Sources */,
-				BF92CE022AABED0200EB25FA /* ChannelManager.swift in Sources */,
 				C3D3C47D2A335D69007B31EE /* UIView+Constraints.swift in Sources */,
 				532F291A2947895B003C9FAD /* ImagePreviewCell.swift in Sources */,
 				BF7F46FD2AD48FA0000977EB /* SetupInstructionsCell.swift in Sources */,
@@ -4101,7 +4082,6 @@
 				533994CE2914214A00560F83 /* SingleColumnViewController.swift in Sources */,
 				BF45FDEA2B34FF1800246C54 /* SettingsIcons.swift in Sources */,
 				53399A3A291526B900560F83 /* URLRequest.swift in Sources */,
-				BF193DC22AC4A03A00D0F6F7 /* ChannelCell.swift in Sources */,
 				C38B11142AAF1ED60077E053 /* ScrollUpIndicator.swift in Sources */,
 				53399A63291526B900560F83 /* Statuses.swift in Sources */,
 				C3A521F129FFCCD5008AA5D1 /* VideoProcessor.swift in Sources */,
