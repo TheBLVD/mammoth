@@ -20,19 +20,16 @@ protocol DiscoverySuggestionsDelegate: AnyObject {
 class DiscoverSuggestionsViewModel {
     
     enum DiscoverySuggestionSection: Int {
-        case channel
         case hashtag
         case account
     }
     
     private struct ListData {
-        var channels: [Channel]?
         var hashtags: [Tag]?
         var accounts: [UserCardModel]?
     }
 
     enum ListDataReturn {
-        case channel(Channel?)
         case hashtag(Tag?)
         case account(UserCardModel?)
     }
@@ -77,17 +74,9 @@ class DiscoverSuggestionsViewModel {
     }
 
     init() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.didSwitchAccount),
-                                               name: didSwitchCurrentAccountNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.allChannelsDidChange), name: didChangeChannelsNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.channelStatusDidChange), name: didChangeChannelStatusNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.didSwitchAccount), name: didSwitchCurrentAccountNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.hashtagStatusDidChange), name: didChangeHashtagsNotification, object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.onStatusUpdate),
-                                               name: didChangeFollowStatusNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.onStatusUpdate), name: didChangeFollowStatusNotification, object: nil)
 
         Task { [weak self] in
             guard let self else { return }
@@ -105,10 +94,8 @@ extension DiscoverSuggestionsViewModel {
     func numberOfItems(forSection section: Int) -> Int {
         switch(section) {
         case 0:
-            return self.listData.channels?.count ?? 0
-        case 1:
             return self.listData.hashtags?.count ?? 0
-        case 2:
+        case 1:
             return self.listData.accounts?.count ?? 0
         default:
             return 0
@@ -126,10 +113,8 @@ extension DiscoverSuggestionsViewModel {
     func getInfo(forIndexPath indexPath: IndexPath) -> ListDataReturn {
         switch(indexPath.section) {
         case 0:
-            return .channel(self.listData.channels?[indexPath.row])
-        case 1:
             return .hashtag(self.listData.hashtags?[indexPath.row])
-        case 2:
+        case 1:
             var userCardModel = self.listData.accounts?[indexPath.row]
             if !(searchQuery?.isEmpty ?? true) {
                 userCardModel = userCardModel?.simple()
@@ -137,17 +122,15 @@ extension DiscoverSuggestionsViewModel {
             return .account(userCardModel)
         default:
             log.error("unexpected index for getInfo")
-            return .channel(self.listData.channels?[indexPath.row])
+            return .hashtag(self.listData.hashtags?[indexPath.row])
         }
     }
     
     func getSectionTitle(for sectionIndex: Int) -> String {
         switch(sectionIndex) {
         case 0:
-            return NSLocalizedString("discover.smartLists", comment: "")
-        case 1:
             return NSLocalizedString("discover.trendingHashtags", comment: "")
-        case 2:
+        case 1:
             if searchQuery?.isEmpty ?? true {
                 return NSLocalizedString("discover.recommendedFollows", comment: "")
             } else {
@@ -206,27 +189,6 @@ extension DiscoverSuggestionsViewModel {
             //      - smart lists
             //      - trending hashtags
             //      - suggested follows
-            
-            // Smart Lists
-            if section == nil || section == .channel {
-                Task { [weak self] in
-                    guard let self else { return }
-                    // Get all available channels, then prioritize ones
-                    // the user is not subscribed to yet.
-                    let allChannels = ChannelManager.shared.allChannels()
-                    let unsubscribedChannels = allChannels.filter { ChannelManager.shared.subscriptionStatusForChannel($0) != .subscribed
-                    }
-                    let subscribedChannels = allChannels.filter { ChannelManager.shared.subscriptionStatusForChannel($0) == .subscribed
-                    }
-                    self.allChannels = unsubscribedChannels + subscribedChannels
-                    let suggestedChannels = (self.allChannels).prefix(DefaultNumberOfChannels)
-                    DispatchQueue.main.async { [weak self] in
-                        guard let self else { return }
-                        self.listData.channels = Array(suggestedChannels)
-                        self.delegate?.didUpdateSection(section: .channel, with: .success)
-                    }
-                }
-            }
             
             // Trending Hashtags
             if section == nil || section == .hashtag {
@@ -326,7 +288,6 @@ extension DiscoverSuggestionsViewModel {
     
 }
 
-
 // MARK: - Notification handlers
 private extension DiscoverSuggestionsViewModel {
     @objc func didSwitchAccount() {
@@ -334,24 +295,6 @@ private extension DiscoverSuggestionsViewModel {
             guard let self else { return }
             // Reload recommentations when a user is set/changed
             await self.loadRecommendations()
-        }
-    }
-    
-    @objc func allChannelsDidChange() {
-        Task { [weak self] in
-            guard let self else { return }
-            // Reload recommentations when the list of all channels changes
-            await self.loadRecommendations(section: .channel)
-        }
-    }
-
-    @objc func channelStatusDidChange(notification: Notification) {
-        let acctData = notification.userInfo?["account"] as? any AcctDataType
-        if acctData == nil || acctData?.uniqueID == AccountsManager.shared.currentAccount?.uniqueID {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.delegate?.didUpdateSection(section: .channel, with: .success)
-            }
         }
     }
     
@@ -399,19 +342,10 @@ extension DiscoverSuggestionsViewModel {
         
         // Filter list content based on the search query
         if self.searchQuery?.isEmpty ?? true  {
-            self.listData.channels = Array(self.allChannels.prefix(self.DefaultNumberOfChannels))
             self.listData.hashtags = Array(self.allTrendingHashtags.prefix(self.DefaultNumberOfHashtags))
             self.listData.accounts = self.allSuggestedAccounts
             self.delegate?.didUpdateAll()
         } else if let searchQuery = self.searchQuery {
-            // Filter channels
-            let filteredChannels = self.allChannels.filter { channel in
-                return channel.title.localizedCaseInsensitiveContains(searchQuery) ||
-                channel.description.localizedCaseInsensitiveContains(searchQuery)
-            }
-            self.listData.channels = filteredChannels
-            self.delegate?.didUpdateSection(section: .channel, with: .success)
-
             // Show one hashtag that is an exact match for the query
             var exactMatchQuery = searchQuery.lowercased()
             if exactMatchQuery.hasPrefix("#") {
@@ -448,5 +382,3 @@ extension DiscoverSuggestionsViewModel {
     }
     
 }
-
-
