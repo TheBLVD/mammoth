@@ -72,13 +72,11 @@ class AnalyticsManager {
     }
     
     @objc func didSwitchAccount(_ notification: NSNotification) {
-        callActivities()
+        // stub
     }
     
     @objc func didUpdatePurchase(_ notification: NSNotification) {
-        if IAPManager.isGoldMember {
-            callActivities()
-        }
+        // stub
     }
     
     private func callActivities() {
