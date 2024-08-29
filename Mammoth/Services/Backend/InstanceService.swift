@@ -31,12 +31,18 @@ struct InstanceService {
     
     static func allInstances() async -> [tagInstance] {
         // Make the network request to get the instances
-        let urlStr = "https://feature.\(GlobalHostServer())/api/v1/instances/list"
+        let urlStr = "https://instances.social/api/1.0/instances/list"
         let url: URL = URL(string: urlStr)!
         var request = URLRequest(url: url)
+        var components = URLComponents(url: request.url!, resolvingAgainstBaseURL: false)!
+        let queryItems: [URLQueryItem] = [URLQueryItem(name: "sort_by", value: "users"),
+                                          URLQueryItem(name: "sort_order", value: "desc")]
+        components.queryItems = queryItems
+        request.url = components.url
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("Bearer \(ArkanaKeys.Global().instanceSocialAPI)", forHTTPHeaderField: "Authorization")
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
         do {
@@ -55,7 +61,7 @@ struct InstanceService {
     
     static func searchForInstances(query: String) async -> [tagInstance] {
         // Make the network request to get the instances
-        let urlStr = "https://feature.\(GlobalHostServer())/api/v1/instances/search"
+        let urlStr = "https://instances.social/api/1.0/instances/search"
         let url: URL = URL(string: urlStr)!
         var request = URLRequest(url: url)
         var components = URLComponents(url: request.url!, resolvingAgainstBaseURL: false)!
