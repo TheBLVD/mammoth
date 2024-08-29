@@ -114,7 +114,7 @@ extension Timelines {
         return Request<[Status]>(path: "/api/v2/timelines/for_you", method: method)
     }
     
-    /// Retrieves the For You curated timeline.
+    /// Retrieves the For You v4 curated timeline.
     ///
     /// - Parameters:
     ///   - remoteFullOriginalAcct: full user handle 'jtomchak@infosec.social'  local Moth.social accounts can just be 'jtomchak'
@@ -141,6 +141,28 @@ extension Timelines {
          let method = HTTPMethod.get(.parameters(parameters))
 
          return Request<[Status]>(path: "/api/v4/timelines/for_you", method: method)
+     }
+    
+    /// Retrieves the For You (Mammoth Picks) curated timeline.
+    /// For after Mammoth sunsets recommendations based For You
+    ///
+    /// - Parameters:
+    ///   - range: The bounds used when requesting data from Mastodon.
+    /// - Returns: Request for `[Status]`.
+     public static func forYouMammothPicks(range: RequestRange = .default) -> Request<[Status]> {
+         var rangeParameters: [Parameter]
+         if case .limit(let limit) = range {
+             rangeParameters = range.parameters(limit: between(1, and: limit, default: limit)) ?? []
+         } else if case .min(_, let limit) = range, let limit {
+             rangeParameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
+         } else if case .max(_, let limit) = range, let limit {
+             rangeParameters = range.parameters(limit: between(1, and: limit, default: 20)) ?? []
+         } else {
+             rangeParameters = range.parameters(limit: between(1, and: 40, default: 20)) ?? []
+         }
+         let method = HTTPMethod.get(.parameters(rangeParameters))
+
+         return Request<[Status]>(path: "/", method: method)
      }
     
     /// Retrieves the For You meta data.

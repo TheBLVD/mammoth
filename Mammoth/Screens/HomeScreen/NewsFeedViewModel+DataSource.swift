@@ -399,26 +399,26 @@ internal struct NewsFeedListData {
                     }
                 }
             case .likes:
-                if let index = self.likes?.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
+                if let index = self.likes?.firstIndex(where: {$0.uniqueId() == item.uniqueId()}) {
                     self.remove(atIndex: index, forType: feedType)
                 }
             case .bookmarks:
-                if let index = self.bookmarks?.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
+                if let index = self.bookmarks?.firstIndex(where: {$0.uniqueId() == item.uniqueId()}) {
                     self.remove(atIndex: index, forType: feedType)
                 }
             case .mentionsIn:
-                if let index = self.mentionsIn?.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
+                if let index = self.mentionsIn?.firstIndex(where: {$0.uniqueId() == item.uniqueId()}) {
                     self.remove(atIndex: index, forType: feedType)
                 }
                 
             case .mentionsOut:
-                if let index = self.mentionsOut?.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
+                if let index = self.mentionsOut?.firstIndex(where: {$0.uniqueId() == item.uniqueId()}) {
                     self.remove(atIndex: index, forType: feedType)
                 }
                 
             case .activity(_):
                 self.activity.forEach { (key, activities) in
-                    if let index = activities.firstIndex(where: {$0.uniqueId() == item.uniqueId()}){
+                    if let index = activities.firstIndex(where: {$0.uniqueId() == item.uniqueId()}) {
                         let activityType: NotificationType? = key == "all" ? nil : NotificationType(rawValue: key)
                         self.remove(atIndex: index, forType: .activity(activityType))
                     }

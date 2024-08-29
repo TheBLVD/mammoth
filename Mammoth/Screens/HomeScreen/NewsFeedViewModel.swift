@@ -134,10 +134,9 @@ enum NewsFeedTypes: CaseIterable, Equatable, Codable, Hashable {
         let batchName = "\(batchName)_\(Int.random(in: 0 ... 10000))"
         
         do {
-            switch(self) {
+            switch self {
             case .forYou:
-                guard let remoteFullOriginalAcct = AccountsManager.shared.currentAccount?.remoteFullOriginalAcct else {return ([], cursorId: nil)}
-                let (result, cursorId) = try await TimelineService.forYou(remoteFullOriginalAcct: remoteFullOriginalAcct, range: range)
+                let (result, cursorId) = try await TimelineService.forYouMammothPicks(range: range)
                 return (result.enumerated().map({ .postCard(PostCardModel(status: $1, withStaticMetrics: true, instanceName: $1.serverName, batchId: batchName, batchItemIndex: $0)) }), cursorId: cursorId)
                 
             case .following:
