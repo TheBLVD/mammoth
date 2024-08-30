@@ -9,6 +9,7 @@
 import UIKit
 import Meta
 import MetaTextKit
+import ArkanaKeys
 
 class ProfileHeader: UIView {
     
@@ -112,7 +113,7 @@ class ProfileHeader: UIView {
         label.isUserInteractionEnabled = false
         return label
     }()
-
+    
     private let userTagLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 2, weight: .regular)
@@ -141,7 +142,7 @@ class ProfileHeader: UIView {
         return metaText
     }()
     
-    private let actionButton: UIButton = {
+    private let followButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitleColor(.custom.highContrast, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .semibold)
@@ -152,6 +153,30 @@ class ProfileHeader: UIView {
         button.layer.cornerCurve = .continuous
         button.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
         return button
+    }()
+    
+    private let tipButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setTitleColor(.custom.gold, for: .normal)
+        button.setTitle(NSLocalizedString("profile.subscribe", comment: ""), for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: UIFont.preferredFont(forTextStyle: .body).pointSize + GlobalStruct.customTextSize + 1, weight: .semibold)
+        button.layer.borderWidth = 0.5
+        button.layer.borderColor = UIColor.custom.outlines.cgColor
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 8
+        button.layer.cornerCurve = .continuous
+        button.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner]
+        button.isHidden = true
+        return button
+    }()
+    
+    private let buttonStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fillEqually
+        stackView.spacing = 12
+        return stackView
     }()
     
     private let statsStack: UIStackView = {
@@ -257,7 +282,9 @@ private extension ProfileHeader {
         headerTitleStackView.addArrangedSubview(userTagLabel)
         
         mainStackView.addArrangedSubview(contentStackView)
-        contentStackView.addArrangedSubview(actionButton)
+        contentStackView.addArrangedSubview(buttonStackView)
+        buttonStackView.addArrangedSubview(tipButton)
+        buttonStackView.addArrangedSubview(followButton)
         
         contentStackView.addArrangedSubview(statsStack)
         
@@ -272,7 +299,8 @@ private extension ProfileHeader {
             contentStackView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
         ])
         
-        actionButton.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 420, constant: -(contentStackView.layoutMargins.left + contentStackView.layoutMargins.right))
+        followButton.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 420, constant: -(contentStackView.layoutMargins.left + contentStackView.layoutMargins.right))
+        tipButton.addHorizontalFillConstraints(withParent: contentStackView, andMaxWidth: 420, constant: -(contentStackView.layoutMargins.left + contentStackView.layoutMargins.right))
         
         self.profilePic.onPress = self.profilePicTapped
         self.profilePic.isContextMenuEnabled = false
@@ -338,7 +366,7 @@ extension ProfileHeader {
         } else {
             self.descriptionLabel.textView.text = user.description
         }
-                
+        
         if let description = user.description, !description.isEmpty {
             if !contentStackView.arrangedSubviews.contains(descriptionLabel.textView) {
                 contentStackView.insertArrangedSubview(descriptionLabel.textView, at: 0)
@@ -361,9 +389,9 @@ extension ProfileHeader {
             buttonLabel.append(NSAttributedString(string: "  "))
             buttonLabel.append(imageString)
             
-            actionButton.setAttributedTitle(buttonLabel, for: .normal)
-            actionButton.showsMenuAsPrimaryAction = true
-            actionButton.menu = self.createContextMenu()
+            followButton.setAttributedTitle(buttonLabel, for: .normal)
+            followButton.showsMenuAsPrimaryAction = true
+            followButton.menu = self.createContextMenu()
         } else {
             switch user.followStatus {
             case .unknown:
@@ -374,36 +402,39 @@ extension ProfileHeader {
                 fallthrough
             case .notFollowing:
                 if let followedBy = self.user?.relationship?.followedBy, followedBy {
-                    actionButton.setTitle(NSLocalizedString("profile.followBack", comment: ""), for: .normal)
+                    followButton.setTitle(NSLocalizedString("profile.followBack", comment: ""), for: .normal)
                 } else {
-                    actionButton.setTitle(NSLocalizedString("profile.follow", comment: ""), for: .normal)
+                    followButton.setTitle(NSLocalizedString("profile.follow", comment: ""), for: .normal)
                 }
-                actionButton.removeTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
-                actionButton.addTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
+                followButton.removeTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
+                followButton.addTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
                 break
             case .followRequested:
                 fallthrough
             case .following:
-                actionButton.setTitle(NSLocalizedString("profile.unfollow", comment: ""), for: .normal)
-                actionButton.removeTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
-                actionButton.addTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
+                followButton.setTitle(NSLocalizedString("profile.unfollow", comment: ""), for: .normal)
+                followButton.removeTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
+                followButton.addTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
                 break
             case .followAwaitingApproval:
-                actionButton.setTitle(NSLocalizedString("profile.awaitingApproval", comment: ""), for: .normal)
-                actionButton.removeTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
-                actionButton.addTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
+                followButton.setTitle(NSLocalizedString("profile.awaitingApproval", comment: ""), for: .normal)
+                followButton.removeTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
+                followButton.addTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
                 break
             case .none:
-                actionButton.setTitle(NSLocalizedString("profile.follow", comment: ""), for: .normal)
-                actionButton.removeTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
-                actionButton.addTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
+                followButton.setTitle(NSLocalizedString("profile.follow", comment: ""), for: .normal)
+                followButton.removeTarget(self, action: #selector(self.unfollowTapped), for: .touchUpInside)
+                followButton.addTarget(self, action: #selector(self.followTapped), for: .touchUpInside)
             }
         }
-        let joined_on = user.joinedOn?.toString(dateStyle: .short, timeStyle: .none) ?? ""
+        
+        self.loadSubscribeButton()
+        
+        let joinedOn = user.joinedOn?.toString(dateStyle: .short, timeStyle: .none) ?? ""
         if UIScreen.main.bounds.width < 380 {
-            self.statsLabel.text = String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joined_on)
+            self.statsLabel.text = String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joinedOn)
         } else {
-            self.statsLabel.text = " - " + String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joined_on)
+            self.statsLabel.text = " - " + String.localizedStringWithFormat(NSLocalizedString("profile.joinedOn", comment: ""), joinedOn)
         }
         
         self.followersButton.setTitle(String.localizedStringWithFormat(user.followersCount == "1" ? NSLocalizedString("profile.followers.singular", comment: "") : NSLocalizedString("profile.followers.plural", comment: ""), user.followersCount), for: .normal)
@@ -496,8 +527,9 @@ extension ProfileHeader {
         ]
         
         self.userTagLabel.textColor = .custom.softContrast
-        self.actionButton.setTitleColor(.custom.highContrast, for: .normal)
-        self.actionButton.layer.borderColor = UIColor.custom.outlines.cgColor
+        self.followButton.setTitleColor(.custom.highContrast, for: .normal)
+        self.followButton.layer.borderColor = UIColor.custom.outlines.cgColor
+        self.tipButton.layer.borderColor = UIColor.custom.outlines.cgColor
         self.followersButton.setTitleColor(.custom.softContrast, for: .normal)
         self.statsLabel.textColor = .custom.softContrast
         
@@ -511,7 +543,7 @@ extension ProfileHeader {
             buttonLabel.append(NSAttributedString(string: "  "))
             buttonLabel.append(imageString)
             
-            actionButton.setAttributedTitle(buttonLabel, for: .normal)
+            followButton.setAttributedTitle(buttonLabel, for: .normal)
         }
         
         self.extraInfoStackView.arrangedSubviews.forEach { view in
@@ -521,7 +553,7 @@ extension ProfileHeader {
         }
         
         if screenType == .own {
-            self.actionButton.menu = self.createContextMenu()
+            self.followButton.menu = self.createContextMenu()
         }
         
         if let user, let screenType {
@@ -530,7 +562,7 @@ extension ProfileHeader {
     }
     
     @objc func followTapped() {
-        actionButton.setTitle(NSLocalizedString("profile.unfollow", comment: ""), for: .normal)
+        followButton.setTitle(NSLocalizedString("profile.unfollow", comment: ""), for: .normal)
         triggerHapticImpact(style: .light)
         
         if  let userCard = self.user, let account = userCard.account {
@@ -557,7 +589,7 @@ extension ProfileHeader {
     }
     
     @objc func unfollowTapped() {
-        actionButton.setTitle(NSLocalizedString("profile.follow", comment: ""), for: .normal)
+        followButton.setTitle(NSLocalizedString("profile.follow", comment: ""), for: .normal)
         triggerHapticImpact(style: .light)
         
         if let userCard = self.user, let account = userCard.account {
@@ -573,6 +605,74 @@ extension ProfileHeader {
                     AnalyticsManager.track(event: .unfollow)
                 } catch let error {
                     log.error("Unfollow error: \(error)")
+                }
+            }
+        }
+    }
+    
+    @objc func subscribeTapped() {
+        triggerHapticImpact(style: .light)
+        
+        if let user = user, let currentAccount = AccountsManager.shared.currentAccount?.fullAcct {
+            // get user theme.
+            var theme = "light"
+            if GlobalStruct.overrideTheme == 1 || self.traitCollection.userInterfaceStyle == .light {
+                theme = "light"
+            } else if GlobalStruct.overrideTheme == 2 || self.traitCollection.userInterfaceStyle == .dark  {
+                theme = "dark"
+            }
+            var tip_account: Account?
+            var tip_username: String?
+            switch user.isTippable {
+            case true:
+                tip_account = user.account
+                tip_username = user.username
+            case false:
+                tip_account = user.tippableAccount?.acct
+                tip_username = user.tippableAccount?.accountname
+            }
+            if let tip_account = tip_account, let tip_username = tip_username, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tip_username)/subscribe?callback=mammoth://subclub&id=@\(currentAccount)&theme=\(theme)") {
+                FollowManager.shared.followAccount(tip_account)
+                var vc: WebViewController!
+                if let tippableAccount = user.tippableAccount?.acct {
+                    let tippableUserCard = UserCardModel(account: tippableAccount)
+                    vc = WebViewController(url: url.absoluteString, tippableUserCard)
+                } else {
+                    vc = WebViewController(url: url.absoluteString, user)
+                }
+                
+                if let presentingVC = getTopMostViewController() {
+                    presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
+                }
+            }
+        }
+    }
+    
+    @objc func unsubscribeTapped() {
+        triggerHapticImpact(style: .light)
+        
+        if let user = user {
+            var tip_account: Account?
+            var tip_username: String?
+            switch user.isTippable {
+            case true:
+                tip_account = user.account
+                tip_username = user.userTag
+            case false:
+                tip_account = user.tippableAccount?.acct
+                // using this username here because of the domain.
+                tip_username = user.tippableAccount?.acct?.username
+            }
+            if let tip_account = tip_account, let tip_username = tip_username {
+                FollowManager.shared.unfollowAccount(tip_account)
+                user.syncFollowStatus()
+                let vc = NewPostViewController()
+                vc.isModalInPresentation = true
+                vc.fromPro = true
+                vc.proText = "@\(tip_username) unsubscribe"
+                vc.canPost = true
+                if let presentingVC = getTopMostViewController() {
+                    presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
                 }
             }
         }
@@ -604,6 +704,40 @@ extension ProfileHeader {
         userTag.append(NSAttributedString(string: user.userTag))
         
         return userTag
+    }
+    
+    func loadSubscribeButton() {
+        // configure subscribe button.
+        if let user = self.user {
+            user.getTipInfo()
+            if !user.isSelf && user.isTippable {
+                tipButton.isHidden = false
+                // user is subscribed:
+                if user.followStatus == .following {
+                    followButton.isHidden = true
+                    tipButton.removeTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                    tipButton.addTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
+                    tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
+                } else {
+                     followButton.isHidden = false
+                    tipButton.removeTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
+                    tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                    tipButton.setTitle(NSLocalizedString("profile.subscribe", comment: ""), for: .normal)
+                }
+            } else if !user.isSelf && user.tippableAccount != nil {
+                tipButton.isHidden = false
+                // user is subscribed:
+                if user.tippableAccount?.isFollowed == true {
+                    tipButton.removeTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                    tipButton.addTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
+                    tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
+                } else {
+                    tipButton.removeTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
+                    tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
+                    tipButton.setTitle(NSLocalizedString("profile.subscribe", comment: ""), for: .normal)
+                }
+            }
+        }
     }
 }
 
@@ -820,7 +954,7 @@ final class ProfileField: UIStackView, MetaLabelDelegate {
                 let value = firstItem.value as? String,
                 let url = URL(string: value),
                 let host = url.host {
-                self.onButtonPress?(.link, .mention("@\(mention)@\(host)/"))
+                self.onButtonPress?(.link, .mention("@\(mention.replacingOccurrences(of: "@\(host)", with: ""))@\(host)"))
             } else {
                 self.onButtonPress?(.link, .mention(mention))
             }

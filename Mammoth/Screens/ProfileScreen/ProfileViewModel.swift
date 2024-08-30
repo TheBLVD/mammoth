@@ -13,6 +13,7 @@ final class ProfileViewModel {
     enum ViewTypes: Int, CaseIterable {
         case posts = 0
         case postsAndReplies
+        case subscription
         
         func labelText() -> String {
             switch self {
@@ -20,6 +21,8 @@ final class ProfileViewModel {
                 return NSLocalizedString("profile.posts", comment: "")
             case .postsAndReplies:
                 return NSLocalizedString("profile.postsAndReplies", comment: "")
+            case .subscription:
+                return NSLocalizedString("profile.subscription", comment: "")
             }
         }
         
@@ -29,6 +32,8 @@ final class ProfileViewModel {
                 return "posts"
             case .postsAndReplies:
                 return "postsAndReplies"
+            case .subscription:
+                return "subscription"
             }
         }
     }
@@ -41,8 +46,10 @@ final class ProfileViewModel {
     private struct ListData {
         var posts: [PostCardModel]?
         var postsAndReplies: [PostCardModel]?
+        var subscription: [PostCardModel]?
         var postsCursorId: String?
         var postsAndRepliesCursorId: String?
+        var subscriptionsCursorId: String?
         
         func listForType(type: ViewTypes) -> [PostCardModel]? {
             switch type {
@@ -50,6 +57,8 @@ final class ProfileViewModel {
                 return self.posts
             case .postsAndReplies:
                 return self.postsAndReplies
+            case .subscription:
+                return self.subscription
             }
         }
     }
@@ -211,6 +220,8 @@ extension ProfileViewModel {
             return max((self.listData.posts?.count ?? 0) + (self.shouldDisplayLoader() ? 1 : 0), 1)
         case .postsAndReplies:
             return max((self.listData.postsAndReplies?.count ?? 0) + (self.shouldDisplayLoader() ? 1 : 0), 1)
+        case .subscription:
+            return max((self.listData.subscription?.count ?? 0) + (self.shouldDisplayLoader() ? 1 : 0), 1)
         }
     }
     
@@ -234,6 +245,8 @@ extension ProfileViewModel {
             return self.listData.posts?.isEmpty ?? true
         case .postsAndReplies:
             return self.listData.postsAndReplies?.isEmpty ?? true
+        case .subscription:
+            return self.listData.subscription?.isEmpty ?? true
         }
     }
     
@@ -250,6 +263,8 @@ extension ProfileViewModel {
             return self.listData.posts?.count ?? 0 > indexPath.row ? self.listData.posts?[indexPath.row] : nil
         case .postsAndReplies:
             return self.listData.postsAndReplies?.count ?? 0 > indexPath.row ? self.listData.postsAndReplies?[indexPath.row] : nil
+        case .subscription:
+            return self.listData.subscription?.count ?? 0 > indexPath.row ? self.listData.subscription?[indexPath.row] : nil
         }
     }
     
@@ -295,6 +310,13 @@ extension ProfileViewModel {
                 return try await AccountService.profilePosts(user: user, range: range, serverName: user.instanceName)
             case .postsAndReplies:
                 return try await AccountService.profilePostsAndReplies(user: user, range: range, serverName: user.instanceName)
+            case .subscription:
+                if let acct = user.tippableAccount?.acct {
+                    let user = UserCardModel(account: acct)
+                    return try await AccountService.profilePosts(user: user, range: range)
+                } else {
+                    return ([], [], nil)
+                }
             }
         } catch {
             // Fallback to the user's instance to fetch the profile posts.
@@ -323,6 +345,13 @@ extension ProfileViewModel {
                     self.isLoadingOriginals = false
                 }
                 return result
+            case .subscription:
+                if let acct = user.tippableAccount?.acct {
+                    let user = UserCardModel(account: acct)
+                    return try await AccountService.profilePosts(user: user, range: range)
+                } else {
+                    return ([], [], nil)
+                }
             }
         }
     }
@@ -333,6 +362,8 @@ extension ProfileViewModel {
             return self.listData.postsCursorId ?? self.listData.posts?.last?.id
         case .postsAndReplies:
             return self.listData.postsAndRepliesCursorId ?? self.listData.postsAndReplies?.last?.id
+        case .subscription:
+            return self.listData.subscriptionsCursorId ?? self.listData.subscription?.last?.id
         }
     }
     
@@ -342,6 +373,8 @@ extension ProfileViewModel {
             self.listData.postsCursorId = cursorId
         case .postsAndReplies:
             self.listData.postsAndRepliesCursorId = cursorId
+        case .subscription:
+            self.listData.subscriptionsCursorId = cursorId
         }
     }
     
@@ -384,11 +417,13 @@ extension ProfileViewModel {
                         let followStatus = self.user?.followStatus
                         let cachedProfilePic = self.user?.decodedProfilePic
                         let preSyncAccount = self.user?.account
+                        let tipInfo = self.user?.tippableAccount
                         
                         self.user = UserCardModel(account: account, instanceName: instanceName)
                         self.user?.followStatus = followStatus
                         self.user?.decodedProfilePic = cachedProfilePic
                         self.user?.preSyncAccount = preSyncAccount
+                        self.user?.tippableAccount = tipInfo
                         self.state = .success
                         return self.user
                     }
@@ -507,6 +542,23 @@ extension ProfileViewModel {
                                 postsToPreload.append(contentsOf: newPostCards)
                                 self.listData.postsAndReplies = pinnedPostCards + newPostCards
                             }
+                        case .subscription:
+                            if let current = self.listData.subscription {
+                                let currentIds = current.map({ $0.id })
+                                let newPosts = newPostCards.filter({ !currentIds.contains($0.id) })
+                                if cursorId == nil {
+                                    self.isLoadMoreEnabled = false
+                                }
+                                
+                                postsToPreload.append(contentsOf: newPosts)
+                                
+                                // append new posts to current posts and remove dups
+                                self.listData.subscription = current + newPosts
+                            } else {
+                                postsToPreload.append(contentsOf: pinnedPostCards)
+                                postsToPreload.append(contentsOf: newPostCards)
+                                self.listData.subscription = pinnedPostCards + newPostCards
+                            }
                         }
 
                         self.state = .success
@@ -565,6 +617,8 @@ extension ProfileViewModel {
                         self.listData.posts = pinnedPostCards + mainPostCards
                     case .postsAndReplies:
                         self.listData.postsAndReplies = pinnedPostCards + mainPostCards
+                    case .subscription:
+                        self.listData.subscription = pinnedPostCards + mainPostCards
                     }
                     
                     self.state = .success
@@ -617,6 +671,22 @@ extension ProfileViewModel {
                         card.preloadVideo()
                     }
                 }
+            case .subscription:
+                if let list = self.listData.subscription, list.count > $0.row {
+                    let card = list[$0.row]
+                    
+                    if card.quotePostStatus == .loading {
+                        card.preloadQuotePost()
+                    }
+                    
+                    PostCardModel.imageDecodeQueue.async {
+                        card.preloadImages()
+                    }
+                    
+                    if card.mediaDisplayType == .singleVideo || card.mediaDisplayType == .singleGIF {
+                        card.preloadVideo()
+                    }
+                }
             }
         })
     }
@@ -631,6 +701,11 @@ extension ProfileViewModel {
                 }
             case .postsAndReplies:
                 if let list = self.listData.postsAndReplies, list.count > $0.row {
+                    let card = list[$0.row]
+                    card.cancelAllPreloadTasks()
+                }
+            case .subscription:
+                if let list = self.listData.subscription, list.count > $0.row {
                     let card = list[$0.row]
                     card.cancelAllPreloadTasks()
                 }
@@ -713,6 +788,17 @@ private extension ProfileViewModel {
                                 self.delegate?.didDeleteCard(at: IndexPath(row: replyCardIndex, section: 0))
                             }
                         }
+                    case .subscription:
+                        // Request a table view cell refresh
+                        if let replyCardIndex {
+                            // If we are deleting the very last post, we don't actually
+                            // delete it, but simply reload it to show the Sparkle graphic.
+                            if self.listData.subscription?.count == 0 {
+                                self.delegate?.didUpdateCard(at: IndexPath(row: replyCardIndex, section: 0))
+                            } else {
+                                self.delegate?.didDeleteCard(at: IndexPath(row: replyCardIndex, section: 0))
+                            }
+                        }
                     }
                 } else {
                     if let postCardIndex {
@@ -735,6 +821,11 @@ private extension ProfileViewModel {
                         // Request a table view cell refresh
                         if let replyCardIndex {
                             self.delegate?.didUpdateCard(at: IndexPath(row: replyCardIndex, section: 0))
+                        }
+                    case .subscription:
+                        // Request a table view cell refresh
+                        if let postCardIndex {
+                            self.delegate?.didUpdateCard(at: IndexPath(row: postCardIndex, section: 0))
                         }
                     }
                 }
@@ -818,19 +909,24 @@ private extension ProfileViewModel {
     }
     
     @objc func onFollowStatusUpdate(notification: Notification) {
-        if let updatedfullAcct = notification.userInfo!["otherUserFullAcct"] as? String, let currentAccount = user?.account, updatedfullAcct == currentAccount.fullAcct {
+        if let updatedfullAcct = notification.userInfo!["otherUserFullAcct"] as? String, 
+            let currentAccount = self.user?.account {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
-                let userCard = UserCardModel(account: currentAccount, instanceName: self.user?.instanceName)
-                if userCard.followStatus != .inProgress {
-                    let preSyncAccount = self.user?.preSyncAccount
-                    let cachedProfilePic = self.user?.decodedProfilePic
-                    
-                    self.user = userCard
-                    self.user?.decodedProfilePic = cachedProfilePic
-                    self.user?.preSyncAccount = preSyncAccount
-                    // Update profile header
-                    self.delegate?.didUpdate(with: .success)
+                
+                let tippableAccount = self.user?.tippableAccount?.acct
+                if updatedfullAcct == currentAccount.fullAcct || updatedfullAcct == tippableAccount?.fullAcct {
+                    let userCard = UserCardModel(account: currentAccount, instanceName: self.user?.instanceName)
+                    if userCard.followStatus != .inProgress {
+                        let preSyncAccount = self.user?.preSyncAccount
+                        let cachedProfilePic = self.user?.decodedProfilePic
+                        
+                        self.user = userCard
+                        self.user?.decodedProfilePic = cachedProfilePic
+                        self.user?.preSyncAccount = preSyncAccount
+                        // Update profile header
+                        self.delegate?.didUpdate(with: .success)
+                    }
                 }
             }
         }

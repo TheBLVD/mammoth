@@ -12,6 +12,7 @@ import Kingfisher
 import Meta
 import MastodonMeta
 import MetaTextKit
+import ArkanaKeys
 
 class UserCardModel {
     let id: String
@@ -67,6 +68,17 @@ class UserCardModel {
         return ModerationManager.shared.blockedUsers.first(where: {$0.remoteFullOriginalAcct == self.uniqueId}) != nil
     }
     
+    // if self is tippable.
+    let isTippable: Bool
+    // if a tippable account is detected in metadata.
+    struct TippableAccount: Equatable {
+        var accountname: String	
+        var acct: Account?
+        var isFollowed: Bool?
+    }
+    var tippableAccount: TippableAccount?
+
+    
     // deprecated initializer
     init(name: String, userTag: String, imageURL: String?, description: String?, isFollowing: Bool, emojis: [Emoji]?, account: Account?) {
         self.id = account?.id ?? ""
@@ -115,6 +127,8 @@ class UserCardModel {
         self.fields = account?.fields
         self.fields?.forEach({$0.configureMetaContent(with: emojisDic)})
         self.joinedOn = account?.createdAt?.toDate()
+        self.isTippable = instanceName == ArkanaKeys.Global().subClubDomain
+        self.tippableAccount = nil
     }
     
     init(account: Account, instanceName: String? = nil, requestFollowStatusUpdate: FollowManager.NetworkUpdateType = .none, isFollowing: Bool = false) {
@@ -128,7 +142,7 @@ class UserCardModel {
         self.isFollowing = isFollowing
         self.emojis = account.emojis
         self.account = account
-                
+        
         var emojisDic: MastodonContent.Emojis = [:]
         self.emojis?.forEach({ emojisDic[$0.shortcode] = $0.url.absoluteString })
         
@@ -166,6 +180,18 @@ class UserCardModel {
         self.fields = account.fields
         self.fields?.forEach({$0.configureMetaContent(with: emojisDic)})
         self.joinedOn = account.createdAt?.toDate()
+        self.isTippable = account.acct.hasSuffix(ArkanaKeys.Global().subClubDomain)
+        // detect tippable link in profile fields.
+        var premiumAcct: String? = nil
+        for field in account.fields {
+            if let s = field.value.matchingStrings(regex: "https://\(ArkanaKeys.Global().subClubDomain)/users/([a-z0-9-_]+)").first?[1] {
+                premiumAcct = s
+                break
+            }
+        }
+        if let premiumAcct = premiumAcct {
+            self.tippableAccount = TippableAccount(accountname: premiumAcct)
+        }
     }
     
     // Return an instance without description
@@ -215,7 +241,8 @@ extension UserCardModel: Equatable {
         lhs.fields == rhs.fields &&
         lhs.isBot == rhs.isBot &&
         lhs.isLocked == rhs.isLocked &&
-        lhs.emojis == rhs.emojis
+        lhs.emojis == rhs.emojis &&
+        lhs.tippableAccount == rhs.tippableAccount
     }
 }
 
@@ -258,5 +285,25 @@ extension UserCardModel {
     
     func clearCache() {
         self.decodedProfilePic = nil
+    }
+}
+
+extension UserCardModel {
+    func getTipInfo() {
+        if let acct = self.tippableAccount, acct.acct == nil {
+            let currentClient = AccountsManager.shared.currentAccountClient
+            let request = Search.search(query: acct.accountname + "@" + ArkanaKeys.Global().subClubDomain, resolve: true)
+            currentClient.run(request) { (statuses) in
+                if let error = statuses.error {
+                    log.error("error searching subclub account for \(acct.accountname) : \(error)")
+                }
+                if let account = (statuses.value?.accounts.first) {
+                    DispatchQueue.main.async {
+                        self.tippableAccount?.acct = account
+                        self.tippableAccount?.isFollowed = FollowManager.shared.followStatusForAccount(account, requestUpdate: .whenUncertain) == .following
+                    }
+                }
+            }
+        }
     }
 }
