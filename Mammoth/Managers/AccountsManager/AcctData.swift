@@ -134,8 +134,8 @@ struct MastodonAcctData: AcctDataType {
         self.account = account
         self.instanceData = instanceData
         self.client = Client(baseURL: "https://\(instanceData.returnedText)", accessToken: instanceData.accessToken)
-        self.mothClient = Client(baseURL: "https://\(GlobalHostServer())", accessToken: MothSocialJWT(acct: account.remoteFullOriginalAcct), isMothClient: true)
-        self.featureClient = Client(baseURL: "https://feature.moth.social", accessToken: MothSocialJWT(acct: account.remoteFullOriginalAcct), isMothClient: true)
+        self.mothClient = Client(baseURL: "https://\(instanceData.returnedText)", accessToken: instanceData.accessToken)
+        self.featureClient = Client(baseURL: "https://\(instanceData.returnedText)", accessToken: instanceData.accessToken)
         self.defaultPostVisibility = defaultPostVisibility
         self.defaultPostingLanguage = defaultPostingLanguage
         self.emoticons = emoticons
@@ -149,8 +149,8 @@ struct MastodonAcctData: AcctDataType {
         account = try container.decode(Account.self, forKey: .account)
         instanceData = try container.decode(InstanceData.self, forKey: .instanceData)
         client = Client(baseURL: "https://\(instanceData.returnedText)", accessToken: instanceData.accessToken)
-        mothClient = Client(baseURL: "https://\(GlobalHostServer())", accessToken: MothSocialJWT(acct: account.remoteFullOriginalAcct), isMothClient: true)
-        featureClient = Client(baseURL: "https://feature.moth.social", accessToken: MothSocialJWT(acct: account.remoteFullOriginalAcct), isMothClient: true)
+        mothClient = Client(baseURL: "https://\(instanceData.returnedText)", accessToken: instanceData.accessToken)
+        featureClient = Client(baseURL: "https://\(instanceData.returnedText)", accessToken: instanceData.accessToken)
         // Below are new for 2.0
         do {
             defaultPostVisibility = try container.decode(Visibility.self, forKey: .defaultPostVisibility)
