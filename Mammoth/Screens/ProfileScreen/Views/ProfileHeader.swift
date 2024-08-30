@@ -633,7 +633,14 @@ extension ProfileHeader {
             }
             if let tip_account = tip_account, let tip_username = tip_username, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tip_username)/subscribe?callback=mammoth://subclub&id=@\(currentAccount)&theme=\(theme)") {
                 FollowManager.shared.followAccount(tip_account)
-                let vc = WebViewController(url: url.absoluteString, user)
+                var vc: WebViewController!
+                if let tippableAccount = user.tippableAccount?.acct {
+                    let tippableUserCard = UserCardModel(account: tippableAccount)
+                    vc = WebViewController(url: url.absoluteString, tippableUserCard)
+                } else {
+                    vc = WebViewController(url: url.absoluteString, user)
+                }
+                
                 if let presentingVC = getTopMostViewController() {
                     presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
                 }
@@ -712,7 +719,7 @@ extension ProfileHeader {
                     tipButton.addTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
                     tipButton.setTitle(NSLocalizedString("profile.subscribed", comment: ""), for: .normal)
                 } else {
-                    followButton.isHidden = false
+                     followButton.isHidden = false
                     tipButton.removeTarget(self, action: #selector(self.unsubscribeTapped), for: .touchUpInside)
                     tipButton.addTarget(self, action: #selector(self.subscribeTapped), for: .touchUpInside)
                     tipButton.setTitle(NSLocalizedString("profile.subscribe", comment: ""), for: .normal)
@@ -947,7 +954,7 @@ final class ProfileField: UIStackView, MetaLabelDelegate {
                 let value = firstItem.value as? String,
                 let url = URL(string: value),
                 let host = url.host {
-                self.onButtonPress?(.link, .mention("@\(mention)@\(host)/"))
+                self.onButtonPress?(.link, .mention("@\(mention.replacingOccurrences(of: "@\(host)", with: ""))@\(host)"))
             } else {
                 self.onButtonPress?(.link, .mention(mention))
             }

@@ -65,23 +65,18 @@ struct AccountService {
     }
     
     static func lookup(_ fullAcct: String, serverName: String = AccountsManager.shared.currentAccountClient.baseHost) async -> Account? {
-        let request = Search.searchOne(query: fullAcct, resolve: true)
-        let client = Client(baseURL: "https://\(serverName)")
-        return await withCheckedContinuation { continuation in
-            // Do the account look up
-            client.run(request) { (statuses) in
-                if let error = statuses.error {
-                    log.error("error in lookup for \(fullAcct)")
-                    log.error("error :\(error)")
-                    continuation.resume(returning: nil)
-                    return
-                }
-                if let account = (statuses.value)?.accounts.first {
-                    continuation.resume(returning: account)
-                } else {
-                    continuation.resume(returning: nil)
-                }
+        do {
+            let request = Search.searchOne(query: fullAcct, resolve: true)
+            let statuses = try await ClientService.runRequest(request: request)
+            if let account = statuses.accounts.first {
+                return account
+            } else {
+                return nil
             }
+        } catch {
+            log.error("error in lookup for \(fullAcct)")
+            log.error("error :\(error)")
+            return nil
         }
     }
         

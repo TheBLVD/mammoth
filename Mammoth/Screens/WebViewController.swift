@@ -69,15 +69,12 @@ class WebViewController: UIViewController, WKNavigationDelegate {
             if scheme != "https" && scheme != "http" {
                 if url.absoluteString == "mammoth://subclub" {
                     self.dismiss(animated: true)
-                    if let user = self.user, let acct = user.account ,user.isTippable == true {
+                    if let user = self.user, let acct = user.account, user.isTippable == true {
                         FollowManager.shared.followStatusForAccount(acct, requestUpdate: .force)
                     } else if let tippableAccount = user?.tippableAccount, let acct = tippableAccount.acct {
                         FollowManager.shared.followStatusForAccount(acct, requestUpdate: .force)
                         user?.tippableAccount?.isFollowed = true
                     }
-                }
-                if UIApplication.shared.canOpenURL(url) {
-                    UIApplication.shared.open(url)
                 }
             }
         }

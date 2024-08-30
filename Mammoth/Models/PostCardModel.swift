@@ -287,6 +287,9 @@ final class PostCardModel {
             if server == "www.threads.net" {
                 return "Threads"
             }
+            if server == "sub.club" {
+                return "sub.club"
+            }
         }
         
         switch remoteData ?? data  {

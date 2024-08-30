@@ -909,19 +909,24 @@ private extension ProfileViewModel {
     }
     
     @objc func onFollowStatusUpdate(notification: Notification) {
-        if let updatedfullAcct = notification.userInfo!["otherUserFullAcct"] as? String, let currentAccount = user?.account, updatedfullAcct == currentAccount.fullAcct {
+        if let updatedfullAcct = notification.userInfo!["otherUserFullAcct"] as? String, 
+            let currentAccount = self.user?.account {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
-                let userCard = UserCardModel(account: currentAccount, instanceName: self.user?.instanceName)
-                if userCard.followStatus != .inProgress {
-                    let preSyncAccount = self.user?.preSyncAccount
-                    let cachedProfilePic = self.user?.decodedProfilePic
-                    
-                    self.user = userCard
-                    self.user?.decodedProfilePic = cachedProfilePic
-                    self.user?.preSyncAccount = preSyncAccount
-                    // Update profile header
-                    self.delegate?.didUpdate(with: .success)
+                
+                let tippableAccount = self.user?.tippableAccount?.acct
+                if updatedfullAcct == currentAccount.fullAcct || updatedfullAcct == tippableAccount?.fullAcct {
+                    let userCard = UserCardModel(account: currentAccount, instanceName: self.user?.instanceName)
+                    if userCard.followStatus != .inProgress {
+                        let preSyncAccount = self.user?.preSyncAccount
+                        let cachedProfilePic = self.user?.decodedProfilePic
+                        
+                        self.user = userCard
+                        self.user?.decodedProfilePic = cachedProfilePic
+                        self.user?.preSyncAccount = preSyncAccount
+                        // Update profile header
+                        self.delegate?.didUpdate(with: .success)
+                    }
                 }
             }
         }
