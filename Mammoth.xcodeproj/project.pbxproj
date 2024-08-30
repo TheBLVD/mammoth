@@ -783,7 +783,6 @@
 		F0ED08312BB61F380046B9EA /* RelationshipSeveranceEventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0ED08302BB61F380046B9EA /* RelationshipSeveranceEventType.swift */; };
 		F0ED503C2B949A2C00F7525B /* MetaTextKit in Frameworks */ = {isa = PBXBuildFile; productRef = F0ED503B2B949A2C00F7525B /* MetaTextKit */; };
 		F0F6A5DD2ACCA9C1004FD05F /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6A5DC2ACCA9C1004FD05F /* AnalyticsManager.swift */; };
-		F0F6A5DF2ACCB5D1004FD05F /* FeaturesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F6A5DE2ACCB5D1004FD05F /* FeaturesService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1617,7 +1616,6 @@
 		F0ED082E2BB61DC00046B9EA /* RelationshipSeveranceEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSeveranceEvent.swift; sourceTree = "<group>"; };
 		F0ED08302BB61F380046B9EA /* RelationshipSeveranceEventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelationshipSeveranceEventType.swift; sourceTree = "<group>"; };
 		F0F6A5DC2ACCA9C1004FD05F /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
-		F0F6A5DE2ACCB5D1004FD05F /* FeaturesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2878,7 +2876,6 @@
 				C37881D02A20D2D90053A586 /* StatusService.swift */,
 				C3D8AFA02A308AA9008F999D /* PollService.swift */,
 				C3F3B0222A4B26CF008FC4B7 /* InstanceService.swift */,
-				F0F6A5DE2ACCB5D1004FD05F /* FeaturesService.swift */,
 				1450CE022ADD4FC300C91923 /* ListService.swift */,
 			);
 			path = Backend;
@@ -3851,7 +3848,6 @@
 				C3BBEEF72AA0EAA90027C761 /* ActivityViewController.swift in Sources */,
 				BF3841F32AD6F39A005C3995 /* EmailHandler.swift in Sources */,
 				BF0F3B9C2A84176C0055BB81 /* ForYou.swift in Sources */,
-				F0F6A5DF2ACCB5D1004FD05F /* FeaturesService.swift in Sources */,
 				53399A55291526B900560F83 /* Application.swift in Sources */,
 				662B60EA2A4A1EFC00CB331F /* BlueskyAPITokenManager.swift in Sources */,
 				BF32F9D92A3CAFAD00AE4291 /* LargerTapTargetButton.swift in Sources */,

@@ -195,9 +195,6 @@ extension ForYouCustomizationViewModel {
                         self.updatedForYouInfo?.yourFollows = 1
                         self.updatedForYouInfo?.friendsOfFriends = 1
                         log.debug("Adding to For You personalization waitlist")
-                        if let currentUser = AccountsManager.shared.currentAccount?.remoteFullOriginalAcct {
-                            FeaturesService.personalize(fullAccountName: currentUser)
-                        }
                     } else {
                         self.updatedForYouInfo?.yourFollows = 0
                         self.updatedForYouInfo?.friendsOfFriends = 0
