@@ -1382,7 +1382,7 @@ extension NewsFeedViewController {
         case .list(let list):
             return self.listNavBarItems(list: list)
         case .forYou:
-            return self.forYouNavBarItems()
+            return []
         default:
             return []
         }
@@ -1597,27 +1597,6 @@ extension NewsFeedViewController {
     
         return [viewMembersMenu, editTitleMenu, exclusiveListMenu, deleteMenu]
     }
-    
-    private func forYouNavBarItems() -> [UIBarButtonItem] {
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 19, weight: .regular)
-        let btn = UIButton(type: .custom)
-        
-        btn.addAction {  [weak self] in
-            guard let self else { return }
-            triggerHapticImpact(style: .light)
-            let vc = ForYouCustomizationViewController()
-            vc.isModalInPresentation = true
-            self.navigationController?.present(vc, animated: true)
-        }
-        btn.setImage(UIImage(systemName: "ellipsis.circle", withConfiguration: symbolConfig)?.withTintColor(.custom.highContrast, renderingMode: .alwaysTemplate), for: .normal)
-        btn.accessibilityLabel = "…"
-
-        btn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        btn.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: -1, right: 0)
-        let moreButton = UIBarButtonItem(customView: btn)
-        return [moreButton]
-    }
-    
 }
 
 // MARK: - Edit list delegate

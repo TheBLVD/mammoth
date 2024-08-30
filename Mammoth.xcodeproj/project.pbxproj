@@ -643,15 +643,9 @@
 		BFB2406B299B1744000245D8 /* Hashtag.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB2406A299B1744000245D8 /* Hashtag.swift */; };
 		BFB396552A3243890014D0DA /* AuxColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB396542A3243890014D0DA /* AuxColumnViewController.swift */; };
 		BFB396572A325C580014D0DA /* AuxFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB396562A325C580014D0DA /* AuxFeedViewController.swift */; };
-		BFB9066A2A7C5900007311C4 /* ForYouCustomizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB906692A7C5900007311C4 /* ForYouCustomizationViewController.swift */; };
 		BFBBDB0F2AC61097008D6352 /* HashtagsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBDB0E2AC61097008D6352 /* HashtagsViewModel.swift */; };
 		BFBBDB112AC610A3008D6352 /* HashtagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBDB102AC610A3008D6352 /* HashtagsViewController.swift */; };
 		BFBD41E82AC77ED9009BA818 /* NoResultsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD41E72AC77ED9009BA818 /* NoResultsCell.swift */; };
-		BFBD41EA2ACB1FDE009BA818 /* ForYouCustomizationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFBD41E92ACB1FDE009BA818 /* ForYouCustomizationCell.xib */; };
-		BFBD41EC2ACB2C20009BA818 /* ForYouCustomizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD41EB2ACB2C20009BA818 /* ForYouCustomizationViewModel.swift */; };
-		BFBD41EE2ACB3A58009BA818 /* ForYouCustomizationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD41ED2ACB3A58009BA818 /* ForYouCustomizationCell.swift */; };
-		BFBD41F02ACC70C8009BA818 /* ForYouChannelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BFBD41EF2ACC70C8009BA818 /* ForYouChannelCell.xib */; };
-		BFBD41F22ACC70EA009BA818 /* ForYouChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD41F12ACC70EA009BA818 /* ForYouChannelCell.swift */; };
 		BFBD94E2297B52740064E71D /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD94E1297B52740064E71D /* Category.swift */; };
 		BFBD97A72B44DD0F00A0645B /* moth.social.Instance.json in Resources */ = {isa = PBXBuildFile; fileRef = BFBD97A52B44DD0F00A0645B /* moth.social.Instance.json */; };
 		BFBD97A82B44DD0F00A0645B /* OtherInstances.json in Resources */ = {isa = PBXBuildFile; fileRef = BFBD97A62B44DD0F00A0645B /* OtherInstances.json */; };
@@ -675,7 +669,6 @@
 		BFEA73292B2A4A5600A0D032 /* SetupMammothViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEA73272B2A4A5600A0D032 /* SetupMammothViewController.swift */; };
 		BFEA732A2B2A4A5600A0D032 /* SetupMammothViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEA73282B2A4A5600A0D032 /* SetupMammothViewModel.swift */; };
 		BFF7B5BA29FC43B400B29D94 /* ComposeQuotePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF7B5B929FC43B400B29D94 /* ComposeQuotePostCell.swift */; };
-		BFF8FA502AF1AD85004D3553 /* ForYouCustomizationHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF8FA4F2AF1AD85004D3553 /* ForYouCustomizationHeader.swift */; };
 		C3085A042AC42EEF007E1CFD /* PostCardMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3085A032AC42EEF007E1CFD /* PostCardMetadata.swift */; };
 		C3085A152AC5C6CD007E1CFD /* PostCardImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3085A142AC5C6CD007E1CFD /* PostCardImage.swift */; };
 		C311EAD02ACAE1DA005B5708 /* PostCardVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = C311EACF2ACAE1DA005B5708 /* PostCardVideo.swift */; };
@@ -1479,15 +1472,9 @@
 		BFB2406A299B1744000245D8 /* Hashtag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hashtag.swift; sourceTree = "<group>"; };
 		BFB396542A3243890014D0DA /* AuxColumnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuxColumnViewController.swift; sourceTree = "<group>"; };
 		BFB396562A325C580014D0DA /* AuxFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuxFeedViewController.swift; sourceTree = "<group>"; };
-		BFB906692A7C5900007311C4 /* ForYouCustomizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForYouCustomizationViewController.swift; sourceTree = "<group>"; };
 		BFBBDB0E2AC61097008D6352 /* HashtagsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagsViewModel.swift; sourceTree = "<group>"; };
 		BFBBDB102AC610A3008D6352 /* HashtagsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashtagsViewController.swift; sourceTree = "<group>"; };
 		BFBD41E72AC77ED9009BA818 /* NoResultsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoResultsCell.swift; sourceTree = "<group>"; };
-		BFBD41E92ACB1FDE009BA818 /* ForYouCustomizationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ForYouCustomizationCell.xib; sourceTree = "<group>"; };
-		BFBD41EB2ACB2C20009BA818 /* ForYouCustomizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForYouCustomizationViewModel.swift; sourceTree = "<group>"; };
-		BFBD41ED2ACB3A58009BA818 /* ForYouCustomizationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForYouCustomizationCell.swift; sourceTree = "<group>"; };
-		BFBD41EF2ACC70C8009BA818 /* ForYouChannelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ForYouChannelCell.xib; sourceTree = "<group>"; };
-		BFBD41F12ACC70EA009BA818 /* ForYouChannelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForYouChannelCell.swift; sourceTree = "<group>"; };
 		BFBD94E1297B52740064E71D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		BFBD97A52B44DD0F00A0645B /* moth.social.Instance.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = moth.social.Instance.json; sourceTree = "<group>"; };
 		BFBD97A62B44DD0F00A0645B /* OtherInstances.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = OtherInstances.json; sourceTree = "<group>"; };
@@ -1513,7 +1500,6 @@
 		BFEA73282B2A4A5600A0D032 /* SetupMammothViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupMammothViewModel.swift; sourceTree = "<group>"; };
 		BFF77EC629BD58DA00DFDE26 /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		BFF7B5B929FC43B400B29D94 /* ComposeQuotePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeQuotePostCell.swift; sourceTree = "<group>"; };
-		BFF8FA4F2AF1AD85004D3553 /* ForYouCustomizationHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForYouCustomizationHeader.swift; sourceTree = "<group>"; };
 		C3085A032AC42EEF007E1CFD /* PostCardMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardMetadata.swift; sourceTree = "<group>"; };
 		C3085A142AC5C6CD007E1CFD /* PostCardImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardImage.swift; sourceTree = "<group>"; };
 		C311EACF2ACAE1DA005B5708 /* PostCardVideo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardVideo.swift; sourceTree = "<group>"; };
@@ -2738,20 +2724,6 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		BFB906662A7C565C007311C4 /* ForYouCustomizationScreen */ = {
-			isa = PBXGroup;
-			children = (
-				BFB906692A7C5900007311C4 /* ForYouCustomizationViewController.swift */,
-				BFBD41EB2ACB2C20009BA818 /* ForYouCustomizationViewModel.swift */,
-				BFBD41ED2ACB3A58009BA818 /* ForYouCustomizationCell.swift */,
-				BFBD41E92ACB1FDE009BA818 /* ForYouCustomizationCell.xib */,
-				BFBD41F12ACC70EA009BA818 /* ForYouChannelCell.swift */,
-				BFBD41EF2ACC70C8009BA818 /* ForYouChannelCell.xib */,
-				BFF8FA4F2AF1AD85004D3553 /* ForYouCustomizationHeader.swift */,
-			);
-			path = ForYouCustomizationScreen;
-			sourceTree = "<group>";
-		};
 		BFCC9AB029AAF8130081CE3B /* MammothTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -2954,7 +2926,6 @@
 				C360A9012AA7544E00E17556 /* DetailScreen */,
 				C3B693BB2A38654000E85927 /* ProfileScreen */,
 				C36AA12A2AAB525B00A8B076 /* UserListScreen */,
-				BFB906662A7C565C007311C4 /* ForYouCustomizationScreen */,
 				14E08C6B2B20C9B100EF5A55 /* TutorialOverlay */,
 				C3C9977B2A4994D60079457D /* External */,
 				533995072914227800560F83 /* Authentication */,
@@ -3408,7 +3379,6 @@
 				5383F1EB29796808005F1B20 /* IconC1@3x.png in Resources */,
 				5383F1F229796808005F1B20 /* IconC@2x.png in Resources */,
 				14C45DA82B1A1F8C000171A9 /* Pride Slant@3x.png in Resources */,
-				BFBD41EA2ACB1FDE009BA818 /* ForYouCustomizationCell.xib in Resources */,
 				BF06077B2A2A66D50032682D /* IconPride@3x.png in Resources */,
 				14C45D872B1A1F8C000171A9 /* Paper Dark@3x.png in Resources */,
 				14C45DC42B1A1F8C000171A9 /* Paper Light.png in Resources */,
@@ -3528,7 +3498,6 @@
 				14C45DA12B1A1F8C000171A9 /* Pride Slant.png in Resources */,
 				14C45DA92B1A1F8C000171A9 /* OG White.png in Resources */,
 				14C45DBF2B1A1F8C000171A9 /* Benson.png in Resources */,
-				BFBD41F02ACC70C8009BA818 /* ForYouChannelCell.xib in Resources */,
 				5383F1F629796808005F1B20 /* IconB3@2x.png in Resources */,
 				5383F21029796808005F1B20 /* IconB2.png in Resources */,
 				14C45D952B1A1F8C000171A9 /* OG Six Colors@3x.png in Resources */,
@@ -3897,7 +3866,6 @@
 				BF2451F62A4B91A500B409D4 /* AccountsManagerShim.swift in Sources */,
 				D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */,
 				53450E482936121600D720EA /* GiphyPagination.swift in Sources */,
-				BFBD41EC2ACB2C20009BA818 /* ForYouCustomizationViewModel.swift in Sources */,
 				BFDE45952B16CAA20055480A /* TextFileViewController.swift in Sources */,
 				66D091EB2A53628200291B8D /* UIViewController+Child.swift in Sources */,
 				C34413C92A1F8CCE00C3791F /* PostCardFooter.swift in Sources */,
@@ -3969,7 +3937,6 @@
 				533996842914227A00560F83 /* SKPhoto.swift in Sources */,
 				5339968E2914227A00560F83 /* Disk+Data.swift in Sources */,
 				BF93257E2A4262C80034CAE7 /* ExtendedTouchView.swift in Sources */,
-				BFBD41EE2ACB3A58009BA818 /* ForYouCustomizationCell.swift in Sources */,
 				53450E6D2936127C00D720EA /* EnumTransform.swift in Sources */,
 				C3C22E7C2A3A0DF400C7CB0A /* ProfileViewSettingsButton.swift in Sources */,
 				53399A49291526B900560F83 /* ClientApplication.swift in Sources */,
@@ -4027,7 +3994,6 @@
 				53399A58291526B900560F83 /* HashType.swift in Sources */,
 				533996472914227A00560F83 /* CustomVideoPlayer.swift in Sources */,
 				C376357A2A545A7C0008DD21 /* UIControl+AddAction.swift in Sources */,
-				BFB9066A2A7C5900007311C4 /* ForYouCustomizationViewController.swift in Sources */,
 				144173572B21E0480058AFCC /* TutorialOverlay.swift in Sources */,
 				66D091F22A5362E900291B8D /* SignInPasswordVC.swift in Sources */,
 				53399A48291526B900560F83 /* Empty.swift in Sources */,
@@ -4085,7 +4051,6 @@
 				14E4CAC32B74076700E4D499 /* ArrowAlignment.swift in Sources */,
 				BF492DB829F99523004100B8 /* QuotePostHostView.swift in Sources */,
 				C3D8AFA12A308AA9008F999D /* PollService.swift in Sources */,
-				BFBD41F22ACC70EA009BA818 /* ForYouChannelCell.swift in Sources */,
 				533996F92914227A00560F83 /* PostCell.swift in Sources */,
 				533996422914227A00560F83 /* DiffSections.swift in Sources */,
 				53450E432936121600D720EA /* GiphyMultipleGIFResponse.swift in Sources */,
@@ -4109,7 +4074,6 @@
 				BF7F46F52AD07AF6000977EB /* PostResultsViewModel.swift in Sources */,
 				BFA71B512AB22D58001D1EC1 /* InstancesViewModel.swift in Sources */,
 				53B1585D293F66D20026E90B /* SwiftGCM.swift in Sources */,
-				BFF8FA502AF1AD85004D3553 /* ForYouCustomizationHeader.swift in Sources */,
 				C354D60D2A0D809800F8AC04 /* Appearance.swift in Sources */,
 				EF44AFA52C30D4A4009084DC /* ProcessInfo+.swift in Sources */,
 				BF2451F22A4B3C9500B409D4 /* AcctData.swift in Sources */,
