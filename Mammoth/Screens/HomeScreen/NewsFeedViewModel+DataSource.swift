@@ -32,8 +32,6 @@ internal struct NewsFeedListData {
 
     let empty = NewsFeedListItem.empty
     let loadMore = NewsFeedListItem.loadMore
-    let serverUpdating = NewsFeedListItem.serverUpdating
-    let serverUpdated = NewsFeedListItem.serverUpdated
     let error = NewsFeedListItem.error
     
     func forType(type: NewsFeedTypes) -> [NewsFeedListItem]? {
@@ -927,102 +925,6 @@ extension NewsFeedViewModel {
         guard let _ = self.snapshot.indexOfItem(.loadMore) else { return }
         self.snapshot.deleteItems([.loadMore])
     }
-    
-    // MARK: - ServerUpdating item
-
-    func displayServerUpdating(feedType: NewsFeedTypes) -> NewsFeedSnapshotUpdateType {
-        // Don't update data source if this feed is not currently viewed
-        var updateType: NewsFeedSnapshotUpdateType = .update
-        guard feedType == self.type else { return updateType }
-        // Add if needed
-        if self.snapshot.indexOfItem(.serverUpdating) == nil {
-            if self.snapshot.indexOfSection(.main) == nil {
-                self.snapshot.appendSections([.main])
-            }
-            self.snapshot.appendItems([.serverUpdating])
-            updateType = .replaceAll
-        }
-        // Move to beginning
-        if self.snapshot.numberOfItems > 1 {
-            let firstItem = self.snapshot.itemIdentifiers[0]
-            if firstItem != .serverUpdating {
-                self.snapshot.moveItem(.serverUpdating, beforeItem: firstItem)
-            }
-        }
-        return updateType
-    }
-    
-    func hideServerUpdating(feedType: NewsFeedTypes) {
-        // Don't update data source if this feed is not currently viewed
-        guard type == self.type else { return }
-        guard let _ = self.snapshot.indexOfItem(.serverUpdating) else { return }
-        self.snapshot.deleteItems([.serverUpdating])
-    }
-
-    
-    // MARK: - ServerUpdated item
-
-    func displayServerUpdated(feedType: NewsFeedTypes) -> NewsFeedSnapshotUpdateType {
-        // Don't update data source if this feed is not currently viewed
-        var updateType: NewsFeedSnapshotUpdateType = .update
-        guard feedType == self.type else { return updateType }
-        // Add if needed
-        if self.snapshot.indexOfItem(.serverUpdated) == nil {
-            if self.snapshot.indexOfSection(.main) == nil {
-                self.snapshot.appendSections([.main])
-            }
-            self.snapshot.appendItems([.serverUpdated])
-            updateType = .replaceAll
-        }
-        // Move to beginning
-        if self.snapshot.numberOfItems > 1 {
-            let firstItem = self.snapshot.itemIdentifiers[0]
-            if firstItem != .serverUpdated {
-                self.snapshot.moveItem(.serverUpdated, beforeItem: firstItem)
-            }
-        }
-        return updateType
-    }
-    
-    func hideServerUpdated(feedType: NewsFeedTypes) {
-        // Don't update data source if this feed is not currently viewed
-        guard type == self.type else { return }
-        guard let _ = self.snapshot.indexOfItem(.serverUpdated) else { return }
-        self.snapshot.deleteItems([.serverUpdated])
-    }
-
-    
-    // MARK: - ServerOverload item
-
-    func displayServerOverload(feedType: NewsFeedTypes) -> NewsFeedSnapshotUpdateType {
-        // Don't update data source if this feed is not currently viewed
-        var updateType: NewsFeedSnapshotUpdateType = .update
-        guard feedType == self.type else { return updateType }
-        // Add if needed
-        if self.snapshot.indexOfItem(.serverOverload) == nil {
-            if self.snapshot.indexOfSection(.main) == nil {
-                self.snapshot.appendSections([.main])
-            }
-            self.snapshot.appendItems([.serverOverload])
-            updateType = .replaceAll
-        }
-        // Move to beginning
-        if self.snapshot.numberOfItems > 1 {
-            let firstItem = self.snapshot.itemIdentifiers[0]
-            if firstItem != .serverOverload {
-                self.snapshot.moveItem(.serverOverload, beforeItem: firstItem)
-            }
-        }
-        return updateType
-    }
-    
-    func hideServerOverload(feedType: NewsFeedTypes) {
-        // Don't update data source if this feed is not currently viewed
-        guard type == self.type else { return }
-        guard let _ = self.snapshot.indexOfItem(.serverOverload) else { return }
-        self.snapshot.deleteItems([.serverOverload])
-    }
-
 
     // MARK: - Error item
     

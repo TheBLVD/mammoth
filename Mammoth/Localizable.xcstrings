@@ -87594,7 +87594,7 @@
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Für dich zeigt alle Top-Beiträge von deinen /Intelligenten Listen an."
           }
         },
@@ -87607,12 +87607,12 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "For You shows the top posts from all of your  /smart lists."
+            "value" : "For You shows a range of posts from interesting accounts."
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Para Ti muestra los mejores mensajes de todas tus /listas inteligentes."
           }
         },
@@ -87642,7 +87642,7 @@
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Per te mostra i post migliori da tutte le tue \n/liste smart."
           }
         },
@@ -87666,7 +87666,7 @@
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Voor Jou toont alle top posts van all je /smart lists."
           }
         },
@@ -87684,7 +87684,7 @@
         },
         "pt-BR" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Para Você mostra os posts mais populares de todas as suas /listas inteligentes."
           }
         },

@@ -24,9 +24,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         PostCardCell.registerForReuseIdentifierVariants(on: tableView)
         tableView.register(ActivityCardCell.self, forCellReuseIdentifier: ActivityCardCell.reuseIdentifier)
         tableView.register(LoadMoreCell.self, forCellReuseIdentifier: LoadMoreCell.reuseIdentifier)
-        tableView.register(ServerUpdatingCell.self, forCellReuseIdentifier: ServerUpdatingCell.reuseIdentifier)
-        tableView.register(ServerUpdatedCell.self, forCellReuseIdentifier: ServerUpdatedCell.reuseIdentifier)
-        tableView.register(ServerOverloadCell.self, forCellReuseIdentifier: ServerOverloadCell.reuseIdentifier)
         tableView.register(ErrorCell.self, forCellReuseIdentifier: ErrorCell.reuseIdentifier)
         tableView.register(EmptyFeedCell.self, forCellReuseIdentifier: EmptyFeedCell.reuseIdentifier)
         tableView.delegate = self
@@ -577,19 +574,6 @@ extension NewsFeedViewController {
                     }
                     return cell
                 }
-            case .serverUpdating:
-                if let cell = self.tableView.dequeueReusableCell(withIdentifier: ServerUpdatingCell.reuseIdentifier, for: indexPath) as? ServerUpdatingCell {
-                    return cell
-                }
-            case .serverUpdated:
-                if let cell = self.tableView.dequeueReusableCell(withIdentifier: ServerUpdatedCell.reuseIdentifier, for: indexPath) as? ServerUpdatedCell {
-                    cell.delegate = self
-                    return cell
-                }
-            case .serverOverload:
-                if let cell = self.tableView.dequeueReusableCell(withIdentifier: ServerOverloadCell.reuseIdentifier, for: indexPath) as? ServerOverloadCell {
-                    return cell
-                }
             case .error:
                 if let cell = self.tableView.dequeueReusableCell(withIdentifier: ErrorCell.reuseIdentifier, for: indexPath) as? ErrorCell {
                     return cell
@@ -853,11 +837,7 @@ extension NewsFeedViewController {
 // MARK: NewsFeedViewModelDelegate
 extension NewsFeedViewController: NewsFeedViewModelDelegate {
 
-    func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot,
-                           feedType: NewsFeedTypes,
-                           updateType: NewsFeedSnapshotUpdateType,
-                           scrollPosition: NewsFeedScrollPosition?,
-                           onCompleted: (() -> Void)?) {
+    func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot, feedType: NewsFeedTypes, updateType: NewsFeedSnapshotUpdateType, scrollPosition: NewsFeedScrollPosition?, onCompleted: (() -> Void)?) {
         guard !self.switchingAccounts && !self.disableFeedUpdates else { return }
         
         let shouldFreezeAnimations = (self.isInWindowHierarchy() || updateType == .hydrate)
@@ -1172,15 +1152,6 @@ internal extension NewsFeedViewController {
                  onThemeChange()
              }
          }
-    }
-}
-
-
-// MARK: - User action handler
-
-extension NewsFeedViewController: UpdatedCellDelegate {
-    func didTapRefresh() {
-        forceReloadForYou()
     }
 }
 

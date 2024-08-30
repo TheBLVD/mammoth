@@ -411,7 +411,6 @@ class NewsFeedViewModel {
     }
         
     internal var postSyncingTasks: [IndexPath: Task<Void, Error>] = [:]
-    internal var forYouStatus: ForYouStatus? = nil
     internal var cursorId: String?
     
     internal var newestSectionLength: Int = 35

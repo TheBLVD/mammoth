@@ -15,14 +15,6 @@ enum ForYouAccountType: String, Decodable, Encodable {
     case  waitlist   // user was public, but on the waitlist for personal
 }
 
-/// Current status of generating user's for you feed
-enum ForYouStatus: String, Decodable, Encodable {
-    case `idle`     // no changes needed. normal
-    case `pending`  // changes to settings. rebuilding
-    case overloaded // server is currently overloaded
-    case `error`    // failure to generate for you feed
-}
-
 
 public struct ForYouAccount: Decodable, Encodable {
     var forYou: ForYouType
@@ -53,11 +45,9 @@ public struct ForYouType: Decodable, Encodable {
     var friendsOfFriends: Int
     var fromYourChannels: Int
     var curatedByMammoth: Int
-    var status: ForYouStatus
     var enabledChannelIDs: [String]
     private enum CodingKeys: String, CodingKey {
         case type
-        case status
         case yourFollows = "your_follows"
         case friendsOfFriends = "friends_of_friends"
         case fromYourChannels = "from_your_channels"
@@ -68,7 +58,6 @@ public struct ForYouType: Decodable, Encodable {
 extension ForYouType {
     init() {
         self.type = .public
-        self.status = .idle
         self.yourFollows = 1
         self.friendsOfFriends = 1
         self.fromYourChannels = 1
@@ -79,7 +68,6 @@ extension ForYouType {
 extension ForYouType: Equatable {
    static public func ==(lhs: ForYouType, rhs: ForYouType) -> Bool {
        return lhs.type == rhs.type &&
-       lhs.status == rhs.status &&
        lhs.yourFollows == rhs.yourFollows &&
        lhs.friendsOfFriends == rhs.friendsOfFriends &&
        lhs.fromYourChannels == rhs.fromYourChannels &&
