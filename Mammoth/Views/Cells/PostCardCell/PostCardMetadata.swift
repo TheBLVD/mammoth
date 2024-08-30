@@ -59,6 +59,7 @@ final class PostCardMetadata: UIView {
     
     private var onButtonPress: PostCardButtonCallback?
     private var isPrivateMention = false
+    private var isTipAccount = false
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -119,8 +120,9 @@ final class PostCardMetadata: UIView {
     
     func configure(postCard: PostCardModel, type: PostCardCell.PostCardCellType = .regular, onButtonPress: @escaping PostCardButtonCallback) {
         self.onButtonPress = onButtonPress
-        let shouldUpdateTheme = self.isPrivateMention != postCard.isPrivateMention
+        let shouldUpdateTheme = self.isPrivateMention != postCard.isPrivateMention || self.isTipAccount != postCard.isTipAccount
         self.isPrivateMention = postCard.isPrivateMention
+        self.isTipAccount = postCard.isTipAccount
         
         if type.shouldShowSourceAndApplicationName {
             heightConstraint?.isActive = false
@@ -196,7 +198,14 @@ final class PostCardMetadata: UIView {
     }
     
     public func onThemeChange() {
-        let backgroundColor: UIColor = isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
+        let backgroundColor: UIColor = if self.isPrivateMention {
+            .custom.OVRLYSoftContrast
+        } else if self.isTipAccount {
+            // tip background.
+            .custom.background
+        } else {
+            .custom.background
+        }
         likesLabel.textColor = .custom.feintContrast
         likesLabel.backgroundColor = backgroundColor
         repostsLabel.textColor = .custom.feintContrast

@@ -3,7 +3,7 @@
 //  Mammoth
 //
 //  Created by Benoit Nolens on 30/11/2023.
-//
+//  
 
 import UIKit
 import WebKit
@@ -11,9 +11,12 @@ import WebKit
 class WebViewController: UIViewController, WKNavigationDelegate {
     var webView: WKWebView!
     let urlString: String
+    // user to refresh after closing webview.
+    let user: UserCardModel?
     
-    init(url: String) {
+    init(url: String, _ user: UserCardModel? = nil) {
         urlString = url
+        self.user = user
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -64,8 +67,14 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if let url = navigationAction.request.url, let scheme = url.scheme?.lowercased() {
             if scheme != "https" && scheme != "http" {
-                if UIApplication.shared.canOpenURL(url){
-                    UIApplication.shared.open(url)
+                if url.absoluteString == "mammoth://subclub" {
+                    self.dismiss(animated: true)
+                    if let user = self.user, let acct = user.account, user.isTippable == true {
+                        FollowManager.shared.followStatusForAccount(acct, requestUpdate: .force)
+                    } else if let tippableAccount = user?.tippableAccount, let acct = tippableAccount.acct {
+                        FollowManager.shared.followStatusForAccount(acct, requestUpdate: .force)
+                        user?.tippableAccount?.isFollowed = true
+                    }
                 }
             }
         }
