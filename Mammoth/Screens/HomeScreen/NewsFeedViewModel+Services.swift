@@ -255,10 +255,10 @@ extension NewsFeedViewModel {
                 guard let self else { return }
                 self.state = .error(error)
                 self.displayError(feedType: self.type)
-                if case .refresh = fetchType  {
+                if case .refresh = fetchType {
                     self.isLoadMoreEnabled = true
                     self.hideLoader(forType: currentType)
-                } else if case .nextPage = fetchType  {
+                } else if case .nextPage = fetchType {
                     self.isLoadMoreEnabled = true
                     self.hideLoader(forType: currentType)
                 }
@@ -269,75 +269,14 @@ extension NewsFeedViewModel {
     }
     
     func startCheckingFYStatus(completion: @escaping(() -> Void)) {
-        self.forYouStatus = .pending
         Task(priority: .userInitiated) { [weak self] in
             guard let self else { return }
-            self.hideServerUpdated(feedType: self.type)
-            self.hideServerOverload(feedType: self.type)
-            let updateType = self.displayServerUpdating(feedType: self.type) // Will move it up if needed
+            var updateType: NewsFeedSnapshotUpdateType = .update
             DispatchQueue.main.sync {
-                self.delegate?.didUpdateSnapshot(self.snapshot,
-                                                 feedType: self.type,
-                                                 updateType: updateType,
-                                                 scrollPosition: nil,
-                                                 onCompleted: nil)
+                self.delegate?.didUpdateSnapshot(self.snapshot, feedType: self.type, updateType: updateType, scrollPosition: nil, onCompleted: nil)
                 completion()
             }
         }
-    }
-    
-    // Return true if there is a server updating/server updated/server overload case happening
-    func loadForYouStatus(feedType: NewsFeedTypes, forceFYCheck: Bool) async throws -> Bool {
-        if case .error(_) = self.state { return false }
-        if feedType != .forYou { return false }
-        if !forceFYCheck && forYouStatus == .idle { return false } // Only bother if unknown or in progress
-        
-        // Check the ForYou status from the server
-        guard let remoteFullOriginalAcct = AccountsManager.shared.currentAccount?.remoteFullOriginalAcct else { return false }
-        let updatedFYStatus = try await TimelineService.forYouMe(remoteFullOriginalAcct: remoteFullOriginalAcct).forYou.status
-        log.debug("For You idle check result.forYou.status: \(updatedFYStatus)")
-
-        var updateType: NewsFeedSnapshotUpdateType? = nil
-        // Check for server overload
-        if updatedFYStatus == .overloaded {
-            self.hideServerUpdated(feedType: feedType)
-            self.hideServerUpdating(feedType: feedType)
-            updateType = self.displayServerOverload(feedType: feedType) // Will move it up if needed
-        }
-        // Check if still Updating...
-        else if updatedFYStatus == .pending {
-            self.hideServerUpdated(feedType: feedType)
-            self.hideServerOverload(feedType: feedType)
-            updateType = self.displayServerUpdating(feedType: feedType) // Will move it up if needed
-        }
-        // Check if it just switched from Updating to Updated
-        else if self.forYouStatus == .pending, updatedFYStatus == .idle {
-            self.hideServerUpdating(feedType: feedType)
-            self.hideServerOverload(feedType: feedType)
-            updateType = self.displayServerUpdated(feedType: feedType)
-        }
-        // Check if it just switched from Overloaded to Updated
-        else if self.forYouStatus == .overloaded, updatedFYStatus == .idle {
-            self.hideServerUpdating(feedType: feedType)
-            self.hideServerOverload(feedType: feedType)
-            updateType = self.displayServerUpdated(feedType: feedType)
-        }
-
-        if let updateType {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.delegate?.didUpdateSnapshot(self.snapshot,
-                                                 feedType: feedType,
-                                                 updateType: updateType, 
-                                                 scrollPosition: nil) {
-                }
-            }
-        }
-                
-        self.forYouStatus = updatedFYStatus
-        let showingUpdateRow = updateType != nil
-        log.debug("loadForYouStatus showingUpdateRow:\(showingUpdateRow)")
-        return showingUpdateRow
     }
 
     func loadLatest(feedType: NewsFeedTypes, threshold: Int? = nil) async throws {
@@ -614,15 +553,10 @@ extension NewsFeedViewModel {
     }
     
     func startPollingListData(forFeed type: NewsFeedTypes, delay: Double = 0) {
-        // In the For You case, we want to force a check of the ForYou status
-        // the first time through this loop.
-        let forceFYCheck: Bool = type == .forYou
-        
         if self.pollingTask == nil || self.pollingTask!.isCancelled {
             self.pollingTask = Task(priority: .medium) { [weak self] in
                 guard let self else { return }
                 guard !Task.isCancelled else { return }
-                
                 
                 var fetchingNewItems = false
 
@@ -639,92 +573,83 @@ extension NewsFeedViewModel {
                         log.warning("Skipping polling task for \(type) due to rate limit")
                         return
                     }
-                    // Only load the latest content if we are not showing
-                    // the Updating or Updated rows.
-                    //
-                    // It's OK to load newer content if overloaded though (since it's likely
-                    // showing Mammoth picks at that point).
-                    let showingUpdateRow = try await self.loadForYouStatus(feedType:type, forceFYCheck: forceFYCheck)
                     
                     guard !Task.isCancelled else { return }
                     
-                    if !showingUpdateRow || (showingUpdateRow && self.forYouStatus == .overloaded) {
-
-                        if GlobalStruct.feedReadDirection == .topDown {
-                            fetchingNewItems = true
-                            log.debug("Calling loadLatest for feedType: \(type)")
-                            try await self.loadLatest(feedType: type)
-                            fetchingNewItems = false
-                        } else {
-                            let maxPagesToFetch = 10
-                            var pageToFetchLimit = maxPagesToFetch
-                            fetchingNewItems = true
-                                                        
-                            log.debug("Calling loadListData(previousPage) for feedType: \(type)")
-                            let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
-                            pageToFetchLimit -= 1
-                            
-                            guard !Task.isCancelled else { return }
-                            
-                            if !fetchedItems.isEmpty {
-                                // if we have an update with <= 3 posts, we can assume we're still up-to-date.
-                                if fetchedItems.count <= 3 {
-                                    await MainActor.run { [weak self] in
-                                        self?.pollingReachedTop = true
-                                    }
-                                } else {
-                                    await MainActor.run { [weak self] in
-                                        self?.pollingReachedTop = false
-                                    }
-                                }
-                                // Show the JumpToNow pill if the feed is old
-                                if fetchedItems.count >= 40 {
-                                    await MainActor.run { [weak self] in
-                                        self?.setShowJumpToNow(enabled: true, forFeed: type)
-                                    }
-                                }
-                                
-                                while fetchingNewItems && pageToFetchLimit > 0 {
-                                    guard !Task.isCancelled else { break }
-                                    log.debug("Calling loadListData(previousPage) for feedType: \(type)")
-                                    let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
-                                       
-                                    guard !Task.isCancelled else { break }
-                                    
-                                    if fetchedItems.isEmpty {
-                                        break
-                                    } else {
-                                        pageToFetchLimit -= 1
-                                    }
+                    if GlobalStruct.feedReadDirection == .topDown {
+                        fetchingNewItems = true
+                        log.debug("Calling loadLatest for feedType: \(type)")
+                        try await self.loadLatest(feedType: type)
+                        fetchingNewItems = false
+                    } else {
+                        let maxPagesToFetch = 10
+                        var pageToFetchLimit = maxPagesToFetch
+                        fetchingNewItems = true
+                        
+                        log.debug("Calling loadListData(previousPage) for feedType: \(type)")
+                        let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
+                        pageToFetchLimit -= 1
+                        
+                        guard !Task.isCancelled else { return }
+                        
+                        if !fetchedItems.isEmpty {
+                            // if we have an update with <= 3 posts, we can assume we're still up-to-date.
+                            if fetchedItems.count <= 3 {
+                                await MainActor.run { [weak self] in
+                                    self?.pollingReachedTop = true
                                 }
                             } else {
                                 await MainActor.run { [weak self] in
-                                    // returned posts are empty, so we can assume we're up-to-date.
-                                    self?.pollingReachedTop = true
+                                    self?.pollingReachedTop = false
+                                }
+                            }
+                            // Show the JumpToNow pill if the feed is old
+                            if fetchedItems.count >= 40 {
+                                await MainActor.run { [weak self] in
+                                    self?.setShowJumpToNow(enabled: true, forFeed: type)
                                 }
                             }
                             
-                            guard !Task.isCancelled else { return }
-                            
-                            if pageToFetchLimit == 0 {
-                                await MainActor.run { [weak self] in
-                                    guard let self else { return }
-                                    self.stopPollingListData()
-                                    if !self.isJumpToNowButtonDisabled {
-                                        self.setShowJumpToNow(enabled: true, forFeed: type)
-                                        self.delegate?.didUpdateUnreadState(type: type)
-                                    }
-                                }
-                            } else if pageToFetchLimit >= maxPagesToFetch-1 {
-                                await MainActor.run { [weak self] in
-                                    self?.pollingReachedTop = true
-                                    self?.setShowJumpToNow(enabled: false, forFeed: type)
-                                    self?.delegate?.didUpdateUnreadState(type: type)
+                            while fetchingNewItems && pageToFetchLimit > 0 {
+                                guard !Task.isCancelled else { break }
+                                log.debug("Calling loadListData(previousPage) for feedType: \(type)")
+                                let fetchedItems = try await self.loadListData(type: type, fetchType: .previousPage)
+                                
+                                guard !Task.isCancelled else { break }
+                                
+                                if fetchedItems.isEmpty {
+                                    break
+                                } else {
+                                    pageToFetchLimit -= 1
                                 }
                             }
-
-                            fetchingNewItems = false
+                        } else {
+                            await MainActor.run { [weak self] in
+                                // returned posts are empty, so we can assume we're up-to-date.
+                                self?.pollingReachedTop = true
+                            }
                         }
+                        
+                        guard !Task.isCancelled else { return }
+                        
+                        if pageToFetchLimit == 0 {
+                            await MainActor.run { [weak self] in
+                                guard let self else { return }
+                                self.stopPollingListData()
+                                if !self.isJumpToNowButtonDisabled {
+                                    self.setShowJumpToNow(enabled: true, forFeed: type)
+                                    self.delegate?.didUpdateUnreadState(type: type)
+                                }
+                            }
+                        } else if pageToFetchLimit >= maxPagesToFetch-1 {
+                            await MainActor.run { [weak self] in
+                                self?.pollingReachedTop = true
+                                self?.setShowJumpToNow(enabled: false, forFeed: type)
+                                self?.delegate?.didUpdateUnreadState(type: type)
+                            }
+                        }
+                        
+                        fetchingNewItems = false
                     }
                 }
             }

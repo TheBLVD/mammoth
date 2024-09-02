@@ -11,15 +11,12 @@ import UIKit
 class DiscoverSuggestionsViewController: UIViewController {
     
     enum Sections: Int {
-        case smartLists
         case hashtags
         case accounts
     }
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(ChannelCell.self, forCellReuseIdentifier: ChannelCell.reuseIdentifier)
-        tableView.register(ChannelSummaryCell.self, forCellReuseIdentifier: ChannelSummaryCell.reuseIdentifier)
         tableView.register(HashtagCell.self, forCellReuseIdentifier: HashtagCell.reuseIdentifier)
         tableView.register(UserCardCell.self, forCellReuseIdentifier: UserCardCell.reuseIdentifier)
         tableView.delegate = self
@@ -132,28 +129,6 @@ extension DiscoverSuggestionsViewController: UITableViewDataSource, UITableViewD
                 }
             }
             return cell
-        case .channel(let channel):
-            // Show the summary version if there is any search content,
-            // otherwise, the full cell
-            if viewModel.showSummaryCells {
-                let cell = self.tableView.dequeueReusableCell(withIdentifier: ChannelSummaryCell.reuseIdentifier, for: indexPath) as! ChannelSummaryCell
-                if let channel = channel {
-                    let subStatus = ChannelManager.shared.subscriptionStatusForChannel(channel)
-                    let showAsSubscribed = (subStatus == .subscribed || subStatus == .subscribeRequested)
-                    cell.configure(channel: channel, isSubscribed: showAsSubscribed)
-                    cell.delegate = self
-                    return cell
-                }
-            } else {
-                let cell = self.tableView.dequeueReusableCell(withIdentifier: ChannelCell.reuseIdentifier, for: indexPath) as! ChannelCell
-                if let channel = channel {
-                    let subStatus = ChannelManager.shared.subscriptionStatusForChannel(channel)
-                    let showAsSubscribed = (subStatus == .subscribed || subStatus == .subscribeRequested)
-                    cell.configure(channel: channel, isSubscribed: showAsSubscribed)
-                    cell.delegate = self
-                    return cell
-                }
-            }
         case .hashtag(let tag):
             let cell = self.tableView.dequeueReusableCell(withIdentifier: HashtagCell.reuseIdentifier, for: indexPath) as! HashtagCell
             if let tag = tag {
@@ -188,13 +163,6 @@ extension DiscoverSuggestionsViewController: UITableViewDataSource, UITableViewD
         case .account(let userCard):
             if let user = userCard {
                 let vc = ProfileViewController(user: user, screenType: user.isSelf ? .own : .others)
-                if vc.isBeingPresented {} else {
-                    self.navigationController?.pushViewController(vc, animated: true)
-                }
-            }
-        case .channel(let channel):
-            if let channel = channel {
-                let vc = NewsFeedViewController(type: .channel(channel))
                 if vc.isBeingPresented {} else {
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
@@ -262,19 +230,12 @@ extension DiscoverSuggestionsViewController: UISearchBarDelegate {
 
 extension DiscoverSuggestionsViewController: SectionHeaderDelegate {
     func userTappedButton(context: Int) {
-        if context == Sections.smartLists.rawValue {
-            // Show all channels
-            let vc = ChannelsViewController(viewModel: ChannelsViewModel(singleSection: true))
-            if vc.isBeingPresented {} else {
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-        } else if context == Sections.hashtags.rawValue {
+        if context == Sections.hashtags.rawValue {
             // Show all hashtags
             let vc = HashtagsViewController(viewModel: HashtagsViewModel(allHashtags: viewModel.allTrendingHashtags))
             if vc.isBeingPresented {} else {
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-
         }
     }
 }

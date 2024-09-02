@@ -24,9 +24,6 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
         PostCardCell.registerForReuseIdentifierVariants(on: tableView)
         tableView.register(ActivityCardCell.self, forCellReuseIdentifier: ActivityCardCell.reuseIdentifier)
         tableView.register(LoadMoreCell.self, forCellReuseIdentifier: LoadMoreCell.reuseIdentifier)
-        tableView.register(ServerUpdatingCell.self, forCellReuseIdentifier: ServerUpdatingCell.reuseIdentifier)
-        tableView.register(ServerUpdatedCell.self, forCellReuseIdentifier: ServerUpdatedCell.reuseIdentifier)
-        tableView.register(ServerOverloadCell.self, forCellReuseIdentifier: ServerOverloadCell.reuseIdentifier)
         tableView.register(ErrorCell.self, forCellReuseIdentifier: ErrorCell.reuseIdentifier)
         tableView.register(EmptyFeedCell.self, forCellReuseIdentifier: EmptyFeedCell.reuseIdentifier)
         tableView.delegate = self
@@ -577,19 +574,6 @@ extension NewsFeedViewController {
                     }
                     return cell
                 }
-            case .serverUpdating:
-                if let cell = self.tableView.dequeueReusableCell(withIdentifier: ServerUpdatingCell.reuseIdentifier, for: indexPath) as? ServerUpdatingCell {
-                    return cell
-                }
-            case .serverUpdated:
-                if let cell = self.tableView.dequeueReusableCell(withIdentifier: ServerUpdatedCell.reuseIdentifier, for: indexPath) as? ServerUpdatedCell {
-                    cell.delegate = self
-                    return cell
-                }
-            case .serverOverload:
-                if let cell = self.tableView.dequeueReusableCell(withIdentifier: ServerOverloadCell.reuseIdentifier, for: indexPath) as? ServerOverloadCell {
-                    return cell
-                }
             case .error:
                 if let cell = self.tableView.dequeueReusableCell(withIdentifier: ErrorCell.reuseIdentifier, for: indexPath) as? ErrorCell {
                     return cell
@@ -853,11 +837,7 @@ extension NewsFeedViewController {
 // MARK: NewsFeedViewModelDelegate
 extension NewsFeedViewController: NewsFeedViewModelDelegate {
 
-    func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot,
-                           feedType: NewsFeedTypes,
-                           updateType: NewsFeedSnapshotUpdateType,
-                           scrollPosition: NewsFeedScrollPosition?,
-                           onCompleted: (() -> Void)?) {
+    func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot, feedType: NewsFeedTypes, updateType: NewsFeedSnapshotUpdateType, scrollPosition: NewsFeedScrollPosition?, onCompleted: (() -> Void)?) {
         guard !self.switchingAccounts && !self.disableFeedUpdates else { return }
         
         let shouldFreezeAnimations = (self.isInWindowHierarchy() || updateType == .hydrate)
@@ -1175,15 +1155,6 @@ internal extension NewsFeedViewController {
     }
 }
 
-
-// MARK: - User action handler
-
-extension NewsFeedViewController: UpdatedCellDelegate {
-    func didTapRefresh() {
-        forceReloadForYou()
-    }
-}
-
 // MARK: - Scroll helpers
 private extension NewsFeedViewController {
     func scrollToPosition(tableView: UITableView, position: NewsFeedScrollPosition) {
@@ -1411,7 +1382,7 @@ extension NewsFeedViewController {
         case .list(let list):
             return self.listNavBarItems(list: list)
         case .forYou:
-            return self.forYouNavBarItems()
+            return []
         default:
             return []
         }
@@ -1626,27 +1597,6 @@ extension NewsFeedViewController {
     
         return [viewMembersMenu, editTitleMenu, exclusiveListMenu, deleteMenu]
     }
-    
-    private func forYouNavBarItems() -> [UIBarButtonItem] {
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 19, weight: .regular)
-        let btn = UIButton(type: .custom)
-        
-        btn.addAction {  [weak self] in
-            guard let self else { return }
-            triggerHapticImpact(style: .light)
-            let vc = ForYouCustomizationViewController()
-            vc.isModalInPresentation = true
-            self.navigationController?.present(vc, animated: true)
-        }
-        btn.setImage(UIImage(systemName: "ellipsis.circle", withConfiguration: symbolConfig)?.withTintColor(.custom.highContrast, renderingMode: .alwaysTemplate), for: .normal)
-        btn.accessibilityLabel = "…"
-
-        btn.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        btn.imageEdgeInsets = UIEdgeInsets(top: 1, left: 0, bottom: -1, right: 0)
-        let moreButton = UIBarButtonItem(customView: btn)
-        return [moreButton]
-    }
-    
 }
 
 // MARK: - Edit list delegate

@@ -13,9 +13,6 @@ enum NewsFeedListItem: Hashable {
     case activity(ActivityCardModel)
     case empty
     case loadMore
-    case serverUpdating
-    case serverUpdated
-    case serverOverload
     case error
 
     func uniqueId() -> String {
@@ -28,12 +25,6 @@ enum NewsFeedListItem: Hashable {
             return "empty"
         case .loadMore:
             return "loadMore"
-        case .serverUpdating:
-            return "serverUpdating"
-        case .serverUpdated:
-            return "serverUpdated"
-        case .serverOverload:
-            return "serverOverload"
         case .error:
             return "error"
         }

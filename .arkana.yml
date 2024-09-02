@@ -11,6 +11,7 @@ global_secrets: # Optional. List of secrets that are the same regardless of whic
   - JoinCommunityPageURL
   - CrowdinDistributionString
   - SubClubDomain
+  - ForYouEndpoint
 environment_secrets: # Optional. This will create a secret for each entry in this list, one for each env, appending a suffix
   - PushNotificationURL
   - MothSocialSecretKey

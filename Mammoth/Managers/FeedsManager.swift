@@ -63,18 +63,12 @@ class FeedsManager {
                                                selector: #selector(self.checkListsChanges),
                                                name: didChangeListsNotification,
                                                object: nil)
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.checkChannelChanges),
-                                               name: didChangeChannelStatusNotification,
-                                               object: nil)
     }
     
     private func removeChangeObservers() {
         NotificationCenter.default.removeObserver(self, name: didChangePinnedInstancesNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: didChangeHashtagsNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: didChangeListsNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: didChangeChannelStatusNotification, object: nil)
     }
     
     private func initialFeedItems() -> [FeedTypeItem] {
@@ -92,17 +86,15 @@ class FeedsManager {
             FeedTypeItem(type: NewsFeedTypes.community(AccountsManager.shared.currentUser()?.server ?? "Instance"), isEnabled: false)
         ]
         
-        let communities = InstanceManager.shared.pinnedInstances.map({ FeedTypeItem(type:NewsFeedTypes.community($0)) })
-        let channels = ChannelManager.shared.subscribedChannels().map({ FeedTypeItem(type: NewsFeedTypes.channel($0)) })
+        let communities = InstanceManager.shared.pinnedInstances.map({ FeedTypeItem(type: NewsFeedTypes.community($0)) })
         let lists = ListManager.shared.allLists().map({ FeedTypeItem(type: NewsFeedTypes.list($0)) })
         let hashtags = HashtagManager.shared.allHashtags().map({ FeedTypeItem(type: NewsFeedTypes.hashtag($0)) })
         
-        return general + channels + communities + lists + hashtags
+        return general + communities + lists + hashtags
     }
     
-    // consolidate cached feed type items with new lists, channels, hashtags and instances
+    // consolidate cached feed type items with new lists, hashtags and instances
     public func consolidate() {
-        self.checkChannelChanges()
         self.checkListsChanges()
         self.checkHashtagsChanges()
         self.checkCommunitiesChanges()
@@ -173,20 +165,6 @@ class FeedsManager {
         
         let diff = allHashtags.difference(from: self.feeds.filter({
             if case .hashtag = $0.type { return true}
-            return false
-        }))
-        
-        if self.applyDiff(diff: diff) {
-            self.saveFeedsToDisk(feeds: self.feeds)
-        }
-    }
-    
-    @objc func checkChannelChanges() {
-        guard self.initialized else { return }
-        let allChannels = ChannelManager.shared.subscribedChannels().map({ FeedTypeItem(type: NewsFeedTypes.channel($0)) })
-        
-        let diff = allChannels.difference(from: self.feeds.filter({
-            if case .channel = $0.type { return true}
             return false
         }))
         
