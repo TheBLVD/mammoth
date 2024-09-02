@@ -271,67 +271,13 @@ extension NewsFeedViewModel {
     func startCheckingFYStatus(completion: @escaping(() -> Void)) {
         Task(priority: .userInitiated) { [weak self] in
             guard let self else { return }
-            var updateType: NewsFeedSnapshotUpdateType = .update//self.displayServerUpdating(feedType: self.type) // Will move it up if needed
+            var updateType: NewsFeedSnapshotUpdateType = .update
             DispatchQueue.main.sync {
                 self.delegate?.didUpdateSnapshot(self.snapshot, feedType: self.type, updateType: updateType, scrollPosition: nil, onCompleted: nil)
                 completion()
             }
         }
     }
-    
-    // Return true if there is a server updating/server updated/server overload case happening
-    /*func loadForYouStatus(feedType: NewsFeedTypes, forceFYCheck: Bool) async throws -> Bool {
-        if case .error(_) = self.state { return false }
-        if feedType != .forYou { return false }
-        if !forceFYCheck && forYouStatus == .idle { return false } // Only bother if unknown or in progress
-        
-        // Check the ForYou status from the server
-        guard let remoteFullOriginalAcct = AccountsManager.shared.currentAccount?.remoteFullOriginalAcct else { return false }
-        let updatedFYStatus = try await TimelineService.forYouMe(remoteFullOriginalAcct: remoteFullOriginalAcct).forYou.status
-        log.debug("For You idle check result.forYou.status: \(updatedFYStatus)")
-
-        var updateType: NewsFeedSnapshotUpdateType? = nil
-        // Check for server overload
-        if updatedFYStatus == .overloaded {
-            self.hideServerUpdated(feedType: feedType)
-            self.hideServerUpdating(feedType: feedType)
-            updateType = self.displayServerOverload(feedType: feedType) // Will move it up if needed
-        }
-        // Check if still Updating...
-        else if updatedFYStatus == .pending {
-            self.hideServerUpdated(feedType: feedType)
-            self.hideServerOverload(feedType: feedType)
-            updateType = self.displayServerUpdating(feedType: feedType) // Will move it up if needed
-        }
-        // Check if it just switched from Updating to Updated
-        else if self.forYouStatus == .pending, updatedFYStatus == .idle {
-            self.hideServerUpdating(feedType: feedType)
-            self.hideServerOverload(feedType: feedType)
-            updateType = self.displayServerUpdated(feedType: feedType)
-        }
-        // Check if it just switched from Overloaded to Updated
-        else if self.forYouStatus == .overloaded, updatedFYStatus == .idle {
-            self.hideServerUpdating(feedType: feedType)
-            self.hideServerOverload(feedType: feedType)
-            updateType = self.displayServerUpdated(feedType: feedType)
-        }
-
-        if let updateType {
-            DispatchQueue.main.async { [weak self] in
-                guard let self else { return }
-                self.delegate?.didUpdateSnapshot(self.snapshot,
-                                                 feedType: feedType,
-                                                 updateType: updateType, 
-                                                 scrollPosition: nil) {
-                }
-            }
-        }
-                
-        self.forYouStatus = updatedFYStatus
-        let showingUpdateRow = updateType != nil
-        log.debug("loadForYouStatus showingUpdateRow:\(showingUpdateRow)")
-        return showingUpdateRow
-    }*/
 
     func loadLatest(feedType: NewsFeedTypes, threshold: Int? = nil) async throws {
         do {

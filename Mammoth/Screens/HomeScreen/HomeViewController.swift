@@ -134,13 +134,7 @@ class HomeViewController : UIViewController {
                                 guard let self else { return }
                                 guard self.currentFeedType == .forYou else { return }
                                 guard self.isInWindowHierarchy() else { return }
-                                
-                                if TutorialOverlay.shouldShowOverlay(forType: .customizeFeed) {
-                                    TutorialOverlay.showOverlay(type: .customizeFeed, onRef: self.feedCarousel.contextButton)
-                                }
                             }
-                        } else if TutorialOverlay.shouldShowOverlay(forType: .customizeFeed) {
-                            TutorialOverlay.showOverlay(type: .customizeFeed, onRef: self.feedCarousel.contextButton)
                         }
                     }
                 }

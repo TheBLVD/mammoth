@@ -11,7 +11,6 @@ import UIKit
 class TutorialOverlay: UIViewController {
     
     public enum TutorialOverlayTypes: String, CaseIterable {
-        case customizeFeed
         case forYou
         case smartList
         case quickFeedSwitcher
@@ -19,9 +18,6 @@ class TutorialOverlay: UIViewController {
         
         var description: String {
             switch self {
-            case .customizeFeed:
-                return String.localizedStringWithFormat(NSLocalizedString("tutorial.customize", comment: ""), NSLocalizedString("feed.customize", comment: ""))
-
             case .forYou:
                 return NSLocalizedString("tutorial.forYou", comment: "")
             case .smartList:
@@ -57,8 +53,6 @@ class TutorialOverlay: UIViewController {
         
         var width: CGFloat {
             switch self {
-            case .customizeFeed:
-                return 218
             case .forYou:
                 return 218
             case .smartList:
@@ -72,8 +66,6 @@ class TutorialOverlay: UIViewController {
         
         var arrowAlignment: ArrowAlignment {
             switch self {
-            case .customizeFeed:
-                return .topRight
             case .forYou:
                 return .topCenter
             case .smartList:
