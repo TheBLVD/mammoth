@@ -72,19 +72,19 @@ class AnalyticsManager {
     }
     
     @objc func didSwitchAccount(_ notification: NSNotification) {
-        callActivities()
+        // stub
     }
     
     @objc func didUpdatePurchase(_ notification: NSNotification) {
-        if IAPManager.isGoldMember {
-            callActivities()
-        }
+        // stub
     }
     
     private func callActivities() {
         if GlobalStruct.shareAnalytics {
             if let currentFullAccount = AccountsManager.shared.currentAccount?.remoteFullOriginalAcct {
-                FeaturesService.activities(fullAccountName: currentFullAccount)
+                // We used to call out to a simple feature.moth.social checkin here
+                // Now this is stubbed above
+                // I think we'll likely want other types of analytics at some point so I'm leaving this in
             } else {
                 log.warning("no account to check in with")
             }

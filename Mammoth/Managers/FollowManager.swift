@@ -221,14 +221,14 @@ class FollowManager {
         } else {
             // Do the search, then the following
             log.debug("M_FOLLOW", #function + " treated like a remote account")
-            let request = Accounts.lookup(acct: account.acct)
+            let request = Search.searchOne(query: account.acct, resolve: true)
             let currentClient = AccountsManager.shared.currentAccountClient
             currentClient.run(request) { (statuses) in
                 if let error = statuses.error {
                     log.error("error searching for \(account.acct) : \(error)")
                     self.requestedFollows.remove(at: self.requestedFollows.firstIndex(of: account.fullAcct)!)
                 }
-                if let account = (statuses.value) {
+                if let account = (statuses.value)?.accounts.first {
                     DispatchQueue.main.async {
                         self.followLocalAccount(account, currentUserFullAcct: currentUserFullAcct)
                     }
@@ -346,14 +346,14 @@ class FollowManager {
         } else {
             // Do the search, then the unfollowing
             log.debug("M_FOLLOW", #function + " treated like a remote account")
-            let request = Accounts.lookup(acct: account.acct)
+            let request = Search.searchOne(query: account.acct, resolve: true)
             let currentClient = AccountsManager.shared.currentAccountClient
             currentClient.run(request) { (statuses) in
                 if let error = statuses.error {
                     log.error("error searching for \(account.acct) : \(error)")
                     self.requestedUnfollows.remove(at: self.requestedUnfollows.firstIndex(of: account.fullAcct)!)
                 }
-                if let account = (statuses.value) {
+                if let account = (statuses.value)?.accounts.first {
                     DispatchQueue.main.async {
                         self.unfollowLocalAccount(account, currentUserFullAcct: currentUserFullAcct)
                     }

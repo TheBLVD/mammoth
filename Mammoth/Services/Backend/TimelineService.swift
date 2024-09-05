@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ArkanaKeys
 
 enum TimelineType {
     case `public`
@@ -74,7 +75,17 @@ struct TimelineService {
         let request = Timelines.forYouV4(remoteFullOriginalAcct: remoteFullOriginalAcct, range: range)
         let result = try await ClientService.runMothRequest(request: request)
         return (result.filter({ $0.visibility != .direct }), cursorId: result.last?.id)
-      }
+    }
+    
+    /// Fetches Statuses from Mammoth Picks' For You Timeline
+    /// DOES NOT require auth
+    static func forYouMammothPicks(range: RequestRange = .default) async throws -> ([Status], cursorId: String?) {
+        let request = Timelines.forYouMammothPicks(range: range)
+        // Move this to Arkana probably
+        let client = Client(baseURL: ArkanaKeys.Global().forYouEndpoint)
+        let result = try await ClientService.runRequest(client: client, request: request)
+        return (result.filter({ $0.visibility != .direct }), cursorId: result.last?.id)
+    }
     
     /// Fetches For You Feed Type
     static func forYouMe(remoteFullOriginalAcct: String) async throws -> ForYouAccount {

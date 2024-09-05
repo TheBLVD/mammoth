@@ -129,17 +129,21 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     class func loadInstances(isFromSignIn: Bool) {
-        let urlStr = "https://feature.moth.social/api/v1/instances/list"
+        let urlStr = "https://instances.social/api/1.0/instances/list"
         let url: URL = URL(string: urlStr)!
         var request = URLRequest(url: url)
         var components = URLComponents(url: request.url!, resolvingAgainstBaseURL: false)!
+        var queryItems: [URLQueryItem] = [URLQueryItem(name: "sort_by", value: "users"),
+                                          URLQueryItem(name: "sort_order", value: "desc")]
         if let language = NSLocale.current.languageCode, l10n.isCurrentLanguageSupported() {
-            components.queryItems = [URLQueryItem(name: "language", value: NSLocale.current.languageCode)]
+            queryItems.append(URLQueryItem(name: "language", value: NSLocale.current.languageCode))
         }
+        components.queryItems = queryItems
         request.url = components.url
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("Bearer \(ArkanaKeys.Global().instanceSocialAPI)", forHTTPHeaderField: "Authorization")
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
         let task = session.dataTask(with: request) { (data, response, err) in
@@ -171,7 +175,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @objc func loadSpecificInstance() {
-        let urlStr = "https://feature.\(GlobalHostServer())/api/v1/instances/search"
+        let urlStr = "https://instances.social/api/1.0/instances/search"
         let url: URL = URL(string: urlStr)!
         var request = URLRequest(url: url)
         var components = URLComponents(url: request.url!, resolvingAgainstBaseURL: false)!
@@ -180,6 +184,7 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
         request.httpMethod = "GET"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("Bearer \(ArkanaKeys.Global().instanceSocialAPI)", forHTTPHeaderField: "Authorization")
         let sessionConfig = URLSessionConfiguration.default
         let session = URLSession(configuration: sessionConfig)
         let task = session.dataTask(with: request) { (data, response, err) in
@@ -651,12 +656,21 @@ class SignInViewController: UIViewController, UITableViewDataSource, UITableView
                             // option to subscribe to a smart list.
 
                             // Give these a chance to preload
-                            SetupChannelsViewModel.preload()
-                            SetupAccountsViewModel.preload()
                             SetupMammothViewModel.preload()
-
-                            let vc = SetupChannelsViewController()
-                            self.navigationController?.pushViewController(vc, animated: true)
+                            
+                            // Skip moth.social onboarding services
+                            // Exit the signup flow
+                            if SetupMammothViewModel.shared.shouldShow() {
+                                // Go to the next screen
+                                let vc = SetupMammothViewController()
+                                self.navigationController?.pushViewController(vc, animated: true)
+                            } else {
+                                // All done
+                                // Clear out the onboarding flag
+                                AccountsManager.shared.didShowOnboardingForCurrentAccount()
+                                // Exit the signup flow
+                                NotificationCenter.default.post(name: shouldChangeRootViewController, object: nil)
+                            }
                         } else {
                             alert.dismiss(animated: false) {
                                 let alert = UIAlertController(title: NSLocalizedString("error.signIn", comment: ""), message: "\(error?.localizedDescription ?? "")", preferredStyle: .alert)

@@ -2829,7 +2829,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url ?? x.previewURL!)
                                 photo.shouldCachePhotoURLImage = true
                                 images.append(photo)
                             }
@@ -2854,7 +2854,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCellActivity {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url ?? x.previewURL!)
                                 photo.shouldCachePhotoURLImage = true
                                 images.append(photo)
                             }
@@ -2879,7 +2879,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCellS {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url ?? x.previewURL!)
                                 photo.shouldCachePhotoURLImage = true
                                 images.append(photo)
                             }
@@ -2904,7 +2904,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell2 {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url ?? x.previewURL!)
                                 photo.shouldCachePhotoURLImage = true
                                 images.append(photo)
                             }
@@ -2929,7 +2929,7 @@ class PostView: UIView, UICollectionViewDataSource, UICollectionViewDelegate, SK
                     if let cell = self.collectionView1.cellForItem(at: indexPath) as? CollectionImageCell3 {
                         if let originImage = cell.image.image {
                             for x in self.imagesFull {
-                                let photo = SKPhoto.photoWithImageURL(x.url)
+                                let photo = SKPhoto.photoWithImageURL(x.url ?? x.previewURL!)
                                 photo.shouldCachePhotoURLImage = true
                                 images.append(photo)
                             }

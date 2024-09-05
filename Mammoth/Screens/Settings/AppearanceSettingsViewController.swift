@@ -197,6 +197,7 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         self.tableView.register(TextSizeCell.self, forCellReuseIdentifier: "TextSizeCell")
         self.tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textOnly))
+        self.tableView.register(PostCardCell.self, forCellReuseIdentifier: PostCardCell.reuseIdentifier(for: .textAndMedia(.fullWidth)))
         self.tableView.register(SelectionCell.self, forCellReuseIdentifier: "SelectionCell")
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -234,7 +235,8 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0: // sample post cell
-            let cell = tableView.dequeueReusableCell(withIdentifier: PostCardCell.reuseIdentifier(for: .textOnly), for: indexPath) as! PostCardCell
+            let identifier = GlobalStruct.mediaSize == .fullWidth ? PostCardCell.reuseIdentifier(for: .textAndMedia(.fullWidth)) : PostCardCell.reuseIdentifier(for: .textOnly)
+            let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! PostCardCell
             let postCard = PostCardModel(status: sampleStatus)
             cell.configure(postCard: postCard) {type,isActive,data in
                 // Do nothing
@@ -369,14 +371,11 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.accessibilityLabel = NSLocalizedString("settings.appearance.names", comment: "")
                 
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f5b7}")
-                if GlobalStruct.displayName == .full {
-                    cell.detailTextLabel?.text = NSLocalizedString("settings.appearance.names.full", comment: "")
-                } else if GlobalStruct.displayName == .usernameOnly {
-                    cell.detailTextLabel?.text = NSLocalizedString("settings.appearance.names.username", comment: "")
-                } else if GlobalStruct.displayName == .usertagOnly {
-                    cell.detailTextLabel?.text = NSLocalizedString("generic.none", comment: "")
-                } else {
-                    cell.detailTextLabel?.text = "None" // .none
+                cell.detailTextLabel?.text = switch GlobalStruct.displayName {
+                case .full:         NSLocalizedString("settings.appearance.names.full", comment: "")
+                case .usernameOnly: NSLocalizedString("settings.appearance.names.username", comment: "")
+                case .usertagOnly:  NSLocalizedString("settings.appearance.names.usertag", comment: "")
+                case .none:         NSLocalizedString("generic.none", comment: "")
                 }
                 
                 var gestureActions: [UIAction] = []
@@ -472,19 +471,19 @@ class AppearanceSettingsViewController: UIViewController, UITableViewDataSource,
                 cell.imageView?.image = settingsFontAwesomeImage("\u{f03e}")
                 cell.detailTextLabel?.text = GlobalStruct.mediaSize.displayName
                 
-                let gestureActions: [UIAction] = PostCardCell.PostCardMediaVariant.allCases.map({ mediaVariant in
-                    let op = UIAction(title: mediaVariant.displayName , image: nil, identifier: nil) { action in
+                let gestureActions = PostCardCell.PostCardMediaVariant.allCases.map { mediaVariant in
+                    UIAction(
+                        title: mediaVariant.displayName,
+                        state: GlobalStruct.mediaSize == mediaVariant ? .on : .off
+                    ) { _ in
                         // Call on next runloop for smooth menu animation
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                             GlobalStruct.mediaSize = mediaVariant
                             UserDefaults.standard.set(GlobalStruct.mediaSize.rawValue, forKey: "mediaSize")
                             NotificationCenter.default.post(name: Notification.Name(rawValue: "reloadAll"), object: nil)
                         }
-                  }
-                    if GlobalStruct.mediaSize == mediaVariant { op.state = .on }
-                    
-                    return op
-                })
+                    }
+                }
                 
                 cell.backgroundButton.menu = UIMenu(title: "", image: nil, options: [.displayInline], children: gestureActions)
                 return cell

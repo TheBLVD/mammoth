@@ -15,7 +15,12 @@ protocol ProfileSectionHeaderDelegate: AnyObject {
 class ProfileSectionHeader: UITableViewHeaderFooterView {
     static let reuseIdentifier = "ProfileSectionHeader"
     
-    private let segmentedControl = UISegmentedControl(items: ProfileViewModel.ViewTypes.allCases.map({ $0.labelText() }))
+    var hasSubscription: Bool?
+    
+    private var segmentedControl = UISegmentedControl(items: [
+        ProfileViewModel.ViewTypes.posts.labelText(),
+        ProfileViewModel.ViewTypes.postsAndReplies.labelText()
+    ])
     weak var delegate: ProfileSectionHeaderDelegate?
     
     override init(reuseIdentifier: String?) {
@@ -56,8 +61,10 @@ private extension ProfileSectionHeader {
 
 // MARK: - Configuration
 extension ProfileSectionHeader {
-    func configure(labelText: String) {
-        
+    func configure() {
+        if self.hasSubscription == true && self.segmentedControl.numberOfSegments == 2 {
+            self.segmentedControl.insertSegment(withTitle: ProfileViewModel.ViewTypes.subscription.labelText(), at: 2, animated: true)
+        }
     }
     
     func onThemeChange() {

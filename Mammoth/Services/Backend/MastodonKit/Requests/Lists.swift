@@ -66,7 +66,22 @@ public struct Lists {
 
         return Request<List>(path: "/api/v1/lists/\(id)", method: method)
     }
+    
+    /// Updates only the list exclusive post setting.
+    ///
+    /// - Parameters:
+    ///   - id: The list ID.
+    ///   - exclusive: Whether posts in the list show in home timeline.
+    /// - Returns: Request for `List`.
+    public static func update(id: String, exclusive: Bool) -> Request<List> {
+        let parameter = [
+            Parameter(name: "exclusive", value: String(exclusive))
+        ]
+        let method = HTTPMethod.put(.parameters(parameter))
 
+        return Request<List>(path: "/api/v1/lists/\(id)", method: method)
+    }
+    
     /// Deletes a list.
     ///
     /// - Parameter id: The list ID.

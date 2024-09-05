@@ -477,7 +477,7 @@ extension AccountsManager {
         } else {
             log.error("currentAccountClient called with no active account")
             // Not really a valid client
-            return Client(baseURL: "https://useless")
+            return Client(baseURL: "https://uhoh")
         }
     }
     
@@ -487,6 +487,7 @@ extension AccountsManager {
         } else {
             log.error("currentAccountMothClient called with no active account")
             // Not really a valid client
+            // Here for posterity, moth features no longer active
             return Client(baseURL: "https://moth.social")
         }
     }
@@ -497,6 +498,7 @@ extension AccountsManager {
         } else {
             log.error("currentAccountFeatureClient called with no active account")
             // Not really a valid client
+            // Here for posterity, moth features no longer active
             return Client(baseURL: "https://feature.moth.social")
         }
     }

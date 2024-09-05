@@ -80,15 +80,13 @@ class AppCoordinator {
     private func showOnboardingScreens(isOverlay: Bool = false) {
         log.debug("showOnboardingScreens")
         // Give these a chance to preload
-        SetupChannelsViewModel.preload()
-        SetupAccountsViewModel.preload()
         SetupMammothViewModel.preload()
         // Show the first onboarding screen
-        let setupChannelsNavVC = UINavigationController(rootViewController: SetupChannelsViewController())
+        let setupMammothNavVC = UINavigationController(rootViewController: SetupMammothViewController())
         if isOverlay {
-            rootViewController.present(setupChannelsNavVC, animated: true)
+            rootViewController.present(setupMammothNavVC, animated: true)
         } else {
-            setCurrentViewController(setupChannelsNavVC)
+            setCurrentViewController(setupMammothNavVC)
         }
     }
 }

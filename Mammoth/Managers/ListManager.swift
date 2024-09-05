@@ -270,7 +270,28 @@ class ListManager {
             }
         }
     }
-        
+    
+    public func updateListExclusivePosts(_ listID: String, exclusive: Bool, completion: @escaping ((_ success: Bool) -> Void)) {
+        let request = Lists.update(id: listID, exclusive: exclusive)
+        AccountsManager.shared.currentAccountClient.run(request) { [weak self] (statuses) in
+            guard let self = self else {return}
+            
+            if let error = statuses.error {
+                log.error("error trying to update list exclusive post setting: \(listID) : \(error)")
+            }
+            if statuses.value != nil {
+                DispatchQueue.main.async {
+                    completion(true)
+                    self.fetchLists()
+                }
+            } else {
+                DispatchQueue.main.async {
+                    completion(false)
+                }
+            }
+        }
+    }
+    
     // Update our list of all followed lists
     public func fetchLists(retryCount: Int = 10) {
         guard retryCount > 0 else { return }

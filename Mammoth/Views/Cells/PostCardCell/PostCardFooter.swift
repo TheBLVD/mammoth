@@ -42,6 +42,7 @@ final class PostCardFooter: UIView {
         }
     }
     private var isPrivateMention = false
+    private var isTipAccount = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -85,8 +86,9 @@ extension PostCardFooter {
 // MARK: - Configuration
 extension PostCardFooter {
     func configure(postCard: PostCardModel, includeMetrics: Bool = true) {
-        let shouldUpdateTheme = self.isPrivateMention != postCard.isPrivateMention
+        let shouldUpdateTheme = self.isPrivateMention != postCard.isPrivateMention || self.isTipAccount != postCard.isTipAccount
         self.isPrivateMention = postCard.isPrivateMention
+        self.isTipAccount = postCard.isTipAccount
         
         replyButton.configure(buttonText: includeMetrics ? postCard.replyCount : nil, postCard: postCard)
         repostButton.configure(buttonText: includeMetrics ? postCard.repostCount : nil, isActive: postCard.isReposted, postCard: postCard)
@@ -103,6 +105,8 @@ extension PostCardFooter {
         if self.isPrivateMention {
             self.backgroundColor = .custom.OVRLYSoftContrast
             mainStackView.backgroundColor = .custom.OVRLYSoftContrast
+        } else if self.isTipAccount {
+            // tip background.
         } else {
             self.backgroundColor = .custom.background
             mainStackView.backgroundColor = .custom.background
@@ -136,6 +140,9 @@ internal extension PostCardFooter {
              if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                  if self.isPrivateMention {
                      self.backgroundColor = .custom.OVRLYSoftContrast
+                     mainStackView.backgroundColor = .custom.OVRLYSoftContrast
+                 } else if self.isTipAccount {
+                     // tip background.
                  } else {
                      self.backgroundColor = .custom.background
                  }
@@ -184,6 +191,7 @@ fileprivate class PostFooterButton: UIButton {
     private let postButtonType: PostCardButtonType
     private var isActive = false
     private var isPrivateMention = false
+    private var isTipAccount = false
     
     public var onPress: PostCardButtonCallback?
     
@@ -240,9 +248,9 @@ extension PostFooterButton {
     func configure(buttonText: String?, isActive: Bool = false, postCard: PostCardModel? = nil) {
         self.isActive = isActive
         
-        let shouldChangeTheme = self.isPrivateMention != (postCard?.isPrivateMention ?? false)
+        let shouldChangeTheme = self.isPrivateMention != (postCard?.isPrivateMention ?? false) || self.isTipAccount != (postCard?.isPrivateMention ?? false)
         self.isPrivateMention = postCard?.isPrivateMention ?? false
-        
+        self.isTipAccount = postCard?.isTipAccount ?? false
         if let buttonText = buttonText {
             label.text = buttonText
             
@@ -286,7 +294,14 @@ extension PostFooterButton {
     
     func onThemeChange() {
         self.label.textColor = .custom.actionButtons
-        let backgroundColor: UIColor = self.isPrivateMention ? .custom.OVRLYSoftContrast : .custom.background
+        let backgroundColor: UIColor = if self.isPrivateMention {
+            .custom.OVRLYSoftContrast
+        } else if self.isTipAccount {
+            // tip background.
+            .custom.background
+        } else {
+            .custom.background
+        }
         self.backgroundColor = backgroundColor
         container.backgroundColor = backgroundColor
         label.textColor = .custom.actionButtons

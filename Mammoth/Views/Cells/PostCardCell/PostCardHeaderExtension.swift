@@ -12,7 +12,7 @@ import UIKit
 class PostCardHeaderExtension: UIView {
     
     // MARK: - Properties
-    private var mainStackView: UIStackView = {
+    var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
@@ -21,6 +21,10 @@ class PostCardHeaderExtension: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
+    
+    var leadingMarginAnchor: NSLayoutXAxisAnchor {
+        mainStackView.leadingAnchor
+    }
     
     private var titleLabel: UILabel = {
         let label = UILabel()
@@ -61,11 +65,14 @@ private extension PostCardHeaderExtension {
     func setupUI() {
         self.addSubview(mainStackView)
         
+        let leadingConstraint = mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 0)
+        leadingConstraint.priority = .defaultHigh
+        
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             mainStackView.heightAnchor.constraint(equalToConstant: 18),
-            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 55),
+            leadingConstraint,
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
         ])
         
@@ -101,21 +108,35 @@ extension PostCardHeaderExtension {
             self.titleLabel.text = "[replace with hashtag]"
         }
         
+        
+        
         if postCard.isPrivateMention {
             self.titleLabel.text = NSLocalizedString("post.privateMention", comment: "Shows up over a post in the timeline indicating that it's been sent privately.")
+            self.titleLabel.textColor = .custom.feintContrast
+        } else if postCard.isTipAccount {
+            self.titleLabel.text = NSLocalizedString("post.fromTipped", comment: "Shows up over a post in the timeline indicating that it's been sent privately.")
+            self.titleLabel.textColor = .custom.gold
         }
         
-        if let postCard = self.postCard, postCard.isPrivateMention {
-            titleLabel.backgroundColor = .custom.OVRLYSoftContrast
+
+        if let postCard = self.postCard {
+            if postCard.isPrivateMention {
+                backgroundColor = .custom.OVRLYSoftContrast
+            } else if postCard.isTipAccount {
+                // tip background.
+            }
         } else {
             titleLabel.backgroundColor = .custom.background
         }
     }
     
     func onThemeChange() {
-        self.titleLabel.textColor = .custom.feintContrast
-        if let postCard = self.postCard, postCard.isPrivateMention {
-            titleLabel.backgroundColor = .custom.OVRLYSoftContrast
+        if let postCard = self.postCard {
+            if postCard.isPrivateMention {
+                backgroundColor = .custom.OVRLYSoftContrast
+            } else if postCard.isTipAccount {
+                // tip background.
+            }
         } else {
             titleLabel.backgroundColor = .custom.background
         }

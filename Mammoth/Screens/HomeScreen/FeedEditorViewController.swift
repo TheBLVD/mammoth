@@ -165,7 +165,7 @@ extension FeedEditorViewController: UITableViewDelegate, UITableViewDataSource, 
                         alert.view.tintColor = .custom.highContrast
                         alert.addAction(UIAlertAction(title: NSLocalizedString("generic.unsubscribe", comment: "Unsubscribe button label"), style: .destructive , handler: { (UIAlertAction) in
                             cell.showLoader()
-                            ChannelManager.shared.unsubscribeFromChannel(channel)
+                            //ChannelManager.shared.unsubscribeFromChannel(channel)
                         }))
                         alert.addAction(UIAlertAction(title: NSLocalizedString("generic.cancel", comment: ""), style: .cancel , handler: { (UIAlertAction) in
                         }))

@@ -150,6 +150,8 @@ public struct GlobalStruct {
     static var hideNavBars2: Bool = false
     static var scrollDirectionDown: Bool = true
     static var openLinksInBrowser: Bool = false
+    static var openLinksInReaderView: Bool = false
+    static var preferredBrowser: String = "In-App Browser"
     static var appLock: Bool = false
     static var shareAnalytics: Bool = true
     
@@ -296,7 +298,9 @@ extension String {
     }
     
     func stripHTML() -> String {
+        let regex = try! NSRegularExpression(pattern: #"<a.+?href=\"https://(.+?)/@(.+?)\".+?>.+?</a>"#, options: .caseInsensitive)
         var z = self.replacingOccurrences(of: "</p><p>", with: "\n\n", options: NSString.CompareOptions.regularExpression, range: nil)
+        z = regex.stringByReplacingMatches(in: z, options: [], range: NSRange(location: 0, length: z.count), withTemplate: "@$2@$1")
         z = z.replacingOccurrences(of: "<br>", with: "\n", options: NSString.CompareOptions.regularExpression, range: nil)
         z = z.replacingOccurrences(of: "<br />", with: "\n", options: NSString.CompareOptions.regularExpression, range: nil)
         z = z.replacingOccurrences(of: "<br/>", with: "\n", options: NSString.CompareOptions.regularExpression, range: nil)
