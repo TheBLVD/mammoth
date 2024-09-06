@@ -131,7 +131,7 @@ class UserCardModel {
         self.tippableAccount = nil
     }
     
-    init(account: Account, instanceName: String? = nil, requestFollowStatusUpdate: FollowManager.NetworkUpdateType = .none, isFollowing: Bool = false) {
+    init(account: Account, relationship: Relationship? = nil, instanceName: String? = nil, requestFollowStatusUpdate: FollowManager.NetworkUpdateType = .none, isFollowing: Bool = false) {
         self.id = account.id
         self.uniqueId = account.remoteFullOriginalAcct
         self.name = !account.displayName.isEmpty ? account.displayName : account.username
@@ -139,7 +139,7 @@ class UserCardModel {
         self.username = account.username
         self.imageURL = account.avatar
         self.description = account.note
-        self.isFollowing = isFollowing
+        self.isFollowing = relationship?.following ?? isFollowing
         self.emojis = account.emojis
         self.account = account
         
@@ -165,13 +165,14 @@ class UserCardModel {
         }
         
         self.instanceName = instanceName
+        // add instance to username
         
         self.isLocked = account.locked
         self.isBot = account.bot
         
         if !Self.isOwn(account: account) {
-            self.followStatus = FollowManager.shared.followStatusForAccount(account, requestUpdate: requestFollowStatusUpdate)
-            self.relationship = FollowManager.shared.relationshipForAccount(account, requestUpdate: false)
+            self.followStatus = FollowManager.shared.followStatusForAccount(account, requestUpdate: requestFollowStatusUpdate, relationship: relationship)
+            self.relationship = relationship ?? FollowManager.shared.relationshipForAccount(account, requestUpdate: false)
         }
         
         self.followingCount = max(account.followingCount, 0).formatUsingAbbrevation()

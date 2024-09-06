@@ -64,14 +64,18 @@ class FollowManager {
     /// - Parameter requestUpdate: Should the FollowManager try to update the follow status?
     /// - Returns: Current relationship status
     @discardableResult
-    public func followStatusForAccount(_ account: Account, requestUpdate: NetworkUpdateType = .none) -> FollowStatus {
+    public func followStatusForAccount(_ account: Account, requestUpdate: NetworkUpdateType = .none, relationship: Relationship? = nil) -> FollowStatus {
+        var currentStatus: FollowStatus = .unknown
+        if let relationship = relationship {
+            currentStatus = relationship.following ? .following : relationship.requested ? .followAwaitingApproval : .notFollowing
+            return currentStatus
+        }
         let currentUserFullAcct: String = AccountsManager.shared.currentUser()?.fullAcct ?? ""
         guard currentUserFullAcct != "" else {
             log.error("Expected AccountsManager.shared.currentUser()?.fullAcct to be valid")
             return .unknown
         }
 
-        var currentStatus: FollowStatus = .unknown
         if requestedFollows.contains(account.fullAcct) {
             currentStatus = .followRequested
         } else if requestedUnfollows.contains(account.fullAcct) {
@@ -183,7 +187,7 @@ class FollowManager {
             // Get the account to be local, then do the check
 
             // Do the search, then the following
-            let request = Accounts.lookup(acct: account.acct)
+            let request = Accounts.lookup(acct: account.fullAcct)
             currentClient.run(request) { (statuses) in
                 if let error = statuses.error {
                     log.error("error searching for \(account.acct) : \(error)")
