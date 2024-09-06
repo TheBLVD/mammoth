@@ -1044,9 +1044,11 @@ extension NewsFeedViewModel {
     
     // First item id in the feed
     func newestItemId(forType type: NewsFeedTypes) -> String? {
+        // We don't actually want newest Item IDs to be changed, we just want scroll position, so below should go away
+        /*
         if let cloudId = CloudSyncManager.sharedManager.cloudSavedPostId(for: type) {
             return cloudId
-        }
+        }*/
 
         guard let _ = self.snapshot.indexOfSection(.main) else { return nil }
         if case .postCard(let postCard) = self.snapshot.itemIdentifiers(inSection: .main).filter({ $0.extractPostCard() != nil }).first {

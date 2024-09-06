@@ -23,6 +23,8 @@ struct CloudSyncConstants {
 
 class CloudSyncManager {
     static let sharedManager = CloudSyncManager()
+    let jsonEncoder = JSONEncoder()
+    let jsonDecoder = JSONDecoder()
     private var syncDebouncer: Timer?
     private var cloudStore = NSUbiquitousKeyValueStore.default
     private var userDefaults = UserDefaults.standard
@@ -31,45 +33,75 @@ class CloudSyncManager {
 
     }
 
-    public func saveSyncStatus(for type: NewsFeedTypes, uniqueId: String) {
+    public func saveSyncStatus(for type: NewsFeedTypes, scrollPosition: NewsFeedScrollPosition) {
         syncDebouncer?.invalidate()
         syncDebouncer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { [weak self] _ in
-            self?.setSyncStatus(for: type, uniqueId: uniqueId)
+            self?.setSyncStatus(for: type, scrollPosition: scrollPosition)
         }
     }
 
-    public func cloudSavedPostId(for type: NewsFeedTypes) -> String? {
+    public func cloudSavedPosition(for type: NewsFeedTypes) -> NewsFeedScrollPosition? {
         let (itemKey, dateKey) = keys(for: type)
+        
+        log.debug("SYNC: itemKey: \(itemKey) dateKey \(dateKey)")
+        
         guard !itemKey.isEmpty, !dateKey.isEmpty else { return nil }
 
-        guard let localDate: Date = userDefaults.object(forKey: dateKey) as? Date else { return nil }
+        /*guard let localDate: Date = userDefaults.object(forKey: dateKey) as? Date else { return nil }
         guard let cloudDate: Date = cloudStore.object(forKey: dateKey) as? Date else { return nil }
 
         if cloudDate.timeIntervalSince1970 <= localDate.timeIntervalSince1970 {
             // local values are newer than the cloud
             return nil
+        }*/
+        
+        if let scrollPositionJSON = cloudStore.data(forKey: itemKey) {
+            do {
+                let scrollPosition = try jsonDecoder.decode(NewsFeedScrollPosition.self, from: scrollPositionJSON)
+                log.debug("SYNC: decoded NewsFeedScrollPosition offset: \(scrollPosition.offset)")
+                return scrollPosition
+            } catch {
+                log.error("Failed to decode object: \(error)")
+            }
         }
-
-        if let postId = cloudStore.string(forKey: itemKey) {
-            return postId
-        } else {
+        
+        /*guard let scrollPosition = cloudStore.object(forKey: itemKey) as? NewsFeedScrollPosition else {
+            log.debug("SYNC: scrollPosition decode failed")
             return nil
         }
+        log.debug("SYNC: scrollPosition decoded \(scrollPosition)")
+        return scrollPosition*/
+        
+        /*let newsFeedScrollPosition = NewsFeedScrollPosition(model: <#T##NewsFeedListItem?#>, offset: <#T##Double#>)
+        if  {
+            log.debug("SYNC: get: \(scrollPosition) for \(type)")
+            return scrollPosition
+        } else {*/
+            return nil
+        //}
     }
 
-    private func setSyncStatus(for type: NewsFeedTypes, uniqueId: String) {
+    private func setSyncStatus(for type: NewsFeedTypes, scrollPosition: NewsFeedScrollPosition) {
         let (itemKey, dateKey) = keys(for: type)
         guard !itemKey.isEmpty, !dateKey.isEmpty else { return }
-
-        let syncDate = Date()
-        cloudStore.set(uniqueId, forKey: itemKey)
-        cloudStore.set(syncDate, forKey: dateKey)
-        cloudStore.synchronize()
+        
+        do {
+            let scrollPositionJSON = try jsonEncoder.encode(scrollPosition)
+            
+            let syncDate = Date()
+            cloudStore.set(scrollPositionJSON, forKey: itemKey)
+            log.debug("SYNC: setScrollPosition: \(itemKey): \(scrollPositionJSON)")
+            cloudStore.set(syncDate, forKey: dateKey)
+            log.debug("SYNC: setDate: \(dateKey): \(syncDate)")
+            cloudStore.synchronize()
+        } catch {
+            log.error("Failed to encode object: \(error)")
+        }
 
         // testing idea of matching last saved id in user defaults and comparing last saved time
-        userDefaults.set(uniqueId, forKey: itemKey)
+        /*userDefaults.set(uniqueId, forKey: itemKey)
         userDefaults.set(syncDate, forKey: dateKey)
-        userDefaults.synchronize()
+        userDefaults.synchronize()*/
     }
 
     private func keys(for type: NewsFeedTypes) -> (itemKey: String, dateKey: String) {

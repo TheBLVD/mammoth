@@ -10,13 +10,19 @@ import Foundation
 
 extension NewsFeedViewModel {
     
-    internal func hydrateCache(forFeedType feedType: NewsFeedTypes,
-                               completed: @escaping ([NewsFeedListItem]?, NewsFeedScrollPosition?) -> Void) {
+    internal func hydrateCache(forFeedType feedType: NewsFeedTypes, completed: @escaping ([NewsFeedListItem]?, NewsFeedScrollPosition?) -> Void) {
         Task { [weak self] in
             guard let self else { return }
             do {
                 let cards = try await self.readItemsFromDisk(feedType)
-                let position = try await self.readPositionFromDisk(feedType)
+                var position = try await self.readPositionFromDisk(feedType)
+                log.debug("SYNC: position: \(position)")
+                let cloudPosition = self.readPositionFromCloud(feedType)
+                log.debug("SYNC: cloudPosition: \(String(describing: cloudPosition))")
+                if cloudPosition != nil {
+                    log.debug("SYNC: position = cloudposition")
+                    position = cloudPosition!
+                }
                 
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
@@ -107,11 +113,7 @@ extension NewsFeedViewModel {
         case cardsAndPosition
     }
     
-    internal func saveToDisk(items: [NewsFeedListItem]?,
-                             position: NewsFeedScrollPosition,
-                             feedType: NewsFeedTypes,
-                             mode: SaveMode = .cardsAndPosition) {
-        
+    internal func saveToDisk(items: [NewsFeedListItem]?, position: NewsFeedScrollPosition, feedType: NewsFeedTypes, mode: SaveMode = .cardsAndPosition) {
         let statusesPath = self.statusesPath(forFeedType: feedType)
         let positionPath = self.positionPath(forFeedType: feedType)
         // Put this on the queue and return immediately (async),
@@ -245,5 +247,9 @@ extension NewsFeedViewModel {
                 continuation.resume(throwing: NSError(domain: "Can't find path", code: 0))
             }
         }
+    }
+    
+    internal func readPositionFromCloud(_ feedType: NewsFeedTypes) -> NewsFeedScrollPosition? {
+        return CloudSyncManager.sharedManager.cloudSavedPosition(for: feedType)
     }
 }

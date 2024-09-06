@@ -136,6 +136,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                                                selector: #selector(self.didSwitchAccount),
                                                name: didSwitchCurrentAccountNotification,
                                                object: nil)
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -614,10 +615,6 @@ extension NewsFeedViewController {
                 } else {
                     self.unreadIndicator.isEnabled = true
                     self.unreadIndicator.configure(unreadCount: count)
-
-                    if case .postCard(let postCardModel) = item {
-                        CloudSyncManager.sharedManager.saveSyncStatus(for: self.viewModel.type, uniqueId: postCardModel.id!)
-                    }
                 }
             }
         }
@@ -822,7 +819,8 @@ extension NewsFeedViewController {
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.isScrollingProgrammatically = false
-        self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+        let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+        CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.7) { [weak self] in
             guard let self else { return }
@@ -836,7 +834,6 @@ extension NewsFeedViewController {
         }
     }
 }
-
 
 // MARK: NewsFeedViewModelDelegate
 extension NewsFeedViewController: NewsFeedViewModelDelegate {
@@ -1228,7 +1225,8 @@ private extension NewsFeedViewController {
                 }
                 let rectForTopRow = tableView.rectForRow(at: currentCellIndexPath)
                 let offset = rectForTopRow.origin.y - pointWhereNavBarEnds.y
-                return self.viewModel.setScrollPosition(model: model, offset: offset, forFeed: type)
+                let scrollPosition = self.viewModel.setScrollPosition(model: model, offset: offset, forFeed: type)
+                return scrollPosition
             }
         }
         
