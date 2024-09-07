@@ -729,7 +729,6 @@ extension NewsFeedViewController {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
         self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !(self.tableView.indexPathsForVisibleRows ?? []).isEmpty
         
         // scroll past the last item in feed (pull up)
@@ -814,13 +813,24 @@ extension NewsFeedViewController {
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        log.debug("SYNC scroll: didEndDragging")
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+        
+        if #available(iOS 17.4, *) {
+            if !(scrollView.isDragging || scrollView.isDecelerating) {
+                // save cloud scroll position
+                log.debug("SYNC scroll: save cloud scroll end drag")
+                let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+                CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
+            }
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        log.debug("SYNC scroll: decelerated")
         self.isScrollingProgrammatically = false
-        let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
-        CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.7) { [weak self] in
             guard let self else { return }
@@ -831,6 +841,11 @@ extension NewsFeedViewController {
             callbacks.forEach({ $0() })
             
             self.didUpdateSnapshot(self.viewModel.snapshot, feedType: self.viewModel.type, updateType: .insert, scrollPosition: nil, onCompleted: nil)
+            
+            // save cloud scroll position
+            log.debug("SYNC scroll: save cloud scroll decelerate")
+            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+            CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
         }
     }
 }
@@ -998,7 +1013,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             
             self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
 
-       case .append:
+        case .append:
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
@@ -1109,6 +1124,10 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         }
     }
     
+    func didUpdateScrollPosition(scrollPosition: NewsFeedScrollPosition) {
+        scrollToPosition(tableView: self.tableView, position: scrollPosition)
+    }
+    
     static let LoaderTag = 11
     
     func showLoader(enabled: Bool) {
@@ -1207,6 +1226,8 @@ private extension NewsFeedViewController {
                 } else {
                     log.error("#scrollToPosition2: no indexpath found")
                 }
+            } else {
+                log.error("SYNC: NO MODEL")
             }
         }
     }

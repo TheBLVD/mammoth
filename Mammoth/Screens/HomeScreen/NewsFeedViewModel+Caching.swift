@@ -16,13 +16,6 @@ extension NewsFeedViewModel {
             do {
                 let cards = try await self.readItemsFromDisk(feedType)
                 var position = try await self.readPositionFromDisk(feedType)
-                log.debug("SYNC: position: \(position)")
-                let cloudPosition = self.readPositionFromCloud(feedType)
-                log.debug("SYNC: cloudPosition: \(String(describing: cloudPosition))")
-                if cloudPosition != nil {
-                    log.debug("SYNC: position = cloudposition")
-                    position = cloudPosition!
-                }
                 
                 DispatchQueue.main.async { [weak self] in
                     guard let self else { return }
@@ -247,9 +240,5 @@ extension NewsFeedViewModel {
                 continuation.resume(throwing: NSError(domain: "Can't find path", code: 0))
             }
         }
-    }
-    
-    internal func readPositionFromCloud(_ feedType: NewsFeedTypes) -> NewsFeedScrollPosition? {
-        return CloudSyncManager.sharedManager.cloudSavedPosition(for: feedType)
     }
 }
