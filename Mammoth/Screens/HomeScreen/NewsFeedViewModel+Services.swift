@@ -634,7 +634,6 @@ extension NewsFeedViewModel {
                         
                         if pageToFetchLimit == 0 {
                             // Done loading posts from remote here (maybe?)
-                            log.debug("SYNC: pageFetchLimit == 0")
                             await MainActor.run { [weak self] in
                                 guard let self else { return }
                                 self.stopPollingListData()
@@ -647,7 +646,6 @@ extension NewsFeedViewModel {
                                 }
                             }
                         } else if pageToFetchLimit >= maxPagesToFetch-1 {
-                            log.debug("SYNC: pageFetchLimit >= maxPagesToFetch-1")
                             await MainActor.run { [weak self] in
                                 self?.pollingReachedTop = true
                                 self?.setShowJumpToNow(enabled: false, forFeed: type)
@@ -666,12 +664,11 @@ extension NewsFeedViewModel {
     
     func scrollToCloudPosition(forFeedType feedType: NewsFeedTypes) {
         let cloudPosition = CloudSyncManager.sharedManager.cloudSavedPosition(for: feedType)
-        log.debug("SYNC: got cloudPosition: \(String(describing: cloudPosition)) for feed \(feedType)")
+        log.debug("iCloud Sync: got cloudPosition: \(String(describing: cloudPosition)) for feed \(feedType)")
         if cloudPosition != nil {
-            log.debug("SYNC: cloudposition != nil")
-            
             self.setScrollPosition(model: cloudPosition?.model, offset: cloudPosition?.offset ?? 0.0, forFeed: feedType)
             self.delegate?.didUpdateScrollPosition(scrollPosition: cloudPosition!)
+            log.debug("iCloud Sync: updated scroll position")
         }
     }
     

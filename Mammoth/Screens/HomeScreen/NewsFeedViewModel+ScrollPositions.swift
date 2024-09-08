@@ -27,19 +27,16 @@ extension NewsFeedScrollPosition: Codable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         do {
-            log.debug("SYNC: decode as postcard")
             let data = try values.decode(Status.self, forKey: .model)
             let postCard = PostCardModel(status: data)
             model = .postCard(postCard)
         } catch {
             do {
-                log.debug("SYNC: decode as activity")
                 let data = try values.decode(Notificationt.self, forKey: .model)
                 let activity = ActivityCardModel(notification: data)
                 model = .activity(activity)
             } catch {}
         }
-        log.debug("SYNC: decode as offset")
         offset = try values.decode(Double.self, forKey: .offset)
     }
 
@@ -53,7 +50,6 @@ extension NewsFeedScrollPosition: Codable {
         if case .activity(let activity) = model {
             try container.encode(activity.notification, forKey: .model)
         }
-        log.debug("SYNC: encode matches no case, encoding offset \(offset)")
         try container.encode(offset, forKey: .offset)
     }
 }

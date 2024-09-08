@@ -1198,7 +1198,11 @@ private extension NewsFeedViewController {
                 } else {
                     log.error("#scrollToPosition1: no indexpath found")
                 }
+            } else {
+                log.error("#scrollToPosition1: position.model is not a postcard")
             }
+        } else {
+            log.error("#scrollToPosition1: tableview frame not greater than 0")
         }
     }
     
@@ -1227,7 +1231,7 @@ private extension NewsFeedViewController {
                     log.error("#scrollToPosition2: no indexpath found")
                 }
             } else {
-                log.error("SYNC: NO MODEL")
+                log.error("@scrollToPosition2: no model (shouldn't happen!)")
             }
         }
     }

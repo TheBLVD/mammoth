@@ -44,14 +44,6 @@ class CloudSyncManager {
         let (itemKey, dateKey) = keys(for: type)
         
         guard !itemKey.isEmpty, !dateKey.isEmpty else { return nil }
-
-        guard let localDate: Date = userDefaults.object(forKey: dateKey) as? Date else { return nil }
-        guard let cloudDate: Date = cloudStore.object(forKey: dateKey) as? Date else { return nil }
-
-        if cloudDate.timeIntervalSince1970 <= localDate.timeIntervalSince1970 {
-            // local values are newer than the cloud
-            return nil
-        }
         
         if let scrollPositionJSON = cloudStore.data(forKey: itemKey) {
             do {
@@ -61,6 +53,7 @@ class CloudSyncManager {
                 log.error("Failed to decode object: \(error)")
             }
         }
+        log.debug("iCloud Sync: No saved conditions satisfied, providing nil sync position")
         return nil
     }
 
@@ -74,6 +67,7 @@ class CloudSyncManager {
             cloudStore.set(scrollPositionJSON, forKey: itemKey)
             cloudStore.set(syncDate, forKey: dateKey)
             cloudStore.synchronize()
+            log.debug("iCloud Sync: Synced \(type.title()) position at \(syncDate)")
         } catch {
             log.error("Failed to encode object: \(error)")
         }
@@ -83,15 +77,15 @@ class CloudSyncManager {
         // NB: We don't want to bake the "." into the sync ID lets because of matching elsewhere
         switch type {
         case .following:
-            return (CloudSyncConstants.Keys.kLastFollowingSyncID + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""), CloudSyncConstants.Keys.kLastFollowingSyncDate + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""))
+            return (CloudSyncConstants.Keys.kLastFollowingSyncID + "." + (AccountsManager.shared.currentAccount?.fullAcct ?? ""), CloudSyncConstants.Keys.kLastFollowingSyncDate + "." + (AccountsManager.shared.currentAccount?.fullAcct ?? ""))
         case .forYou:
-            return (CloudSyncConstants.Keys.kLastForYouSyncID + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""), CloudSyncConstants.Keys.kLastForYouSyncDate + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""))
+            return (CloudSyncConstants.Keys.kLastForYouSyncID + "." + (AccountsManager.shared.currentAccount?.fullAcct ?? ""), CloudSyncConstants.Keys.kLastForYouSyncDate + "." + (AccountsManager.shared.currentAccount?.fullAcct ?? ""))
         case .federated:
-            return (CloudSyncConstants.Keys.kLastFederatedSyncID + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""), CloudSyncConstants.Keys.kLastFederatedSyncDate + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""))
+            return (CloudSyncConstants.Keys.kLastFederatedSyncID + "." + (AccountsManager.shared.currentAccount?.fullAcct ?? ""), CloudSyncConstants.Keys.kLastFederatedSyncDate + "." + (AccountsManager.shared.currentAccount?.fullAcct ?? ""))
         case .mentionsIn:
-            return (CloudSyncConstants.Keys.kLastMentionsInSyncID + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""), CloudSyncConstants.Keys.kLastMentionsInSyncDate + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""))
+            return (CloudSyncConstants.Keys.kLastMentionsInSyncID + "." + (AccountsManager.shared.currentAccount?.fullAcct ?? ""), CloudSyncConstants.Keys.kLastMentionsInSyncDate + "." + (AccountsManager.shared.currentAccount?.fullAcct ?? ""))
         case .mentionsOut:
-            return (CloudSyncConstants.Keys.kLastMentionsOutSyncID + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""), CloudSyncConstants.Keys.kLastMentionsOutSyncDate + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""))
+            return (CloudSyncConstants.Keys.kLastMentionsOutSyncID + "." + (AccountsManager.shared.currentAccount?.fullAcct ?? ""), CloudSyncConstants.Keys.kLastMentionsOutSyncDate + "." + (AccountsManager.shared.currentAccount?.fullAcct ?? ""))
         default:
             return ("", "")
         }
