@@ -9,15 +9,15 @@
 struct CloudSyncConstants {
     struct Keys {
         static let kLastFollowingSyncDate = "com.theblvd.mammoth.icloud.following.lastsync"
-        static let kLastFollowingSyncId = "com.theblvd.mammoth.icloud.following.syncid"
+        static let kLastFollowingSyncID = "com.theblvd.mammoth.icloud.following.syncid"
         static let kLastForYouSyncDate = "com.theblvd.mammoth.icloud.foryou.lastsync"
-        static let kLastForYouSyncId = "com.theblvd.mammoth.icloud.foryou.syncid"
+        static let kLastForYouSyncID = "com.theblvd.mammoth.icloud.foryou.syncid"
         static let kLastFederatedSyncDate = "com.theblvd.mammoth.icloud.federated.lastsync"
-        static let kLastFederatedSyncId = "com.theblvd.mammoth.icloud.federated.syncid"
+        static let kLastFederatedSyncID = "com.theblvd.mammoth.icloud.federated.syncid"
         static let kLastMentionsInSyncDate = "com.theblvd.mammoth.icloud.mentionsIn.lastsync"
-        static let kLastMentionsInSyncId = "com.theblvd.mammoth.icloud.mentionsIn.syncid"
+        static let kLastMentionsInSyncID = "com.theblvd.mammoth.icloud.mentionsIn.syncid"
         static let kLastMentionsOutSyncDate = "com.theblvd.mammoth.icloud.mentionsOut.lastsync"
-        static let kLastMentionsOutSyncId = "com.theblvd.mammoth.icloud.mentionsOut.syncid"
+        static let kLastMentionsOutSyncID = "com.theblvd.mammoth.icloud.mentionsOut.syncid"
     }
 }
 
@@ -43,42 +43,25 @@ class CloudSyncManager {
     public func cloudSavedPosition(for type: NewsFeedTypes) -> NewsFeedScrollPosition? {
         let (itemKey, dateKey) = keys(for: type)
         
-        log.debug("SYNC: itemKey: \(itemKey) dateKey \(dateKey)")
-        
         guard !itemKey.isEmpty, !dateKey.isEmpty else { return nil }
 
-        /*guard let localDate: Date = userDefaults.object(forKey: dateKey) as? Date else { return nil }
+        guard let localDate: Date = userDefaults.object(forKey: dateKey) as? Date else { return nil }
         guard let cloudDate: Date = cloudStore.object(forKey: dateKey) as? Date else { return nil }
 
         if cloudDate.timeIntervalSince1970 <= localDate.timeIntervalSince1970 {
             // local values are newer than the cloud
             return nil
-        }*/
+        }
         
         if let scrollPositionJSON = cloudStore.data(forKey: itemKey) {
             do {
                 let scrollPosition = try jsonDecoder.decode(NewsFeedScrollPosition.self, from: scrollPositionJSON)
-                log.debug("SYNC: decoded NewsFeedScrollPosition offset: \(scrollPosition.offset)")
                 return scrollPosition
             } catch {
                 log.error("Failed to decode object: \(error)")
             }
         }
-        
-        /*guard let scrollPosition = cloudStore.object(forKey: itemKey) as? NewsFeedScrollPosition else {
-            log.debug("SYNC: scrollPosition decode failed")
-            return nil
-        }
-        log.debug("SYNC: scrollPosition decoded \(scrollPosition)")
-        return scrollPosition*/
-        
-        /*let newsFeedScrollPosition = NewsFeedScrollPosition(model: <#T##NewsFeedListItem?#>, offset: <#T##Double#>)
-        if  {
-            log.debug("SYNC: get: \(scrollPosition) for \(type)")
-            return scrollPosition
-        } else {*/
-            return nil
-        //}
+        return nil
     }
 
     private func setSyncStatus(for type: NewsFeedTypes, scrollPosition: NewsFeedScrollPosition) {
@@ -87,35 +70,28 @@ class CloudSyncManager {
         
         do {
             let scrollPositionJSON = try jsonEncoder.encode(scrollPosition)
-            
             let syncDate = Date()
             cloudStore.set(scrollPositionJSON, forKey: itemKey)
-            log.debug("SYNC: setScrollPosition: \(itemKey): \(scrollPositionJSON)")
             cloudStore.set(syncDate, forKey: dateKey)
-            log.debug("SYNC: setDate: \(dateKey): \(syncDate)")
             cloudStore.synchronize()
         } catch {
             log.error("Failed to encode object: \(error)")
         }
-
-        // testing idea of matching last saved id in user defaults and comparing last saved time
-        /*userDefaults.set(uniqueId, forKey: itemKey)
-        userDefaults.set(syncDate, forKey: dateKey)
-        userDefaults.synchronize()*/
     }
 
     private func keys(for type: NewsFeedTypes) -> (itemKey: String, dateKey: String) {
+        // NB: We don't want to bake the "." into the sync ID lets because of matching elsewhere
         switch type {
         case .following:
-            return (CloudSyncConstants.Keys.kLastFollowingSyncId, CloudSyncConstants.Keys.kLastFollowingSyncDate)
+            return (CloudSyncConstants.Keys.kLastFollowingSyncID + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""), CloudSyncConstants.Keys.kLastFollowingSyncDate + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""))
         case .forYou:
-            return (CloudSyncConstants.Keys.kLastForYouSyncId, CloudSyncConstants.Keys.kLastForYouSyncDate)
+            return (CloudSyncConstants.Keys.kLastForYouSyncID + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""), CloudSyncConstants.Keys.kLastForYouSyncDate + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""))
         case .federated:
-            return (CloudSyncConstants.Keys.kLastFederatedSyncId, CloudSyncConstants.Keys.kLastFederatedSyncDate)
+            return (CloudSyncConstants.Keys.kLastFederatedSyncID + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""), CloudSyncConstants.Keys.kLastFederatedSyncDate + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""))
         case .mentionsIn:
-            return (CloudSyncConstants.Keys.kLastMentionsInSyncId, CloudSyncConstants.Keys.kLastMentionsInSyncDate)
+            return (CloudSyncConstants.Keys.kLastMentionsInSyncID + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""), CloudSyncConstants.Keys.kLastMentionsInSyncDate + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""))
         case .mentionsOut:
-            return (CloudSyncConstants.Keys.kLastMentionsOutSyncId, CloudSyncConstants.Keys.kLastMentionsOutSyncDate)
+            return (CloudSyncConstants.Keys.kLastMentionsOutSyncID + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""), CloudSyncConstants.Keys.kLastMentionsOutSyncDate + "." + (AccountsManager.shared.currentAccount?.uniqueID ?? ""))
         default:
             return ("", "")
         }
@@ -123,15 +99,15 @@ class CloudSyncManager {
 
     private func typeFor(key: String) -> NewsFeedTypes {
         switch key {
-        case CloudSyncConstants.Keys.kLastFollowingSyncId:
+        case let string where string.contains(CloudSyncConstants.Keys.kLastFollowingSyncID):
             return .following
-        case CloudSyncConstants.Keys.kLastForYouSyncId:
+        case let string where string.contains(CloudSyncConstants.Keys.kLastForYouSyncID):
             return .forYou
-        case CloudSyncConstants.Keys.kLastFederatedSyncId:
+        case let string where string.contains(CloudSyncConstants.Keys.kLastFederatedSyncID):
             return .federated
-        case CloudSyncConstants.Keys.kLastMentionsInSyncId:
+        case let string where string.contains(CloudSyncConstants.Keys.kLastMentionsInSyncID):
             return .mentionsIn
-        case CloudSyncConstants.Keys.kLastMentionsOutSyncId:
+        case let string where string.contains(CloudSyncConstants.Keys.kLastMentionsOutSyncID):
             return .mentionsOut
         default:
             return .activity(nil) // unsupported type
