@@ -41,7 +41,7 @@ extension NewsFeedListItem {
     func extractData() -> Any? {
         if case .postCard(let postCard) = self {
             let data = postCard.data
-            if case .mastodon(let status) = data  {
+            if case .mastodon(let status) = data {
                 return status
             }
         }
@@ -108,9 +108,7 @@ extension Array where Element == NewsFeedListItem {
                     postCard.user?.uniqueId as? String == $0
                 })
                 return !isBlocked && !isMuted
-            }
-            
-            else if case .activity(let activity) = $0 {
+            } else if case .activity(let activity) = $0 {
                 let isBlocked = blockedIds.contains(where: {
                     activity.user.uniqueId == $0})
                 
@@ -119,7 +117,6 @@ extension Array where Element == NewsFeedListItem {
                 })
                 return !isBlocked && !isMuted
             }
-            
             return false
         }
     }
@@ -127,7 +124,7 @@ extension Array where Element == NewsFeedListItem {
     func removeFiltered() -> [Element] {
         return self.filter {
             if case .postCard(let postCard) = $0 {
-                if case .hide(_) = postCard.filterType {
+                if case .hide = postCard.filterType {
                     return false
                 }
             }
@@ -140,7 +137,7 @@ extension Array where Element == NewsFeedListItem {
 extension Array where Element == PostCardModel {
     func removeFiltered() -> [Element] {
         return self.filter {
-            if case .hide(_) = $0.filterType {
+            if case .hide = $0.filterType {
                 return false
             }
             

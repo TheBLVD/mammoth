@@ -34,6 +34,8 @@ protocol NewsFeedViewModelDelegate: AnyObject {
     func didChangeFeed(type: NewsFeedTypes)
     func showLoader(enabled: Bool)
     func didUpdateUnreadState(type: NewsFeedTypes)
+    func didUpdateScrollPosition(scrollPosition: NewsFeedScrollPosition)
+    func operatingTableView() -> UIScrollView
     func getVisibleIndexPaths() async -> [IndexPath]?
 }
 

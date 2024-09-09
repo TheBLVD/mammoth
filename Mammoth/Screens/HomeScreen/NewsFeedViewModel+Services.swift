@@ -559,6 +559,8 @@ extension NewsFeedViewModel {
                 guard !Task.isCancelled else { return }
                 
                 var fetchingNewItems = false
+                
+                CloudSyncManager.sharedManager.disableSaving(forFeedType: type)
 
                 try await self.recursiveTask(retryCount: 5, frequency: self.pollingFrequency, delay: delay) { [weak self] in
                     guard let self else { return }
@@ -632,10 +634,19 @@ extension NewsFeedViewModel {
                         
                         guard !Task.isCancelled else { return }
                         
+                        await MainActor.run { [weak self] in
+                            guard let self else { return }
+                            self.scrollToCloudPosition(forFeedType: type)
+                        }
+                        
                         if pageToFetchLimit == 0 {
+                            // Done loading posts from remote here (maybe?)
                             await MainActor.run { [weak self] in
                                 guard let self else { return }
                                 self.stopPollingListData()
+                                
+                                //self.scrollToCloudPosition(forFeedType: type)
+                                
                                 if !self.isJumpToNowButtonDisabled {
                                     self.setShowJumpToNow(enabled: true, forFeed: type)
                                     self.delegate?.didUpdateUnreadState(type: type)
@@ -646,6 +657,8 @@ extension NewsFeedViewModel {
                                 self?.pollingReachedTop = true
                                 self?.setShowJumpToNow(enabled: false, forFeed: type)
                                 self?.delegate?.didUpdateUnreadState(type: type)
+                                
+                                //self?.scrollToCloudPosition(forFeedType: type)
                             }
                         }
                         
@@ -653,6 +666,22 @@ extension NewsFeedViewModel {
                     }
                 }
             }
+        }
+    }
+    
+    func scrollToCloudPosition(forFeedType feedType: NewsFeedTypes) {
+        // If it's currently scrolling, don't scroll to cloud position
+        let operatingTableView = self.delegate!.operatingTableView()
+        if !operatingTableView.isTracking && !operatingTableView.isDecelerating {
+            let cloudPosition = CloudSyncManager.sharedManager.cloudSavedPosition(for: feedType)
+            log.debug("iCloud Sync: Got cloudPosition: \(String(describing: cloudPosition)) for feed \(feedType)")
+            if cloudPosition != nil {
+                self.setScrollPosition(model: cloudPosition?.model, offset: cloudPosition?.offset ?? 0.0, forFeed: feedType)
+                self.delegate!.didUpdateScrollPosition(scrollPosition: cloudPosition!)
+                log.debug("iCloud Sync: Updated scroll position, position saving enabled for \(feedType.title())")
+            }
+            // Enable scroll saving even if we get a nil position (likely first sync)
+            CloudSyncManager.sharedManager.enableSaving(forFeedType: feedType)
         }
     }
     

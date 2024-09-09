@@ -37,7 +37,6 @@ extension NewsFeedScrollPosition: Codable {
                 model = .activity(activity)
             } catch {}
         }
-
         offset = try values.decode(Double.self, forKey: .offset)
     }
 

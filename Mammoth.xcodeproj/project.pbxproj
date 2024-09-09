@@ -764,6 +764,7 @@
 		D87449C72A968D39002A0603 /* RotatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87449C62A968D39002A0603 /* RotatingViewController.swift */; };
 		D8CA77612AB90D4000F49ECC /* ShareableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */; };
 		D8DE092F2A3D12D800DD0483 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8DE092E2A3D12D800DD0483 /* Haptics.swift */; };
+		EB347F4C2C266749007311C6 /* CloudSyncManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB347F4B2C266749007311C6 /* CloudSyncManager.swift */; };
 		EF44AFA12C30C9C5009084DC /* LinkOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF44AFA02C30C9C5009084DC /* LinkOpener.swift */; };
 		EF44AFA32C30D340009084DC /* LinkOpenerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF44AFA22C30D340009084DC /* LinkOpenerTests.swift */; };
 		EF44AFA52C30D4A4009084DC /* ProcessInfo+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF44AFA42C30D4A4009084DC /* ProcessInfo+.swift */; };
@@ -1592,6 +1593,7 @@
 		D87449C62A968D39002A0603 /* RotatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotatingViewController.swift; sourceTree = "<group>"; };
 		D8CA77602AB90D4000F49ECC /* ShareableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareableViewController.swift; sourceTree = "<group>"; };
 		D8DE092E2A3D12D800DD0483 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
+		EB347F4B2C266749007311C6 /* CloudSyncManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncManager.swift; sourceTree = "<group>"; };
 		EF44AFA02C30C9C5009084DC /* LinkOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOpener.swift; sourceTree = "<group>"; };
 		EF44AFA22C30D340009084DC /* LinkOpenerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOpenerTests.swift; sourceTree = "<group>"; };
 		EF44AFA42C30D4A4009084DC /* ProcessInfo+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ProcessInfo+.swift"; sourceTree = "<group>"; };
@@ -3028,6 +3030,7 @@
 				14BE1A512AF1047D00C13189 /* PushNotificationManager.swift */,
 				14780F7A2AFBD6A700A7ECD9 /* RealtimeManager.swift */,
 				144DC6CC2B174C2500F4EE98 /* IAPManager.swift */,
+				EB347F4B2C266749007311C6 /* CloudSyncManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -3983,6 +3986,7 @@
 				53450E6B2936127C00D720EA /* Operators.swift in Sources */,
 				53399A70291526B900560F83 /* Clients.swift in Sources */,
 				C3B693BF2A3866C000E85927 /* ProfileViewModel.swift in Sources */,
+				EB347F4C2C266749007311C6 /* CloudSyncManager.swift in Sources */,
 				5339967F2914227A00560F83 /* SKCache.swift in Sources */,
 				1440C90B2BD00FBE00799A4F /* IdentityData.swift in Sources */,
 				53399A72291526B900560F83 /* Search.swift in Sources */,
@@ -4350,7 +4354,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 504;
+				CURRENT_PROJECT_VERSION = 507;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -4414,7 +4418,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 504;
+				CURRENT_PROJECT_VERSION = 507;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;

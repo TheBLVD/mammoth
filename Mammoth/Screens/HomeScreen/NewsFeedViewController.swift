@@ -136,6 +136,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
                                                selector: #selector(self.didSwitchAccount),
                                                name: didSwitchCurrentAccountNotification,
                                                object: nil)
+        
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -457,7 +458,7 @@ class NewsFeedViewController: UIViewController, UIScrollViewDelegate, UITableVie
             self.viewModel.pollingReachedTop = false
         }
     }
-    
+
     override func didReceiveMemoryWarning() {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         self.viewModel.cleanUpMemoryOfCurrentFeed()
@@ -728,7 +729,6 @@ extension NewsFeedViewController {
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-
         self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !(self.tableView.indexPathsForVisibleRows ?? []).isEmpty
         
         // scroll past the last item in feed (pull up)
@@ -809,16 +809,25 @@ extension NewsFeedViewController {
             }
         }
         
+        // save cloud scroll position
+        let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+        CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
+        
         self.delegate?.didScrollToTop()
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+        
+        if !(scrollView.isDragging || scrollView.isDecelerating) {
+            // save cloud scroll position
+            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+            CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
+        }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         self.isScrollingProgrammatically = false
-        self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.7) { [weak self] in
             guard let self else { return }
@@ -829,14 +838,16 @@ extension NewsFeedViewController {
             callbacks.forEach({ $0() })
             
             self.didUpdateSnapshot(self.viewModel.snapshot, feedType: self.viewModel.type, updateType: .insert, scrollPosition: nil, onCompleted: nil)
+            
+            // save cloud scroll position
+            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+            CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
         }
     }
 }
 
-
 // MARK: NewsFeedViewModelDelegate
 extension NewsFeedViewController: NewsFeedViewModelDelegate {
-
     func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot, feedType: NewsFeedTypes, updateType: NewsFeedSnapshotUpdateType, scrollPosition: NewsFeedScrollPosition?, onCompleted: (() -> Void)?) {
         guard !self.switchingAccounts && !self.disableFeedUpdates else { return }
         
@@ -997,7 +1008,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             
             self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
 
-       case .append:
+        case .append:
             // Cache scroll position pre-update
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
@@ -1108,6 +1119,14 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         }
     }
     
+    func didUpdateScrollPosition(scrollPosition: NewsFeedScrollPosition) {
+        scrollToPosition(tableView: self.tableView, position: scrollPosition)
+    }
+    
+    func operatingTableView() -> UIScrollView {
+        return self.tableView
+    }
+    
     static let LoaderTag = 11
     
     func showLoader(enabled: Bool) {
@@ -1162,23 +1181,26 @@ private extension NewsFeedViewController {
             if case .postCard = position.model {
                 if let indexPath = viewModel.getIndexPathForItem(item: position.model!) {
                     let yOffset = tableView.rectForRow(at: indexPath).origin.y - position.offset
-                    if yOffset > 0 {
-                        // we need to include an inset when the background is translucent
-                        var additionalOffset = 0.0
-                        if UIDevice.current.userInterfaceIdiom == .phone && !self.additionalSafeAreaInsets.top.isZero {
-                            additionalOffset = 25.0
-                            tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top + additionalOffset
-                        } else if !self.additionalSafeAreaInsets.top.isZero {
-                            additionalOffset = 50.0
-                            tableView.contentOffset.y = yOffset - additionalOffset
-                        } else {
-                            tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top
-                        }
+                    log.debug("iCloud Sync: ATTEMPTING TO CLOUD SCROLL")
+                    // we need to include an inset when the background is translucent
+                    var additionalOffset = 0.0
+                    if UIDevice.current.userInterfaceIdiom == .phone && !self.additionalSafeAreaInsets.top.isZero {
+                        additionalOffset = 25.0
+                        tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top + additionalOffset
+                    } else if !self.additionalSafeAreaInsets.top.isZero {
+                        additionalOffset = 50.0
+                        tableView.contentOffset.y = yOffset - additionalOffset
+                    } else {
+                        tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top
                     }
                 } else {
-                    log.error("#scrollToPosition1: no indexpath found")
+                    log.error("iCloud Sync: #scrollToPosition1: no indexpath found")
                 }
+            } else {
+                log.error("iCloud Sync: #scrollToPosition1: position.model is not a postcard")
             }
+        } else {
+            log.error("iCloud Sync: #scrollToPosition1: tableview frame not greater than 0")
         }
     }
     
@@ -1206,6 +1228,8 @@ private extension NewsFeedViewController {
                 } else {
                     log.error("#scrollToPosition2: no indexpath found")
                 }
+            } else {
+                log.error("@scrollToPosition2: no model (shouldn't happen!)")
             }
         }
     }
@@ -1224,7 +1248,8 @@ private extension NewsFeedViewController {
                 }
                 let rectForTopRow = tableView.rectForRow(at: currentCellIndexPath)
                 let offset = rectForTopRow.origin.y - pointWhereNavBarEnds.y
-                return self.viewModel.setScrollPosition(model: model, offset: offset, forFeed: type)
+                let scrollPosition = self.viewModel.setScrollPosition(model: model, offset: offset, forFeed: type)
+                return scrollPosition
             }
         }
         
