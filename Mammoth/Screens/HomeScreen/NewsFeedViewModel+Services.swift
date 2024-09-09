@@ -678,9 +678,10 @@ extension NewsFeedViewModel {
             if cloudPosition != nil {
                 self.setScrollPosition(model: cloudPosition?.model, offset: cloudPosition?.offset ?? 0.0, forFeed: feedType)
                 self.delegate!.didUpdateScrollPosition(scrollPosition: cloudPosition!)
-                CloudSyncManager.sharedManager.enableSaving(forFeedType: feedType)
                 log.debug("iCloud Sync: Updated scroll position, position saving enabled for \(feedType.title())")
             }
+            // Enable scroll saving even if we get a nil position (likely first sync)
+            CloudSyncManager.sharedManager.enableSaving(forFeedType: feedType)
         }
     }
     
