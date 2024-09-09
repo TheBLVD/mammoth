@@ -669,12 +669,12 @@ extension NewsFeedViewModel {
         let operatingTableView = self.delegate!.operatingTableView()
         if !operatingTableView.isTracking && !operatingTableView.isDecelerating {
             let cloudPosition = CloudSyncManager.sharedManager.cloudSavedPosition(for: feedType)
-            log.debug("iCloud Sync: got cloudPosition: \(String(describing: cloudPosition)) for feed \(feedType)")
+            log.debug("iCloud Sync: Got cloudPosition: \(String(describing: cloudPosition)) for feed \(feedType)")
             if cloudPosition != nil {
                 self.setScrollPosition(model: cloudPosition?.model, offset: cloudPosition?.offset ?? 0.0, forFeed: feedType)
                 self.delegate?.didUpdateScrollPosition(scrollPosition: cloudPosition!)
                 CloudSyncManager.sharedManager.enableSaving(forFeedType: feedType)
-                log.debug("iCloud Sync: updated scroll position, position saving enabled for \(feedType.title())")
+                log.debug("iCloud Sync: Updated scroll position, position saving enabled for \(feedType.title())")
             }
         }
     }
