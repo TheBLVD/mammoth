@@ -634,13 +634,18 @@ extension NewsFeedViewModel {
                         
                         guard !Task.isCancelled else { return }
                         
+                        await MainActor.run { [weak self] in
+                            guard let self else { return }
+                            self.scrollToCloudPosition(forFeedType: type)
+                        }
+                        
                         if pageToFetchLimit == 0 {
                             // Done loading posts from remote here (maybe?)
                             await MainActor.run { [weak self] in
                                 guard let self else { return }
                                 self.stopPollingListData()
                                 
-                                self.scrollToCloudPosition(forFeedType: type)
+                                //self.scrollToCloudPosition(forFeedType: type)
                                 
                                 if !self.isJumpToNowButtonDisabled {
                                     self.setShowJumpToNow(enabled: true, forFeed: type)
@@ -653,7 +658,7 @@ extension NewsFeedViewModel {
                                 self?.setShowJumpToNow(enabled: false, forFeed: type)
                                 self?.delegate?.didUpdateUnreadState(type: type)
                                 
-                                self?.scrollToCloudPosition(forFeedType: type)
+                                //self?.scrollToCloudPosition(forFeedType: type)
                             }
                         }
                         
@@ -672,7 +677,7 @@ extension NewsFeedViewModel {
             log.debug("iCloud Sync: Got cloudPosition: \(String(describing: cloudPosition)) for feed \(feedType)")
             if cloudPosition != nil {
                 self.setScrollPosition(model: cloudPosition?.model, offset: cloudPosition?.offset ?? 0.0, forFeed: feedType)
-                self.delegate?.didUpdateScrollPosition(scrollPosition: cloudPosition!)
+                self.delegate!.didUpdateScrollPosition(scrollPosition: cloudPosition!)
                 CloudSyncManager.sharedManager.enableSaving(forFeedType: feedType)
                 log.debug("iCloud Sync: Updated scroll position, position saving enabled for \(feedType.title())")
             }

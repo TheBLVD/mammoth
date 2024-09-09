@@ -1181,28 +1181,26 @@ private extension NewsFeedViewController {
             if case .postCard = position.model {
                 if let indexPath = viewModel.getIndexPathForItem(item: position.model!) {
                     let yOffset = tableView.rectForRow(at: indexPath).origin.y - position.offset
-                    if yOffset > 0 {
-                        log.debug("iCloud Sync: ATTEMPTING TO CLOUD SCROLL")
-                        // we need to include an inset when the background is translucent
-                        var additionalOffset = 0.0
-                        if UIDevice.current.userInterfaceIdiom == .phone && !self.additionalSafeAreaInsets.top.isZero {
-                            additionalOffset = 25.0
-                            tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top + additionalOffset
-                        } else if !self.additionalSafeAreaInsets.top.isZero {
-                            additionalOffset = 50.0
-                            tableView.contentOffset.y = yOffset - additionalOffset
-                        } else {
-                            tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top
-                        }
+                    log.debug("iCloud Sync: ATTEMPTING TO CLOUD SCROLL")
+                    // we need to include an inset when the background is translucent
+                    var additionalOffset = 0.0
+                    if UIDevice.current.userInterfaceIdiom == .phone && !self.additionalSafeAreaInsets.top.isZero {
+                        additionalOffset = 25.0
+                        tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top + additionalOffset
+                    } else if !self.additionalSafeAreaInsets.top.isZero {
+                        additionalOffset = 50.0
+                        tableView.contentOffset.y = yOffset - additionalOffset
+                    } else {
+                        tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top
                     }
                 } else {
-                    log.error("#scrollToPosition1: no indexpath found")
+                    log.error("iCloud Sync: #scrollToPosition1: no indexpath found")
                 }
             } else {
-                log.error("#scrollToPosition1: position.model is not a postcard")
+                log.error("iCloud Sync: #scrollToPosition1: position.model is not a postcard")
             }
         } else {
-            log.error("#scrollToPosition1: tableview frame not greater than 0")
+            log.error("iCloud Sync: #scrollToPosition1: tableview frame not greater than 0")
         }
     }
     

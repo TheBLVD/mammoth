@@ -41,7 +41,7 @@ class CloudSyncManager {
 
     }
     
-    public func enableSaving(forFeedType feedType:NewsFeedTypes) {
+    public func enableSaving(forFeedType feedType: NewsFeedTypes) {
         switch feedType {
         case .following:
             shouldSaveFollowing = true
@@ -58,7 +58,7 @@ class CloudSyncManager {
         }
     }
     
-    public func disableSaving(forFeedType feedType:NewsFeedTypes) {
+    public func disableSaving(forFeedType feedType: NewsFeedTypes) {
         switch feedType {
         case .following:
             shouldSaveFollowing = false
@@ -109,10 +109,13 @@ class CloudSyncManager {
             return
         }
         
-        syncDebouncer?.invalidate()
-        syncDebouncer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { [weak self] _ in
+        // Trying without debounce, we want to more eagerly save if we're doing tight syncing
+        self.setSyncStatus(for: type, scrollPosition: scrollPosition)
+        
+        /*syncDebouncer?.invalidate()
+        syncDebouncer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { [weak self] _ in
             self?.setSyncStatus(for: type, scrollPosition: scrollPosition)
-        }
+        }*/
     }
 
     public func cloudSavedPosition(for type: NewsFeedTypes) -> NewsFeedScrollPosition? {
