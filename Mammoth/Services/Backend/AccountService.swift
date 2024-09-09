@@ -80,22 +80,14 @@ struct AccountService {
         }
     }
         
-    // moth.social user recommendations API
-    // fallback to suggested recommendations from current instance
+    // uggested recommendations from current instance
     static func getFollowRecommentations(fullAcct: String) async throws -> [Account] {
-        do {
-            let request = Accounts.followRecommendationsV3(fullAcct)
-            let result = try await ClientService.runFeatureRequest(request: request)
-            return result
-        } catch let error {
-            log.debug("FollowRecommentations failed to Moth.social: \(error)")
-            let request = Accounts.followSuggestionsV2()
-            let suggestions = try await ClientService.runRequest(request: request)
-            let result = suggestions.map({ suggestion in
-                suggestion.account
-            })
-            return result
-        }
+        let request = Accounts.followSuggestionsV2()
+        let suggestions = try await ClientService.runRequest(request: request)
+        let result = suggestions.map({ suggestion in
+            suggestion.account
+        })
+        return result
     }
     
     static func follow(userId: String) async throws -> Relationship {

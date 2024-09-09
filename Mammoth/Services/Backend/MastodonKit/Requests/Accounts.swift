@@ -350,18 +350,6 @@ public struct Accounts {
     public static func followRecommendations(_ id: String) -> Request<[Account]> {
         return Request<[Account]>(path: "/api/v1/accounts/\(id)/follow_recommendations", method: .get(.empty))
     }
-    
-    /// Looks up fedi-graph recommended followers via Moth.social
-    ///
-    /// - Parameter fullAcct: The fully qualified account name (e.g. "mammoth@moth.social")
-    /// - Returns: Accounts from the users followers using fedi-graph
-    public static func followRecommendationsV3(_ fullAcct: String) -> Request<[Account]> {
-        let parameters = [
-            Parameter(name: "acct", value: fullAcct),
-        ]
-        let method = HTTPMethod.get(.parameters(parameters))
-        return Request<[Account]>(path: "/api/v1/followgraph", method: method)
-    }
 
     public static func onboardingFollowRecommendations() -> Request<[Category]> {
         // Note: v1 returned [Accounts]
