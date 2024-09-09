@@ -809,27 +809,24 @@ extension NewsFeedViewController {
             }
         }
         
+        // save cloud scroll position
+        let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+        CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
+        
         self.delegate?.didScrollToTop()
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        log.debug("SYNC scroll: didEndDragging")
         self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
         
-        if #available(iOS 17.4, *) {
-            if !(scrollView.isDragging || scrollView.isDecelerating) {
-                // save cloud scroll position
-                log.debug("SYNC scroll: save cloud scroll end drag")
-                let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
-                CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
-            }
-        } else {
-            // Fallback on earlier versions
+        if !(scrollView.isDragging || scrollView.isDecelerating) {
+            // save cloud scroll position
+            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
+            CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
         }
     }
     
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        log.debug("SYNC scroll: decelerated")
         self.isScrollingProgrammatically = false
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.7) { [weak self] in
@@ -843,7 +840,6 @@ extension NewsFeedViewController {
             self.didUpdateSnapshot(self.viewModel.snapshot, feedType: self.viewModel.type, updateType: .insert, scrollPosition: nil, onCompleted: nil)
             
             // save cloud scroll position
-            log.debug("SYNC scroll: save cloud scroll decelerate")
             let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
             CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
         }
@@ -852,7 +848,6 @@ extension NewsFeedViewController {
 
 // MARK: NewsFeedViewModelDelegate
 extension NewsFeedViewController: NewsFeedViewModelDelegate {
-#warning ("Bill - Likely need to call this method on changes to cloud data")
     func didUpdateSnapshot(_ snapshot: NewsFeedSnapshot, feedType: NewsFeedTypes, updateType: NewsFeedSnapshotUpdateType, scrollPosition: NewsFeedScrollPosition?, onCompleted: (() -> Void)?) {
         guard !self.switchingAccounts && !self.disableFeedUpdates else { return }
         
@@ -1128,6 +1123,10 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         scrollToPosition(tableView: self.tableView, position: scrollPosition)
     }
     
+    func operatingTableView() -> UIScrollView {
+        return self.tableView
+    }
+    
     static let LoaderTag = 11
     
     func showLoader(enabled: Bool) {
@@ -1183,6 +1182,7 @@ private extension NewsFeedViewController {
                 if let indexPath = viewModel.getIndexPathForItem(item: position.model!) {
                     let yOffset = tableView.rectForRow(at: indexPath).origin.y - position.offset
                     if yOffset > 0 {
+                        log.debug("iCloud Sync: ATTEMPTING TO CLOUD SCROLL")
                         // we need to include an inset when the background is translucent
                         var additionalOffset = 0.0
                         if UIDevice.current.userInterfaceIdiom == .phone && !self.additionalSafeAreaInsets.top.isZero {

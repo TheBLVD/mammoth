@@ -23,8 +23,16 @@ struct CloudSyncConstants {
 
 class CloudSyncManager {
     static let sharedManager = CloudSyncManager()
-    let jsonEncoder = JSONEncoder()
-    let jsonDecoder = JSONDecoder()
+    
+    // Toggle these on/off while refresh cycle is happening to avoid scroll conflicts
+    var shouldSaveFollowing = false
+    var shouldSaveForYou = false
+    var shouldSaveFederated = false
+    var shouldSaveMentionsIn = false
+    var shouldSaveMentionsOut = false
+    
+    private let jsonEncoder = JSONEncoder()
+    private let jsonDecoder = JSONDecoder()
     private var syncDebouncer: Timer?
     private var cloudStore = NSUbiquitousKeyValueStore.default
     private var userDefaults = UserDefaults.standard
@@ -32,8 +40,75 @@ class CloudSyncManager {
     init() {
 
     }
+    
+    public func enableSaving(forFeedType feedType:NewsFeedTypes) {
+        switch feedType {
+        case .following:
+            shouldSaveFollowing = true
+        case .forYou:
+            shouldSaveForYou = true
+        case .federated:
+            shouldSaveFederated = true
+        case .mentionsIn:
+            shouldSaveMentionsIn = true
+        case .mentionsOut:
+            shouldSaveMentionsOut = true
+        default:
+            return
+        }
+    }
+    
+    public func disableSaving(forFeedType feedType:NewsFeedTypes) {
+        switch feedType {
+        case .following:
+            shouldSaveFollowing = false
+        case .forYou:
+            shouldSaveForYou = false
+        case .federated:
+            shouldSaveFederated = false
+        case .mentionsIn:
+            shouldSaveMentionsIn = false
+        case .mentionsOut:
+            shouldSaveMentionsOut = false
+        default:
+            return
+        }
+    }
+    
+    public func disableAllSaving() {
+        shouldSaveFollowing = false
+        shouldSaveForYou = false
+        shouldSaveFederated = false
+        shouldSaveMentionsIn = false
+        shouldSaveMentionsOut = false
+    }
 
     public func saveSyncStatus(for type: NewsFeedTypes, scrollPosition: NewsFeedScrollPosition) {
+        switch type {
+        case .following:
+            if !shouldSaveFollowing {
+                return
+            }
+        case .forYou:
+            if !shouldSaveForYou {
+                return
+            }
+        case .federated:
+            if !shouldSaveFederated {
+                return
+            }
+        case .mentionsIn:
+            if !shouldSaveMentionsIn {
+                return
+            }
+        case .mentionsOut:
+            if !shouldSaveMentionsOut {
+                return
+            }
+        default:
+            return
+        }
+        
         syncDebouncer?.invalidate()
         syncDebouncer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: false) { [weak self] _ in
             self?.setSyncStatus(for: type, scrollPosition: scrollPosition)
