@@ -875,7 +875,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             self.isInsertingContent = true
             
             // Cache scroll position pre-update
-            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
+            let preUpdateScrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: feedType, scrollReference: .top)
 
             if shouldFreezeAnimations && self.viewModel.dataSource != nil {
                 CATransaction.begin()
@@ -890,11 +890,11 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
                     return
                 }
                 
-                if let scrollPosition {
+                if let preUpdateScrollPosition {
                     // Forcing a second scrollToPosition call on completion
                     // makes sure the scroll action happens correcty.
                     // Keep both of them to make the feed less jumpy on feed updates.
-                    self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
+                    self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: preUpdateScrollPosition)
                 }
 
                 onCompleted?()
@@ -919,8 +919,8 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
             }
                         
             // Revert to pre-update scroll position
-            if let scrollPosition {
-                self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: scrollPosition)
+            if let preUpdateScrollPosition {
+                self.scrollToPosition(tableView: self.tableView, snapshot: snapshot, position: preUpdateScrollPosition)
             }
             
         case .inject:
