@@ -670,6 +670,13 @@ extension NewsFeedViewModel {
     }
     
     func scrollToCloudPosition(forFeedType feedType: NewsFeedTypes) {
+        
+        // If user has scrolled manually, don't scroll to cloud position
+        if self.userHasScrolledManually {
+            log.debug("iCloud Sync: NOT scrolling to cloud position; user has scrolled manually for feed \(feedType)")
+            return
+        }
+
         // If it's currently scrolling, don't scroll to cloud position
         let operatingTableView = self.delegate!.operatingTableView()
         if !operatingTableView.isTracking && !operatingTableView.isDecelerating {

@@ -728,6 +728,11 @@ extension NewsFeedViewController {
         viewModel.cancelPreloadCards(atIndexPaths: indexPaths)
     }
     
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        log.debug("Manual: scrollViewWillBeginDragging setting userHasScrolledManually to true for feed \(self.type)")
+        viewModel.userHasScrolledManually = true
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         self.isScrollingProgrammatically = !self.tableView.isDecelerating && !self.tableView.isTracking && !(self.tableView.indexPathsForVisibleRows ?? []).isEmpty
         
@@ -1181,10 +1186,11 @@ internal extension NewsFeedViewController {
 private extension NewsFeedViewController {
     func scrollToPosition(tableView: UITableView, position: NewsFeedScrollPosition) {
         if tableView.frame.width > 0 {
+            log.debug("iCloud Sync: scrollToPosition for \(self.type)")
             if case .postCard = position.model {
                 if let indexPath = viewModel.getIndexPathForItem(item: position.model!) {
                     let yOffset = tableView.rectForRow(at: indexPath).origin.y - position.offset
-                    log.debug("iCloud Sync: ATTEMPTING TO CLOUD SCROLL")
+                    log.debug("iCloud Sync: ATTEMPTING TO CLOUD SCROLL for \(self.type)")
                     // we need to include an inset when the background is translucent
                     var additionalOffset = 0.0
                     if UIDevice.current.userInterfaceIdiom == .phone && !self.additionalSafeAreaInsets.top.isZero {
@@ -1197,13 +1203,13 @@ private extension NewsFeedViewController {
                         tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top
                     }
                 } else {
-                    log.error("iCloud Sync: #scrollToPosition1: no indexpath found")
+                    log.error("iCloud Sync: #scrollToPosition1: no indexpath found for \(self.type)")
                 }
             } else {
-                log.error("iCloud Sync: #scrollToPosition1: position.model is not a postcard")
+                log.error("iCloud Sync: #scrollToPosition1: position.model is not a postcard for \(self.type)")
             }
         } else {
-            log.error("iCloud Sync: #scrollToPosition1: tableview frame not greater than 0")
+            log.error("iCloud Sync: #scrollToPosition1: tableview frame not greater than 0 for \(self.type)")
         }
     }
     
