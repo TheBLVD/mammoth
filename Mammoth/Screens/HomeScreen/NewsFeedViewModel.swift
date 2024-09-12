@@ -427,6 +427,7 @@ class NewsFeedViewModel {
     
     internal var scrollPositions = NewsFeedScrollPositions()
     internal var unreadCounts = NewsFeedUnreadStates()
+    public var userHasScrolledManually: Bool = false
 
     internal let savingQueue = DispatchQueue(label: "NewsFeedViewModel Saving", qos: .utility)
 
