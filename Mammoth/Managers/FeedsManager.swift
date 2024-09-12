@@ -75,7 +75,13 @@ class FeedsManager {
         do {
             let cachedFeeds = try self.readFeedsFromDisk()
             if !cachedFeeds.isEmpty {
-                return cachedFeeds
+                let filteredFeeds = cachedFeeds.filter { item in
+                    if case .channel = item.type {
+                        return false
+                    }
+                    return true
+                }
+                return filteredFeeds
             }
         } catch {}
         
