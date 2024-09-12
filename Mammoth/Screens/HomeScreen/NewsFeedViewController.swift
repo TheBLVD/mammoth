@@ -1287,6 +1287,8 @@ private extension NewsFeedViewController {
 // MARK: - Jump to newest
 extension NewsFeedViewController: JumpToNewest {
     func jumpToNewest() {
+        self.viewModel.userHasScrolledManually = true
+
         if !self.viewModel.pollingReachedTop {
             // refresh because we didn't reach the top of the feed.
             self.viewModel.stopPollingListData()
