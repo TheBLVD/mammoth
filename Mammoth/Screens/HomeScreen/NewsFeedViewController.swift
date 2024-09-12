@@ -840,8 +840,11 @@ extension NewsFeedViewController {
             self.didUpdateSnapshot(self.viewModel.snapshot, feedType: self.viewModel.type, updateType: .insert, scrollPosition: nil, onCompleted: nil)
             
             // save cloud scroll position
-            let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type)
-            CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition!)
+            if let scrollPosition = self.cacheScrollPosition(tableView: self.tableView, forFeed: self.viewModel.type) {
+                CloudSyncManager.sharedManager.saveSyncStatus(for: type, scrollPosition: scrollPosition)
+            } else {
+                log.error("scrollPosition unexpectedly nil")
+            }
         }
     }
 }
@@ -870,7 +873,7 @@ extension NewsFeedViewController: NewsFeedViewModelDelegate {
         switch updateType {
         case .insert, .update, .remove, .replaceAll:
 
-            log.debug("tableview change: \(updateType) for \(feedType)")
+            log.debug("tableview change: \(updateType) for \(feedType); scrollPosition: \(scrollPosition)")
             
             self.isInsertingContent = true
             
@@ -1247,7 +1250,16 @@ private extension NewsFeedViewController {
                     return nil
                 }
                 let rectForTopRow = tableView.rectForRow(at: currentCellIndexPath)
-                let offset = rectForTopRow.origin.y - pointWhereNavBarEnds.y
+                // The Mentions and Activity views use a custom CarouselNavigationHeader,
+                // and not the standard NavigationBar
+                let additionalOffset: CGFloat
+                switch self.viewModel.type {
+                case .mentionsIn, .mentionsOut, .activity:
+                    additionalOffset = 16.0
+                default:
+                    additionalOffset = 0.0
+                }
+                let offset = rectForTopRow.origin.y - pointWhereNavBarEnds.y + additionalOffset
                 let scrollPosition = self.viewModel.setScrollPosition(model: model, offset: offset, forFeed: type)
                 return scrollPosition
             }
