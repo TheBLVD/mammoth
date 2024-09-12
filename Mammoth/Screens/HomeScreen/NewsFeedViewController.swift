@@ -791,6 +791,7 @@ extension NewsFeedViewController {
     
     func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
         self.isScrollingProgrammatically = false
+        self.viewModel.userHasScrolledManually = true
 
         self.viewModel.cancelAllItemSyncs()
         
