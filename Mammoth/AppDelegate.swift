@@ -231,6 +231,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         GlobalStruct.openLinksInReaderView = UserDefaults.standard.value(forKey: "openLinksInReaderView") as? Bool ?? false
         GlobalStruct.preferredBrowser = UserDefaults.standard.string(forKey: "PreferredBrowser") ?? "In-App Browser"
         GlobalStruct.appLock = UserDefaults.standard.value(forKey: "appLock") as? Bool ?? false
+        GlobalStruct.cloudSync = UserDefaults.standard.value(forKey: "cloudSync") as? Bool ?? false
         GlobalStruct.shareAnalytics = UserDefaults.standard.value(forKey: "shareAnalytics") as? Bool ?? true
         
         GlobalStruct.tab2 = UserDefaults.standard.value(forKey: "tab2") as? Bool ?? true

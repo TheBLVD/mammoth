@@ -34,12 +34,15 @@ class SettingsViewController: UIViewController {
                     .pushNotifications,
                     .soundsAndHaptics,
                     .siriShortcuts
-                ].compactMap{$0}),
+                ].compactMap {$0}),
                 SettingsSection(items: [
                     .openLinks,
                     GlobalStruct.preferredBrowser == "In-App Browser" ? .readerView : nil,
                     .appLock
-                ].compactMap{$0}),
+                ].compactMap {$0}),
+                SettingsSection(items: [
+                    .cloudSync
+                ].compactMap {$0}),
                 SettingsSection(items: [
                     .getInTouch,
                     .subscriptions,
@@ -64,12 +67,15 @@ class SettingsViewController: UIViewController {
                     .pushNotifications,
                     .soundsAndHaptics,
                     .siriShortcuts
-                ].compactMap{$0}),
+                ].compactMap {$0}),
                 SettingsSection(items: [
                     .openLinks,
                     GlobalStruct.preferredBrowser == "In-App Browser" ? .readerView : nil,
                     .appLock
-                ].compactMap{$0}),
+                ].compactMap {$0}),
+                SettingsSection(items: [
+                    .cloudSync
+                ].compactMap {$0}),
                 SettingsSection(items: [
                     .getInTouch,
                     .development
@@ -226,6 +232,15 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    @objc func switchCloudSync(_ sender: UISwitch) {
+        if sender.isOn {
+            GlobalStruct.cloudSync = true
+            UserDefaults.standard.setValue(true, forKey: "cloudSync")
+        } else {
+            GlobalStruct.cloudSync = false
+            UserDefaults.standard.setValue(false, forKey: "cloudSync")
+        }
+    }
 }
 
 // MARK: - UITableView
@@ -300,6 +315,24 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             switchView.onTintColor = .custom.gold
 
             switchView.addTarget(self, action: #selector(switchAppLock), for: .valueChanged)
+            cell.accessoryView = switchView
+            cell.accessoryType = .none
+            cell.selectionStyle = .none
+            cell.textLabel?.textAlignment = .left
+        } else if item == .cloudSync {
+            let switchView = UISwitch(frame: .zero)
+            if UserDefaults.standard.value(forKey: "cloudSync") as? Bool != nil {
+                if UserDefaults.standard.value(forKey: "cloudSync") as? Bool == false {
+                    switchView.setOn(false, animated: false)
+                } else {
+                    switchView.setOn(true, animated: false)
+                }
+            } else {
+                switchView.setOn(false, animated: false)
+            }
+            switchView.onTintColor = .custom.gold
+
+            switchView.addTarget(self, action: #selector(switchCloudSync), for: .valueChanged)
             cell.accessoryView = switchView
             cell.accessoryType = .none
             cell.selectionStyle = .none

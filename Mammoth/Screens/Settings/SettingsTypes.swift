@@ -37,6 +37,8 @@ public enum SettingsItem {
     
     case appLock
     
+    case cloudSync
+    
     case clearData
     
     var title: String {
@@ -55,6 +57,7 @@ public enum SettingsItem {
         case .openLinks: return NSLocalizedString("settings.openLinks", comment: "")
         case .readerView: return NSLocalizedString("settings.readerView", comment: "")
         case .appLock: return NSLocalizedString("settings.appLock", comment: "")
+        case .cloudSync: return NSLocalizedString("settings.cloudsync", comment: "iCloud Sync settings title string")
         case .development: return NSLocalizedString("settings.development", comment: "")
         case .analytics: return NSLocalizedString("settings.analytics", comment: "")
         case .sourceCode: return NSLocalizedString("settings.sourceCode", comment: "")
@@ -78,6 +81,7 @@ public enum SettingsItem {
         case .openLinks: return "\u{f08e}"
         case .readerView: return "\u{e1d8}"
         case .appLock: return "\u{f023}"
+        case .cloudSync: return "\u{f2f1}"
         case .development: return "\u{f121}"
         case .analytics: return "\u{f681}"
         case .sourceCode: return "\u{f121}"
@@ -96,5 +100,5 @@ public enum SettingsItem {
 
 public struct SettingsSection {
     var items: [SettingsItem]
-    var footerTitle: String? = nil
+    var footerTitle: String?
 }

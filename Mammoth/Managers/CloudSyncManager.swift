@@ -42,6 +42,8 @@ class CloudSyncManager {
     }
     
     public func enableSaving(forFeedType feedType: NewsFeedTypes) {
+        if !GlobalStruct.cloudSync { return }
+        
         switch feedType {
         case .following:
             shouldSaveFollowing = true
@@ -84,6 +86,8 @@ class CloudSyncManager {
     }
 
     public func saveSyncStatus(for type: NewsFeedTypes, scrollPosition: NewsFeedScrollPosition) {
+        if !GlobalStruct.cloudSync { return }
+        
         switch type {
         case .following:
             if !shouldSaveFollowing {
@@ -119,6 +123,8 @@ class CloudSyncManager {
     }
 
     public func cloudSavedPosition(for type: NewsFeedTypes) -> NewsFeedScrollPosition? {
+        if !GlobalStruct.cloudSync { return nil }
+        
         let (itemKey, dateKey) = keys(for: type)
         
         guard !itemKey.isEmpty, !dateKey.isEmpty else { return nil }
@@ -136,6 +142,8 @@ class CloudSyncManager {
     }
 
     private func setSyncStatus(for type: NewsFeedTypes, scrollPosition: NewsFeedScrollPosition) {
+        if !GlobalStruct.cloudSync { return }
+        
         let (itemKey, dateKey) = keys(for: type)
         guard !itemKey.isEmpty, !dateKey.isEmpty else { return }
         
