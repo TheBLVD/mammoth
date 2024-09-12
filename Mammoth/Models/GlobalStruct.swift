@@ -153,6 +153,7 @@ public struct GlobalStruct {
     static var openLinksInReaderView: Bool = false
     static var preferredBrowser: String = "In-App Browser"
     static var appLock: Bool = false
+    static var cloudSync: Bool = false
     static var shareAnalytics: Bool = true
     
     // composer

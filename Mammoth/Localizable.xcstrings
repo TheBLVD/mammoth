@@ -65757,6 +65757,17 @@
         }
       }
     },
+    "settings.cloudsync" : {
+      "comment" : "iCloud Sync settings title string",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "iCloud Sync - beta"
+          }
+        }
+      }
+    },
     "settings.composer" : {
       "comment" : "Button in settings.",
       "extractionState" : "manual",
