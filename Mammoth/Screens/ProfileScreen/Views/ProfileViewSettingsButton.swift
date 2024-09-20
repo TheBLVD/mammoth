@@ -84,7 +84,7 @@ final class ProfileViewSettingsButton: UIButton {
     
     @objc func onFollowStatusUpdate() {
         if let account = self.user?.account {
-            self.user = UserCardModel(account: account)
+            self.user = UserCardModel(account: account, premiumAccount: self.user?.tippableAccount)
         }
     }
     

@@ -131,7 +131,7 @@ class UserCardModel {
         self.tippableAccount = nil
     }
     
-    init(account: Account, instanceName: String? = nil, requestFollowStatusUpdate: FollowManager.NetworkUpdateType = .none, isFollowing: Bool = false) {
+    init(account: Account, instanceName: String? = nil, requestFollowStatusUpdate: FollowManager.NetworkUpdateType = .none, isFollowing: Bool = false, premiumAccount: TippableAccount? = nil) {
         self.id = account.id
         self.uniqueId = account.remoteFullOriginalAcct
         self.name = !account.displayName.isEmpty ? account.displayName : account.username
@@ -181,16 +181,21 @@ class UserCardModel {
         self.fields?.forEach({$0.configureMetaContent(with: emojisDic)})
         self.joinedOn = account.createdAt?.toDate()
         self.isTippable = account.acct.hasSuffix(ArkanaKeys.Global().subClubDomain)
-        // detect tippable link in profile fields.
-        var premiumAcct: String? = nil
-        for field in account.fields {
-            if let s = field.value.matchingStrings(regex: "https://\(ArkanaKeys.Global().subClubDomain)/users/([a-z0-9-_]+)").first?[1] {
-                premiumAcct = s
-                break
+        
+        if let premiumAccount{
+            self.tippableAccount = premiumAccount
+        } else {
+            // detect tippable link in profile fields.
+            var premiumAcct: String? = nil
+            for field in account.fields {
+                if let s = field.value.matchingStrings(regex: "https://\(ArkanaKeys.Global().subClubDomain)/users/([a-z0-9-_]+)").first?[1] {
+                    premiumAcct = s
+                    break
+                }
             }
-        }
-        if let premiumAcct = premiumAcct {
-            self.tippableAccount = TippableAccount(accountname: premiumAcct)
+            if let premiumAcct = premiumAcct {
+                self.tippableAccount = TippableAccount(accountname: premiumAcct)
+            }
         }
     }
     
@@ -289,21 +294,28 @@ extension UserCardModel {
 }
 
 extension UserCardModel {
-    func getTipInfo() {
+    
+    @discardableResult
+    func getTipInfo() async throws -> UserCardModel.TippableAccount? {
         if let acct = self.tippableAccount, acct.acct == nil {
-            let currentClient = AccountsManager.shared.currentAccountClient
+            do {
             let request = Search.search(query: acct.accountname + "@" + ArkanaKeys.Global().subClubDomain, resolve: true)
-            currentClient.run(request) { (statuses) in
-                if let error = statuses.error {
-                    log.error("error searching subclub account for \(acct.accountname) : \(error)")
-                }
-                if let account = (statuses.value?.accounts.first) {
-                    DispatchQueue.main.async {
-                        self.tippableAccount?.acct = account
-                        self.tippableAccount?.isFollowed = FollowManager.shared.followStatusForAccount(account, requestUpdate: .whenUncertain) == .following
+            let result = try await ClientService.runRequest(request: request)
+                if let account = (result.accounts.first) {
+                    let followStatus = FollowManager.shared.followStatusForAccount(account, requestUpdate: .force) == .following
+                    let premiumAccount = await MainActor.run { [weak self] in
+                        self?.tippableAccount?.acct = account
+                        self?.tippableAccount?.isFollowed = followStatus
+                        return self?.tippableAccount
                     }
+                    
+                    return premiumAccount
                 }
+            } catch {
+                log.error("error searching subclub account for \(acct.accountname) : \(error)")
             }
         }
+        
+        return nil
     }
 }

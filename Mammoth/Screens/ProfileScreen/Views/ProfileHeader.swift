@@ -428,7 +428,7 @@ extension ProfileHeader {
             }
         }
         
-        self.loadSubscribeButton()
+        self.configureSubscribeButton()
         
         let joinedOn = user.joinedOn?.toString(dateStyle: .short, timeStyle: .none) ?? ""
         if UIScreen.main.bounds.width < 380 {
@@ -621,18 +621,18 @@ extension ProfileHeader {
             } else if GlobalStruct.overrideTheme == 2 || self.traitCollection.userInterfaceStyle == .dark  {
                 theme = "dark"
             }
-            var tip_account: Account?
-            var tip_username: String?
+            var tipAccount: Account?
+            var tipUsername: String?
             switch user.isTippable {
             case true:
-                tip_account = user.account
-                tip_username = user.username
+                tipAccount = user.account
+                tipUsername = user.username
             case false:
-                tip_account = user.tippableAccount?.acct
-                tip_username = user.tippableAccount?.accountname
+                tipAccount = user.tippableAccount?.acct
+                tipUsername = user.tippableAccount?.accountname
             }
-            if let tip_account = tip_account, let tip_username = tip_username, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tip_username)/subscribe?callback=mammoth://subclub&id=@\(currentAccount)&theme=\(theme)") {
-                FollowManager.shared.followAccount(tip_account)
+            if let tipAccount, let tipUsername, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tipUsername)/subscribe?callback=mammoth://subclub&id=@\(currentAccount)&theme=\(theme)") {
+                FollowManager.shared.followAccount(tipAccount)
                 var vc: WebViewController!
                 if let tippableAccount = user.tippableAccount?.acct {
                     let tippableUserCard = UserCardModel(account: tippableAccount)
@@ -706,10 +706,9 @@ extension ProfileHeader {
         return userTag
     }
     
-    func loadSubscribeButton() {
+    func configureSubscribeButton() {
         // configure subscribe button.
         if let user = self.user {
-            user.getTipInfo()
             if !user.isSelf && user.isTippable {
                 tipButton.isHidden = false
                 // user is subscribed:

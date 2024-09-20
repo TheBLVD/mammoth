@@ -52,6 +52,10 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
+    convenience init() {
+        self.init(nibName: nil, bundle: nil)
+    }
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }

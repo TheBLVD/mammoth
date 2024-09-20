@@ -109,9 +109,15 @@ final class ProfileViewModel {
             
             if let account = await AccountService.lookup(fullAcct, serverName: serverName) {
                 // Lookup on account's instance
-                let user = UserCardModel(account: account, instanceName: serverName, requestFollowStatusUpdate: .force)
+                                
+                let premiumAccount = await MainActor.run { [weak self] in self?.user?.tippableAccount }
+                let user = UserCardModel(account: account, instanceName: serverName, requestFollowStatusUpdate: .force, premiumAccount: premiumAccount)
+                
+                let tippableAccount = try? await user.getTipInfo()
+
                 await MainActor.run {
                     self.user = user
+                    self.user?.tippableAccount = tippableAccount
                 }
                 
                 await self.loadListData(type: self.type)
@@ -119,9 +125,15 @@ final class ProfileViewModel {
             } else if let account = await AccountService.lookup(fullAcct, serverName: AccountsManager.shared.currentAccountClient.baseHost) {
                 // Lookup on signed in user's local instance.
                 // This is a fallback for non-mastodon instances
-                let user = UserCardModel(account: account, instanceName: AccountsManager.shared.currentAccountClient.baseHost, requestFollowStatusUpdate: .force)
+                
+                let premiumAccount = await MainActor.run { [weak self] in self?.user?.tippableAccount }
+                let user = UserCardModel(account: account, instanceName: AccountsManager.shared.currentAccountClient.baseHost, requestFollowStatusUpdate: .force, premiumAccount: premiumAccount)
+                
+                let tippableAccount = try? await user.getTipInfo()
+
                 await MainActor.run {
                     self.user = user
+                    self.user?.tippableAccount = tippableAccount
                 }
                 
                 await self.loadListData(type: self.type)
@@ -148,6 +160,9 @@ final class ProfileViewModel {
                     guard let self else { return }
                     await self.reloadUser()
                     await self.loadListData(type: self.type)
+                    await MainActor.run { [weak self] in
+                        self?.delegate?.didUpdate(with: .success)
+                    }
                 }
                 
                 if let account = user?.account {
@@ -383,7 +398,7 @@ extension ProfileViewModel {
         if self.screenType == .own {
             if let currentUser = AccountsManager.shared.currentAccount as? MastodonAcctData {
                 let currentAccount = currentUser.account
-                self.user = UserCardModel(account: currentAccount)
+                self.user = UserCardModel(account: currentAccount, premiumAccount: self.user?.tippableAccount)
             }
         }
     }
@@ -396,7 +411,7 @@ extension ProfileViewModel {
                 if let account = try await AccountService.currentUser() {
                     return await MainActor.run { [weak self] in
                         guard let self else { return nil }
-                        self.user = UserCardModel(account: account)
+                        self.user = UserCardModel(account: account, premiumAccount: self.user?.tippableAccount)
                         self.state = .success
                         return self.user
                     }
@@ -406,8 +421,10 @@ extension ProfileViewModel {
                     return self?.user
                 }
                     
-                guard var user = user else { return nil }
+                guard var user else { return nil }
                 await MainActor.run {self.state = .loading }
+                
+                let tippableAccount = try? await user.getTipInfo()
                 
                 // Fetch the profile on its original instance
                 let instanceName = user.instanceName ?? user.account?.server ?? AccountsManager.shared.currentAccountClient.baseHost
@@ -417,13 +434,12 @@ extension ProfileViewModel {
                         let followStatus = self.user?.followStatus
                         let cachedProfilePic = self.user?.decodedProfilePic
                         let preSyncAccount = self.user?.account
-                        let tipInfo = self.user?.tippableAccount
                         
-                        self.user = UserCardModel(account: account, instanceName: instanceName)
+                        self.user = UserCardModel(account: account, instanceName: instanceName, premiumAccount: tippableAccount)
                         self.user?.followStatus = followStatus
                         self.user?.decodedProfilePic = cachedProfilePic
                         self.user?.preSyncAccount = preSyncAccount
-                        self.user?.tippableAccount = tipInfo
+                        self.user?.tippableAccount = tippableAccount
                         self.state = .success
                         return self.user
                     }
@@ -431,8 +447,8 @@ extension ProfileViewModel {
                     // If the instance returns an error, search for the user on the user's instance
                     if  let accountId = user.account?.fullAcct {
                         if let account = await AccountService.lookup(accountId, serverName: AccountsManager.shared.currentAccountClient.baseHost) ?? user.account {
-                            
-                            user = UserCardModel(account: account, instanceName: AccountsManager.shared.currentAccountClient.baseHost)
+                            let premiumAccount = await MainActor.run { [weak self] in self?.user?.tippableAccount }
+                            user = UserCardModel(account: account, instanceName: AccountsManager.shared.currentAccountClient.baseHost, premiumAccount: premiumAccount)
                             
                             let user = user
                             return await MainActor.run { [weak self] in
@@ -876,7 +892,7 @@ private extension ProfileViewModel {
         if let account = (acctData as? MastodonAcctData)?.account,
            account.fullAcct == self.user?.account?.fullAcct {
             // Override user with updated user account
-            let userCard = UserCardModel(account: account, instanceName: self.user?.instanceName)
+            let userCard = UserCardModel(account: account, instanceName: self.user?.instanceName, premiumAccount: self.user?.tippableAccount)
             let preSyncAccount = self.user?.preSyncAccount
             let cachedProfilePic = self.user?.decodedProfilePic
             
@@ -896,7 +912,7 @@ private extension ProfileViewModel {
         if let account = (acctData as? MastodonAcctData)?.account,
            account.fullAcct == self.user?.account?.fullAcct {
             // Override user with updated user account
-            let userCard = UserCardModel(account: account, instanceName: self.user?.instanceName)
+            let userCard = UserCardModel(account: account, instanceName: self.user?.instanceName, premiumAccount: self.user?.tippableAccount)
             let preSyncAccount = self.user?.preSyncAccount
             let cachedProfilePic = self.user?.decodedProfilePic
             
@@ -916,14 +932,19 @@ private extension ProfileViewModel {
                 
                 let tippableAccount = self.user?.tippableAccount?.acct
                 if updatedfullAcct == currentAccount.fullAcct || updatedfullAcct == tippableAccount?.fullAcct {
-                    let userCard = UserCardModel(account: currentAccount, instanceName: self.user?.instanceName)
+                    let userCard = UserCardModel(account: currentAccount, instanceName: self.user?.instanceName, premiumAccount: self.user?.tippableAccount)
+                    let preSyncAccount = self.user?.preSyncAccount
+                    let cachedProfilePic = self.user?.decodedProfilePic
+                    
+                    if let premiumAcct = userCard.tippableAccount?.acct {
+                        userCard.tippableAccount?.isFollowed = FollowManager.shared.followStatusForAccount(premiumAcct, requestUpdate: .none) == .following
+                    }
+                    
+                    self.user = userCard
+                    self.user?.decodedProfilePic = cachedProfilePic
+                    self.user?.preSyncAccount = preSyncAccount
+                    
                     if userCard.followStatus != .inProgress {
-                        let preSyncAccount = self.user?.preSyncAccount
-                        let cachedProfilePic = self.user?.decodedProfilePic
-                        
-                        self.user = userCard
-                        self.user?.decodedProfilePic = cachedProfilePic
-                        self.user?.preSyncAccount = preSyncAccount
                         // Update profile header
                         self.delegate?.didUpdate(with: .success)
                     }

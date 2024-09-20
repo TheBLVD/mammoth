@@ -558,7 +558,6 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDataSourcePre
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if self.viewModel.hasHeader(forSection: section),
             let sectionHeader = tableView.dequeueReusableHeaderFooterView(withIdentifier: ProfileSectionHeader.reuseIdentifier) as? ProfileSectionHeader {
-            self.viewModel.user?.getTipInfo()
             sectionHeader.hasSubscription = viewModel.user?.tippableAccount?.isFollowed == true
             sectionHeader.delegate = self.viewModel
             sectionHeader.configure()
@@ -678,8 +677,9 @@ extension ProfileViewController: RequestDelegate {
                     self.titleView.configure(title: user.isSelf ? NSLocalizedString("navigator.profile", comment: "") : "@\(user.username)")
                     self.navigationItem.title = user.isSelf ? NSLocalizedString("navigator.profile", comment: "") : "@\(user.username)"
                 }
+                
                 // TODO: proper fix. this is a workaround for the POC.
-                self.header.loadSubscribeButton()
+               self.header.configure(user: user, screenType: self.viewModel.screenType)
             }
             
             switch state {
