@@ -38,6 +38,9 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
     let indActivity2 = UIImageView() // adds a small dot indicator under the messages tab when new direct messages come in
     let counter = UIButton()
     var timer = Timer()
+    var postButtonShown: Bool = true
+    var postButtonAnimator: UIViewPropertyAnimator!
+    var lastPostButtonAnimation: CFAbsoluteTime = 0
     
     var customTabsImagesUnselected2: [String] = ["heart.text.square", "bell", "tray.full", "binoculars", "heart", "bookmark", "line.3.horizontal.decrease.circle", "gear"]
     var customTabsImages2: [String] = ["heart.text.square.fill", "bell.fill", "tray.full.fill", "binoculars.fill", "heart.fill", "bookmark.fill", "line.horizontal.3.decrease.circle.fill", "gear"]
@@ -193,6 +196,53 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
     @objc func hideNewContent2() {
         self.newContent2.alpha = 0
     }
+
+    func _handleToggleNewPostButton(show: Bool) {
+        let alpha = show ? 1.0 : 0.0
+        let durationFactor = 1.0 - postButtonAnimator.fractionComplete
+
+        postButtonAnimator.stopAnimation(false)
+        postButtonAnimator.finishAnimation(at: .end)
+
+        postButtonAnimator.addAnimations {
+            self.newPostButton.alpha = alpha
+            if show {
+                self.newPostButton.frame.origin.y -= 20
+            } else {
+                self.newPostButton.frame.origin.y += 20
+            }
+        }
+
+        postButtonAnimator.startAnimation()
+        postButtonAnimator.pauseAnimation()
+        postButtonAnimator.continueAnimation(withTimingParameters: nil, durationFactor: durationFactor)
+    }
+
+    @objc func showNewPostButton() {
+        if lastPostButtonAnimation >= CFAbsoluteTimeGetCurrent() - 1.0 {
+            // Don't allow more than one animation per second if user is quickly 'flicking'.
+            return
+        }
+
+        if !postButtonShown {
+            postButtonShown = true
+            lastPostButtonAnimation = CFAbsoluteTimeGetCurrent()
+            _handleToggleNewPostButton(show: true)
+        }
+    }
+
+    @objc func hideNewPostButton() {
+        if lastPostButtonAnimation >= CFAbsoluteTimeGetCurrent() - 1.0 {
+            // Don't allow more than one animation per second if user is quickly 'flicking'.
+            return
+        }
+
+        if postButtonShown {
+            postButtonShown = false
+            lastPostButtonAnimation = CFAbsoluteTimeGetCurrent()
+            _handleToggleNewPostButton(show: false)
+        }
+    }
     
     @objc func showComposer() {
         // show composer
@@ -231,6 +281,8 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
         let dropInteraction = UIDropInteraction(delegate: self)
         self.view.addInteraction(dropInteraction)
 
+        postButtonAnimator = UIViewPropertyAnimator(duration: 0.75, curve: UIView.AnimationCurve.easeIn)
+
         NotificationCenter.default.addObserver(self, selector: #selector(self.gotoH), name: NSNotification.Name(rawValue: "gotoH"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.gotoC), name: NSNotification.Name(rawValue: "gotoC"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.gotoE), name: NSNotification.Name(rawValue: "gotoE"), object: nil)
@@ -253,6 +305,8 @@ class TabBarViewController: AnimateTabController, UIGestureRecognizerDelegate, U
         NotificationCenter.default.addObserver(self, selector: #selector(self.hideNewContent1), name: NSNotification.Name(rawValue: "hideNewContent1"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.showNewContent2), name: NSNotification.Name(rawValue: "showNewContent2"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.hideNewContent2), name: NSNotification.Name(rawValue: "hideNewContent2"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.showNewPostButton), name: NSNotification.Name(rawValue: "showNewPostButton"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.hideNewPostButton), name: NSNotification.Name(rawValue: "hideNewPostButton"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.fetchPost0), name: NSNotification.Name(rawValue: "fetchPost"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.fetchUser0), name: NSNotification.Name(rawValue: "fetchUser"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.restoreFromDrafts2), name: NSNotification.Name(rawValue: "restoreFromDrafts2"), object: nil)

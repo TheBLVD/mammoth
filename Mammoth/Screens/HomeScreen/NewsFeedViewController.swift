@@ -618,7 +618,14 @@ extension NewsFeedViewController {
                 }
             }
         }
-        
+
+        if (self.displayingIndexPath != nil) && !self.isScrollingProgrammatically && !self.isInsertingContent {
+            let scrollingUp = self.displayingIndexPath! > indexPath
+            let showNewPostButton = GlobalStruct.feedReadDirection == .bottomUp ? scrollingUp : !scrollingUp
+            let notificationName = showNewPostButton ? "showNewPostButton" : "hideNewPostButton"
+
+            NotificationCenter.default.post(name: Notification.Name(notificationName), object: nil)
+        }
         self.displayingIndexPath = indexPath
         
         if self.isActiveFeed && self.viewModel.type.shouldSyncItems {
@@ -1203,6 +1210,7 @@ private extension NewsFeedViewController {
                     } else {
                         tableView.contentOffset.y = yOffset - self.view.safeAreaInsets.top
                     }
+                    self.displayingIndexPath = indexPath
                 } else {
                     log.error("iCloud Sync: #scrollToPosition1: no indexpath found for \(self.type)")
                 }
@@ -1235,6 +1243,7 @@ private extension NewsFeedViewController {
                         }
                         UIView.setAnimationsEnabled(true)
                     }
+                    self.displayingIndexPath = indexPath
                 } else {
                     log.error("#scrollToPosition2: no indexpath found")
                 }
