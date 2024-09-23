@@ -636,9 +636,17 @@ extension ProfileHeader {
                 var vc: WebViewController!
                 if let tippableAccount = user.tippableAccount?.acct {
                     let tippableUserCard = UserCardModel(account: tippableAccount)
-                    vc = WebViewController(url: url.absoluteString, tippableUserCard)
+                    vc = WebViewController(url: url.absoluteString, onClose: {
+                        if let acct = tippableUserCard.account, tippableUserCard.isTippable == true {
+                            FollowManager.shared.followStatusForAccount(acct, requestUpdate: .force)
+                        }
+                    })
                 } else {
-                    vc = WebViewController(url: url.absoluteString, user)
+                    vc = WebViewController(url: url.absoluteString, onClose: {
+                        if let acct = user.account, user.isTippable == true {
+                            FollowManager.shared.followStatusForAccount(acct, requestUpdate: .force)
+                        }
+                    })
                 }
                 
                 if let presentingVC = getTopMostViewController() {
@@ -671,6 +679,7 @@ extension ProfileHeader {
                 vc.fromPro = true
                 vc.proText = "@\(tip_username) unsubscribe"
                 vc.canPost = true
+                vc.whoCanReply = .direct
                 if let presentingVC = getTopMostViewController() {
                     presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
                 }

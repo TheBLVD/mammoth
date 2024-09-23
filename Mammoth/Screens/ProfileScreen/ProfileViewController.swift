@@ -677,9 +677,6 @@ extension ProfileViewController: RequestDelegate {
                     self.titleView.configure(title: user.isSelf ? NSLocalizedString("navigator.profile", comment: "") : "@\(user.username)")
                     self.navigationItem.title = user.isSelf ? NSLocalizedString("navigator.profile", comment: "") : "@\(user.username)"
                 }
-                
-                // TODO: proper fix. this is a workaround for the POC.
-               self.header.configure(user: user, screenType: self.viewModel.screenType)
             }
             
             switch state {
