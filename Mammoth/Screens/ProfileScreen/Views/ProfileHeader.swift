@@ -621,30 +621,41 @@ extension ProfileHeader {
             } else if GlobalStruct.overrideTheme == 2 || self.traitCollection.userInterfaceStyle == .dark  {
                 theme = "dark"
             }
-            var tipAccount: Account?
+            var tipUser: UserCardModel?
             var tipUsername: String?
             switch user.isTippable {
             case true:
-                tipAccount = user.account
+                tipUser = user
                 tipUsername = user.username
             case false:
-                tipAccount = user.tippableAccount?.acct
+                tipUser = user.tippableAccount?.user
                 tipUsername = user.tippableAccount?.accountname
             }
-            if let tipAccount, let tipUsername, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tipUsername)/subscribe?callback=mammoth://subclub&id=@\(currentAccount)&theme=\(theme)") {
+            if let tipUser, let tipAccount = tipUser.account, let tipUsername, let url = URL(string: "https://\(ArkanaKeys.Global().subClubDomain)/@\(tipUsername)/subscribe?callback=mammoth://subclub&id=@\(currentAccount)&theme=\(theme)") {
                 FollowManager.shared.followAccount(tipAccount)
                 var vc: WebViewController!
-                if let tippableAccount = user.tippableAccount?.acct {
-                    let tippableUserCard = UserCardModel(account: tippableAccount)
+                if let tippableUserCard = user.tippableAccount?.user {
                     vc = WebViewController(url: url.absoluteString, onClose: {
                         if let acct = tippableUserCard.account, tippableUserCard.isTippable == true {
                             FollowManager.shared.followStatusForAccount(acct, requestUpdate: .force)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak acct] in
+                                if let acct {
+                                    FollowManager.shared.followStatusForAccount(acct, requestUpdate: .force)
+                                }
+                            }
                         }
                     })
                 } else {
                     vc = WebViewController(url: url.absoluteString, onClose: {
                         if let acct = user.account, user.isTippable == true {
                             FollowManager.shared.followStatusForAccount(acct, requestUpdate: .force)
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak acct] in
+                                if let acct {
+                                    FollowManager.shared.followStatusForAccount(acct, requestUpdate: .force)
+                                }
+                            }
                         }
                     })
                 }
@@ -660,26 +671,23 @@ extension ProfileHeader {
         triggerHapticImpact(style: .light)
         
         if let user = user {
-            var tip_account: Account?
-            var tip_username: String?
+            var tipUser: UserCardModel?
             switch user.isTippable {
             case true:
-                tip_account = user.account
-                tip_username = user.userTag
+                tipUser = user
             case false:
-                tip_account = user.tippableAccount?.acct
-                // using this username here because of the domain.
-                tip_username = user.tippableAccount?.acct?.username
+                tipUser = user.tippableAccount?.user
             }
-            if let tip_account = tip_account, let tip_username = tip_username {
-                FollowManager.shared.unfollowAccount(tip_account)
+            if let tipUser, let tipAccount = tipUser.account {
+                FollowManager.shared.unfollowAccount(tipAccount)
                 user.syncFollowStatus()
                 let vc = NewPostViewController()
                 vc.isModalInPresentation = true
                 vc.fromPro = true
-                vc.proText = "@\(tip_username) unsubscribe"
+                vc.proText = "@\(tipAccount.acct) unsubscribe"
                 vc.canPost = true
                 vc.whoCanReply = .direct
+                vc.hasEditedText = true
                 if let presentingVC = getTopMostViewController() {
                     presentingVC.present(UINavigationController(rootViewController: vc), animated: true)
                 }

@@ -326,8 +326,7 @@ extension ProfileViewModel {
             case .postsAndReplies:
                 return try await AccountService.profilePostsAndReplies(user: user, range: range, serverName: user.instanceName)
             case .subscription:
-                if let acct = user.tippableAccount?.acct {
-                    let user = UserCardModel(account: acct)
+                if let user = user.tippableAccount?.user {
                     return try await AccountService.profilePosts(user: user, range: range)
                 } else {
                     return ([], [], nil)
@@ -361,8 +360,7 @@ extension ProfileViewModel {
                 }
                 return result
             case .subscription:
-                if let acct = user.tippableAccount?.acct {
-                    let user = UserCardModel(account: acct)
+                if let user = user.tippableAccount?.user {
                     return try await AccountService.profilePosts(user: user, range: range)
                 } else {
                     return ([], [], nil)
@@ -930,13 +928,13 @@ private extension ProfileViewModel {
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 
-                let tippableAccount = self.user?.tippableAccount?.acct
-                if updatedfullAcct == currentAccount.fullAcct || updatedfullAcct == tippableAccount?.fullAcct {
+                let tippableUser = self.user?.tippableAccount?.user
+                if updatedfullAcct == currentAccount.fullAcct || updatedfullAcct == tippableUser?.account?.fullAcct {
                     let userCard = UserCardModel(account: currentAccount, instanceName: self.user?.instanceName, premiumAccount: self.user?.tippableAccount)
                     let preSyncAccount = self.user?.preSyncAccount
                     let cachedProfilePic = self.user?.decodedProfilePic
                     
-                    if let premiumAcct = userCard.tippableAccount?.acct {
+                    if let premiumAcct = userCard.tippableAccount?.user?.account {
                         userCard.tippableAccount?.isFollowed = FollowManager.shared.followStatusForAccount(premiumAcct, requestUpdate: .none) == .following
                     }
                     

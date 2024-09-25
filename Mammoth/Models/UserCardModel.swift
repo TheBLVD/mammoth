@@ -73,7 +73,7 @@ class UserCardModel {
     // if a tippable account is detected in metadata.
     struct TippableAccount: Equatable {
         var accountname: String	
-        var acct: Account?
+        var user: UserCardModel?
         var isFollowed: Bool?
     }
     var tippableAccount: TippableAccount?
@@ -297,14 +297,14 @@ extension UserCardModel {
     
     @discardableResult
     func getTipInfo() async throws -> UserCardModel.TippableAccount? {
-        if let acct = self.tippableAccount, acct.acct == nil {
+        if let tippableAccount = self.tippableAccount, tippableAccount.user == nil {
             do {
-            let request = Search.search(query: acct.accountname + "@" + ArkanaKeys.Global().subClubDomain, resolve: true)
+            let request = Search.search(query: tippableAccount.accountname + "@" + ArkanaKeys.Global().subClubDomain, resolve: true)
             let result = try await ClientService.runRequest(request: request)
                 if let account = (result.accounts.first) {
                     let followStatus = FollowManager.shared.followStatusForAccount(account, requestUpdate: .force) == .following
                     let premiumAccount = await MainActor.run { [weak self] in
-                        self?.tippableAccount?.acct = account
+                        self?.tippableAccount?.user = UserCardModel(account: account)
                         self?.tippableAccount?.isFollowed = followStatus
                         return self?.tippableAccount
                     }
@@ -312,7 +312,7 @@ extension UserCardModel {
                     return premiumAccount
                 }
             } catch {
-                log.error("error searching subclub account for \(acct.accountname) : \(error)")
+                log.error("error searching subclub account for \(tippableAccount.accountname) : \(error)")
             }
         }
         
