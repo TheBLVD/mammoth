@@ -297,15 +297,14 @@ extension UserCardModel {
     
     @discardableResult
     func getTipInfo() async throws -> UserCardModel.TippableAccount? {
-        if let tippableAccount = self.tippableAccount, tippableAccount.user == nil {
+        if let tippableAccount = self.tippableAccount {
             do {
             let request = Search.search(query: tippableAccount.accountname + "@" + ArkanaKeys.Global().subClubDomain, resolve: true)
             let result = try await ClientService.runRequest(request: request)
                 if let account = (result.accounts.first) {
                     let followStatus = FollowManager.shared.followStatusForAccount(account, requestUpdate: .force) == .following
                     let premiumAccount = await MainActor.run { [weak self] in
-                        self?.tippableAccount?.user = UserCardModel(account: account)
-                        self?.tippableAccount?.isFollowed = followStatus
+                        self?.tippableAccount = TippableAccount(accountname: tippableAccount.accountname, user: UserCardModel(account: account), isFollowed: followStatus)
                         return self?.tippableAccount
                     }
                     

@@ -437,7 +437,7 @@ extension ProfileViewModel {
                         self.user?.followStatus = followStatus
                         self.user?.decodedProfilePic = cachedProfilePic
                         self.user?.preSyncAccount = preSyncAccount
-                        self.user?.tippableAccount = tippableAccount
+                        self.user?.tippableAccount = tippableAccount ?? self.user?.tippableAccount
                         self.state = .success
                         return self.user
                     }
